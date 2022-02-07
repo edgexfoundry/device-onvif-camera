@@ -1,0 +1,18 @@
+name: "hikvision-profile"
+manufacturer:  "HIKVISION"
+model: "DFI6256TE"
+labels:
+  - "onvif"
+description: "EdgeX device profile for HIKVISION ONVIF-compliant IP camera."
+
+deviceResources:
+  - name: "Users"
+    isHidden: false
+    description: "Camera Users"
+    attributes:
+      service: "Device"
+      getFunction: "GetUsers"
+      setFunction: "SetUser"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"

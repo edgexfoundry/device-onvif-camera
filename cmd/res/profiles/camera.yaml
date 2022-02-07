@@ -1,0 +1,712 @@
+name: "onvif-camera"
+manufacturer:  "Generic"
+model: "Generic ONVIF"
+labels:
+  - "onvif"
+description: "EdgeX device profile for ONVIF-compliant IP camera."
+
+deviceResources:
+  # Network Configuration
+  - name: "Hostname"
+    isHidden: false
+    description: "Camera Hostname"
+    attributes:
+      service: "Device"
+      getFunction: "GetHostname"
+      setFunction: "SetHostname"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "DNS"
+    isHidden: false
+    description: "Camera DNS"
+    attributes:
+      service: "Device"
+      getFunction: "GetDNS"
+      setFunction: "SetDNS"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "NetworkInterfaces"
+    isHidden: false
+    description: "Camera NetworkInterfaces"
+    attributes:
+      service: "Device"
+      getFunction: "GetNetworkInterfaces"
+      setFunction: "SetNetworkInterfaces"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "NetworkProtocols"
+    isHidden: false
+    description: "Camera NetworkProtocols"
+    attributes:
+      service: "Device"
+      getFunction: "GetNetworkProtocols"
+      setFunction: "SetNetworkProtocols"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "NetworkDefaultGateway"
+    isHidden: false
+    description: "Camera NetworkDefaultGateway"
+    attributes:
+      service: "Device"
+      getFunction: "GetNetworkDefaultGateway"
+      setFunction: "SetNetworkDefaultGateway"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+
+  # System Function
+  - name: "DeviceInformation"
+    isHidden: false
+    description: "Camera DeviceInformation"
+    attributes:
+      service: "Device"
+      getFunction: "GetDeviceInformation"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "SystemDateAndTime"
+    isHidden: false
+    description: "Camera SystemDateAndTime"
+    attributes:
+      service: "Device"
+      getFunction: "GetSystemDateAndTime"
+      setFunction: "SetSystemDateAndTime"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "SetSystemFactoryDefault"
+    isHidden: false
+    description: "This operation reloads the parameters on the camera to their factory default values."
+    attributes:
+      service: "Device"
+      setFunction: "SetSystemFactoryDefault"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "SystemReboot"
+    isHidden: false
+    description: "This operation reboots the camera."
+    attributes:
+      service: "Device"
+      setFunction: "SystemReboot"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "RebootNeeded"
+    isHidden: false
+    description: "This resource indicates the camera should reboot to apply the configuration change"
+    attributes:
+      service: "EdgeX"
+      getFunction: "RebootNeeded"
+    properties:
+      valueType: "Bool"
+      readWrite: "R"
+
+  # Metadata Configuration
+  - name: "MetadataConfiguration"
+    isHidden: false
+    description: "Camera MetadataConfiguration"
+    attributes:
+      service: "Media"
+      getFunction: "GetMetadataConfiguration"
+      setFunction: "SetMetadataConfiguration"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "MetadataConfigurations"
+    isHidden: false
+    description: "Camera MetadataConfigurations"
+    attributes:
+      service: "Media"
+      getFunction: "GetMetadataConfigurations"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "CompatibleMetadataConfigurations"
+    isHidden: false
+    description: "Camera CompatibleMetadataConfigurations"
+    attributes:
+      service: "Media"
+      getFunction: "GetCompatibleMetadataConfigurations"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "MetadataConfigurationOptions"
+    isHidden: false
+    description: "Camera MetadataConfigurationOptions"
+    attributes:
+      service: "Media"
+      getFunction: "GetMetadataConfigurationOptions"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "AddMetadataConfiguration"
+    isHidden: false
+    description: "Add Camera MetadataConfiguration"
+    attributes:
+      service: "Media"
+      setFunction: "AddMetadataConfiguration"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "RemoveMetadataConfiguration"
+    isHidden: false
+    description: "Remove Camera MetadataConfiguration"
+    attributes:
+      service: "Media"
+      setFunction: "RemoveMetadataConfiguration"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  # Video Streaming
+  - name: "Profiles"
+    isHidden: false
+    description: "Camera Profiles"
+    attributes:
+      service: "Media"
+      getFunction: "GetProfiles"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "StreamUri"
+    isHidden: false
+    description: "Camera StreamUri"
+    attributes:
+      service: "Media"
+      getFunction: "GetStreamUri"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  # Video Encoder Configuration
+  - name: "GetVideoEncoderConfigurations"
+    isHidden: false
+    description: "Camera VideoEncoderConfigurations"
+    attributes:
+      service: "Media"
+      getFunction: "GetVideoEncoderConfigurations"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "VideoEncoderConfiguration"
+    isHidden: false
+    description: "Camera VideoEncoderConfiguration"
+    attributes:
+      service: "Media"
+      getFunction: "GetVideoEncoderConfiguration"
+      setFunction: "SetVideoEncoderConfiguration"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "VideoEncoderConfigurationOptions"
+    isHidden: false
+    description: "Camera VideoEncoderConfigurationOptions"
+    attributes:
+      service: "Media"
+      getFunction: "GetVideoEncoderConfigurationOptions"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  # User Handling
+  - name: "Users"
+    isHidden: false
+    description: "Camera Users"
+    attributes:
+      service: "Device"
+      getFunction: "GetUsers"
+      setFunction: "SetUser"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "CreateUsers"
+    isHidden: false
+    description: "Create camera users"
+    attributes:
+      service: "Device"
+      setFunction: "CreateUsers"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "DeleteUsers"
+    isHidden: false
+    description: "Delete camera users"
+    attributes:
+      service: "Device"
+      setFunction: "DeleteUsers"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  # Auto Discovery
+  - name: "DiscoveryMode"
+    isHidden: false
+    description: "Camera discovery mode"
+    attributes:
+      service: "Device"
+      getFunction: "GetDiscoveryMode"
+      setFunction: "SetDiscoveryMode"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "Scopes"
+    isHidden: false
+    description: "Camera discovery scopes"
+    attributes:
+      service: "Device"
+      getFunction: "GetScopes"
+      setFunction: "SetScopes"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "AddScopes"
+    isHidden: false
+    description: "Add camera discovery scopes"
+    attributes:
+      service: "Device"
+      setFunction: "AddScopes"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "RemoveScopes"
+    isHidden: false
+    description: "Remove camera discovery scopes"
+    attributes:
+      service: "Device"
+      setFunction: "RemoveScopes"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  # PTZ Configuration
+  - name: "GetNodes"
+    isHidden: false
+    description: "Get the descriptions of the available PTZ Nodes."
+    attributes:
+      service: "PTZ"
+      getFunction: "GetNodes"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "GetNode"
+    isHidden: false
+    description: "Get a specific PTZ Node identified by a reference token or a name."
+    attributes:
+      service: "PTZ"
+      getFunction: "GetNode"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "GetConfigurations"
+    isHidden: false
+    description: "Get all the existing PTZ configurations from the device."
+    attributes:
+      service: "PTZ"
+      getFunction: "GetConfigurations"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "Configuration"
+    isHidden: false
+    description: "Get or set a specific PTZ configuration from the device."
+    attributes:
+      service: "PTZ"
+      getFunction: "GetConfiguration"
+      setFunction: "SetConfiguration"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "GetConfigurationOptions"
+    isHidden: false
+    description: "List supported coordinate systems including their range limitations."
+    attributes:
+      service: "PTZ"
+      getFunction: "GetConfigurationOptions"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "AddPTZConfiguration"
+    isHidden: false
+    description: "This operation adds a PTZConfiguration to an existing media profile."
+    attributes:
+      service: "Media"
+      setFunction: "AddPTZConfiguration"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "RemovePTZConfiguration"
+    isHidden: false
+    description: "This operation removes a PTZConfiguration from an existing media profile."
+    attributes:
+      service: "Media"
+      setFunction: "RemovePTZConfiguration"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  # PTZ Actuation
+  - name: "AbsoluteMove"
+    isHidden: false
+    description: "Operation to move pan,tilt or zoom to a absolute destination."
+    attributes:
+      service: "PTZ"
+      setFunction: "AbsoluteMove"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "RelativeMove"
+    isHidden: false
+    description: "Operation for Relative Pan/Tilt and Zoom Move."
+    attributes:
+      service: "PTZ"
+      setFunction: "RelativeMove"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "ContinuousMove"
+    isHidden: false
+    description: "Operation for continuous Pan/Tilt and Zoom movements."
+    attributes:
+      service: "PTZ"
+      setFunction: "ContinuousMove"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "Stop"
+    isHidden: false
+    description: "Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type."
+    attributes:
+      service: "PTZ"
+      setFunction: "Stop"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "GetStatus"
+    isHidden: false
+    description: "Operation to request PTZ status for the Node in the selected profile."
+    attributes:
+      service: "PTZ"
+      getFunction: "GetStatus"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  # PTZ Preset
+  - name: "SetPreset"
+    isHidden: false
+    description: "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation."
+    attributes:
+      service: "PTZ"
+      setFunction: "SetPreset"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "GetPresets"
+    isHidden: false
+    description: "Operation to request all PTZ presets for the PTZNode in the selected profile."
+    attributes:
+      service: "PTZ"
+      getFunction: "GetPresets"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "GotoPreset"
+    isHidden: false
+    description: "Operation to go to a saved preset position for the PTZNode in the selected profile."
+    attributes:
+      service: "PTZ"
+      setFunction: "GotoPreset"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "RemovePreset"
+    isHidden: false
+    description: "Operation to remove a PTZ preset for the Node in the selected profile. "
+    attributes:
+      service: "PTZ"
+      setFunction: "RemovePreset"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  # PTZ Home Position
+  - name: "GotoHomePosition"
+    isHidden: false
+    description: "Operation to move the PTZ device to it's home position."
+    attributes:
+      service: "PTZ"
+      setFunction: "GotoHomePosition"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+  - name: "SetHomePosition"
+    isHidden: false
+    description: "Operation to save current position as the home position."
+    attributes:
+      service: "PTZ"
+      setFunction: "SetHomePosition"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  # PTZ Auxiliary Operations
+  - name: "SendAuxiliaryCommand"
+    isHidden: false
+    description: "Operation to send auxiliary commands to the PTZ device mapped by the PTZNode in the selected profile."
+    attributes:
+      service: "PTZ"
+      setFunction: "SendAuxiliaryCommand"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  # Event Handling
+  - name: "GetEventProperties"
+    isHidden: true
+    description: "This resource is used to find out what event a camera supports and what information they contain"
+    attributes:
+      service: "Event"
+      getFunction: "GetEventProperties"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  - name: "OnvifCameraEvent"
+    isHidden: true
+    description: "This resource is used to send the async event to north bound"
+    attributes:
+      service: "EdgeX"
+      getFunction: "CameraEvent"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  - name: "PullPointSubscription"
+    isHidden: true
+    description: "Create a pull point subscription to pull the event message from the camera"
+    attributes:
+      service: "EdgeX"
+      setFunction: "SubscribeCameraEvent"
+      # PullPoint | BaseNotification
+      subscribeType: "PullPoint"
+      defaultAutoRenew: true
+      defaultSubscriptionPolicy: ""
+      defaultInitialTerminationTime: "PT1H"
+      defaultTopicFilter: ""
+      defaultMessageContentFilter: ""
+      defaultMessageTimeout: "PT5S"
+      defaultMessageLimit: 10
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  - name: "BaseNotificationSubscription"
+    isHidden: true
+    description: "Create a subscription to subscribe the event from the camera"
+    attributes:
+      service: "EdgeX"
+      setFunction: "SubscribeCameraEvent"
+      # PullPoint | BaseNotification
+      subscribeType: "BaseNotification"
+      defaultAutoRenew: true
+      defaultSubscriptionPolicy: ""
+      defaultInitialTerminationTime: "PT1H"
+      defaultTopicFilter: ""
+      defaultMessageContentFilter: ""
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  - name: "UnsubscribeCameraEvent"
+    isHidden: true
+    description: "Unsubscribe all subscription from the camera"
+    attributes:
+      service: "EdgeX"
+      setFunction: "UnsubscribeCameraEvent"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  # Configuration of Analytics profile
+  - name: "Media2Profiles"
+    isHidden: false
+    description: "Get Media2 profiles"
+    attributes:
+      service: "Media2"
+      getFunction: "GetProfiles"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  - name: "GetAnalyticsConfigurations"
+    isHidden: false
+    description: "Lists all existing video analytics configurations for a device."
+    attributes:
+      service: "Media2"
+      getFunction: "GetAnalyticsConfigurations"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  - name: "AddConfiguration"
+    isHidden: false
+    description: "Adds one or more Configurations to an existing media profile."
+    attributes:
+      service: "Media2"
+      setFunction: "AddConfiguration"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  - name: "RemoveConfiguration"
+    isHidden: false
+    description: "Removes the listed configurations from an existing media profile. "
+    attributes:
+      service: "Media2"
+      setFunction: "RemoveConfiguration"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  # Analytics Module configuration
+  - name: "GetSupportedAnalyticsModules"
+    isHidden: false
+    description: "List all analytics modules that are supported by the given VideoAnalyticsConfiguration."
+    attributes:
+      service: "Analytics"
+      getFunction: "GetSupportedAnalyticsModules"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  - name: "AnalyticsModules"
+    isHidden: false
+    description: "Get or set one or more analytics modules of a VideoAnalyticsConfiguration. "
+    attributes:
+      service: "Analytics"
+      getFunction: "GetAnalyticsModules"
+      setFunction: "ModifyAnalyticsModules"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+
+  - name: "CreateAnalyticsModules"
+    isHidden: false
+    description: "Add one or more analytics modules to an existing VideoAnalyticsConfiguration."
+    attributes:
+      service: "Analytics"
+      setFunction: "CreateAnalyticsModules"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  - name: "DeleteAnalyticsModules"
+    isHidden: false
+    description: "Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names."
+    attributes:
+      service: "Analytics"
+      setFunction: "DeleteAnalyticsModules"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  - name: "GetAnalyticsModuleOptions"
+    isHidden: false
+    description: "Return the options for the supported analytics modules that specify an Option attribute."
+    attributes:
+      service: "Analytics"
+      getFunction: "GetAnalyticsModuleOptions"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  # Rule configuration
+  - name: "GetSupportedRules"
+    isHidden: false
+    description: "List all rules that are supported by the given VideoAnalyticsConfiguration."
+    attributes:
+      service: "Analytics"
+      getFunction: "GetSupportedRules"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+  - name: "Rules"
+    isHidden: false
+    description: "Get or set one or more rules of a VideoAnalyticsConfiguration."
+    attributes:
+      service: "Analytics"
+      getFunction: "GetRules"
+      setFunction: "ModifyRules"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+
+  - name: "CreateRules"
+    isHidden: false
+    description: "Add one or more rules to an existing VideoAnalyticsConfiguration."
+    attributes:
+      service: "Analytics"
+      setFunction: "CreateRules"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  - name: "DeleteRules"
+    isHidden: false
+    description: "Remove one or more rules from a VideoAnalyticsConfiguration."
+    attributes:
+      service: "Analytics"
+      setFunction: "DeleteRules"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
+
+  - name: "GetRuleOptions"
+    isHidden: false
+    description: "Return the options for the supported rules that specify an Option attribute."
+    attributes:
+      service: "Analytics"
+      getFunction: "GetRuleOptions"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
+deviceCommands:
+  -
+    name: "NetworkConfiguration"
+    readWrite: "RW"
+    isHidden: false
+    resourceOperations:
+      - { deviceResource: "Hostname" }
+      - { deviceResource: "DNS" }
+      - { deviceResource: "NetworkInterfaces" }
+      - { deviceResource: "NetworkProtocols" }
+      - { deviceResource: "NetworkDefaultGateway" }
+
+  -
+    name: "SystemFunction"
+    readWrite: "R"
+    isHidden: false
+    resourceOperations:
+      - { deviceResource: "DeviceInformation" }
+      - { deviceResource: "SystemDateAndTime" }
+  -
+    name: "MetadataConfigurationAndOptions"
+    readWrite: "R"
+    isHidden: false
+    resourceOperations:
+      - { deviceResource: "MetadataConfiguration" }
+      - { deviceResource: "MetadataConfigurationOptions" }
+  -
+    name: "VideoStream"
+    readWrite: "R"
+    isHidden: false
+    resourceOperations:
+      - { deviceResource: "Profiles" }
+      - { deviceResource: "StreamUri" }
