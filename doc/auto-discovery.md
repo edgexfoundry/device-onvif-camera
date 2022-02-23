@@ -124,7 +124,7 @@ For example:
     {
       "apiVersion": "v2",
       "device": {
-        "name":"HIKVISION-DFI6256TE-DFI6256TE20190608AAWRD26707311",
+        "name":"HIKVISION-DFI6256TE-cea94000-fb96-11b3-8260-686dbc5cb15d",
         "serviceName": "device-onvif-camera",
         "profileName": "onvif-camera",
         "description": "HIKVISION camera",
@@ -145,7 +145,7 @@ For example:
     }
     ```
 
-- Device Name:  Manufacturer-Model-SerialNumber
+- Device Name:  Manufacturer-Model-UUID (The UUID extracted from the probe response's EndpointReference address)
 - The serviceName, profileName, adminState, autoEvets are defined by the provisionWatcher
 - Predefine the driver config authMode and secretPath for discovered device, for exmaple:
   - DefaultAuthMode="usernametoken"
