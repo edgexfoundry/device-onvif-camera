@@ -103,19 +103,19 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 func (d *Driver) getDeviceClient(deviceName string) (*DeviceClient, errors.EdgeX) {
 	d.lock.RLock()
 	defer d.lock.RUnlock()
-	c, ok := d.deviceClients[deviceName]
+	deviceClient, ok := d.deviceClients[deviceName]
 	if !ok {
 		device, err := sdk.RunningService().GetDeviceByName(deviceName)
 		if err != nil {
 			return nil, errors.NewCommonEdgeXWrapper(err)
 		}
-		deviceClient, err := NewDeviceClient(device, d.config, d.lc)
+		deviceClient, err = NewDeviceClient(device, d.config, d.lc)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initial device client for '%s' camera", device.Name), err)
 		}
 		d.deviceClients[deviceName] = deviceClient
 	}
-	return c, nil
+	return deviceClient, nil
 }
 
 func (d *Driver) removeDeviceClient(deviceName string) {
