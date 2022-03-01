@@ -299,6 +299,10 @@ func (d *Driver) Discover() {
 	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
 	var discoveredDevices []sdkModel.DiscoveredDevice
 	for _, onvifDevice := range onvifDevices {
+		if onvifDevice.GetDeviceParams().EndpointRefAddress == "" {
+			d.lc.Warnf("The EndpointRefAddress is empty from the Onvif camera, unable to add the camera %s", onvifDevice.GetDeviceParams().Xaddr)
+			continue
+		}
 		address, port := addressAndPort(onvifDevice.GetDeviceParams().Xaddr)
 		dev := models.Device{
 			// Using Xaddr as the temporary name
@@ -325,7 +329,7 @@ func (d *Driver) Discover() {
 		dev.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
 		dev.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
 		discovered := sdkModel.DiscoveredDevice{
-			Name:        fmt.Sprintf("%s-%s-%s", devInfo.Manufacturer, devInfo.Model, devInfo.SerialNumber),
+			Name:        fmt.Sprintf("%s-%s-%s", devInfo.Manufacturer, devInfo.Model, onvifDevice.GetDeviceParams().EndpointRefAddress),
 			Protocols:   dev.Protocols,
 			Description: fmt.Sprintf("%s %s Camera", devInfo.Manufacturer, devInfo.Model),
 			Labels:      []string{"auto-discovery", devInfo.Manufacturer, devInfo.Model},
