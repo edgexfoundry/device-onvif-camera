@@ -318,23 +318,32 @@ func (d *Driver) Discover() {
 		}
 
 		devInfo, edgexErr := d.getDeviceInformation(dev)
+		endpointRef := onvifDevice.GetDeviceParams().EndpointRefAddress
+		var discovered sdkModel.DiscoveredDevice
 		if edgexErr != nil {
-			d.lc.Errorf("failed to get the device information for the camera %s, %v", dev.Name, edgexErr)
-			return
+			d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRef, edgexErr)
+			dev.Protocols[OnvifProtocol][SecretPath] = endpointRef
+			discovered = sdkModel.DiscoveredDevice{
+				Name:        endpointRef,
+				Protocols:   dev.Protocols,
+				Description: "Auto discovered Onvif camera",
+				Labels:      []string{"auto-discovery"},
+			}
+			d.lc.Debugf("Discovered unknown camera from the address '%s'", onvifDevice.GetDeviceParams().Xaddr)
+		} else {
+			dev.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
+			dev.Protocols[OnvifProtocol][Model] = devInfo.Model
+			dev.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
+			dev.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
+			dev.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
+			discovered = sdkModel.DiscoveredDevice{
+				Name:        fmt.Sprintf("%s-%s-%s", devInfo.Manufacturer, devInfo.Model, onvifDevice.GetDeviceParams().EndpointRefAddress),
+				Protocols:   dev.Protocols,
+				Description: fmt.Sprintf("%s %s Camera", devInfo.Manufacturer, devInfo.Model),
+				Labels:      []string{"auto-discovery", devInfo.Manufacturer, devInfo.Model},
+			}
+			d.lc.Debugf("Discovered camera from the address '%s'", onvifDevice.GetDeviceParams().Xaddr)
 		}
-
-		dev.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
-		dev.Protocols[OnvifProtocol][Model] = devInfo.Model
-		dev.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
-		dev.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
-		dev.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
-		discovered := sdkModel.DiscoveredDevice{
-			Name:        fmt.Sprintf("%s-%s-%s", devInfo.Manufacturer, devInfo.Model, onvifDevice.GetDeviceParams().EndpointRefAddress),
-			Protocols:   dev.Protocols,
-			Description: fmt.Sprintf("%s %s Camera", devInfo.Manufacturer, devInfo.Model),
-			Labels:      []string{"auto-discovery", devInfo.Manufacturer, devInfo.Model},
-		}
-		d.lc.Debugf("Discovered camera from the address '%s'", onvifDevice.GetDeviceParams().Xaddr)
 		discoveredDevices = append(discoveredDevices, discovered)
 	}
 
