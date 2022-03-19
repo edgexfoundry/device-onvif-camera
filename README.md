@@ -256,7 +256,7 @@ Description = "My test camera"
     AuthMode = "usernametoken"
     SecretPath = "credentials001"
 ```
-See the sample at [cmd/res/devices/camera.toml](cmd/res/devices/camera.toml)
+See the sample at [cmd/res/devices/camera.toml.example](cmd/res/devices/camera.toml.example)
 
 
 ## Getting Started Guide
