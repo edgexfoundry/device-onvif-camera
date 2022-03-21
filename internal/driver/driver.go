@@ -336,8 +336,15 @@ func (d *Driver) Discover() {
 			dev.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
 			dev.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
 			dev.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
+
+			// Spaces are not allowed in the device name
+			deviceName := fmt.Sprintf("%s-%s-%s",
+				strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
+				strings.ReplaceAll(devInfo.Model, " ", "-"),
+				onvifDevice.GetDeviceParams().EndpointRefAddress)
+
 			discovered = sdkModel.DiscoveredDevice{
-				Name:        fmt.Sprintf("%s-%s-%s", devInfo.Manufacturer, devInfo.Model, onvifDevice.GetDeviceParams().EndpointRefAddress),
+				Name:        deviceName,
 				Protocols:   dev.Protocols,
 				Description: fmt.Sprintf("%s %s Camera", devInfo.Manufacturer, devInfo.Model),
 				Labels:      []string{"auto-discovery", devInfo.Manufacturer, devInfo.Model},
