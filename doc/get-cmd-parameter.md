@@ -9,7 +9,7 @@ The device service will retrieve the base64 string from **jsonObject** parameter
 ## Pass One Parameter
 For Example, the GetStreamUri require ProfileToken as input parameter,
 
-<img src="get-streamuri-input-parameter.jpg"  width="80%"/>
+<img src="images/get-streamuri-input-parameter.jpg"  width="80%"/>
 
 then we can do the following steps:
 1. Encode the `{ "ProfileToken": "Profile_1" }` json string to `eyAiUHJvZmlsZVRva2VuIjogIlByb2ZpbGVfMSIgfQ==` base64 string
