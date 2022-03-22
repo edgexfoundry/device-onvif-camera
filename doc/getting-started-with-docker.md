@@ -36,12 +36,12 @@ $ curl http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | js
 ```
 
 Check whether the services are running from Consul
-![Consul](./getting-started-with-docker-consul.jpg)
+![Consul](images/getting-started-with-docker-consul.jpg)
 
 ## 4. Manage the Username and Password for the Onvif Camera
 The user can add or modify the username and password from the Consul.
 
-![Consul](./getting-started-with-docker-consul-keyvalue.jpg)
+![Consul](images/getting-started-with-docker-consul-keyvalue.jpg)
 
 The configuration.toml file defined the default username and password as below:
 ```yaml

@@ -6,7 +6,7 @@ But we can’t send the multicast message from the **edgex network** to the **ho
 
 The workaround is running the **dockerized device-onvif-camera** on the **host network**.
 
-<img alt="overview" src="auto-discovery-docker-overview.jpg" width="75%"/>
+<img alt="overview" src="images/auto-discovery-docker-overview.jpg" width="75%"/>
 
 Note: For macOS, the network_mode: "host" probably not working as expected: https://github.com/docker/for-mac/issues/1031
 

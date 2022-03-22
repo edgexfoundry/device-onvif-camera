@@ -6,7 +6,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 
 Probe messages are sent over UDP to a standardized multicast address and UDP port number.
 
-<img src="auto-discovery.jpg" width="75%"/>
+<img src="images/auto-discovery.jpg" width="75%"/>
 
 WS-Discovery is normally limited by the network segmentation since the multicast packages typically do not traverse routers.
 

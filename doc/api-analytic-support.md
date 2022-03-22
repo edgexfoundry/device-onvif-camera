@@ -13,7 +13,7 @@ This page uses the `BOSCH DINION IP starlight 6000 HD` as the test camera and us
 
 In the scope of profile M, the device-onvif-camera should be able to manage the `Analytics Module` and `Rule` configuration, we can illustrate the APIs scope as following example:
 
-![api-analytic-support-example](./api-analytic-support-example.jpg)
+![api-analytic-support-example](images/api-analytic-support-example.jpg)
 
 For more information, please refer to the Annex D. Radiometry https://www.onvif.org/specs/srv/analytics/ONVIF-Analytics-Service-Spec.pdf
 
@@ -61,7 +61,7 @@ curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/AnalyticsM
 
 **Note**: The jsonObject parameter is encoded from `{"ConfigurationToken": "{ANALYTIC_CONFIG_TOKEN}"}`
 
-![query-analytics-module](./api-analytic-support-query-analytics-module.jpg)
+![query-analytics-module](images/api-analytic-support-query-analytics-module.jpg)
 
 ### Query the Supported Analytics Module and Options
 
@@ -160,8 +160,8 @@ curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetAnalyti
 ```
 **Note**: The jsonObject parameter is encoded from `{"ConfigurationToken": "{ANALYTIC_CONFIG_TOKEN}"}`
 
-![query-analytics-module](./api-analytic-support-query-analytics-module-options-1.jpg)
-![query-analytics-module](./api-analytic-support-query-analytics-module-options-2.jpg)
+![query-analytics-module](images/api-analytic-support-query-analytics-module-options-1.jpg)
+![query-analytics-module](images/api-analytic-support-query-analytics-module-options-2.jpg)
 
 ### Modify the Analytics Module Options
 
@@ -240,7 +240,7 @@ curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/Rules?json
 ```
 **Note**: The jsonObject parameter is encoded from `{"ConfigurationToken": "{ANALYTIC_CONFIG_TOKEN}"}`
 
-![query-analytics-module](./api-analytic-support-query-rules.jpg)
+![query-analytics-module](images/api-analytic-support-query-rules.jpg)
 
 ### Query the Supported Rule and Options
 ```shell
@@ -439,4 +439,4 @@ curl --location --request PUT 'http://0.0.0.0:59882/api/v2/device/name/Camera003
 }'
 ```
 
-![add-rule](./api-analytic-support-add-rule.png)
+![add-rule](images/api-analytic-support-add-rule.png)
