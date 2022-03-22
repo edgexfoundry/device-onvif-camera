@@ -220,8 +220,8 @@ curl --request POST 'http://0.0.0.0:59881/api/v2/provisionwatcher' \
     ]'
 ```
 
-#### Example - General Onvif Camera Provision
-Added any discovered devices to core metadata except for the HIKVISION Manufacturer.
+#### Example - Unknown Onvif Camera Provision
+Add any unknown discovered devices to core metadata with a generic profile.
 
 ```shell
 curl --request POST 'http://0.0.0.0:59881/api/v2/provisionwatcher' \
@@ -230,10 +230,10 @@ curl --request POST 'http://0.0.0.0:59881/api/v2/provisionwatcher' \
        {
           "provisionwatcher":{
              "apiVersion":"v2",
-             "name":"Test-Provision-Watcher-General",
+             "name":"Test-Provision-Watcher-Unknown",
              "adminState":"UNLOCKED",
              "identifiers":{
-                "Manufacturer": "."
+                "Address": "."
              },
              "blockingIdentifiers":{
                 "Manufacturer": [ "HIKVISION" ]
@@ -244,4 +244,91 @@ curl --request POST 'http://0.0.0.0:59881/api/v2/provisionwatcher' \
           "apiVersion":"v2"
        }
     ]'
+```
+
+### 4. Add Credentials to Unknown Camera
+If a camera is discovered in which the credentials are unknown, it will be
+added as a generic onvif camera, and will require the user to set the credentials
+in order to call most ONVIF commands.
+
+#### Non-Secure Mode
+##### Helper Script
+Run the [bin/set-credentials.sh](../bin/set-credentials.sh) script
+```shell
+# Usage: bin/set-credentials.sh [-s/--secure-mode] [-d <device_name>] [-u <username>] [-p <password>]
+bin/set-credentials.sh
+
+# Select which camera by device-name (uuid)
+# Enter username when prompted
+# Enter password when prompted
+
+```
+
+***
+
+##### Manual
+> **Note:** Replace `<device-name>` with the device name of the
+> camera you want to set credentials for, `<username>` with the username, and
+> `<password>` with the password.
+
+Set Path to `<device-name>`
+```shell
+curl -X PUT --data "<device-name>" \
+    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<device-name>/Path"
+```
+
+Set username to `<username>`
+```shell
+curl -X PUT --data "<username>" \
+    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<device-name>/Secrets/username"
+```
+
+Set password to `<password>`
+```shell
+curl -X PUT --data "<password>" \
+    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<device-name>/Secrets/password"
+```
+
+***
+
+#### Secure Mode
+##### Helper Script
+Run the [bin/set-credentials.sh](../bin/set-credentials.sh) script with `--secure-mode` flag
+```shell
+# Usage: bin/set-credentials.sh [-s/--secure-mode] [-d <device_name>] [-u <username>] [-p <password>]
+bin/set-credentials.sh --secure-mode
+
+# Select which camera by device-name (uuid)
+# Enter username when prompted
+# Enter password when prompted
+
+```
+
+***
+
+##### Manual
+Credentials can be added via EdgeX Secrets:
+
+> **Note:** Replace `<device-name>` with the device name of the
+> camera you want to set credentials for, `<username>` with the username, and
+> `<password>` with the password.
+
+```shell
+curl --location --request POST 'http://0.0.0.0:59985/api/v2/secret' \
+    --header 'Content-Type: application/json' \
+    --data-raw '
+{
+    "apiVersion":"v2",
+    "path": "<device-name>",
+    "secretData":[
+        {
+            "key":"username",
+            "value":"<username>"
+        },
+        {
+            "key":"password",
+            "value":"<password>"
+        }
+    ]
+}'
 ```
