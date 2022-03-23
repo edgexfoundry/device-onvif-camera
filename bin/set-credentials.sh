@@ -14,8 +14,6 @@
 
 set -euo pipefail
 
-set -x
-
 CORE_METADATA_URL="${CORE_METADATA_HOST:-http://localhost:59881}"
 CONSUL_URL="${CONSUL_HOST:-http://localhost:8500}"
 DEVICE_SERVICE="${DEVICE_SERVICE:-device-onvif-camera}"
