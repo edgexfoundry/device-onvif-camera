@@ -20,7 +20,7 @@ Note: For macOS, the network_mode: "host" probably not working as expected: http
 ```
 services:
   device-onvif-camera:
-    image: edgex/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
+    image: edgexfoundry/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
     user: "${EDGEX_USER}:${EDGEX_GROUP}"
     container_name: edgex-device-onvif-camera
     hostname: edgex-device-onvif-camera
@@ -41,7 +41,7 @@ services:
       - metadata
     security_opt:
       - no-new-privileges:true
-    command: --registry --confdir=/res
+    command: -cp=consul.http://localhost:8500 --registry --confdir=/res
 ```
 
 **Note**: The user should replace the host IP to match their own machine IP
