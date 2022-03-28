@@ -336,9 +336,6 @@ func (d *Driver) Discover() {
 //// Discover triggers protocol specific device discovery, which is an asynchronous operation.
 //// Devices found as part of this discovery operation are written to the channel devices.
 //func (d *Driver) Discover() {
-//
-//
-//
 //	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
 //	var discoveredDevices []sdkModel.DiscoveredDevice
 //	for _, onvifDevice := range onvifDevices {
@@ -403,14 +400,15 @@ func (d *Driver) Discover() {
 func (d *Driver) discover(ctx context.Context) {
 	params := discoverParams{
 		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
-		subnets:           strings.Split(d.config.DiscoverySubnets, ","),
-		asyncLimit:        d.config.ProbeAsyncLimit,
-		timeout:           time.Duration(d.config.ProbeTimeoutSeconds) * time.Second,
-		scanPorts:         strings.Split(d.config.ScanPorts, ","),
-		defaultAuthMode:   d.config.DefaultAuthMode,
-		defaultSecretPath: d.config.DefaultSecretPath,
-		lc:                d.lc,
-		driver:            d,
+		subnets:                    strings.Split(d.config.DiscoverySubnets, ","),
+		asyncLimit:                 d.config.ProbeAsyncLimit,
+		timeout:                    time.Duration(d.config.ProbeTimeoutSeconds) * time.Second,
+		scanPorts:                  strings.Split(d.config.ScanPorts, ","),
+		defaultAuthMode:            d.config.DefaultAuthMode,
+		defaultSecretPath:          d.config.DefaultSecretPath,
+		multicastEthernetInterface: d.config.DiscoveryEthernetInterface,
+		lc:                         d.lc,
+		driver:                     d,
 	}
 
 	t1 := time.Now()

@@ -60,14 +60,15 @@ type workerParams struct {
 }
 
 type discoverParams struct {
-	subnets           []string
-	asyncLimit        int
-	timeout           time.Duration
-	scanPorts         []string
-	defaultAuthMode   string
-	defaultSecretPath string
-	lc                logger.LoggingClient
-	driver            *Driver
+	subnets                    []string
+	asyncLimit                 int
+	timeout                    time.Duration
+	scanPorts                  []string
+	defaultAuthMode            string
+	defaultSecretPath          string
+	multicastEthernetInterface string
+	lc                         logger.LoggingClient
+	driver                     *Driver
 }
 
 // computeNetSz computes the total amount of valid IP addresses for a given subnet size
@@ -163,6 +164,13 @@ func autoDiscover(ctx context.Context, params discoverParams) []dsModels.Discove
 				defer wgIPGenerators.Done()
 				ipGenerator(ctx, inet, ipCh)
 			}(ipnet)
+		}
+
+		probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
+		probeResponses := wsdiscovery.SendUDPMulticast(probeSOAP.String(), params.multicastEthernetInterface)
+		devices, err := wsdiscovery.DevicesFromProbeResponses(probeResponses)
+		if err == nil && len(devices) > 0 {
+			resultCh <- devices
 		}
 
 		// wait for all ip generators to finish, then we can close the ip channel
