@@ -27,6 +27,12 @@ type configuration struct {
 	DiscoveryEthernetInterface string
 	// BaseNotificationURL indicates the device service network location
 	BaseNotificationURL string
+
+	DiscoverySubnets           string
+	ProbeAsyncLimit            int
+	ProbeTimeoutSeconds        int
+	ScanPorts                  string
+	MaxDiscoverDurationSeconds int
 }
 
 type CameraInfo struct {

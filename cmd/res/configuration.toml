@@ -22,7 +22,7 @@ LogLevel = "INFO"
 HealthCheckInterval = "10s"
 Host = "0.0.0.0"
 Port = 59985
-ServerBindAddr = ""  # blank value defaults to Service.Host value
+ServerBindAddr = "0.0.0.0"  # blank value defaults to Service.Host value
 StartupMsg = "Camera device service started"
 # MaxRequestSize limit the request body size in byte of put command
 MaxRequestSize = 0 # value 0 unlimit the request size.
@@ -89,7 +89,7 @@ AsyncBufferSize = 16
 Labels = []
 UseMessageBus = true
   [Device.Discovery]
-  Enabled = false
+  Enabled = true
   Interval = "30s"
 
 # Driver configs
@@ -101,4 +101,22 @@ DiscoveryEthernetInterface = "en0"
 DefaultAuthMode = "usernametoken"
 DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
-BaseNotificationURL = "http://192.168.12.112:59985"
+BaseNotificationURL = "http://127.0.0.1:59985"
+
+# List of IPv4 subnets to perform LLRP discovery process on, in CIDR format (X.X.X.X/Y)
+# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+DiscoverySubnets = ""
+
+# Maximum simultaneous network probes
+ProbeAsyncLimit = "4000"
+
+# Maximum amount of seconds to wait for each IP probe before timing out.
+# This will also be the minimum time the discovery process can take.
+ProbeTimeoutSeconds = "2"
+
+# Port to scan for devices on
+ScanPorts = "2020"
+
+# Maximum amount of seconds the discovery process is allowed to run before it will be cancelled.
+# It is especially important to have this configured in the case of larger subnets such as /16 and /8
+MaxDiscoverDurationSeconds = "300"

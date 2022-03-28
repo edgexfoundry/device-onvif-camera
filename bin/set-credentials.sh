@@ -189,6 +189,7 @@ set_secure_secrets() {
         }
     ]
 }"
+    curl --location --request POST --data "@-" "${DEVICE_SERVICE_URL}/api/v2/secret" < <( set +x; echo -n "${payload}" )
     local code
     # securely transfer the value through an auto-closing named pipe over stdin (prevent passwords on command line)
     code=$(curl --location --request POST --data "@-" -w "%{http_code}" -o /dev/null -s "${DEVICE_SERVICE_URL}/api/v2/secret" < <( set +x; echo -n "${payload}" ) || echo $?)
