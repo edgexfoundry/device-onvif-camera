@@ -5,90 +5,90 @@ This Onvif Camera Device Service is developed to control/communicate ONVIF-compl
 ## Onvif Features
 The device service supports the onvif features listed in the following table:
 
-| Feature                            | Onvif Web Service | Onvif Function                                                                                                                  | EdgeX Value Type |
-|------------------------------------|-------------------|---------------------------------------------------------------------------------------------------------------------------------|------------------|
-| User Authentication                | Core              | **WS-Usernametoken Authentication**                                                                                             | Object           |
-|                                    |                   | **HTTP Digest**                                                                                                                 | Object           |
-| Auto Discovery                     | Core              | **WS-Discovery**                                                                                                                | Object           |
-|                                    | Device            | [GetDiscoveryMode](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode)                                 | Object           |
-|                                    |                   | [SetDiscoveryMode](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode)                                 | Object           |
-|                                    |                   | [GetScopes](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes)                                               | Object           |
-|                                    |                   | [SetScopes](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes)                                               | Object           |
-|                                    |                   | [AddScopes](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes)                                               | Object           |
-|                                    |                   | [RemoveScopes](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes)                                         | Object           |
-| Network Configuration              | Device            | [GetHostname](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname)                                           | Object           |
-|                                    |                   | [SetHostname](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname)                                           | Object           |
-|                                    |                   | [GetDNS](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS)                                                     | Object           |
-|                                    |                   | [SetDNS](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS)                                                     | Object           |
-|                                    |                   | [**GetNetworkInterfaces**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces)                     | Object           |
-|                                    |                   | [**SetNetworkInterfaces**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces)                     | Object           |
-|                                    |                   | [GetNetworkProtocols](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols)                           | Object           |
-|                                    |                   | [SetNetworkProtocols](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols)                           | Object           |
-|                                    |                   | [**GetNetworkDefaultGateway**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway)             | Object           |
-|                                    |                   | [**SetNetworkDefaultGateway**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway)             | Object           |
-| System Function                    | Device            | [**GetDeviceInformation**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation)                     | Object           |
-|                                    |                   | [GetSystemDateAndTime](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime)                         | Object           |
-|                                    |                   | [SetSystemDateAndTime](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime)                         | Object           |
-|                                    |                   | [SetSystemFactoryDefault](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault)                   | Object           |
-|                                    |                   | [Reboot](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.Reboot)                                                     | Object           |
-| User Handling                      | Device            | [**GetUsers**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers)                                             | Object           |
-|                                    |                   | [**CreateUsers**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers)                                       | Object           |
-|                                    |                   | [**DeleteUsers**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers)                                       | Object           |
-|                                    |                   | [**SetUser**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser)                                               | Object           |
-| Metadata Configuration             | Media             | [GetMetadataConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfiguration)                       | Object           |
-|                                    |                   | [GetMetadataConfigurations](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurations)                     | Object           |
-|                                    |                   | [GetCompatibleMetadataConfigurations](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetCompatibleMetadataConfigurations) | Object           |
-|                                    |                   | [**GetMetadataConfigurationOptions**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurationOptions)     | Object           |
-|                                    |                   | [AddMetadataConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddMetadataConfiguration)                       | Object           |
-|                                    |                   | [RemoveMetadataConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemoveMetadataConfiguration)                 | Object           |
-|                                    |                   | [**SetMetadataConfiguration**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetMetadataConfiguration)                   | Object           |
-| Video Streaming                    | Media             | [**GetProfiles**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetProfiles)                                             | Object           |
-|                                    |                   | [**GetStreamUri**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetStreamUri)                                           | Object           |
-| VideoEncoder  Config               | Media             | [GetVideoEncoderConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfiguration)               | Object           |
-|                                    |                   | [**SetVideoEncoderConfiguration**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetVideoEncoderConfiguration)           | Object           |
-|                                    |                   | [GetVideoEncoderConfigurationOptions](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions) | Object           |
-|                                    |                   | [GetNode](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetNode)                                                         | Object           |
-| PTZ Configuration                  | PTZ               | [GetConfigurations](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurations)                                         | Object           |
-|                                    |                   | [GetConfiguration](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfiguration)                                           | Object           |
-|                                    |                   | [GetConfigurationOptions](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurationOptions)                             | Object           |
-|                                    |                   | [SetConfiguration](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetConfiguration)                                           | Object           |
-|                                    | Media             | [AddPTZConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddPTZConfiguration)                                 | Object           |
-|                                    | Media             | [RemovePTZConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemovePTZConfiguration)                           | Object           |
-| PTZ Actuation                      | PTZ               | [AbsoluteMove](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.AbsoluteMove)                                                   | Object           |
-|                                    |                   | [RelativeMove](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RelativeMove)                                                   | Object           |
-|                                    |                   | [ContinuousMove](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.ContinuousMove)                                               | Object           |
-|                                    |                   | [Stop](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.Stop)                                                                   | Object           |
-|                                    |                   | [GetStatus](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetStatus)                                                         | Object           |
-|                                    |                   | [GetPresets](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetPresets)                                                       | Object           |
-|                                    |                   | [GotoPreset](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoPreset)                                                       | Object           |
-|                                    |                   | [RemovePreset](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RemovePreset)                                                   | Object           |
-| PTZ Home Position                  | PTZ               | [GotoHomePosition](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoHomePosition)                                           | Object           |
-|                                    |                   | [SetHomePosition](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetHomePosition)                                             | Object           |
-| PTZ AuxiliaryOperations            | PTZ               | [SendAuxiliaryCommand](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SendAuxiliaryCommand)                                   | Object           |
-| Event Handling                     | Event             | [Notify](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                              | Object           |
-|                                    |                   | [Subscribe](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                           | Object           |
-|                                    |                   | [Renew](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                               | Object           |
-|                                    |                   | [Unsubscribe](https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.Unsubscribe)                                                | Object           |
-|                                    |                   | [CreatePullPointSubscription](https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.CreatePullPointSubscription)                | Object           |
-|                                    |                   | [PullMessages](https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.PullMessages)                                              | Object           |
-|                                    |                   | [TopicFilter](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                         | Object           |
-|                                    |                   | [MessageContentFilter](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                | Object           |
-| Configuration of Analytics profile | Media2            | [GetProfiles](https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetProfiles)                                                 | Object           |
-|                                    |                   | [GetAnalyticsConfigurations](https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetAnalyticsConfigurations)                   | Object           |
-|                                    |                   | [AddConfiguration](https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.AddConfiguration)                                       | Object           |
-|                                    |                   | [RemoveConfiguration](https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.RemoveConfiguration)                                 | Object           |
-| Analytics Module configuration     | Analytics         | [GetSupportedAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedAnalyticsModules)       | Object           |
-|                                    |                   | [GetAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModules)                         | Object           |
-|                                    |                   | [CreateAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateAnalyticsModules)                   | Object           |
-|                                    |                   | [DeleteAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteAnalyticsModules)                   | Object           |
-|                                    |                   | [GetAnalyticsModuleOptions](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions)             | Object           |
-|                                    |                   | [ModifyAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyAnalyticsModules)                   | Object           |
-| Rule configuration                 | Analytics         | [GetSupportedRules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedRules)                             | Object           |
-|                                    |                   | [GetRules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRules)                                               | Object           |
-|                                    |                   | [CreateRules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateRules)                                         | Object           |
-|                                    |                   | [DeleteRules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteRules)                                         | Object           |
-|                                    |                   | [GetRuleOptions](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRuleOptions)                                   | Object           |
-|                                    |                   | [ModifyRule](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyRule)                                           | Object           |
+| Feature                            | Onvif Web Service | Onvif Function                                                                                                                   | EdgeX Value Type |
+|------------------------------------|-------------------|----------------------------------------------------------------------------------------------------------------------------------|------------------|
+| User Authentication                | Core              | **WS-Usernametoken Authentication**                                                                                              | Object           |
+|                                    |                   | **HTTP Digest**                                                                                                                  | Object           |
+| Auto Discovery                     | Core              | **WS-Discovery**                                                                                                                 | Object           |
+|                                    | Device            | [GetDiscoveryMode](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode)                                  | Object           |
+|                                    |                   | [SetDiscoveryMode](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode)                                  | Object           |
+|                                    |                   | [GetScopes](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes)                                                | Object           |
+|                                    |                   | [SetScopes](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes)                                                | Object           |
+|                                    |                   | [AddScopes](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes)                                                | Object           |
+|                                    |                   | [RemoveScopes](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes)                                          | Object           |
+| Network Configuration              | Device            | [GetHostname](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname)                                            | Object           |
+|                                    |                   | [SetHostname](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname)                                            | Object           |
+|                                    |                   | [GetDNS](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS)                                                      | Object           |
+|                                    |                   | [SetDNS](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS)                                                      | Object           |
+|                                    |                   | [**GetNetworkInterfaces**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces)                      | Object           |
+|                                    |                   | [**SetNetworkInterfaces**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces)                      | Object           |
+|                                    |                   | [GetNetworkProtocols](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols)                            | Object           |
+|                                    |                   | [SetNetworkProtocols](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols)                            | Object           |
+|                                    |                   | [**GetNetworkDefaultGateway**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway)              | Object           |
+|                                    |                   | [**SetNetworkDefaultGateway**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway)              | Object           |
+| System Function                    | Device            | [**GetDeviceInformation**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation)                      | Object           |
+|                                    |                   | [GetSystemDateAndTime](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime)                          | Object           |
+|                                    |                   | [SetSystemDateAndTime](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime)                          | Object           |
+|                                    |                   | [SetSystemFactoryDefault](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault)                    | Object           |
+|                                    |                   | [SystemReboot](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot)                                          | Object           |
+| User Handling                      | Device            | [**GetUsers**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers)                                              | Object           |
+|                                    |                   | [**CreateUsers**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers)                                        | Object           |
+|                                    |                   | [**DeleteUsers**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers)                                        | Object           |
+|                                    |                   | [**SetUser**](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser)                                                | Object           |
+| Metadata Configuration             | Media             | [GetMetadataConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfiguration)                        | Object           |
+|                                    |                   | [GetMetadataConfigurations](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurations)                      | Object           |
+|                                    |                   | [GetCompatibleMetadataConfigurations](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetCompatibleMetadataConfigurations)  | Object           |
+|                                    |                   | [**GetMetadataConfigurationOptions**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurationOptions)      | Object           |
+|                                    |                   | [AddMetadataConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddMetadataConfiguration)                        | Object           |
+|                                    |                   | [RemoveMetadataConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemoveMetadataConfiguration)                  | Object           |
+|                                    |                   | [**SetMetadataConfiguration**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetMetadataConfiguration)                    | Object           |
+| Video Streaming                    | Media             | [**GetProfiles**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetProfiles)                                              | Object           |
+|                                    |                   | [**GetStreamUri**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetStreamUri)                                            | Object           |
+| VideoEncoder  Config               | Media             | [GetVideoEncoderConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfiguration)                | Object           |
+|                                    |                   | [**SetVideoEncoderConfiguration**](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetVideoEncoderConfiguration)            | Object           |
+|                                    |                   | [GetVideoEncoderConfigurationOptions](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions)  | Object           |
+| PTZ Configuration                  | PTZ               | [GetNode](http://www.onvif.org/onvif/ver20/ptz/wsdl/ptz.wsdl#op.GetNode)                                                         | Object           |
+|                                    |                   | [GetConfigurations](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurations)                                          | Object           |
+|                                    |                   | [GetConfiguration](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfiguration)                                            | Object           |
+|                                    |                   | [GetConfigurationOptions](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurationOptions)                              | Object           |
+|                                    |                   | [SetConfiguration](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetConfiguration)                                            | Object           |
+|                                    | Media             | [AddPTZConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddPTZConfiguration)                                  | Object           |
+|                                    | Media             | [RemovePTZConfiguration](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemovePTZConfiguration)                            | Object           |
+| PTZ Actuation                      | PTZ               | [AbsoluteMove](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.AbsoluteMove)                                                    | Object           |
+|                                    |                   | [RelativeMove](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RelativeMove)                                                    | Object           |
+|                                    |                   | [ContinuousMove](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.ContinuousMove)                                                | Object           |
+|                                    |                   | [Stop](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.Stop)                                                                    | Object           |
+|                                    |                   | [GetStatus](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetStatus)                                                          | Object           |
+|                                    |                   | [GetPresets](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetPresets)                                                        | Object           |
+|                                    |                   | [GotoPreset](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoPreset)                                                        | Object           |
+|                                    |                   | [RemovePreset](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RemovePreset)                                                    | Object           |
+| PTZ Home Position                  | PTZ               | [GotoHomePosition](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoHomePosition)                                            | Object           |
+|                                    |                   | [SetHomePosition](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetHomePosition)                                              | Object           |
+| PTZ AuxiliaryOperations            | PTZ               | [SendAuxiliaryCommand](https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SendAuxiliaryCommand)                                    | Object           |
+| Event Handling                     | Event             | [Notify](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                               | Object           |
+|                                    |                   | [Subscribe](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                            | Object           |
+|                                    |                   | [Renew](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                                | Object           |
+|                                    |                   | [Unsubscribe](https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.Unsubscribe)                                                 | Object           |
+|                                    |                   | [CreatePullPointSubscription](https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.CreatePullPointSubscription)                 | Object           |
+|                                    |                   | [PullMessages](https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.PullMessages)                                               | Object           |
+|                                    |                   | [TopicFilter](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                          | Object           |
+|                                    |                   | [MessageContentFilter](https://docs.oasis-open.org/wsn/wsn-ws_base_notification-1.3-spec-os.pdf)                                 | Object           |
+| Configuration of Analytics profile | Media2            | [GetProfiles](https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetProfiles)                                                  | Object           |
+|                                    |                   | [GetAnalyticsConfigurations](https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetAnalyticsConfigurations)                    | Object           |
+|                                    |                   | [AddConfiguration](https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.AddConfiguration)                                        | Object           |
+|                                    |                   | [RemoveConfiguration](https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.RemoveConfiguration)                                  | Object           |
+| Analytics Module configuration     | Analytics         | [GetSupportedAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedAnalyticsModules)        | Object           |
+|                                    |                   | [GetAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModules)                          | Object           |
+|                                    |                   | [CreateAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateAnalyticsModules)                    | Object           |
+|                                    |                   | [DeleteAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteAnalyticsModules)                    | Object           |
+|                                    |                   | [GetAnalyticsModuleOptions](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions)              | Object           |
+|                                    |                   | [ModifyAnalyticsModules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyAnalyticsModules)                    | Object           |
+| Rule configuration                 | Analytics         | [GetSupportedRules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedRules)                              | Object           |
+|                                    |                   | [GetRules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRules)                                                | Object           |
+|                                    |                   | [CreateRules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateRules)                                          | Object           |
+|                                    |                   | [DeleteRules](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteRules)                                          | Object           |
+|                                    |                   | [GetRuleOptions](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRuleOptions)                                    | Object           |
+|                                    |                   | [ModifyRule](https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyRules)                                           | Object           |
 
 **Note**: The functions in the bold text are **mandatory** for Onvif protocol.
 
@@ -275,15 +275,15 @@ See the sample at [cmd/res/devices/camera.toml.example](cmd/res/devices/camera.t
 
 ## API Usage
 
-[User Handling](./doc/api-usage-user-handling.md)
-[Analytics Support](./doc/api-analytic-support.md)
+- [User Handling](./doc/api-usage-user-handling.md)
+- [Analytics Support](./doc/api-analytic-support.md)
 
 ## Onvif User Authentication
 [Setup Onvif User Authentication](./doc/onvif-user-authentication.md)
 
 ## Auto Discovery
-[Onvif camera auto discovery](./doc/auto-discovery.md)
-[Setup up auto discovery with docker](./doc/auto-discovery-docker.md)
+- [Onvif camera auto discovery](./doc/auto-discovery.md)
+- [Set up auto discovery with docker](./doc/auto-discovery-docker.md)
 
 ## License
 [Apache-2.0](LICENSE)
