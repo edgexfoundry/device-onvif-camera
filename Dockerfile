@@ -23,9 +23,6 @@ ARG ALPINE_PKG_EXTRA=""
 
 LABEL Name=edgex-device-onvif-camera
 
-LABEL license='SPDX-License-Identifier: Apache-2.0' \
-  copyright='Copyright (c) 2022: Intel Corporation'
-
 RUN sed -e 's/dl-cdn[.]alpinelinux.org/nl.alpinelinux.org/g' -i~ /etc/apk/repositories
 RUN apk add --no-cache ${ALPINE_PKG_BASE} ${ALPINE_PKG_EXTRA}
 
@@ -37,6 +34,9 @@ RUN [ ! -d "vendor" ] && go mod download all || echo "skipping..."
 RUN ${MAKE}
 
 FROM alpine:3.15
+
+LABEL license='SPDX-License-Identifier: Apache-2.0' \
+  copyright='Copyright (c) 2022: Intel Corporation'
 
 # dumb-init needed for injected secure bootstrapping entrypoint script when run in secure mode.
 RUN apk add --update --no-cache zeromq dumb-init
