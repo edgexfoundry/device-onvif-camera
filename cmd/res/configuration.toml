@@ -23,7 +23,7 @@ LogLevel = "INFO"
 [Service]
 HealthCheckInterval = "10s"
 Host = "localhost"
-Port = 59985
+Port = 59984
 ServerBindAddr = ""  # blank value defaults to Service.Host value
 StartupMsg = "Camera device service started"
 # MaxRequestSize limit the request body size in byte of put command
@@ -111,4 +111,4 @@ DiscoveryEthernetInterface = "en0"
 DefaultAuthMode = "usernametoken"
 DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
-BaseNotificationURL = "http://192.168.12.112:59985"
+BaseNotificationURL = "http://192.168.12.112:59984"

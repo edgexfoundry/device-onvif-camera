@@ -17,7 +17,7 @@ set -euo pipefail
 CORE_METADATA_URL="${CORE_METADATA_HOST:-http://localhost:59881}"
 CONSUL_URL="${CONSUL_HOST:-http://localhost:8500}"
 DEVICE_SERVICE="${DEVICE_SERVICE:-device-onvif-camera}"
-DEVICE_SERVICE_URL="${DEVICE_SERVICE_URL:-http://localhost:59985}"
+DEVICE_SERVICE_URL="${DEVICE_SERVICE_URL:-http://localhost:59984}"
 
 BASE_URL="${CONSUL_URL}/v1/kv/edgex/devices/2.0/${DEVICE_SERVICE}/Writable/InsecureSecrets"
 

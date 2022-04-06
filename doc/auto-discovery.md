@@ -314,7 +314,7 @@ Credentials can be added via EdgeX Secrets:
 > `<password>` with the password.
 
 ```shell
-curl --location --request POST 'http://0.0.0.0:59985/api/v2/secret' \
+curl --location --request POST 'http://0.0.0.0:59984/api/v2/secret' \
     --header 'Content-Type: application/json' \
     --data-raw '
 {

@@ -156,7 +156,7 @@ make run device-onvif-camera
 ### Add Secrets to Secret Store (Vault)
 
 ```shell
-curl --request POST 'http://192.168.56.101:59985/api/v2/secret' \
+curl --request POST 'http://192.168.56.101:59984/api/v2/secret' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "apiVersion":"v2",

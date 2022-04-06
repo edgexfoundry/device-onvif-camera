@@ -25,7 +25,7 @@ $ curl http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | js
    "apiVersion" : "v2",
    "service" : {
       "adminState" : "UNLOCKED",
-      "baseAddress" : "http://edgex-device-onvif-camera:59985",
+      "baseAddress" : "http://edgex-device-onvif-camera:59984",
       "created" : 1639381535081,
       "id" : "37f6fb6f-62c9-4290-99e1-a105764ca296",
       "modified" : 1639399810472,
