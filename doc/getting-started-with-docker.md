@@ -15,7 +15,7 @@ Download the [edgex-compose](https://github.com/edgexfoundry/edgex-compose) and 
  1. Change directory to the `edgex-compose/compose-builder`
  2. Deploy services with the following command:
 ```shell
-make run no-secty device-onvif-camera
+make run no-secty ds-onvif-camera
 ```
 
 Check whether the device service is added to EdgeX
