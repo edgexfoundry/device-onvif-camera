@@ -35,8 +35,8 @@ const (
 	UnsubscribeCameraEvent = "UnsubscribeCameraEvent"
 )
 
-// DeviceClient manages the state required to issue ONVIF requests to the specified camera
-type DeviceClient struct {
+// OnvifClient manages the state required to issue ONVIF requests to the specified camera
+type OnvifClient struct {
 	lc          logger.LoggingClient
 	DeviceName  string
 	cameraInfo  *CameraInfo
@@ -49,8 +49,8 @@ type DeviceClient struct {
 	baseNotificationManager *BaseNotificationManager
 }
 
-// NewDeviceClient returns an DeviceClient for a single camera
-func NewDeviceClient(device models.Device, driverConfig *configuration, lc logger.LoggingClient) (*DeviceClient, errors.EdgeX) {
+// NewOnvifClient returns an OnvifClient for a single camera
+func NewOnvifClient(device models.Device, driverConfig *configuration, lc logger.LoggingClient) (*OnvifClient, errors.EdgeX) {
 	cameraInfo, edgexErr := CreateCameraInfo(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
@@ -82,7 +82,7 @@ func NewDeviceClient(device models.Device, driverConfig *configuration, lc logge
 		return nil, errors.NewCommonEdgeXWrapper(err)
 	}
 
-	client := &DeviceClient{
+	client := &OnvifClient{
 		lc:                  lc,
 		DeviceName:          device.Name,
 		cameraInfo:          cameraInfo,
@@ -122,7 +122,7 @@ func deviceAddress(cameraInfo *CameraInfo) string {
 	return fmt.Sprintf("%s:%d", cameraInfo.Address, cameraInfo.Port)
 }
 
-func (deviceClient *DeviceClient) CallOnvifFunction(req sdkModel.CommandRequest, functionType string, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
+func (onvifClient *OnvifClient) CallOnvifFunction(req sdkModel.CommandRequest, functionType string, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
 	serviceName, edgexErr := attributeByKey(req.Attributes, Service)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
@@ -133,22 +133,22 @@ func (deviceClient *DeviceClient) CallOnvifFunction(req sdkModel.CommandRequest,
 	}
 
 	if serviceName == EdgeXWebService {
-		cv, edgexErr := deviceClient.callCustomFunction(req.DeviceResourceName, serviceName, functionName, req.Attributes, data)
+		cv, edgexErr := onvifClient.callCustomFunction(req.DeviceResourceName, serviceName, functionName, req.Attributes, data)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 		}
 		return cv, nil
 	}
 
-	responseContent, edgexErr := deviceClient.callOnvifFunction(serviceName, functionName, data)
+	responseContent, edgexErr := onvifClient.callOnvifFunction(serviceName, functionName, data)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 	if functionName == onvif.SetNetworkInterfaces {
-		deviceClient.checkRebootNeeded(responseContent)
+		onvifClient.checkRebootNeeded(responseContent)
 	}
 	if functionName == onvif.SystemReboot {
-		deviceClient.RebootNeeded = false
+		onvifClient.RebootNeeded = false
 	}
 	cv, err := sdkModel.NewCommandValue(req.DeviceResourceName, common.ValueTypeObject, responseContent)
 	if err != nil {
@@ -157,24 +157,24 @@ func (deviceClient *DeviceClient) CallOnvifFunction(req sdkModel.CommandRequest,
 	return cv, nil
 }
 
-func (deviceClient *DeviceClient) callCustomFunction(resourceName, serviceName, functionName string, attributes map[string]interface{}, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
+func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, functionName string, attributes map[string]interface{}, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
 	var err error
 	switch functionName {
 	case RebootNeeded:
-		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeBool, deviceClient.RebootNeeded)
+		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeBool, onvifClient.RebootNeeded)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
 		}
 	case SubscribeCameraEvent:
-		err = deviceClient.callSubscribeCameraEventFunction(resourceName, serviceName, functionName, attributes, data)
+		err = onvifClient.callSubscribeCameraEventFunction(resourceName, serviceName, functionName, attributes, data)
 		if err != nil {
 			return nil, errors.NewCommonEdgeXWrapper(err)
 		}
 	case UnsubscribeCameraEvent:
 		go func() {
-			deviceClient.lc.Debugf("Unsubscribe camera event for the device '%v'", deviceClient.DeviceName)
-			deviceClient.pullPointManager.UnsubscribeAll()
-			deviceClient.baseNotificationManager.UnsubscribeAll()
+			onvifClient.lc.Debugf("Unsubscribe camera event for the device '%v'", onvifClient.DeviceName)
+			onvifClient.pullPointManager.UnsubscribeAll()
+			onvifClient.baseNotificationManager.UnsubscribeAll()
 		}()
 	default:
 		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("not support the custom function '%s'", functionName), nil)
@@ -182,19 +182,19 @@ func (deviceClient *DeviceClient) callCustomFunction(resourceName, serviceName, 
 	return cv, nil
 }
 
-func (deviceClient *DeviceClient) callSubscribeCameraEventFunction(resourceName, serviceName, functionName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
+func (onvifClient *OnvifClient) callSubscribeCameraEventFunction(resourceName, serviceName, functionName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
 	subscribeType, edgexErr := attributeByKey(attributes, SubscribeType)
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 	switch subscribeType {
 	case PullPoint:
-		edgexErr = deviceClient.pullPointManager.NewSubscriber(deviceClient, resourceName, attributes, data)
+		edgexErr = onvifClient.pullPointManager.NewSubscriber(onvifClient, resourceName, attributes, data)
 		if edgexErr != nil {
 			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create commandValue for the web service '%s' function '%s'", serviceName, functionName), edgexErr)
 		}
 	case BaseNotification:
-		edgexErr = deviceClient.baseNotificationManager.NewConsumer(deviceClient, resourceName, attributes, data)
+		edgexErr = onvifClient.baseNotificationManager.NewConsumer(onvifClient, resourceName, attributes, data)
 		if edgexErr != nil {
 			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create commandValue for the web service '%s' function '%s'", serviceName, functionName), edgexErr)
 		}
@@ -204,7 +204,7 @@ func (deviceClient *DeviceClient) callSubscribeCameraEventFunction(resourceName,
 	return nil
 }
 
-func (deviceClient *DeviceClient) callOnvifFunction(serviceName, functionName string, data []byte) (interface{}, errors.EdgeX) {
+func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName string, data []byte) (interface{}, errors.EdgeX) {
 	function, edgexErr := onvif.FunctionByServiceAndFunctionName(serviceName, functionName)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
@@ -214,7 +214,7 @@ func (deviceClient *DeviceClient) callOnvifFunction(serviceName, functionName st
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create '%s' request for the web service '%s'", functionName, serviceName), edgexErr)
 	}
 
-	endpoint, err := deviceClient.onvifDevice.GetEndpointByRequestStruct(request)
+	endpoint, err := onvifClient.onvifDevice.GetEndpointByRequestStruct(request)
 	if err != nil {
 		return nil, errors.NewCommonEdgeXWrapper(err)
 	}
@@ -224,9 +224,9 @@ func (deviceClient *DeviceClient) callOnvifFunction(serviceName, functionName st
 		return nil, errors.NewCommonEdgeXWrapper(err)
 	}
 	xmlRequestBody := string(requestBody)
-	deviceClient.lc.Debugf("SOAP Request: %v", xmlRequestBody)
+	onvifClient.lc.Debugf("SOAP Request: %v", xmlRequestBody)
 
-	servResp, err := deviceClient.onvifDevice.SendSoap(endpoint, xmlRequestBody)
+	servResp, err := onvifClient.onvifDevice.SendSoap(endpoint, xmlRequestBody)
 	if err != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to send the '%s' request for the web service '%s'", functionName, serviceName), err)
 	}
@@ -242,7 +242,7 @@ func (deviceClient *DeviceClient) callOnvifFunction(serviceName, functionName st
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create '%s' response for the web service '%s'", functionName, serviceName), edgexErr)
 	}
 	res, _ := xml.Marshal(responseEnvelope.Body.Content)
-	deviceClient.lc.Debugf("SOAP Response: %v", string(res))
+	onvifClient.lc.Debugf("SOAP Response: %v", string(res))
 
 	if servResp.StatusCode == http.StatusUnauthorized {
 		return nil, errors.NewCommonEdgeX(errors.KindInvalidId,
@@ -281,10 +281,10 @@ func createResponse(function onvif.Function, data []byte) (*gosoap.SOAPEnvelope,
 	return responseEnvelope, nil
 }
 
-func (deviceClient *DeviceClient) checkRebootNeeded(responseContent interface{}) {
+func (onvifClient *OnvifClient) checkRebootNeeded(responseContent interface{}) {
 	setNetworkInterfacesResponse, ok := responseContent.(*device.SetNetworkInterfacesResponse)
 	if ok {
-		deviceClient.RebootNeeded = bool(setNetworkInterfacesResponse.RebootNeeded)
+		onvifClient.RebootNeeded = bool(setNetworkInterfacesResponse.RebootNeeded)
 		return
 	}
 }

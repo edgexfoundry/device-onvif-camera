@@ -25,10 +25,10 @@ import (
 )
 
 type Consumer struct {
-	Name         string
-	lc           logger.LoggingClient
-	deviceClient *DeviceClient
-	manager      *BaseNotificationManager
+	Name        string
+	lc          logger.LoggingClient
+	onvifClient *OnvifClient
+	manager     *BaseNotificationManager
 
 	// subscriptionRequest is used to create the BaseNotification subscription
 	subscriptionRequest *SubscriptionRequest
@@ -66,7 +66,7 @@ func (consumer *Consumer) StartRenewLoop() {
 				return
 			}
 
-			servResp, err := consumer.deviceClient.onvifDevice.SendSoap(consumer.SubscriptionAddress, string(renewRequestData))
+			servResp, err := consumer.onvifClient.onvifDevice.SendSoap(consumer.SubscriptionAddress, string(renewRequestData))
 			if err != nil {
 				consumer.lc.Warnf("Fail to send the renew request from '%s' for resource '%s', %v. The pull point expired or dropped, try to create a new one.", consumer.SubscriptionAddress, consumer.Name, err)
 				err = consumer.subscribe()
@@ -95,7 +95,7 @@ func (consumer *Consumer) subscribe() errors.EdgeX {
 	}
 	serviceName := onvif.EventWebService
 	functionName := onvif.Subscribe
-	respContent, edgexErr := consumer.deviceClient.callOnvifFunction(serviceName, functionName, subscribeData)
+	respContent, edgexErr := consumer.onvifClient.callOnvifFunction(serviceName, functionName, subscribeData)
 	if edgexErr != nil {
 		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("fail to subscribe again for resource '%s', %v", consumer.Name, err), edgexErr)
 	}
@@ -139,7 +139,7 @@ func (consumer *Consumer) subscribeRequest() *event.Subscribe {
 	subscriptionPolicy := xsd.String(*consumer.subscriptionRequest.SubscriptionPolicy)
 
 	address := fmt.Sprintf("%s%s/resource/%s/%s",
-		driver.config.BaseNotificationURL, common.ApiBase, consumer.deviceClient.DeviceName, consumer.deviceClient.CameraEventResource.Name)
+		driver.config.BaseNotificationURL, common.ApiBase, consumer.onvifClient.DeviceName, consumer.onvifClient.CameraEventResource.Name)
 	consumerReference := &event.EndpointReferenceType{
 		Address: event.AttributedURIType(address),
 	}

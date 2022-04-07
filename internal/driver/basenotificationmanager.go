@@ -29,7 +29,7 @@ func NewBaseNotificationManager(lc logger.LoggingClient) *BaseNotificationManage
 	}
 }
 
-func (manager *BaseNotificationManager) NewConsumer(deviceClient *DeviceClient, resourceName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
+func (manager *BaseNotificationManager) NewConsumer(onvifClient *OnvifClient, resourceName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
 	_, ok := manager.consumers[resourceName]
 	if ok {
 		manager.lc.Infof("'%s' resource's base notification consumer already exists, skip adding new subscriber.", resourceName)
@@ -43,8 +43,8 @@ func (manager *BaseNotificationManager) NewConsumer(deviceClient *DeviceClient, 
 
 	consumer := &Consumer{
 		Name:                resourceName,
-		lc:                  deviceClient.lc,
-		deviceClient:        deviceClient,
+		lc:                  onvifClient.lc,
+		onvifClient:         onvifClient,
 		manager:             manager,
 		subscriptionRequest: request,
 		Stopped:             make(chan bool),

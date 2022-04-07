@@ -24,10 +24,10 @@ import (
 )
 
 type Subscriber struct {
-	Name         string
-	lc           logger.LoggingClient
-	manager      *PullPointManager
-	deviceClient *DeviceClient
+	Name        string
+	lc          logger.LoggingClient
+	manager     *PullPointManager
+	onvifClient *OnvifClient
 
 	// onvifDevice is used to send the pullMessage onvif function with specified request timeout
 	onvifDevice *onvif.Device
@@ -101,12 +101,12 @@ func (sub *Subscriber) pullMessage() errors.EdgeX {
 	if len(res.NotificationMessage) == 0 {
 		return nil
 	}
-	cv, err := sdkModel.NewCommandValue(sub.deviceClient.CameraEventResource.Name, common.ValueTypeObject, response.Body.Content)
+	cv, err := sdkModel.NewCommandValue(sub.onvifClient.CameraEventResource.Name, common.ValueTypeObject, response.Body.Content)
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create commandValue  for '%s', %v", sub.Name, err), err)
 	}
 	asyncValues := &sdkModel.AsyncValues{
-		DeviceName:    sub.deviceClient.DeviceName,
+		DeviceName:    sub.onvifClient.DeviceName,
 		CommandValues: []*sdkModel.CommandValue{cv},
 	}
 
@@ -122,7 +122,7 @@ func (sub *Subscriber) createPullPoint() errors.EdgeX {
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, "fail to marshal subscription request for resource", err)
 	}
-	respContent, edgexErr := sub.deviceClient.callOnvifFunction(serviceName, functionName, subscriptionData)
+	respContent, edgexErr := sub.onvifClient.callOnvifFunction(serviceName, functionName, subscriptionData)
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
@@ -154,7 +154,7 @@ func (sub *Subscriber) unsubscribe() errors.EdgeX {
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to marshal the unsubscribe request for '%s', %v", sub.Name, err), err)
 	}
-	_, edgexErr := sub.deviceClient.onvifDevice.SendSoap(sub.SubscriptionAddress, string(requestBody))
+	_, edgexErr := sub.onvifClient.onvifDevice.SendSoap(sub.SubscriptionAddress, string(requestBody))
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
