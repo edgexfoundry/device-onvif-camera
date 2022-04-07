@@ -71,7 +71,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 	camConfig, err := loadCameraConfig(sdk.DriverConfigs())
 	if err != nil {
-		panic(fmt.Errorf("load camera configuration failed: %w", err))
+		return errors.NewCommonEdgeX(errors.KindServerError, "failed to load camera configuration", err)
 	}
 	d.config = camConfig
 
@@ -212,7 +212,7 @@ func (d *Driver) HandleWriteCommands(deviceName string, protocols map[string]mod
 // DisconnectDevice handles protocol-specific cleanup when a device
 // is removed.
 func (d *Driver) DisconnectDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
-	d.lc.Warn("Driver's DisconnectDevice function didn't implement")
+	d.lc.Warn("Driver's DisconnectDevice function not implemented")
 	return nil
 }
 
@@ -233,6 +233,26 @@ func (d *Driver) Stop(force bool) error {
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (d *Driver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
+	err := d.createOnvifClient(deviceName)
+	if err != nil {
+		return errors.NewCommonEdgeXWrapper(err)
+	}
+	return nil
+}
+
+// UpdateDevice is a callback function that is invoked
+// when a Device associated with this Device Service is updated
+func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
+	// Invoke the createOnvifClient func to create new onvif client and replace the old one
+	err := d.createOnvifClient(deviceName)
+	if err != nil {
+		return errors.NewCommonEdgeXWrapper(err)
+	}
+	return nil
+}
+
+// createOnvifClient create the Onvif client for specified the device
+func (d *Driver) createOnvifClient(deviceName string) error {
 	device, err := sdk.RunningService().GetDeviceByName(deviceName)
 	if err != nil {
 		return errors.NewCommonEdgeXWrapper(err)
@@ -245,12 +265,6 @@ func (d *Driver) AddDevice(deviceName string, protocols map[string]models.Protoc
 	d.lock.Lock()
 	defer d.lock.Unlock()
 	d.onvifClients[deviceName] = onvifClient
-	return nil
-}
-
-// UpdateDevice is a callback function that is invoked
-// when a Device associated with this Device Service is updated
-func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
 	return nil
 }
 
