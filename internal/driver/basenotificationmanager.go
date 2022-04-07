@@ -32,11 +32,11 @@ func NewBaseNotificationManager(lc logger.LoggingClient) *BaseNotificationManage
 func (manager *BaseNotificationManager) NewConsumer(onvifClient *OnvifClient, resourceName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
 	_, ok := manager.consumers[resourceName]
 	if ok {
-		manager.lc.Infof("'%s' resource's base notification consumer already exists, skip adding new subscriber.", resourceName)
+		manager.lc.Warnf("'%s' resource's base notification consumer already exists, skip adding new subscriber.", resourceName)
 		return nil
 	}
 
-	request, edgexErr := subscriptionRequest(attributes, data)
+	request, edgexErr := newSubscriptionRequest(attributes, data)
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
@@ -51,7 +51,7 @@ func (manager *BaseNotificationManager) NewConsumer(onvifClient *OnvifClient, re
 	}
 	edgexErr = consumer.subscribe()
 	if edgexErr != nil {
-		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("fail to create the BaseNotification for resource '%s'", consumer.Name), edgexErr)
+		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("failed to create the BaseNotification for resource '%s'", consumer.Name), edgexErr)
 	}
 	manager.addConsumer(consumer)
 	if *request.AutoRenew {

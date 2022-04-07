@@ -55,31 +55,31 @@ func (consumer *Consumer) StartRenewLoop() {
 	for {
 		select {
 		case <-consumer.Stopped:
-			consumer.lc.Infof("Finish the subscription '%s'", consumer.Name)
+			consumer.lc.Infof("Stopping the subscription '%s'", consumer.Name)
 			return
 		case <-renewTicker.C:
-			consumer.lc.Debugf("Renew the subscription from '%s' for resource '%s'", consumer.SubscriptionAddress, consumer.Name)
-			renewRequest := consumer.createRewRequest()
+			consumer.lc.Debugf("Renewing the subscription from '%s' for resource '%s'", consumer.SubscriptionAddress, consumer.Name)
+			renewRequest := consumer.createRawRequest()
 			renewRequestData, err := xml.Marshal(renewRequest)
 			if err != nil {
-				consumer.lc.Errorf("Fail to marshal subscription request for resource '%s'", consumer.Name)
+				consumer.lc.Errorf("Failed to marshal subscription request for resource '%s'", consumer.Name)
 				return
 			}
 
 			servResp, err := consumer.onvifClient.onvifDevice.SendSoap(consumer.SubscriptionAddress, string(renewRequestData))
 			if err != nil {
-				consumer.lc.Warnf("Fail to send the renew request from '%s' for resource '%s', %v. The pull point expired or dropped, try to create a new one.", consumer.SubscriptionAddress, consumer.Name, err)
+				consumer.lc.Warnf("Failed to send the renew request from '%s' for resource '%s', %v. The pull point expired or dropped, try to create a new one.", consumer.SubscriptionAddress, consumer.Name, err)
 				err = consumer.subscribe()
 				if err != nil {
-					consumer.lc.Errorf("Fail to subscribe again for resource '%s', %v", consumer.Name, err)
+					consumer.lc.Errorf("Failed to subscribe again for resource '%s', %v", consumer.Name, err)
 					return
 				}
 			} else if servResp.StatusCode >= http.StatusBadRequest {
 				response, err := renewResponse(servResp)
-				consumer.lc.Warnf("Fail to renew the subscription from '%s' for resource '%s', status code: %s, err: %v. The pull point expired or dropped, try to create a new one.", consumer.SubscriptionAddress, consumer.Name, response.Body.Fault.String())
+				consumer.lc.Warnf("Failed to renew the subscription from '%s' for resource '%s', status code: %s, err: %v. The pull point expired or dropped, try to create a new one.", consumer.SubscriptionAddress, consumer.Name, response.Body.Fault.String())
 				err = consumer.subscribe()
 				if err != nil {
-					consumer.lc.Errorf("Fail to subscribe again for resource '%s', %v", consumer.Name, err)
+					consumer.lc.Errorf("Failed to subscribe again for resource '%s', %v", consumer.Name, err)
 					return
 				}
 			}
@@ -91,20 +91,20 @@ func (consumer *Consumer) subscribe() errors.EdgeX {
 	subscribe := consumer.subscribeRequest()
 	subscribeData, err := json.Marshal(subscribe)
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to marshal subscription request for resource '%s'", consumer.Name), err)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to marshal subscription request for resource '%s'", consumer.Name), err)
 	}
 	serviceName := onvif.EventWebService
 	functionName := onvif.Subscribe
 	respContent, edgexErr := consumer.onvifClient.callOnvifFunction(serviceName, functionName, subscribeData)
 	if edgexErr != nil {
-		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("fail to subscribe again for resource '%s', %v", consumer.Name, err), edgexErr)
+		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("failed to subscribe again for resource '%s', %v", consumer.Name, err), edgexErr)
 	}
 	subscribeResponse := respContent.(*event.SubscribeResponse)
 	consumer.SubscriptionAddress = fmt.Sprint(subscribeResponse.SubscriptionReference.Address)
 	return nil
 }
 
-func (consumer *Consumer) createRewRequest() *event.Renew {
+func (consumer *Consumer) createRawRequest() *event.Renew {
 	terminationTime := xsd.String(*consumer.subscriptionRequest.InitialTerminationTime)
 	return &event.Renew{
 		TerminationTime: terminationTime,

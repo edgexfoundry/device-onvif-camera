@@ -38,18 +38,18 @@ func NewPullPointManager(lc logger.LoggingClient) *PullPointManager {
 func (manager *PullPointManager) NewSubscriber(onvifClient *OnvifClient, resourceName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
 	_, ok := manager.subscribers[resourceName]
 	if ok {
-		manager.lc.Infof("'%s' resource's Pull point subscriber already exists, skip adding new subscriber.", resourceName)
+		manager.lc.Warnf("'%s' resource's Pull point subscriber already exists, skip adding new subscriber.", resourceName)
 		return nil
 	}
 
-	request, edgexErr := subscriptionRequest(attributes, data)
+	request, edgexErr := newSubscriptionRequest(attributes, data)
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 
 	onvifDevice, err := manager.newSubscriberOnvifDevice(onvifClient.onvifDevice, *request.MessageTimeout)
 	if edgexErr != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create onvif device for pulling event, %v", err), edgexErr)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create onvif device for pulling event, %v", err), edgexErr)
 	}
 	sub := &Subscriber{
 		Name:                resourceName,
@@ -66,7 +66,7 @@ func (manager *PullPointManager) NewSubscriber(onvifClient *OnvifClient, resourc
 	}
 	edgexErr = sub.createPullPoint()
 	if edgexErr != nil {
-		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("fail to create the PullPoint subscription for resource '%s'", sub.Name), edgexErr)
+		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("failed to create the PullPoint subscription for resource '%s'", sub.Name), edgexErr)
 	}
 	manager.addSubscriber(sub)
 	go sub.StartPullMessageLoop()

@@ -41,6 +41,7 @@ type Subscriber struct {
 	Stopped chan bool
 }
 
+// StartPullMessageLoop implements the long-polling strategy to pull the camera event
 func (sub *Subscriber) StartPullMessageLoop() {
 	sub.lc.Infof("Subscriber starts the PullMessage loop for '%s'", sub.Name)
 	// Remove self when subscription finished or pull message failed
@@ -48,7 +49,7 @@ func (sub *Subscriber) StartPullMessageLoop() {
 	for {
 		select {
 		case <-sub.Stopped:
-			sub.lc.Infof("Finish the subscription '%s'", sub.Name)
+			sub.lc.Infof("Removing the subscription '%s'", sub.Name)
 			edgexErr := sub.unsubscribe()
 			if edgexErr != nil {
 				sub.lc.Warnf(edgexErr.Message())
@@ -57,6 +58,8 @@ func (sub *Subscriber) StartPullMessageLoop() {
 			return
 		default:
 			sub.lc.Debugf("Pull the event from '%s' for resource '%s'", sub.SubscriptionAddress, sub.Name)
+			// The camera will block the request according to the SubscribeCameraEvent's MessageTimeout
+			// and the device service will renew the expired subscription if AutoRenew is enabled.
 			edgexErr := sub.pullMessage()
 			if edgexErr != nil {
 				sub.lc.Warnf(edgexErr.Message())
@@ -69,11 +72,11 @@ func (sub *Subscriber) StartPullMessageLoop() {
 func (sub *Subscriber) pullMessage() errors.EdgeX {
 	requestBody, err := xml.Marshal(sub.pullMessageRequestBody)
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to marshal the PullMessage request for '%s', %v", sub.Name, err), err)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to marshal the PullMessage request for '%s', %v", sub.Name, err), err)
 	}
 	servResp, err := sub.onvifDevice.SendSoap(sub.SubscriptionAddress, string(requestBody))
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to send the '%s' pull event message request, %v", onvif.PullMessages, err), err)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to send the '%s' pull event message request, %v", onvif.PullMessages, err), err)
 	}
 	defer servResp.Body.Close()
 	if *sub.subscriptionRequest.AutoRenew && (servResp.StatusCode == http.StatusNotFound || servResp.StatusCode == http.StatusBadRequest) {
@@ -81,20 +84,20 @@ func (sub *Subscriber) pullMessage() errors.EdgeX {
 
 		edgexErr := sub.createPullPoint()
 		if edgexErr != nil {
-			return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("fail to create the PullPoint subscription for resource '%s'", sub.Name), edgexErr)
+			return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("failed to create the PullPoint subscription for resource '%s'", sub.Name), edgexErr)
 		}
 		return nil
 	}
 
 	rsp, err := ioutil.ReadAll(servResp.Body)
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to read the PullMessage response for '%s', %v", sub.Name, err), err)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to read the PullMessage response for '%s', %v", sub.Name, err), err)
 	}
 
-	var function onvif.Function = &event.PullMessagesFunction{}
+	function := &event.PullMessagesFunction{}
 	response, edgexErr := createResponse(function, rsp)
 	if edgexErr != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to get the PullMessage response for '%s', %v", sub.Name, edgexErr), edgexErr)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get the PullMessage response for '%s', %v", sub.Name, edgexErr), edgexErr)
 	}
 
 	res := response.Body.Content.(*event.PullMessagesResponse)
@@ -103,7 +106,7 @@ func (sub *Subscriber) pullMessage() errors.EdgeX {
 	}
 	cv, err := sdkModel.NewCommandValue(sub.onvifClient.CameraEventResource.Name, common.ValueTypeObject, response.Body.Content)
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create commandValue  for '%s', %v", sub.Name, err), err)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue  for '%s', %v", sub.Name, err), err)
 	}
 	asyncValues := &sdkModel.AsyncValues{
 		DeviceName:    sub.onvifClient.DeviceName,
@@ -120,7 +123,7 @@ func (sub *Subscriber) createPullPoint() errors.EdgeX {
 	subscription := sub.createPullPointSubscription()
 	subscriptionData, err := json.Marshal(subscription)
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, "fail to marshal subscription request for resource", err)
+		return errors.NewCommonEdgeX(errors.KindServerError, "failed to marshal subscription request for resource", err)
 	}
 	respContent, edgexErr := sub.onvifClient.callOnvifFunction(serviceName, functionName, subscriptionData)
 	if edgexErr != nil {
@@ -152,7 +155,7 @@ func (sub *Subscriber) unsubscribe() errors.EdgeX {
 	request := event.Unsubscribe{}
 	requestBody, err := xml.Marshal(request)
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to marshal the unsubscribe request for '%s', %v", sub.Name, err), err)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to marshal the unsubscribe request for '%s', %v", sub.Name, err), err)
 	}
 	_, edgexErr := sub.onvifClient.onvifDevice.SendSoap(sub.SubscriptionAddress, string(requestBody))
 	if edgexErr != nil {

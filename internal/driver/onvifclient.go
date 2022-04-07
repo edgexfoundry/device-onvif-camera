@@ -74,7 +74,7 @@ func NewOnvifClient(device models.Device, driverConfig *configuration, lc logger
 		},
 	})
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "fail to initial Onvif device client", err)
+		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initial Onvif device client", err)
 	}
 
 	resource, err := getCameraEventResourceByDeviceName(device.Name)
@@ -146,13 +146,12 @@ func (onvifClient *OnvifClient) CallOnvifFunction(req sdkModel.CommandRequest, f
 	}
 	if functionName == onvif.SetNetworkInterfaces {
 		onvifClient.checkRebootNeeded(responseContent)
-	}
-	if functionName == onvif.SystemReboot {
+	} else if functionName == onvif.SystemReboot {
 		onvifClient.RebootNeeded = false
 	}
 	cv, err := sdkModel.NewCommandValue(req.DeviceResourceName, common.ValueTypeObject, responseContent)
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create commandValue for the function '%s' of web service '%s' ", functionName, serviceName), err)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the function '%s' of web service '%s' ", functionName, serviceName), err)
 	}
 	return cv, nil
 }
@@ -163,7 +162,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 	case RebootNeeded:
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeBool, onvifClient.RebootNeeded)
 		if err != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
 		}
 	case SubscribeCameraEvent:
 		err = onvifClient.callSubscribeCameraEventFunction(resourceName, serviceName, functionName, attributes, data)
@@ -191,12 +190,12 @@ func (onvifClient *OnvifClient) callSubscribeCameraEventFunction(resourceName, s
 	case PullPoint:
 		edgexErr = onvifClient.pullPointManager.NewSubscriber(onvifClient, resourceName, attributes, data)
 		if edgexErr != nil {
-			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create commandValue for the web service '%s' function '%s'", serviceName, functionName), edgexErr)
+			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), edgexErr)
 		}
 	case BaseNotification:
 		edgexErr = onvifClient.baseNotificationManager.NewConsumer(onvifClient, resourceName, attributes, data)
 		if edgexErr != nil {
-			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create commandValue for the web service '%s' function '%s'", serviceName, functionName), edgexErr)
+			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), edgexErr)
 		}
 	default:
 		return errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("unsupported subscribeType '%s'", subscribeType), nil)
@@ -211,7 +210,7 @@ func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName stri
 	}
 	request, edgexErr := createRequest(function, data)
 	if edgexErr != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create '%s' request for the web service '%s'", functionName, serviceName), edgexErr)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create '%s' request for the web service '%s'", functionName, serviceName), edgexErr)
 	}
 
 	endpoint, err := onvifClient.onvifDevice.GetEndpointByRequestStruct(request)
@@ -228,7 +227,7 @@ func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName stri
 
 	servResp, err := onvifClient.onvifDevice.SendSoap(endpoint, xmlRequestBody)
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to send the '%s' request for the web service '%s'", functionName, serviceName), err)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to send the '%s' request for the web service '%s'", functionName, serviceName), err)
 	}
 	defer servResp.Body.Close()
 
@@ -239,14 +238,14 @@ func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName stri
 
 	responseEnvelope, edgexErr := createResponse(function, rsp)
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create '%s' response for the web service '%s'", functionName, serviceName), edgexErr)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create '%s' response for the web service '%s'", functionName, serviceName), edgexErr)
 	}
 	res, _ := xml.Marshal(responseEnvelope.Body.Content)
 	onvifClient.lc.Debugf("SOAP Response: %v", string(res))
 
 	if servResp.StatusCode == http.StatusUnauthorized {
 		return nil, errors.NewCommonEdgeX(errors.KindInvalidId,
-			fmt.Sprintf("fail to verify the authentication for the function '%s' of web service '%s'. Onvif error: %s",
+			fmt.Sprintf("failed to verify the authentication for the function '%s' of web service '%s'. Onvif error: %s",
 				functionName, serviceName, responseEnvelope.Body.Fault.String()), nil)
 	} else if servResp.StatusCode == http.StatusBadRequest {
 		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid,
@@ -254,7 +253,7 @@ func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName stri
 				functionName, serviceName, responseEnvelope.Body.Fault.String()), nil)
 	} else if servResp.StatusCode > http.StatusNoContent {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError,
-			fmt.Sprintf("fail to execute the request for the function '%s' of web service '%s'. Onvif error: %s",
+			fmt.Sprintf("failed to execute the request for the function '%s' of web service '%s'. Onvif error: %s",
 				functionName, serviceName, responseEnvelope.Body.Fault.String()), nil)
 	}
 	return responseEnvelope.Body.Content, nil

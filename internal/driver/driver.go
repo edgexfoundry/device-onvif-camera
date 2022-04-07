@@ -90,8 +90,8 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		d.lock.Unlock()
 	}
 
-	handler := NewRestHandler(sdk.RunningService(), lc, asyncCh)
-	edgexErr := handler.Start()
+	handler := NewRestNotificationHandler(sdk.RunningService(), lc, asyncCh)
+	edgexErr := handler.AddRoute()
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
@@ -145,7 +145,7 @@ func (d *Driver) HandleReadCommands(deviceName string, protocols map[string]mode
 
 		cv, edgexErr := onvifClient.CallOnvifFunction(req, GetFunction, data)
 		if edgexErr != nil {
-			return responses, errors.NewCommonEdgeX(errors.KindServerError, "fail to execute read command", edgexErr)
+			return responses, errors.NewCommonEdgeX(errors.KindServerError, "failed to execute read command", edgexErr)
 		}
 		responses[i] = cv
 	}
@@ -165,7 +165,7 @@ func attributeByKey(attributes map[string]interface{}, key string) (attr string,
 func parametersFromURLRawQuery(req sdkModel.CommandRequest) ([]byte, errors.EdgeX) {
 	values, err := url.ParseQuery(fmt.Sprint(req.Attributes[URLRawQuery]))
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to parse get command parameter for resource '%s'", req.DeviceResourceName), err)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to parse get command parameter for resource '%s'", req.DeviceResourceName), err)
 	}
 	param, exists := values[jsonObject]
 	if !exists || len(param) == 0 {
@@ -173,7 +173,7 @@ func parametersFromURLRawQuery(req sdkModel.CommandRequest) ([]byte, errors.Edge
 	}
 	data, err := base64.StdEncoding.DecodeString(param[0])
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to decode '%v' parameter for resource '%s', the value should be json object with base64 encoded", jsonObject, req.DeviceResourceName), err)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to decode '%v' parameter for resource '%s', the value should be json object with base64 encoded", jsonObject, req.DeviceResourceName), err)
 	}
 	return data, nil
 }
@@ -197,12 +197,12 @@ func (d *Driver) HandleWriteCommands(deviceName string, protocols map[string]mod
 		}
 		data, err := json.Marshal(parameters)
 		if err != nil {
-			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to marshal set command parameter for resource '%s'", req.DeviceResourceName), err)
+			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to marshal set command parameter for resource '%s'", req.DeviceResourceName), err)
 		}
 
 		result, err := onvifClient.CallOnvifFunction(req, SetFunction, data)
 		if err != nil {
-			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to execute write command, %s", result), err)
+			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to execute write command, %s", result), err)
 		}
 	}
 
@@ -422,7 +422,7 @@ func newOnvifClient(device models.Device, driverConfig *configuration, lc logger
 		},
 	})
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "fail to initial Onvif device client", err)
+		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initial Onvif device client", err)
 	}
 
 	client := &OnvifClient{
