@@ -17,7 +17,7 @@ Note: For macOS, the network_mode: "host" probably not working as expected: http
 #### 1. Download the [edgex-compose](https://github.com/edgexfoundry/edgex-compose) and setup it according to the [docker-compose setup guide](./docker-compose/README.md)
 
 #### 2. Replace the `add-device-onvif-camera.yml` with the following content:
-```
+```yaml
 services:
   device-onvif-camera:
     image: edgexfoundry/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
@@ -119,7 +119,7 @@ services:
       - metadata
     security_opt:
       - no-new-privileges:true
-    command: /device-onvif-camera --registry --confdir=/res
+    command: /device-onvif-camera -cp=consul.http://localhost:8500 --registry --confdir=/res
 ```
 
 **Note**: The user should replace the host IP to match their own machine IP
