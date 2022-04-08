@@ -21,6 +21,7 @@ type BaseNotificationManager struct {
 	consumers map[string]*Consumer
 }
 
+// NewBaseNotificationManager create the new BaseNotificationManager entity
 func NewBaseNotificationManager(lc logger.LoggingClient) *BaseNotificationManager {
 	return &BaseNotificationManager{
 		lc:        lc,
@@ -29,6 +30,7 @@ func NewBaseNotificationManager(lc logger.LoggingClient) *BaseNotificationManage
 	}
 }
 
+// NewConsumer create the new NewConsumer entity and send the subscription request to the camera
 func (manager *BaseNotificationManager) NewConsumer(onvifClient *OnvifClient, resourceName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
 	_, ok := manager.consumers[resourceName]
 	if ok {

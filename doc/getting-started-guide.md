@@ -2,7 +2,7 @@
 
 ## 1. Deploy the EdgeX
 Run core-data, core-metadata, core-command service according to the EdgeX doc
-https://docs.edgexfoundry.org/2.0/getting-started/Ch-GettingStartedGoDevelopers/.
+https://docs.edgexfoundry.org/2.2/getting-started/Ch-GettingStartedGoDevelopers/.
 
 ## 2. Deploy the device-onvif-camera
 Build the executable file with the following command:

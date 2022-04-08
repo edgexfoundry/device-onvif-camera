@@ -24,6 +24,7 @@ import (
 	"github.com/IOTechSystems/onvif/xsd"
 )
 
+// Consumer holds the subscription info and receive the camera event
 type Consumer struct {
 	Name        string
 	lc          logger.LoggingClient
@@ -38,6 +39,7 @@ type Consumer struct {
 	Stopped chan bool
 }
 
+// StartRenewLoop renews the subscription before termination time
 func (consumer *Consumer) StartRenewLoop() {
 	consumer.lc.Infof("Consumer starts the Renew loop for '%s'", consumer.Name)
 	// Remove self when subscription finished or renew failed

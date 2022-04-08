@@ -32,12 +32,14 @@ const (
 	handlerContextKey  = "RestNotificationHandler"
 )
 
+// RestNotificationHandler handle the notification from the camera and send to async value channel
 type RestNotificationHandler struct {
 	service     *sdk.DeviceService
 	logger      logger.LoggingClient
 	asyncValues chan<- *models.AsyncValues
 }
 
+// NewRestNotificationHandler create a new RestNotificationHandler entity
 func NewRestNotificationHandler(service *sdk.DeviceService, logger logger.LoggingClient, asyncValues chan<- *models.AsyncValues) *RestNotificationHandler {
 	handler := RestNotificationHandler{
 		service:     service,
@@ -48,6 +50,7 @@ func NewRestNotificationHandler(service *sdk.DeviceService, logger logger.Loggin
 	return &handler
 }
 
+// AddRoute adds route for receiving the notification from the camera
 func (handler RestNotificationHandler) AddRoute() errors.EdgeX {
 	if err := handler.service.AddRoute(apiResourceRoute, handler.addContext(deviceHandler), http.MethodPost); err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("unable to add required route: %s: %s", apiResourceRoute, err.Error()), err)

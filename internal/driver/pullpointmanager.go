@@ -27,6 +27,7 @@ type PullPointManager struct {
 	subscribers map[string]*Subscriber
 }
 
+// NewPullPointManager create a new PullPointManager entity
 func NewPullPointManager(lc logger.LoggingClient) *PullPointManager {
 	return &PullPointManager{
 		lc:          lc,
@@ -35,6 +36,7 @@ func NewPullPointManager(lc logger.LoggingClient) *PullPointManager {
 	}
 }
 
+// NewSubscriber creates a new subscriber entity and start pulling the event from the camera
 func (manager *PullPointManager) NewSubscriber(onvifClient *OnvifClient, resourceName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
 	_, ok := manager.subscribers[resourceName]
 	if ok {
@@ -98,6 +100,7 @@ func (manager *PullPointManager) removeSubscriber(sub *Subscriber) {
 	delete(manager.subscribers, sub.Name)
 }
 
+// UnsubscribeAll stops all subscriptions
 func (manager *PullPointManager) UnsubscribeAll() {
 	for _, sub := range manager.subscribers {
 		// subscriber will stop to pull message and unsubscribe the subscription when receiving the Stopped signal

@@ -122,6 +122,7 @@ func deviceAddress(cameraInfo *CameraInfo) string {
 	return fmt.Sprintf("%s:%d", cameraInfo.Address, cameraInfo.Port)
 }
 
+// CallOnvifFunction send the request to the camera via onvif client
 func (onvifClient *OnvifClient) CallOnvifFunction(req sdkModel.CommandRequest, functionType string, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
 	serviceName, edgexErr := attributeByKey(req.Attributes, Service)
 	if edgexErr != nil {
