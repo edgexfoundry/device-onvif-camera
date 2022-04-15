@@ -27,8 +27,8 @@ type PullPointManager struct {
 	subscribers map[string]*Subscriber
 }
 
-// NewPullPointManager create a new PullPointManager entity
-func NewPullPointManager(lc logger.LoggingClient) *PullPointManager {
+// newPullPointManager create a new PullPointManager entity
+func newPullPointManager(lc logger.LoggingClient) *PullPointManager {
 	return &PullPointManager{
 		lc:          lc,
 		subscribers: make(map[string]*Subscriber),
@@ -49,13 +49,12 @@ func (manager *PullPointManager) NewSubscriber(onvifClient *OnvifClient, resourc
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 
-	onvifDevice, err := manager.newSubscriberOnvifDevice(onvifClient.onvifDevice, *request.MessageTimeout)
+	onvifDevice, err := manager.newSubscriberOnvifDevice(onvifClient.onvifDevice, *request.MessageTimeout, onvifClient.driverConfig.RequestTimeout)
 	if edgexErr != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create onvif device for pulling event, %v", err), edgexErr)
 	}
 	sub := &Subscriber{
 		Name:                resourceName,
-		lc:                  onvifClient.lc,
 		manager:             manager,
 		onvifClient:         onvifClient,
 		onvifDevice:         onvifDevice,
@@ -75,12 +74,12 @@ func (manager *PullPointManager) NewSubscriber(onvifClient *OnvifClient, resourc
 	return nil
 }
 
-func (manager *PullPointManager) newSubscriberOnvifDevice(device *onvif.Device, messageTimeout string) (*onvif.Device, error) {
+func (manager *PullPointManager) newSubscriberOnvifDevice(device *onvif.Device, messageTimeout string, httpRequestTimeout int) (*onvif.Device, error) {
 	timeout, err := ParseISO8601(messageTimeout)
 	if err != nil {
 		return nil, err
 	}
-	timeout = timeout + time.Duration(driver.config.RequestTimeout)*time.Second
+	timeout = timeout + time.Duration(httpRequestTimeout)*time.Second
 	params := device.GetDeviceParams()
 	params.HttpClient = &http.Client{
 		Timeout: timeout,

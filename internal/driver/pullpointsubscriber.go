@@ -14,7 +14,6 @@ import (
 	"net/http"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 
@@ -25,7 +24,6 @@ import (
 
 type Subscriber struct {
 	Name        string
-	lc          logger.LoggingClient
 	manager     *PullPointManager
 	onvifClient *OnvifClient
 
@@ -43,26 +41,26 @@ type Subscriber struct {
 
 // StartPullMessageLoop implements the long-polling strategy to pull the camera event
 func (sub *Subscriber) StartPullMessageLoop() {
-	sub.lc.Infof("Subscriber starts the PullMessage loop for '%s'", sub.Name)
+	sub.onvifClient.lc.Infof("Subscriber starts the PullMessage loop for '%s'", sub.Name)
 	// Remove self when subscription finished or pull message failed
 	defer sub.manager.removeSubscriber(sub)
 	for {
 		select {
 		case <-sub.Stopped:
-			sub.lc.Infof("Removing the subscription '%s'", sub.Name)
+			sub.onvifClient.lc.Infof("Removing the subscription '%s'", sub.Name)
 			edgexErr := sub.unsubscribe()
 			if edgexErr != nil {
-				sub.lc.Warnf(edgexErr.Message())
+				sub.onvifClient.lc.Warnf(edgexErr.Message())
 				return
 			}
 			return
 		default:
-			sub.lc.Debugf("Pull the event from '%s' for resource '%s'", sub.SubscriptionAddress, sub.Name)
+			sub.onvifClient.lc.Debugf("Pull the event from '%s' for resource '%s'", sub.SubscriptionAddress, sub.Name)
 			// The camera will block the request according to the SubscribeCameraEvent's MessageTimeout
 			// and the device service will renew the expired subscription if AutoRenew is enabled.
 			edgexErr := sub.pullMessage()
 			if edgexErr != nil {
-				sub.lc.Warnf(edgexErr.Message())
+				sub.onvifClient.lc.Warnf(edgexErr.Message())
 				return
 			}
 		}
@@ -80,7 +78,7 @@ func (sub *Subscriber) pullMessage() errors.EdgeX {
 	}
 	defer servResp.Body.Close()
 	if *sub.subscriptionRequest.AutoRenew && (servResp.StatusCode == http.StatusNotFound || servResp.StatusCode == http.StatusBadRequest) {
-		sub.lc.Warnf("The pull point expired, try to create a new one")
+		sub.onvifClient.lc.Warnf("The pull point expired, try to create a new one")
 
 		edgexErr := sub.createPullPoint()
 		if edgexErr != nil {
@@ -113,7 +111,7 @@ func (sub *Subscriber) pullMessage() errors.EdgeX {
 		CommandValues: []*sdkModel.CommandValue{cv},
 	}
 
-	driver.asynchCh <- asyncValues
+	sub.onvifClient.asynchCh <- asyncValues
 	return nil
 }
 
@@ -161,6 +159,6 @@ func (sub *Subscriber) unsubscribe() errors.EdgeX {
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	sub.lc.Debugf("Unsubscribe the subscription '%s' from %s", sub.Name, sub.SubscriptionAddress)
+	sub.onvifClient.lc.Debugf("Unsubscribe the subscription '%s' from %s", sub.Name, sub.SubscriptionAddress)
 	return nil
 }

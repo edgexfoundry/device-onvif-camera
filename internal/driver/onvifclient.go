@@ -37,10 +37,12 @@ const (
 
 // OnvifClient manages the state required to issue ONVIF requests to the specified camera
 type OnvifClient struct {
-	lc          logger.LoggingClient
-	DeviceName  string
-	cameraInfo  *CameraInfo
-	onvifDevice *onvif.Device
+	driverConfig *configuration
+	lc           logger.LoggingClient
+	asynchCh     chan<- *sdkModel.AsyncValues
+	DeviceName   string
+	cameraInfo   *CameraInfo
+	onvifDevice  *onvif.Device
 	// RebootNeeded indicates the camera should reboot to apply the configuration change
 	RebootNeeded bool
 	// CameraEventResource is used to send the async event to north bound
@@ -49,8 +51,8 @@ type OnvifClient struct {
 	baseNotificationManager *BaseNotificationManager
 }
 
-// NewOnvifClient returns an OnvifClient for a single camera
-func NewOnvifClient(device models.Device, driverConfig *configuration, lc logger.LoggingClient) (*OnvifClient, errors.EdgeX) {
+// newOnvifClient returns an OnvifClient for a single camera
+func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
 	cameraInfo, edgexErr := CreateCameraInfo(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
@@ -58,7 +60,7 @@ func NewOnvifClient(device models.Device, driverConfig *configuration, lc logger
 
 	var credential config.Credentials
 	if cameraInfo.AuthMode != onvif.NoAuth {
-		credential, edgexErr = GetCredentials(cameraInfo.SecretPath)
+		credential, edgexErr = d.getCredentials(cameraInfo.SecretPath)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", device.Name), edgexErr)
 		}
@@ -70,7 +72,7 @@ func NewOnvifClient(device models.Device, driverConfig *configuration, lc logger
 		Password: credential.Password,
 		AuthMode: cameraInfo.AuthMode,
 		HttpClient: &http.Client{
-			Timeout: time.Duration(driverConfig.RequestTimeout) * time.Second,
+			Timeout: time.Duration(d.config.RequestTimeout) * time.Second,
 		},
 	})
 	if err != nil {
@@ -83,18 +85,20 @@ func NewOnvifClient(device models.Device, driverConfig *configuration, lc logger
 	}
 
 	client := &OnvifClient{
-		lc:                  lc,
+		driverConfig:        d.config,
+		lc:                  d.lc,
+		asynchCh:            d.asynchCh,
 		DeviceName:          device.Name,
 		cameraInfo:          cameraInfo,
 		onvifDevice:         dev,
 		CameraEventResource: resource,
 	}
 	// Create PullPointManager to control multiple pull points
-	pullPointManager := NewPullPointManager(lc)
+	pullPointManager := newPullPointManager(d.lc)
 	client.pullPointManager = pullPointManager
 
 	// Create BaseNotificationManager to control multiple notification consumer
-	baseNotificationManager := NewBaseNotificationManager(lc)
+	baseNotificationManager := NewBaseNotificationManager(d.lc)
 	client.baseNotificationManager = baseNotificationManager
 	return client, nil
 }

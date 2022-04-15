@@ -18,6 +18,6 @@ const (
 )
 
 func main() {
-	sd := driver.NewProtocolDriver()
-	startup.Bootstrap(serviceName, device_camera.Version, sd)
+	sd := driver.Driver{}
+	startup.Bootstrap(serviceName, device_camera.Version, &sd)
 }
