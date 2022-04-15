@@ -140,8 +140,8 @@ func (consumer *Consumer) subscribeRequest() *event.Subscribe {
 	InitialTerminationTime := xsd.String(*consumer.subscriptionRequest.InitialTerminationTime)
 	subscriptionPolicy := xsd.String(*consumer.subscriptionRequest.SubscriptionPolicy)
 
-	address := fmt.Sprintf("%s%s/resource/%s/%s",
-		driver.config.BaseNotificationURL, common.ApiBase, consumer.onvifClient.DeviceName, consumer.onvifClient.CameraEventResource.Name)
+	address := fmt.Sprintf("%s%s/%s/%s/%s",
+		consumer.onvifClient.driverConfig.BaseNotificationURL, common.ApiBase, OnvifEventRestPath, consumer.onvifClient.DeviceName, consumer.onvifClient.CameraEventResource.Name)
 	consumerReference := &event.EndpointReferenceType{
 		Address: event.AttributedURIType(address),
 	}

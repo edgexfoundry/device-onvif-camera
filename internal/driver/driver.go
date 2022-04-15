@@ -30,9 +30,6 @@ import (
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 )
 
-var once sync.Once
-var driver *Driver
-
 const (
 	URLRawQuery = "urlRawQuery"
 	jsonObject  = "jsonObject"
@@ -49,17 +46,6 @@ type Driver struct {
 	onvifClients map[string]*OnvifClient
 }
 
-// NewProtocolDriver initializes the singleton Driver and
-// returns it to the caller
-func NewProtocolDriver() *Driver {
-	once.Do(func() {
-		driver = new(Driver)
-		driver.onvifClients = make(map[string]*OnvifClient)
-	})
-
-	return driver
-}
-
 // Initialize performs protocol-specific initialization for the device
 // service.
 func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.AsyncValues,
@@ -68,6 +54,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.asynchCh = asyncCh
 	d.deviceCh = deviceCh
 	d.lock = new(sync.RWMutex)
+	d.onvifClients = make(map[string]*OnvifClient)
 
 	camConfig, err := loadCameraConfig(sdk.DriverConfigs())
 	if err != nil {
@@ -80,7 +67,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	for _, device := range deviceService.Devices() {
 		d.lc.Infof("Initializing onvif client for '%s' camera", device.Name)
 
-		onvifClient, err := NewOnvifClient(device, d.config, d.lc)
+		onvifClient, err := d.newOnvifClient(device)
 		if err != nil {
 			d.lc.Errorf("failed to initial onvif client for '%s' camera, skipping this device.", device.Name)
 			continue
@@ -109,7 +96,7 @@ func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) 
 		if err != nil {
 			return nil, errors.NewCommonEdgeXWrapper(err)
 		}
-		onvifClient, err = NewOnvifClient(device, d.config, d.lc)
+		onvifClient, err = d.newOnvifClient(device)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initial onvif client for '%s' camera", device.Name), err)
 		}
@@ -257,7 +244,7 @@ func (d *Driver) createOnvifClient(deviceName string) error {
 	if err != nil {
 		return errors.NewCommonEdgeXWrapper(err)
 	}
-	onvifClient, err := NewOnvifClient(device, d.config, d.lc)
+	onvifClient, err := d.newOnvifClient(device)
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initial onvif client for '%s' camera", device.Name), err)
 	}
@@ -275,11 +262,11 @@ func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.Pro
 	return nil
 }
 
-func GetCredentials(secretPath string) (config.Credentials, errors.EdgeX) {
+func (d *Driver) getCredentials(secretPath string) (config.Credentials, errors.EdgeX) {
 	credentials := config.Credentials{}
 	deviceService := sdk.RunningService()
 
-	timer := startup.NewTimer(driver.config.CredentialsRetryTime, driver.config.CredentialsRetryWait)
+	timer := startup.NewTimer(d.config.CredentialsRetryTime, d.config.CredentialsRetryWait)
 
 	var secretData map[string]string
 	var err error
@@ -289,7 +276,7 @@ func GetCredentials(secretPath string) (config.Credentials, errors.EdgeX) {
 			break
 		}
 
-		driver.lc.Warnf(
+		d.lc.Warnf(
 			"Unable to retrieve camera credentials from SecretProvider at path '%s': %s. Retrying for %s",
 			secretPath,
 			err.Error(),
@@ -382,7 +369,7 @@ func addressAndPort(xaddr string) (string, string) {
 }
 
 func (d *Driver) getDeviceInformation(dev models.Device) (devInfo *device.GetDeviceInformationResponse, edgexErr errors.EdgeX) {
-	devClient, edgexErr := newOnvifClient(dev, d.config, d.lc)
+	devClient, edgexErr := d.newTemporaryOnvifClient(dev)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
@@ -398,7 +385,7 @@ func (d *Driver) getDeviceInformation(dev models.Device) (devInfo *device.GetDev
 }
 
 // newOnvifClient creates a temporary client for auto-discovery
-func newOnvifClient(device models.Device, driverConfig *configuration, lc logger.LoggingClient) (*OnvifClient, errors.EdgeX) {
+func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
 	cameraInfo, edgexErr := CreateCameraInfo(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
@@ -406,7 +393,7 @@ func newOnvifClient(device models.Device, driverConfig *configuration, lc logger
 
 	var credential config.Credentials
 	if cameraInfo.AuthMode != onvif.NoAuth {
-		credential, edgexErr = GetCredentials(cameraInfo.SecretPath)
+		credential, edgexErr = d.getCredentials(cameraInfo.SecretPath)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", device.Name), edgexErr)
 		}
@@ -418,7 +405,7 @@ func newOnvifClient(device models.Device, driverConfig *configuration, lc logger
 		Password: credential.Password,
 		AuthMode: cameraInfo.AuthMode,
 		HttpClient: &http.Client{
-			Timeout: time.Duration(driverConfig.RequestTimeout) * time.Second,
+			Timeout: time.Duration(d.config.RequestTimeout) * time.Second,
 		},
 	})
 	if err != nil {
@@ -426,7 +413,7 @@ func newOnvifClient(device models.Device, driverConfig *configuration, lc logger
 	}
 
 	client := &OnvifClient{
-		lc:          lc,
+		lc:          d.lc,
 		DeviceName:  device.Name,
 		cameraInfo:  cameraInfo,
 		onvifDevice: dev,

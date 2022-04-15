@@ -7,7 +7,6 @@
 package driver
 
 import (
-	"context"
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
@@ -52,20 +51,12 @@ func NewRestNotificationHandler(service *sdk.DeviceService, logger logger.Loggin
 
 // AddRoute adds route for receiving the notification from the camera
 func (handler RestNotificationHandler) AddRoute() errors.EdgeX {
-	if err := handler.service.AddRoute(apiResourceRoute, handler.addContext(deviceHandler), http.MethodPost); err != nil {
+	if err := handler.service.AddRoute(apiResourceRoute, handler.processAsyncRequest, http.MethodPost); err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("unable to add required route: %s: %s", apiResourceRoute, err.Error()), err)
 	}
 
 	handler.logger.Infof("Route %s added.", apiResourceRoute)
 	return nil
-}
-
-func (handler RestNotificationHandler) addContext(next func(http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
-	// Add the context with the handler so the endpoint handling code can get back to this handler
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.WithValue(r.Context(), handlerContextKey, handler)
-		next(w, r.WithContext(ctx))
-	})
 }
 
 // processAsyncRequest receives notification from Onvif camera and sends to the async reading channel
@@ -134,15 +125,4 @@ func (handler RestNotificationHandler) readBody(request *http.Request) ([]byte, 
 	}
 
 	return body, nil
-}
-
-func deviceHandler(writer http.ResponseWriter, request *http.Request) {
-	handler, ok := request.Context().Value(handlerContextKey).(RestNotificationHandler)
-	if !ok {
-		writer.WriteHeader(http.StatusBadRequest)
-		writer.Write([]byte("Bad context pass to handler"))
-		return
-	}
-
-	handler.processAsyncRequest(writer, request)
 }
