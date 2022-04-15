@@ -12,6 +12,7 @@ const (
 	Port          = "Port"
 	AuthMode      = "AuthMode"
 	SecretPath    = "SecretPath"
+	ServicePort   = 59984
 
 	// Service is resource attribute and indicates the web service for the Onvif
 	Service = "service"

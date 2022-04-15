@@ -11,6 +11,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"time"
 
@@ -90,7 +91,10 @@ func (consumer *Consumer) StartRenewLoop() {
 }
 
 func (consumer *Consumer) subscribe() errors.EdgeX {
-	subscribe := consumer.subscribeRequest()
+	subscribe, edgexErr := consumer.subscribeRequest()
+	if edgexErr != nil {
+		return errors.NewCommonEdgeXWrapper(edgexErr)
+	}
 	subscribeData, err := json.Marshal(subscribe)
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to marshal subscription request for resource '%s'", consumer.Name), err)
@@ -129,7 +133,7 @@ func renewResponse(servResp *http.Response) (*gosoap.SOAPEnvelope, errors.EdgeX)
 	return responseEnvelope, nil
 }
 
-func (consumer *Consumer) subscribeRequest() *event.Subscribe {
+func (consumer *Consumer) subscribeRequest() (*event.Subscribe, errors.EdgeX) {
 	filter := &event.FilterType{}
 	if *consumer.subscriptionRequest.TopicFilter != "" {
 		filter.TopicExpression = &event.TopicExpressionType{TopicKinds: xsd.String(*consumer.subscriptionRequest.TopicFilter)}
@@ -140,8 +144,13 @@ func (consumer *Consumer) subscribeRequest() *event.Subscribe {
 	InitialTerminationTime := xsd.String(*consumer.subscriptionRequest.InitialTerminationTime)
 	subscriptionPolicy := xsd.String(*consumer.subscriptionRequest.SubscriptionPolicy)
 
-	address := fmt.Sprintf("%s%s/resource/%s/%s",
-		consumer.onvifClient.driverConfig.BaseNotificationURL, common.ApiBase, consumer.onvifClient.DeviceName, consumer.onvifClient.CameraEventResource.Name)
+	hostIP, err := getHostIP()
+	if err != nil {
+		return nil, errors.NewCommonEdgeXWrapper(err)
+	}
+	baseNotificationURL := fmt.Sprintf("http://%s:%d", hostIP, ServicePort)
+	address := fmt.Sprintf("%s%s/%s/%s/%s",
+		baseNotificationURL, common.ApiBase, OnvifEventRestPath, consumer.onvifClient.DeviceName, consumer.onvifClient.CameraEventResource.Name)
 	consumerReference := &event.EndpointReferenceType{
 		Address: event.AttributedURIType(address),
 	}
@@ -150,5 +159,21 @@ func (consumer *Consumer) subscribeRequest() *event.Subscribe {
 		Filter:             filter,
 		TerminationTime:    &InitialTerminationTime,
 		SubscriptionPolicy: &subscriptionPolicy,
+	}, nil
+}
+
+func getHostIP() (string, errors.EdgeX) {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return "", errors.NewCommonEdgeX(errors.KindServerError, "failed to retrieve the host IP", err)
 	}
+	for _, address := range addrs {
+		// check the address type and display it if it is not a loopback
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String(), nil
+			}
+		}
+	}
+	return "", errors.NewCommonEdgeX(errors.KindServerError, "failed to retrieve the host IP", err)
 }
