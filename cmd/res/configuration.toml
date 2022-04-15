@@ -101,7 +101,7 @@ Labels = []
 UseMessageBus = true
   [Device.Discovery]
   Enabled = true
-  Interval = "30s"
+  Interval = "1h"
 
 # Driver configs
 [Driver]
