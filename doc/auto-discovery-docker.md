@@ -29,11 +29,11 @@ services:
     network_mode: "host"
     environment:
       SERVICE_HOST: 192.168.56.101
+      SERVICE_SERVERBINDADDR: 0.0.0.0
       EDGEX_SECURITY_SECRET_STORE: "false"
       DEVICE_DISCOVERY_ENABLED: "true"
       DRIVER_DISCOVERYETHERNETINTERFACE: enp0s3
       DRIVER_DEFAULTSECRETPATH: credentials001
-      
       WRITABLE_LOGLEVEL: DEBUG
     depends_on:
       - consul
@@ -102,6 +102,7 @@ services:
     network_mode: host
     environment:
       SERVICE_HOST: 192.168.56.101
+      SERVICE_SERVERBINDADDR: 0.0.0.0
       EDGEX_SECURITY_SECRET_STORE: "true"
       DEVICE_DISCOVERY_ENABLED: "true"
       DRIVER_DISCOVERYETHERNETINTERFACE: enp0s3
