@@ -14,15 +14,15 @@
 
 set -euo pipefail
 
-CORE_METADATA_URL="${CORE_METADATA_HOST:-http://localhost:59881}"
-CONSUL_URL="${CONSUL_HOST:-http://localhost:8500}"
+ALL="All Cameras"
+CORE_METADATA_URL="${CORE_METADATA_URL:-http://localhost:59881}"
+CONSUL_URL="${CONSUL_URL:-http://localhost:8500}"
 DEVICE_SERVICE="${DEVICE_SERVICE:-device-onvif-camera}"
 DEVICE_SERVICE_URL="${DEVICE_SERVICE_URL:-http://localhost:59984}"
 
 BASE_URL="${CONSUL_URL}/v1/kv/edgex/devices/2.0/${DEVICE_SERVICE}/Writable/InsecureSecrets"
 
 DEVICE_LIST=
-DEVICE_COUNT=
 
 DEVICE_NAME="${DEVICE_NAME:-}"
 DEVICE_USERNAME="${DEVICE_USERNAME:-}"
@@ -30,31 +30,54 @@ DEVICE_PASSWORD="${DEVICE_PASSWORD:-}"
 CURRENT_ARG=
 SECURE_MODE=${SECURE_MODE:-0}
 
-HEIGHT="$(tput lines)"
-WIDTH="$(tput cols)"
 SELF_CMD="${0##*/}"
 
+cleanup() {
+    if [ -f "${curl_output}" ]; then
+        rm -f "${curl_output}"
+    fi
+}
+
+trap cleanup EXIT
+curl_output="$(mktemp)"
+
+print_output() {
+    if [ -x "$(type -P jq)" ]; then
+        jq . < "${curl_output}"
+    else
+        cat "${curl_output}"
+        echo
+    fi
+}
+
+# usage: do_curl "<payload>" curl_args...
+do_curl() {
+    echo '' > "${curl_output}"
+    local payload="$1"
+    shift
+    echo "curl --data \"<redacted>\" $*" >&2
+    # securely transfer the value through an auto-closing named pipe over stdin (prevent passwords on command line)
+    local code
+    code="$(curl -sS --location --data "@-" -w "%{http_code}" -o "${curl_output}" "$@" < <( set +x; echo -n "${payload}" ) || echo $?)"
+    print_output
+    if [ $((code)) -lt 200 ] || [ $((code)) -gt 299 ]; then
+        echo -e "\033[31;1mFailed! curl returned a status code of '$((code))'\033[0m" >&2
+        return $((code))
+    fi
+}
 
 get_devices() {
-    DEVICE_LIST="$(curl --silent "${CORE_METADATA_URL}/api/v2/device/service/name/${DEVICE_SERVICE}" \
+    DEVICE_LIST="$(do_curl "" -X GET "${CORE_METADATA_URL}/api/v2/device/service/name/${DEVICE_SERVICE}" \
         | tr '{' '\n' \
         | sed -En 's/.*"name": *"([^"]+)".*/\1/p' \
         | xargs)"
-
-    DEVICE_COUNT=$(wc -w <<< "${DEVICE_LIST}")
 }
 
 pick_device() {
     get_devices
 
-    local options=()
-    for d in ${DEVICE_LIST}; do
-        options+=("$d" "$d")
-    done
-
-    DEVICE_NAME=$(whiptail --menu "Please pick a device" --notags \
-        "${HEIGHT}" "${WIDTH}" "${DEVICE_COUNT}" \
-        "${options[@]}" 3>&1 1>&2 2>&3)
+    PS3="Select a camera: "
+    select DEVICE_NAME in "${ALL}" ${DEVICE_LIST}; do break; done
 
     if [ -z "${DEVICE_NAME}" ]; then
         echo "No device selected, exiting..."
@@ -65,19 +88,14 @@ pick_device() {
 # usage: put_consul_field <sub-path> <value>
 put_consul_field() {
     echo "Setting InsecureSecret: $1"
-    local code
-    # securely transfer the value through an auto-closing named pipe over stdin (prevent passwords on command line)
-    code=$(curl -X PUT --data "@-" -w "%{http_code}" -o /dev/null -s "${BASE_URL}/$1" < <( set +x; echo -n "$2" ) || echo $?)
-    if [ $((code)) -ne 200 ]; then
-        echo -e "Failed! curl returned a status code of '${code}'"
-        return $((code))
-    fi
+
+    do_curl "$2" -X PUT "${BASE_URL}/$1"
 }
 
 query_username_password() {
     if [ -z "${DEVICE_USERNAME}" ]; then
-        DEVICE_USERNAME=$(whiptail --inputbox "Please specify device username" \
-            "${HEIGHT}" "${WIDTH}" 3>&1 1>&2 2>&3)
+        printf "\033[1mUsername: \033[0m"
+        read DEVICE_USERNAME
 
         if [ -z "${DEVICE_USERNAME}" ]; then
             echo "No username entered, exiting..."
@@ -86,8 +104,9 @@ query_username_password() {
     fi
 
     if [ -z "${DEVICE_PASSWORD}" ]; then
-        DEVICE_PASSWORD=$(whiptail --passwordbox "Please specify device password" \
-            "${HEIGHT}" "${WIDTH}" 3>&1 1>&2 2>&3)
+        printf "\033[1mPassword: \033[0m"
+        read -s DEVICE_PASSWORD
+        echo
 
         if [ -z "${DEVICE_PASSWORD}" ]; then
             echo "No password entered, exiting..."
@@ -125,6 +144,10 @@ parse_args() {
         -d | --device | --device-name)
             try_set_argument "DEVICE_NAME" "$@"
             shift
+            ;;
+
+        -a | --all)
+            DEVICE_NAME="${ALL}"
             ;;
 
         -u | --user | --username)
@@ -189,12 +212,16 @@ set_secure_secrets() {
         }
     ]
 }"
-    local code
-    # securely transfer the value through an auto-closing named pipe over stdin (prevent passwords on command line)
-    code=$(curl --location --request POST --data "@-" -w "%{http_code}" -o /dev/null -s "${DEVICE_SERVICE_URL}/api/v2/secret" < <( set +x; echo -n "${payload}" ) || echo $?)
-    if [ $((code)) -ne 200 ]; then
-        echo -e "Failed! curl returned a status code of '${code}'"
-        return $((code))
+    do_curl "${payload}" -X POST "${DEVICE_SERVICE_URL}/api/v2/secret"
+}
+
+# usage: set_secrets "<device name>"
+set_secrets() {
+#     DEVICE_NAME="$1"
+    if [ "${SECURE_MODE}" -eq 1 ]; then
+        set_secure_secrets
+    else
+        set_insecure_secrets
     fi
 }
 
@@ -209,10 +236,13 @@ main() {
 
     query_username_password
 
-    if [ "${SECURE_MODE}" -eq 1 ]; then
-        set_secure_secrets
+    if [ "${DEVICE_NAME}" == "${ALL}" ]; then
+        get_devices
+        for DEVICE_NAME in ${DEVICE_LIST}; do
+            set_secrets
+        done
     else
-        set_insecure_secrets
+        set_secrets
     fi
 }
 
