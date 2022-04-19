@@ -1,0 +1,29 @@
+name: "control-plane-device"
+manufacturer:  "Generic"
+model: "Generic Control Plane Device"
+labels:
+  - "onvif"
+  - "control_plane"
+description: "EdgeX device profile for Control Plane Events."
+
+deviceResources:
+  - name: "CameraAdded"
+    isHidden: true
+    description: "Camera Added Control Plane Event"
+    properties:
+      valueType: "String"
+      readWrite: "R"
+
+  - name: "CameraUpdated"
+    isHidden: true
+    description: "Camera Updated Control Plane Event"
+    properties:
+      valueType: "String"
+      readWrite: "R"
+
+  - name: "CameraDeleted"
+    isHidden: true
+    description: "Camera Deleted Control Plane Event"
+    properties:
+      valueType: "String"
+      readWrite: "R"

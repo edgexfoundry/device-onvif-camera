@@ -1,0 +1,33 @@
+# Pre-defined Devices
+#[[DeviceList]]
+#Name = "Camera001"
+#ProfileName = "onvif-camera"
+#Description = "onvif conformant camera"
+#  [DeviceList.Protocols]
+#    [DeviceList.Protocols.Onvif]
+#    Address = "192.168.12.123"
+#    Port = "80"
+#    # Assign AuthMode to "usernametoken" | "digest" | "both" | "none"
+#    AuthMode = "digest"
+#    SecretPath = "credentials001"
+
+[[DeviceList]]
+Name = "OnvifControlPlane"
+ProfileName = "control-plane-device"
+Description = "onvif control plane device"
+[DeviceList.Protocols]
+  [DeviceList.Protocols.Generic]
+  Name = ""
+
+# If having more than one camera, uncomment the following config settings
+# [[DeviceList]]
+# Name = "Camera002"
+# ProfileName = "onvif-camera"
+# Description = "Simulator of onvif conformant camera"
+#   [DeviceList.Protocols]
+#     [DeviceList.Protocols.Onvif]
+#     Address = "192.168.12.128"
+#     Port = "2020"
+#     # Assign AuthMode to "usernametoken" | "digest" | "both" | "none"
+#     AuthMode = "usernametoken"
+#     SecretPath = "credentials002"
