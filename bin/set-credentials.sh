@@ -33,6 +33,7 @@ SECURE_MODE=${SECURE_MODE:-0}
 
 SELF_CMD="${0##*/}"
 
+# ANSI colors
 red="\033[31m"
 clear="\033[0m"
 bold="\033[1m"
@@ -53,27 +54,32 @@ log_error() {
     echo -e "${red}${bold}$*${clear}" >&2
 }
 
+# attempt to pretty print the output with jq. if jq is not available or
+# jq fails to parse data, print it normally
 format_output() {
-    # if jq is not available or jq fails to parse data, print it normally
     if [ ! -x "$(type -P jq)" ] || ! jq . <<< "$1" 2>/dev/null; then
         echo "$1"
     fi
     echo
 }
 
+# call the curl command with the specified payload and arguments.
+# this function will print out the curl response and will return an error code
+# if the curl request failed.
 # usage: do_curl "<payload>" curl_args...
 do_curl() {
     local payload="$1"
     shift
+    # log the curl command so the user has insight into what the script is doing
     log_debug "curl --data \"<redacted>\" $*" >&2
 
     local code tmp output
-    # the payload is securely transferred through an auto-closing named pipe over stdin.
+    # the payload is securely transferred through an auto-closing named pipe.
     # this prevents any passwords or sensitive data being on the command line.
     # the http response code is written to stdout and stored in the variable 'code', while the full http response
     # is written to the temp file, and then read into the 'output' variable.
     tmp="$(mktemp)"
-    code="$(curl -sS --location --data "@-" -w "%{http_code}" -o "${tmp}" "$@" < <( set +x; echo -n "${payload}" ) || echo $?)"
+    code="$(curl -sS --location -w "%{http_code}" -o "${tmp}" "$@" --data "@"<( set +x; echo -n "${payload}" ) || echo $?)"
     output="$(<"${tmp}")"
 
     printf "Response [%3d] " "$((code))" >&2
@@ -90,27 +96,27 @@ do_curl() {
 # the device name, which is the value inserted by this script
 update_secret_path() {
     log_info "Patching protocols[\"Onvif\"].SecretPath to ${DEVICE_NAME}"
-    local payload="[
-    {
-        \"apiVersion\": \"v2\",
-        \"device\": {
-            \"name\": \"${DEVICE_NAME}\",
-            \"protocols\": {
-                \"Onvif\": {
-                    \"SecretPath\": \"${DEVICE_NAME}\"
-                }
-            }
-        }
-    }
-]"
+    local payload
+    # query core metadata to get all the device information, and then
+    # use sed to look for just the SecretPath and replace it. note that
+    # currently this does not add one if it does not exist. Also, this
+    # code might be better if it used jq, but then this script would require
+    # the end user to have jq installed.
+    payload="$(do_curl "" -X GET "${CORE_METADATA_URL}/api/v2/device/name/${DEVICE_NAME}" \
+        | sed -E 's/"SecretPath" *: *"[^"]+"/"SecretPath":"'"${DEVICE_NAME}"'"/g')"
+    # the patch endpoint requires an array of devices, so wrap in square brackets
+    payload="[${payload}]"
     do_curl "${payload}" -X PATCH "${CORE_METADATA_URL}/api/v2/device"
 }
 
 # query EdgeX Core Metadata for the list of all devices
 get_devices() {
+    # grab the names of all devices for the specific device service.
+    # filter out the fake control plane device (grep -v "${DEVICE_SERVICE}")
     DEVICE_LIST="$(do_curl "" -X GET "${CORE_METADATA_URL}/api/v2/device/service/name/${DEVICE_SERVICE}" \
         | tr '{' '\n' \
         | sed -En 's/.*"name": *"([^"]+)".*/\1/p' \
+        | grep -v "${DEVICE_SERVICE}" \
         | xargs)"
     printf "\n\n"
 }
@@ -119,7 +125,8 @@ get_devices() {
 pick_device() {
     get_devices
 
-    # insert the option "All Cameras" first in the list
+    # insert the option "All Cameras" first in the list. the reason first was chosen as opposed to
+    # last was to keep the index of it the same no matter how many devices there are.
     PS3="Select a camera: "
     select DEVICE_NAME in "${ALL}" ${DEVICE_LIST}; do break; done
 
@@ -130,11 +137,10 @@ pick_device() {
     echo
 }
 
-# set an individual consul key to a specific value
-# usage: put_consul_field <sub-path> <value>
-put_consul_field() {
+# set an individual InsecureSecrets consul key to a specific value
+# usage: put_insecure_secrets_field <sub-path> <value>
+put_insecure_secrets_field() {
     log_info "Setting InsecureSecret: $1"
-
     do_curl "$2" -X PUT "${INSECURE_SECRETS_URL}/$1"
 }
 
@@ -244,9 +250,9 @@ parse_args() {
 
 # create or update the insecure secrets by setting the 3 required fields in Consul
 set_insecure_secrets() {
-    put_consul_field "${DEVICE_NAME}/Path" "${DEVICE_NAME}"
-    put_consul_field "${DEVICE_NAME}/Secrets/username" "${DEVICE_USERNAME}"
-    put_consul_field "${DEVICE_NAME}/Secrets/password" "${DEVICE_PASSWORD}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Path" "${DEVICE_NAME}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Secrets/username" "${DEVICE_USERNAME}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Secrets/password" "${DEVICE_PASSWORD}"
 }
 
 # set the secure secrets by posting to the device service's secret endpoint
