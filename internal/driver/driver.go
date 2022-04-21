@@ -32,13 +32,12 @@ import (
 )
 
 const (
-	URLRawQuery         = "urlRawQuery"
-	jsonObject          = "jsonObject"
-	controlPlaneDevice  = "OnvifControlPlane"
-	controlPlaneProfile = "control-plane-device"
-	cameraAdded         = "CameraAdded"
-	cameraUpdated       = "CameraUpdated"
-	cameraDeleted       = "CameraDeleted"
+	URLRawQuery = "urlRawQuery"
+	jsonObject  = "jsonObject"
+
+	cameraAdded   = "CameraAdded"
+	cameraUpdated = "CameraUpdated"
+	cameraDeleted = "CameraDeleted"
 )
 
 // Driver implements the sdkModel.ProtocolDriver interface for
@@ -50,6 +49,7 @@ type Driver struct {
 	config       *configuration
 	lock         *sync.RWMutex
 	onvifClients map[string]*OnvifClient
+	serviceName  string
 }
 
 // Initialize performs protocol-specific initialization for the device
@@ -61,6 +61,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.deviceCh = deviceCh
 	d.lock = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
+	d.serviceName = sdk.RunningService().Name()
 
 	camConfig, err := loadCameraConfig(sdk.DriverConfigs())
 	if err != nil {
@@ -68,9 +69,14 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	}
 	d.config = camConfig
 
+	d.addControlPlaneDeviceIfNeeded()
 	deviceService := sdk.RunningService()
 
 	for _, device := range deviceService.Devices() {
+		if device.Name == d.serviceName {
+			continue
+		}
+
 		d.lc.Infof("Initializing onvif client for '%s' camera", device.Name)
 
 		onvifClient, err := d.newOnvifClient(device)
@@ -83,7 +89,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		d.lock.Unlock()
 	}
 
-	handler := NewRestNotificationHandler(sdk.RunningService(), lc, asyncCh)
+	handler := NewRestNotificationHandler(deviceService, lc, asyncCh)
 	edgexErr := handler.AddRoute()
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
@@ -91,6 +97,29 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 	d.lc.Info("Driver initialized.")
 	return nil
+}
+
+// addControlPlaneDeviceIfNeeded checks if CoreMetadata contains the control-plane device
+// and if not, it will create and add one.
+func (d *Driver) addControlPlaneDeviceIfNeeded() {
+	if _, err := sdk.RunningService().GetDeviceByName(d.serviceName); err != nil {
+		d.lc.Infof("Adding %s control-plane device", d.serviceName)
+		_, err = sdk.RunningService().AddDevice(models.Device{
+			Name:           d.serviceName,
+			Description:    fmt.Sprintf("%s control-plane device", d.serviceName),
+			AdminState:     models.Unlocked,
+			OperatingState: models.Up,
+			Protocols: map[string]models.ProtocolProperties{
+				"ControlPlane": map[string]string{
+					"ServiceName": d.serviceName,
+				},
+			},
+			Labels:      []string{"control-plane"},
+			ServiceName: d.serviceName,
+			ProfileName: d.serviceName,
+			Notify:      false,
+		})
+	}
 }
 
 func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) {
@@ -223,27 +252,49 @@ func (d *Driver) Stop(force bool) error {
 	return nil
 }
 
-func (d *Driver) publishControlPlaneEvent(deviceName, eventType string) error {
-	cv, err := sdkModel.NewCommandValue(eventType, common.ValueTypeString, deviceName)
-	if err != nil {
-		return err
+func (d *Driver) publishControlPlaneEvent(deviceName, eventType string) {
+	if deviceName == d.serviceName {
+		// skip sending events for the control-plane device itself
+		return
+	}
+
+	var cv *sdkModel.CommandValue
+	var err error
+
+	if eventType == cameraDeleted {
+		// camera deleted event just sends the device name
+		cv, err = sdkModel.NewCommandValue(eventType, common.ValueTypeString, deviceName)
+		if err != nil {
+			d.lc.Errorf("issue creating control plane event %s for device %s: %v", eventType, deviceName, err)
+			return
+		}
+	} else {
+		// added and updated events send the whole device information
+		dev, err := sdk.RunningService().GetDeviceByName(deviceName)
+		if err != nil {
+			d.lc.Errorf("issue getting device %s: %v", eventType, deviceName, err)
+			return
+		}
+
+		cv, err = sdkModel.NewCommandValue(eventType, common.ValueTypeObject, dev)
+		if err != nil {
+			d.lc.Errorf("issue creating control plane event %s for device %s: %v", eventType, deviceName, err)
+			return
+		}
 	}
 
 	asyncValues := &sdkModel.AsyncValues{
-		DeviceName:    controlPlaneDevice,
+		DeviceName:    d.serviceName,
 		CommandValues: []*sdkModel.CommandValue{cv},
 	}
 	d.asynchCh <- asyncValues
-	return nil
 }
 
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (d *Driver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	if deviceName != controlPlaneDevice {
-		if err := d.publishControlPlaneEvent(deviceName, cameraAdded); err != nil {
-			d.lc.Errorf("issue sending control plane event %s for device %s: %s", cameraAdded, deviceName, err.Error())
-		}
+	if deviceName != d.serviceName {
+		d.publishControlPlaneEvent(deviceName, cameraAdded)
 		err := d.createOnvifClient(deviceName)
 		if err != nil {
 			return errors.NewCommonEdgeXWrapper(err)
@@ -255,14 +306,20 @@ func (d *Driver) AddDevice(deviceName string, protocols map[string]models.Protoc
 // UpdateDevice is a callback function that is invoked
 // when a Device associated with this Device Service is updated
 func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	if err := d.publishControlPlaneEvent(deviceName, cameraUpdated); err != nil {
-		d.lc.Errorf("issue sending control plane event %s for device %s: %s", cameraAdded, deviceName, err.Error())
-	}
+	d.publishControlPlaneEvent(deviceName, cameraUpdated)
 	// Invoke the createOnvifClient func to create new onvif client and replace the old one
 	err := d.createOnvifClient(deviceName)
 	if err != nil {
 		return errors.NewCommonEdgeXWrapper(err)
 	}
+	return nil
+}
+
+// RemoveDevice is a callback function that is invoked
+// when a Device associated with this Device Service is removed
+func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
+	d.publishControlPlaneEvent(deviceName, cameraDeleted)
+	d.removeOnvifClient(deviceName)
 	return nil
 }
 
@@ -280,16 +337,6 @@ func (d *Driver) createOnvifClient(deviceName string) error {
 	d.lock.Lock()
 	defer d.lock.Unlock()
 	d.onvifClients[deviceName] = onvifClient
-	return nil
-}
-
-// RemoveDevice is a callback function that is invoked
-// when a Device associated with this Device Service is removed
-func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
-	if err := d.publishControlPlaneEvent(deviceName, cameraDeleted); err != nil {
-		d.lc.Errorf("issue sending control plane event %s for device %s: %s", cameraAdded, deviceName, err.Error())
-	}
-	d.removeOnvifClient(deviceName)
 	return nil
 }
 
