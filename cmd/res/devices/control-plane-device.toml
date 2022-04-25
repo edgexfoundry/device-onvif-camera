@@ -1,0 +1,7 @@
+[[DeviceList]]
+Name = "device-onvif-camera"
+ProfileName = "device-onvif-camera"
+Description = "onvif control plane device"
+[DeviceList.Protocols]
+  [DeviceList.Protocols.Generic]
+  Name = ""

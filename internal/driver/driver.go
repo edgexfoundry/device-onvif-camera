@@ -10,12 +10,12 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"net/http"
 	"net/url"
 	"strings"
 	"sync"
 	"time"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
@@ -69,7 +69,6 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	}
 	d.config = camConfig
 
-	d.addControlPlaneDeviceIfNeeded()
 	deviceService := sdk.RunningService()
 
 	for _, device := range deviceService.Devices() {
@@ -97,29 +96,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 	d.lc.Info("Driver initialized.")
 	return nil
-}
 
-// addControlPlaneDeviceIfNeeded checks if CoreMetadata contains the control-plane device
-// and if not, it will create and add one.
-func (d *Driver) addControlPlaneDeviceIfNeeded() {
-	if _, err := sdk.RunningService().GetDeviceByName(d.serviceName); err != nil {
-		d.lc.Infof("Adding %s control-plane device", d.serviceName)
-		_, err = sdk.RunningService().AddDevice(models.Device{
-			Name:           d.serviceName,
-			Description:    fmt.Sprintf("%s control-plane device", d.serviceName),
-			AdminState:     models.Unlocked,
-			OperatingState: models.Up,
-			Protocols: map[string]models.ProtocolProperties{
-				"ControlPlane": map[string]string{
-					"ServiceName": d.serviceName,
-				},
-			},
-			Labels:      []string{"control-plane"},
-			ServiceName: d.serviceName,
-			ProfileName: d.serviceName,
-			Notify:      false,
-		})
-	}
 }
 
 func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) {
