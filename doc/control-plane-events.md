@@ -1,18 +1,23 @@
-# Event Control Plane
+# Control Plane Events
 
 ## Introduction
-The event control plane has been added to allow the message bus to emit events when a device has been added, updated, or deleted from the device service.
+Control plane events have been added to enable the device service to emit events onto the message bus when a device has been added, updated, or deleted. This is in lieu of official Control Plane Events (CPE) in an upcoming release of EdgeX. Once EdgeX officially supports CPE, these events will be dropped in favor of those.
 
-## Sample Event
+See edgex-docs [issue #581](https://github.com/edgexfoundry/edgex-docs/issues/581)
+
+## Sample Events
 The following are sample events emitted when a camera is added, updated or deleted from the device service.
 
 ### CameraAdded
-The following is a sample event emitted when a camera is added to the device service.
+The following is a sample event emitted when a camera is added to the device service. The top level object is an EdgeX `Event`, which contains 1 or more `Readings`.
+Where each `Reading` contains the following information:
+- **`origin`**: The timestamp at which the event occurred (in nanoseconds since Epoch)
+- **`resourceName`**: The type of control plane event (`CameraAdded`)
+- **`objectValue`**: The entire EdgeX Device object
+  - **`Name`**: The newly added device's name
+  - **`ProfileName`**: Which EdgeX Profile the device was assigned
+  - **`Protocols.Onvif`**: Onvif specific connection information
 
-Where:
-
-- **&lt;Name&gt;** is the name of the device.
-- **&lt;resourceName&gt;** the operation performed on the device
 ```json
 {
    "apiVersion":"v2",
@@ -70,12 +75,14 @@ Where:
 }
 ```
 ### CameraUpdated
-The following is a sample event emitted when a camera is updated to the device service.
-
-Where:
-
-- **&lt;Name&gt;** is the name of the device.
-- **&lt;resourceName&gt;** the operation performed on the device
+The following is a sample event emitted when a camera is updated to the device service. The top level object is an EdgeX `Event`, which contains 1 or more `Readings`.
+Where each `Reading` contains the following information:
+- **`origin`**: The timestamp at which the event occurred (in nanoseconds since Epoch)
+- **`resourceName`**: The type of control plane event (`CameraUpdated`)
+- **`objectValue`**: The entire EdgeX Device object
+  - **`Name`**: The newly updated device's name
+  - **`ProfileName`**: Which EdgeX Profile the device was assigned
+  - **`Protocols.Onvif`**: Onvif specific connection information
 
 ```json
 {
@@ -134,12 +141,14 @@ Where:
 }
 ```
 ### CameraDeleted
-The following is a sample event emitted when a camera is deleted from the device service.
+The following is a sample event emitted when a camera is deleted from the device service. The top level object is an EdgeX `Event`, which contains 1 or more `Readings`.
+Where each `Reading` contains the following information:
+- **`origin`**: The timestamp at which the event occurred (in nanoseconds since Epoch)
+- **`stringValue`**: The EdgeX reading JSON object
+  - **`resourceName`**: The type of control plane event (`CameraDeleted`)
+  - **`ProfileName`**: Which EdgeX Profile the device was assigned
+  - **`value`**: The deleted device's name
 
-Where:
-
-- **&lt;value&gt;** is the name of the device.
-- **&lt;resourceName&gt;** the operation performed on the device
 ```json
 {
    "apiVersion":"v2",
@@ -164,4 +173,4 @@ Where:
 
 ## Control Plane Profile
 
-A profile has been added to define the operations of the control plane. This profile is located \cmd\res\profiles\control-plane.profile.yaml.
+An EdgeX Device Profile has been added to define the control plane event schemas. This profile is located at [../cmd/res/profiles/control-plane.profile.yaml](../cmd/res/profiles/control-plane.profile.yaml).

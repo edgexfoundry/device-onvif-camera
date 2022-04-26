@@ -285,7 +285,7 @@ See the sample at [cmd/res/devices/camera.toml.example](cmd/res/devices/camera.t
 - [Onvif camera auto discovery](./doc/auto-discovery.md)
 - [Set up auto discovery with docker](./doc/auto-discovery-docker.md)
 
-## Event Control Plane
-[Event Control Plane](./doc/event-control-plane.md)
+## Control Plane Events
+[Control Plane Events](./doc/control-plane-events.md)
 ## License
 [Apache-2.0](LICENSE)
