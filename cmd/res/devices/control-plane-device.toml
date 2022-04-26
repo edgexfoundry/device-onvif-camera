@@ -1,7 +1,10 @@
+# Please DO NOT remove or alter this file!
+# This file is meant to bootstrap the device required for control plane events.
+
 [[DeviceList]]
 Name = "device-onvif-camera"
 ProfileName = "device-onvif-camera"
 Description = "onvif control plane device"
 [DeviceList.Protocols]
   [DeviceList.Protocols.Generic]
-  Name = ""
+  Name = "device-onvif-camera"

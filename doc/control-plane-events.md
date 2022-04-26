@@ -144,9 +144,9 @@ Where each `Reading` contains the following information:
 The following is a sample event emitted when a camera is deleted from the device service. The top level object is an EdgeX `Event`, which contains 1 or more `Readings`.
 Where each `Reading` contains the following information:
 - **`origin`**: The timestamp at which the event occurred (in nanoseconds since Epoch)
-  - **`resourceName`**: The type of control plane event (`CameraDeleted`)
-  - **`ProfileName`**: Which EdgeX Profile the device was assigned
-  - **`value`**: The deleted device's name
+- **`resourceName`**: The type of control plane event (`CameraDeleted`)
+- **`ProfileName`**: Which EdgeX Profile the device was assigned
+- **`value`**: The deleted device's name
 
 ```json
 {
