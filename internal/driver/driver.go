@@ -10,12 +10,12 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"net/http"
 	"net/url"
 	"strings"
 	"sync"
 	"time"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
@@ -96,7 +96,6 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 	d.lc.Info("Driver initialized.")
 	return nil
-
 }
 
 func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) {
