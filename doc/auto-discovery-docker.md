@@ -26,10 +26,8 @@ services:
     hostname: edgex-device-onvif-camera
     read_only: true
     restart: always
-    network_mode: "host"
     environment:
-      SERVICE_HOST: 192.168.56.101
-      SERVICE_SERVERBINDADDR: 0.0.0.0
+      SERVICE_HOST: edgex-device-onvif-camera
       EDGEX_SECURITY_SECRET_STORE: "false"
       DEVICE_DISCOVERY_ENABLED: "true"
       DRIVER_DISCOVERYETHERNETINTERFACE: enp0s3
@@ -99,10 +97,8 @@ services:
     hostname: edgex-device-onvif-camera
     read_only: true
     restart: always
-    network_mode: host
     environment:
-      SERVICE_HOST: 192.168.56.101
-      SERVICE_SERVERBINDADDR: 0.0.0.0
+      SERVICE_HOST: edgex-device-onvif-camera
       EDGEX_SECURITY_SECRET_STORE: "true"
       DEVICE_DISCOVERY_ENABLED: "true"
       DRIVER_DISCOVERYETHERNETINTERFACE: enp0s3

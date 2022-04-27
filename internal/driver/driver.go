@@ -10,7 +10,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"net/http"
 	"net/url"
 	"strings"
@@ -23,6 +22,7 @@ import (
 	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/startup"
 	"github.com/edgexfoundry/go-mod-bootstrap/v2/config"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 
@@ -72,6 +72,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	deviceService := sdk.RunningService()
 
 	for _, device := range deviceService.Devices() {
+		// onvif client should not be created for the control-plane device
 		if device.Name == d.serviceName {
 			continue
 		}
@@ -232,26 +233,10 @@ func (d *Driver) publishControlPlaneEvent(deviceName, eventType string) {
 	var cv *sdkModel.CommandValue
 	var err error
 
-	if eventType == cameraDeleted {
-		// camera deleted event just sends the device name
-		cv, err = sdkModel.NewCommandValue(eventType, common.ValueTypeString, deviceName)
-		if err != nil {
-			d.lc.Errorf("issue creating control plane-event %s for device %s: %v", eventType, deviceName, err)
-			return
-		}
-	} else {
-		// added and updated events send the whole device information
-		dev, err := sdk.RunningService().GetDeviceByName(deviceName)
-		if err != nil {
-			d.lc.Errorf("issue getting device %s: %v", eventType, deviceName, err)
-			return
-		}
-
-		cv, err = sdkModel.NewCommandValue(eventType, common.ValueTypeObject, dev)
-		if err != nil {
-			d.lc.Errorf("issue creating control-plane event %s for device %s: %v", eventType, deviceName, err)
-			return
-		}
+	cv, err = sdkModel.NewCommandValue(eventType, common.ValueTypeString, deviceName)
+	if err != nil {
+		d.lc.Errorf("issue creating control plane-event %s for device %s: %v", eventType, deviceName, err)
+		return
 	}
 
 	asyncValues := &sdkModel.AsyncValues{
