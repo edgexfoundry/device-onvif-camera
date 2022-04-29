@@ -1,9 +1,7 @@
 module github.com/edgexfoundry/device-onvif-camera
 
-replace github.com/IOTechSystems/onvif => ../onvif
-
 require (
-	github.com/IOTechSystems/onvif v0.0.2-0.20220301065030-7cf2dd734897
+	github.com/IOTechSystems/onvif v0.1.0
 	github.com/edgexfoundry/device-sdk-go/v2 v2.1.0
 	github.com/edgexfoundry/go-mod-bootstrap/v2 v2.1.0
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.1.0
@@ -19,6 +17,7 @@ require (
 	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
 	github.com/beevik/etree v1.1.0 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
+	github.com/clbanning/mxj/v2 v2.3.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.3.5 // indirect
 	github.com/edgexfoundry/go-mod-configuration/v2 v2.1.0 // indirect
