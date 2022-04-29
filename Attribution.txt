@@ -178,3 +178,6 @@ https://github.com/pmezard/go-difflib/blob/master/LICENSE
 
 stretchr/testify (MIT) https://github.com/stretchr/testify
 https://github.com/stretchr/testify/blob/master/LICENSE
+
+clbanning/mxj (MIT) https://github.com/clbanning/mxj/v2
+https://github.com/clbanning/mxj/blob/master/LICENSE
