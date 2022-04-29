@@ -8,6 +8,7 @@ package driver
 import (
 	"context"
 	"encoding/binary"
+	"encoding/json"
 	"fmt"
 	"github.com/IOTechSystems/onvif"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
@@ -18,6 +19,7 @@ import (
 	"math"
 	"math/bits"
 	"net"
+	"net/http"
 	"strings"
 	"sync"
 	"time"
@@ -405,9 +407,26 @@ func probe(host, port string, timeout time.Duration) ([]onvif.Device, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer conn.Close()
+	//defer conn.Close()
 
 	driver.lc.Info("Connection dialed", "host", host, "port", port)
+	conn.Close()
+
+	dev, err := onvif.NewDevice(onvif.DeviceParams{
+		Xaddr: fmt.Sprintf("%s:%s", host, port),
+		HttpClient: &http.Client{
+			Timeout: time.Duration(5) * time.Second,
+		},
+	})
+	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetSystemDateAndTime, nil)
+	js, err := json.Marshal(res)
+	driver.lc.Infof("Got Res: %v", string(js))
+
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetHostname, nil)
+	js, err = json.Marshal(res)
+	driver.lc.Infof("Got Res2: %v", string(js))
+
+	return nil, nil
 
 	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 
@@ -476,16 +495,16 @@ func ipWorker(params workerParams) {
 			ipStr := ip.String()
 
 			for _, scanPort := range params.scanPorts {
-				addr := ipStr + ":" + scanPort
-				if d, found := params.deviceMap[addr]; found {
-					if d.OperatingState == contract.Up {
-						driver.lc.Debug("Skip scan of " + addr + ", device already registered.")
-						continue
-					}
-					driver.lc.Info("Existing device in disabled (disconnected) state will be scanned again.",
-						"address", addr,
-						"deviceName", d.Name)
-				}
+				//addr := ipStr + ":" + scanPort
+				//if d, found := params.deviceMap[addr]; found {
+				//	if d.OperatingState == contract.Up {
+				//		driver.lc.Debug("Skip scan of " + addr + ", device already registered.")
+				//		continue
+				//	}
+				//	driver.lc.Info("Existing device in disabled (disconnected) state will be scanned again.",
+				//		"address", addr,
+				//		"deviceName", d.Name)
+				//}
 
 				select {
 				case <-params.ctx.Done():
