@@ -422,9 +422,21 @@ func probe(host, port string, timeout time.Duration) ([]onvif.Device, error) {
 	js, err := json.Marshal(res)
 	driver.lc.Infof("Got Res: %v", string(js))
 
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetHostname, nil)
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
 	js, err = json.Marshal(res)
 	driver.lc.Infof("Got Res2: %v", string(js))
+
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetCapabilities, nil)
+	js, err = json.Marshal(res)
+	driver.lc.Infof("Got Res3: %v", string(js))
+
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetServices, nil)
+	js, err = json.Marshal(res)
+	driver.lc.Infof("Got Res4: %v", string(js))
+
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetServiceCapabilities, nil)
+	js, err = json.Marshal(res)
+	driver.lc.Infof("Got Res5: %v", string(js))
 
 	return nil, nil
 
