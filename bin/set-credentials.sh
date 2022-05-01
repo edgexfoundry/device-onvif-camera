@@ -39,6 +39,7 @@ get_devices() {
     DEVICE_LIST="$(curl --silent "${CORE_METADATA_URL}/api/v2/device/service/name/${DEVICE_SERVICE}" \
         | tr '{' '\n' \
         | sed -En 's/.*"name": *"([^"]+)".*/\1/p' \
+        | grep -v "${DEVICE_SERVICE}" \
         | xargs)"
 
     DEVICE_COUNT=$(wc -w <<< "${DEVICE_LIST}")
