@@ -342,6 +342,11 @@ func (d *Driver) makeDeviceMap() map[string]contract.Device {
 	deviceMap := make(map[string]contract.Device, len(devices))
 
 	for _, device := range devices {
+		if device.Name == d.serviceName {
+			// skip control plane device
+			continue
+		}
+
 		onvifInfo := device.Protocols[protocolName]
 		if onvifInfo == nil {
 			d.lc.Warnf("Found registered device %s without %s protocol information.", device.Name, protocolName)
@@ -401,6 +406,19 @@ func ipGenerator(ctx context.Context, inet *net.IPNet, ipCh chan<- uint32) {
 	}
 }
 
+func printResponse(lc logger.LoggingClient, name string, res interface{}, err error) {
+	if err != nil {
+		lc.Errorf("%s: %s", name, err.Error())
+		return
+	}
+	js, err := json.Marshal(res)
+	if err != nil {
+		lc.Errorf("%s: %s", name, err.Error())
+		return
+	}
+	fmt.Printf("%s: %s\n", name, string(js))
+}
+
 // probe attempts to make a connection to a specific ip and port to determine
 // if an LLRP reader exists at that network address
 func probe(lc logger.LoggingClient, host, port string, timeout time.Duration) ([]onvif.Device, error) {
@@ -412,43 +430,37 @@ func probe(lc logger.LoggingClient, host, port string, timeout time.Duration) ([
 	//defer conn.Close()
 
 	lc.Info("Connection dialed", "host", host, "port", port)
-	conn.Close()
-
-	dev, err := onvif.NewDevice(onvif.DeviceParams{
-		Xaddr: fmt.Sprintf("%s:%s", host, port),
-		HttpClient: &http.Client{
-			Timeout: time.Duration(5) * time.Second,
-		},
-	})
-	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetSystemDateAndTime, nil)
-	js, err := json.Marshal(res)
-	lc.Infof("Got Res: %v", string(js))
-
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
-	js, err = json.Marshal(res)
-	lc.Infof("Got Res2: %v", string(js))
-
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetCapabilities, nil)
-	js, err = json.Marshal(res)
-	lc.Infof("Got Res3: %v", string(js))
-
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetServices, nil)
-	js, err = json.Marshal(res)
-	lc.Infof("Got Res4: %v", string(js))
-
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetServiceCapabilities, nil)
-	js, err = json.Marshal(res)
-	lc.Infof("Got Res5: %v", string(js))
-
-	return nil, nil
 
 	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
+	fmt.Println(probeSOAP.String())
 
-	if _, err = conn.Write([]byte(probeSOAP.String())); err != nil {
+	//c := http.Client{Timeout: time.Duration(1) * time.Second}
+	//r, e := c.Post(fmt.Sprintf("http://%s:%s/onvif/device_service", host, port), "application/soap+xml; charset=utf-8", strings.NewReader(probeSOAP.String()))
+	//printResponse(lc, "probe", r, e)
+
+	if _, err = conn.Write([]byte(fmt.Sprintf(`POST /onvif/service HTTP 1.1
+Host: %s:%s
+Content-Type: application/soap+xml; charset=utf-8
+Content-Length: 726
+
+<?xml version="1.0" encoding="UTF-8"?><soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap-enc="http://www.w3.org/2003/05/soap-encoding" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing"><soap-env:Header><a:Action mustUnderstand="1">http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</a:Action><a:MessageID>uuid:a7df289f-5d3c-496b-b800-11e655a6ac1c</a:MessageID><a:ReplyTo><a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address></a:ReplyTo><a:To mustUnderstand="1">urn:schemas-xmlsoap-org:ws:2005:04:discovery</a:To></soap-env:Header><soap-env:Body><Probe xmlns="http://schemas.xmlsoap.org/ws/2005/04/discovery"/></soap-env:Body></soap-env:Envelope>
+`, host, port))); err != nil {
 		err = errors.Wrap(err, "failed to write probe message")
 		lc.Error(err.Error())
 		return nil, err
 	}
+
+	//if _, err = conn.Write([]byte(fmt.Sprintf("POST /onvif/service HTTP/1.1\\r\\Host %s:%s\\r\\n", host, port))); err != nil {
+	//	err = errors.Wrap(err, "failed to write probe message")
+	//	lc.Error(err.Error())
+	//	return nil, err
+	//}
+	//
+	//if _, err = conn.Write([]byte(probeSOAP.String())); err != nil {
+	//	err = errors.Wrap(err, "failed to write probe message")
+	//	lc.Error(err.Error())
+	//	return nil, err
+	//}
 
 	if err = conn.SetReadDeadline(time.Now().Add(timeout)); err != nil {
 		err = errors.Wrap(err, "failed to set read deadline")
@@ -463,7 +475,7 @@ func probe(lc logger.LoggingClient, host, port string, timeout time.Duration) ([
 		return nil, err
 	}
 	if string(buf) != "<?xml" {
-		lc.Error("Non Xml response recieved")
+		lc.Error("Non Xml response received")
 		return nil, nil
 	}
 
@@ -473,9 +485,37 @@ func probe(lc logger.LoggingClient, host, port string, timeout time.Duration) ([
 	if err != nil {
 		return nil, err
 	}
-	lc.Infof("\nGot Bytes: %s\n", string(buf2))
-
 	response := string(buf) + string(buf2)
+	lc.Infof("\nGot Bytes: %s\n", response)
+
+	conn.Close()
+
+	dev, err := onvif.NewDevice(onvif.DeviceParams{
+		Xaddr: fmt.Sprintf("%s:%s", host, port),
+		HttpClient: &http.Client{
+			Timeout: time.Duration(5) * time.Second,
+		},
+	})
+	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetSystemDateAndTime, nil)
+	printResponse(lc, onvif.GetSystemDateAndTime, res, err)
+
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
+	printResponse(lc, onvif.GetEndpointReference, res, err)
+
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetCapabilities, nil)
+	printResponse(lc, onvif.GetCapabilities, res, err)
+
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetServices, nil)
+	printResponse(lc, onvif.GetServices, res, err)
+
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetServiceCapabilities, nil)
+	printResponse(lc, onvif.GetServiceCapabilities, res, err)
+
+	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetScopes, nil)
+	printResponse(lc, onvif.GetScopes, res, err)
+
+	//return nil, nil
+
 	devices, err := wsdiscovery.DevicesFromProbeResponses([]string{response})
 	if err != nil {
 		return nil, err
