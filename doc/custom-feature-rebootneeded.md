@@ -1,7 +1,7 @@
 # The custom feature - RebootNeeded
 
 ## Why need the custom feature RebootNeeded?
-Currently, ony the SetNetworkInterfaces function returns the **RebootNeeded** value, if RebootNeeded is true, the user need to reboot the camera to apply the config changes.
+Currently, only the SetNetworkInterfaces function returns the **RebootNeeded** value, if RebootNeeded is true, the user need to reboot the camera to apply the config changes.
 
 Since the Set command can't return the **RebootNeeded** value in command response, the device-onvif-camera will store the value in the memory, then the user can use the custom web service **EdgeX** and function **RebootNeeded** to check the value.
 

@@ -29,7 +29,7 @@ $ make get-consul-acl-token
 
 ## 4. Add the Username and Password for the Onvif Camera
 ```shell
-curl --location --request POST 'http://0.0.0.0:59985/api/v2/secret' \
+curl --location --request POST 'http://0.0.0.0:59984/api/v2/secret' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "apiVersion":"v2",

@@ -6,29 +6,40 @@ LogLevel = "INFO"
     [Writable.InsecureSecrets.DB]
     path = "redisdb"
       [Writable.InsecureSecrets.DB.Secrets]
+      username = ""
+      password = ""
     [Writable.InsecureSecrets.Camera001]
     path = "credentials001"
       [Writable.InsecureSecrets.Camera001.Secrets]
       username = "administrator"
       password = "Password1!"
     # If having more than one camera, uncomment the following config settings
-    [Writable.InsecureSecrets.Camera002]
-    path = "credentials002"
-      [Writable.InsecureSecrets.Camera002.Secrets]
-      username = "administrator"
-      password = "Password1!"
+#    [Writable.InsecureSecrets.Camera002]
+#    path = "credentials002"
+#      [Writable.InsecureSecrets.Camera002.Secrets]
+#      username = "administrator"
+#      password = "Password1!"
 
 [Service]
 HealthCheckInterval = "10s"
-Host = "0.0.0.0"
-Port = 59985
-ServerBindAddr = "0.0.0.0"  # blank value defaults to Service.Host value
+Host = "localhost"
+Port = 59984
+ServerBindAddr = ""  # blank value defaults to Service.Host value
 StartupMsg = "Camera device service started"
 # MaxRequestSize limit the request body size in byte of put command
 MaxRequestSize = 0 # value 0 unlimit the request size.
 RequestTimeout = "5s"
+  [Service.CORSConfiguration]
+  EnableCORS = false
+  CORSAllowCredentials = false
+  CORSAllowedOrigin = "https://localhost"
+  CORSAllowedMethods = "GET, POST, PUT, PATCH, DELETE"
+  CORSAllowedHeaders = "Authorization, Accept, Accept-Language, Content-Language, Content-Type, X-Correlation-ID"
+  CORSExposeHeaders = "Cache-Control, Content-Language, Content-Length, Content-Type, Expires, Last-Modified, Pragma, X-Correlation-ID"
+  CORSMaxAge = 3600
 
 # Only used when EDGEX_SECURITY_SECRET_STORE=true which is now required for secure consul
+# Must also add `ADD_SECRETSTORE_TOKENS: "device-usb-camera"`  and  `ADD_KNOWN_SECRETS: redisdb[device-usb-camera]` to secret-store-setup environment so it generates  the token and secret store in vault for 'device-usb-camera' and added the Redis credentials
 [SecretStore]
 Type = "vault"
 Host = "localhost"
@@ -90,7 +101,7 @@ Labels = []
 UseMessageBus = true
   [Device.Discovery]
   Enabled = true
-  Interval = "30s"
+  Interval = "1h"
 
 # Driver configs
 [Driver]
@@ -101,7 +112,7 @@ DiscoveryEthernetInterface = "en0"
 DefaultAuthMode = "usernametoken"
 DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
-BaseNotificationURL = "http://127.0.0.1:59985"
+BaseNotificationURL = "http://192.168.12.112:59984"
 
 # List of IPv4 subnets to perform LLRP discovery process on, in CIDR format (X.X.X.X/Y)
 # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"

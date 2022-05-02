@@ -17,7 +17,7 @@ Note: For macOS, the network_mode: "host" probably not working as expected: http
 #### 1. Download the [edgex-compose](https://github.com/edgexfoundry/edgex-compose) and setup it according to the [docker-compose setup guide](./docker-compose/README.md)
 
 #### 2. Replace the `add-device-onvif-camera.yml` with the following content:
-```
+```yaml
 services:
   device-onvif-camera:
     image: edgexfoundry/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
@@ -26,14 +26,12 @@ services:
     hostname: edgex-device-onvif-camera
     read_only: true
     restart: always
-    network_mode: "host"
     environment:
-      SERVICE_HOST: 192.168.56.101
+      SERVICE_HOST: edgex-device-onvif-camera
       EDGEX_SECURITY_SECRET_STORE: "false"
       DEVICE_DISCOVERY_ENABLED: "true"
       DRIVER_DISCOVERYETHERNETINTERFACE: enp0s3
       DRIVER_DEFAULTSECRETPATH: credentials001
-      
       WRITABLE_LOGLEVEL: DEBUG
     depends_on:
       - consul
@@ -99,9 +97,8 @@ services:
     hostname: edgex-device-onvif-camera
     read_only: true
     restart: always
-    network_mode: host
     environment:
-      SERVICE_HOST: 192.168.56.101
+      SERVICE_HOST: edgex-device-onvif-camera
       EDGEX_SECURITY_SECRET_STORE: "true"
       DEVICE_DISCOVERY_ENABLED: "true"
       DRIVER_DISCOVERYETHERNETINTERFACE: enp0s3
@@ -119,7 +116,7 @@ services:
       - metadata
     security_opt:
       - no-new-privileges:true
-    command: /device-onvif-camera --registry --confdir=/res
+    command: /device-onvif-camera -cp=consul.http://localhost:8500 --registry --confdir=/res
 ```
 
 **Note**: The user should replace the host IP to match their own machine IP
@@ -156,7 +153,7 @@ make run device-onvif-camera
 ### Add Secrets to Secret Store (Vault)
 
 ```shell
-curl --request POST 'http://192.168.56.101:59985/api/v2/secret' \
+curl --request POST 'http://192.168.56.101:59984/api/v2/secret' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "apiVersion":"v2",

@@ -27,7 +27,8 @@ type PullPointManager struct {
 	subscribers map[string]*Subscriber
 }
 
-func NewPullPointManager(lc logger.LoggingClient) *PullPointManager {
+// newPullPointManager create a new PullPointManager entity
+func newPullPointManager(lc logger.LoggingClient) *PullPointManager {
 	return &PullPointManager{
 		lc:          lc,
 		subscribers: make(map[string]*Subscriber),
@@ -35,27 +36,27 @@ func NewPullPointManager(lc logger.LoggingClient) *PullPointManager {
 	}
 }
 
-func (manager *PullPointManager) NewSubscriber(deviceClient *DeviceClient, resourceName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
+// NewSubscriber creates a new subscriber entity and start pulling the event from the camera
+func (manager *PullPointManager) NewSubscriber(onvifClient *OnvifClient, resourceName string, attributes map[string]interface{}, data []byte) errors.EdgeX {
 	_, ok := manager.subscribers[resourceName]
 	if ok {
-		manager.lc.Infof("'%s' resource's Pull point subscriber already exists, skip adding new subscriber.", resourceName)
+		manager.lc.Warnf("'%s' resource's Pull point subscriber already exists, skip adding new subscriber.", resourceName)
 		return nil
 	}
 
-	request, edgexErr := subscriptionRequest(attributes, data)
+	request, edgexErr := newSubscriptionRequest(attributes, data)
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 
-	onvifDevice, err := manager.newSubscriberOnvifDevice(deviceClient.onvifDevice, *request.MessageTimeout)
+	onvifDevice, err := manager.newSubscriberOnvifDevice(onvifClient.onvifDevice, *request.MessageTimeout, onvifClient.driverConfig.RequestTimeout)
 	if edgexErr != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to create onvif device for pulling event, %v", err), edgexErr)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create onvif device for pulling event, %v", err), edgexErr)
 	}
 	sub := &Subscriber{
 		Name:                resourceName,
-		lc:                  deviceClient.lc,
 		manager:             manager,
-		deviceClient:        deviceClient,
+		onvifClient:         onvifClient,
 		onvifDevice:         onvifDevice,
 		subscriptionRequest: request,
 		pullMessageRequestBody: event.PullMessages{
@@ -66,19 +67,19 @@ func (manager *PullPointManager) NewSubscriber(deviceClient *DeviceClient, resou
 	}
 	edgexErr = sub.createPullPoint()
 	if edgexErr != nil {
-		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("fail to create the PullPoint subscription for resource '%s'", sub.Name), edgexErr)
+		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("failed to create the PullPoint subscription for resource '%s'", sub.Name), edgexErr)
 	}
 	manager.addSubscriber(sub)
 	go sub.StartPullMessageLoop()
 	return nil
 }
 
-func (manager *PullPointManager) newSubscriberOnvifDevice(device *onvif.Device, messageTimeout string) (*onvif.Device, error) {
+func (manager *PullPointManager) newSubscriberOnvifDevice(device *onvif.Device, messageTimeout string, httpRequestTimeout int) (*onvif.Device, error) {
 	timeout, err := ParseISO8601(messageTimeout)
 	if err != nil {
 		return nil, err
 	}
-	timeout = timeout + time.Duration(driver.config.RequestTimeout)*time.Second
+	timeout = timeout + time.Duration(httpRequestTimeout)*time.Second
 	params := device.GetDeviceParams()
 	params.HttpClient = &http.Client{
 		Timeout: timeout,
@@ -98,6 +99,7 @@ func (manager *PullPointManager) removeSubscriber(sub *Subscriber) {
 	delete(manager.subscribers, sub.Name)
 }
 
+// UnsubscribeAll stops all subscriptions
 func (manager *PullPointManager) UnsubscribeAll() {
 	for _, sub := range manager.subscribers {
 		// subscriber will stop to pull message and unsubscribe the subscription when receiving the Stopped signal
