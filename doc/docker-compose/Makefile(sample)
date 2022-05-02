@@ -1,4 +1,6 @@
 # /*******************************************************************************
+#  * TODO remove these docker-compose files once service accepted into EdgeX Foundry and added to compose builder
+#
 #  * Copyright 2022 Intel
 #  *
 #  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except

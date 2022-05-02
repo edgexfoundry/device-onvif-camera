@@ -35,6 +35,7 @@ type configuration struct {
 	MaxDiscoverDurationSeconds int
 }
 
+// CameraInfo holds the camera connection info
 type CameraInfo struct {
 	Address    string
 	Port       int
@@ -52,6 +53,7 @@ func loadCameraConfig(configMap map[string]string) (*configuration, error) {
 	return config, nil
 }
 
+// CreateCameraInfo creates new CameraInfo entity from the protocol properties
 func CreateCameraInfo(protocols map[string]models.ProtocolProperties) (*CameraInfo, errors.EdgeX) {
 	info := new(CameraInfo)
 	protocol, ok := protocols[OnvifProtocol]

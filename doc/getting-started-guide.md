@@ -2,7 +2,7 @@
 
 ## 1. Deploy the EdgeX
 Run core-data, core-metadata, core-command service according to the EdgeX doc
-https://docs.edgexfoundry.org/2.0/getting-started/Ch-GettingStartedGoDevelopers/.
+https://docs.edgexfoundry.org/2.2/getting-started/Ch-GettingStartedGoDevelopers/.
 
 ## 2. Deploy the device-onvif-camera
 Build the executable file with the following command:
@@ -23,7 +23,7 @@ curl http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | json
    "apiVersion" : "v2",
    "service" : {
       "adminState" : "UNLOCKED",
-      "baseAddress" : "http://localhost:59985",
+      "baseAddress" : "http://localhost:59984",
       "created" : 1635740039367,
       "id" : "dd79a417-6bbf-4a66-b9ab-d59cb9f3b324",
       "modified" : 1635740039367,

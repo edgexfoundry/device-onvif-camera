@@ -38,11 +38,11 @@ type SubscriptionRequest struct {
 	MessageLimit *int
 }
 
-func subscriptionRequest(attributes map[string]interface{}, requestData []byte) (*SubscriptionRequest, errors.EdgeX) {
+func newSubscriptionRequest(attributes map[string]interface{}, requestData []byte) (*SubscriptionRequest, errors.EdgeX) {
 	request := &SubscriptionRequest{}
 	err := json.Unmarshal(requestData, request)
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, "fail to unmarshal the json request body", err)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
 
 	topicFilter, ok := attributes[DefaultTopicFilter]
@@ -80,7 +80,7 @@ func subscriptionRequest(attributes map[string]interface{}, requestData []byte) 
 	if request.AutoRenew == nil && ok {
 		val, err := strconv.ParseBool(fmt.Sprint(autoRenew))
 		if err != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to parse the request attribute '%s'", DefaultAutoRenew), err)
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to parse the request attribute '%s'", DefaultAutoRenew), err)
 		}
 		request.AutoRenew = &val
 	}
@@ -95,7 +95,7 @@ func subscriptionRequest(attributes map[string]interface{}, requestData []byte) 
 	if request.MessageLimit == nil && ok {
 		val, err := strconv.Atoi(fmt.Sprint(messageLimit))
 		if err != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("fail to parse the request attribute '%s'", DefaultMessageLimit), err)
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to parse the request attribute '%s'", DefaultMessageLimit), err)
 		}
 		request.MessageLimit = &val
 	}

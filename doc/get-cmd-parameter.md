@@ -1,6 +1,6 @@
 # Get Command Parameter
 
-For Get command, the client side should pass input parameter vai URL query parameter instead of request payload([see the discussion](https://github.com/edgexfoundry/edgex-go/issues/3754)).
+For Get command, the client side should pass input parameter via URL query parameter instead of request payload([see the discussion](https://github.com/edgexfoundry/edgex-go/issues/3754)).
 
 Since device-onvif-camera treat the Onvif input parameter as JSON object, so we can encode the JSON data to **base64** string and pass to the URL query parameter.  
 
