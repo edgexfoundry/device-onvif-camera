@@ -498,13 +498,18 @@ func probeDirect(lc logger.LoggingClient, conn net.Conn, networkProtocol string,
 	return parseProbeResponse(lc, conn, networkProtocol, timeout)
 }
 
-func probeOnvif(lc logger.LoggingClient, host, port string) ([]onvif.Device, error) {
+func probeOnvif(lc logger.LoggingClient, host, port string, timeout time.Duration) ([]onvif.Device, error) {
 	dev, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr: fmt.Sprintf("%s:%s", host, port),
 		HttpClient: &http.Client{
-			Timeout: time.Duration(5) * time.Second,
+			Timeout: timeout,
 		},
 	})
+	if err != nil {
+		err = errors.Wrap(err, "failed to create new onvif device")
+		lc.Error(err.Error())
+		return nil, err
+	}
 
 	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
 	if err != nil {
@@ -518,6 +523,8 @@ func probeOnvif(lc logger.LoggingClient, host, port string) ([]onvif.Device, err
 	params.EndpointRefAddress = ref.GUID
 	nvt, err := onvif.NewDevice(params)
 	if err != nil {
+		err = errors.Wrap(err, "failed to create new onvif device")
+		lc.Error(err.Error())
 		return nil, err
 	}
 	return []onvif.Device{*nvt}, nil
@@ -542,7 +549,7 @@ func probe(lc logger.LoggingClient, networkProtocol string, host, port string, t
 		return devices, nil
 	}
 
-	if devices, err := probeOnvif(lc, host, port); err == nil && len(devices) > 0 {
+	if devices, err := probeOnvif(lc, host, port, timeout); err == nil && len(devices) > 0 {
 		return devices, nil
 	}
 
