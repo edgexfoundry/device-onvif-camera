@@ -137,6 +137,7 @@ func autoDiscover(ctx context.Context, params discoverParams) []dsModels.Discove
 		ctx:       ctx,
 		timeout:   params.timeout,
 		scanPorts: params.scanPorts,
+		lc:        params.lc,
 	}
 
 	// start the workers before adding any ips so they are ready to process
