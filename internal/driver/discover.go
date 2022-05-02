@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/IOTechSystems/onvif"
+	"github.com/IOTechSystems/onvif/device"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/gofrs/uuid"
@@ -426,53 +427,17 @@ func printResponse(lc logger.LoggingClient, name string, res interface{}, err er
 	fmt.Printf("%s: %s\n", name, string(js))
 }
 
-// probe attempts to make a connection to a specific ip and port to determine
-// if an Onvif camera exists at that network address
-func probe(lc logger.LoggingClient, networkProtocol string, host, port string, timeout time.Duration) ([]onvif.Device, error) {
-	addr := host + ":" + port
-	conn, err := net.DialTimeout(networkProtocol, addr, timeout)
-	if err != nil {
-		return nil, err
-	}
-	defer conn.Close()
-
-	// on udp connection is always successful, so don't print
-	if networkProtocol != udp {
-		lc.Info("Connection dialed", "host", host, "port", port)
-	}
-
-	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
-	//fmt.Println(probeSOAP.String())
-	if port == "80" || port == "443" {
-		if _, err = conn.Write([]byte(fmt.Sprintf(`POST /onvif/service HTTP 1.1
-Host: %s:%s
-Content-Type: application/soap+xml; charset=utf-8
-Content-Length: 726
-
-<?xml version="1.0" encoding="UTF-8"?><soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap-enc="http://www.w3.org/2003/05/soap-encoding" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing"><soap-env:Header><a:Action mustUnderstand="1">http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</a:Action><a:MessageID>uuid:a7df289f-5d3c-496b-b800-11e655a6ac1c</a:MessageID><a:ReplyTo><a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address></a:ReplyTo><a:To mustUnderstand="1">urn:schemas-xmlsoap-org:ws:2005:04:discovery</a:To></soap-env:Header><soap-env:Body><Probe xmlns="http://schemas.xmlsoap.org/ws/2005/04/discovery"/></soap-env:Body></soap-env:Envelope>
-`, host, port))); err != nil {
-			err = errors.Wrap(err, "failed to write probe message")
-			lc.Error(err.Error())
-			return nil, err
-		}
-	} else {
-		if _, err = conn.Write([]byte(probeSOAP.String())); err != nil {
-			err = errors.Wrap(err, "failed to write probe message")
-			lc.Error(err.Error())
-			return nil, err
-		}
-	}
-
-	if err = conn.SetReadDeadline(time.Now().Add(timeout)); err != nil {
+func parseProbeResponse(lc logger.LoggingClient, conn net.Conn, networkProtocol string, timeout time.Duration) ([]onvif.Device, error) {
+	if err := conn.SetReadDeadline(time.Now().Add(timeout)); err != nil {
 		err = errors.Wrap(err, "failed to set read deadline")
 		lc.Error(err.Error())
 		return nil, err
 	}
 
 	buf := make([]byte, 5)
-	if _, err = io.ReadFull(conn, buf); err != nil {
+	if _, err := io.ReadFull(conn, buf); err != nil {
 		if networkProtocol == udp {
-			// on udp connection is always successful
+			// on udp connections all timeouts result in this
 			return nil, nil
 		}
 		err = errors.Wrap(err, "failed to read header")
@@ -491,33 +456,7 @@ Content-Length: 726
 		return nil, err
 	}
 	response := string(buf) + string(buf2)
-	lc.Infof("\nGot Bytes: %s\n", response)
-
-	dev, err := onvif.NewDevice(onvif.DeviceParams{
-		Xaddr: fmt.Sprintf("%s:%s", host, port),
-		HttpClient: &http.Client{
-			Timeout: time.Duration(5) * time.Second,
-		},
-	})
-	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetSystemDateAndTime, nil)
-	printResponse(lc, onvif.GetSystemDateAndTime, res, err)
-
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
-	printResponse(lc, onvif.GetEndpointReference, res, err)
-
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetCapabilities, nil)
-	printResponse(lc, onvif.GetCapabilities, res, err)
-
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetServices, nil)
-	printResponse(lc, onvif.GetServices, res, err)
-
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetServiceCapabilities, nil)
-	printResponse(lc, onvif.GetServiceCapabilities, res, err)
-
-	res, err = dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetScopes, nil)
-	printResponse(lc, onvif.GetScopes, res, err)
-
-	//return nil, nil
+	lc.Infof("Got Bytes: %s\n", response)
 
 	devices, err := wsdiscovery.DevicesFromProbeResponses([]string{response})
 	if err != nil {
@@ -529,6 +468,85 @@ Content-Length: 726
 	}
 
 	return devices, nil
+}
+
+func probeHTTP(lc logger.LoggingClient, conn net.Conn, networkProtocol string, timeout time.Duration, host, port string) ([]onvif.Device, error) {
+	if _, err := conn.Write([]byte(fmt.Sprintf(`POST /onvif/service HTTP 1.1
+Host: %s:%s
+Content-Type: application/soap+xml; charset=utf-8
+Content-Length: 726
+
+<?xml version="1.0" encoding="UTF-8"?><soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap-enc="http://www.w3.org/2003/05/soap-encoding" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing"><soap-env:Header><a:Action mustUnderstand="1">http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</a:Action><a:MessageID>uuid:a7df289f-5d3c-496b-b800-11e655a6ac1c</a:MessageID><a:ReplyTo><a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address></a:ReplyTo><a:To mustUnderstand="1">urn:schemas-xmlsoap-org:ws:2005:04:discovery</a:To></soap-env:Header><soap-env:Body><Probe xmlns="http://schemas.xmlsoap.org/ws/2005/04/discovery"/></soap-env:Body></soap-env:Envelope>
+	`, host, port))); err != nil {
+		err = errors.Wrap(err, "failed to write probe message")
+		lc.Error(err.Error())
+		return nil, err
+	}
+
+	return parseProbeResponse(lc, conn, networkProtocol, timeout)
+}
+
+func probeDirect(lc logger.LoggingClient, conn net.Conn, networkProtocol string, timeout time.Duration) ([]onvif.Device, error) {
+	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil,
+		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
+	if _, err := conn.Write([]byte(probeSOAP.String())); err != nil {
+		err = errors.Wrap(err, "failed to write probe message")
+		lc.Error(err.Error())
+		return nil, err
+	}
+
+	return parseProbeResponse(lc, conn, networkProtocol, timeout)
+}
+
+func probeOnvif(lc logger.LoggingClient, host, port string) ([]onvif.Device, error) {
+	dev, err := onvif.NewDevice(onvif.DeviceParams{
+		Xaddr: fmt.Sprintf("%s:%s", host, port),
+		HttpClient: &http.Client{
+			Timeout: time.Duration(5) * time.Second,
+		},
+	})
+
+	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
+	if err != nil {
+		err = errors.Wrap(err, "failed to call GetEndpointReference")
+		lc.Error(err.Error())
+		return nil, err
+	}
+
+	ref := res.(*device.GetEndpointReferenceResponse)
+	params := dev.GetDeviceParams()
+	params.EndpointRefAddress = ref.GUID
+	nvt, err := onvif.NewDevice(params)
+	if err != nil {
+		return nil, err
+	}
+	return []onvif.Device{*nvt}, nil
+}
+
+// probe attempts to make a connection to a specific ip and port to determine
+// if an Onvif camera exists at that network address
+func probe(lc logger.LoggingClient, networkProtocol string, host, port string, timeout time.Duration) ([]onvif.Device, error) {
+	addr := host + ":" + port
+	conn, err := net.DialTimeout(networkProtocol, addr, timeout)
+	if err != nil {
+		return nil, err
+	}
+	defer conn.Close()
+
+	// on udp connection is always successful, so don't print
+	if networkProtocol != udp {
+		lc.Info("Connection dialed", "host", host, "port", port)
+	}
+
+	if devices, err := probeDirect(lc, conn, networkProtocol, timeout); err == nil && len(devices) > 0 {
+		return devices, nil
+	}
+
+	if devices, err := probeOnvif(lc, host, port); err == nil && len(devices) > 0 {
+		return devices, nil
+	}
+
+	return nil, nil
 }
 
 // ipWorker pulls uint32s, convert to IPs, and sends back successful probes to the resultCh
