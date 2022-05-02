@@ -38,6 +38,8 @@ const (
 	cameraAdded   = "CameraAdded"
 	cameraUpdated = "CameraUpdated"
 	cameraDeleted = "CameraDeleted"
+
+	tcp = "tcp"
 )
 
 // Driver implements the sdkModel.ProtocolDriver interface for
@@ -451,6 +453,8 @@ func (d *Driver) discover(ctx context.Context) {
 		multicastEthernetInterface: d.config.DiscoveryEthernetInterface,
 		lc:                         d.lc,
 		driver:                     d,
+		allowMulticast:             false, // todo: configurable
+		networkProtocol:            tcp,   // todo: configurable?
 	}
 
 	t1 := time.Now()

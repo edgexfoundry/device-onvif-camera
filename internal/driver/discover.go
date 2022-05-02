@@ -30,6 +30,7 @@ import (
 
 const (
 	protocolName = "Onvif"
+	udp          = "udp"
 )
 
 // discoveryInfo holds information about a discovered device
@@ -58,8 +59,9 @@ type workerParams struct {
 	ctx       context.Context
 	lc        logger.LoggingClient
 
-	timeout   time.Duration
-	scanPorts []string
+	timeout         time.Duration
+	scanPorts       []string
+	networkProtocol string
 }
 
 type discoverParams struct {
@@ -72,6 +74,8 @@ type discoverParams struct {
 	multicastEthernetInterface string
 	lc                         logger.LoggingClient
 	driver                     *Driver
+	allowMulticast             bool
+	networkProtocol            string
 }
 
 // computeNetSz computes the total amount of valid IP addresses for a given subnet size
@@ -96,7 +100,7 @@ func autoDiscover(ctx context.Context, params discoverParams) []dsModels.Discove
 	var estimatedProbes int
 	for _, cidr := range params.subnets {
 		if cidr == "" {
-			params.lc.Warn("Empty CIDR provided, unable to scan for LLRP readers.")
+			params.lc.Warn("Empty CIDR provided, unable to scan for Onvif cameras.")
 			continue
 		}
 
@@ -133,13 +137,14 @@ func autoDiscover(ctx context.Context, params discoverParams) []dsModels.Discove
 
 	deviceMap := params.driver.makeDeviceMap()
 	wParams := workerParams{
-		deviceMap: deviceMap,
-		ipCh:      ipCh,
-		resultCh:  resultCh,
-		ctx:       ctx,
-		timeout:   params.timeout,
-		scanPorts: params.scanPorts,
-		lc:        params.lc,
+		deviceMap:       deviceMap,
+		ipCh:            ipCh,
+		resultCh:        resultCh,
+		ctx:             ctx,
+		timeout:         params.timeout,
+		scanPorts:       params.scanPorts,
+		lc:              params.lc,
+		networkProtocol: params.networkProtocol,
 	}
 
 	// start the workers before adding any ips so they are ready to process
@@ -170,11 +175,13 @@ func autoDiscover(ctx context.Context, params discoverParams) []dsModels.Discove
 			}(ipnet)
 		}
 
-		probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
-		probeResponses := wsdiscovery.SendUDPMulticast(probeSOAP.String(), params.multicastEthernetInterface)
-		devices, err := wsdiscovery.DevicesFromProbeResponses(probeResponses)
-		if err == nil && len(devices) > 0 {
-			resultCh <- devices
+		if params.allowMulticast {
+			probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
+			probeResponses := wsdiscovery.SendUDPMulticast(probeSOAP.String(), params.multicastEthernetInterface)
+			devices, err := wsdiscovery.DevicesFromProbeResponses(probeResponses)
+			if err == nil && len(devices) > 0 {
+				resultCh <- devices
+			}
 		}
 
 		// wait for all ip generators to finish, then we can close the ip channel
@@ -420,47 +427,41 @@ func printResponse(lc logger.LoggingClient, name string, res interface{}, err er
 }
 
 // probe attempts to make a connection to a specific ip and port to determine
-// if an LLRP reader exists at that network address
-func probe(lc logger.LoggingClient, host, port string, timeout time.Duration) ([]onvif.Device, error) {
+// if an Onvif camera exists at that network address
+func probe(lc logger.LoggingClient, networkProtocol string, host, port string, timeout time.Duration) ([]onvif.Device, error) {
 	addr := host + ":" + port
-	conn, err := net.DialTimeout("tcp", addr, timeout)
+	conn, err := net.DialTimeout(networkProtocol, addr, timeout)
 	if err != nil {
 		return nil, err
 	}
-	//defer conn.Close()
+	defer conn.Close()
 
-	lc.Info("Connection dialed", "host", host, "port", port)
+	// on udp connection is always successful, so don't print
+	if networkProtocol != udp {
+		lc.Info("Connection dialed", "host", host, "port", port)
+	}
 
 	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
-	fmt.Println(probeSOAP.String())
-
-	//c := http.Client{Timeout: time.Duration(1) * time.Second}
-	//r, e := c.Post(fmt.Sprintf("http://%s:%s/onvif/device_service", host, port), "application/soap+xml; charset=utf-8", strings.NewReader(probeSOAP.String()))
-	//printResponse(lc, "probe", r, e)
-
-	if _, err = conn.Write([]byte(fmt.Sprintf(`POST /onvif/service HTTP 1.1
+	//fmt.Println(probeSOAP.String())
+	if port == "80" || port == "443" {
+		if _, err = conn.Write([]byte(fmt.Sprintf(`POST /onvif/service HTTP 1.1
 Host: %s:%s
 Content-Type: application/soap+xml; charset=utf-8
 Content-Length: 726
 
 <?xml version="1.0" encoding="UTF-8"?><soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap-enc="http://www.w3.org/2003/05/soap-encoding" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing"><soap-env:Header><a:Action mustUnderstand="1">http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</a:Action><a:MessageID>uuid:a7df289f-5d3c-496b-b800-11e655a6ac1c</a:MessageID><a:ReplyTo><a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address></a:ReplyTo><a:To mustUnderstand="1">urn:schemas-xmlsoap-org:ws:2005:04:discovery</a:To></soap-env:Header><soap-env:Body><Probe xmlns="http://schemas.xmlsoap.org/ws/2005/04/discovery"/></soap-env:Body></soap-env:Envelope>
 `, host, port))); err != nil {
-		err = errors.Wrap(err, "failed to write probe message")
-		lc.Error(err.Error())
-		return nil, err
+			err = errors.Wrap(err, "failed to write probe message")
+			lc.Error(err.Error())
+			return nil, err
+		}
+	} else {
+		if _, err = conn.Write([]byte(probeSOAP.String())); err != nil {
+			err = errors.Wrap(err, "failed to write probe message")
+			lc.Error(err.Error())
+			return nil, err
+		}
 	}
-
-	//if _, err = conn.Write([]byte(fmt.Sprintf("POST /onvif/service HTTP/1.1\\r\\Host %s:%s\\r\\n", host, port))); err != nil {
-	//	err = errors.Wrap(err, "failed to write probe message")
-	//	lc.Error(err.Error())
-	//	return nil, err
-	//}
-	//
-	//if _, err = conn.Write([]byte(probeSOAP.String())); err != nil {
-	//	err = errors.Wrap(err, "failed to write probe message")
-	//	lc.Error(err.Error())
-	//	return nil, err
-	//}
 
 	if err = conn.SetReadDeadline(time.Now().Add(timeout)); err != nil {
 		err = errors.Wrap(err, "failed to set read deadline")
@@ -470,6 +471,10 @@ Content-Length: 726
 
 	buf := make([]byte, 5)
 	if _, err = io.ReadFull(conn, buf); err != nil {
+		if networkProtocol == udp {
+			// on udp connection is always successful
+			return nil, nil
+		}
 		err = errors.Wrap(err, "failed to read header")
 		lc.Error(err.Error())
 		return nil, err
@@ -487,8 +492,6 @@ Content-Length: 726
 	}
 	response := string(buf) + string(buf2)
 	lc.Infof("\nGot Bytes: %s\n", response)
-
-	conn.Close()
 
 	dev, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr: fmt.Sprintf("%s:%s", host, port),
@@ -567,7 +570,7 @@ func ipWorker(params workerParams) {
 				default:
 				}
 
-				if info, err := probe(params.lc, ipStr, scanPort, params.timeout); err == nil && info != nil {
+				if info, err := probe(params.lc, params.networkProtocol, ipStr, scanPort, params.timeout); err == nil && info != nil {
 					params.resultCh <- info
 				}
 			}

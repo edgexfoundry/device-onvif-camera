@@ -1,6 +1,6 @@
 module github.com/edgexfoundry/device-onvif-camera
 
-replace github.com/IOTechSystems/onvif => ../onvif
+replace github.com/IOTechSystems/onvif v0.1.0 => github.com/ajcasagrande/onvif v0.0.2-0.20220429233014-c1ed904b8250
 
 require (
 	github.com/IOTechSystems/onvif v0.1.0
