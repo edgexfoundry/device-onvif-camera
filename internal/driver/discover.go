@@ -520,7 +520,8 @@ func probeOnvif(lc logger.LoggingClient, host, port string, timeout time.Duratio
 
 	ref := res.(*device.GetEndpointReferenceResponse)
 	params := dev.GetDeviceParams()
-	params.EndpointRefAddress = ref.GUID
+	uuidElements := strings.Split(ref.GUID, ":")
+	params.EndpointRefAddress = uuidElements[len(uuidElements)-1]
 	nvt, err := onvif.NewDevice(params)
 	if err != nil {
 		err = errors.Wrap(err, "failed to create new onvif device")
