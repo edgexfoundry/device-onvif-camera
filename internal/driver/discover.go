@@ -54,6 +54,7 @@ type workerParams struct {
 	ipCh      <-chan uint32
 	resultCh  chan<- []onvif.Device
 	ctx       context.Context
+	lc        logger.LoggingClient
 
 	timeout   time.Duration
 	scanPorts []string
@@ -85,7 +86,7 @@ func computeNetSz(subnetSz int) uint32 {
 // RFID readers that support LLRP.
 func autoDiscover(ctx context.Context, params discoverParams) []dsModels.DiscoveredDevice {
 	if len(params.subnets) == 0 {
-		driver.lc.Warn("Discover was called, but no subnet information has been configured!")
+		params.lc.Warn("Discover was called, but no subnet information has been configured!")
 		return nil
 	}
 
@@ -93,17 +94,17 @@ func autoDiscover(ctx context.Context, params discoverParams) []dsModels.Discove
 	var estimatedProbes int
 	for _, cidr := range params.subnets {
 		if cidr == "" {
-			driver.lc.Warn("Empty CIDR provided, unable to scan for LLRP readers.")
+			params.lc.Warn("Empty CIDR provided, unable to scan for LLRP readers.")
 			continue
 		}
 
 		ip, ipnet, err := net.ParseCIDR(cidr)
 		if err != nil {
-			driver.lc.Error(fmt.Sprintf("Unable to parse CIDR: %q", cidr), "error", err)
+			params.lc.Error(fmt.Sprintf("Unable to parse CIDR: %q", cidr), "error", err)
 			continue
 		}
 		if ip == nil || ipnet == nil || ip.To4() == nil {
-			driver.lc.Error("Currently only ipv4 subnets are supported.", "subnet", cidr)
+			params.lc.Error("Currently only ipv4 subnets are supported.", "subnet", cidr)
 			continue
 		}
 
@@ -122,13 +123,13 @@ func autoDiscover(ctx context.Context, params discoverParams) []dsModels.Discove
 		asyncLimit = estimatedProbes
 	}
 	// todo: estimated probes take into account multiple scan ports?
-	driver.lc.Debug(fmt.Sprintf("total estimated network probes: %d, async limit: %d, probe timeout: %v, total estimated time: %v",
+	params.lc.Debug(fmt.Sprintf("total estimated network probes: %d, async limit: %d, probe timeout: %v, total estimated time: %v",
 		estimatedProbes, asyncLimit, params.timeout, time.Duration(math.Ceil(float64(estimatedProbes)/float64(asyncLimit)))*params.timeout*time.Duration(len(params.scanPorts))))
 
 	ipCh := make(chan uint32, asyncLimit)
 	resultCh := make(chan []onvif.Device)
 
-	deviceMap := makeDeviceMap()
+	deviceMap := params.driver.makeDeviceMap()
 	wParams := workerParams{
 		deviceMap: deviceMap,
 		ipCh:      ipCh,
@@ -289,69 +290,69 @@ func processResultChannel(resultCh chan []onvif.Device, deviceMap map[string]con
 	return discoveredDevices
 }
 
-// updateExistingDevice is used when an existing device is discovered
-// and needs to update its information to either a new address or set
-// its operating state to enabled.
-func (info *discoveryInfo) updateExistingDevice(device contract.Device) error {
-	shouldUpdate := false
-	if device.OperatingState == contract.Down {
-		device.OperatingState = contract.Up
-		shouldUpdate = true
-	}
-
-	tcpInfo := device.Protocols["tcp"]
-	if tcpInfo == nil ||
-		info.host != tcpInfo["host"] ||
-		info.port != tcpInfo["port"] {
-		driver.lc.Info("Existing device has been discovered with a different network address.",
-			"oldInfo", fmt.Sprintf("%+v", tcpInfo),
-			"discoveredInfo", fmt.Sprintf("%+v", info))
-
-		device.Protocols["tcp"] = map[string]string{
-			"host": info.host,
-			"port": info.port,
-		}
-		// make sure it is enabled
-		device.OperatingState = contract.Up
-		shouldUpdate = true
-	}
-
-	if !shouldUpdate {
-		// the address is the same and device is already enabled, should not reach here
-		driver.lc.Warn("Re-discovered existing device at the same TCP address, nothing to do.")
-		return nil
-	}
-
-	if err := driver.svc.UpdateDevice(device); err != nil {
-		driver.lc.Error("There was an error updating the tcp address for an existing device.",
-			"deviceName", device.Name,
-			"error", err)
-		return err
-	}
-
-	return nil
-}
+//// updateExistingDevice is used when an existing device is discovered
+//// and needs to update its information to either a new address or set
+//// its operating state to enabled.
+//func (info *discoveryInfo) updateExistingDevice(lc logger.LoggingClient, device contract.Device) error {
+//	shouldUpdate := false
+//	if device.OperatingState == contract.Down {
+//		device.OperatingState = contract.Up
+//		shouldUpdate = true
+//	}
+//
+//	tcpInfo := device.Protocols["tcp"]
+//	if tcpInfo == nil ||
+//		info.host != tcpInfo["host"] ||
+//		info.port != tcpInfo["port"] {
+//		lc.Info("Existing device has been discovered with a different network address.",
+//			"oldInfo", fmt.Sprintf("%+v", tcpInfo),
+//			"discoveredInfo", fmt.Sprintf("%+v", info))
+//
+//		device.Protocols["tcp"] = map[string]string{
+//			"host": info.host,
+//			"port": info.port,
+//		}
+//		// make sure it is enabled
+//		device.OperatingState = contract.Up
+//		shouldUpdate = true
+//	}
+//
+//	if !shouldUpdate {
+//		// the address is the same and device is already enabled, should not reach here
+//		lc.Warn("Re-discovered existing device at the same TCP address, nothing to do.")
+//		return nil
+//	}
+//
+//	if err := d.svc.UpdateDevice(device); err != nil {
+//		lc.Error("There was an error updating the tcp address for an existing device.",
+//			"deviceName", device.Name,
+//			"error", err)
+//		return err
+//	}
+//
+//	return nil
+//}
 
 // makeDeviceMap creates a lookup table of existing devices by tcp address in order to skip scanning
-func makeDeviceMap() map[string]contract.Device {
-	devices := driver.svc.Devices()
+func (d *Driver) makeDeviceMap() map[string]contract.Device {
+	devices := d.svc.Devices()
 	deviceMap := make(map[string]contract.Device, len(devices))
 
-	for _, d := range devices {
-		onvifInfo := d.Protocols[protocolName]
+	for _, device := range devices {
+		onvifInfo := device.Protocols[protocolName]
 		if onvifInfo == nil {
-			driver.lc.Warnf("Found registered device %s without %s protocol information.", d.Name, protocolName)
+			d.lc.Warnf("Found registered device %s without %s protocol information.", device.Name, protocolName)
 			continue
 		}
 
 		host, port := onvifInfo["Address"], onvifInfo["Port"]
 		if host == "" || port == "" {
-			driver.lc.Warnf("Registered device is missing required %s protocol information. Address: %v, Port: %v",
+			d.lc.Warnf("Registered device is missing required %s protocol information. Address: %v, Port: %v",
 				protocolName, host, port)
 			continue
 		}
 
-		deviceMap[host+":"+port] = d
+		deviceMap[host+":"+port] = device
 	}
 
 	return deviceMap
@@ -399,7 +400,7 @@ func ipGenerator(ctx context.Context, inet *net.IPNet, ipCh chan<- uint32) {
 
 // probe attempts to make a connection to a specific ip and port to determine
 // if an LLRP reader exists at that network address
-func probe(host, port string, timeout time.Duration) ([]onvif.Device, error) {
+func probe(lc logger.LoggingClient, host, port string, timeout time.Duration) ([]onvif.Device, error) {
 	addr := host + ":" + port
 	conn, err := net.DialTimeout("tcp", addr, timeout)
 	if err != nil {
@@ -407,40 +408,40 @@ func probe(host, port string, timeout time.Duration) ([]onvif.Device, error) {
 	}
 	defer conn.Close()
 
-	driver.lc.Info("Connection dialed", "host", host, "port", port)
+	lc.Info("Connection dialed", "host", host, "port", port)
 
 	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil, map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 
 	if _, err = conn.Write([]byte(probeSOAP.String())); err != nil {
 		err = errors.Wrap(err, "failed to write probe message")
-		fmt.Println(err.Error())
+		lc.Error(err.Error())
 		return nil, err
 	}
 
 	if err = conn.SetReadDeadline(time.Now().Add(timeout)); err != nil {
 		err = errors.Wrap(err, "failed to set read deadline")
-		fmt.Println(err.Error())
+		lc.Error(err.Error())
 		return nil, err
 	}
 
 	buf := make([]byte, 5)
 	if _, err = io.ReadFull(conn, buf); err != nil {
 		err = errors.Wrap(err, "failed to read header")
-		fmt.Println(err.Error())
+		lc.Error(err.Error())
 		return nil, err
 	}
 	if string(buf) != "<?xml" {
-		fmt.Println("Non Xml response recieved")
+		lc.Error("Non Xml response recieved")
 		return nil, nil
 	}
 
-	fmt.Println("Got Xml")
+	lc.Info("Got Xml")
 
 	buf2, err := io.ReadAll(conn)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf("\nGot Bytes: %s\n", string(buf2))
+	lc.Infof("\nGot Bytes: %s\n", string(buf2))
 
 	response := string(buf) + string(buf2)
 	devices, err := wsdiscovery.DevicesFromProbeResponses([]string{response})
@@ -448,7 +449,7 @@ func probe(host, port string, timeout time.Duration) ([]onvif.Device, error) {
 		return nil, err
 	}
 	if len(devices) == 0 {
-		fmt.Println("No devices matched")
+		lc.Info("No devices matched")
 		return nil, nil
 	}
 
@@ -479,10 +480,10 @@ func ipWorker(params workerParams) {
 				addr := ipStr + ":" + scanPort
 				if d, found := params.deviceMap[addr]; found {
 					if d.OperatingState == contract.Up {
-						driver.lc.Debug("Skip scan of " + addr + ", device already registered.")
+						params.lc.Debug("Skip scan of " + addr + ", device already registered.")
 						continue
 					}
-					driver.lc.Info("Existing device in disabled (disconnected) state will be scanned again.",
+					params.lc.Info("Existing device in disabled (disconnected) state will be scanned again.",
 						"address", addr,
 						"deviceName", d.Name)
 				}
@@ -494,7 +495,7 @@ func ipWorker(params workerParams) {
 				default:
 				}
 
-				if info, err := probe(ipStr, scanPort, params.timeout); err == nil && info != nil {
+				if info, err := probe(params.lc, ipStr, scanPort, params.timeout); err == nil && info != nil {
 					params.resultCh <- info
 				}
 			}
