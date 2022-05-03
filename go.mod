@@ -2,8 +2,11 @@ module github.com/edgexfoundry/device-onvif-camera
 
 replace github.com/IOTechSystems/onvif v0.1.0 => github.com/ajcasagrande/onvif v0.0.2-0.20220502210841-0ba432cd79d2
 
+replace github.com/edgexfoundry/device-onvif-camera/pkg/discover => ./pkg/discover
+
 require (
 	github.com/IOTechSystems/onvif v0.1.0
+	github.com/edgexfoundry/device-onvif-camera/pkg/discover v0.0.0-local
 	github.com/edgexfoundry/device-sdk-go/v2 v2.1.0
 	github.com/edgexfoundry/go-mod-bootstrap/v2 v2.1.0
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.1.0

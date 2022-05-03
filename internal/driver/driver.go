@@ -11,6 +11,8 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
+	"github.com/edgexfoundry/device-onvif-camera/pkg/discover"
 	"net/http"
 	"net/url"
 	"strings"
@@ -377,95 +379,47 @@ func (d *Driver) Discover() {
 	d.discover(ctx)
 }
 
-//// Discover triggers protocol specific device discovery, which is an asynchronous operation.
-//// Devices found as part of this discovery operation are written to the channel devices.
-//func (d *Driver) Discover() {
-//	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
-//	var discoveredDevices []sdkModel.DiscoveredDevice
-//	for _, onvifDevice := range onvifDevices {
-//		if onvifDevice.GetDeviceParams().EndpointRefAddress == "" {
-//			d.lc.Warnf("The EndpointRefAddress is empty from the Onvif camera, unable to add the camera %s", onvifDevice.GetDeviceParams().Xaddr)
-//			continue
-//		}
-//		address, port := addressAndPort(onvifDevice.GetDeviceParams().Xaddr)
-//		dev := models.Device{
-//			// Using Xaddr as the temporary name
-//			Name: onvifDevice.GetDeviceParams().Xaddr,
-//			Protocols: map[string]models.ProtocolProperties{
-//				OnvifProtocol: {
-//					Address:    address,
-//					Port:       port,
-//					AuthMode:   d.config.DefaultAuthMode,
-//					SecretPath: d.config.DefaultSecretPath,
-//				},
-//			},
-//		}
-//
-//		devInfo, edgexErr := d.getDeviceInformation(dev)
-//		endpointRef := onvifDevice.GetDeviceParams().EndpointRefAddress
-//		var discovered sdkModel.DiscoveredDevice
-//		if edgexErr != nil {
-//			d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRef, edgexErr)
-//			dev.Protocols[OnvifProtocol][SecretPath] = endpointRef
-//			discovered = sdkModel.DiscoveredDevice{
-//				Name:        endpointRef,
-//				Protocols:   dev.Protocols,
-//				Description: "Auto discovered Onvif camera",
-//				Labels:      []string{"auto-discovery"},
-//			}
-//			d.lc.Debugf("Discovered unknown camera from the address '%s'", onvifDevice.GetDeviceParams().Xaddr)
-//		} else {
-//			dev.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
-//			dev.Protocols[OnvifProtocol][Model] = devInfo.Model
-//			dev.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
-//			dev.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
-//			dev.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
-//
-//			// Spaces are not allowed in the device name
-//			deviceName := fmt.Sprintf("%s-%s-%s",
-//				strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
-//				strings.ReplaceAll(devInfo.Model, " ", "-"),
-//				onvifDevice.GetDeviceParams().EndpointRefAddress)
-//
-//			discovered = sdkModel.DiscoveredDevice{
-//				Name:        deviceName,
-//				Protocols:   dev.Protocols,
-//				Description: fmt.Sprintf("%s %s Camera", devInfo.Manufacturer, devInfo.Model),
-//				Labels:      []string{"auto-discovery", devInfo.Manufacturer, devInfo.Model},
-//			}
-//			d.lc.Debugf("Discovered camera from the address '%s'", onvifDevice.GetDeviceParams().Xaddr)
-//		}
-//		discoveredDevices = append(discoveredDevices, discovered)
-//	}
-//
-//	d.deviceCh <- discoveredDevices
-//}
-
 func (d *Driver) discover(ctx context.Context) {
-	params := discoverParams{
+	params := discover.Params{
 		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
-		subnets:                    strings.Split(d.config.DiscoverySubnets, ","),
-		asyncLimit:                 d.config.ProbeAsyncLimit,
-		timeout:                    time.Duration(d.config.ProbeTimeoutSeconds) * time.Second,
-		scanPorts:                  strings.Split(d.config.ScanPorts, ","),
-		defaultAuthMode:            d.config.DefaultAuthMode,
-		defaultSecretPath:          d.config.DefaultSecretPath,
-		multicastEthernetInterface: d.config.DiscoveryEthernetInterface,
-		lc:                         d.lc,
-		driver:                     d,
-		allowMulticast:             false, // todo: configurable
-		networkProtocol:            tcp,   // todo: configurable?
+		Subnets:            strings.Split(d.config.DiscoverySubnets, ","),
+		AsyncLimit:         d.config.ProbeAsyncLimit,
+		Timeout:            time.Duration(d.config.ProbeTimeoutSeconds) * time.Second,
+		ScanPorts:          strings.Split(d.config.ScanPorts, ","),
+		Logger:             d.lc,
+		NetworkProtocol:    tcp, // todo: configurable?
+		MaxTimeoutsPerHost: 2,
 	}
 
 	t1 := time.Now()
-	result := autoDiscover(ctx, params)
+	result := discover.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
 	if ctx.Err() != nil {
 		d.lc.Warn("Discover process has been cancelled!", "ctxErr", ctx.Err())
 	}
 
-	d.lc.Info(fmt.Sprintf("Discovered %d new devices in %v.", len(result), time.Since(t1)))
+	d.lc.Info(fmt.Sprintf("Discovered %d devices in %v.", len(result), time.Since(t1)))
+	var discovered []sdkModel.DiscoveredDevice
+
+	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
+	for _, onvifDevice := range onvifDevices {
+		dev, err := d.onvifDeviceToSdkDiscoveredDevice(onvifDevice)
+		if err != nil {
+			d.lc.Warnf(err.Error())
+			continue
+		}
+		discovered = append(discovered, dev)
+	}
+
+	for _, res := range result {
+		dev, ok := res.Info.(sdkModel.DiscoveredDevice)
+		if !ok {
+			d.lc.Warnf("unable to cast res.Info into sdkModel.DiscoveredDevice. type=%T", res.Info)
+			continue
+		}
+		discovered = append(discovered, dev)
+	}
 	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
-	d.deviceCh <- result
+	d.deviceCh <- discovered
 }
 
 func addressAndPort(xaddr string) (string, string) {
