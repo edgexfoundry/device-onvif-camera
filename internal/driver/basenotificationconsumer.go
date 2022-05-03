@@ -64,7 +64,7 @@ func (consumer *Consumer) StartRenewLoop() {
 			renewRequest := consumer.createRawRequest()
 			renewRequestData, err := xml.Marshal(renewRequest)
 			if err != nil {
-				consumer.lc.Errorf("Failed to marshal subscription request for resource '%s'", consumer.Name)
+				consumer.lc.Errorf("Failed to marshal subscription request for resource '%s', %v", consumer.Name, err)
 				return
 			}
 
@@ -78,6 +78,10 @@ func (consumer *Consumer) StartRenewLoop() {
 				}
 			} else if servResp.StatusCode >= http.StatusBadRequest {
 				response, err := renewResponse(servResp)
+				if err != nil {
+					consumer.lc.Errorf("Failed to parse response for '%s', %v", consumer.Name, err)
+					return
+				}
 				consumer.lc.Warnf("Failed to renew the subscription from '%s' for resource '%s', status code: %s, err: %v. The pull point expired or dropped, try to create a new one.", consumer.SubscriptionAddress, consumer.Name, response.Body.Fault.String())
 				err = consumer.subscribe()
 				if err != nil {
