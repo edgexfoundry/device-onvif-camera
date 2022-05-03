@@ -23,6 +23,7 @@ import (
 	"net/http"
 	"strings"
 	"sync"
+	"syscall"
 	"time"
 
 	dsModels "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
@@ -30,8 +31,9 @@ import (
 )
 
 const (
-	protocolName = "Onvif"
-	udp          = "udp"
+	protocolName       = "Onvif"
+	udp                = "udp"
+	maxTimeoutsPerHost = 1
 )
 
 // discoveryInfo holds information about a discovered device
@@ -427,50 +429,50 @@ func printResponse(lc logger.LoggingClient, name string, res interface{}, err er
 	fmt.Printf("%s: %s\n", name, string(js))
 }
 
-func parseProbeResponse(lc logger.LoggingClient, conn net.Conn, networkProtocol string, timeout time.Duration) ([]onvif.Device, error) {
-	if err := conn.SetReadDeadline(time.Now().Add(timeout)); err != nil {
+func parseProbeResponse(conn net.Conn, params workerParams) ([]onvif.Device, error) {
+	if err := conn.SetReadDeadline(time.Now().Add(params.timeout)); err != nil {
 		err = errors.Wrap(err, "failed to set read deadline")
-		lc.Error(err.Error())
+		params.lc.Debug(err.Error())
 		return nil, err
 	}
 
 	buf := make([]byte, 5)
 	if _, err := io.ReadFull(conn, buf); err != nil {
-		if networkProtocol == udp {
+		if params.networkProtocol == udp {
 			// on udp connections all timeouts result in this
 			return nil, nil
 		}
 		err = errors.Wrap(err, "failed to read header")
-		lc.Error(err.Error())
+		params.lc.Debug(err.Error())
 		return nil, err
 	}
 	if string(buf) != "<?xml" {
-		lc.Error("Non Xml response received")
+		params.lc.Debug("Non Xml response received")
 		return nil, nil
 	}
 
-	lc.Info("Got Xml")
+	params.lc.Info("Got Xml")
 
 	buf2, err := io.ReadAll(conn)
 	if err != nil {
 		return nil, err
 	}
 	response := string(buf) + string(buf2)
-	lc.Infof("Got Bytes: %s\n", response)
+	params.lc.Infof("Got Bytes: %s\n", response)
 
 	devices, err := wsdiscovery.DevicesFromProbeResponses([]string{response})
 	if err != nil {
 		return nil, err
 	}
 	if len(devices) == 0 {
-		lc.Info("No devices matched")
+		params.lc.Info("No devices matched")
 		return nil, nil
 	}
 
 	return devices, nil
 }
 
-func probeHTTP(lc logger.LoggingClient, conn net.Conn, networkProtocol string, timeout time.Duration, host, port string) ([]onvif.Device, error) {
+func probeHTTP(conn net.Conn, host, port string, params workerParams) ([]onvif.Device, error) {
 	if _, err := conn.Write([]byte(fmt.Sprintf(`POST /onvif/service HTTP 1.1
 Host: %s:%s
 Content-Type: application/soap+xml; charset=utf-8
@@ -479,53 +481,53 @@ Content-Length: 726
 <?xml version="1.0" encoding="UTF-8"?><soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap-enc="http://www.w3.org/2003/05/soap-encoding" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing"><soap-env:Header><a:Action mustUnderstand="1">http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</a:Action><a:MessageID>uuid:a7df289f-5d3c-496b-b800-11e655a6ac1c</a:MessageID><a:ReplyTo><a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address></a:ReplyTo><a:To mustUnderstand="1">urn:schemas-xmlsoap-org:ws:2005:04:discovery</a:To></soap-env:Header><soap-env:Body><Probe xmlns="http://schemas.xmlsoap.org/ws/2005/04/discovery"/></soap-env:Body></soap-env:Envelope>
 	`, host, port))); err != nil {
 		err = errors.Wrap(err, "failed to write probe message")
-		lc.Error(err.Error())
+		params.lc.Error(err.Error())
 		return nil, err
 	}
 
-	return parseProbeResponse(lc, conn, networkProtocol, timeout)
+	return parseProbeResponse(conn, params)
 }
 
-func probeDirect(lc logger.LoggingClient, conn net.Conn, networkProtocol string, timeout time.Duration) ([]onvif.Device, error) {
+func probeDirect(conn net.Conn, params workerParams) ([]onvif.Device, error) {
 	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil,
 		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 	if _, err := conn.Write([]byte(probeSOAP.String())); err != nil {
 		err = errors.Wrap(err, "failed to write probe message")
-		lc.Error(err.Error())
+		params.lc.Debug(err.Error())
 		return nil, err
 	}
 
-	return parseProbeResponse(lc, conn, networkProtocol, timeout)
+	return parseProbeResponse(conn, params)
 }
 
-func probeOnvif(lc logger.LoggingClient, host, port string, timeout time.Duration) ([]onvif.Device, error) {
+func probeOnvif(host, port string, params workerParams) ([]onvif.Device, error) {
 	dev, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr: fmt.Sprintf("%s:%s", host, port),
 		HttpClient: &http.Client{
-			Timeout: timeout,
+			Timeout: params.timeout,
 		},
 	})
 	if err != nil {
-		err = errors.Wrap(err, "failed to create new onvif device")
-		lc.Error(err.Error())
+		err = errors.Wrap(err, "failed to create potential onvif device")
+		params.lc.Debug(err.Error())
 		return nil, err
 	}
 
 	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
 	if err != nil {
 		err = errors.Wrap(err, "failed to call GetEndpointReference")
-		lc.Error(err.Error())
+		params.lc.Debug(err.Error())
 		return nil, err
 	}
 
 	ref := res.(*device.GetEndpointReferenceResponse)
-	params := dev.GetDeviceParams()
+	dp := dev.GetDeviceParams()
 	uuidElements := strings.Split(ref.GUID, ":")
-	params.EndpointRefAddress = uuidElements[len(uuidElements)-1]
-	nvt, err := onvif.NewDevice(params)
+	dp.EndpointRefAddress = uuidElements[len(uuidElements)-1]
+	nvt, err := onvif.NewDevice(dp)
 	if err != nil {
-		err = errors.Wrap(err, "failed to create new onvif device")
-		lc.Error(err.Error())
+		err = errors.Wrap(err, "failed to create new onvif device from old device")
+		params.lc.Debug(err.Error())
 		return nil, err
 	}
 	return []onvif.Device{*nvt}, nil
@@ -533,28 +535,44 @@ func probeOnvif(lc logger.LoggingClient, host, port string, timeout time.Duratio
 
 // probe attempts to make a connection to a specific ip and port to determine
 // if an Onvif camera exists at that network address
-func probe(lc logger.LoggingClient, networkProtocol string, host, port string, timeout time.Duration) ([]onvif.Device, error) {
-	addr := host + ":" + port
-	conn, err := net.DialTimeout(networkProtocol, addr, timeout)
-	if err != nil {
-		return nil, err
-	}
-	defer conn.Close()
+func probe(host string, params workerParams) ([]onvif.Device, error) {
+	var allDevices []onvif.Device
+	timeoutCount := 0
+	for _, port := range params.scanPorts {
+		addr := host + ":" + port
+		conn, err := net.DialTimeout(params.networkProtocol, addr, params.timeout)
 
-	// on udp connection is always successful, so don't print
-	if networkProtocol != udp {
-		lc.Info("Connection dialed", "host", host, "port", port)
-	}
+		if err != nil {
+			if strings.Contains(err.Error(), "i/o timeout") {
+				timeoutCount++
+			}
+			if errors.Is(err, syscall.EHOSTUNREACH) || (maxTimeoutsPerHost != 0 && timeoutCount >= maxTimeoutsPerHost) {
+				return nil, err
+			}
+			// otherwise keep trying
+			if !errors.Is(err, syscall.ECONNREFUSED) {
+				params.lc.Debug(err.Error())
+			}
+			continue
+		}
+		defer conn.Close()
 
-	if devices, err := probeDirect(lc, conn, networkProtocol, timeout); err == nil && len(devices) > 0 {
-		return devices, nil
-	}
+		// on udp connection is always successful, so don't print
+		if params.networkProtocol != udp {
+			params.lc.Info("Connection dialed", "host", host, "port", port)
+		}
 
-	if devices, err := probeOnvif(lc, host, port, timeout); err == nil && len(devices) > 0 {
-		return devices, nil
-	}
+		if devices, err := probeOnvif(host, port, params); err == nil && len(devices) > 0 {
+			allDevices = append(allDevices, devices...)
+			continue
+		}
 
-	return nil, nil
+		if devices, err := probeDirect(conn, params); err == nil && len(devices) > 0 {
+			allDevices = append(allDevices, devices...)
+			continue
+		}
+	}
+	return allDevices, nil
 }
 
 // ipWorker pulls uint32s, convert to IPs, and sends back successful probes to the resultCh
@@ -577,28 +595,8 @@ func ipWorker(params workerParams) {
 
 			ipStr := ip.String()
 
-			for _, scanPort := range params.scanPorts {
-				//addr := ipStr + ":" + scanPort
-				//if d, found := params.deviceMap[addr]; found {
-				//	if d.OperatingState == contract.Up {
-				//		params.lc.Debug("Skip scan of " + addr + ", device already registered.")
-				//		continue
-				//	}
-				//	params.lc.Info("Existing device in disabled (disconnected) state will be scanned again.",
-				//		"address", addr,
-				//		"deviceName", d.Name)
-				//}
-
-				select {
-				case <-params.ctx.Done():
-					// bail if we have already been cancelled
-					return
-				default:
-				}
-
-				if info, err := probe(params.lc, params.networkProtocol, ipStr, scanPort, params.timeout); err == nil && info != nil {
-					params.resultCh <- info
-				}
+			if info, err := probe(ipStr, params); err == nil && info != nil {
+				params.resultCh <- info
 			}
 		}
 	}
