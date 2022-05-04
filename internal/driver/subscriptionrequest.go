@@ -67,7 +67,7 @@ func newSubscriptionRequest(attributes map[string]interface{}, requestData []byt
 		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("invalid initial terminationTime, %v", err), err)
 	}
 	if duration.Seconds() < MinimumInitialTerminationTime {
-		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("the initial terminationTime should greater then ten second"), nil)
+		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "the initial terminationTime should greater then ten second", nil)
 	}
 
 	subscriptionPolicy, ok := attributes[DefaultSubscriptionPolicy]

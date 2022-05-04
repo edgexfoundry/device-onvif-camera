@@ -28,7 +28,6 @@ import (
 const (
 	OnvifEventRestPath = "onvifevent"
 	apiResourceRoute   = common.ApiBase + "/" + OnvifEventRestPath + "/{" + common.DeviceName + "}/{" + common.ResourceName + "}"
-	handlerContextKey  = "RestNotificationHandler"
 )
 
 // RestNotificationHandler handle the notification from the camera and send to async value channel
