@@ -39,18 +39,64 @@ func (proto *OnvifProtocolDiscovery) ProbeFilter(_ string, ports []string) []str
 	return ports
 }
 
+func probeOnvif(host string, port string, params netscan.Params) ([]netscan.ProbeResult, error) {
+	// attempt to create an Onvif connection with the device
+	dev, err := onvif.NewDevice(onvif.DeviceParams{
+		Xaddr: fmt.Sprintf("%s:%s", host, port),
+		HttpClient: &http.Client{
+			Timeout: params.Timeout,
+		},
+	})
+	// if this failed, no need to try anything else, just bail out now
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to create potential onvif device for %s:%s", host, port)
+	}
+
+	// attempt to determine the EndpointReferenceAddress UUID
+	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
+	if err != nil {
+		return nil, errors.Wrapf(err, "failed to call GetEndpointReference for %s:%s", host, port)
+	}
+
+	ref, ok := res.(*device.GetEndpointReferenceResponse)
+	if !ok {
+		return nil, fmt.Errorf("unable to cast to response to GetEndpointReferenceResponse for %s:%s. type=%T", host, port, res)
+	}
+	dp := dev.GetDeviceParams()
+	uuidElements := strings.Split(ref.GUID, ":")
+	dp.EndpointRefAddress = uuidElements[len(uuidElements)-1]
+	// todo: there has got to be a smarter way to do this than creating a new device
+	nvt, err := onvif.NewDevice(dp)
+	if err != nil {
+		// this shouldn't ever happen
+		err = errors.Wrap(err, "failed to create new onvif device from old device")
+		params.Logger.Errorf(err.Error())
+		return nil, err
+	}
+	return mapProbeResults(host, port, []onvif.Device{*nvt}), nil
+}
+
+func probeRaw(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
+	// attempt a basic direct probe approach using the open
+	// connection. This is (unofficially?) supported by Tapo cameras.
+	devices, err := executeRawProbe(conn, params);
+	if err != nil {
+		params.Logger.Debugf(err.Error())
+	} else if len(devices) > 0 {
+		return mapProbeResults(host, port, devices), nil
+	}
+	return nil, err
+}
+
 // OnConnectionDialed handles the protocol specific verification if there is actually
 // a valid device or devices at the other end of the connection.
 func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
-	if devices, err := probeOnvif(host, port, params); err == nil && len(devices) > 0 {
-		return mapProbeResults(host, port, devices), nil
+	res, err := probeOnvif(host, port, params)
+	if err == nil && len(res) > 0 {
+		return res, err
 	}
 
-	if devices, err := probeDirect(conn, params); err == nil && len(devices) > 0 {
-		return mapProbeResults(host, port, devices), nil
-	}
-
-	return nil, nil
+	return probeRaw(host, port, conn, params)
 }
 
 // ConvertProbeResult takes a raw ProbeResult and transforms it into a
@@ -95,6 +141,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 
 	devInfo, edgexErr := d.getDeviceInformation(dev)
 	endpointRef := endpointRefAddr
+	dev.Protocols[OnvifProtocol][EndpointRefAddress] = endpointRef
 	var discovered sdkModel.DiscoveredDevice
 	if edgexErr != nil {
 		d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRef, edgexErr)
@@ -141,12 +188,16 @@ func mapProbeResults(host, port string, devices []onvif.Device) (res []netscan.P
 	return res
 }
 
-func parseProbeResponse(conn net.Conn, params netscan.Params) ([]onvif.Device, error) {
+func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, error) {
+	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil,
+		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
+	if _, err := conn.Write([]byte(probeSOAP.String())); err != nil {
+		return nil, errors.Wrap(err, "failed to write probe message")
+	}
+
 	addr := conn.RemoteAddr().String()
 	if err := conn.SetReadDeadline(time.Now().Add(params.Timeout)); err != nil {
-		err = errors.Wrapf(err, "%s: failed to set read deadline", addr)
-		params.Logger.Debugf(err.Error())
-		return nil, err
+		return nil, errors.Wrapf(err, "%s: failed to set read deadline", addr)
 	}
 
 	buf := make([]byte, 5)
@@ -155,82 +206,35 @@ func parseProbeResponse(conn net.Conn, params netscan.Params) ([]onvif.Device, e
 			// on udp connections all timeouts result in this
 			return nil, nil
 		}
-		err = errors.Wrapf(err, "%s: failed to read header", addr)
-		params.Logger.Debugf(err.Error())
-		return nil, err
+		return nil, errors.Wrapf(err, "%s: failed to read header", addr)
 	}
 	if string(buf) != "<?xml" {
-		params.Logger.Debugf("%s: non xml response received", addr)
-		return nil, nil
+		return nil, fmt.Errorf("%s: non xml response received", addr)
 	}
 
-	params.Logger.Infof("%s: got xml", addr)
+	params.Logger.Debugf("%s: got xml", addr)
 
 	buf2, err := io.ReadAll(conn)
 	if err != nil {
 		return nil, err
 	}
 	response := string(buf) + string(buf2)
-	params.Logger.Infof("%s: Got Bytes: %s", addr, response)
+	params.Logger.Debugf("%s: Got Bytes: %s", addr, response)
 
 	devices, err := wsdiscovery.DevicesFromProbeResponses([]string{response})
 	if err != nil {
 		return nil, err
 	}
 	if len(devices) == 0 {
-		params.Logger.Infof("%s: no devices matched from probe response", addr)
+		params.Logger.Debugf("%s: no devices matched from probe response", addr)
 		return nil, nil
 	}
 
 	return devices, nil
 }
 
-func probeDirect(conn net.Conn, params netscan.Params) ([]onvif.Device, error) {
-	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil,
-		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
-	if _, err := conn.Write([]byte(probeSOAP.String())); err != nil {
-		err = errors.Wrap(err, "failed to write probe message")
-		params.Logger.Debugf(err.Error())
-		return nil, err
-	}
-
-	return parseProbeResponse(conn, params)
-}
-
-func probeOnvif(host, port string, params netscan.Params) ([]onvif.Device, error) {
-	dev, err := onvif.NewDevice(onvif.DeviceParams{
-		Xaddr: fmt.Sprintf("%s:%s", host, port),
-		HttpClient: &http.Client{
-			Timeout: params.Timeout,
-		},
-	})
-	if err != nil {
-		err = errors.Wrap(err, "failed to create potential onvif device")
-		params.Logger.Debugf(err.Error())
-		return nil, err
-	}
-
-	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
-	if err != nil {
-		err = errors.Wrap(err, "failed to call GetEndpointReference")
-		params.Logger.Debugf(err.Error())
-		return nil, err
-	}
-
-	ref := res.(*device.GetEndpointReferenceResponse)
-	dp := dev.GetDeviceParams()
-	uuidElements := strings.Split(ref.GUID, ":")
-	dp.EndpointRefAddress = uuidElements[len(uuidElements)-1]
-	nvt, err := onvif.NewDevice(dp)
-	if err != nil {
-		err = errors.Wrap(err, "failed to create new onvif device from old device")
-		params.Logger.Debugf(err.Error())
-		return nil, err
-	}
-	return []onvif.Device{*nvt}, nil
-}
-
-// makeDeviceMap creates a lookup table of existing devices by tcp address in order to skip scanning
+// makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress
+// todo: will be used in the future for device re-discovery purposes
 func (d *Driver) makeDeviceMap() map[string]contract.Device {
 	devices := d.svc.Devices()
 	deviceMap := make(map[string]contract.Device, len(devices))
@@ -247,14 +251,14 @@ func (d *Driver) makeDeviceMap() map[string]contract.Device {
 			continue
 		}
 
-		host, port := onvifInfo["Address"], onvifInfo["Port"]
-		if host == "" || port == "" {
-			d.lc.Warnf("Registered device is missing required %s protocol information. Address: %v, Port: %v",
-				protocolName, host, port)
+		endpointRef := onvifInfo["EndpointRefAddress"]
+		if endpointRef == "" {
+			d.lc.Warnf("Registered device %s is missing required %s protocol information: EndpointRefAddress.",
+				dev.Name, protocolName)
 			continue
 		}
 
-		deviceMap[host+":"+port] = dev
+		deviceMap[endpointRef] = dev
 	}
 
 	return deviceMap

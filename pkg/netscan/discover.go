@@ -12,7 +12,6 @@ import (
 	"github.com/pkg/errors"
 	"math"
 	"net"
-	"strings"
 	"sync"
 	"syscall"
 	"time"
@@ -26,6 +25,7 @@ const (
 // AutoDiscover probes all addresses in the configured network to attempt to discover any possible
 // devices for a specific protocol
 func AutoDiscover(ctx context.Context, proto ProtocolSpecificDiscovery, params Params) []DiscoveredDevice {
+	params.Logger.Debugf("AutoDiscover called with the following parameters: %+v", params)
 	if len(params.Subnets) == 0 {
 		params.Logger.Warnf("Discover was called, but no subnet information has been configured!")
 		return nil
@@ -149,63 +149,75 @@ func processResultChannel(resultCh chan []ProbeResult, proto ProtocolSpecificDis
 	return devices
 }
 
+func handleConnectionInternal(host string, port string, conn net.Conn, params workerParams) {
+	// on udp, the dial is always successful, so don't print
+	if params.NetworkProtocol != NetworkUDP {
+		// flag the host as up so that way we know we can scan additional ports (if configured)
+		params.Logger.Debugf("Connection dialed %s://%s:%s", params.NetworkProtocol, host, port)
+	}
+
+	results, err := params.proto.OnConnectionDialed(host, port, conn, params.Params)
+	if err != nil {
+		params.Logger.Debugf(err.Error())
+	} else if len(results) > 0 {
+		params.resultCh <- results
+	}
+}
+
 // probe attempts to make a connection to a specific ip and port list to determine
 // if there is a service listening at that ip+port.
-func probe(host string, ports []string, params workerParams) ([]ProbeResult, error) {
-	var allDevices []ProbeResult
-	timeoutCount := 0
-	hostUp := false
-	for _, port := range ports {
-		addr := host + ":" + port
-		conn, err := net.DialTimeout(params.NetworkProtocol, addr, params.Timeout)
+func probe(host string, ports []string, params workerParams) {
+	port0 := ports[0]
+	addr := host + ":" + port0
 
-		if err != nil {
-			// EHOSTUNREACH specifies that the host is un-reachable or there is no route to host. If this is
-			// the case, do not bother probing the host any longer.
-			if errors.Is(err, syscall.EHOSTUNREACH) {
-				// quit probing this host
-				return nil, err
-			} else if errors.Is(err, syscall.ECONNREFUSED) {
-				// host is up but not accepting connections on this port. continue scanning the other ports.
-				continue
-			} else if strings.Contains(err.Error(), "i/o timeout") {
-				// note: due to the way that golang has set up their internal errors
-				// for net.DialTimeout, we are unable to compare it to a known error struct,
-				// and just need to resort to string checking
-				timeoutCount++
-				if params.MaxTimeoutsPerHost != 0 && timeoutCount >= params.MaxTimeoutsPerHost {
-					// too many timeouts, quit probing this host
-					return nil, err
-				}
-			}
-			// otherwise keep trying
-			if !errors.Is(err, syscall.ECONNREFUSED) && !strings.Contains(err.Error(), "i/o timeout") {
-				params.Logger.Debugf(err.Error())
-			}
-			continue
+	params.Logger.Tracef("Dial: %s", addr)
+	conn, err := net.DialTimeout(params.NetworkProtocol, addr, params.Timeout)
+	if err != nil {
+		params.Logger.Tracef(err.Error())
+		// EHOSTUNREACH specifies that the host is un-reachable or there is no route to host. If this is
+		// the case, do not bother probing the host any longer.
+		// todo: should we quit on EHOSTDOWN as well?
+		if errors.Is(err, syscall.EHOSTUNREACH) {
+			// quit probing this host
+			return
 		}
+		// all other errors will cause the scanning to continue to the other ports
+	} else {
+		defer conn.Close()
+		handleConnectionInternal(host, port0, conn, params)
+	}
+
+	// if we are only scanning 1 port, nothing left to do
+	if len(ports) == 1 {
+		return
+	}
+
+	// scan the rest of the ports async (we know the host is at least reachable now)
+	// the reason for this is that after the initial set of probes are completed, there is a lot less left
+	var wg sync.WaitGroup
+	for _, port := range ports[1:] {
+		p := port
+		addr := host + ":" + p
+		params.Logger.Tracef("Dial: %s", addr)
+		wg.Add(1)
 
 		// wrap this code in a func in order to be able to defer the close method within
 		// the for loop and not cause resource exhaustion.
-		func() {
-			defer conn.Close()
+		go func(p2 string) {
+			defer wg.Done()
 
-			// on udp, the dial is always successful, so don't print
-			if params.NetworkProtocol != NetworkUDP {
-				// flag the host as up so that way we know we can scan additional ports (if configured)
-				hostUp = true
-				params.Logger.Infof("Connection dialed %s://%s:%s", params.NetworkProtocol, host, port)
-			}
-
-			results, err := params.proto.OnConnectionDialed(host, port, conn, params.Params)
+			conn2, err := net.DialTimeout(params.NetworkProtocol, addr, params.Timeout)
 			if err != nil {
-				params.Logger.Debugf(err.Error())
-			} else if len(results) > 0 {
-				allDevices = append(allDevices, results...)
+				params.Logger.Tracef(err.Error())
+				return
 			}
-		}()
+			defer conn2.Close()
+			handleConnectionInternal(host, p2, conn2, params)
+		}(p)
 	}
-	return allDevices, nil
+
+	// wait for the rest of the probes
+	wg.Wait()
 }
 
 // ipWorker pulls uint32s from the ipCh, convert to IPs, filters then ip
@@ -236,9 +248,7 @@ func ipWorker(params workerParams) {
 				continue
 			}
 
-			if info, err := probe(ipStr, ports, params); err == nil && len(info) > 0 {
-				params.resultCh <- info
-			}
+			probe(ipStr, ports, params)
 		}
 	}
 }

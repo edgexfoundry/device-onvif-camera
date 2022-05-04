@@ -121,9 +121,9 @@ DiscoverySubnets = ""
 # Maximum simultaneous network probes
 ProbeAsyncLimit = "4000"
 
-# Maximum amount of seconds to wait for each IP probe before timing out.
+# Maximum amount of milliseconds to wait for each IP probe before timing out.
 # This will also be the minimum time the discovery process can take.
-ProbeTimeoutSeconds = "2"
+ProbeTimeoutMillis = "1500"
 
 # Port to scan for devices on
 ScanPorts = "2020"

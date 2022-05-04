@@ -40,8 +40,6 @@ const (
 	cameraAdded   = "CameraAdded"
 	cameraUpdated = "CameraUpdated"
 	cameraDeleted = "CameraDeleted"
-
-	tcp = "tcp"
 )
 
 // Driver implements the sdkModel.ProtocolDriver interface for
@@ -380,27 +378,12 @@ func (d *Driver) Discover() {
 }
 
 func (d *Driver) discover(ctx context.Context) {
-	params := netscan.Params{
-		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
-		Subnets:            strings.Split(d.config.DiscoverySubnets, ","),
-		AsyncLimit:         d.config.ProbeAsyncLimit,
-		Timeout:            time.Duration(d.config.ProbeTimeoutSeconds) * time.Second,
-		ScanPorts:          strings.Split(d.config.ScanPorts, ","),
-		Logger:             d.lc,
-		NetworkProtocol:    tcp, // todo: configurable?
-		MaxTimeoutsPerHost: 2,
-	}
-
-	t1 := time.Now()
-	result := netscan.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
-	if ctx.Err() != nil {
-		d.lc.Warn("Discover process has been cancelled!", "ctxErr", ctx.Err())
-	}
-
-	d.lc.Info(fmt.Sprintf("Discovered %d devices in %v.", len(result), time.Since(t1)))
 	var discovered []sdkModel.DiscoveredDevice
 
+	// TODO: support multicast via config option
+	t0 := time.Now()
 	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
+	d.lc.Info(fmt.Sprintf("Discovered %d device(s) in %v via multicast.", len(onvifDevices), time.Since(t0)))
 	for _, onvifDevice := range onvifDevices {
 		dev, err := d.createDiscoveredDevice(onvifDevice)
 		if err != nil {
@@ -409,6 +392,26 @@ func (d *Driver) discover(ctx context.Context) {
 		}
 		discovered = append(discovered, dev)
 	}
+
+	params := netscan.Params{
+		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
+		Subnets:            strings.Split(d.config.DiscoverySubnets, ","),
+		AsyncLimit:         d.config.ProbeAsyncLimit,
+		Timeout:            time.Duration(d.config.ProbeTimeoutMillis) * time.Millisecond,
+		ScanPorts:          strings.Split(d.config.ScanPorts, ","),
+		Logger:             d.lc,
+		NetworkProtocol:    netscan.NetworkTCP, // todo: configurable?
+		MaxTimeoutsPerHost: 2,                  // todo: configurable?
+	}
+
+	t1 := time.Now()
+	result := netscan.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
+	if ctx.Err() != nil {
+		d.lc.Warn("Discover process has been cancelled!", "ctxErr", ctx.Err())
+	}
+
+	d.lc.Debugf("NetScan result: %+v", result)
+	d.lc.Info(fmt.Sprintf("Discovered %d device(s) in %v via netscan.", len(result), time.Since(t1)))
 
 	for _, res := range result {
 		dev, ok := res.Info.(sdkModel.DiscoveredDevice)
