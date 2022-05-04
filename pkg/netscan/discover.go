@@ -4,14 +4,13 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-package discover
+package netscan
 
 import (
 	"context"
 	"encoding/binary"
 	"github.com/pkg/errors"
 	"math"
-	"math/bits"
 	"net"
 	"strings"
 	"sync"
@@ -20,7 +19,8 @@ import (
 )
 
 const (
-	udp = "udp"
+	NetworkUDP = "udp"
+	NetworkTCP = "tcp"
 )
 
 // AutoDiscover probes all addresses in the configured network to attempt to discover any possible
@@ -149,62 +149,34 @@ func processResultChannel(resultCh chan []ProbeResult, proto ProtocolSpecificDis
 	return devices
 }
 
-// ipGenerator generates all valid IP addresses for a given subnet, and
-// sends them to the ip channel one at a time
-func ipGenerator(ctx context.Context, inet *net.IPNet, ipCh chan<- uint32) {
-	addr := inet.IP.To4()
-	if addr == nil {
-		return
-	}
-
-	mask := inet.Mask
-	if len(mask) == net.IPv6len {
-		mask = mask[12:]
-	} else if len(mask) != net.IPv4len {
-		return
-	}
-
-	umask := binary.BigEndian.Uint32(mask)
-	maskSz := bits.OnesCount32(umask)
-	if maskSz <= 1 {
-		return // skip point-to-point connections
-	} else if maskSz >= 31 {
-		ipCh <- binary.BigEndian.Uint32(inet.IP)
-		return
-	}
-
-	netId := binary.BigEndian.Uint32(addr) & umask // network ID
-	bcast := netId ^ (^umask)
-	for ip := netId + 1; ip < bcast; ip++ {
-		if netId&umask != ip&umask {
-			continue
-		}
-
-		select {
-		case <-ctx.Done():
-			// bail if we have been cancelled
-			return
-		case ipCh <- ip:
-		}
-	}
-}
-
-// probe attempts to make a connection to a specific ip and port to determine
-// if an Onvif camera exists at that network address
+// probe attempts to make a connection to a specific ip and port list to determine
+// if there is a service listening at that ip+port.
 func probe(host string, ports []string, params workerParams) ([]ProbeResult, error) {
 	var allDevices []ProbeResult
 	timeoutCount := 0
+	hostUp := false
 	for _, port := range ports {
 		addr := host + ":" + port
 		conn, err := net.DialTimeout(params.NetworkProtocol, addr, params.Timeout)
 
 		if err != nil {
-			if strings.Contains(err.Error(), "i/o timeout") {
-				timeoutCount++
-			}
-			if errors.Is(err, syscall.EHOSTUNREACH) || (params.MaxTimeoutsPerHost != 0 && timeoutCount >= params.MaxTimeoutsPerHost) {
+			// EHOSTUNREACH specifies that the host is un-reachable or there is no route to host. If this is
+			// the case, do not bother probing the host any longer.
+			if errors.Is(err, syscall.EHOSTUNREACH) {
 				// quit probing this host
 				return nil, err
+			} else if errors.Is(err, syscall.ECONNREFUSED) {
+				// host is up but not accepting connections on this port. continue scanning the other ports.
+				continue
+			} else if strings.Contains(err.Error(), "i/o timeout") {
+				// note: due to the way that golang has set up their internal errors
+				// for net.DialTimeout, we are unable to compare it to a known error struct,
+				// and just need to resort to string checking
+				timeoutCount++
+				if params.MaxTimeoutsPerHost != 0 && timeoutCount >= params.MaxTimeoutsPerHost {
+					// too many timeouts, quit probing this host
+					return nil, err
+				}
 			}
 			// otherwise keep trying
 			if !errors.Is(err, syscall.ECONNREFUSED) && !strings.Contains(err.Error(), "i/o timeout") {
@@ -213,11 +185,15 @@ func probe(host string, ports []string, params workerParams) ([]ProbeResult, err
 			continue
 		}
 
+		// wrap this code in a func in order to be able to defer the close method within
+		// the for loop and not cause resource exhaustion.
 		func() {
 			defer conn.Close()
 
 			// on udp, the dial is always successful, so don't print
-			if params.NetworkProtocol != udp {
+			if params.NetworkProtocol != NetworkUDP {
+				// flag the host as up so that way we know we can scan additional ports (if configured)
+				hostUp = true
 				params.Logger.Infof("Connection dialed %s://%s:%s", params.NetworkProtocol, host, port)
 			}
 

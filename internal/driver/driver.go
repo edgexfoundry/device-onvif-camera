@@ -12,7 +12,7 @@ import (
 	"encoding/json"
 	"fmt"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
-	"github.com/edgexfoundry/device-onvif-camera/pkg/discover"
+	"github.com/edgexfoundry/device-onvif-camera/pkg/netscan"
 	"net/http"
 	"net/url"
 	"strings"
@@ -380,7 +380,7 @@ func (d *Driver) Discover() {
 }
 
 func (d *Driver) discover(ctx context.Context) {
-	params := discover.Params{
+	params := netscan.Params{
 		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
 		Subnets:            strings.Split(d.config.DiscoverySubnets, ","),
 		AsyncLimit:         d.config.ProbeAsyncLimit,
@@ -392,7 +392,7 @@ func (d *Driver) discover(ctx context.Context) {
 	}
 
 	t1 := time.Now()
-	result := discover.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
+	result := netscan.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
 	if ctx.Err() != nil {
 		d.lc.Warn("Discover process has been cancelled!", "ctxErr", ctx.Err())
 	}
@@ -402,7 +402,7 @@ func (d *Driver) discover(ctx context.Context) {
 
 	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
 	for _, onvifDevice := range onvifDevices {
-		dev, err := d.onvifDeviceToSdkDiscoveredDevice(onvifDevice)
+		dev, err := d.createDiscoveredDevice(onvifDevice)
 		if err != nil {
 			d.lc.Warnf(err.Error())
 			continue
@@ -413,7 +413,7 @@ func (d *Driver) discover(ctx context.Context) {
 	for _, res := range result {
 		dev, ok := res.Info.(sdkModel.DiscoveredDevice)
 		if !ok {
-			d.lc.Warnf("unable to cast res.Info into sdkModel.DiscoveredDevice. type=%T", res.Info)
+			d.lc.Warnf("unable to cast res.Data into sdkModel.DiscoveredDevice. type=%T", res.Info)
 			continue
 		}
 		discovered = append(discovered, dev)

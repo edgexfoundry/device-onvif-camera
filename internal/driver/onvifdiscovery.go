@@ -5,7 +5,7 @@ import (
 	"github.com/IOTechSystems/onvif"
 	"github.com/IOTechSystems/onvif/device"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
-	"github.com/edgexfoundry/device-onvif-camera/pkg/discover"
+	"github.com/edgexfoundry/device-onvif-camera/pkg/netscan"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/gofrs/uuid"
@@ -22,7 +22,7 @@ const (
 	udp          = "udp"
 )
 
-// OnvifProtocolDiscovery implements discover.ProtocolSpecificDiscovery
+// OnvifProtocolDiscovery implements netscan.ProtocolSpecificDiscovery
 type OnvifProtocolDiscovery struct {
 	driver *Driver
 }
@@ -41,7 +41,7 @@ func (proto *OnvifProtocolDiscovery) ProbeFilter(_ string, ports []string) []str
 
 // OnConnectionDialed handles the protocol specific verification if there is actually
 // a valid device or devices at the other end of the connection.
-func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string, conn net.Conn, params discover.Params) ([]discover.ProbeResult, error) {
+func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
 	if devices, err := probeOnvif(host, port, params); err == nil && len(devices) > 0 {
 		return mapProbeResults(host, port, devices), nil
 	}
@@ -55,24 +55,24 @@ func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string
 
 // ConvertProbeResult takes a raw ProbeResult and transforms it into a
 // processed DiscoveredDevice struct.
-func (proto *OnvifProtocolDiscovery) ConvertProbeResult(probeResult discover.ProbeResult, params discover.Params) (discover.DiscoveredDevice, error) {
-	onvifDevice, ok := probeResult.Info.(onvif.Device)
+func (proto *OnvifProtocolDiscovery) ConvertProbeResult(probeResult netscan.ProbeResult, params netscan.Params) (netscan.DiscoveredDevice, error) {
+	onvifDevice, ok := probeResult.Data.(onvif.Device)
 	if !ok {
-		return discover.DiscoveredDevice{}, fmt.Errorf("unable to cast probe result into onvif.Device. type=%T", probeResult.Info)
+		return netscan.DiscoveredDevice{}, fmt.Errorf("unable to cast probe result into onvif.Device. type=%T", probeResult.Data)
 	}
 
-	discovered, err := proto.driver.onvifDeviceToSdkDiscoveredDevice(onvifDevice)
+	discovered, err := proto.driver.createDiscoveredDevice(onvifDevice)
 	if err != nil {
-		return discover.DiscoveredDevice{}, err
+		return netscan.DiscoveredDevice{}, err
 	}
 
-	return discover.DiscoveredDevice{
+	return netscan.DiscoveredDevice{
 		Name: discovered.Name,
 		Info: discovered,
 	}, nil
 }
 
-func (d *Driver) onvifDeviceToSdkDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.DiscoveredDevice, error) {
+func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.DiscoveredDevice, error) {
 	xaddr := onvifDevice.GetDeviceParams().Xaddr
 	endpointRefAddr := onvifDevice.GetDeviceParams().EndpointRefAddress
 	if endpointRefAddr == "" {
@@ -130,18 +130,18 @@ func (d *Driver) onvifDeviceToSdkDiscoveredDevice(onvifDevice onvif.Device) (sdk
 	return discovered, nil
 }
 
-func mapProbeResults(host, port string, devices []onvif.Device) (res []discover.ProbeResult) {
+func mapProbeResults(host, port string, devices []onvif.Device) (res []netscan.ProbeResult) {
 	for _, dev := range devices {
-		res = append(res, discover.ProbeResult{
+		res = append(res, netscan.ProbeResult{
 			Host: host,
 			Port: port,
-			Info: dev,
+			Data: dev,
 		})
 	}
 	return res
 }
 
-func parseProbeResponse(conn net.Conn, params discover.Params) ([]onvif.Device, error) {
+func parseProbeResponse(conn net.Conn, params netscan.Params) ([]onvif.Device, error) {
 	addr := conn.RemoteAddr().String()
 	if err := conn.SetReadDeadline(time.Now().Add(params.Timeout)); err != nil {
 		err = errors.Wrapf(err, "%s: failed to set read deadline", addr)
@@ -185,23 +185,7 @@ func parseProbeResponse(conn net.Conn, params discover.Params) ([]onvif.Device, 
 	return devices, nil
 }
 
-func probeHTTP(conn net.Conn, host, port string, params discover.Params) ([]onvif.Device, error) {
-	if _, err := conn.Write([]byte(fmt.Sprintf(`POST /onvif/service HTTP 1.1
-Host: %s:%s
-Content-Type: application/soap+xml; charset=utf-8
-Content-Length: 726
-
-<?xml version="1.0" encoding="UTF-8"?><soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope" xmlns:soap-enc="http://www.w3.org/2003/05/soap-encoding" xmlns:a="http://schemas.xmlsoap.org/ws/2004/08/addressing"><soap-env:Header><a:Action mustUnderstand="1">http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe</a:Action><a:MessageID>uuid:a7df289f-5d3c-496b-b800-11e655a6ac1c</a:MessageID><a:ReplyTo><a:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</a:Address></a:ReplyTo><a:To mustUnderstand="1">urn:schemas-xmlsoap-org:ws:2005:04:discovery</a:To></soap-env:Header><soap-env:Body><Probe xmlns="http://schemas.xmlsoap.org/ws/2005/04/discovery"/></soap-env:Body></soap-env:Envelope>
-	`, host, port))); err != nil {
-		err = errors.Wrap(err, "failed to write probe message")
-		params.Logger.Debugf(err.Error())
-		return nil, err
-	}
-
-	return parseProbeResponse(conn, params)
-}
-
-func probeDirect(conn net.Conn, params discover.Params) ([]onvif.Device, error) {
+func probeDirect(conn net.Conn, params netscan.Params) ([]onvif.Device, error) {
 	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil,
 		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 	if _, err := conn.Write([]byte(probeSOAP.String())); err != nil {
@@ -213,7 +197,7 @@ func probeDirect(conn net.Conn, params discover.Params) ([]onvif.Device, error) 
 	return parseProbeResponse(conn, params)
 }
 
-func probeOnvif(host, port string, params discover.Params) ([]onvif.Device, error) {
+func probeOnvif(host, port string, params netscan.Params) ([]onvif.Device, error) {
 	dev, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr: fmt.Sprintf("%s:%s", host, port),
 		HttpClient: &http.Client{
