@@ -79,7 +79,7 @@ func probeOnvif(host string, port string, params netscan.Params) ([]netscan.Prob
 func probeRaw(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
 	// attempt a basic direct probe approach using the open
 	// connection. This is (unofficially?) supported by Tapo cameras.
-	devices, err := executeRawProbe(conn, params);
+	devices, err := executeRawProbe(conn, params)
 	if err != nil {
 		params.Logger.Debugf(err.Error())
 	} else if len(devices) > 0 {
@@ -92,8 +92,10 @@ func probeRaw(host string, port string, conn net.Conn, params netscan.Params) ([
 // a valid device or devices at the other end of the connection.
 func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
 	res, err := probeOnvif(host, port, params)
-	if err == nil && len(res) > 0 {
-		return res, err
+	if err != nil {
+		params.Logger.Errorf(err.Error())
+	} else if len(res) > 0 {
+		return res, nil
 	}
 
 	return probeRaw(host, port, conn, params)

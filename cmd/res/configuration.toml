@@ -119,7 +119,7 @@ BaseNotificationURL = "http://192.168.12.112:59984"
 DiscoverySubnets = ""
 
 # Maximum simultaneous network probes
-ProbeAsyncLimit = "4000"
+ProbeAsyncLimit = "1000"
 
 # Maximum amount of milliseconds to wait for each IP probe before timing out.
 # This will also be the minimum time the discovery process can take.
