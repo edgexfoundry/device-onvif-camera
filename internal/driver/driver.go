@@ -398,9 +398,9 @@ func (d *Driver) discover(ctx context.Context) {
 		Subnets:            strings.Split(d.config.DiscoverySubnets, ","),
 		AsyncLimit:         d.config.ProbeAsyncLimit,
 		Timeout:            time.Duration(d.config.ProbeTimeoutMillis) * time.Millisecond,
-		ScanPorts:          strings.Split(d.config.ScanPorts, ","),
+		ScanPorts:          []string{"3702"}, // strings.Split(d.config.ScanPorts, ","),
 		Logger:             d.lc,
-		NetworkProtocol:    netscan.NetworkTCP, // todo: configurable?
+		NetworkProtocol:    netscan.NetworkUDP, // todo: configurable?
 		MaxTimeoutsPerHost: 2,                  // todo: configurable?
 	}
 

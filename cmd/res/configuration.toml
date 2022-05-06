@@ -126,7 +126,7 @@ ProbeAsyncLimit = "1000"
 ProbeTimeoutMillis = "1500"
 
 # Port to scan for devices on
-ScanPorts = "2020"
+ScanPorts = "3702"
 
 # Maximum amount of seconds the discovery process is allowed to run before it will be cancelled.
 # It is especially important to have this configured in the case of larger subnets such as /16 and /8

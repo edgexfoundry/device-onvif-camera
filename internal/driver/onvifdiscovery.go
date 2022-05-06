@@ -10,16 +10,16 @@ import (
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
-	"io"
 	"net"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 )
 
 const (
 	protocolName = "Onvif"
-	udp          = "udp"
+	bufSize      = 8192
 )
 
 // OnvifProtocolDiscovery implements netscan.ProtocolSpecificDiscovery
@@ -60,7 +60,7 @@ func probeOnvif(host string, port string, params netscan.Params) ([]netscan.Prob
 
 	ref, ok := res.(*device.GetEndpointReferenceResponse)
 	if !ok {
-		return nil, fmt.Errorf("unable to cast to response to GetEndpointReferenceResponse for %s:%s. type=%T", host, port, res)
+		return nil, fmt.Errorf("unable to cast response to GetEndpointReferenceResponse for %s:%s. type=%T", host, port, res)
 	}
 	dp := dev.GetDeviceParams()
 	uuidElements := strings.Split(ref.GUID, ":")
@@ -77,8 +77,7 @@ func probeOnvif(host string, port string, params netscan.Params) ([]netscan.Prob
 }
 
 func probeRaw(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
-	// attempt a basic direct probe approach using the open
-	// connection. This is (unofficially?) supported by Tapo cameras.
+	// attempt a basic direct probe approach using the open connection
 	devices, err := executeRawProbe(conn, params)
 	if err != nil {
 		params.Logger.Debugf(err.Error())
@@ -91,12 +90,12 @@ func probeRaw(host string, port string, conn net.Conn, params netscan.Params) ([
 // OnConnectionDialed handles the protocol specific verification if there is actually
 // a valid device or devices at the other end of the connection.
 func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
-	res, err := probeOnvif(host, port, params)
-	if err != nil {
-		params.Logger.Errorf(err.Error())
-	} else if len(res) > 0 {
-		return res, nil
-	}
+	//res, err := probeOnvif(host, port, params)
+	//if err != nil {
+	//	params.Logger.Errorf(err.Error())
+	//} else if len(res) > 0 {
+	//	return res, nil
+	//}
 
 	return probeRaw(host, port, conn, params)
 }
@@ -193,37 +192,47 @@ func mapProbeResults(host, port string, devices []onvif.Device) (res []netscan.P
 func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, error) {
 	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil,
 		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
+
+	addr := conn.RemoteAddr().String()
+	if err := conn.SetDeadline(time.Now().Add(params.Timeout)); err != nil {
+		return nil, errors.Wrapf(err, "%s: failed to set read/write deadline", addr)
+	}
+
 	if _, err := conn.Write([]byte(probeSOAP.String())); err != nil {
 		return nil, errors.Wrap(err, "failed to write probe message")
 	}
 
-	addr := conn.RemoteAddr().String()
-	if err := conn.SetReadDeadline(time.Now().Add(params.Timeout)); err != nil {
-		return nil, errors.Wrapf(err, "%s: failed to set read deadline", addr)
-	}
+	var responses []string
+	buf := make([]byte, bufSize)
 
-	buf := make([]byte, 5)
-	if _, err := io.ReadFull(conn, buf); err != nil {
-		if params.NetworkProtocol == udp {
-			// on udp connections all timeouts result in this
-			return nil, nil
+	for {
+		n, _, err := (conn.(net.PacketConn)).ReadFrom(buf)
+		if err != nil {
+			if !errors.Is(err, os.ErrDeadlineExceeded) {
+				params.Logger.Warnf(err.Error())
+			}
+			break
 		}
-		return nil, errors.Wrapf(err, "%s: failed to read header", addr)
-	}
-	if string(buf) != "<?xml" {
-		return nil, fmt.Errorf("%s: non xml response received", addr)
+		responses = append(responses, string(buf[0:n]))
 	}
 
-	params.Logger.Debugf("%s: got xml", addr)
+	//buf2, err := io.ReadAll(conn)
+	//if err != nil {
+	//	params.Logger.Debugf("%s: Got Bytes: %s", addr, string(buf2))
+	//	return nil, err
+	//}
+	//response := strings.Join(result, "")
+	//response := string(buf) + string(buf2)
 
-	buf2, err := io.ReadAll(conn)
-	if err != nil {
-		return nil, err
+	if len(responses) == 0 {
+		params.Logger.Tracef("%s: No Response", addr)
+		return nil, nil
 	}
-	response := string(buf) + string(buf2)
-	params.Logger.Debugf("%s: Got Bytes: %s", addr, response)
+	for i, resp := range responses {
+		params.Logger.Debugf("%s: Response %d of %d: %s", addr, i+1, len(responses), resp)
+	}
 
-	devices, err := wsdiscovery.DevicesFromProbeResponses([]string{response})
+	devices, err := wsdiscovery.DevicesFromProbeResponses(responses)
 	if err != nil {
 		return nil, err
 	}
