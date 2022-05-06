@@ -31,7 +31,6 @@ type configuration struct {
 	DiscoverySubnets           string
 	ProbeAsyncLimit            int
 	ProbeTimeoutMillis         int
-	ScanPorts                  string
 	MaxDiscoverDurationSeconds int
 }
 
