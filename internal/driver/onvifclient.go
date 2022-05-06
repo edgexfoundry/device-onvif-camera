@@ -25,6 +25,8 @@ import (
 	"github.com/IOTechSystems/onvif"
 	"github.com/IOTechSystems/onvif/device"
 	"github.com/IOTechSystems/onvif/gosoap"
+	"github.com/IOTechSystems/onvif/media"
+	xsdOnvif "github.com/IOTechSystems/onvif/xsd/onvif"
 )
 
 const (
@@ -33,6 +35,7 @@ const (
 	CameraEvent            = "CameraEvent"
 	SubscribeCameraEvent   = "SubscribeCameraEvent"
 	UnsubscribeCameraEvent = "UnsubscribeCameraEvent"
+	GetSnapshot            = "GetSnapshot"
 )
 
 // OnvifClient manages the state required to issue ONVIF requests to the specified camera
@@ -180,6 +183,15 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 			onvifClient.pullPointManager.UnsubscribeAll()
 			onvifClient.baseNotificationManager.UnsubscribeAll()
 		}()
+	case GetSnapshot:
+		res, edgexErr := onvifClient.callGetSnapshotFunction(resourceName, serviceName, functionName, attributes, data)
+		if edgexErr != nil {
+			return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+		}
+		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeBinary, res)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
+		}
 	default:
 		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("not support the custom function '%s'", functionName), nil)
 	}
@@ -206,6 +218,57 @@ func (onvifClient *OnvifClient) callSubscribeCameraEventFunction(resourceName, s
 		return errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("unsupported subscribeType '%s'", subscribeType), nil)
 	}
 	return nil
+}
+
+// callGetSnapshotFunction returns a snapshot from the camera as a slice of bytes
+// The implementation can refer to https://github.com/edgexfoundry/device-camera-go/blob/5c4f34d1d59b8e25e1a6316661d463e2495d45fe/internal/driver/onvifclient.go#L119
+func (onvifClient *OnvifClient) callGetSnapshotFunction(resourceName, serviceName, functionName string, attributes map[string]interface{}, data []byte) ([]byte, errors.EdgeX) {
+	// Get the token from the profile
+	respContent, edgexErr := onvifClient.callOnvifFunction(onvif.MediaWebService, onvif.GetProfiles, nil)
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	profilesResp := respContent.(*media.GetProfilesResponse)
+	if len(profilesResp.Profiles) == 0 {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, "no onvif profiles found", nil)
+	}
+	requestData, edgexErr := snapshotUriRequestData(profilesResp.Profiles[0].Token)
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	// Get the snapshot uri
+	respContent, edgexErr = onvifClient.callOnvifFunction(onvif.MediaWebService, onvif.GetSnapshotUri, requestData)
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	uriResponse := respContent.(*media.GetSnapshotUriResponse)
+	url := uriResponse.MediaUri.Uri
+
+	// Get the snapshot binary data
+	resp, err := onvifClient.onvifDevice.SendGetSnapshotRequest(string(url))
+	if err != nil {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to retrieve the snapshot from the url %s", url), err)
+	}
+	defer resp.Body.Close()
+	buf, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, "error reading http request", err)
+	}
+	if resp.StatusCode != http.StatusOK {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("http request for image failed with status %v, %s", resp.StatusCode, string(buf)), nil)
+	}
+	return buf, nil
+}
+
+func snapshotUriRequestData(profileToken xsdOnvif.ReferenceToken) ([]byte, errors.EdgeX) {
+	req := media.GetSnapshotUri{
+		ProfileToken: profileToken,
+	}
+	data, err := json.Marshal(req)
+	if err != nil {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to marshal GetSnapshotUri request", err)
+	}
+	return data, nil
 }
 
 func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName string, data []byte) (interface{}, errors.EdgeX) {

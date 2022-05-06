@@ -43,6 +43,7 @@ The following table shows the tested Onvif cameras with Onvif functions:
 |                                    |                   | **SetMetadataConfiguration**        | O                   | X         | O                                 | O                   |
 | Video Streaming                    | Media             | **GetProfiles**                     | O                   | O         | O                                 | O                   |
 |                                    |                   | **GetStreamUri**                    | O                   | O         | O                                 | O                   |
+|                                    | EdgeX             | **GetSnapshot**                     | O                   | X         | O                                 | X                   |
 | VideoEncoder  Config               | Media             | GetVideoEncoderConfiguration        | O                   | O         | O                                 | O                   |
 |                                    |                   | **SetVideoEncoderConfiguration**    | O                   | X         | O                                 | O                   |
 |                                    |                   | GetVideoEncoderConfigurationOptions | O                   | O         | O                                 | O                   |
