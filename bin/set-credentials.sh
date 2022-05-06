@@ -14,90 +14,166 @@
 
 set -euo pipefail
 
-CORE_METADATA_URL="${CORE_METADATA_HOST:-http://localhost:59881}"
-CONSUL_URL="${CONSUL_HOST:-http://localhost:8500}"
+ALL="All Cameras"
+CORE_METADATA_URL="${CORE_METADATA_URL:-http://localhost:59881}"
+CONSUL_URL="${CONSUL_URL:-http://localhost:8500}"
 DEVICE_SERVICE="${DEVICE_SERVICE:-device-onvif-camera}"
 DEVICE_SERVICE_URL="${DEVICE_SERVICE_URL:-http://localhost:59984}"
 
-BASE_URL="${CONSUL_URL}/v1/kv/edgex/devices/2.0/${DEVICE_SERVICE}/Writable/InsecureSecrets"
+INSECURE_SECRETS_URL="${CONSUL_URL}/v1/kv/edgex/devices/2.0/${DEVICE_SERVICE}/Writable/InsecureSecrets"
 
 DEVICE_LIST=
-DEVICE_COUNT=
 
 DEVICE_NAME="${DEVICE_NAME:-}"
 DEVICE_USERNAME="${DEVICE_USERNAME:-}"
 DEVICE_PASSWORD="${DEVICE_PASSWORD:-}"
-CURRENT_ARG=
+
+# todo: auto-determine if service is running in secure mode
 SECURE_MODE=${SECURE_MODE:-0}
 
-HEIGHT="$(tput lines)"
-WIDTH="$(tput cols)"
 SELF_CMD="${0##*/}"
 
+# ANSI colors
+red="\033[31m"
+clear="\033[0m"
+bold="\033[1m"
+dim="\033[2m"
 
+# print a message in bold
+log_info() {
+    echo -e "${bold}$*${clear}"
+}
+
+# print a message dimmed
+log_debug() {
+    echo -e "${dim}$*${clear}"
+}
+
+# log an error message to stderr in bold and red
+log_error() {
+    echo -e "${red}${bold}$*${clear}" >&2
+}
+
+# attempt to pretty print the output with jq. if jq is not available or
+# jq fails to parse data, print it normally
+format_output() {
+    if [ ! -x "$(type -P jq)" ] || ! jq . <<< "$1" 2>/dev/null; then
+        echo "$1"
+    fi
+    echo
+}
+
+# call the curl command with the specified payload and arguments.
+# this function will print out the curl response and will return an error code
+# if the curl request failed.
+# usage: do_curl "<payload>" curl_args...
+do_curl() {
+    local payload="$1"
+    shift
+    # log the curl command so the user has insight into what the script is doing
+    log_debug "curl --data \"<redacted>\" $*" >&2
+
+    local code tmp output
+    # the payload is securely transferred through an auto-closing named pipe.
+    # this prevents any passwords or sensitive data being on the command line.
+    # the http response code is written to stdout and stored in the variable 'code', while the full http response
+    # is written to the temp file, and then read into the 'output' variable.
+    tmp="$(mktemp)"
+    code="$(curl -sS --location -w "%{http_code}" -o "${tmp}" "$@" --data "@"<( set +x; echo -n "${payload}" ) || echo $?)"
+    output="$(<"${tmp}")"
+
+    printf "Response [%3d] " "$((code))" >&2
+    if [ $((code)) -lt 200 ] || [ $((code)) -gt 299 ]; then
+        format_output "$output" >&2
+        log_error "Failed! curl returned a status code of '${code}'"
+        return $((code))
+    else
+        format_output "$output"
+    fi
+}
+
+# this will update the device's Onvif protocol 'SecretPath' to equal
+# the device name, which is the value inserted by this script
+update_secret_path() {
+    log_info "Patching protocols[\"Onvif\"].SecretPath to ${DEVICE_NAME}"
+    local payload
+    # query core metadata to get all the device information, and then
+    # use sed to look for just the SecretPath and replace it. note that
+    # currently this does not add one if it does not exist. Also, this
+    # code might be better if it used jq, but then this script would require
+    # the end user to have jq installed.
+    payload="$(do_curl "" -X GET "${CORE_METADATA_URL}/api/v2/device/name/${DEVICE_NAME}" \
+        | sed -E 's/"SecretPath" *: *"[^"]+"/"SecretPath":"'"${DEVICE_NAME}"'"/g')"
+    # the patch endpoint requires an array of devices, so wrap in square brackets
+    payload="[${payload}]"
+    do_curl "${payload}" -X PATCH "${CORE_METADATA_URL}/api/v2/device"
+}
+
+# query EdgeX Core Metadata for the list of all devices
 get_devices() {
-    DEVICE_LIST="$(curl --silent "${CORE_METADATA_URL}/api/v2/device/service/name/${DEVICE_SERVICE}" \
+    # grab the names of all devices for the specific device service.
+    # filter out the fake control plane device (grep -v "${DEVICE_SERVICE}")
+    DEVICE_LIST="$(do_curl "" -X GET "${CORE_METADATA_URL}/api/v2/device/service/name/${DEVICE_SERVICE}" \
         | tr '{' '\n' \
         | sed -En 's/.*"name": *"([^"]+)".*/\1/p' \
         | grep -v "${DEVICE_SERVICE}" \
         | xargs)"
-
-    DEVICE_COUNT=$(wc -w <<< "${DEVICE_LIST}")
+    printf "\n\n"
 }
 
+# prompt the user to pick a device
 pick_device() {
     get_devices
 
-    local options=()
-    for d in ${DEVICE_LIST}; do
-        options+=("$d" "$d")
-    done
-
-    DEVICE_NAME=$(whiptail --menu "Please pick a device" --notags \
-        "${HEIGHT}" "${WIDTH}" "${DEVICE_COUNT}" \
-        "${options[@]}" 3>&1 1>&2 2>&3)
+    # insert the option "All Cameras" first in the list. the reason first was chosen as opposed to
+    # last was to keep the index of it the same no matter how many devices there are.
+    PS3="Select a camera: "
+    select DEVICE_NAME in "${ALL}" ${DEVICE_LIST}; do break; done
 
     if [ -z "${DEVICE_NAME}" ]; then
-        echo "No device selected, exiting..."
+        log_error "No device selected, exiting..."
         return 1
     fi
+    echo
 }
 
-# usage: put_consul_field <sub-path> <value>
-put_consul_field() {
-    echo "Setting InsecureSecret: $1"
-    local code
-    # securely transfer the value through an auto-closing named pipe over stdin (prevent passwords on command line)
-    code=$(curl -X PUT --data "@-" -w "%{http_code}" -o /dev/null -s "${BASE_URL}/$1" < <( set +x; echo -n "$2" ) || echo $?)
-    if [ $((code)) -ne 200 ]; then
-        echo -e "Failed! curl returned a status code of '${code}'"
-        return $((code))
-    fi
+# set an individual InsecureSecrets consul key to a specific value
+# usage: put_insecure_secrets_field <sub-path> <value>
+put_insecure_secrets_field() {
+    log_info "Setting InsecureSecret: $1"
+    do_curl "$2" -X PUT "${INSECURE_SECRETS_URL}/$1"
 }
 
+# prompt the user for the device's username and password
+# and exit if not provided
 query_username_password() {
     if [ -z "${DEVICE_USERNAME}" ]; then
-        DEVICE_USERNAME=$(whiptail --inputbox "Please specify device username" \
-            "${HEIGHT}" "${WIDTH}" 3>&1 1>&2 2>&3)
+        # shellcheck disable=SC2059
+        printf "${bold}Username: ${clear}"
+        read -r DEVICE_USERNAME
 
         if [ -z "${DEVICE_USERNAME}" ]; then
-            echo "No username entered, exiting..."
+            log_error "No username entered, exiting..."
             return 1
         fi
     fi
 
     if [ -z "${DEVICE_PASSWORD}" ]; then
-        DEVICE_PASSWORD=$(whiptail --passwordbox "Please specify device password" \
-            "${HEIGHT}" "${WIDTH}" 3>&1 1>&2 2>&3)
+        # shellcheck disable=SC2059
+        printf "${bold}Password: ${clear}"
+        read -rs DEVICE_PASSWORD
+        printf "\n\n"
 
         if [ -z "${DEVICE_PASSWORD}" ]; then
-            echo "No password entered, exiting..."
+            log_error "No password entered, exiting..."
             return 1
         fi
     fi
 }
 
 # usage: try_set_argument "arg_name" "$@"
+# attempts to set the global variable "arg_name" to the next value from the command line.
+# if one is not provided, print error and return and error code.
 # note: call shift AFTER this, as we want to see the flag_name as first argument after arg_name
 try_set_argument() {
     local arg_name="$1"
@@ -111,13 +187,12 @@ try_set_argument() {
 }
 
 print_usage() {
-    echo "Usage: ${SELF_CMD} [-s/--secure-mode] [-d <device_name>] [-u <username>] [-p <password>]"
+    log_info "Usage: ${SELF_CMD} [-s/--secure-mode] [-d <device_name>] [-u <username>] [-p <password>] [-a/--all]"
 }
 
 parse_args() {
     while [ "$#" -gt 0 ]; do
-        CURRENT_ARG="$1"
-        case "${CURRENT_ARG}" in
+        case "$1" in
 
         -s | --secure | --secure-mode)
             SECURE_MODE=1
@@ -126,6 +201,10 @@ parse_args() {
         -d | --device | --device-name)
             try_set_argument "DEVICE_NAME" "$@"
             shift
+            ;;
+
+        -a | --all)
+            DEVICE_NAME="${ALL}"
             ;;
 
         -u | --user | --username)
@@ -159,7 +238,7 @@ parse_args() {
             ;;
 
         *)
-            echo "argument \"${CURRENT_ARG}\" not recognized."
+            log_error "argument \"$1\" not recognized."
             return 1
             ;;
 
@@ -169,12 +248,14 @@ parse_args() {
     done
 }
 
+# create or update the insecure secrets by setting the 3 required fields in Consul
 set_insecure_secrets() {
-    put_consul_field "${DEVICE_NAME}/Path" "${DEVICE_NAME}"
-    put_consul_field "${DEVICE_NAME}/Secrets/username" "${DEVICE_USERNAME}"
-    put_consul_field "${DEVICE_NAME}/Secrets/password" "${DEVICE_PASSWORD}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Path" "${DEVICE_NAME}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Secrets/username" "${DEVICE_USERNAME}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Secrets/password" "${DEVICE_PASSWORD}"
 }
 
+# set the secure secrets by posting to the device service's secret endpoint
 set_secure_secrets() {
     local payload="{
     \"apiVersion\":\"v2\",
@@ -190,14 +271,19 @@ set_secure_secrets() {
         }
     ]
 }"
-    curl --location --request POST --data "@-" "${DEVICE_SERVICE_URL}/api/v2/secret" < <( set +x; echo -n "${payload}" )
-    local code
-    # securely transfer the value through an auto-closing named pipe over stdin (prevent passwords on command line)
-    code=$(curl --location --request POST --data "@-" -w "%{http_code}" -o /dev/null -s "${DEVICE_SERVICE_URL}/api/v2/secret" < <( set +x; echo -n "${payload}" ) || echo $?)
-    if [ $((code)) -ne 200 ]; then
-        echo -e "Failed! curl returned a status code of '${code}'"
-        return $((code))
+    do_curl "${payload}" -X POST "${DEVICE_SERVICE_URL}/api/v2/secret"
+}
+
+# helper function to set the secrets using either secure or insecure mode, and then
+# update the device's SecretPath.
+set_secrets() {
+    if [ "${SECURE_MODE}" -eq 1 ]; then
+        set_secure_secrets
+    else
+        set_insecure_secrets
     fi
+
+    update_secret_path
 }
 
 main() {
@@ -207,14 +293,17 @@ main() {
         pick_device
     fi
 
-    echo "Selected Device: ${DEVICE_NAME}"
+    log_info "Selected Device: ${DEVICE_NAME}"
 
     query_username_password
 
-    if [ "${SECURE_MODE}" -eq 1 ]; then
-        set_secure_secrets
+    if [ "${DEVICE_NAME}" == "${ALL}" ]; then
+        get_devices # update the device list in the case where the user passed the --all flag
+        for DEVICE_NAME in ${DEVICE_LIST}; do
+            set_secrets
+        done
     else
-        set_insecure_secrets
+        set_secrets
     fi
 }
 

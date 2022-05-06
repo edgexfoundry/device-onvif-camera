@@ -182,6 +182,16 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "R"
+  - name: "Snapshot"
+    isHidden: false
+    description: "Camera Snapshot"
+    attributes:
+      service: "EdgeX"
+      getFunction: "GetSnapshot"
+    properties:
+      valueType: "Binary"
+      readWrite: "R"
+      mediaType: "image/jpeg"
 
   # Video Encoder Configuration
   - name: "GetVideoEncoderConfigurations"
