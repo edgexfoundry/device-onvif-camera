@@ -3,7 +3,6 @@ package driver
 import (
 	"fmt"
 	"github.com/IOTechSystems/onvif"
-	"github.com/IOTechSystems/onvif/device"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 	"github.com/edgexfoundry/device-onvif-camera/pkg/netscan"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
@@ -11,15 +10,13 @@ import (
 	"github.com/gofrs/uuid"
 	"github.com/pkg/errors"
 	"net"
-	"net/http"
 	"os"
 	"strings"
 	"time"
 )
 
 const (
-	protocolName = "Onvif"
-	bufSize      = 8192
+	bufSize = 8192
 )
 
 // OnvifProtocolDiscovery implements netscan.ProtocolSpecificDiscovery
@@ -39,44 +36,9 @@ func (proto *OnvifProtocolDiscovery) ProbeFilter(_ string, ports []string) []str
 	return ports
 }
 
-func probeOnvif(host string, port string, params netscan.Params) ([]netscan.ProbeResult, error) {
-	// attempt to create an Onvif connection with the device
-	dev, err := onvif.NewDevice(onvif.DeviceParams{
-		Xaddr: fmt.Sprintf("%s:%s", host, port),
-		HttpClient: &http.Client{
-			Timeout: params.Timeout,
-		},
-	})
-	// if this failed, no need to try anything else, just bail out now
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to create potential onvif device for %s:%s", host, port)
-	}
-
-	// attempt to determine the EndpointReferenceAddress UUID
-	res, err := dev.CallOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, nil)
-	if err != nil {
-		return nil, errors.Wrapf(err, "failed to call GetEndpointReference for %s:%s", host, port)
-	}
-
-	ref, ok := res.(*device.GetEndpointReferenceResponse)
-	if !ok {
-		return nil, fmt.Errorf("unable to cast response to GetEndpointReferenceResponse for %s:%s. type=%T", host, port, res)
-	}
-	dp := dev.GetDeviceParams()
-	uuidElements := strings.Split(ref.GUID, ":")
-	dp.EndpointRefAddress = uuidElements[len(uuidElements)-1]
-	// todo: there has got to be a smarter way to do this than creating a new device
-	nvt, err := onvif.NewDevice(dp)
-	if err != nil {
-		// this shouldn't ever happen
-		err = errors.Wrap(err, "failed to create new onvif device from old device")
-		params.Logger.Errorf(err.Error())
-		return nil, err
-	}
-	return mapProbeResults(host, port, []onvif.Device{*nvt}), nil
-}
-
-func probeRaw(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
+// OnConnectionDialed handles the protocol specific verification if there is actually
+// a valid device or devices at the other end of the connection.
+func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
 	// attempt a basic direct probe approach using the open connection
 	devices, err := executeRawProbe(conn, params)
 	if err != nil {
@@ -85,19 +47,6 @@ func probeRaw(host string, port string, conn net.Conn, params netscan.Params) ([
 		return mapProbeResults(host, port, devices), nil
 	}
 	return nil, err
-}
-
-// OnConnectionDialed handles the protocol specific verification if there is actually
-// a valid device or devices at the other end of the connection.
-func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string, conn net.Conn, params netscan.Params) ([]netscan.ProbeResult, error) {
-	//res, err := probeOnvif(host, port, params)
-	//if err != nil {
-	//	params.Logger.Errorf(err.Error())
-	//} else if len(res) > 0 {
-	//	return res, nil
-	//}
-
-	return probeRaw(host, port, conn, params)
 }
 
 // ConvertProbeResult takes a raw ProbeResult and transforms it into a
@@ -119,6 +68,8 @@ func (proto *OnvifProtocolDiscovery) ConvertProbeResult(probeResult netscan.Prob
 	}, nil
 }
 
+// createDiscoveredDevice will take an onvif.Device that was detected on the network and
+// attempt to get more information about the device and create an EdgeX compatible DiscoveredDevice.
 func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.DiscoveredDevice, error) {
 	xaddr := onvifDevice.GetDeviceParams().Xaddr
 	endpointRefAddr := onvifDevice.GetDeviceParams().EndpointRefAddress
@@ -132,23 +83,27 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		Name: xaddr,
 		Protocols: map[string]contract.ProtocolProperties{
 			OnvifProtocol: {
-				Address:    address,
-				Port:       port,
-				AuthMode:   d.config.DefaultAuthMode,
-				SecretPath: d.config.DefaultSecretPath,
+				Address:            address,
+				Port:               port,
+				AuthMode:           d.config.DefaultAuthMode,
+				SecretPath:         d.config.DefaultSecretPath,
+				EndpointRefAddress: endpointRefAddr,
 			},
 		},
 	}
 
 	devInfo, edgexErr := d.getDeviceInformation(dev)
-	endpointRef := endpointRefAddr
-	dev.Protocols[OnvifProtocol][EndpointRefAddress] = endpointRef
+	if edgexErr != nil {
+		// try again using the device name as the SecretPath
+		dev.Protocols[OnvifProtocol][SecretPath] = endpointRefAddr
+		devInfo, edgexErr = d.getDeviceInformation(dev)
+	}
+
 	var discovered sdkModel.DiscoveredDevice
 	if edgexErr != nil {
-		d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRef, edgexErr)
-		dev.Protocols[OnvifProtocol][SecretPath] = endpointRef
+		d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRefAddr, edgexErr)
 		discovered = sdkModel.DiscoveredDevice{
-			Name:        endpointRef,
+			Name:        endpointRefAddr,
 			Protocols:   dev.Protocols,
 			Description: "Auto discovered Onvif camera",
 			Labels:      []string{"auto-discovery"},
@@ -178,6 +133,8 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 	return discovered, nil
 }
 
+// mapProbeResults converts a slice of discovered onvif.Device into the generic
+// netscan.ProbeResult.
 func mapProbeResults(host, port string, devices []onvif.Device) (res []netscan.ProbeResult) {
 	for _, dev := range devices {
 		res = append(res, netscan.ProbeResult{
@@ -189,6 +146,9 @@ func mapProbeResults(host, port string, devices []onvif.Device) (res []netscan.P
 	return res
 }
 
+// executeRawProbe essentially performs a UDP unicast ws-discovery probe by sending the
+// probe message directly over the connection and listening for any responses. Those
+// responses are then converted into a slice of onvif.Device.
 func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, error) {
 	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil,
 		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
@@ -204,25 +164,18 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 
 	var responses []string
 	buf := make([]byte, bufSize)
-
+	// keep reading from the PacketConn until the read deadline expires or an error occurs
 	for {
 		n, _, err := (conn.(net.PacketConn)).ReadFrom(buf)
 		if err != nil {
+			// ErrDeadlineExceeded is expected once the read timeout is expired
 			if !errors.Is(err, os.ErrDeadlineExceeded) {
-				params.Logger.Warnf(err.Error())
+				params.Logger.Warnf("Unexpected error occurred while reading ws-discovery responses: %s", err.Error())
 			}
 			break
 		}
 		responses = append(responses, string(buf[0:n]))
 	}
-
-	//buf2, err := io.ReadAll(conn)
-	//if err != nil {
-	//	params.Logger.Debugf("%s: Got Bytes: %s", addr, string(buf2))
-	//	return nil, err
-	//}
-	//response := strings.Join(result, "")
-	//response := string(buf) + string(buf2)
 
 	if len(responses) == 0 {
 		params.Logger.Tracef("%s: No Response", addr)
@@ -256,16 +209,16 @@ func (d *Driver) makeDeviceMap() map[string]contract.Device {
 			continue
 		}
 
-		onvifInfo := dev.Protocols[protocolName]
+		onvifInfo := dev.Protocols[OnvifProtocol]
 		if onvifInfo == nil {
-			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, protocolName)
+			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)
 			continue
 		}
 
 		endpointRef := onvifInfo["EndpointRefAddress"]
 		if endpointRef == "" {
 			d.lc.Warnf("Registered device %s is missing required %s protocol information: EndpointRefAddress.",
-				dev.Name, protocolName)
+				dev.Name, OnvifProtocol)
 			continue
 		}
 

@@ -40,6 +40,8 @@ const (
 	cameraAdded   = "CameraAdded"
 	cameraUpdated = "CameraUpdated"
 	cameraDeleted = "CameraDeleted"
+
+	wsDiscoveryPort = "3702"
 )
 
 // Driver implements the sdkModel.ProtocolDriver interface for
@@ -380,7 +382,7 @@ func (d *Driver) Discover() {
 func (d *Driver) discover(ctx context.Context) {
 	var discovered []sdkModel.DiscoveredDevice
 
-	// TODO: support multicast via config option
+	// TODO: support multicast enable/disable via config option
 	t0 := time.Now()
 	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
 	d.lc.Info(fmt.Sprintf("Discovered %d device(s) in %v via multicast.", len(onvifDevices), time.Since(t0)))
@@ -393,15 +395,15 @@ func (d *Driver) discover(ctx context.Context) {
 		discovered = append(discovered, dev)
 	}
 
+	// TODO: support netscan enable/disable via config option
 	params := netscan.Params{
 		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
-		Subnets:            strings.Split(d.config.DiscoverySubnets, ","),
-		AsyncLimit:         d.config.ProbeAsyncLimit,
-		Timeout:            time.Duration(d.config.ProbeTimeoutMillis) * time.Millisecond,
-		ScanPorts:          []string{"3702"}, // strings.Split(d.config.ScanPorts, ","),
-		Logger:             d.lc,
-		NetworkProtocol:    netscan.NetworkUDP, // todo: configurable?
-		MaxTimeoutsPerHost: 2,                  // todo: configurable?
+		Subnets:         strings.Split(d.config.DiscoverySubnets, ","),
+		AsyncLimit:      d.config.ProbeAsyncLimit,
+		Timeout:         time.Duration(d.config.ProbeTimeoutMillis) * time.Millisecond,
+		ScanPorts:       []string{wsDiscoveryPort},
+		Logger:          d.lc,
+		NetworkProtocol: netscan.NetworkUDP,
 	}
 
 	t1 := time.Now()

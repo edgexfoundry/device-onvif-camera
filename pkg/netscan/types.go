@@ -52,18 +52,17 @@ type workerParams struct {
 type Params struct {
 	// Subnets is a slice of CIDR formatted subnets to scan
 	Subnets []string
-	// ScanPorts is a slice of ports to scan for on each host
+	// ScanPorts is a slice of ports to scan for on each host. The first port is done synchronously
+	// to test if the host is reachable, and any ports after that are done async.
 	ScanPorts []string
-	// AsyncLimit is the maximum amount of probes to run simultaneously
+	// AsyncLimit is the maximum amount of hosts to probe simultaneously. This does not include
+	// any async scanning for multiple ports on the same host.
 	AsyncLimit int
 	// NetworkProtocol is the type of probe to make: tcp, udp, etc.
 	NetworkProtocol string
-	// MaxTimeoutsPerHost is the amount of ports that timeout before we assume the host is offline and
-	// skip the rest of the ports. Set the value to 0 to disable this and always scan each port.
-	MaxTimeoutsPerHost int
 	// Timeout is the maximum amount of time to wait when connecting to a host before giving up.
 	Timeout time.Duration
-	// Logger is a generic logging client for this code to log messages to
+	// Logger is a generic logging client for this code to log messages to.
 	Logger Logger
 }
 

@@ -9,9 +9,11 @@ package netscan
 import (
 	"context"
 	"encoding/binary"
+	"fmt"
 	"github.com/pkg/errors"
 	"math"
 	"net"
+	"strings"
 	"sync"
 	"syscall"
 	"time"
@@ -35,7 +37,6 @@ func AutoDiscover(ctx context.Context, proto ProtocolSpecificDiscovery, params P
 	var estimatedProbes int
 	for _, cidr := range params.Subnets {
 		if cidr == "" {
-			params.Logger.Warnf("Empty CIDR provided, unable to scan for Onvif cameras.")
 			continue
 		}
 
@@ -56,6 +57,11 @@ func AutoDiscover(ctx context.Context, proto ProtocolSpecificDiscovery, params P
 		estimatedProbes += int(computeNetSz(sz))
 	}
 
+	if estimatedProbes == 0 {
+		params.Logger.Warnf("No valid CIDRs provided, unable to scan for devices.")
+		return nil
+	}
+
 	// if the estimated amount of probes we are going to make is less than
 	// the async limit, we only need to set the worker count to the total number
 	// of probes to avoid spawning more workers than probes
@@ -66,11 +72,19 @@ func AutoDiscover(ctx context.Context, proto ProtocolSpecificDiscovery, params P
 
 	probeFactor := time.Duration(math.Ceil(float64(estimatedProbes) / float64(asyncLimit)))
 	portCount := len(params.ScanPorts)
-	params.Logger.Debugf("total estimated network probes: %d, async limit: %d, probe timeout: %v, estimated time: min: %v max: %v typical: ~%v",
-		estimatedProbes, asyncLimit, params.Timeout,
-		probeFactor*params.Timeout,
-		probeFactor*params.Timeout*time.Duration(portCount),
-		probeFactor*params.Timeout*time.Duration(math.Min(float64(portCount), float64(params.MaxTimeoutsPerHost))))
+	var estimatedTimeStr string
+	if portCount == 1 {
+		estimatedTimeStr = fmt.Sprintf("%v", probeFactor*params.Timeout)
+	} else {
+		estimatedTimeStr = fmt.Sprintf("min: %v max: %v typical: ~%v",
+			probeFactor*params.Timeout,
+			probeFactor*params.Timeout*time.Duration(portCount),
+			// typical is just a guess, but have observed it taking around 3x the timeout time when 3
+			// or more ports are scanned.
+			probeFactor*params.Timeout*time.Duration(math.Min(float64(portCount), 3)))
+	}
+	params.Logger.Debugf("total estimated network probes: %d, async limit: %d, probe timeout: %v, estimated time: %s",
+		estimatedProbes, asyncLimit, params.Timeout, estimatedTimeStr)
 
 	ipCh := make(chan uint32, asyncLimit)
 	resultCh := make(chan []ProbeResult)
@@ -83,7 +97,7 @@ func AutoDiscover(ctx context.Context, proto ProtocolSpecificDiscovery, params P
 		proto:    proto,
 	}
 
-	// start the workers before adding any ips so they are ready to process
+	// start the workers before adding any ips, so they are ready to process
 	var wgIPWorkers sync.WaitGroup
 	wgIPWorkers.Add(asyncLimit)
 	for i := 0; i < asyncLimit; i++ {
@@ -151,8 +165,7 @@ func processResultChannel(resultCh chan []ProbeResult, proto ProtocolSpecificDis
 
 func handleConnectionInternal(host string, port string, conn net.Conn, params workerParams) {
 	// on udp, the dial is always successful, so don't print
-	if params.NetworkProtocol != NetworkUDP {
-		// flag the host as up so that way we know we can scan additional ports (if configured)
+	if !strings.HasPrefix(params.NetworkProtocol, NetworkUDP) {
 		params.Logger.Debugf("Connection dialed %s://%s:%s", params.NetworkProtocol, host, port)
 	}
 
@@ -174,10 +187,10 @@ func probe(host string, ports []string, params workerParams) {
 	conn, err := net.DialTimeout(params.NetworkProtocol, addr, params.Timeout)
 	if err != nil {
 		params.Logger.Tracef(err.Error())
-		// EHOSTUNREACH specifies that the host is un-reachable or there is no route to host. If this is
-		// the case, do not bother probing the host any longer.
-		// todo: should we quit on EHOSTDOWN as well?
-		if errors.Is(err, syscall.EHOSTUNREACH) {
+		// EHOSTUNREACH specifies that the host is un-reachable or there is no route to host.
+		// EHOSTDOWN specifies that the network or host is down.
+		// If either of these are the error, do not bother probing the host any longer.
+		if errors.Is(err, syscall.EHOSTUNREACH) || errors.Is(err, syscall.EHOSTDOWN) {
 			// quit probing this host
 			return
 		}
@@ -193,12 +206,12 @@ func probe(host string, ports []string, params workerParams) {
 	}
 
 	// scan the rest of the ports async (we know the host is at least reachable now)
-	// the reason for this is that after the initial set of probes are completed, there is a lot less left
+	// the reason for this is that after the initial set of probes are completed, there should be
+	// fewer hosts left, so we can speed up the process like this.
 	var wg sync.WaitGroup
 	for _, port := range ports[1:] {
 		p := port
 		addr := host + ":" + p
-		params.Logger.Tracef("Dial: %s", addr)
 		wg.Add(1)
 
 		// wrap this code in a func in order to be able to defer the close method within
@@ -206,6 +219,7 @@ func probe(host string, ports []string, params workerParams) {
 		go func(p2 string) {
 			defer wg.Done()
 
+			params.Logger.Tracef("Dial: %s", addr)
 			conn2, err := net.DialTimeout(params.NetworkProtocol, addr, params.Timeout)
 			if err != nil {
 				params.Logger.Tracef(err.Error())
@@ -216,7 +230,7 @@ func probe(host string, ports []string, params workerParams) {
 		}(p)
 	}
 
-	// wait for the rest of the probes
+	// wait for the rest of the probes to complete
 	wg.Wait()
 }
 

@@ -17,20 +17,13 @@ const (
 )
 
 func main() {
-	//if len(os.Args) < 2 {
-	//	fmt.Printf("usage: %s <interface-name>\n", os.Args[0])
-	//	os.Exit(2)
-	//}
-	//wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(os.Args[1])
-
 	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil,
 		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 
-	res := SendUDPUnicast(probeSOAP.String(), net.IPv4(10, 0, 0, 217))
+	res := SendUDPMulticast(probeSOAP.String())
 	log.Printf("%v", res)
 
-	//res := SendUDPMulticast(probeSOAP.String())
-	//log.Printf("%v", res)
+	wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface("")
 }
 
 func SendUDPUnicast(msg string, ip net.IP) []string {
