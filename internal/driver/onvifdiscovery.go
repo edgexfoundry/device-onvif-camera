@@ -170,7 +170,7 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 		if err != nil {
 			// ErrDeadlineExceeded is expected once the read timeout is expired
 			if !errors.Is(err, os.ErrDeadlineExceeded) {
-				params.Logger.Warnf("Unexpected error occurred while reading ws-discovery responses: %s", err.Error())
+				params.Logger.Debugf("Unexpected error occurred while reading ws-discovery responses: %s", err.Error())
 			}
 			break
 		}
