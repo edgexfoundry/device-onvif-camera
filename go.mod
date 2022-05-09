@@ -4,7 +4,7 @@ require (
 	github.com/IOTechSystems/onvif v0.1.1
 	github.com/edgexfoundry/device-sdk-go/v2 v2.2.0-dev.35
 	github.com/edgexfoundry/go-mod-bootstrap/v2 v2.2.0-dev.20
-	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.2.0-dev.27
+	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.2.0-dev.28
 	github.com/gorilla/mux v1.8.0
 	github.com/stretchr/testify v1.7.1
 )
