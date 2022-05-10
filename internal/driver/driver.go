@@ -11,13 +11,13 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
-	"github.com/edgexfoundry/device-onvif-camera/pkg/netscan"
 	"net/http"
 	"net/url"
 	"strings"
 	"sync"
 	"time"
+	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
+	"github.com/edgexfoundry/device-onvif-camera/pkg/netscan"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
@@ -42,6 +42,11 @@ const (
 	cameraDeleted = "CameraDeleted"
 
 	wsDiscoveryPort = "3702"
+)
+const (
+	NetScan   = "netscan"
+	Multicast = "multicast"
+	Both      = "both"
 )
 
 // Driver implements the sdkModel.ProtocolDriver interface for
@@ -379,10 +384,9 @@ func (d *Driver) Discover() {
 	d.discover(ctx)
 }
 
-func (d *Driver) discover(ctx context.Context) {
-	var discovered []sdkModel.DiscoveredDevice
 
-	// TODO: support multicast enable/disable via config option
+// multicast enable/disable via config option
+func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
 	t0 := time.Now()
 	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
 	d.lc.Info(fmt.Sprintf("Discovered %d device(s) in %v via multicast.", len(onvifDevices), time.Since(t0)))
@@ -395,7 +399,10 @@ func (d *Driver) discover(ctx context.Context) {
 		discovered = append(discovered, dev)
 	}
 
-	// TODO: support netscan enable/disable via config option
+	return discovered
+}
+// netscan enable/disable via config option
+func (d *Driver) discoverNetcast(ctx context.Context, discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
 	params := netscan.Params{
 		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
 		Subnets:         strings.Split(d.config.DiscoverySubnets, ","),
@@ -422,6 +429,16 @@ func (d *Driver) discover(ctx context.Context) {
 			continue
 		}
 		discovered = append(discovered, dev)
+	}
+	return discovered
+}
+func (d *Driver) discover(ctx context.Context) {
+	var discovered []sdkModel.DiscoveredDevice
+	if d.config.DiscoveryMode == Multicast || d.config.DiscoveryMode == Both {
+		discovered = d.discoverMulticast(discovered)
+	}
+	if d.config.DiscoveryMode == NetScan || d.config.DiscoveryMode == Both {
+		discovered = d.discoverNetcast(ctx, discovered)
 	}
 	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
 	d.deviceCh <- discovered
