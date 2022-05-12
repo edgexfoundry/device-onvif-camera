@@ -16,7 +16,7 @@ import (
 	"strings"
 	"sync"
 	"time"
-	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
+
 	"github.com/edgexfoundry/device-onvif-camera/pkg/netscan"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
@@ -31,6 +31,7 @@ import (
 
 	"github.com/IOTechSystems/onvif"
 	"github.com/IOTechSystems/onvif/device"
+	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 )
 
 const (
@@ -42,11 +43,9 @@ const (
 	cameraDeleted = "CameraDeleted"
 
 	wsDiscoveryPort = "3702"
-)
-const (
-	NetScan   = "netscan"
-	Multicast = "multicast"
-	Both      = "both"
+	NetScan         = "netscan"
+	Multicast       = "multicast"
+	Both            = "both"
 )
 
 // Driver implements the sdkModel.ProtocolDriver interface for
@@ -384,7 +383,6 @@ func (d *Driver) Discover() {
 	d.discover(ctx)
 }
 
-
 // multicast enable/disable via config option
 func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
 	t0 := time.Now()
@@ -401,6 +399,7 @@ func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdk
 
 	return discovered
 }
+
 // netscan enable/disable via config option
 func (d *Driver) discoverNetcast(ctx context.Context, discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
 	params := netscan.Params{
@@ -433,15 +432,15 @@ func (d *Driver) discoverNetcast(ctx context.Context, discovered []sdkModel.Disc
 	return discovered
 }
 func (d *Driver) discover(ctx context.Context) {
-	var discovered []sdkModel.DiscoveredDevice
+	var discoveredDevices []sdkModel.DiscoveredDevice
 	if d.config.DiscoveryMode == Multicast || d.config.DiscoveryMode == Both {
-		discovered = d.discoverMulticast(discovered)
+		discoveredDevices = d.discoverMulticast(discoveredDevices)
 	}
 	if d.config.DiscoveryMode == NetScan || d.config.DiscoveryMode == Both {
-		discovered = d.discoverNetcast(ctx, discovered)
+		discoveredDevices = d.discoverNetcast(ctx, discoveredDevices)
 	}
 	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
-	d.deviceCh <- discovered
+	d.deviceCh <- discoveredDevices
 }
 
 func addressAndPort(xaddr string) (string, string) {
