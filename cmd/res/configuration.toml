@@ -114,6 +114,7 @@ DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
 BaseNotificationURL = "http://192.168.12.112:59984"
 
+DiscoveryMode = "both" # netscan, multicast, or both
 # List of IPv4 subnets to perform LLRP discovery process on, in CIDR format (X.X.X.X/Y)
 # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
 DiscoverySubnets = ""

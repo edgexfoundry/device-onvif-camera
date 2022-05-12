@@ -28,6 +28,7 @@ type configuration struct {
 	// BaseNotificationURL indicates the device service network location
 	BaseNotificationURL string
 
+	DiscoveryMode              string
 	DiscoverySubnets           string
 	ProbeAsyncLimit            int
 	ProbeTimeoutMillis         int
