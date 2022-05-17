@@ -18,7 +18,6 @@ import (
 	"time"
 
 	"github.com/edgexfoundry/device-onvif-camera/pkg/netscan"
-
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/secret"
@@ -43,9 +42,14 @@ const (
 	cameraDeleted = "CameraDeleted"
 
 	wsDiscoveryPort = "3702"
-	NetScan         = "netscan"
-	Multicast       = "multicast"
-	Both            = "both"
+)
+
+type DiscoveryMode string
+
+const (
+	NetScan   DiscoveryMode = "netscan"
+	Multicast DiscoveryMode = "multicast"
+	Both      DiscoveryMode = "both"
 )
 
 // Driver implements the sdkModel.ProtocolDriver interface for
@@ -94,7 +98,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 		onvifClient, err := d.newOnvifClient(dev)
 		if err != nil {
-			d.lc.Errorf("failed to initial onvif client for '%s' camera, skipping this device.", dev.Name)
+			d.lc.Errorf("failed to initialize onvif client for '%s' camera, skipping this device.", dev.Name)
 			continue
 		}
 		d.lock.Lock()
@@ -123,7 +127,7 @@ func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) 
 		}
 		onvifClient, err = d.newOnvifClient(dev)
 		if err != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initial onvif client for '%s' camera", dev.Name), err)
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initialize onvif client for '%s' camera", dev.Name), err)
 		}
 		d.onvifClients[deviceName] = onvifClient
 	}
@@ -299,7 +303,7 @@ func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.Pro
 	return nil
 }
 
-// createOnvifClient create the Onvif client for specified the device
+// createOnvifClient creates the Onvif client used to communicate with the specified the device
 func (d *Driver) createOnvifClient(deviceName string) error {
 	dev, err := sdk.RunningService().GetDeviceByName(deviceName)
 	if err != nil {
@@ -307,7 +311,7 @@ func (d *Driver) createOnvifClient(deviceName string) error {
 	}
 	onvifClient, err := d.newOnvifClient(dev)
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initial onvif client for '%s' camera", dev.Name), err)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initialize onvif client for '%s' camera", dev.Name), err)
 	}
 
 	d.lock.Lock()
@@ -355,27 +359,8 @@ func (d *Driver) getCredentials(secretPath string) (credentials config.Credentia
 // Discover performs a discovery on the network and passes them to EdgeX to get provisioned
 func (d *Driver) Discover() {
 	d.lc.Info("Discover was called.")
-	//
-	//d.configMu.RLock()
-	maxSeconds := d.config.MaxDiscoverDurationSeconds
-	//d.configMu.RUnlock()
-	//
-	//if registerProvisionWatchers {
-	//	d.watchersMu.Lock()
-	//	if !d.addedWatchers {
-	//		if err := d.addProvisionWatchers(); err != nil {
-	//			d.lc.Error("Error adding provision watchers. Newly discovered devices may fail to register with EdgeX.",
-	//				"error", err.Error())
-	//			// Do not return on failure, as it is possible there are alternative watchers registered.
-	//			// And if not, the discovered devices will just not be registered with EdgeX, but will
-	//			// still be available for discovery again.
-	//		} else {
-	//			d.addedWatchers = true
-	//		}
-	//	}
-	//	d.watchersMu.Unlock()
-	//}
 
+	maxSeconds := d.config.MaxDiscoverDurationSeconds
 	ctx := context.Background()
 	if maxSeconds > 0 {
 		var cancel context.CancelFunc
@@ -384,7 +369,15 @@ func (d *Driver) Discover() {
 		defer cancel()
 	}
 
-	d.discover(ctx)
+	var discoveredDevices []sdkModel.DiscoveredDevice
+	if d.config.DiscoveryMode == Multicast || d.config.DiscoveryMode == Both {
+		discoveredDevices = d.discoverMulticast(discoveredDevices)
+	}
+	if d.config.DiscoveryMode == NetScan || d.config.DiscoveryMode == Both {
+		discoveredDevices = d.discoverNetscan(ctx, discoveredDevices)
+	}
+	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
+	d.deviceCh <- discoveredDevices
 }
 
 // multicast enable/disable via config option
@@ -405,7 +398,13 @@ func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdk
 }
 
 // netscan enable/disable via config option
-func (d *Driver) discoverNetcast(ctx context.Context, discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
+func (d *Driver) discoverNetscan(ctx context.Context, discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
+
+	if len(strings.TrimSpace(d.config.DiscoverySubnets)) == 0 {
+		d.lc.Debug("discovery not performed, DiscoverySubnets are empty.")
+		return nil
+	}
+
 	params := netscan.Params{
 		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
 		Subnets:         strings.Split(d.config.DiscoverySubnets, ","),
@@ -423,28 +422,17 @@ func (d *Driver) discoverNetcast(ctx context.Context, discovered []sdkModel.Disc
 	}
 
 	d.lc.Debugf("NetScan result: %+v", result)
-	d.lc.Info(fmt.Sprintf("Discovered %d device(s) in %v via netscan.", len(result), time.Since(t1)))
+	d.lc.Infof("Discovered %d device(s) in %v via netscan.", len(result), time.Since(t1))
 
 	for _, res := range result {
 		dev, ok := res.Info.(sdkModel.DiscoveredDevice)
 		if !ok {
-			d.lc.Warnf("unable to cast res.Data into sdkModel.DiscoveredDevice. type=%T", res.Info)
+			d.lc.Info("unable to cast res.Data into sdkModel.DiscoveredDevice. type=%T", res.Info)
 			continue
 		}
 		discovered = append(discovered, dev)
 	}
 	return discovered
-}
-func (d *Driver) discover(ctx context.Context) {
-	var discoveredDevices []sdkModel.DiscoveredDevice
-	if d.config.DiscoveryMode == Multicast || d.config.DiscoveryMode == Both {
-		discoveredDevices = d.discoverMulticast(discoveredDevices)
-	}
-	if d.config.DiscoveryMode == NetScan || d.config.DiscoveryMode == Both {
-		discoveredDevices = d.discoverNetcast(ctx, discoveredDevices)
-	}
-	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
-	d.deviceCh <- discoveredDevices
 }
 
 func addressAndPort(xaddr string) (string, string) {
@@ -499,7 +487,7 @@ func (d *Driver) newTemporaryOnvifClient(dev models.Device) (*OnvifClient, error
 		},
 	})
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initial Onvif device client", err)
+		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initialize Onvif device client", err)
 	}
 
 	client := &OnvifClient{

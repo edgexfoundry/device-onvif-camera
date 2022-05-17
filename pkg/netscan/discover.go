@@ -234,7 +234,7 @@ func probe(host string, ports []string, params workerParams) {
 	wg.Wait()
 }
 
-// ipWorker pulls uint32s from the ipCh, convert to IPs, filters then ip
+// ipWorker pulls uint32s from the ipCh, convert to IPs, filters them
 // to determine if a probe is to be made, makes the probe, and sends back successful
 // probes to the resultCh.
 func ipWorker(params workerParams) {
