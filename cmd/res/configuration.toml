@@ -114,6 +114,7 @@ DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
 BaseNotificationURL = "http://192.168.12.112:59984"
 
+# Select which discovery mechanism(s) to use
 DiscoveryMode = "both" # netscan, multicast, or both
 
 # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
