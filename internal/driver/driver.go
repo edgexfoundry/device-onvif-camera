@@ -316,18 +316,29 @@ func (d *Driver) createOnvifClient(deviceName string) error {
 	return nil
 }
 
-func (d *Driver) getCredentials(secretPath string) (config.Credentials, errors.EdgeX) {
-	credentials := config.Credentials{}
-	deviceService := sdk.RunningService()
+// tryGetCredentials will attempt one time to get the credentials located at secretPath from
+// secret provider and return them, otherwise return an error.
+func (d *Driver) tryGetCredentials(secretPath string) (config.Credentials, errors.EdgeX) {
+	secretData, err := sdk.RunningService().SecretProvider.GetSecret(secretPath, secret.UsernameKey, secret.PasswordKey)
+	if err != nil {
+		return config.Credentials{}, errors.NewCommonEdgeXWrapper(err)
+	}
+	return config.Credentials{
+		Username: secretData[secret.UsernameKey],
+		Password: secretData[secret.PasswordKey],
+	}, nil
+}
 
+// getCredentials will repeatedly try and get the credentials located at secretPath from
+// secret provider every CredentialsRetryTime seconds for a maximum of CredentialsRetryWait seconds.
+// Note that this function will block until either the credentials are found, or CredentialsRetryWait
+// seconds have elapsed.
+func (d *Driver) getCredentials(secretPath string) (credentials config.Credentials, err errors.EdgeX) {
 	timer := startup.NewTimer(d.config.CredentialsRetryTime, d.config.CredentialsRetryWait)
 
-	var secretData map[string]string
-	var err error
 	for timer.HasNotElapsed() {
-		secretData, err = deviceService.SecretProvider.GetSecret(secretPath, secret.UsernameKey, secret.PasswordKey)
-		if err == nil {
-			break
+		if credentials, err = d.tryGetCredentials(secretPath); err == nil {
+			return credentials, nil
 		}
 
 		d.lc.Warnf(
@@ -338,14 +349,7 @@ func (d *Driver) getCredentials(secretPath string) (config.Credentials, errors.E
 		timer.SleepForInterval()
 	}
 
-	if err != nil {
-		return credentials, errors.NewCommonEdgeXWrapper(err)
-	}
-
-	credentials.Username = secretData[secret.UsernameKey]
-	credentials.Password = secretData[secret.PasswordKey]
-
-	return credentials, nil
+	return credentials, err
 }
 
 // Discover performs a discovery on the network and passes them to EdgeX to get provisioned
@@ -478,7 +482,8 @@ func (d *Driver) newTemporaryOnvifClient(dev models.Device) (*OnvifClient, error
 
 	var credential config.Credentials
 	if cameraInfo.AuthMode != onvif.NoAuth {
-		credential, edgexErr = d.getCredentials(cameraInfo.SecretPath)
+		// since this is just a temporary client, we do not want to wait for credentials to be available
+		credential, edgexErr = d.tryGetCredentials(cameraInfo.SecretPath)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", dev.Name), edgexErr)
 		}
