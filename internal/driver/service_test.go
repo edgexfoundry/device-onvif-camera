@@ -49,7 +49,7 @@ func (s *MockSDKService) AddDiscoveredDevices(discovered []dsModels.DiscoveredDe
 		_, _ = s.AddDevice(models.Device{
 			Name:        d.Name,
 			Protocols:   d.Protocols,
-			ProfileName: "LLRP-Device-Profile",
+			ProfileName: "onvif-camera",
 		})
 	}
 }
