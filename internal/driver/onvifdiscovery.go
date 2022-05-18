@@ -205,31 +205,31 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 
 // makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress
 // todo: will be used in the future for device re-discovery purposes
-func (d *Driver) makeDeviceMap() map[string]contract.Device {
-	devices := d.svc.Devices()
-	deviceMap := make(map[string]contract.Device, len(devices))
-
-	for _, dev := range devices {
-		if dev.Name == d.serviceName {
-			// skip control plane device
-			continue
-		}
-
-		onvifInfo := dev.Protocols[OnvifProtocol]
-		if onvifInfo == nil {
-			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)
-			continue
-		}
-
-		endpointRef := onvifInfo["EndpointRefAddress"]
-		if endpointRef == "" {
-			d.lc.Warnf("Registered device %s is missing required %s protocol information: EndpointRefAddress.",
-				dev.Name, OnvifProtocol)
-			continue
-		}
-
-		deviceMap[endpointRef] = dev
-	}
-
-	return deviceMap
-}
+//func (d *Driver) makeDeviceMap() map[string]contract.Device {
+//	devices := d.svc.Devices()
+//	deviceMap := make(map[string]contract.Device, len(devices))
+//
+//	for _, dev := range devices {
+//		if dev.Name == d.serviceName {
+//			// skip control plane device
+//			continue
+//		}
+//
+//		onvifInfo := dev.Protocols[OnvifProtocol]
+//		if onvifInfo == nil {
+//			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)
+//			continue
+//		}
+//
+//		endpointRef := onvifInfo["EndpointRefAddress"]
+//		if endpointRef == "" {
+//			d.lc.Warnf("Registered device %s is missing required %s protocol information: EndpointRefAddress.",
+//				dev.Name, OnvifProtocol)
+//			continue
+//		}
+//
+//		deviceMap[endpointRef] = dev
+//	}
+//
+//	return deviceMap
+//}

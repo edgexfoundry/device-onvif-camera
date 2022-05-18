@@ -384,7 +384,7 @@ func (d *Driver) Discover() {
 func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
 	t0 := time.Now()
 	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
-	d.lc.Info(fmt.Sprintf("Discovered %d device(s) in %v via multicast.", len(onvifDevices), time.Since(t0)))
+	d.lc.Infof("Discovered %d device(s) in %v via multicast.", len(onvifDevices), time.Since(t0))
 	for _, onvifDevice := range onvifDevices {
 		dev, err := d.createDiscoveredDevice(onvifDevice)
 		if err != nil {
@@ -415,19 +415,19 @@ func (d *Driver) discoverNetscan(ctx context.Context, discovered []sdkModel.Disc
 		NetworkProtocol: netscan.NetworkUDP,
 	}
 
-	t1 := time.Now()
+	t0 := time.Now()
 	result := netscan.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
 	if ctx.Err() != nil {
 		d.lc.Warn("Discover process has been cancelled!", "ctxErr", ctx.Err())
 	}
 
 	d.lc.Debugf("NetScan result: %+v", result)
-	d.lc.Infof("Discovered %d device(s) in %v via netscan.", len(result), time.Since(t1))
+	d.lc.Infof("Discovered %d device(s) in %v via netscan.", len(result), time.Since(t0))
 
 	for _, res := range result {
 		dev, ok := res.Info.(sdkModel.DiscoveredDevice)
 		if !ok {
-			d.lc.Info("unable to cast res.Data into sdkModel.DiscoveredDevice. type=%T", res.Info)
+			d.lc.Warnf("unable to cast res.Info into sdkModel.DiscoveredDevice. type=%T", res.Info)
 			continue
 		}
 		discovered = append(discovered, dev)

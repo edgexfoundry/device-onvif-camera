@@ -4,7 +4,7 @@ This is a guide on how to configure the ONVIF device service for automatic devic
 
 <img alt="overview" src="images/auto-discovery-docker-overview.jpg" width="75%"/>
 
-Note: For macOS, the network_mode: "host" probably does not as expected: https://github.com/docker/for-mac/issues/1031
+Note: For macOS, the network_mode: "host" probably does not work as expected: https://github.com/docker/for-mac/issues/1031
 
 ## Non-Security Mode
 

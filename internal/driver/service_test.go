@@ -27,14 +27,14 @@ func NewMockSdkService() *MockSDKService {
 	}
 }
 
-func (s *MockSDKService) clearDevices() {
-	s.devices = make(map[string]models.Device)
-	s.resetAddedCount()
-}
+//func (s *MockSDKService) clearDevices() {
+//	s.devices = make(map[string]models.Device)
+//	s.resetAddedCount()
+//}
 
-func (s *MockSDKService) resetAddedCount() {
-	atomic.StoreUint32(&s.added, 0)
-}
+//func (s *MockSDKService) resetAddedCount() {
+//	atomic.StoreUint32(&s.added, 0)
+//}
 
 func (s *MockSDKService) Devices() []models.Device {
 	devices := make([]models.Device, len(s.devices))
@@ -86,10 +86,6 @@ func (s *MockSDKService) UpdateDeviceOperatingState(deviceName string, state str
 		return nil
 	}
 	return fmt.Errorf("device with name %s not found", deviceName)
-}
-
-func (s *MockSDKService) SetDeviceOpState(_ string, _ models.OperatingState) error {
-	return errors.New("Method not implemented.")
 }
 
 func (s *MockSDKService) GetProvisionWatcherByName(_ string) (models.ProvisionWatcher, error) {
