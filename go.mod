@@ -5,7 +5,7 @@ replace github.com/edgexfoundry/device-onvif-camera/pkg/netscan => ./pkg/netscan
 require (
 	github.com/IOTechSystems/onvif v0.1.1
 	github.com/edgexfoundry/device-onvif-camera/pkg/netscan v0.0.0-local
-	github.com/edgexfoundry/device-sdk-go/v2 v2.2.0-dev.38
+	github.com/edgexfoundry/device-sdk-go/v2 v2.2.0
 	github.com/edgexfoundry/go-mod-bootstrap/v2 v2.2.0
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.2.0
 	github.com/gofrs/uuid v3.2.0+incompatible
