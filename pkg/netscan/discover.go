@@ -157,7 +157,10 @@ func processResultChannel(resultCh chan []ProbeResult, proto ProtocolSpecificDis
 				params.Logger.Warnf("issue converting probe result to discovered device: %s", err.Error())
 				continue
 			}
-			devices = append(devices, dev)
+			// only add if a valid device was returned
+			if dev.Name != "" {
+				devices = append(devices, dev)
+			}
 		}
 	}
 	return devices
