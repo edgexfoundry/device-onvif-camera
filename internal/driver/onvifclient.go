@@ -305,7 +305,7 @@ func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName stri
 	}
 
 	responseEnvelope, edgexErr := createResponse(function, rsp)
-	if err != nil {
+	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create '%s' response for the web service '%s'", functionName, serviceName), edgexErr)
 	}
 	res, _ := xml.Marshal(responseEnvelope.Body.Content)
