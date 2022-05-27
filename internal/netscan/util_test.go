@@ -10,22 +10,32 @@ import (
 	"context"
 	"encoding/binary"
 	"fmt"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 	"net"
 	"strconv"
 	"sync"
 	"sync/atomic"
 	"testing"
+	"time"
 )
 
 type inetTest struct {
-	inet  string
+	inet      string
+	first     string
+	last      string
+	size      uint32
+	expectErr bool
+}
+
+type inetTestResult struct {
 	first string
 	last  string
 	size  uint32
-	err   bool
+	err   error
 }
 
-func mockIpWorker(ipCh <-chan uint32, result *inetTest) {
+func mockIpWorker(ipCh <-chan uint32, result *inetTestResult) {
 	ip := net.IP([]byte{0, 0, 0, 0})
 	var last uint32
 
@@ -43,7 +53,7 @@ func mockIpWorker(ipCh <-chan uint32, result *inetTest) {
 
 }
 
-func ipGeneratorTest(input inetTest) (result inetTest) {
+func ipGeneratorTest(input inetTest) (result inetTestResult) {
 	var wg sync.WaitGroup
 	ipCh := make(chan uint32, input.size)
 
@@ -55,11 +65,14 @@ func ipGeneratorTest(input inetTest) (result inetTest) {
 
 	_, inet, err := net.ParseCIDR(input.inet)
 	if err != nil {
-		result.err = true
+		result.err = err
 		return result
 	}
 
-	ipGenerator(context.Background(), inet, ipCh)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+
+	ipGenerator(ctx, inet, ipCh)
 	close(ipCh)
 	wg.Wait()
 
@@ -100,27 +113,45 @@ func TestIpGenerator(t *testing.T) {
 			last:  "10.255.255.254",
 			size:  computeNetSz(8),
 		},
+		{
+			inet:      "invalid inet",
+			expectErr: true,
+		},
+		{
+			inet:      "1.1.1.1/33",
+			expectErr: true,
+		},
+		{
+			inet:      "1.1.1.1",
+			expectErr: true,
+		},
+		{
+			inet:      "1.1.1.1/99",
+			expectErr: true,
+		},
+		{
+			inet:      "1.1/24",
+			expectErr: true,
+		},
+		{
+			inet:      "/24",
+			expectErr: true,
+		},
 	}
 	for _, input := range tests {
 		input := input
 		t.Run(input.inet, func(t *testing.T) {
 			t.Parallel()
 			result := ipGeneratorTest(input)
-			if result.err && !input.err {
-				t.Error("got unexpected error")
-			} else if !result.err && input.err {
-				t.Error("expected an error, but no error was returned")
+			if input.expectErr {
+				require.Error(t, result.err)
 			} else {
-				if result.size != input.size {
-					t.Errorf("expected %d ips, but got %d", input.size, result.size)
-				}
-				if result.first != input.first {
-					t.Errorf("expected first ip in range to be %s, but got %s", input.first, result.first)
-				}
-				if result.last != input.last {
-					t.Errorf("expected last ip in range to be %s, but got %s", input.last, result.last)
-				}
+				require.NoError(t, result.err)
 			}
+
+			assert.Equal(t, input.size, result.size)
+			assert.Equal(t, input.first, result.first)
+			assert.Equal(t, input.last, result.last)
 		})
 	}
 }
@@ -134,9 +165,7 @@ func TestIpGeneratorSubnetSizes(t *testing.T) {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
 			result := ipGeneratorTest(inetTest{size: uint32(i), inet: fmt.Sprintf("192.168.1.1/%d", i)})
-			if result.size != computeNetSz(i) {
-				t.Errorf("expected %d ips, but got %d", computeNetSz(i), result.size)
-			}
+			assert.Equal(t, computeNetSz(i), result.size)
 		})
 	}
 }

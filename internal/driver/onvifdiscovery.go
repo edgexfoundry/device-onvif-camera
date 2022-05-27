@@ -10,7 +10,7 @@ import (
 	"fmt"
 	"github.com/IOTechSystems/onvif"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
-	"github.com/edgexfoundry/device-onvif-camera/pkg/netscan"
+	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/gofrs/uuid"
@@ -48,7 +48,7 @@ func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string
 	// attempt a basic direct probe approach using the open connection
 	devices, err := executeRawProbe(conn, params)
 	if err != nil {
-		params.Logger.Debugf(err.Error())
+		params.Logger.Debug(err.Error())
 	} else if len(devices) > 0 {
 		return mapProbeResults(host, port, devices), nil
 	}
@@ -57,21 +57,18 @@ func (proto *OnvifProtocolDiscovery) OnConnectionDialed(host string, port string
 
 // ConvertProbeResult takes a raw ProbeResult and transforms it into a
 // processed DiscoveredDevice struct.
-func (proto *OnvifProtocolDiscovery) ConvertProbeResult(probeResult netscan.ProbeResult, params netscan.Params) (netscan.DiscoveredDevice, error) {
+func (proto *OnvifProtocolDiscovery) ConvertProbeResult(probeResult netscan.ProbeResult, params netscan.Params) (sdkModel.DiscoveredDevice, error) {
 	onvifDevice, ok := probeResult.Data.(onvif.Device)
 	if !ok {
-		return netscan.DiscoveredDevice{}, fmt.Errorf("unable to cast probe result into onvif.Device. type=%T", probeResult.Data)
+		return sdkModel.DiscoveredDevice{}, fmt.Errorf("unable to cast probe result into onvif.Device. type=%T", probeResult.Data)
 	}
 
 	discovered, err := proto.driver.createDiscoveredDevice(onvifDevice)
 	if err != nil {
-		return netscan.DiscoveredDevice{}, err
+		return sdkModel.DiscoveredDevice{}, err
 	}
 
-	return netscan.DiscoveredDevice{
-		Name: discovered.Name,
-		Info: discovered,
-	}, nil
+	return discovered, nil
 }
 
 // createDiscoveredDevice will take an onvif.Device that was detected on the network and
@@ -84,7 +81,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		return sdkModel.DiscoveredDevice{}, fmt.Errorf("empty EndpointRefAddress for XAddr %s", xaddr)
 	}
 	address, port := addressAndPort(xaddr)
-	dev := contract.Device{
+	device := contract.Device{
 		// Using Xaddr as the temporary name
 		Name: xaddr,
 		Protocols: map[string]contract.ProtocolProperties{
@@ -98,11 +95,12 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		},
 	}
 
-	devInfo, edgexErr := d.getDeviceInformation(dev)
+	devInfo, edgexErr := d.getDeviceInformation(device)
 	if edgexErr != nil {
-		// try again using the device name as the SecretPath
-		dev.Protocols[OnvifProtocol][SecretPath] = endpointRefAddr
-		devInfo, edgexErr = d.getDeviceInformation(dev)
+		// try again using the endpointRefAddr as the SecretPath. the reason for this is that
+		// the user may have pre-filled the secret store with per-device credentials based on the endpointRefAddr.
+		device.Protocols[OnvifProtocol][SecretPath] = endpointRefAddr
+		devInfo, edgexErr = d.getDeviceInformation(device)
 	}
 
 	var discovered sdkModel.DiscoveredDevice
@@ -110,17 +108,17 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRefAddr, edgexErr)
 		discovered = sdkModel.DiscoveredDevice{
 			Name:        endpointRefAddr,
-			Protocols:   dev.Protocols,
+			Protocols:   device.Protocols,
 			Description: "Auto discovered Onvif camera",
 			Labels:      []string{"auto-discovery"},
 		}
-		d.lc.Debugf("Discovered unknown camera from the address '%s'", xaddr)
+		d.lc.Debugf("Discovered unknown camera '%s' from the address '%s'", discovered.Name, xaddr)
 	} else {
-		dev.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
-		dev.Protocols[OnvifProtocol][Model] = devInfo.Model
-		dev.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
-		dev.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
-		dev.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
+		device.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
+		device.Protocols[OnvifProtocol][Model] = devInfo.Model
+		device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
+		device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
+		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
 
 		// Spaces are not allowed in the device name
 		deviceName := fmt.Sprintf("%s-%s-%s",
@@ -130,11 +128,11 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 
 		discovered = sdkModel.DiscoveredDevice{
 			Name:        deviceName,
-			Protocols:   dev.Protocols,
+			Protocols:   device.Protocols,
 			Description: fmt.Sprintf("%s %s Camera", devInfo.Manufacturer, devInfo.Model),
 			Labels:      []string{"auto-discovery", devInfo.Manufacturer, devInfo.Model},
 		}
-		d.lc.Debugf("Discovered camera from the address '%s'", xaddr)
+		d.lc.Debugf("Discovered camera '%s' from the address '%s'", discovered.Name, xaddr)
 	}
 	return discovered, nil
 }
@@ -142,11 +140,11 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 // mapProbeResults converts a slice of discovered onvif.Device into the generic
 // netscan.ProbeResult.
 func mapProbeResults(host, port string, devices []onvif.Device) (res []netscan.ProbeResult) {
-	for _, dev := range devices {
+	for _, device := range devices {
 		res = append(res, netscan.ProbeResult{
 			Host: host,
 			Port: port,
-			Data: dev,
+			Data: device,
 		})
 	}
 	return res
@@ -184,6 +182,8 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 	}
 
 	if len(responses) == 0 {
+		// log as trace because when using UDP this will be logged for all devices that are probed
+		// that do not respond or refuse the connection.
 		params.Logger.Tracef("%s: No Response", addr)
 		return nil, nil
 	}
@@ -202,34 +202,3 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 
 	return devices, nil
 }
-
-// makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress
-// todo: will be used in the future for device re-discovery purposes
-//func (d *Driver) makeDeviceMap() map[string]contract.Device {
-//	devices := d.svc.Devices()
-//	deviceMap := make(map[string]contract.Device, len(devices))
-//
-//	for _, dev := range devices {
-//		if dev.Name == d.serviceName {
-//			// skip control plane device
-//			continue
-//		}
-//
-//		onvifInfo := dev.Protocols[OnvifProtocol]
-//		if onvifInfo == nil {
-//			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)
-//			continue
-//		}
-//
-//		endpointRef := onvifInfo["EndpointRefAddress"]
-//		if endpointRef == "" {
-//			d.lc.Warnf("Registered device %s is missing required %s protocol information: EndpointRefAddress.",
-//				dev.Name, OnvifProtocol)
-//			continue
-//		}
-//
-//		deviceMap[endpointRef] = dev
-//	}
-//
-//	return deviceMap
-//}

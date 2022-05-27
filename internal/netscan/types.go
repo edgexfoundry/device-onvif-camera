@@ -8,6 +8,8 @@ package netscan
 
 import (
 	"context"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"net"
 	"time"
 )
@@ -24,7 +26,7 @@ type ProtocolSpecificDiscovery interface {
 
 	// ConvertProbeResult takes a raw ProbeResult and transforms it into a
 	// processed DiscoveredDevice struct.
-	ConvertProbeResult(probeResult ProbeResult, params Params) (DiscoveredDevice, error)
+	ConvertProbeResult(probeResult ProbeResult, params Params) (sdkModel.DiscoveredDevice, error)
 }
 
 // ProbeResult holds the pre-processed information about a discovered device
@@ -63,28 +65,5 @@ type Params struct {
 	// Timeout is the maximum amount of time to wait when connecting to a host before giving up.
 	Timeout time.Duration
 	// Logger is a generic logging client for this code to log messages to.
-	Logger Logger
-}
-
-// DiscoveredDevice defines the required information for a found device.
-type DiscoveredDevice struct {
-	Name string
-	Info interface{}
-}
-
-// Logger is a generic logging interface in order to not lock this code
-// into a specific logging framework. It is directly compatible with, but not limited to:
-// - github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger LoggingClient
-// - github.com/sirupsen/logrus Logger
-type Logger interface {
-	// Debugf logs a formatted message at the DEBUG severity level
-	Debugf(format string, args ...interface{})
-	// Errorf logs a formatted message at the ERROR severity level
-	Errorf(format string, args ...interface{})
-	// Infof logs a formatted message at the INFO severity level
-	Infof(format string, args ...interface{})
-	// Tracef logs a formatted message at the TRACE severity level
-	Tracef(format string, args ...interface{})
-	// Warnf logs a formatted message at the WARN severity level
-	Warnf(format string, args ...interface{})
+	Logger logger.LoggingClient
 }
