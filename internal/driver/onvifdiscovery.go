@@ -7,18 +7,21 @@
 package driver
 
 import (
+	stdErrors "errors"
 	"fmt"
-	"github.com/IOTechSystems/onvif"
-	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
-	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
-	"github.com/gofrs/uuid"
-	"github.com/pkg/errors"
 	"net"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/IOTechSystems/onvif"
+	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
+	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
+
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
+	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/gofrs/uuid"
 )
 
 const (
@@ -158,12 +161,13 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 
 	addr := conn.RemoteAddr().String()
+
 	if err := conn.SetDeadline(time.Now().Add(params.Timeout)); err != nil {
-		return nil, errors.Wrapf(err, "%s: failed to set read/write deadline", addr)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("%s: failed to set read/write deadline", addr), err)
 	}
 
 	if _, err := conn.Write([]byte(probeSOAP.String())); err != nil {
-		return nil, errors.Wrap(err, "failed to write probe message")
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to write probe message", err)
 	}
 
 	var responses []string
@@ -173,7 +177,7 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 		n, _, err := (conn.(net.PacketConn)).ReadFrom(buf)
 		if err != nil {
 			// ErrDeadlineExceeded is expected once the read timeout is expired
-			if !errors.Is(err, os.ErrDeadlineExceeded) {
+			if !stdErrors.Is(err, os.ErrDeadlineExceeded) {
 				params.Logger.Debugf("Unexpected error occurred while reading ws-discovery responses: %s", err.Error())
 			}
 			break

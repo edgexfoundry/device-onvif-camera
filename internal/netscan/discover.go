@@ -9,15 +9,16 @@ package netscan
 import (
 	"context"
 	"encoding/binary"
+	"errors"
 	"fmt"
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	"github.com/pkg/errors"
 	"math"
 	"net"
 	"strings"
 	"sync"
 	"syscall"
 	"time"
+
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 )
 
 const (
