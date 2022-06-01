@@ -11,14 +11,13 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	"math"
 	"net"
 	"strings"
 	"sync"
 	"syscall"
 	"time"
-
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 )
 
 const (
