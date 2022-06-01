@@ -15,7 +15,8 @@ import (
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
-type configuration struct {
+// CustomConfig holds the values for the driver configuration
+type CustomConfig struct {
 	CredentialsRetryTime int
 	CredentialsRetryWait int
 	RequestTimeout       int
@@ -38,6 +39,27 @@ type configuration struct {
 	ProbeTimeoutMillis int
 	// MaxDiscoverDurationSeconds indicates the amount of seconds discovery will run before timing out.
 	MaxDiscoverDurationSeconds int
+
+	// Location of Provision Watchers
+	ProvisionWatcherDir string
+}
+
+// ServiceConfig a struct that wraps CustomConfig which holds the values for driver configuration
+type ServiceConfig struct {
+	AppCustom CustomConfig
+}
+
+// UpdateFromRaw updates the service's full configuration from raw data received from
+// the Service Provider.
+func (c *ServiceConfig) UpdateFromRaw(rawConfig interface{}) bool {
+	configuration, ok := rawConfig.(*ServiceConfig)
+	if !ok {
+		return false
+	}
+
+	*c = *configuration
+
+	return true
 }
 
 // CameraInfo holds the camera connection info
@@ -46,16 +68,6 @@ type CameraInfo struct {
 	Port       int
 	AuthMode   string
 	SecretPath string
-}
-
-// loadCameraConfig loads the camera configuration
-func loadCameraConfig(configMap map[string]string) (*configuration, error) {
-	config := new(configuration)
-	err := load(configMap, config)
-	if err != nil {
-		return config, err
-	}
-	return config, nil
 }
 
 // CreateCameraInfo creates new CameraInfo entity from the protocol properties

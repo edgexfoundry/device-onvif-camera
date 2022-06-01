@@ -144,8 +144,12 @@ func (consumer *Consumer) subscribeRequest() *event.Subscribe {
 	InitialTerminationTime := xsd.String(*consumer.subscriptionRequest.InitialTerminationTime)
 	subscriptionPolicy := xsd.String(*consumer.subscriptionRequest.SubscriptionPolicy)
 
+	consumer.onvifClient.driver.configMu.RLock()
+	baseNotificationURL := consumer.onvifClient.driver.config.AppCustom.BaseNotificationURL
+	consumer.onvifClient.driver.configMu.RUnlock()
+
 	address := fmt.Sprintf("%s%s/%s/%s/%s",
-		consumer.onvifClient.driverConfig.BaseNotificationURL, common.ApiBase, OnvifEventRestPath, consumer.onvifClient.DeviceName, consumer.onvifClient.CameraEventResource.Name)
+		baseNotificationURL, common.ApiBase, OnvifEventRestPath, consumer.onvifClient.DeviceName, consumer.onvifClient.CameraEventResource.Name)
 	consumerReference := &event.EndpointReferenceType{
 		Address: event.AttributedURIType(address),
 	}

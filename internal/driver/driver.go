@@ -12,8 +12,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
+	"io/ioutil"
 	"net/http"
 	"net/url"
+	"path/filepath"
 	"strings"
 	"sync"
 	"time"
@@ -42,6 +45,13 @@ const (
 	cameraDeleted = "CameraDeleted"
 
 	wsDiscoveryPort = "3702"
+
+	// enable this by default, otherwise discovery will not work.
+	registerProvisionWatchers = true
+
+	// discoverDebounceDuration is the amount of time to wait for additional changes to discover
+	// configuration before auto-triggering a discovery
+	discoverDebounceDuration = 10 * time.Second
 )
 
 type DiscoveryMode string
@@ -55,14 +65,43 @@ const (
 // Driver implements the sdkModel.ProtocolDriver interface for
 // the device service
 type Driver struct {
-	lc           logger.LoggingClient
-	asynchCh     chan<- *sdkModel.AsyncValues
-	deviceCh     chan<- []sdkModel.DiscoveredDevice
-	config       *configuration
-	lock         *sync.RWMutex
+	lc          logger.LoggingClient
+	asynchCh    chan<- *sdkModel.AsyncValues
+	deviceCh    chan<- []sdkModel.DiscoveredDevice
+	serviceName string
+
 	onvifClients map[string]*OnvifClient
-	serviceName  string
+	clientsMu    *sync.RWMutex
+
+	config   *ServiceConfig
+	configMu *sync.RWMutex
+
+	addedWatchers bool
+	watchersMu    sync.Mutex
+
+	// debounceTimer and debounceMu keep track of when to fire a debounced discovery call
+	debounceTimer *time.Timer
+	debounceMu    sync.Mutex
 }
+
+type MultiErr []error
+
+//goland:noinspection GoReceiverNames
+func (me MultiErr) Error() string {
+	strs := make([]string, len(me))
+	for i, s := range me {
+		strs[i] = s.Error()
+	}
+
+	return strings.Join(strs, "; ")
+}
+
+// EdgeX's Device SDK takes an interface{}
+// and uses a runtime-check to determine that it implements ProtocolDriver,
+// at which point it will abruptly exit without a panic.
+// This restores type-safety by making it so that we can't compile
+// unless we meet the runtime-required interface.
+var _ sdkModel.ProtocolDriver = (*Driver)(nil)
 
 // Initialize performs protocol-specific initialization for the device
 // service.
@@ -71,17 +110,26 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.lc = lc
 	d.asynchCh = asyncCh
 	d.deviceCh = deviceCh
-	d.lock = new(sync.RWMutex)
+	d.clientsMu = new(sync.RWMutex)
+	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
-	d.serviceName = sdk.RunningService().Name()
-
-	camConfig, err := loadCameraConfig(sdk.DriverConfigs())
-	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, "failed to load camera configuration", err)
-	}
-	d.config = camConfig
 
 	deviceService := sdk.RunningService()
+
+	d.serviceName = deviceService.Name()
+	d.config = &ServiceConfig{}
+
+	err := deviceService.LoadCustomConfig(d.config, "AppCustom")
+	if err != nil {
+		return errors.NewCommonEdgeX(errors.KindServerError, "custom driver configuration failed to load", err)
+	}
+
+	lc.Debugf("Custom config is : %+v", d.config)
+
+	err = deviceService.ListenForCustomConfigChanges(&d.config.AppCustom, "AppCustom", d.updateWritableConfig)
+	if err != nil {
+		return errors.NewCommonEdgeX(errors.KindServerError, "failed to listen to custom config changes", err)
+	}
 
 	for _, device := range deviceService.Devices() {
 		// onvif client should not be created for the control-plane device
@@ -96,9 +144,9 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 			d.lc.Errorf("failed to initialize onvif client for '%s' camera, skipping this device.", device.Name)
 			continue
 		}
-		d.lock.Lock()
+		d.clientsMu.Lock()
 		d.onvifClients[device.Name] = onvifClient
-		d.lock.Unlock()
+		d.clientsMu.Unlock()
 	}
 
 	handler := NewRestNotificationHandler(deviceService, lc, asyncCh)
@@ -111,9 +159,130 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	return nil
 }
 
+func (d *Driver) updateWritableConfig(rawWritableConfig interface{}) {
+	updated, ok := rawWritableConfig.(*CustomConfig)
+	if !ok {
+		d.lc.Error("unable to update writable custom config: Can not cast raw config to type 'CustomConfig'")
+		return
+	}
+
+	d.configMu.Lock()
+	oldSubnets := d.config.AppCustom.DiscoverySubnets
+	d.config.AppCustom = *updated
+	d.configMu.Unlock()
+
+	if updated.DiscoverySubnets != oldSubnets {
+		d.lc.Info("Discover configuration has changed! Discovery will be triggered momentarily.")
+		d.debouncedDiscover()
+	}
+}
+
+// debouncedDiscover adds or updates a future call to Discover. This function is intended to be
+// called by the config watcher in response to any configuration changes related to discovery.
+// The reason Discover calls are being debounced is to allow the user to make multiple changes to
+// their configuration, and only fire the discovery once.
+//
+// The way it works is that this code creates and starts a timer for discoverDebounceDuration.
+// Every subsequent call to this function before that timer elapses resets the timer to
+// discoverDebounceDuration. Once the timer finally elapses, the Discover function is called.
+func (d *Driver) debouncedDiscover() {
+	d.lc.Debug(fmt.Sprintf("trigger debounced discovery in %v", discoverDebounceDuration))
+
+	// everything in this function is mutex-locked and is safe to access asynchronously
+	d.debounceMu.Lock()
+	defer d.debounceMu.Unlock()
+
+	if d.debounceTimer != nil {
+		// timer is already active, so reset it (debounce)
+		d.debounceTimer.Reset(discoverDebounceDuration)
+	} else {
+		// no timer is active, so create and start a new one
+		d.debounceTimer = time.NewTimer(discoverDebounceDuration)
+
+		// asynchronously listen for the timer to elapse. this go routine will only ever be run
+		// once due to mutex locking and the above if statement.
+		go func() {
+			// wait for timer to tick
+			<-d.debounceTimer.C
+
+			// remove timer. we must lock the mutex as this go routine runs separately from the
+			// outer function's locked scope
+			d.debounceMu.Lock()
+			d.debounceTimer = nil
+			d.debounceMu.Unlock()
+
+			d.Discover()
+		}()
+	}
+}
+
+// todo: remove this method once the Device SDK has been updated as per https://github.com/edgexfoundry/device-sdk-go/issues/1100
+func (d *Driver) addProvisionWatchers() error {
+
+	// this setting is a workaround for the fact that there is no standard way to define this directory using the SDK
+	// the snap needs to be able to change the location of the provision watchers
+	d.configMu.RLock()
+	provisionWatcherFolder := d.config.AppCustom.ProvisionWatcherDir
+	d.configMu.RUnlock()
+	if provisionWatcherFolder == "" {
+		provisionWatcherFolder = "res/provision_watchers"
+	}
+	d.lc.Infof("Adding provision watchers from %s", provisionWatcherFolder)
+
+	files, err := ioutil.ReadDir(provisionWatcherFolder)
+	if err != nil {
+		return err
+	}
+
+	d.lc.Debugf("%d provision watcher files found", len(files))
+
+	var errs []error
+	for _, file := range files {
+		filename := filepath.Join(provisionWatcherFolder, file.Name())
+		d.lc.Debugf("processing %s", filename)
+		var watcher dtos.ProvisionWatcher
+		data, err := ioutil.ReadFile(filename)
+		if err != nil {
+			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "error reading file "+filename, err))
+			continue
+		}
+
+		if err := json.Unmarshal(data, &watcher); err != nil {
+			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "error unmarshalling provision watcher "+filename, err))
+			continue
+		}
+
+		err = common.Validate(watcher)
+		if err != nil {
+			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "provision watcher validation failed "+filename, err))
+			continue
+		}
+
+		if _, err := sdk.RunningService().GetProvisionWatcherByName(watcher.Name); err == nil {
+			d.lc.Debugf("skip existing provision watcher %s", watcher.Name)
+			continue // provision watcher already exists
+		}
+
+		watcherModel := dtos.ToProvisionWatcherModel(watcher)
+
+		d.lc.Infof("Adding provision watcher:%s", watcherModel.Name)
+		id, err := sdk.RunningService().AddProvisionWatcher(watcherModel)
+		if err != nil {
+			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "error adding provision watcher "+watcherModel.Name, err))
+			continue
+		}
+		d.lc.Infof("Successfully added provision watcher: %s,  ID: %s", watcherModel.Name, id)
+	}
+
+	if errs != nil {
+		return MultiErr(errs)
+	}
+	return nil
+}
+
 func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) {
-	d.lock.RLock()
-	defer d.lock.RUnlock()
+	d.clientsMu.RLock()
+	defer d.clientsMu.RUnlock()
 	onvifClient, ok := d.onvifClients[deviceName]
 	if !ok {
 		device, err := sdk.RunningService().GetDeviceByName(deviceName)
@@ -130,8 +299,8 @@ func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) 
 }
 
 func (d *Driver) removeOnvifClient(deviceName string) {
-	d.lock.Lock()
-	defer d.lock.Unlock()
+	d.clientsMu.Lock()
+	defer d.clientsMu.Unlock()
 	_, ok := d.onvifClients[deviceName]
 	if ok {
 		delete(d.onvifClients, deviceName)
@@ -309,8 +478,8 @@ func (d *Driver) createOnvifClient(deviceName string) error {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initialize onvif client for '%s' camera", device.Name), err)
 	}
 
-	d.lock.Lock()
-	defer d.lock.Unlock()
+	d.clientsMu.Lock()
+	defer d.clientsMu.Unlock()
 	d.onvifClients[deviceName] = onvifClient
 	return nil
 }
@@ -333,7 +502,9 @@ func (d *Driver) tryGetCredentials(secretPath string) (config.Credentials, error
 // Note that this function will block until either the credentials are found, or CredentialsRetryWait
 // seconds have elapsed.
 func (d *Driver) getCredentials(secretPath string) (credentials config.Credentials, err errors.EdgeX) {
-	timer := startup.NewTimer(d.config.CredentialsRetryTime, d.config.CredentialsRetryWait)
+	d.configMu.RLock()
+	timer := startup.NewTimer(d.config.AppCustom.CredentialsRetryTime, d.config.AppCustom.CredentialsRetryWait)
+	d.configMu.RUnlock()
 
 	for timer.HasNotElapsed() {
 		if credentials, err = d.tryGetCredentials(secretPath); err == nil {
@@ -355,7 +526,27 @@ func (d *Driver) getCredentials(secretPath string) (credentials config.Credentia
 func (d *Driver) Discover() {
 	d.lc.Info("Discover was called.")
 
-	maxSeconds := d.config.MaxDiscoverDurationSeconds
+	d.configMu.RLock()
+	maxSeconds := d.config.AppCustom.MaxDiscoverDurationSeconds
+	discoveryMode := d.config.AppCustom.DiscoveryMode
+	d.configMu.RUnlock()
+
+	if registerProvisionWatchers {
+		d.watchersMu.Lock()
+		if !d.addedWatchers {
+			if err := d.addProvisionWatchers(); err != nil {
+				d.lc.Error("Error adding provision watchers. Newly discovered devices may fail to register with EdgeX.",
+					"error", err.Error())
+				// Do not return on failure, as it is possible there are alternative watchers registered.
+				// And if not, the discovered devices will just not be registered with EdgeX, but will
+				// still be available for discovery again.
+			} else {
+				d.addedWatchers = true
+			}
+		}
+		d.watchersMu.Unlock()
+	}
+
 	ctx := context.Background()
 	if maxSeconds > 0 {
 		var cancel context.CancelFunc
@@ -365,10 +556,10 @@ func (d *Driver) Discover() {
 	}
 
 	var discoveredDevices []sdkModel.DiscoveredDevice
-	if d.config.DiscoveryMode == Multicast || d.config.DiscoveryMode == Both {
+	if discoveryMode == Multicast || discoveryMode == Both {
 		discoveredDevices = append(discoveredDevices, d.discoverMulticast(discoveredDevices)...)
 	}
-	if d.config.DiscoveryMode == NetScan || d.config.DiscoveryMode == Both {
+	if discoveryMode == NetScan || discoveryMode == Both {
 		discoveredDevices = append(discoveredDevices, d.discoverNetscan(ctx, discoveredDevices)...)
 	}
 	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
@@ -377,8 +568,12 @@ func (d *Driver) Discover() {
 
 // multicast enable/disable via config option
 func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
+	d.configMu.RLock()
+	discoveryEthernetInterface := d.config.AppCustom.DiscoveryEthernetInterface
+	d.configMu.RUnlock()
+
 	t0 := time.Now()
-	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
+	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(discoveryEthernetInterface)
 	d.lc.Infof("Discovered %d device(s) in %v via multicast.", len(onvifDevices), time.Since(t0))
 	for _, onvifDevice := range onvifDevices {
 		device, err := d.createDiscoveredDevice(onvifDevice)
@@ -395,20 +590,22 @@ func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdk
 // netscan enable/disable via config option
 func (d *Driver) discoverNetscan(ctx context.Context, discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
 
-	if len(strings.TrimSpace(d.config.DiscoverySubnets)) == 0 {
+	if len(strings.TrimSpace(d.config.AppCustom.DiscoverySubnets)) == 0 {
 		d.lc.Warn("netscan discovery was called, but DiscoverySubnets are empty!")
 		return nil
 	}
 
+	d.configMu.RLock()
 	params := netscan.Params{
 		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
-		Subnets:         strings.Split(d.config.DiscoverySubnets, ","),
-		AsyncLimit:      d.config.ProbeAsyncLimit,
-		Timeout:         time.Duration(d.config.ProbeTimeoutMillis) * time.Millisecond,
+		Subnets:         strings.Split(d.config.AppCustom.DiscoverySubnets, ","),
+		AsyncLimit:      d.config.AppCustom.ProbeAsyncLimit,
+		Timeout:         time.Duration(d.config.AppCustom.ProbeTimeoutMillis) * time.Millisecond,
 		ScanPorts:       []string{wsDiscoveryPort},
 		Logger:          d.lc,
 		NetworkProtocol: netscan.NetworkUDP,
 	}
+	d.configMu.RUnlock()
 
 	t0 := time.Now()
 	result := netscan.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
@@ -465,13 +662,17 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 		}
 	}
 
+	d.configMu.Lock()
+	requestTimeout := d.config.AppCustom.RequestTimeout
+	d.configMu.Unlock()
+
 	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr:    deviceAddress(cameraInfo),
 		Username: credential.Username,
 		Password: credential.Password,
 		AuthMode: cameraInfo.AuthMode,
 		HttpClient: &http.Client{
-			Timeout: time.Duration(d.config.RequestTimeout) * time.Second,
+			Timeout: time.Duration(requestTimeout) * time.Second,
 		},
 	})
 	if err != nil {

@@ -49,7 +49,11 @@ func (manager *PullPointManager) NewSubscriber(onvifClient *OnvifClient, resourc
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 
-	onvifDevice, err := manager.newSubscriberOnvifDevice(onvifClient.onvifDevice, *request.MessageTimeout, onvifClient.driverConfig.RequestTimeout)
+	onvifClient.driver.configMu.RLock()
+	requestTimeout := onvifClient.driver.config.AppCustom.RequestTimeout
+	onvifClient.driver.configMu.RUnlock()
+
+	onvifDevice, err := manager.newSubscriberOnvifDevice(onvifClient.onvifDevice, *request.MessageTimeout, requestTimeout)
 	if edgexErr != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create onvif device for pulling event, %v", err), edgexErr)
 	}
