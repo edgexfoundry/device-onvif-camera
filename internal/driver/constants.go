@@ -7,11 +7,12 @@
 package driver
 
 const (
-	OnvifProtocol = "Onvif"
-	Address       = "Address"
-	Port          = "Port"
-	AuthMode      = "AuthMode"
-	SecretPath    = "SecretPath"
+	OnvifProtocol      = "Onvif"
+	Address            = "Address"
+	Port               = "Port"
+	AuthMode           = "AuthMode"
+	SecretPath         = "SecretPath"
+	EndpointRefAddress = "EndpointRefAddress"
 
 	// Service is resource attribute and indicates the web service for the Onvif
 	Service = "service"

@@ -108,8 +108,26 @@ UseMessageBus = true
 CredentialsRetryTime = "120" # Seconds
 CredentialsRetryWait = "1" # Seconds
 RequestTimeout = "5" # Seconds
-DiscoveryEthernetInterface = "en0"
+DiscoveryEthernetInterface = ""
 DefaultAuthMode = "usernametoken"
 DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
 BaseNotificationURL = "http://192.168.12.112:59984"
+
+# Select which discovery mechanism(s) to use
+DiscoveryMode = "both" # netscan, multicast, or both
+
+# List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+DiscoverySubnets = ""
+
+# Maximum simultaneous network probes
+ProbeAsyncLimit = "4000"
+
+# Maximum amount of milliseconds to wait for each IP probe before timing out.
+# This will also be the minimum time the discovery process can take.
+ProbeTimeoutMillis = "2000"
+
+# Maximum amount of seconds the discovery process is allowed to run before it will be cancelled.
+# It is especially important to have this configured in the case of larger subnets such as /16 and /8
+MaxDiscoverDurationSeconds = "300"

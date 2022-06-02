@@ -5,6 +5,7 @@ require (
 	github.com/edgexfoundry/device-sdk-go/v2 v2.2.0
 	github.com/edgexfoundry/go-mod-bootstrap/v2 v2.2.0
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.2.0
+	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/gorilla/mux v1.8.0
 	github.com/stretchr/testify v1.7.1
 )
@@ -31,7 +32,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.0 // indirect
 	github.com/go-playground/validator/v10 v10.10.1 // indirect
 	github.com/go-redis/redis/v7 v7.3.0 // indirect
-	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect

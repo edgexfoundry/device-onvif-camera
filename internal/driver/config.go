@@ -27,6 +27,17 @@ type configuration struct {
 	DiscoveryEthernetInterface string
 	// BaseNotificationURL indicates the device service network location
 	BaseNotificationURL string
+
+	// DiscoveryMode indicates mode used to discovery devices on the network.
+	DiscoveryMode DiscoveryMode
+	// DiscoverySubnets indicates the network segments used when discovery is scanning for devices.
+	DiscoverySubnets string
+	// ProbeAsyncLimit indicates the maximum number of simultaneous network probes.
+	ProbeAsyncLimit int
+	// ProbeTimeoutMillis indicates the maximum amount of milliseconds to wait for each IP probe before timing out.
+	ProbeTimeoutMillis int
+	// MaxDiscoverDurationSeconds indicates the amount of seconds discovery will run before timing out.
+	MaxDiscoverDurationSeconds int
 }
 
 // CameraInfo holds the camera connection info

@@ -1,6 +1,8 @@
 # Auto Discovery
+There are two methods that the device service can use to discover and add ONVIF compliant cameras using WS-Discovery, multicast and netscan.
 
-## How does the WS-Discovery work?
+
+## How does WS-Discovery work?
 
 ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.
 
@@ -8,12 +10,12 @@ Probe messages are sent over UDP to a standardized multicast address and UDP por
 
 <img src="images/auto-discovery.jpg" width="75%"/>
 
-WS-Discovery is normally limited by the network segmentation since the multicast packages typically do not traverse routers.
+WS-Discovery is generally faster than netscan becuase it only sends out one broadcast signal. However, it is normally limited by the network segmentation since the multicast packages typically do not traverse routers.
 
 - Find the WS-Discovery programmer guide from https://www.onvif.org/profiles/whitepapers/
 - Wiki page https://en.wikipedia.org/wiki/WS-Discovery
 
-For example:
+Example:
 1. The client sends Probe message to find Onvif camera on the network.
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
@@ -37,7 +39,7 @@ For example:
     ```
 
 2. The Onvif camera responds the Hello message according to the Probe message
-   - The Hello message from HIKVISION:
+    > The Hello message from HIKVISION
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
     <env:Envelope
@@ -65,7 +67,8 @@ For example:
         </env:Body>
     </env:Envelope>
     ```
-   - The Hello message from Tapo C200:
+    
+    >The Hello message from Tapo C200
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
     <SOAP-ENV:Envelope
@@ -97,15 +100,25 @@ For example:
         </SOAP-ENV:Body>
     </SOAP-ENV:Envelope>
     ```
+    
 
-## EdgeX integrates the WS-Discovery
+
+## How does netscan work?
+An alternative method of discovery is a netscan, where the device service is provided a set of IP addresses on a network to scan for ONVIF protocol devices using unicast.
+
+For example, if the provided CIDR is 10.0.0.0/24, it will probe the IP's subnet mask for ONVIF compliant devices using soap commands, directly connecting to each address. It then returns any devices it finds and adds them to the device service using the protocol information from the probes.
+
+This method is going to be slower and more network-intensive than multicast WS-Discovery, becuase it has to make individual connections. However, it can reach a much wider set of networks and works better behind NATs (such as docker networks).
+
+
+## Adding the Devices to EdgeX
 ```
 ┌─────────────────┐               ┌──────────────┐                  ┌─────────────────┐
 │                 │               │              │                  │                 │
 │                 │3.Create device│    Onvif     │1.Discover camera │                 │
 │ metadata service◄───────────────┼─   Device  ──┼──────────────────┼──► Onvif Camera │
 │                 │               │    Service   │2.Get device info │                 │
-│                 │               │              │                  │                 │
+│                 │               │           ◄──┼──────────────────┼──               │
 └─────────────────┘               └──────────────┘                  └─────────────────┘
 ```
 1. Discover camera via WS-Discovery
@@ -146,7 +159,7 @@ For example:
     ```
 
 - Device Name:  Manufacturer-Model-UUID (The UUID extracted from the probe response's EndpointReference address)
-- The serviceName, profileName, adminState, autoEvets are defined by the provisionWatcher
+- The serviceName, profileName, adminState, autoEvents are defined by the provisionWatcher
 - Predefine the driver config authMode and secretPath for discovered device, for exmaple:
   - DefaultAuthMode="usernametoken"
   - DefaultSecretPath="credentials001"
@@ -156,26 +169,48 @@ For example:
 ## Usage
 ## 1. Define driver config
 
-The device service expects the Onvif camera should be installed and configured, and we can discover the camera from the **specified network** and **get the required device information**.
+1. Ensure that the cameras are all installed and configured before attempting discovery. 
 
-To achieve that, we need to define the following config for auto-discovery mechanism:
-* **DiscoveryEthernetInterface** - Specify the target EthernetInterface for discovering. The default value is `en0`, the user can modify it to meet their requirement.
-* **DefaultAuthMode** - Specify the default AuthMode for discovered devices.
-* **DefaultSecretPath** - Specify the default SecretPath for discovered devices.
+2. Define the following configurations in `cmd/res/configuration.toml` for auto-discovery mechanism:
 
-For example:
-```yaml
+
+```toml
+# Driver configs
 [Driver]
-DiscoveryEthernetInterface = "en0"
+CredentialsRetryTime = "120" # Seconds
+CredentialsRetryWait = "1" # Seconds
+RequestTimeout = "5" # Seconds
+DiscoveryEthernetInterface = ""
 DefaultAuthMode = "usernametoken"
 DefaultSecretPath = "credentials001"
-```
+# BaseNotificationURL indicates the device service network location
+BaseNotificationURL = "http://192.168.12.112:59984"
 
+# Select which discovery mechanism(s) to use
+DiscoveryMode = "both" # netscan, multicast, or both
+
+# List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+DiscoverySubnets = ""
+
+# Maximum simultaneous network probes
+ProbeAsyncLimit = "4000"
+
+# Maximum amount of milliseconds to wait for each IP probe before timing out.
+# This will also be the minimum time the discovery process can take.
+ProbeTimeoutMillis = "2000"
+
+# Maximum amount of seconds the discovery process is allowed to run before it will be cancelled.
+# It is especially important to have this configured in the case of larger subnets such as /16 and /8
+MaxDiscoverDurationSeconds = "300"
+```
+>Example of configuration.toml contents
 
 ### 2. Enable the Discovery Mechanism
-The Discovery is triggered by device SDK. Once the device service startup, the device service will discover the Onvif camera with the specified interval.
+Device discovery is triggered by the device SDK. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
+>NOTE: you can also manually call discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
 
-[Option 1] Enable from the configuration.toml
+[Option 1] Enable from `configuration.toml`
 ```yaml
 [Device] 
 ...
@@ -191,11 +226,11 @@ export DEVICE_DISCOVERY_INTERVAL=30s
 ```
 
 ### 3. Add Provision Watcher
-The Provision Watcher is used to filter the discovered devices and provide information to create the devices.
+The provision watcher is used to filter the discovered devices and provide information to create the devices.
 
 #### Example - HIKVISION Onvif Camera Provision
 
-Any discovered devices that match the Manufacturer and Model should be added to core metadata by device service
+Any discovered devices that match the `Manufacturer` and `Model` should be added to core metadata by the device service
 ```shell
 curl --request POST 'http://0.0.0.0:59881/api/v2/provisionwatcher' \
     --header 'Content-Type: application/json' \

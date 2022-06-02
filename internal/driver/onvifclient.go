@@ -23,7 +23,7 @@ import (
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 
 	"github.com/IOTechSystems/onvif"
-	"github.com/IOTechSystems/onvif/device"
+	onvifdevice "github.com/IOTechSystems/onvif/device"
 	"github.com/IOTechSystems/onvif/gosoap"
 	"github.com/IOTechSystems/onvif/media"
 	xsdOnvif "github.com/IOTechSystems/onvif/xsd/onvif"
@@ -69,7 +69,7 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		}
 	}
 
-	dev, err := onvif.NewDevice(onvif.DeviceParams{
+	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr:    deviceAddress(cameraInfo),
 		Username: credential.Username,
 		Password: credential.Password,
@@ -93,7 +93,7 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		asynchCh:            d.asynchCh,
 		DeviceName:          device.Name,
 		cameraInfo:          cameraInfo,
-		onvifDevice:         dev,
+		onvifDevice:         onvifDevice,
 		CameraEventResource: resource,
 	}
 	// Create PullPointManager to control multiple pull points
@@ -349,7 +349,7 @@ func createResponse(function onvif.Function, data []byte) (*gosoap.SOAPEnvelope,
 }
 
 func (onvifClient *OnvifClient) checkRebootNeeded(responseContent interface{}) {
-	setNetworkInterfacesResponse, ok := responseContent.(*device.SetNetworkInterfacesResponse)
+	setNetworkInterfacesResponse, ok := responseContent.(*onvifdevice.SetNetworkInterfacesResponse)
 	if ok {
 		onvifClient.RebootNeeded = bool(setNetworkInterfacesResponse.RebootNeeded)
 		return

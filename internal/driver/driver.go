@@ -7,9 +7,11 @@
 package driver
 
 import (
+	"context"
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	"net/http"
 	"net/url"
 	"strings"
@@ -27,7 +29,7 @@ import (
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 
 	"github.com/IOTechSystems/onvif"
-	"github.com/IOTechSystems/onvif/device"
+	onvifdevice "github.com/IOTechSystems/onvif/device"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 )
 
@@ -38,6 +40,16 @@ const (
 	cameraAdded   = "CameraAdded"
 	cameraUpdated = "CameraUpdated"
 	cameraDeleted = "CameraDeleted"
+
+	wsDiscoveryPort = "3702"
+)
+
+type DiscoveryMode string
+
+const (
+	NetScan   DiscoveryMode = "netscan"
+	Multicast DiscoveryMode = "multicast"
+	Both      DiscoveryMode = "both"
 )
 
 // Driver implements the sdkModel.ProtocolDriver interface for
@@ -81,7 +93,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 		onvifClient, err := d.newOnvifClient(device)
 		if err != nil {
-			d.lc.Errorf("failed to initial onvif client for '%s' camera, skipping this device.", device.Name)
+			d.lc.Errorf("failed to initialize onvif client for '%s' camera, skipping this device.", device.Name)
 			continue
 		}
 		d.lock.Lock()
@@ -110,7 +122,7 @@ func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) 
 		}
 		onvifClient, err = d.newOnvifClient(device)
 		if err != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initial onvif client for '%s' camera", device.Name), err)
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initialize onvif client for '%s' camera", device.Name), err)
 		}
 		d.onvifClients[deviceName] = onvifClient
 	}
@@ -286,7 +298,7 @@ func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.Pro
 	return nil
 }
 
-// createOnvifClient create the Onvif client for specified the device
+// createOnvifClient creates the Onvif client used to communicate with the specified the device
 func (d *Driver) createOnvifClient(deviceName string) error {
 	device, err := sdk.RunningService().GetDeviceByName(deviceName)
 	if err != nil {
@@ -294,7 +306,7 @@ func (d *Driver) createOnvifClient(deviceName string) error {
 	}
 	onvifClient, err := d.newOnvifClient(device)
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initial onvif client for '%s' camera", device.Name), err)
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initialize onvif client for '%s' camera", device.Name), err)
 	}
 
 	d.lock.Lock()
@@ -303,18 +315,29 @@ func (d *Driver) createOnvifClient(deviceName string) error {
 	return nil
 }
 
-func (d *Driver) getCredentials(secretPath string) (config.Credentials, errors.EdgeX) {
-	credentials := config.Credentials{}
-	deviceService := sdk.RunningService()
+// tryGetCredentials will attempt one time to get the credentials located at secretPath from
+// secret provider and return them, otherwise return an error.
+func (d *Driver) tryGetCredentials(secretPath string) (config.Credentials, errors.EdgeX) {
+	secretData, err := sdk.RunningService().SecretProvider.GetSecret(secretPath, secret.UsernameKey, secret.PasswordKey)
+	if err != nil {
+		return config.Credentials{}, errors.NewCommonEdgeXWrapper(err)
+	}
+	return config.Credentials{
+		Username: secretData[secret.UsernameKey],
+		Password: secretData[secret.PasswordKey],
+	}, nil
+}
 
+// getCredentials will repeatedly try and get the credentials located at secretPath from
+// secret provider every CredentialsRetryTime seconds for a maximum of CredentialsRetryWait seconds.
+// Note that this function will block until either the credentials are found, or CredentialsRetryWait
+// seconds have elapsed.
+func (d *Driver) getCredentials(secretPath string) (credentials config.Credentials, err errors.EdgeX) {
 	timer := startup.NewTimer(d.config.CredentialsRetryTime, d.config.CredentialsRetryWait)
 
-	var secretData map[string]string
-	var err error
 	for timer.HasNotElapsed() {
-		secretData, err = deviceService.SecretProvider.GetSecret(secretPath, secret.UsernameKey, secret.PasswordKey)
-		if err == nil {
-			break
+		if credentials, err = d.tryGetCredentials(secretPath); err == nil {
+			return credentials, nil
 		}
 
 		d.lc.Warnf(
@@ -325,78 +348,79 @@ func (d *Driver) getCredentials(secretPath string) (config.Credentials, errors.E
 		timer.SleepForInterval()
 	}
 
-	if err != nil {
-		return credentials, errors.NewCommonEdgeXWrapper(err)
-	}
-
-	credentials.Username = secretData[secret.UsernameKey]
-	credentials.Password = secretData[secret.PasswordKey]
-
-	return credentials, nil
+	return credentials, err
 }
 
-// Discover triggers protocol specific device discovery, which is an asynchronous operation.
-// Devices found as part of this discovery operation are written to the channel devices.
+// Discover performs a discovery on the network and passes them to EdgeX to get provisioned
 func (d *Driver) Discover() {
-	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
-	var discoveredDevices []sdkModel.DiscoveredDevice
-	for _, onvifDevice := range onvifDevices {
-		if onvifDevice.GetDeviceParams().EndpointRefAddress == "" {
-			d.lc.Warnf("The EndpointRefAddress is empty from the Onvif camera, unable to add the camera %s", onvifDevice.GetDeviceParams().Xaddr)
-			continue
-		}
-		address, port := addressAndPort(onvifDevice.GetDeviceParams().Xaddr)
-		dev := models.Device{
-			// Using Xaddr as the temporary name
-			Name: onvifDevice.GetDeviceParams().Xaddr,
-			Protocols: map[string]models.ProtocolProperties{
-				OnvifProtocol: {
-					Address:    address,
-					Port:       port,
-					AuthMode:   d.config.DefaultAuthMode,
-					SecretPath: d.config.DefaultSecretPath,
-				},
-			},
-		}
+	d.lc.Info("Discover was called.")
 
-		devInfo, edgexErr := d.getDeviceInformation(dev)
-		endpointRef := onvifDevice.GetDeviceParams().EndpointRefAddress
-		var discovered sdkModel.DiscoveredDevice
-		if edgexErr != nil {
-			d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRef, edgexErr)
-			dev.Protocols[OnvifProtocol][SecretPath] = endpointRef
-			discovered = sdkModel.DiscoveredDevice{
-				Name:        endpointRef,
-				Protocols:   dev.Protocols,
-				Description: "Auto discovered Onvif camera",
-				Labels:      []string{"auto-discovery"},
-			}
-			d.lc.Debugf("Discovered unknown camera from the address '%s'", onvifDevice.GetDeviceParams().Xaddr)
-		} else {
-			dev.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
-			dev.Protocols[OnvifProtocol][Model] = devInfo.Model
-			dev.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
-			dev.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
-			dev.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
-
-			// Spaces are not allowed in the device name
-			deviceName := fmt.Sprintf("%s-%s-%s",
-				strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
-				strings.ReplaceAll(devInfo.Model, " ", "-"),
-				onvifDevice.GetDeviceParams().EndpointRefAddress)
-
-			discovered = sdkModel.DiscoveredDevice{
-				Name:        deviceName,
-				Protocols:   dev.Protocols,
-				Description: fmt.Sprintf("%s %s Camera", devInfo.Manufacturer, devInfo.Model),
-				Labels:      []string{"auto-discovery", devInfo.Manufacturer, devInfo.Model},
-			}
-			d.lc.Debugf("Discovered camera from the address '%s'", onvifDevice.GetDeviceParams().Xaddr)
-		}
-		discoveredDevices = append(discoveredDevices, discovered)
+	maxSeconds := d.config.MaxDiscoverDurationSeconds
+	ctx := context.Background()
+	if maxSeconds > 0 {
+		var cancel context.CancelFunc
+		ctx, cancel = context.WithTimeout(context.Background(),
+			time.Duration(maxSeconds)*time.Second)
+		defer cancel()
 	}
 
+	var discoveredDevices []sdkModel.DiscoveredDevice
+	if d.config.DiscoveryMode == Multicast || d.config.DiscoveryMode == Both {
+		discoveredDevices = append(discoveredDevices, d.discoverMulticast(discoveredDevices)...)
+	}
+	if d.config.DiscoveryMode == NetScan || d.config.DiscoveryMode == Both {
+		discoveredDevices = append(discoveredDevices, d.discoverNetscan(ctx, discoveredDevices)...)
+	}
+	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
 	d.deviceCh <- discoveredDevices
+}
+
+// multicast enable/disable via config option
+func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
+	t0 := time.Now()
+	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(d.config.DiscoveryEthernetInterface)
+	d.lc.Infof("Discovered %d device(s) in %v via multicast.", len(onvifDevices), time.Since(t0))
+	for _, onvifDevice := range onvifDevices {
+		device, err := d.createDiscoveredDevice(onvifDevice)
+		if err != nil {
+			d.lc.Warnf(err.Error())
+			continue
+		}
+		discovered = append(discovered, device)
+	}
+
+	return discovered
+}
+
+// netscan enable/disable via config option
+func (d *Driver) discoverNetscan(ctx context.Context, discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
+
+	if len(strings.TrimSpace(d.config.DiscoverySubnets)) == 0 {
+		d.lc.Warn("netscan discovery was called, but DiscoverySubnets are empty!")
+		return nil
+	}
+
+	params := netscan.Params{
+		// split the comma separated string here to avoid issues with EdgeX's Consul implementation
+		Subnets:         strings.Split(d.config.DiscoverySubnets, ","),
+		AsyncLimit:      d.config.ProbeAsyncLimit,
+		Timeout:         time.Duration(d.config.ProbeTimeoutMillis) * time.Millisecond,
+		ScanPorts:       []string{wsDiscoveryPort},
+		Logger:          d.lc,
+		NetworkProtocol: netscan.NetworkUDP,
+	}
+
+	t0 := time.Now()
+	result := netscan.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
+	if ctx.Err() != nil {
+		d.lc.Warn("Discover process has been cancelled!", "ctxErr", ctx.Err())
+	}
+
+	d.lc.Debugf("NetScan result: %+v", result)
+	d.lc.Infof("Discovered %d device(s) in %v via netscan.", len(result), time.Since(t0))
+
+	discovered = append(discovered, result...)
+	return discovered
 }
 
 func addressAndPort(xaddr string) (string, string) {
@@ -409,8 +433,8 @@ func addressAndPort(xaddr string) (string, string) {
 	}
 }
 
-func (d *Driver) getDeviceInformation(dev models.Device) (devInfo *device.GetDeviceInformationResponse, edgexErr errors.EdgeX) {
-	devClient, edgexErr := d.newTemporaryOnvifClient(dev)
+func (d *Driver) getDeviceInformation(device models.Device) (devInfo *onvifdevice.GetDeviceInformationResponse, edgexErr errors.EdgeX) {
+	devClient, edgexErr := d.newTemporaryOnvifClient(device)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
@@ -418,9 +442,9 @@ func (d *Driver) getDeviceInformation(dev models.Device) (devInfo *device.GetDev
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	devInfo, ok := devInfoResponse.(*device.GetDeviceInformationResponse)
+	devInfo, ok := devInfoResponse.(*onvifdevice.GetDeviceInformationResponse)
 	if !ok {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetDeviceInformationResponse for the camera %s", dev.Name), nil)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetDeviceInformationResponse for the camera %s", device.Name), nil)
 	}
 	return devInfo, nil
 }
@@ -434,13 +458,14 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 
 	var credential config.Credentials
 	if cameraInfo.AuthMode != onvif.NoAuth {
-		credential, edgexErr = d.getCredentials(cameraInfo.SecretPath)
+		// since this is just a temporary client, we do not want to wait for credentials to be available
+		credential, edgexErr = d.tryGetCredentials(cameraInfo.SecretPath)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", device.Name), edgexErr)
 		}
 	}
 
-	dev, err := onvif.NewDevice(onvif.DeviceParams{
+	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr:    deviceAddress(cameraInfo),
 		Username: credential.Username,
 		Password: credential.Password,
@@ -450,14 +475,14 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 		},
 	})
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initial Onvif device client", err)
+		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initialize Onvif device client", err)
 	}
 
 	client := &OnvifClient{
 		lc:          d.lc,
 		DeviceName:  device.Name,
 		cameraInfo:  cameraInfo,
-		onvifDevice: dev,
+		onvifDevice: onvifDevice,
 	}
 	return client, nil
 }

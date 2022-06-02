@@ -1,60 +1,49 @@
 # Set Up Auto Discovery with Docker
 
-Since auto-discovery mechanism uses multicast UDP to find the available camera, so the device-onvif-camera needs to send out the probe message for searching cameras.
-
-But we can’t send the multicast message from the **edgex network** to the **host network** in the **docker container**. 
-
-The workaround is running the **dockerized device-onvif-camera** on the **host network**.
+This is a guide on how to configure the ONVIF device service for automatic device discovery using Docke.
 
 <img alt="overview" src="images/auto-discovery-docker-overview.jpg" width="75%"/>
 
-Note: For macOS, the network_mode: "host" probably not working as expected: https://github.com/docker/for-mac/issues/1031
+Note: For macOS, the network_mode: "host" probably does not work as expected: https://github.com/docker/for-mac/issues/1031
 
-## None Security Mode
+## Non-Security Mode
 
 ### Prepare edgex-compose/compose-builder
 
 #### 1. Download the [edgex-compose](https://github.com/edgexfoundry/edgex-compose) and setup it according to the [docker-compose setup guide](./docker-compose/README.md)
 
-#### 2. Replace the `add-device-onvif-camera.yml` with the following content:
+#### 2. Update  the `add-device-onvif-camera.yml` file with the following content:
+
 ```yaml
+version: '3.7'
+
 services:
   device-onvif-camera:
     image: edgexfoundry/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    ports:
+      - "127.0.0.1:59984:59984"
     container_name: edgex-device-onvif-camera
     hostname: edgex-device-onvif-camera
     read_only: true
     restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common.env
+      - device-common.env
     environment:
       SERVICE_HOST: edgex-device-onvif-camera
-      EDGEX_SECURITY_SECRET_STORE: "false"
-      DEVICE_DISCOVERY_ENABLED: "true"
-      DRIVER_DISCOVERYETHERNETINTERFACE: enp0s3
-      DRIVER_DEFAULTSECRETPATH: credentials001
-      WRITABLE_LOGLEVEL: DEBUG
+      MESSAGEQUEUE_HOST: edgex-redis
     depends_on:
       - consul
       - data
       - metadata
     security_opt:
       - no-new-privileges:true
-    command: -cp=consul.http://localhost:8500 --registry --confdir=/res
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+
 ```
-
-**Note**: The user should replace the host IP to match their own machine IP
-
-- Remove the useless port mapping when using the host network
-- Replace **networks** with **network_mode: "host"**
-- Remove `env_file` because we don't use the env like `CLIENTS_CORE_DATA_HOST=edgex-core-data`
-- Modify SERVICE_HOST env to match the machine IP
-- Add EDGEX_SECURITY_SECRET_STORE env with "false" value
-- Enable auto-discovery by `DEVICE_DISCOVERY_ENABLED` with "true" value
-- Use `DRIVER_DISCOVERYETHERNETINTERFACE` to specify the ethernet interface for discovering
-- Use `DRIVER_DEFAULTSECRETPATH` to specify the default secret path
-- Use `WRITABLE_LOGLEVEL` to specify the log level for debugging
-- Add command to override the CMD because we don't use the configuration provider from Consul
-
+> Example add-device-onvif-camera.yml contents
 
 ### Deploy EdgeX services and device-onvif-camera
 Deploy services with the following command:
@@ -63,22 +52,22 @@ make run no-secty ds-onvif-camera
 ```
 
 ### Inspect the device-onvif-camera
-The user can docker logs to trace the auto-discovery
+The user can use docker logs to trace the auto-discovery
 ```shell
 $ docker logs edgex-device-onvif-camera -f --tail 10
 ...
-level=DEBUG ts=2021-12-17T08:26:38.686619358Z app=device-onvif-camera source=discovery.go:35 msg="protocol discovery triggered"
-Onvif WS-Discovery: Find 192.168.56.101:10000 
-Onvif WS-Discovery: Find 192.168.56.101:10001 
-level=DEBUG ts=2021-12-17T08:26:39.726266165Z app=device-onvif-camera source=onvifclient.go:225 msg="SOAP Request: <tds:GetDeviceInformation></tds:GetDeviceInformation>"
-level=DEBUG ts=2021-12-17T08:26:39.748227111Z app=device-onvif-camera source=onvifclient.go:243 msg="SOAP Response: <GetDeviceInformationResponse><Manufacturer>Happytimesoft</Manufacturer><Model>IPCamera</Model><FirmwareVersion>2.4</FirmwareVersion><SerialNumber>123456</SerialNumber><HardwareId>1.0</HardwareId></GetDeviceInformationResponse>"
-level=DEBUG ts=2021-12-17T08:26:39.748270564Z app=device-onvif-camera source=driver.go:333 msg="Discovered camera from the address '192.168.56.101:10000'"
-level=DEBUG ts=2021-12-17T08:26:39.761718293Z app=device-onvif-camera source=onvifclient.go:225 msg="SOAP Request: <tds:GetDeviceInformation></tds:GetDeviceInformation>"
-level=DEBUG ts=2021-12-17T08:26:39.782834447Z app=device-onvif-camera source=onvifclient.go:243 msg="SOAP Response: <GetDeviceInformationResponse><Manufacturer>Happytimesoft</Manufacturer><Model>IPCamera</Model><FirmwareVersion>2.4</FirmwareVersion><SerialNumber>123456</SerialNumber><HardwareId>1.0</HardwareId></GetDeviceInformationResponse>"
-level=DEBUG ts=2021-12-17T08:26:39.782871465Z app=device-onvif-camera source=driver.go:333 msg="Discovered camera from the address '192.168.56.101:10001'"
-level=DEBUG ts=2021-12-17T08:26:39.782886193Z app=device-onvif-camera source=async.go:127 msg="Filtered device addition finished"
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10011          EndpointRefAddress: 76a3186a-bcc2-43a2-9ef5-458adbf2262e
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10012          EndpointRefAddress: 83f9a999-149b-44ca-88a2-d58a766c738e
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10013          EndpointRefAddress: 2a3d6329-91b4-41de-8d4d-85bb2c737c02
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10014          EndpointRefAddress: dc9e23a7-50db-44f7-bb34-a9b1d3c87fa8
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10015          EndpointRefAddress: cf0280d6-4909-4671-8972-90adb3e60181
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10016          EndpointRefAddress: da1cd97d-d18a-40fd-a250-1f0c4f13f293
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10017          EndpointRefAddress: 8af3658d-adf9-4898-8146-86a0cb50c9fb
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10018          EndpointRefAddress: 436eb565-ae32-4d79-a9a3-6d520af2c647
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10019          EndpointRefAddress: 6e17721c-d861-4609-880b-efd72e00b8bc
+level=INFO ts=2022-05-17T17:17:03.069067014Z app=device-onvif-camera source=driver.go:422 msg="Discovered 20 device(s) in 1.133374208s via netscan."
 ```
-Then user can follow [the doc to add Provision Watcher](./auto-discovery.md).
+Then user can follow [this doc to add a provision watcher](./auto-discovery.md) to add the discovered devices to EdgeX.
 
 
 ## Security Mode
@@ -89,50 +78,37 @@ Then user can follow [the doc to add Provision Watcher](./auto-discovery.md).
 
 #### 2. Replace the `add-device-onvif-camera.yml` with the following content:
 ```yaml
+version: '3.7'
+
 services:
   device-onvif-camera:
-    image: edgex/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
-    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+    image: edgexfoundry/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
+    ports:
+      - "127.0.0.1:59984:59984"
     container_name: edgex-device-onvif-camera
     hostname: edgex-device-onvif-camera
     read_only: true
     restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common.env
+      - device-common.env
     environment:
       SERVICE_HOST: edgex-device-onvif-camera
-      EDGEX_SECURITY_SECRET_STORE: "true"
-      DEVICE_DISCOVERY_ENABLED: "true"
-      DRIVER_DISCOVERYETHERNETINTERFACE: enp0s3
-      DRIVER_DEFAULTSECRETPATH: credentials001
-      
+      MESSAGEQUEUE_HOST: edgex-redis
       SECRETSTORE_HOST: localhost
       STAGEGATE_BOOTSTRAPPER_HOST: localhost
       STAGEGATE_READY_TORUNPORT: 54329
       STAGEGATE_WAITFOR_TIMEOUT: 60s
-
-      WRITABLE_LOGLEVEL: DEBUG
     depends_on:
       - consul
       - data
       - metadata
     security_opt:
       - no-new-privileges:true
-    command: /device-onvif-camera -cp=consul.http://localhost:8500 --registry --confdir=/res
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
 ```
-
-**Note**: The user should replace the host IP to match their own machine IP
-
-- Remove the useless port mapping when using the host network
-- Replace **networks** with **network_mode: "host"**
-- Remove `env_file` because we don't use the env like `CLIENTS_CORE_DATA_HOST=edgex-core-data`
-- Modify `SERVICE_HOST` env to match the machine IP
-- Add `EDGEX_SECURITY_SECRET_STORE` env with "true" value
-- Enable auto-discovery by `DEVICE_DISCOVERY_ENABLED` with "true" value
-- Use `DRIVER_DISCOVERYETHERNETINTERFACE` to specify the ethernet interface for discovering
-- Use `DRIVER_DEFAULTSECRETPATH` to specify the default secret path
-- Use `SECRETSTORE_HOST` to specify the Vault's host
-- Use `STAGEGATE_BOOTSTRAPPER_HOST`, `STAGEGATE_READY_TORUNPORT`, `STAGEGATE_WAITFOR_TIMEOUT` to specify the bootstrapper settings for waiting the security set up
-- Use `WRITABLE_LOGLEVEL` to specify the log level for debugging
-- Add command to override the CMD because we don't use the configuration provider from Consul
 
 #### 3. Export the Security Bootstrapper
 Open the `add-security.yml` file and modify the `security-bootstrapper` section to export the port. This port is used for the device-onvif-camera to wait for the security setup.
@@ -178,15 +154,15 @@ The user can docker logs to trace the auto-discovery
 ```shell
 $ docker logs edgex-device-onvif-camera -f --tail 10
 ...
-level=DEBUG ts=2021-12-17T08:26:38.686619358Z app=device-onvif-camera source=discovery.go:35 msg="protocol discovery triggered"
-Onvif WS-Discovery: Find 192.168.56.101:10000 
-Onvif WS-Discovery: Find 192.168.56.101:10001 
-level=DEBUG ts=2021-12-17T08:26:39.726266165Z app=device-onvif-camera source=onvifclient.go:225 msg="SOAP Request: <tds:GetDeviceInformation></tds:GetDeviceInformation>"
-level=DEBUG ts=2021-12-17T08:26:39.748227111Z app=device-onvif-camera source=onvifclient.go:243 msg="SOAP Response: <GetDeviceInformationResponse><Manufacturer>Happytimesoft</Manufacturer><Model>IPCamera</Model><FirmwareVersion>2.4</FirmwareVersion><SerialNumber>123456</SerialNumber><HardwareId>1.0</HardwareId></GetDeviceInformationResponse>"
-level=DEBUG ts=2021-12-17T08:26:39.748270564Z app=device-onvif-camera source=driver.go:333 msg="Discovered camera from the address '192.168.56.101:10000'"
-level=DEBUG ts=2021-12-17T08:26:39.761718293Z app=device-onvif-camera source=onvifclient.go:225 msg="SOAP Request: <tds:GetDeviceInformation></tds:GetDeviceInformation>"
-level=DEBUG ts=2021-12-17T08:26:39.782834447Z app=device-onvif-camera source=onvifclient.go:243 msg="SOAP Response: <GetDeviceInformationResponse><Manufacturer>Happytimesoft</Manufacturer><Model>IPCamera</Model><FirmwareVersion>2.4</FirmwareVersion><SerialNumber>123456</SerialNumber><HardwareId>1.0</HardwareId></GetDeviceInformationResponse>"
-level=DEBUG ts=2021-12-17T08:26:39.782871465Z app=device-onvif-camera source=driver.go:333 msg="Discovered camera from the address '192.168.56.101:10001'"
-level=DEBUG ts=2021-12-17T08:26:39.782886193Z app=device-onvif-camera source=async.go:127 msg="Filtered device addition finished"
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10011          EndpointRefAddress: 76a3186a-bcc2-43a2-9ef5-458adbf2262e
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10012          EndpointRefAddress: 83f9a999-149b-44ca-88a2-d58a766c738e
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10013          EndpointRefAddress: 2a3d6329-91b4-41de-8d4d-85bb2c737c02
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10014          EndpointRefAddress: dc9e23a7-50db-44f7-bb34-a9b1d3c87fa8
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10015          EndpointRefAddress: cf0280d6-4909-4671-8972-90adb3e60181
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10016          EndpointRefAddress: da1cd97d-d18a-40fd-a250-1f0c4f13f293
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10017          EndpointRefAddress: 8af3658d-adf9-4898-8146-86a0cb50c9fb
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10018          EndpointRefAddress: 436eb565-ae32-4d79-a9a3-6d520af2c647
+Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10019          EndpointRefAddress: 6e17721c-d861-4609-880b-efd72e00b8bc
+level=INFO ts=2022-05-17T17:17:03.069067014Z app=device-onvif-camera source=driver.go:422 msg="Discovered 20 device(s) in 1.133374208s via netscan."
 ```
-Then user can follow [the doc to add Provision Watcher](./auto-discovery.md).
+Then user can follow [this doc to add a provision watcher](./auto-discovery.md) to add the discovered devices to EdgeX.
