@@ -84,6 +84,8 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		return sdkModel.DiscoveredDevice{}, fmt.Errorf("empty EndpointRefAddress for XAddr %s", xaddr)
 	}
 	address, port := addressAndPort(xaddr)
+
+	d.configMu.RLock()
 	device := contract.Device{
 		// Using Xaddr as the temporary name
 		Name: xaddr,
@@ -91,12 +93,13 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 			OnvifProtocol: {
 				Address:            address,
 				Port:               port,
-				AuthMode:           d.config.DefaultAuthMode,
-				SecretPath:         d.config.DefaultSecretPath,
+				AuthMode:           d.config.AppCustom.DefaultAuthMode,
+				SecretPath:         d.config.AppCustom.DefaultSecretPath,
 				EndpointRefAddress: endpointRefAddr,
 			},
 		},
 	}
+	d.configMu.RUnlock()
 
 	devInfo, edgexErr := d.getDeviceInformation(device)
 	if edgexErr != nil {

@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"io/ioutil"
 	"net/http"
 	"time"
@@ -17,7 +18,6 @@ import (
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-bootstrap/v2/config"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
@@ -40,12 +40,11 @@ const (
 
 // OnvifClient manages the state required to issue ONVIF requests to the specified camera
 type OnvifClient struct {
-	driverConfig *configuration
-	lc           logger.LoggingClient
-	asynchCh     chan<- *sdkModel.AsyncValues
-	DeviceName   string
-	cameraInfo   *CameraInfo
-	onvifDevice  *onvif.Device
+	driver      *Driver
+	lc          logger.LoggingClient
+	DeviceName  string
+	cameraInfo  *CameraInfo
+	onvifDevice *onvif.Device
 	// RebootNeeded indicates the camera should reboot to apply the configuration change
 	RebootNeeded bool
 	// CameraEventResource is used to send the async event to north bound
@@ -69,17 +68,21 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		}
 	}
 
+	d.configMu.Lock()
+	requestTimeout := d.config.AppCustom.RequestTimeout
+	d.configMu.Unlock()
+
 	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr:    deviceAddress(cameraInfo),
 		Username: credential.Username,
 		Password: credential.Password,
 		AuthMode: cameraInfo.AuthMode,
 		HttpClient: &http.Client{
-			Timeout: time.Duration(d.config.RequestTimeout) * time.Second,
+			Timeout: time.Duration(requestTimeout) * time.Second,
 		},
 	})
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initial Onvif device client", err)
+		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initialize Onvif device client", err)
 	}
 
 	resource, err := getCameraEventResourceByDeviceName(device.Name)
@@ -88,9 +91,8 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 	}
 
 	client := &OnvifClient{
-		driverConfig:        d.config,
+		driver:              d,
 		lc:                  d.lc,
-		asynchCh:            d.asynchCh,
 		DeviceName:          device.Name,
 		cameraInfo:          cameraInfo,
 		onvifDevice:         onvifDevice,

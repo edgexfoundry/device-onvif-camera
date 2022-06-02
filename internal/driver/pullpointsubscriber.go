@@ -111,7 +111,7 @@ func (sub *Subscriber) pullMessage() errors.EdgeX {
 		CommandValues: []*sdkModel.CommandValue{cv},
 	}
 
-	sub.onvifClient.asynchCh <- asyncValues
+	sub.onvifClient.driver.asynchCh <- asyncValues
 	return nil
 }
 

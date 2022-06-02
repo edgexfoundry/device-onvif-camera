@@ -103,11 +103,11 @@ UseMessageBus = true
   Enabled = true
   Interval = "1h"
 
-# Driver configs
-[Driver]
-CredentialsRetryTime = "120" # Seconds
-CredentialsRetryWait = "1" # Seconds
-RequestTimeout = "5" # Seconds
+# Custom configs
+[AppCustom]
+CredentialsRetryTime = 120 # Seconds
+CredentialsRetryWait = 1 # Seconds
+RequestTimeout = 5 # Seconds
 DiscoveryEthernetInterface = ""
 DefaultAuthMode = "usernametoken"
 DefaultSecretPath = "credentials001"
@@ -122,12 +122,12 @@ DiscoveryMode = "both" # netscan, multicast, or both
 DiscoverySubnets = ""
 
 # Maximum simultaneous network probes
-ProbeAsyncLimit = "4000"
+ProbeAsyncLimit = 4000
 
 # Maximum amount of milliseconds to wait for each IP probe before timing out.
 # This will also be the minimum time the discovery process can take.
-ProbeTimeoutMillis = "2000"
+ProbeTimeoutMillis = 2000
 
 # Maximum amount of seconds the discovery process is allowed to run before it will be cancelled.
 # It is especially important to have this configured in the case of larger subnets such as /16 and /8
-MaxDiscoverDurationSeconds = "300"
+MaxDiscoverDurationSeconds = 300
