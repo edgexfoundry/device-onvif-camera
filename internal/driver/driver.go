@@ -54,14 +54,6 @@ const (
 	discoverDebounceDuration = 10 * time.Second
 )
 
-type DiscoveryMode string
-
-const (
-	NetScan   DiscoveryMode = "netscan"
-	Multicast DiscoveryMode = "multicast"
-	Both      DiscoveryMode = "both"
-)
-
 // Driver implements the sdkModel.ProtocolDriver interface for
 // the device service
 type Driver struct {
@@ -126,6 +118,11 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 	lc.Debugf("Custom config is : %+v", d.config)
 
+	if !d.config.AppCustom.DiscoveryMode.IsValid() {
+		d.lc.Errorf("DiscoveryMode is set to an invalid value: %q. Discovery will be unable to be performed.",
+			d.config.AppCustom.DiscoveryMode)
+	}
+
 	err = deviceService.ListenForCustomConfigChanges(&d.config.AppCustom, "AppCustom", d.updateWritableConfig)
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, "failed to listen to custom config changes", err)
@@ -162,7 +159,8 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 func (d *Driver) updateWritableConfig(rawWritableConfig interface{}) {
 	updated, ok := rawWritableConfig.(*CustomConfig)
 	if !ok {
-		d.lc.Error("unable to update writable custom config: Can not cast raw config to type 'CustomConfig'")
+		d.lc.Errorf("Unable to update writable custom config: Cannot cast raw config of type %T into type 'CustomConfig'",
+			rawWritableConfig)
 		return
 	}
 
@@ -531,6 +529,11 @@ func (d *Driver) Discover() {
 	discoveryMode := d.config.AppCustom.DiscoveryMode
 	d.configMu.RUnlock()
 
+	if !discoveryMode.IsValid() {
+		d.lc.Errorf("DiscoveryMode is set to an invalid value: %s. Refusing to do discovery.", discoveryMode)
+		return
+	}
+
 	if registerProvisionWatchers {
 		d.watchersMu.Lock()
 		if !d.addedWatchers {
@@ -547,21 +550,23 @@ func (d *Driver) Discover() {
 		d.watchersMu.Unlock()
 	}
 
-	ctx := context.Background()
-	if maxSeconds > 0 {
-		var cancel context.CancelFunc
-		ctx, cancel = context.WithTimeout(context.Background(),
-			time.Duration(maxSeconds)*time.Second)
-		defer cancel()
-	}
-
 	var discoveredDevices []sdkModel.DiscoveredDevice
-	if discoveryMode == Multicast || discoveryMode == Both {
+
+	if discoveryMode.IsMulticastEnabled() {
 		discoveredDevices = append(discoveredDevices, d.discoverMulticast(discoveredDevices)...)
 	}
-	if discoveryMode == NetScan || discoveryMode == Both {
+
+	if discoveryMode.IsNetScanEnabled() {
+		ctx := context.Background()
+		if maxSeconds > 0 {
+			var cancel context.CancelFunc
+			ctx, cancel = context.WithTimeout(context.Background(),
+				time.Duration(maxSeconds)*time.Second)
+			defer cancel()
+		}
 		discoveredDevices = append(discoveredDevices, d.discoverNetscan(ctx, discoveredDevices)...)
 	}
+
 	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
 	d.deviceCh <- discoveredDevices
 }
