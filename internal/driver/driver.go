@@ -366,10 +366,10 @@ func (d *Driver) Discover() {
 
 	var discoveredDevices []sdkModel.DiscoveredDevice
 	if d.config.DiscoveryMode == Multicast || d.config.DiscoveryMode == Both {
-		discoveredDevices = d.discoverMulticast(discoveredDevices)
+		discoveredDevices = append(discoveredDevices, d.discoverMulticast(discoveredDevices)...)
 	}
 	if d.config.DiscoveryMode == NetScan || d.config.DiscoveryMode == Both {
-		discoveredDevices = d.discoverNetscan(ctx, discoveredDevices)
+		discoveredDevices = append(discoveredDevices, d.discoverNetscan(ctx, discoveredDevices)...)
 	}
 	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
 	d.deviceCh <- discoveredDevices
