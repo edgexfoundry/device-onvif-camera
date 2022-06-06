@@ -13,6 +13,15 @@ const (
 	AuthMode           = "AuthMode"
 	SecretPath         = "SecretPath"
 	EndpointRefAddress = "EndpointRefAddress"
+	LastSeen           = "LastSeen"
+
+	// Field in OnvifProtocol map
+	DeviceStatus = "DeviceStatus"
+	// Enumerations for DeviceStatus
+	UpWithAuth    = "UpWithAuth"
+	UpWithoutAuth = "UpWithoutAuth"
+	Reachable     = "Reachable"
+	Unreachable   = "Unreachable"
 
 	// Service is resource attribute and indicates the web service for the Onvif
 	Service = "service"
