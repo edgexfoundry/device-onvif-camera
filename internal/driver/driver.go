@@ -153,6 +153,13 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 
+	if d.config.AppCustom.EnableStatusCheck {
+		// starts loop to check connection and determine device status
+		if err := d.StartTaskLoop(); err != nil {
+			return errors.NewCommonEdgeX(errors.KindUnknown, "Task loop could not not start", err)
+		}
+	}
+
 	d.lc.Info("Driver initialized.")
 	return nil
 }

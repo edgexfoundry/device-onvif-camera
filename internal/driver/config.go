@@ -40,6 +40,11 @@ type CustomConfig struct {
 	// MaxDiscoverDurationSeconds indicates the amount of seconds discovery will run before timing out.
 	MaxDiscoverDurationSeconds int
 
+	// EnableStatusCheck indicates if status checking should be enabled
+	EnableStatusCheck bool
+	// CheckStatusInterval indicates the interval in seconds at which the device service will check device statuses
+	CheckStatusInterval int
+
 	// Location of Provision Watchers
 	ProvisionWatcherDir string
 }
