@@ -387,13 +387,6 @@ func (d *Driver) HandleWriteCommands(deviceName string, protocols map[string]mod
 	return nil
 }
 
-// DisconnectDevice handles protocol-specific cleanup when a device
-// is removed.
-func (d *Driver) DisconnectDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
-	d.lc.Warn("Driver's DisconnectDevice function not implemented")
-	return nil
-}
-
 // Stop the protocol-specific DS code to shutdown gracefully, or
 // if the force parameter is 'true', immediately. The driver is responsible
 // for closing any in-use channels, including the channel used to send async
