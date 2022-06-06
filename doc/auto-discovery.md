@@ -245,7 +245,7 @@ curl --request POST 'http://0.0.0.0:59881/api/v2/provisionwatcher' \
                 "Model": "DFI6256TE"
              },
              "serviceName": "device-onvif-camera",
-             "profileName": "hikvision-profile",
+             "profileName": "onvif-camera",
              "autoEvents": [
                  { "interval": "15s", "sourceName": "Users" }
               ]
