@@ -18,6 +18,7 @@ import (
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
+	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
@@ -208,4 +209,34 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 	}
 
 	return devices, nil
+}
+
+// makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress
+func (d *Driver) makeDeviceMap() map[string]contract.Device {
+	devices := service.RunningService().Devices()
+	deviceMap := make(map[string]contract.Device, len(devices))
+
+	for _, dev := range devices {
+		if dev.Name == d.serviceName {
+			// skip control plane device
+			continue
+		}
+
+		onvifInfo := dev.Protocols[OnvifProtocol]
+		if onvifInfo == nil {
+			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)
+			continue
+		}
+
+		endpointRef := onvifInfo["EndpointRefAddress"]
+		if endpointRef == "" {
+			d.lc.Warnf("Registered device %s is missing required %s protocol information: EndpointRefAddress.",
+				dev.Name, OnvifProtocol)
+			continue
+		}
+
+		deviceMap[endpointRef] = dev
+	}
+
+	return deviceMap
 }
