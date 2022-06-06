@@ -131,3 +131,10 @@ ProbeTimeoutMillis = 2000
 # Maximum amount of seconds the discovery process is allowed to run before it will be cancelled.
 # It is especially important to have this configured in the case of larger subnets such as /16 and /8
 MaxDiscoverDurationSeconds = 300
+
+EnableStatusCheck = true
+
+# The interval in seconds at which the service will check the connection of all known cameras and update the device status 
+# A longer interval will mean the service will detect changes in status less quickly
+# Maximum 300s (1 hour)
+CheckStatusInterval = "30"
