@@ -203,6 +203,14 @@ ProbeTimeoutMillis = "2000"
 # Maximum amount of seconds the discovery process is allowed to run before it will be cancelled.
 # It is especially important to have this configured in the case of larger subnets such as /16 and /8
 MaxDiscoverDurationSeconds = "300"
+
+EnableStatusCheck = true
+
+# The interval in seconds at which the service will check the connection of all known cameras and update the device status 
+# A longer interval will mean the service will detect changes in status less quickly
+# Maximum 300s (1 hour)
+CheckStatusInterval = "30"
+
 ```
 >Example of configuration.toml contents
 
@@ -366,4 +374,32 @@ curl --location --request POST 'http://0.0.0.0:59984/api/v2/secret' \
         }
     ]
 }'
+```
+## Rediscovery
+
+The device service is able to rediscover and update that have been discovered previously. Nothing additional is needed to enable this. It will run whenever the discover call is sent, regardless of whether it is a manual or automated call to discover.
+
+
+## Device Status
+The device status is related to the rediscovery of the cameras. It is a separate backgorund service running constantly to determine the most accurate operating status of the existing cameras.
+
+### States and Descriptions
+Currently there are 4 different statuses that a camera can have  
+
+**UpWithAuth**: Can execute commands requiring credentials  
+**UpWithoutAuth**: Can execute commands not requiring credentials only. Usually this means the camera has had its credentials changed in some way.  
+**Reachable**: Can be discovered but no commands can be recieved.  
+**Unreachable**: Cannot be seen by service at all. Usually this means that there is a connection issue either physically or with the network.   
+
+### Configuration
+- Use `EnableStatusCheck` to enable the device status background service.
+- `CheckStatusInterval` is the interval at which the service will determine the status of each camera.
+
+```toml
+EnableStatusCheck = true
+
+# The interval in seconds at which the service will check the connection of all known cameras and update the device status 
+# A longer interval will mean the service will detect changes in status less quickly
+# Maximum 300s (1 hour)
+CheckStatusInterval = "30"
 ```
