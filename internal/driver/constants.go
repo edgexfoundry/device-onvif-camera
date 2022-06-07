@@ -6,6 +6,14 @@
 
 package driver
 
+// Enumerations for DeviceStatus
+const (
+	UpWithAuth    = "UpWithAuth"
+	UpWithoutAuth = "UpWithoutAuth"
+	Reachable     = "Reachable"
+	Unreachable   = "Unreachable"
+)
+
 const (
 	OnvifProtocol      = "Onvif"
 	Address            = "Address"
@@ -17,11 +25,6 @@ const (
 
 	// Field in OnvifProtocol map
 	DeviceStatus = "DeviceStatus"
-	// Enumerations for DeviceStatus
-	UpWithAuth    = "UpWithAuth"
-	UpWithoutAuth = "UpWithoutAuth"
-	Reachable     = "Reachable"
-	Unreachable   = "Unreachable"
 
 	// Maximum interval for checkStatus interval
 	maxStatusInterval = 300

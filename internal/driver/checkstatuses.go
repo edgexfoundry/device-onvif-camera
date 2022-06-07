@@ -49,7 +49,7 @@ func (d *Driver) testConnectionAuth(device sdkModel.Device) bool {
 	// sends get device information command to device (requires credentials)
 	_, edgexErr := d.getDeviceInformation(device)
 	if edgexErr != nil {
-		d.lc.Debugf("Connection to %s failed when using authentication", device.Name)
+		d.lc.Debugf("Connection to %s failed when using authentication: %s", device.Name, edgexErr.Message())
 		return false
 	}
 	return true
@@ -62,7 +62,7 @@ func (d *Driver) testConnectionNoAuth(device sdkModel.Device) bool {
 	// sends get capabilities command to device (does not require credentials)
 	_, edgexErr := d.newTemporaryOnvifClient(device)
 	if edgexErr != nil {
-		d.lc.Debugf("Connection to %s failed when not using authentication", device.Name)
+		d.lc.Debugf("Connection to %s failed when not using authentication: %s", device.Name, edgexErr.Message())
 		return false
 	}
 	return true
