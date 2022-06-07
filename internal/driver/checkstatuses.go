@@ -14,6 +14,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/IOTechSystems/onvif"
 	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	sdkModel "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
@@ -28,14 +29,7 @@ func (d *Driver) checkStatuses() {
 			continue
 		}
 
-		status := Unreachable
-		if d.testConnectionAuth(device) {
-			status = UpWithAuth
-		} else if d.testConnectionNoAuth(device) {
-			status = UpWithoutAuth
-		} else if d.tcpProbe(device) {
-			status = Reachable
-		}
+		status := d.testConnectionMethods(device)
 
 		if err := d.updateDeviceStatus(device, status); err != nil {
 			d.lc.Warnf("Could not update device status for device %s: %s", device.Name, err.Error())
@@ -45,28 +39,42 @@ func (d *Driver) checkStatuses() {
 
 // testConnectionAuth will try to send a command to a camera using authentication
 // and return a bool indicating success or failure
-func (d *Driver) testConnectionAuth(device sdkModel.Device) bool {
-	// sends get device information command to device (requires credentials)
-	_, edgexErr := d.getDeviceInformation(device)
+func (d *Driver) testConnectionMethods(device sdkModel.Device) (status string) {
+	// sends get capabilities command to device (does not require credentials)
+	devClient, edgexErr := d.newTemporaryOnvifClient(device)
 	if edgexErr != nil {
-		d.lc.Debugf("Connection to %s failed when using authentication: %s", device.Name, edgexErr.Message())
-		return false
+		d.lc.Debugf("Connection to %s failed when creating client: %s", device.Name, edgexErr.Message())
+		// onvif connection failed, so lets probe it
+		if d.tcpProbe(device) {
+			return Reachable
+		}
+		return Unreachable
+
 	}
-	return true
+
+	// sends get device information command to device (requires credentials)
+	_, edgexErr = devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetDeviceInformation, []byte{})
+	if edgexErr != nil {
+		d.lc.Debugf("%s command failed for device %s when using authentication: %s", onvif.GetDeviceInformation, device.Name, edgexErr.Message())
+		return UpWithoutAuth
+	}
+
+	return UpWithAuth
 }
 
-// After failing to get a connection using authentication, it calls this function
-// to try to reach the camera using a command that doesn't require authorization,
-// and return a bool indicating success or failure
-func (d *Driver) testConnectionNoAuth(device sdkModel.Device) bool {
-	// sends get capabilities command to device (does not require credentials)
-	_, edgexErr := d.newTemporaryOnvifClient(device)
-	if edgexErr != nil {
-		d.lc.Debugf("Connection to %s failed when not using authentication: %s", device.Name, edgexErr.Message())
-		return false
-	}
-	return true
-}
+// // After failing to get a connection using authentication, it calls this function
+// // to try to reach the camera using a command that doesn't require authorization,
+// // and return a bool indicating success or failure
+// func (d *Driver) testConnectionNoAuth(device sdkModel.Device) bool {
+// 	// sends get capabilities command to device (does not require credentials)
+// 	// client, edgexErr := d.newTemporaryOnvifClient(device)
+// 	// client.callOnvifFunction(onvifdevice, onvifdevice.GetSystemDateAndTime, nil)
+// 	if edgexErr != nil {
+// 		d.lc.Debugf("Connection to %s failed when not using authentication: %s", device.Name, edgexErr.Message())
+// 		return false
+// 	}
+// 	return true
+// }
 
 // tcpProbe attempts to make a connection to a specific ip and port list to determine
 // if there is a service listening at that ip+port.
