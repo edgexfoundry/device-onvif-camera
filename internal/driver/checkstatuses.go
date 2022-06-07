@@ -103,6 +103,12 @@ func (d *Driver) tcpProbe(device sdkModel.Device) bool {
 }
 
 func (d *Driver) updateDeviceStatus(device sdkModel.Device, status string) error {
+	// todo: maybe have connection levels known as ints, so that way we can log at different levels based on
+	oldStatus := device.Protocols[OnvifProtocol][DeviceStatus]
+	if oldStatus != status {
+		d.lc.Infof("Device status for %s is now %s (used to be %s)", device.Name, status, oldStatus)
+	}
+
 	device.Protocols[OnvifProtocol][DeviceStatus] = status
 
 	if status != Unreachable {
