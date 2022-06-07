@@ -22,9 +22,7 @@ const (
 	SecretPath         = "SecretPath"
 	EndpointRefAddress = "EndpointRefAddress"
 	LastSeen           = "LastSeen"
-
-	// Field in OnvifProtocol map
-	DeviceStatus = "DeviceStatus"
+	DeviceStatus       = "DeviceStatus"
 
 	// Maximum interval for checkStatus interval
 	maxStatusInterval = 300
