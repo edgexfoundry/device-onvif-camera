@@ -153,7 +153,11 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 
-	if d.config.AppCustom.EnableStatusCheck {
+	d.configMu.RLock()
+	enableStatusCheck := d.config.AppCustom.EnableStatusCheck
+	d.configMu.RUnlock()
+
+	if enableStatusCheck {
 		// starts loop to check connection and determine device status
 		if err := d.StartTaskLoop(); err != nil {
 			return errors.NewCommonEdgeX(errors.KindUnknown, "Task loop could not not start", err)
@@ -452,6 +456,49 @@ func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.Pro
 			return errors.NewCommonEdgeXWrapper(err)
 		}
 	}
+	return nil
+}
+
+// updateExistingDevice compares a discovered device and a matching existing device, and updates the existing
+// device network address and port if necessary
+func (d *Driver) updateExistingDevice(device models.Device, discDev sdkModel.DiscoveredDevice) error {
+	shouldUpdate := false
+	if device.OperatingState == models.Down {
+		device.OperatingState = models.Up
+		shouldUpdate = true
+	}
+
+	existAddr := device.Protocols[OnvifProtocol][Address]
+	existPort := device.Protocols[OnvifProtocol][Port]
+	discAddr := discDev.Protocols[OnvifProtocol][Address]
+	discPort := discDev.Protocols[OnvifProtocol][Port]
+	if discAddr == "" ||
+		discPort == "" ||
+		existAddr != discAddr ||
+		existPort != discPort {
+		d.lc.Infof("Existing device %s has been discovered with a different network address. Old: %s, Discovered: %s",
+			device.Name, existAddr+":"+existPort, discAddr+":"+discPort)
+
+		device.Protocols[OnvifProtocol][Address] = discAddr
+		device.Protocols[OnvifProtocol][Port] = discPort
+
+		device.OperatingState = models.Up
+		shouldUpdate = true
+	}
+
+	if !shouldUpdate {
+		// if both methods of dicovery are used, this message will print for the every camera discovered by netscan
+		d.lc.Warn("Re-discovered existing device at the same network address, nothing to do")
+		return nil
+	}
+
+	err := sdk.RunningService().UpdateDevice(device)
+	if err != nil {
+		d.lc.Error("There was an error updating the network address for existing device %s: %s",
+			device.Name, err.Error())
+		return errors.NewCommonEdgeXWrapper(err)
+	}
+
 	return nil
 }
 
