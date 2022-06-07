@@ -377,7 +377,7 @@ curl --location --request POST 'http://0.0.0.0:59984/api/v2/secret' \
 ```
 ## Rediscovery
 
-The device service is able to rediscover and update that have been discovered previously. Nothing additional is needed to enable this. It will run whenever the discover call is sent, regardless of whether it is a manual or automated call to discover.
+The device service is able to rediscover and update devices that have been discovered previously. Nothing additional is needed to enable this. It will run whenever the discover call is sent, regardless of whether it is a manual or automated call to discover.
 
 
 ## Device Status
@@ -387,7 +387,7 @@ The device status goes hand in hand with the rediscovery of the cameras, but goe
 Currently there are 4 different statuses that a camera can have  
 
 **UpWithAuth**: Can execute commands requiring credentials  
-**UpWithoutAuth**: Can execute commands not requiring credentials only. Usually this means the camera has had its credentials changed in some way.  
+**UpWithoutAuth**: Can only execute commands that do not require credentials. Usually this means the camera's credentials have not been registered with the service yet, or have been changed.  
 **Reachable**: Can be discovered but no commands can be recieved.  
 **Unreachable**: Cannot be seen by service at all. Usually this means that there is a connection issue either physically or with the network.   
 
