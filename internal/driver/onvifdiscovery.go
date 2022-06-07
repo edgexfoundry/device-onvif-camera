@@ -230,16 +230,16 @@ func (d *Driver) makeDeviceMap() map[string]contract.Device {
 			continue
 		}
 
-		onvifInfo := dev.Protocols[OnvifProtocol]
-		if onvifInfo == nil {
+		onvifInfo, ok := dev.Protocols[OnvifProtocol]
+		if !ok {
 			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)
 			continue
 		}
 
-		endpointRef := onvifInfo["EndpointRefAddress"]
+		endpointRef := onvifInfo[EndpointRefAddress]
 		if endpointRef == "" {
-			d.lc.Warnf("Registered device %s is missing required %s protocol information: EndpointRefAddress.",
-				dev.Name, OnvifProtocol)
+			d.lc.Warnf("Registered device %s is missing required %s protocol information: %s.",
+				dev.Name, OnvifProtocol, EndpointRefAddress)
 			continue
 		}
 
