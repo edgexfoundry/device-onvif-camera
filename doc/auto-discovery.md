@@ -209,7 +209,7 @@ EnableStatusCheck = true
 # The interval in seconds at which the service will check the connection of all known cameras and update the device status 
 # A longer interval will mean the service will detect changes in status less quickly
 # Maximum 300s (1 hour)
-CheckStatusInterval = "30"
+CheckStatusInterval = 30
 
 ```
 >Example of configuration.toml contents
@@ -381,7 +381,7 @@ The device service is able to rediscover and update that have been discovered pr
 
 
 ## Device Status
-The device status is related to the rediscovery of the cameras. It is a separate backgorund service running constantly to determine the most accurate operating status of the existing cameras.
+The device status goes hand in hand with the rediscovery of the cameras, but goes beyond the scope of just discovery. It is a separate background task running at a specified interval (default 30s) to determine the most accurate operating status of the existing cameras.
 
 ### States and Descriptions
 Currently there are 4 different statuses that a camera can have  
@@ -401,5 +401,5 @@ EnableStatusCheck = true
 # The interval in seconds at which the service will check the connection of all known cameras and update the device status 
 # A longer interval will mean the service will detect changes in status less quickly
 # Maximum 300s (1 hour)
-CheckStatusInterval = "30"
+CheckStatusInterval = 30
 ```

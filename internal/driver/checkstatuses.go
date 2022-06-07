@@ -22,8 +22,8 @@ import (
 func (d *Driver) checkStatuses() {
 	d.lc.Debug("checkStatuses has been called")
 	for _, device := range service.RunningService().Devices() {
-		// "higher" degrees of connection are tested first, becuase if they
-		// succeed, the "lower" levels of connection will too
+		// higher degrees of connection are tested first, becuase if they
+		// succeed, the lower levels of connection will too
 		if device.Name == d.serviceName { // skip control plane device
 			continue
 		}
@@ -71,19 +71,23 @@ func (d *Driver) testConnectionNoAuth(device sdkModel.Device) bool {
 // tcpProbe attempts to make a connection to a specific ip and port list to determine
 // if there is a service listening at that ip+port.
 func (d *Driver) tcpProbe(device sdkModel.Device) bool {
-	var host string
-	if device.Protocols[OnvifProtocol] != nil {
-		addr := device.Protocols[OnvifProtocol][Address]
-		port := device.Protocols[OnvifProtocol][Port]
-		if addr == "" || port == "" {
-			d.lc.Warnf("Device %s has no network address, cannot send probe.", device.Name)
-			return false
-		}
-		host = addr + ":" + port
+	proto, ok := device.Protocols[OnvifProtocol]
+	if !ok {
+		d.lc.Warnf("Device %s is missing required %s protocol info, cannot send probe.", device.Name, OnvifProtocol)
+		return false
 	}
-	conn, err := net.DialTimeout("tcp", host, time.Duration(d.config.AppCustom.ProbeTimeoutMillis*int(time.Millisecond)))
+	addr := proto[Address]
+	port := proto[Port]
+
+	if addr == "" || port == "" {
+		d.lc.Warnf("Device %s has no network address, cannot send probe.", device.Name)
+		return false
+	}
+	host := addr + ":" + port
+
+	conn, err := net.DialTimeout("tcp", host, time.Duration(d.config.AppCustom.ProbeTimeoutMillis)*time.Millisecond)
 	if err != nil {
-		d.lc.Debugf("Connection to %s failed when using simple tcp dial, Error: %s ", device.Name, err)
+		d.lc.Debugf("Connection to %s failed when using simple tcp dial, Error: %s ", device.Name, err.Error())
 		return false
 	}
 	defer conn.Close()
@@ -102,17 +106,17 @@ func (d *Driver) updateDeviceStatus(device sdkModel.Device, status string) error
 
 // taskLoop manages all of our custom background tasks such as checking camera statuses at regular intervals
 func (d *Driver) taskLoop(ctx context.Context) {
+	d.configMu.RLock()
 	interval := d.config.AppCustom.CheckStatusInterval
-	if interval > maxStatusInterval { // TODO: Update with issue #75
+	d.configMu.RUnlock()
+	if interval > maxStatusInterval { // check the interval
 		d.lc.Warnf("Status interval of %d seconds is larger than the maximum value of %d seconds. Status interval has been set to the max value.", interval, maxStatusInterval)
 		interval = maxStatusInterval
 	}
-	// check the interval
-	statusTicker := time.NewTicker(time.Duration(interval) * time.Second)
 
-	defer func() {
-		statusTicker.Stop()
-	}()
+	statusTicker := time.NewTicker(time.Duration(interval) * time.Second) // TODO: Support dynamic updates for ticker interval
+
+	defer statusTicker.Stop()
 
 	d.lc.Info("Starting task loop.")
 
