@@ -23,8 +23,6 @@ import (
 func (d *Driver) checkStatuses() {
 	d.lc.Debug("checkStatuses has been called")
 	for _, device := range service.RunningService().Devices() {
-		// higher degrees of connection are tested first, becuase if they
-		// succeed, the lower levels of connection will too
 		if device.Name == d.serviceName { // skip control plane device
 			continue
 		}
@@ -37,10 +35,13 @@ func (d *Driver) checkStatuses() {
 	}
 }
 
-// testConnectionAuth will try to send a command to a camera using authentication
-// and return a bool indicating success or failure
+// testConnectionMeethods will try to determine the state using different device calls
+// and return the most accurate status
+// Higher degrees of connection are tested first, becuase if they
+// succeed, the lower levels of connection will too
 func (d *Driver) testConnectionMethods(device sdkModel.Device) (status string) {
-	// sends get capabilities command to device (does not require credentials)
+
+	// creates client for device (does not require credentials)
 	devClient, edgexErr := d.newTemporaryOnvifClient(device)
 	if edgexErr != nil {
 		d.lc.Debugf("Connection to %s failed when creating client: %s", device.Name, edgexErr.Message())
@@ -61,20 +62,6 @@ func (d *Driver) testConnectionMethods(device sdkModel.Device) (status string) {
 
 	return UpWithAuth
 }
-
-// // After failing to get a connection using authentication, it calls this function
-// // to try to reach the camera using a command that doesn't require authorization,
-// // and return a bool indicating success or failure
-// func (d *Driver) testConnectionNoAuth(device sdkModel.Device) bool {
-// 	// sends get capabilities command to device (does not require credentials)
-// 	// client, edgexErr := d.newTemporaryOnvifClient(device)
-// 	// client.callOnvifFunction(onvifdevice, onvifdevice.GetSystemDateAndTime, nil)
-// 	if edgexErr != nil {
-// 		d.lc.Debugf("Connection to %s failed when not using authentication: %s", device.Name, edgexErr.Message())
-// 		return false
-// 	}
-// 	return true
-// }
 
 // tcpProbe attempts to make a connection to a specific ip and port list to determine
 // if there is a service listening at that ip+port.
@@ -104,18 +91,26 @@ func (d *Driver) tcpProbe(device sdkModel.Device) bool {
 
 func (d *Driver) updateDeviceStatus(device sdkModel.Device, status string) error {
 	// todo: maybe have connection levels known as ints, so that way we can log at different levels based on
+	// if the connection level went up or down
+	shouldUpdate := false
+
 	oldStatus := device.Protocols[OnvifProtocol][DeviceStatus]
 	if oldStatus != status {
 		d.lc.Infof("Device status for %s is now %s (used to be %s)", device.Name, status, oldStatus)
+		device.Protocols[OnvifProtocol][DeviceStatus] = status
+		shouldUpdate = true
 	}
-
-	device.Protocols[OnvifProtocol][DeviceStatus] = status
 
 	if status != Unreachable {
 		device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
+		shouldUpdate = true
 	}
 
-	return service.RunningService().UpdateDevice(device)
+	if shouldUpdate {
+		return service.RunningService().UpdateDevice(device)
+	}
+
+	return nil
 }
 
 // taskLoop manages all of our custom background tasks such as checking camera statuses at regular intervals

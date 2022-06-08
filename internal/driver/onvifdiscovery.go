@@ -296,10 +296,8 @@ func (d *Driver) updateExistingDevice(device models.Device, discDev sdkModel.Dis
 	discPort := discDev.Protocols[OnvifProtocol][Port]
 	if existAddr != discAddr ||
 		existPort != discPort {
-		d.lc.Info("Existing device has been discovered with a different network address.",
-			"oldInfo", fmt.Sprintf("%+v", existAddr+":"+existPort),
-			"discoveredInfo", fmt.Sprintf("%+v", discAddr+":"+discPort))
-
+		d.lc.Infof("Existing device %s has been discovered with a different network address. Old: %s, Discovered: %s",
+			device.Name, existAddr+":"+existPort, discAddr+":"+discPort)
 		device.Protocols[OnvifProtocol][Address] = discAddr
 		device.Protocols[OnvifProtocol][Port] = discPort
 
@@ -313,9 +311,7 @@ func (d *Driver) updateExistingDevice(device models.Device, discDev sdkModel.Dis
 
 	err := sdk.RunningService().UpdateDevice(device)
 	if err != nil {
-		d.lc.Error("There was an error updating the network address for an existing device.",
-			"deviceName", device.Name,
-			"error", err)
+		d.lc.Errorf("There was an error updating the network address for device %s: %s", device.Name, err)
 		return errors.NewCommonEdgeXWrapper(err)
 	}
 
