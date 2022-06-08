@@ -35,13 +35,13 @@ func (d *Driver) checkStatuses() {
 	}
 }
 
-// testConnectionMeethods will try to determine the state using different device calls
+// testConnectionMethods will try to determine the state using different device calls
 // and return the most accurate status
 // Higher degrees of connection are tested first, becuase if they
 // succeed, the lower levels of connection will too
 func (d *Driver) testConnectionMethods(device sdkModel.Device) (status string) {
 
-	// creates client for device (does not require credentials)
+	// sends get capabilities command to device (does not require credentials)
 	devClient, edgexErr := d.newTemporaryOnvifClient(device)
 	if edgexErr != nil {
 		d.lc.Debugf("Connection to %s failed when creating client: %s", device.Name, edgexErr.Message())

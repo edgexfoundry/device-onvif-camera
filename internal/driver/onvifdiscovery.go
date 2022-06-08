@@ -18,11 +18,9 @@ import (
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/gofrs/uuid"
 )
@@ -221,7 +219,7 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 
 // makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress
 func (d *Driver) makeDeviceMap() map[string]contract.Device {
-	devices := service.RunningService().Devices()
+	devices := sdk.RunningService().Devices()
 	deviceMap := make(map[string]contract.Device, len(devices))
 
 	for _, dev := range devices {
@@ -281,10 +279,10 @@ func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) (
 
 // updateExistingDevice compares a discovered device and a matching existing device, and updates the existing
 // device network address and port if necessary
-func (d *Driver) updateExistingDevice(device models.Device, discDev sdkModel.DiscoveredDevice) error {
+func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.DiscoveredDevice) error {
 	shouldUpdate := false
-	if device.OperatingState == models.Down {
-		device.OperatingState = models.Up
+	if device.OperatingState == contract.Down {
+		device.OperatingState = contract.Up
 		shouldUpdate = true
 	}
 
@@ -311,7 +309,7 @@ func (d *Driver) updateExistingDevice(device models.Device, discDev sdkModel.Dis
 
 	err := sdk.RunningService().UpdateDevice(device)
 	if err != nil {
-		d.lc.Errorf("There was an error updating the network address for device %s: %s", device.Name, err)
+		d.lc.Errorf("There was an error updating the network address for device %s: %s", device.Name, err.Error())
 		return errors.NewCommonEdgeXWrapper(err)
 	}
 
