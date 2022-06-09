@@ -418,6 +418,9 @@ func (d *Driver) Stop(force bool) error {
 		client.pullPointManager.UnsubscribeAll()
 		client.baseNotificationManager.UnsubscribeAll()
 	}
+	close(d.taskCh)
+	// d.taskCh <- struct{}{}
+	wg.Wait()
 
 	close(d.taskCh) // send signal for taskLoop to finish
 	wg.Wait()       // wait for taskLoop goroutine to return
