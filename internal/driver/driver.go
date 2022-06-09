@@ -75,6 +75,9 @@ type Driver struct {
 	// debounceTimer and debounceMu keep track of when to fire a debounced discovery call
 	debounceTimer *time.Timer
 	debounceMu    sync.Mutex
+
+	// taskCh is used to send signals to the taskLoop
+	taskCh chan struct{}
 }
 
 type MultiErr []error
@@ -96,6 +99,8 @@ func (me MultiErr) Error() string {
 // unless we meet the runtime-required interface.
 var _ sdkModel.ProtocolDriver = (*Driver)(nil)
 
+var wg sync.WaitGroup
+
 // Initialize performs protocol-specific initialization for the device
 // service.
 func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.AsyncValues,
@@ -103,6 +108,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.lc = lc
 	d.asynchCh = asyncCh
 	d.deviceCh = deviceCh
+	d.taskCh = make(chan struct{})
 	d.clientsMu = new(sync.RWMutex)
 	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
@@ -159,9 +165,11 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 	if enableStatusCheck {
 		// starts loop to check connection and determine device status
-		if err := d.StartTaskLoop(); err != nil {
-			return errors.NewCommonEdgeX(errors.KindUnknown, "Task loop could not not start", err)
-		}
+		wg.Add(1)
+		go func() {
+			d.taskLoop()
+			defer wg.Done()
+		}()
 	}
 
 	d.lc.Info("Driver initialized.")
@@ -404,13 +412,18 @@ func (d *Driver) HandleWriteCommands(deviceName string, protocols map[string]mod
 // for closing any in-use channels, including the channel used to send async
 // readings (if supported).
 func (d *Driver) Stop(force bool) error {
+
 	close(d.asynchCh)
 	for _, client := range d.onvifClients {
 		client.pullPointManager.UnsubscribeAll()
 		client.baseNotificationManager.UnsubscribeAll()
 	}
+	close(d.taskCh)
+	// d.taskCh <- struct{}{}
+	wg.Wait()
 
 	return nil
+
 }
 
 func (d *Driver) publishControlPlaneEvent(deviceName, eventType string) {

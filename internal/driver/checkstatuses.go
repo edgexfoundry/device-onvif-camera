@@ -7,11 +7,7 @@
 package driver
 
 import (
-	"context"
 	"net"
-	"os"
-	"os/signal"
-	"syscall"
 	"time"
 
 	"github.com/IOTechSystems/onvif"
@@ -114,7 +110,8 @@ func (d *Driver) updateDeviceStatus(device sdkModel.Device, status string) error
 }
 
 // taskLoop manages all of our custom background tasks such as checking camera statuses at regular intervals
-func (d *Driver) taskLoop(ctx context.Context) {
+func (d *Driver) taskLoop() {
+	d.lc.Info("entering taskloop")
 	d.configMu.RLock()
 	interval := d.config.AppCustom.CheckStatusInterval
 	d.configMu.RUnlock()
@@ -131,7 +128,7 @@ func (d *Driver) taskLoop(ctx context.Context) {
 
 	for {
 		select {
-		case <-ctx.Done():
+		case <-d.taskCh:
 			d.lc.Info("Task loop stopped.")
 			return
 		case <-statusTicker.C:
@@ -140,23 +137,4 @@ func (d *Driver) taskLoop(ctx context.Context) {
 			d.lc.Debugf("checkStatuses completed in: %v", time.Since(start))
 		}
 	}
-}
-
-// StartTaskLoop runs the taskLoop in the background until cancelled
-func (d *Driver) StartTaskLoop() error {
-	ctx, cancel := context.WithCancel(context.Background())
-
-	go func() {
-		d.taskLoop(ctx)
-		d.lc.Info("Task loop has exited.")
-	}()
-
-	go func() {
-		signals := make(chan os.Signal, 1)
-		signal.Notify(signals, syscall.SIGINT, syscall.SIGTERM)
-		s := <-signals
-		d.lc.Infof("Received '%s' signal from OS.", s.String())
-		cancel() // signal the taskLoop to finish
-	}()
-	return nil
 }
