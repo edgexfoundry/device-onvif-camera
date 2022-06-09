@@ -720,3 +720,14 @@ deviceCommands:
     resourceOperations:
       - { deviceResource: "Profiles" }
       - { deviceResource: "StreamUri" }
+
+ - name: "CustomMetadata"
+    isHidden: false
+    description: "Update or query customized metadata configurations"
+    attributes:
+      service: "EdgeX"
+      setFunction:
+      getFunction:
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
