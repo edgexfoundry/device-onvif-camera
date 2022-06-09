@@ -168,6 +168,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		wg.Add(1)
 		go func() {
 			d.taskLoop()
+			d.lc.Info("taskLoop has stopped.")
 			defer wg.Done() // wait for taskLoop to return
 		}()
 	}
@@ -418,9 +419,6 @@ func (d *Driver) Stop(force bool) error {
 		client.pullPointManager.UnsubscribeAll()
 		client.baseNotificationManager.UnsubscribeAll()
 	}
-	close(d.taskCh)
-	// d.taskCh <- struct{}{}
-	wg.Wait()
 
 	close(d.taskCh) // send signal for taskLoop to finish
 	wg.Wait()       // wait for taskLoop goroutine to return

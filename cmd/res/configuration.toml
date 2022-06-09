@@ -6,13 +6,13 @@ LogLevel = "INFO"
     [Writable.InsecureSecrets.DB]
     path = "redisdb"
       [Writable.InsecureSecrets.DB.Secrets]
-      username = "admin"
-      password = "admin"
+      username = ""
+      password = ""
     [Writable.InsecureSecrets.Camera001]
     path = "credentials001"
       [Writable.InsecureSecrets.Camera001.Secrets]
-      username = "admin"
-      password = "admin"
+      username = "administrator"
+      password = "Password1!"
     # If having more than one camera, uncomment the following config settings
 #    [Writable.InsecureSecrets.Camera002]
 #    path = "credentials002"
@@ -22,7 +22,7 @@ LogLevel = "INFO"
 
 [Service]
 HealthCheckInterval = "10s"
-Host = "10.0.0.147"
+Host = "localhost"
 Port = 59984
 ServerBindAddr = ""  # blank value defaults to Service.Host value
 StartupMsg = "Camera device service started"
@@ -119,7 +119,7 @@ DiscoveryMode = "both" # netscan, multicast, or both
 
 # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
 # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-DiscoverySubnets = "10.0.0.147/24"
+DiscoverySubnets = ""
 
 # Maximum simultaneous network probes
 ProbeAsyncLimit = 4000

@@ -111,7 +111,6 @@ func (d *Driver) updateDeviceStatus(device sdkModel.Device, status string) error
 
 // taskLoop manages all of our custom background tasks such as checking camera statuses at regular intervals
 func (d *Driver) taskLoop() {
-	d.lc.Info("entering taskloop")
 	d.configMu.RLock()
 	interval := d.config.AppCustom.CheckStatusInterval
 	d.configMu.RUnlock()
@@ -129,7 +128,6 @@ func (d *Driver) taskLoop() {
 	for {
 		select {
 		case <-d.taskCh:
-			d.lc.Info("Task loop stopped.")
 			return
 		case <-statusTicker.C:
 			start := time.Now()
