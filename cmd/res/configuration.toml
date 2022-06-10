@@ -136,5 +136,5 @@ EnableStatusCheck = true
 
 # The interval in seconds at which the service will check the connection of all known cameras and update the device status 
 # A longer interval will mean the service will detect changes in status less quickly
-# Maximum 300s (1 hour)
+# Maximum 300s (5 minutes)
 CheckStatusInterval = 30
