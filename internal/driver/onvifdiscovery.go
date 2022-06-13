@@ -18,6 +18,7 @@ import (
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
+	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
@@ -84,6 +85,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		return sdkModel.DiscoveredDevice{}, fmt.Errorf("empty EndpointRefAddress for XAddr %s", xaddr)
 	}
 	address, port := addressAndPort(xaddr)
+	timestamp := time.Now().Format(time.UnixDate)
 
 	d.configMu.RLock()
 	device := contract.Device{
@@ -96,6 +98,8 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 				AuthMode:           d.config.AppCustom.DefaultAuthMode,
 				SecretPath:         d.config.AppCustom.DefaultSecretPath,
 				EndpointRefAddress: endpointRefAddr,
+				DeviceStatus:       Reachable,
+				LastSeen:           timestamp,
 			},
 		},
 	}
@@ -112,6 +116,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 	var discovered sdkModel.DiscoveredDevice
 	if edgexErr != nil {
 		d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRefAddr, edgexErr)
+		device.Protocols[OnvifProtocol][DeviceStatus] = Reachable // update device status in this error case
 		discovered = sdkModel.DiscoveredDevice{
 			Name:        endpointRefAddr,
 			Protocols:   device.Protocols,
@@ -125,6 +130,8 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
 		device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
 		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
+		device.Protocols[OnvifProtocol][DeviceStatus] = UpWithAuth
+		device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
 
 		// Spaces are not allowed in the device name
 		deviceName := fmt.Sprintf("%s-%s-%s",
@@ -208,4 +215,103 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 	}
 
 	return devices, nil
+}
+
+// makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress
+func (d *Driver) makeDeviceMap() map[string]contract.Device {
+	devices := sdk.RunningService().Devices()
+	deviceMap := make(map[string]contract.Device, len(devices))
+
+	for _, dev := range devices {
+		if dev.Name == d.serviceName {
+			// skip control plane device
+			continue
+		}
+
+		onvifInfo, ok := dev.Protocols[OnvifProtocol]
+		if !ok {
+			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)
+			continue
+		}
+
+		endpointRef := onvifInfo[EndpointRefAddress]
+		if endpointRef == "" {
+			d.lc.Warnf("Registered device %s is missing required %s protocol information: %s.",
+				dev.Name, OnvifProtocol, EndpointRefAddress)
+			continue
+		}
+
+		deviceMap[endpointRef] = dev
+	}
+
+	return deviceMap
+}
+
+// discoverFilter iterates through the discovered devices, and returns any that are not duplicates
+// of devices in metadata or are from an alternate discovery method
+// will return an empty slice if no new devices are discovered
+func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) (filtered []sdkModel.DiscoveredDevice) {
+	// filter out duplicate discovered devices by endpoint reference
+	discoveredMap := make(map[string]sdkModel.DiscoveredDevice)
+	for _, device := range discoveredDevices {
+		endpointRef := device.Protocols[OnvifProtocol][EndpointRefAddress]
+		if _, found := discoveredMap[endpointRef]; !found {
+			discoveredMap[endpointRef] = device
+		}
+	}
+
+	existingDevices := d.makeDeviceMap() // create comparison map
+
+	// loop through discovered devices and see if they are already discovered
+	for endpointRef, device := range discoveredMap {
+		if existingDevice, found := existingDevices[endpointRef]; found {
+			if err := d.updateExistingDevice(existingDevice, device); err != nil {
+				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
+			}
+			continue // skip registering existing device
+		}
+		// if device was not found, add it to the list of new devices to be registered with EdgeX
+		filtered = append(filtered, device)
+	}
+
+	return filtered
+}
+
+// updateExistingDevice compares a discovered device and a matching existing device, and updates the existing
+// device network address and port if necessary
+func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.DiscoveredDevice) error {
+	shouldUpdate := false
+	if device.OperatingState == contract.Down {
+		device.OperatingState = contract.Up
+		shouldUpdate = true
+	}
+
+	device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
+
+	existAddr := device.Protocols[OnvifProtocol][Address]
+	existPort := device.Protocols[OnvifProtocol][Port]
+	discAddr := discDev.Protocols[OnvifProtocol][Address]
+	discPort := discDev.Protocols[OnvifProtocol][Port]
+	if existAddr != discAddr ||
+		existPort != discPort {
+		d.lc.Infof("Existing device %s has been discovered with a different network address. Old: %s, Discovered: %s",
+			device.Name, existAddr+":"+existPort, discAddr+":"+discPort)
+		device.Protocols[OnvifProtocol][Address] = discAddr
+		device.Protocols[OnvifProtocol][Port] = discPort
+
+		shouldUpdate = true
+	}
+
+	if !shouldUpdate {
+		d.lc.Debug("Re-discovered existing device at the same network address, nothing to do")
+		return nil
+	}
+
+	err := sdk.RunningService().UpdateDevice(device)
+	if err != nil {
+		d.lc.Errorf("There was an error updating the network address for device %s: %s", device.Name, err.Error())
+		return errors.NewCommonEdgeXWrapper(err)
+	}
+
+	return nil
 }

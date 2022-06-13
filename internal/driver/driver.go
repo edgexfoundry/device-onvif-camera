@@ -11,8 +11,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -20,6 +18,9 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
@@ -74,6 +75,10 @@ type Driver struct {
 	// debounceTimer and debounceMu keep track of when to fire a debounced discovery call
 	debounceTimer *time.Timer
 	debounceMu    sync.Mutex
+
+	// taskCh is used to send signals to the taskLoop
+	taskCh chan struct{}
+	wg     sync.WaitGroup
 }
 
 type MultiErr []error
@@ -102,6 +107,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.lc = lc
 	d.asynchCh = asyncCh
 	d.deviceCh = deviceCh
+	d.taskCh = make(chan struct{})
 	d.clientsMu = new(sync.RWMutex)
 	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
@@ -150,6 +156,20 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	edgexErr := handler.AddRoute()
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+
+	d.configMu.RLock()
+	enableStatusCheck := d.config.AppCustom.EnableStatusCheck
+	d.configMu.RUnlock()
+
+	if enableStatusCheck {
+		// starts loop to check connection and determine device status
+		d.wg.Add(1)
+		go func() {
+			defer d.wg.Done() // wait for taskLoop to return
+			d.taskLoop()
+			d.lc.Info("taskLoop has stopped.")
+		}()
 	}
 
 	d.lc.Info("Driver initialized.")
@@ -398,6 +418,9 @@ func (d *Driver) Stop(force bool) error {
 		client.baseNotificationManager.UnsubscribeAll()
 	}
 
+	close(d.taskCh) // send signal for taskLoop to finish
+	d.wg.Wait()     // wait for taskLoop goroutine to return
+
 	return nil
 }
 
@@ -561,7 +584,8 @@ func (d *Driver) Discover() {
 	}
 
 	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
-	d.deviceCh <- discoveredDevices
+	filtered := d.discoverFilter(discoveredDevices)
+	d.deviceCh <- filtered
 }
 
 // multicast enable/disable via config option
@@ -656,7 +680,10 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 		// since this is just a temporary client, we do not want to wait for credentials to be available
 		credential, edgexErr = d.tryGetCredentials(cameraInfo.SecretPath)
 		if edgexErr != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", device.Name), edgexErr)
+			// if credentials are not found, instead of returning an error, set the AuthMode to NoAuth
+			// and allow the user to call unauthenticated endpoints
+			d.lc.Warnf("failed to get credentials for camera %s, setting AuthMode to NoAuth for temporary client", device.Name)
+			cameraInfo.AuthMode = onvif.NoAuth
 		}
 	}
 

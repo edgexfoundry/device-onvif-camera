@@ -6,6 +6,14 @@
 
 package driver
 
+// Enumerations for DeviceStatus
+const (
+	UpWithAuth    = "UpWithAuth"
+	UpWithoutAuth = "UpWithoutAuth"
+	Reachable     = "Reachable"
+	Unreachable   = "Unreachable"
+)
+
 const (
 	OnvifProtocol      = "Onvif"
 	Address            = "Address"
@@ -13,6 +21,11 @@ const (
 	AuthMode           = "AuthMode"
 	SecretPath         = "SecretPath"
 	EndpointRefAddress = "EndpointRefAddress"
+	LastSeen           = "LastSeen"
+	DeviceStatus       = "DeviceStatus"
+
+	// Maximum interval for checkStatus interval
+	maxStatusInterval = 300
 
 	// Service is resource attribute and indicates the web service for the Onvif
 	Service = "service"
