@@ -7,7 +7,7 @@ require (
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.2.0
 	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/gorilla/mux v1.8.0
-	github.com/stretchr/testify v1.7.1
+	github.com/stretchr/testify v1.7.2
 )
 
 require (
@@ -68,7 +68,7 @@ require (
 	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/square/go-jose.v2 v2.4.1 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 go 1.17
