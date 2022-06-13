@@ -25,7 +25,7 @@ func (d *Driver) checkStatuses() {
 
 		status := d.testConnectionMethods(device)
 
-		if err := d.updateDeviceStatus(device, status); err != nil {
+		if err := d.updateDeviceStatus(device.Name, status); err != nil {
 			d.lc.Warnf("Could not update device status for device %s: %s", device.Name, err.Error())
 		}
 	}
@@ -85,10 +85,18 @@ func (d *Driver) tcpProbe(device sdkModel.Device) bool {
 	return true
 }
 
-func (d *Driver) updateDeviceStatus(device sdkModel.Device, status string) error {
+func (d *Driver) updateDeviceStatus(deviceName string, status string) error {
 	// todo: maybe have connection levels known as ints, so that way we can log at different levels based on
 	// if the connection level went up or down
 	shouldUpdate := false
+
+	// lookup device from cache to ensure we are updating the latest version
+	device, err := service.RunningService().GetDeviceByName(deviceName)
+	if err != nil {
+		d.lc.Errorf("Unable to get device %s from cache while trying to update its status to %s. Error: %s",
+			device.Name, status, err.Error())
+		return err
+	}
 
 	oldStatus := device.Protocols[OnvifProtocol][DeviceStatus]
 	if oldStatus != status {
