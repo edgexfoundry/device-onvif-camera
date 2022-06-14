@@ -10,10 +10,11 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
@@ -142,7 +143,9 @@ func (onvifClient *OnvifClient) CallOnvifFunction(req sdkModel.CommandRequest, f
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 
-	if serviceName == EdgeXWebService {
+	if serviceName == EdgeXWebService ||
+		functionName == GetCustomMetadata ||
+		functionName == SetCustomMetadata {
 		cv, edgexErr := onvifClient.callCustomFunction(req.DeviceResourceName, serviceName, functionName, req.Attributes, data)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeXWrapper(edgexErr)
@@ -169,6 +172,29 @@ func (onvifClient *OnvifClient) CallOnvifFunction(req sdkModel.CommandRequest, f
 func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, functionName string, attributes map[string]interface{}, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
 	var err error
 	switch functionName {
+	case GetCustomMetadata:
+		deviceName := onvifClient.DeviceName
+		device, err := getDevice(deviceName)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
+		}
+		obj := device.Protocols[CustomMetadata]
+		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, obj)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
+		}
+	case SetCustomMetadata:
+		deviceName := onvifClient.DeviceName
+		device, err := getDevice(deviceName)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
+		}
+		setCustomMetadata(device, data)
+	// case GetSpecificMetadata:
+	// 	for key := range data {
+	// 		obj := device.Protocols[CustomMetadata][string(data[key])]
+	// 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, obj)
+	// 	}
 	case RebootNeeded:
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeBool, onvifClient.RebootNeeded)
 		if err != nil {

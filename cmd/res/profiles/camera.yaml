@@ -162,6 +162,16 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
+  - name: "CustomMetadata"
+    isHidden: false
+    description: "Return the options for the supported rules that specify an Option attribute."
+    attributes:
+      service: "Device"
+      getFunction: "GetCustomMetadata"
+      setFunction: "SetCustomMetadata"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
 
   # Video Streaming
   - name: "Profiles"
@@ -720,14 +730,3 @@ deviceCommands:
     resourceOperations:
       - { deviceResource: "Profiles" }
       - { deviceResource: "StreamUri" }
-
- - name: "CustomMetadata"
-    isHidden: false
-    description: "Update or query customized metadata configurations"
-    attributes:
-      service: "EdgeX"
-      setFunction:
-      getFunction:
-    properties:
-      valueType: "Object"
-      readWrite: "RW"
