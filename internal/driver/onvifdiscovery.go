@@ -101,9 +101,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 				DeviceStatus:       Reachable,
 				LastSeen:           timestamp,
 			},
-			CustomMetadata: {
-				Location: "location",
-			},
+			CustomMetadata: {},
 		},
 	}
 	d.configMu.RUnlock()

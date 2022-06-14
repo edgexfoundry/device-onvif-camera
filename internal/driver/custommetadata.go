@@ -9,22 +9,40 @@ package driver
 import (
 	"encoding/json"
 
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
-func setCustomMetadata(device contract.Device, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
-	var obj contract.ProtocolProperties
-	err := json.Unmarshal(data, obj)
+func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) errors.EdgeX {
+	var dataObj contract.ProtocolProperties
+	err := json.Unmarshal(data, &dataObj)
+	if err != nil {
+		return errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
+	}
+
+	for key, value := range dataObj {
+		device.Protocols[CustomMetadata][key] = value
+	}
+
+	return nil
+}
+
+// getSpecificCustomMetadata will return a map of the key/value pairs corresponding to the array of keys provided in the resource call
+func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device, data []byte) (obj contract.ProtocolProperties, error errors.EdgeX) {
+	var dataArray map[string][]string
+	dataMap := make(map[string]string)
+	err := json.Unmarshal(data, &dataArray)
 	if err != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
-	return cv, nil
-}
 
-func getDevice(deviceName string) (device contract.Device, err error) {
-	device, err = sdk.RunningService().GetDeviceByName(deviceName) // CameraInfo does not contain protocol proerties, this is the alternative
-	return device, err
+	for _, key := range dataArray[CustomMetadata] {
+		value := device.Protocols[CustomMetadata][key]
+		if value == "" {
+			onvifClient.driver.lc.Warnf("Failed to find custom metadata field %s", key)
+			continue
+		}
+		dataMap[key] = value
+	}
+	return dataMap, nil
 }

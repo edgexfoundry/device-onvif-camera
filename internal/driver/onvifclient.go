@@ -138,14 +138,13 @@ func (onvifClient *OnvifClient) CallOnvifFunction(req sdkModel.CommandRequest, f
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
+	custom, edgexErr := attributeByKey(req.Attributes, "custom") // may be unneccessary
 	functionName, edgexErr := attributeByKey(req.Attributes, functionType)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 
-	if serviceName == EdgeXWebService ||
-		functionName == GetCustomMetadata ||
-		functionName == SetCustomMetadata {
+	if serviceName == EdgeXWebService || custom == "Custom" {
 		cv, edgexErr := onvifClient.callCustomFunction(req.DeviceResourceName, serviceName, functionName, req.Attributes, data)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeXWrapper(edgexErr)
@@ -174,27 +173,33 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 	switch functionName {
 	case GetCustomMetadata:
 		deviceName := onvifClient.DeviceName
-		device, err := getDevice(deviceName)
+		device, err := sdk.RunningService().GetDeviceByName(deviceName) // CameraInfo does not contain protocol proerties, this is the alternative
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
 		}
-		obj := device.Protocols[CustomMetadata]
-		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, obj)
+
+		var metadataObj models.ProtocolProperties
+
+		if len(data) == 0 { // if no list is provided,
+			metadataObj = device.Protocols[CustomMetadata]
+		} else {
+			metadataObj, err = onvifClient.getSpecificCustomMetadata(device, data)
+			if err != nil {
+				return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get specific metadata for device %s", deviceName), err)
+			}
+		}
+
+		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, metadataObj)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
 		}
 	case SetCustomMetadata:
 		deviceName := onvifClient.DeviceName
-		device, err := getDevice(deviceName)
+		device, err := sdk.RunningService().GetDeviceByName(deviceName) // CameraInfo does not contain protocol proerties, this is the alternative
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
 		}
-		setCustomMetadata(device, data)
-	// case GetSpecificMetadata:
-	// 	for key := range data {
-	// 		obj := device.Protocols[CustomMetadata][string(data[key])]
-	// 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, obj)
-	// 	}
+		onvifClient.setCustomMetadata(device, data)
 	case RebootNeeded:
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeBool, onvifClient.RebootNeeded)
 		if err != nil {

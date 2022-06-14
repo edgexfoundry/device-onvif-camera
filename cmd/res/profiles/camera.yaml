@@ -167,6 +167,7 @@ deviceResources:
     description: "Return the options for the supported rules that specify an Option attribute."
     attributes:
       service: "Device"
+      custom: "Custom"
       getFunction: "GetCustomMetadata"
       setFunction: "SetCustomMetadata"
     properties:
