@@ -138,3 +138,13 @@ EnableStatusCheck = true
 # A longer interval will mean the service will detect changes in status less quickly
 # Maximum 300s (5 minutes)
 CheckStatusInterval = 30
+
+  # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
+  #
+  # Example: (Single mapping for 1 mac address to 1 credential)
+  #   credentials001 = "aa:bb:cc:dd:ee:ff"
+  #
+  # Example: (Multi mapping for 3 mac address to 1 shared credentials)
+  #   credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
+  #
+  [AppCustom.CredentialsMap]

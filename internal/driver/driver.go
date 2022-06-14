@@ -72,6 +72,8 @@ type Driver struct {
 	addedWatchers bool
 	watchersMu    sync.Mutex
 
+	macAddressMapper *MacAddressMapper
+
 	// debounceTimer and debounceMu keep track of when to fire a debounced discovery call
 	debounceTimer *time.Timer
 	debounceMu    sync.Mutex
@@ -111,6 +113,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.clientsMu = new(sync.RWMutex)
 	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
+	d.macAddressMapper = NewMacAddressMapper(d)
 
 	deviceService := sdk.RunningService()
 
@@ -128,6 +131,8 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		d.lc.Errorf("DiscoveryMode is set to an invalid value: %q. Discovery will be unable to be performed.",
 			d.config.AppCustom.DiscoveryMode)
 	}
+
+	d.macAddressMapper.UpdateMappings(d.config.AppCustom.CredentialsMap)
 
 	err = deviceService.ListenForCustomConfigChanges(&d.config.AppCustom, "AppCustom", d.updateWritableConfig)
 	if err != nil {
@@ -193,6 +198,8 @@ func (d *Driver) updateWritableConfig(rawWritableConfig interface{}) {
 		d.lc.Info("Discover configuration has changed! Discovery will be triggered momentarily.")
 		d.debouncedDiscover()
 	}
+
+	d.macAddressMapper.UpdateMappings(d.config.AppCustom.CredentialsMap)
 }
 
 // debouncedDiscover adds or updates a future call to Discover. This function is intended to be

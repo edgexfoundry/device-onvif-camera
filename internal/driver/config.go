@@ -45,8 +45,11 @@ type CustomConfig struct {
 	// CheckStatusInterval indicates the interval in seconds at which the device service will check device statuses
 	CheckStatusInterval int
 
-	// Location of Provision Watchers
+	// ProvisionWatcherDir is the location of Provision Watchers
 	ProvisionWatcherDir string
+
+	// CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
+	CredentialsMap map[string]string
 }
 
 // ServiceConfig a struct that wraps CustomConfig which holds the values for driver configuration
