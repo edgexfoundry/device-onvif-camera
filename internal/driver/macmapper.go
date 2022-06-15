@@ -17,6 +17,9 @@ import (
 )
 
 var (
+	// macRegex is a regular expression that matches MAC addresses in the following 3 formats:
+	//		11:22:33:44:55:66, 11-22-33-44-55-66, and 112233445566
+	// It does not match the use of mixed separators (both - and : used in the same MAC address)
 	macRegex = regexp.MustCompile("^[a-fA-F0-9]{2}((:[a-fA-F0-9]{2}){5}|(-[a-fA-F0-9]{2}){5}|([a-fA-F0-9]{2}){5})$")
 )
 
@@ -51,11 +54,12 @@ func (m *MacAddressMapper) UpdateMappings(raw map[string]string) {
 		}
 
 		for _, mac := range strings.Split(macs, ",") {
-			if !IsValidMacAddress(mac) {
-				m.driver.lc.Warnf("'%s' is not a valid MAC address! Skipping entry.", mac)
+			sanitized, err := SanitizeMacAddress(mac)
+			if err != nil {
+				m.driver.lc.Warnf("Skipping entry: %s", err.Error())
 				continue
 			}
-			credsMap[mac] = secretPath
+			credsMap[sanitized] = secretPath
 		}
 	}
 
@@ -78,19 +82,43 @@ func (m *MacAddressMapper) ListMacAddresses() []string {
 	return macs
 }
 
-func (m *MacAddressMapper) GetSecretPathForMacAddress(mac string) (string, bool) {
+func (m *MacAddressMapper) GetSecretPathForMacAddress(mac string) (string, error) {
 	m.credsMu.RLock()
 	defer m.credsMu.RUnlock()
 
-	// note: we cannot directly return the lookup
-	secretPath, ok := m.credsMap[mac]
-	return secretPath, ok
+	// sanitize the mac address before looking up to ensure they all match the same format
+	sanitized, err := SanitizeMacAddress(mac)
+	if err != nil {
+		return "", err
+	}
+
+	secretPath, ok := m.credsMap[sanitized]
+	if !ok {
+		return "", fmt.Errorf("no mapping exists for mac address '%s'", mac)
+	}
+
+	return secretPath, nil
 }
 
 func (m *MacAddressMapper) TryGetCredentialsForMacAddress(mac string) (config.Credentials, error) {
-	secretPath, ok := m.GetSecretPathForMacAddress(mac)
-	if !ok {
-		return config.Credentials{}, fmt.Errorf("no mapping exists for mac address %s", mac)
+	secretPath, err := m.GetSecretPathForMacAddress(mac)
+	if err != nil {
+		return config.Credentials{}, err
 	}
 	return m.driver.tryGetCredentials(secretPath)
+}
+
+// SanitizeMacAddress takes in a MAC address in one of the 3 formats:
+// 		aa:bb:cc:dd:ee:ff, 11-22-33-44-55-66, and 112233445566
+// and will return it in the following format, using all capital letters:
+//		AA:BB:CC:DD:EE:FF
+func SanitizeMacAddress(mac string) (string, error) {
+	if !IsValidMacAddress(mac) {
+		return "", fmt.Errorf("'%s' is not a valid MAC Address", mac)
+	}
+	mac = strings.ToUpper(mac)
+	mac = strings.ReplaceAll(mac, ":", "")
+	mac = strings.ReplaceAll(mac, "-", "")
+	// note: we already verified that it is a valid MAC address, so no need to do length checking
+	return fmt.Sprintf("%s:%s:%s:%s:%s:%s", mac[0:2], mac[2:4], mac[4:6], mac[6:8], mac[8:10], mac[10:12]), nil
 }

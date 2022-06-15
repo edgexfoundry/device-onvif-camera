@@ -11,7 +11,7 @@ import (
 	"testing"
 )
 
-func TestMacAddressMapper_IsValidMacAddress(t *testing.T) {
+func TestIsValidMacAddress(t *testing.T) {
 	tests := []struct {
 		mac   string
 		valid bool
@@ -65,6 +65,43 @@ func TestMacAddressMapper_IsValidMacAddress(t *testing.T) {
 		test := test
 		t.Run(test.mac, func(t *testing.T) {
 			assert.Equal(t, test.valid, IsValidMacAddress(test.mac))
+		})
+	}
+}
+
+func TestSanitizeMacAddress(t *testing.T) {
+	tests := []struct {
+		mac       string
+		sanitized string
+		err       bool
+	}{
+		{
+			mac:       "aa:bb:cc:dd:ee:ff",
+			sanitized: "AA:BB:CC:DD:EE:FF",
+		},
+		{
+			mac: "aa:bb:cc:dd:ee",
+			err: true,
+		},
+		{
+			mac:       "AA:BB:CC:DD:EE:FF",
+			sanitized: "AA:BB:CC:DD:EE:FF",
+		},
+		{
+			mac:       "11-22-33-44-55-66",
+			sanitized: "11:22:33:44:55:66",
+		},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.mac, func(t *testing.T) {
+			sanitized, err := SanitizeMacAddress(test.mac)
+			assert.Equal(t, test.sanitized, sanitized)
+			if test.err {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+			}
 		})
 	}
 }
