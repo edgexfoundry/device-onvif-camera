@@ -138,13 +138,12 @@ func (onvifClient *OnvifClient) CallOnvifFunction(req sdkModel.CommandRequest, f
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	custom, edgexErr := attributeByKey(req.Attributes, "custom") // may be unneccessary
+	custom, _ := attributeByKey(req.Attributes, "custom") // may be unneccessary
 	functionName, edgexErr := attributeByKey(req.Attributes, functionType)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-
-	if serviceName == EdgeXWebService || custom == "Custom" {
+	if serviceName == EdgeXWebService || custom == "Custom" { //TODO: Make a constant
 		cv, edgexErr := onvifClient.callCustomFunction(req.DeviceResourceName, serviceName, functionName, req.Attributes, data)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeXWrapper(edgexErr)
@@ -177,9 +176,9 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
 		}
-
 		var metadataObj models.ProtocolProperties
 
+		// TODO: data is still in cache
 		if len(data) == 0 { // if no list is provided,
 			metadataObj = device.Protocols[CustomMetadata]
 		} else {
@@ -187,6 +186,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 			if err != nil {
 				return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get specific metadata for device %s", deviceName), err)
 			}
+			attributes[URLRawQuery] = "" // flush out the query so it resets with new calls
 		}
 
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, metadataObj)
