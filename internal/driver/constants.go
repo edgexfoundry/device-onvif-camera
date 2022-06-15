@@ -23,7 +23,7 @@ const (
 	EndpointRefAddress = "EndpointRefAddress"
 	LastSeen           = "LastSeen"
 	DeviceStatus       = "DeviceStatus"
-	HwAddress          = "HwAddress"
+	MACAddress         = "MACAddress"
 
 	// Maximum interval for checkStatus interval
 	maxStatusInterval = 300

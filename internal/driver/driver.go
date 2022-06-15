@@ -72,7 +72,7 @@ type Driver struct {
 	addedWatchers bool
 	watchersMu    sync.Mutex
 
-	macAddressMapper *MacAddressMapper
+	macAddressMapper *MACAddressMapper
 
 	// debounceTimer and debounceMu keep track of when to fire a debounced discovery call
 	debounceTimer *time.Timer
@@ -113,7 +113,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.clientsMu = new(sync.RWMutex)
 	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
-	d.macAddressMapper = NewMacAddressMapper(d)
+	d.macAddressMapper = NewMACAddressMapper(d)
 
 	deviceService := sdk.RunningService()
 
@@ -749,7 +749,7 @@ func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
 		return edgeXErr
 	}
 
-	device.Protocols[OnvifProtocol][HwAddress] = string(netInfo.NetworkInterfaces.Info.HwAddress)
+	device.Protocols[OnvifProtocol][MACAddress] = string(netInfo.NetworkInterfaces.Info.HwAddress)
 
 	return sdk.RunningService().UpdateDevice(device)
 }

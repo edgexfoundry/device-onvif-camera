@@ -137,7 +137,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		if err != nil {
 			d.lc.Warnf("failed to get the network information for the camera %s, %v", endpointRefAddr, edgexErr)
 		} else {
-			device.Protocols[OnvifProtocol][HwAddress] = string(netInfo.NetworkInterfaces.Info.HwAddress)
+			device.Protocols[OnvifProtocol][MACAddress] = string(netInfo.NetworkInterfaces.Info.HwAddress)
 		}
 
 		// Spaces are not allowed in the device name
