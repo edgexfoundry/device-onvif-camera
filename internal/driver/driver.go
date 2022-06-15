@@ -326,10 +326,8 @@ func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) 
 func (d *Driver) removeOnvifClient(deviceName string) {
 	d.clientsMu.Lock()
 	defer d.clientsMu.Unlock()
-	_, ok := d.onvifClients[deviceName]
-	if ok {
-		delete(d.onvifClients, deviceName)
-	}
+	// note: delete on non-existing keys is a no-op
+	delete(d.onvifClients, deviceName)
 }
 
 // HandleReadCommands triggers a protocol Read operation for the specified device.
@@ -659,6 +657,23 @@ func addressAndPort(xaddr string) (string, string) {
 	}
 }
 
+// todo: this should be integrated better with getDeviceInformation to avoid creating another temporary client
+func (d *Driver) getNetworkInterfaces(device models.Device) (netInfo *onvifdevice.GetNetworkInterfacesResponse, edgexErr errors.EdgeX) {
+	devClient, edgexErr := d.newTemporaryOnvifClient(device)
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	devInfoResponse, edgexErr := devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetNetworkInterfaces, []byte{})
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	devInfo, ok := devInfoResponse.(*onvifdevice.GetNetworkInterfacesResponse)
+	if !ok {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetNetworkInterfacesResponse for the camera %s", device.Name), nil)
+	}
+	return devInfo, nil
+}
+
 func (d *Driver) getDeviceInformation(device models.Device) (devInfo *onvifdevice.GetDeviceInformationResponse, edgexErr errors.EdgeX) {
 	devClient, edgexErr := d.newTemporaryOnvifClient(device)
 	if edgexErr != nil {
@@ -718,4 +733,46 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 		onvifDevice: onvifDevice,
 	}
 	return client, nil
+}
+
+// refreshNetworkInterfaces will attempt to retrieve the device information for the specified camera
+// and update the values in the protocol properties
+func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
+	netInfo, err := d.getNetworkInterfaces(device)
+	if err != nil {
+		return err
+	}
+
+	// update device to latest version in cache to prevent race conditions
+	device, edgeXErr := sdk.RunningService().GetDeviceByName(device.Name)
+	if err != nil {
+		return edgeXErr
+	}
+
+	device.Protocols[OnvifProtocol][HwAddress] = string(netInfo.NetworkInterfaces.Info.HwAddress)
+
+	return sdk.RunningService().UpdateDevice(device)
+}
+
+// refreshDeviceInformation will attempt to retrieve the device information for the specified camera
+// and update the values in the protocol properties
+func (d *Driver) refreshDeviceInformation(device models.Device) error {
+	devInfo, err := d.getDeviceInformation(device)
+	if err != nil {
+		return err
+	}
+
+	// update device to latest version in cache to prevent race conditions
+	device, edgeXErr := sdk.RunningService().GetDeviceByName(device.Name)
+	if err != nil {
+		return edgeXErr
+	}
+
+	device.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
+	device.Protocols[OnvifProtocol][Model] = devInfo.Model
+	device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
+	device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
+	device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
+
+	return sdk.RunningService().UpdateDevice(device)
 }
