@@ -10,6 +10,7 @@ import (
 	"encoding/json"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
@@ -46,4 +47,13 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 		dataMap[key] = value
 	}
 	return dataMap, nil
+}
+
+func cleanUpMetadata(device contract.Device) models.ProtocolProperties {
+	for key, value := range device.Protocols[CustomMetadata] {
+		if value == "" {
+			delete(device.Protocols[CustomMetadata], key)
+		}
+	}
+	return device.Protocols[CustomMetadata]
 }

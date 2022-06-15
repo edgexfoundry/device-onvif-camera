@@ -180,7 +180,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 
 		// TODO: data is still in cache
 		if len(data) == 0 { // if no list is provided,
-			metadataObj = device.Protocols[CustomMetadata]
+			metadataObj = cleanUpMetadata(device)
 		} else {
 			metadataObj, err = onvifClient.getSpecificCustomMetadata(device, data)
 			if err != nil {
