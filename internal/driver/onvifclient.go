@@ -171,35 +171,22 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 	var err error
 	switch functionName {
 	case GetCustomMetadata:
-		// onvifClient.CameraInfo does not contain protocol properties, this is the alternative
-		deviceName := onvifClient.DeviceName
-		device, err := sdk.RunningService().GetDeviceByName(deviceName)
-		if err != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
+		metadataObj, edgexError := onvifClient.getCustomMetadata(data)
+		if edgexError != nil {
+			onvifClient.driver.lc.Errorf("Failed to get custom metadata field from device %s", onvifClient.DeviceName)
+			return nil, edgexError
 		}
-		var metadataObj models.ProtocolProperties
-
-		if len(data) == 0 { // if no list is provided, return all
-			metadataObj = cleanUpMetadata(device)
-		} else { // if a list of fields is provided, return those specific fields
-			metadataObj, err = onvifClient.getSpecificCustomMetadata(device, data)
-			if err != nil {
-				return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get specific metadata for device %s", deviceName), err)
-			}
-			attributes[URLRawQuery] = "" // flush out the query so it resets with new calls
-		}
-
+		attributes[URLRawQuery] = "" // flush out the query so it resets with new calls
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, metadataObj)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
 		}
 	case SetCustomMetadata:
-		deviceName := onvifClient.DeviceName
-		device, err := sdk.RunningService().GetDeviceByName(deviceName) // CameraInfo does not contain protocol proerties, this is the alternative
+		err := onvifClient.setCustomMetadata(data)
 		if err != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
+			onvifClient.driver.lc.Errorf("Failed to set CustomMetadata for device %", onvifClient.DeviceName)
+			return nil, err
 		}
-		onvifClient.setCustomMetadata(device, data)
 	case RebootNeeded:
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeBool, onvifClient.RebootNeeded)
 		if err != nil {
