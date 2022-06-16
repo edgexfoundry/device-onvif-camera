@@ -10,19 +10,20 @@ import (
 	"encoding/json"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
+// setCustomMetadata will return a map containing the fields provided in the call to the function
 func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) errors.EdgeX {
 	var dataObj contract.ProtocolProperties
+
 	err := json.Unmarshal(data, &dataObj)
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
 
 	for key, value := range dataObj {
-		device.Protocols[CustomMetadata][key] = value
+		device.Protocols[CustomMetadata][key] = value // create or update a field in CustomMetadata
 	}
 
 	return nil
@@ -32,6 +33,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device, data []byte) (obj contract.ProtocolProperties, error errors.EdgeX) {
 	var dataArray map[string][]string
 	dataMap := make(map[string]string)
+
 	err := json.Unmarshal(data, &dataArray)
 	if err != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
@@ -49,7 +51,8 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 	return dataMap, nil
 }
 
-func cleanUpMetadata(device contract.Device) models.ProtocolProperties {
+// cleanUpMetadata will look for empty fields in CustomMetadata and delete themm
+func cleanUpMetadata(device contract.Device) contract.ProtocolProperties {
 	for key, value := range device.Protocols[CustomMetadata] {
 		if value == "" {
 			delete(device.Protocols[CustomMetadata], key)

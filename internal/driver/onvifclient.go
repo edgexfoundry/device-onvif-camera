@@ -171,17 +171,17 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 	var err error
 	switch functionName {
 	case GetCustomMetadata:
+		// onvifClient.CameraInfo does not contain protocol properties, this is the alternative
 		deviceName := onvifClient.DeviceName
-		device, err := sdk.RunningService().GetDeviceByName(deviceName) // CameraInfo does not contain protocol proerties, this is the alternative
+		device, err := sdk.RunningService().GetDeviceByName(deviceName)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
 		}
 		var metadataObj models.ProtocolProperties
 
-		// TODO: data is still in cache
-		if len(data) == 0 { // if no list is provided,
+		if len(data) == 0 { // if no list is provided, return all
 			metadataObj = cleanUpMetadata(device)
-		} else {
+		} else { // if a list of fields is provided, return those specific fields
 			metadataObj, err = onvifClient.getSpecificCustomMetadata(device, data)
 			if err != nil {
 				return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get specific metadata for device %s", deviceName), err)
