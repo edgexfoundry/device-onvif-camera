@@ -10,6 +10,9 @@ Description = "onvif conformant camera"
     # Assign AuthMode to "usernametoken" | "digest" | "both" | "none"
     AuthMode = "digest"
     SecretPath = "credentials001"
+    [DeviceList.Protocols.CustomMetadata]
+    CommonName = "Door camera"
+    Location = "Front door"
 
 # If having more than one camera, uncomment the following config settings
 # [[DeviceList]]

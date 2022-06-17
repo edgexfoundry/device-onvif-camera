@@ -6,6 +6,29 @@ We have added a custom device resource for setting and querying custom metadata 
 
 - The *CustomMetadata* map is an element in the *ProtocolProperties* device field. It is initialized to be empty, so the user can add their desired fields.
 
+### Preset Custom Metadata
+
+If you add pre-defined devices, set up the CustomMetadata object as shown in the camera.toml.example file.
+
+```toml
+# Pre-defined Devices
+[[DeviceList]]
+Name = "Camera001"
+ProfileName = "onvif-camera"
+Description = "onvif conformant camera"
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.Onvif]
+    Address = "192.168.12.123"
+    Port = "80"
+    # Assign AuthMode to "usernametoken" | "digest" | "both" | "none"
+    AuthMode = "digest"
+    SecretPath = "credentials001"
+    [DeviceList.Protocols.CustomMetadata]
+    CommonName = "Door camera"
+    Location = "Front door"
+```
+
+
 ### Set Custom Metadata
 
 Use the CustomMetadata resource to set the fields of *CustomMetadata*. Choose the key/value pairs to represent your custom fields.
