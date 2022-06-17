@@ -62,7 +62,7 @@ Use the CustomMetadata resource to get and display the fields of *CustomMetadata
 1. Use this command to return all of the data in the CustomMetadata field.
 
 ```shell
-curl http://localhost://59882/api/v2/device/name/<device name>/CustomMetadata | json_pp
+curl http://localhost:59882/api/v2/device/name/<device name>/CustomMetadata | json_pp
 ```
 2. The repsonse from the curl command.
 ```shell
