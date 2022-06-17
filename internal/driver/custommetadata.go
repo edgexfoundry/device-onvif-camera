@@ -10,23 +10,15 @@ import (
 	"encoding/json"
 	"fmt"
 
-	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
 // setCustomMetadata will return a map containing the fields provided in the call to the function
-func (onvifClient *OnvifClient) setCustomMetadata(data []byte) errors.EdgeX {
-	// onvifClient.CameraInfo does not contain protocol properties, this is the alternative
-	deviceName := onvifClient.DeviceName
-	device, err := sdk.RunningService().GetDeviceByName(deviceName)
-	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
-	}
-
+func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) errors.EdgeX {
 	var dataObj contract.ProtocolProperties
 
-	err = json.Unmarshal(data, &dataObj)
+	err := json.Unmarshal(data, &dataObj)
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
@@ -40,22 +32,16 @@ func (onvifClient *OnvifClient) setCustomMetadata(data []byte) errors.EdgeX {
 	return nil
 }
 
-func (onvifClient *OnvifClient) getCustomMetadata(data []byte) (contract.ProtocolProperties, errors.EdgeX) {
-	// onvifClient.CameraInfo does not contain protocol properties, this is the alternative
-	deviceName := onvifClient.DeviceName
-	device, err := sdk.RunningService().GetDeviceByName(deviceName)
-	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
-	}
-
+func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data []byte) (contract.ProtocolProperties, errors.EdgeX) {
 	var metadataObj contract.ProtocolProperties
+	var err error
 
 	if len(data) == 0 { // if no list is provided, return all
 		metadataObj = device.Protocols[CustomMetadata]
 	} else { // if a list of fields is provided, return those specific fields
 		metadataObj, err = onvifClient.getSpecificCustomMetadata(device, data)
 		if err != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get specific metadata for device %s", deviceName), err)
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get specific metadata for device %s", onvifClient.DeviceName), err)
 		}
 	}
 
@@ -81,6 +67,7 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 		}
 		dataMap[key] = value
 	}
+
 	return dataMap, nil
 }
 
