@@ -197,7 +197,10 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 			onvifClient.driver.lc.Errorf("Failed to set CustomMetadata for device %", deviceName)
 			return nil, setErr
 		}
-		sdk.RunningService().UpdateDevice(updatedDevice)
+		err = sdk.RunningService().UpdateDevice(updatedDevice)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to update device '%s'", deviceName), err)
+		}
 	case RebootNeeded:
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeBool, onvifClient.RebootNeeded)
 		if err != nil {

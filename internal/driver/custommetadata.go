@@ -9,6 +9,7 @@ package driver
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
@@ -26,11 +27,16 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 		return device, errors.NewCommonEdgeX(errors.KindServerError, "no data in PUT command", err)
 	}
 	for key, value := range dataObj {
-		if value == "delete" {
-			delete(device.Protocols[CustomMetadata], key)
+		trimValue := strings.TrimSpace(value)
+		trimKey := strings.TrimSpace(key)
+		if trimValue == "delete" || trimValue == "Delete" {
+			delete(device.Protocols[CustomMetadata], trimKey)
 			continue
 		}
-		device.Protocols[CustomMetadata][key] = value // create or update a field in CustomMetadata
+		if len(trimKey) == 0 {
+			continue
+		}
+		device.Protocols[CustomMetadata][trimKey] = trimValue // create or update a field in CustomMetadata
 	}
 
 	return device, nil
