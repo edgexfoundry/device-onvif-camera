@@ -76,6 +76,10 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 			"Height": "This field does not exist in custom metadata",
 		},
 	}
+	emptyData := testCase{
+		data:             `{"CustomMetadata":[]}`,
+		expectedResponse: contract.ProtocolProperties{},
+	}
 
 	tests := []struct {
 		name          string
@@ -84,11 +88,12 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 		expected      contract.ProtocolProperties
 		errorExpected bool
 	}{
-		{"happy path without data", myDevice, "", myDevice.Protocols[CustomMetadata], false},
+		{"happy path without data - getAll", myDevice, "", myDevice.Protocols[CustomMetadata], false},
 		{"happy path with data for single field", myDevice, singleDataTest.data, singleDataTest.expectedResponse, false},
 		{"happy path with data for multiple field", myDevice, happyMultipleDataTest.data, happyMultipleDataTest.expectedResponse, false},
 		{"happy path with data for non-existent field", myDevice, noFieldDataTest.data, noFieldDataTest.expectedResponse, false},
 		{"happy path with data for multiple non-existent fields", myDevice, noFieldsDataTest.data, noFieldsDataTest.expectedResponse, false},
+		{"with empty data", myDevice, emptyData.data, emptyData.expectedResponse, true},
 		{"badJson", myDevice, "bogus", myDevice.Protocols[CustomMetadata], true},
 	}
 	for _, tt := range tests {
@@ -206,7 +211,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 				},
 			},
 		},
-		data: `{"CommonName":""}`,
+		data: `{"CommonName":"delete"}`,
 		expectedResponse: contract.ProtocolProperties{
 			"Location":  "Front door",
 			"Color":     "Black and white",
@@ -225,10 +230,10 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			},
 		},
 		data: `{
-			"CommonName":"",
-			"Location":"",
-			"Color":"",
-			"Condition":""
+			"CommonName":"delete",
+			"Location":"delete",
+			"Color":"delete",
+			"Condition":"delete"
 		}`,
 		expectedResponse: contract.ProtocolProperties{},
 	}
@@ -243,7 +248,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 		test          testCase
 		errorExpected bool
 	}{
-		{"happy-path-withoutData", noDataTest, false},
+		{"happy-path-withoutData", noDataTest, true},
 		{"happy-path-withSingleData", singleDataTest, false}, // TODO: add base 64
 		{"happy-path-withMultipleData", multipleDataTest, false},
 		{"happy-path-updateSingleData", updateSingleDataTest, false},

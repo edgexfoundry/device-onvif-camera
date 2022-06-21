@@ -22,12 +22,16 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
-
+	if len(dataObj) == 0 {
+		return errors.NewCommonEdgeX(errors.KindServerError, "no data in PUT command", err)
+	}
 	for key, value := range dataObj {
+		if value == "delete" {
+			delete(device.Protocols[CustomMetadata], key)
+			continue
+		}
 		device.Protocols[CustomMetadata][key] = value // create or update a field in CustomMetadata
 	}
-
-	cleanUpMetadata(device)
 
 	return nil
 }
@@ -57,7 +61,9 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 	if err != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
-
+	if len(dataArray[CustomMetadata]) == 0 {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, "no data in query body", err)
+	}
 	for _, key := range dataArray[CustomMetadata] {
 		value := device.Protocols[CustomMetadata][key]
 		if value == "" {
@@ -69,13 +75,4 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 	}
 
 	return dataMap, nil
-}
-
-// cleanUpMetadata will look for empty fields in CustomMetadata and delete themm
-func cleanUpMetadata(device contract.Device) {
-	for key, value := range device.Protocols[CustomMetadata] {
-		if value == "" {
-			delete(device.Protocols[CustomMetadata], key)
-		}
-	}
 }

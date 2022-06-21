@@ -169,7 +169,7 @@ curl http://localhost:59882/api/v2/device/name/3fa1fe68-b915-4053-a3e1-cc32e5000
 
 ### Additional Usage
 
-Setting a field to be empty will delete that field.
+Setting a field to "deletes" will delete that field.
 
 1. Use this command to delete fields.
 ```shell
@@ -177,8 +177,8 @@ curl --request PUT 'http://0.0.0.0:59882/api/v2/device/name/<device name>/Custom
     --header 'Content-Type: application/json' \
     --data-raw '{
         "CustomMetadata": {
-            "Color":"",
-            "Condition": ""
+            "Color":"delete",
+            "Condition": "delete"
         }
     }' | json_pp
 ```
