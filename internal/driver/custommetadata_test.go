@@ -265,13 +265,13 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 				},
 				DeviceName: "myDevice",
 			}
-			err := onvifClient.setCustomMetadata(tt.test.device, []byte(tt.test.data))
+			updatedDevice, err := onvifClient.setCustomMetadata(tt.test.device, []byte(tt.test.data))
 			if tt.errorExpected {
 				require.Error(t, err)
 				return
 			}
 			require.NoError(t, err)
-			require.Equal(t, tt.test.expectedResponse, tt.test.device.Protocols[CustomMetadata])
+			require.Equal(t, tt.test.expectedResponse, updatedDevice.Protocols[CustomMetadata])
 		})
 	}
 }

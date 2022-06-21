@@ -15,15 +15,15 @@ import (
 )
 
 // setCustomMetadata will return a map containing the fields provided in the call to the function
-func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) errors.EdgeX {
+func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) (contract.Device, errors.EdgeX) {
 	var dataObj contract.ProtocolProperties
 
 	err := json.Unmarshal(data, &dataObj)
 	if err != nil {
-		return errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
+		return device, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
 	if len(dataObj) == 0 {
-		return errors.NewCommonEdgeX(errors.KindServerError, "no data in PUT command", err)
+		return device, errors.NewCommonEdgeX(errors.KindServerError, "no data in PUT command", err)
 	}
 	for key, value := range dataObj {
 		if value == "delete" {
@@ -33,7 +33,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 		device.Protocols[CustomMetadata][key] = value // create or update a field in CustomMetadata
 	}
 
-	return nil
+	return device, nil
 }
 
 func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data []byte) (contract.ProtocolProperties, errors.EdgeX) {
