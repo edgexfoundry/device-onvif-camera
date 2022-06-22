@@ -74,7 +74,6 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 		value := device.Protocols[CustomMetadata][key]
 		if value == "" {
 			onvifClient.driver.lc.Warnf("Failed to find custom metadata field %s", key) // TODO: should this also be displayed in command response?
-			dataMap[key] = "This field does not exist in custom metadata"
 			continue
 		}
 		dataMap[key] = value
