@@ -164,7 +164,7 @@ deviceResources:
       readWrite: "W"
   - name: "CustomMetadata"
     isHidden: false
-    description: "Return the options for the supported rules that specify an Option attribute."
+    description: "Get and set custom added information about the cameras"
     attributes:
       service: "Device"
       custom: "Custom"

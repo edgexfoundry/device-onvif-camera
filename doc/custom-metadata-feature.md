@@ -1,10 +1,10 @@
 # Custom Metadata
 
-We have added a custom device resource for setting and querying custom metadata for each camera added to the service.
+Custom metadata can be applied and retreived for each camera added to the service.
 
 ## Usage
 
-- The *CustomMetadata* map is an element in the *ProtocolProperties* device field. It is initialized to be empty, so the user can add their desired fields.
+- The `CustomMetadata` map is an element in the `ProtocolProperties` device field. It is initialized to be empty, so the user can add their desired fields.
 
 ### Preset Custom Metadata
 
@@ -31,7 +31,7 @@ Description = "onvif conformant camera"
 
 ### Set Custom Metadata
 
-Use the CustomMetadata resource to set the fields of *CustomMetadata*. Choose the key/value pairs to represent your custom fields.
+Use the CustomMetadata resource to set the fields of `CustomMetadata`. Choose the key/value pairs to represent your custom fields.
 
 1. Use this command to put the data in the CustomMetadata field.
 ```shell
@@ -57,7 +57,7 @@ curl --request PUT 'http://0.0.0.0:59882/api/v2/device/name/<device name>/Custom
 
 ### Get Custom Metadata
 
-Use the CustomMetadata resource to get and display the fields of *CustomMetadata*.
+Use the CustomMetadata resource to get and display the fields of `CustomMetadata`.
 
 1. Use this command to return all of the data in the CustomMetadata field.
 
@@ -101,7 +101,7 @@ curl http://localhost:59882/api/v2/device/name/<device name>/CustomMetadata | js
 
 ### Get Specific Custom Metadata
 
-Pass the *CustomMetadata* resource a query to get specific field(s) in CustomMetadata. The query must be a base64 encoded json object with an array of fields you want to access.
+Pass the `CustomMetadata` resource a query to get specific field(s) in CustomMetadata. The query must be a base64 encoded json object with an array of fields you want to access.
 
 1. Json object holding an array of fields you want to query.
 ```json
