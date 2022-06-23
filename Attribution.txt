@@ -143,7 +143,7 @@ https://github.com/golang/text/blob/master/LICENSE
 gorilla/websocket (BSD-2) https://github.com/gorilla/websocket
 https://github.com/gorilla/websocket/blob/master/LICENSE
 
-eclipse/paho.mqtt.golang (Eclipse Public License 2.0) https://github.com/eclipse/paho.mqtt.golang
+eclipse/paho.mqtt.golang (Eclipse Public License 1.0) https://github.com/eclipse/paho.mqtt.golang
 https://github.com/eclipse/paho.mqtt.golang/blob/master/LICENSE
 
 pebbe/zmq4 (BSD-2) https://github.com/pebbe/zmq4
@@ -208,6 +208,3 @@ https://github.com/square/go-jose/blob/v2.6.0/LICENSE
 
 rcrowley/go-metrics (Unspecified) https://github.com/rcrowley/go-metrics
 https://github.com/rcrowley/go-metrics/blob/master/LICENSE
-
-golang.org/x/sync (Unspecified) https://cs.opensource.google/go/x/sync
-https://cs.opensource.google/go/x/sync/+/master:LICENSE
