@@ -24,7 +24,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 		return device, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
 	if len(dataObj) == 0 {
-		return device, errors.NewCommonEdgeX(errors.KindIOError, "no data in PUT command", err)
+		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in PUT command", err)
 	}
 	for key, value := range dataObj {
 		value = strings.TrimSpace(value)
@@ -38,8 +38,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 		}
 
 		if _, found := device.Protocols[CustomMetadata]; !found {
-			metadata := make(contract.ProtocolProperties)
-			device.Protocols[CustomMetadata] = metadata
+			device.Protocols[CustomMetadata] = make(contract.ProtocolProperties)
 		}
 		device.Protocols[CustomMetadata][key] = value // create or update a field in CustomMetadata
 	}
@@ -61,7 +60,6 @@ func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data [
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get specific metadata for device %s", onvifClient.DeviceName), err)
 	}
 	return metadataObj, nil
-
 }
 
 // getSpecificCustomMetadata will return a map of the key/value pairs corresponding to the array of keys provided in the resource call
@@ -74,7 +72,7 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
 	if len(input[CustomMetadata]) == 0 {
-		return nil, errors.NewCommonEdgeX(errors.KindIOError, "no data in query body", err)
+		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query body", err)
 	}
 	for _, key := range input[CustomMetadata] {
 		value, found := device.Protocols[CustomMetadata][key]

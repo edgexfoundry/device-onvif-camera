@@ -164,10 +164,9 @@ deviceResources:
       readWrite: "W"
   - name: "CustomMetadata"
     isHidden: false
-    description: "Get and set custom added information about the cameras"
+    description: "Get and set custom metadata for the camera"
     attributes:
-      service: "Device"
-      custom: "Custom"
+      service: "EdgeX"
       getFunction: "GetCustomMetadata"
       setFunction: "SetCustomMetadata"
     properties:

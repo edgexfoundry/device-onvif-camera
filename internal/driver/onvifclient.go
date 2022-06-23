@@ -138,12 +138,11 @@ func (onvifClient *OnvifClient) CallOnvifFunction(req sdkModel.CommandRequest, f
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	custom, _ := attributeByKey(req.Attributes, "custom") // may be unneccessary
 	functionName, edgexErr := attributeByKey(req.Attributes, functionType)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	if serviceName == EdgeXWebService || custom == "Custom" { //TODO: Make a constant
+	if serviceName == EdgeXWebService {
 		cv, edgexErr := onvifClient.callCustomFunction(req.DeviceResourceName, serviceName, functionName, req.Attributes, data)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeXWrapper(edgexErr)
@@ -194,7 +193,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 		}
 		updatedDevice, setErr := onvifClient.setCustomMetadata(device, data)
 		if setErr != nil {
-			onvifClient.driver.lc.Errorf("Failed to set CustomMetadata for device %", deviceName)
+			onvifClient.driver.lc.Errorf("Failed to set CustomMetadata for device '%s'", deviceName)
 			return nil, setErr
 		}
 		err = sdk.RunningService().UpdateDevice(updatedDevice)

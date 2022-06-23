@@ -104,6 +104,7 @@ The device service also include custom function to enhance the usage for the Edg
 | System Function | EdgeX   | SubscribeCameraEvent   | Bool             | Create a subscription to subscribe the event from the camera                           |
 | System Function | EdgeX   | UnsubscribeCameraEvent | Bool             | Unsubscribe all subscription from the camera                                           |
 | Media           | EdgeX   | GetSnapshot            | Binary           | Get Snapshot from the snapshot uri                                                     |
+| Custom Metadata | EdgeX   | CustomMetadata         | Object           | Read and write custom metadata to the camera entry in EdgeX                            | 
 
 ## How does the device service work?
 
