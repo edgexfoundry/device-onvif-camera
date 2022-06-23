@@ -20,8 +20,6 @@ type CustomConfig struct {
 	CredentialsRetryTime int
 	CredentialsRetryWait int
 	RequestTimeout       int
-	// DefaultAuthMode indicates the Onvif camera default auth mode. "digest" | "usernametoken" | "both" | "none"
-	DefaultAuthMode string
 	// DefaultSecretPath indicates the secret path to retrieve username and password from secret store.
 	DefaultSecretPath string
 	// DiscoveryEthernetInterface indicates the target EthernetInterface for discovering. The default value is `en0`, the user can modify it to meet their requirement.
@@ -72,9 +70,8 @@ func (c *ServiceConfig) UpdateFromRaw(rawConfig interface{}) bool {
 
 // CameraInfo holds the camera connection info
 type CameraInfo struct {
-	Address    string
-	Port       int
-	AuthMode   string
+	Address string
+	Port    int
 	SecretPath string
 }
 

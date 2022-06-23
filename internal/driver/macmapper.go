@@ -9,25 +9,21 @@ package driver
 import (
 	"fmt"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/secret"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/config"
 	"net"
 	"strings"
 	"sync"
+
 )
 
 type MACAddressMapper struct {
-	// driver is a pointer to the current Driver instance
-	driver *Driver
 	// credsMu is for locking access to the credsMap
 	credsMu sync.RWMutex
 	// credsMap is a map between mac address to secretPath
 	credsMap map[string]string
 }
 
-func NewMACAddressMapper(driver *Driver) *MACAddressMapper {
+func NewMACAddressMapper() *MACAddressMapper {
 	return &MACAddressMapper{
-		driver:   driver,
 		credsMap: make(map[string]string),
 	}
 }
@@ -38,21 +34,23 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 	m.credsMu.Lock()
 	defer m.credsMu.Unlock()
 
+	lc := sdk.RunningService().LoggingClient
+
 	credsMap := make(map[string]string)
 	for secretPath, macs := range raw {
-		if _, err := sdk.RunningService().SecretProvider.GetSecret(secretPath, secret.UsernameKey); err != nil {
-			m.driver.lc.Warnf("One or more MAC address mappings exist for the secret path '%s' which does not exist in the Secret Store!", secretPath)
+		if _, err := tryGetCredentials(secretPath); err != nil {
+			lc.Warnf("One or more MAC address mappings exist for the secret path '%s' which does not exist in the Secret Store!", secretPath)
 		}
 
 		for _, mac := range strings.Split(macs, ",") {
 			sanitized, err := SanitizeMACAddress(mac)
 			if err != nil {
-				m.driver.lc.Warnf("Skipping entry: %s", err.Error())
+				lc.Warnf("Skipping entry: %s", err.Error())
 				continue
 			}
 			// note: if the mac address already has a mapping, we do not overwrite it
 			if existing, found := credsMap[sanitized]; found {
-				m.driver.lc.Warnf("Unable to set credential group to %s. MAC address '%s' already belongs to credential group %s.", secretPath, mac, existing)
+				lc.Warnf("Unable to set credential group to %s. MAC address '%s' already belongs to credential group %s.", secretPath, mac, existing)
 			} else {
 				credsMap[sanitized] = secretPath
 			}
@@ -96,12 +94,12 @@ func (m *MACAddressMapper) GetSecretPathForMACAddress(mac string) (string, error
 	return secretPath, nil
 }
 
-func (m *MACAddressMapper) TryGetCredentialsForMACAddress(mac string) (config.Credentials, error) {
+func (m *MACAddressMapper) TryGetCredentialsForMACAddress(mac string) (Credentials, error) {
 	secretPath, err := m.GetSecretPathForMACAddress(mac)
 	if err != nil {
-		return config.Credentials{}, err
+		return Credentials{}, err
 	}
-	return m.driver.tryGetCredentials(secretPath)
+	return tryGetCredentials(secretPath)
 }
 
 // SanitizeMACAddress takes in a MAC address in one of the IEEE 802 MAC-48, EUI-48, EUI-64 formats

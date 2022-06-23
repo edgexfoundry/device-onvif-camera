@@ -11,7 +11,6 @@ func TestUpdateFromRaw(t *testing.T) {
 			CredentialsRetryTime:       5,
 			CredentialsRetryWait:       5,
 			RequestTimeout:             5,
-			DefaultAuthMode:            "usernametoken",
 			DefaultSecretPath:          "default_secret",
 			DiscoveryEthernetInterface: "eth0",
 			BaseNotificationURL:        "http://localhost:59984",

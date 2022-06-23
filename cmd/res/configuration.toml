@@ -13,6 +13,7 @@ LogLevel = "INFO"
       [Writable.InsecureSecrets.Camera001.Secrets]
       username = "administrator"
       password = "Password1!"
+      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
     # If having more than one camera, uncomment the following config settings
 #    [Writable.InsecureSecrets.Camera002]
 #    path = "credentials002"

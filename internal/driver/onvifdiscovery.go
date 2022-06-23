@@ -95,7 +95,6 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 			OnvifProtocol: {
 				Address:            address,
 				Port:               port,
-				AuthMode:           d.config.AppCustom.DefaultAuthMode,
 				SecretPath:         d.config.AppCustom.DefaultSecretPath,
 				EndpointRefAddress: endpointRefAddr,
 				DeviceStatus:       Reachable,

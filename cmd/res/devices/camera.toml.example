@@ -8,7 +8,6 @@ Description = "onvif conformant camera"
     Address = "192.168.12.123"
     Port = "80"
     # Assign AuthMode to "usernametoken" | "digest" | "both" | "none"
-    AuthMode = "digest"
     SecretPath = "credentials001"
 
 # If having more than one camera, uncomment the following config settings
@@ -20,6 +19,4 @@ Description = "onvif conformant camera"
 #     [DeviceList.Protocols.Onvif]
 #     Address = "192.168.12.128"
 #     Port = "2020"
-#     # Assign AuthMode to "usernametoken" | "digest" | "both" | "none"
-#     AuthMode = "usernametoken"
 #     SecretPath = "credentials002"

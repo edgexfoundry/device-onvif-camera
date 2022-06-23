@@ -24,9 +24,6 @@ import (
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/secret"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/startup"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/config"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
@@ -113,7 +110,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.clientsMu = new(sync.RWMutex)
 	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
-	d.macAddressMapper = NewMACAddressMapper(d)
+	d.macAddressMapper = NewMACAddressMapper()
 
 	deviceService := sdk.RunningService()
 
@@ -503,44 +500,6 @@ func (d *Driver) createOnvifClient(deviceName string) error {
 	return nil
 }
 
-// tryGetCredentials will attempt one time to get the credentials located at secretPath from
-// secret provider and return them, otherwise return an error.
-func (d *Driver) tryGetCredentials(secretPath string) (config.Credentials, errors.EdgeX) {
-	secretData, err := sdk.RunningService().SecretProvider.GetSecret(secretPath, secret.UsernameKey, secret.PasswordKey)
-	if err != nil {
-		return config.Credentials{}, errors.NewCommonEdgeXWrapper(err)
-	}
-	return config.Credentials{
-		Username: secretData[secret.UsernameKey],
-		Password: secretData[secret.PasswordKey],
-	}, nil
-}
-
-// getCredentials will repeatedly try and get the credentials located at secretPath from
-// secret provider every CredentialsRetryTime seconds for a maximum of CredentialsRetryWait seconds.
-// Note that this function will block until either the credentials are found, or CredentialsRetryWait
-// seconds have elapsed.
-func (d *Driver) getCredentials(secretPath string) (credentials config.Credentials, err errors.EdgeX) {
-	d.configMu.RLock()
-	timer := startup.NewTimer(d.config.AppCustom.CredentialsRetryTime, d.config.AppCustom.CredentialsRetryWait)
-	d.configMu.RUnlock()
-
-	for timer.HasNotElapsed() {
-		if credentials, err = d.tryGetCredentials(secretPath); err == nil {
-			return credentials, nil
-		}
-
-		d.lc.Warnf(
-			"Unable to retrieve camera credentials from SecretProvider at path '%s': %s. Retrying for %s",
-			secretPath,
-			err.Error(),
-			timer.RemainingAsString())
-		timer.SleepForInterval()
-	}
-
-	return credentials, err
-}
-
 // Discover performs a discovery on the network and passes them to EdgeX to get provisioned
 func (d *Driver) Discover() {
 	d.lc.Info("Discover was called.")
@@ -697,16 +656,13 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
 
-	var credential config.Credentials
-	if cameraInfo.AuthMode != onvif.NoAuth {
-		// since this is just a temporary client, we do not want to wait for credentials to be available
-		credential, edgexErr = d.tryGetCredentials(cameraInfo.SecretPath)
-		if edgexErr != nil {
-			// if credentials are not found, instead of returning an error, set the AuthMode to NoAuth
-			// and allow the user to call unauthenticated endpoints
-			d.lc.Warnf("failed to get credentials for camera %s, setting AuthMode to NoAuth for temporary client", device.Name)
-			cameraInfo.AuthMode = onvif.NoAuth
-		}
+	// since this is just a temporary client, we do not want to wait for credentials to be available
+	credential, edgexErr := tryGetCredentials(cameraInfo.SecretPath)
+	if edgexErr != nil {
+		// if credentials are not found, instead of returning an error, set the AuthMode to NoAuth
+		// and allow the user to call unauthenticated endpoints
+		d.lc.Warnf("failed to get credentials for camera %s, setting AuthMode to none for temporary client", device.Name)
+		credential = noAuthCredentials
 	}
 
 	d.configMu.Lock()
@@ -717,7 +673,7 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 		Xaddr:    deviceAddress(cameraInfo),
 		Username: credential.Username,
 		Password: credential.Password,
-		AuthMode: cameraInfo.AuthMode,
+		AuthMode: credential.AuthMode,
 		HttpClient: &http.Client{
 			Timeout: time.Duration(requestTimeout) * time.Second,
 		},
