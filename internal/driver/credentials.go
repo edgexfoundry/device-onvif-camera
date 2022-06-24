@@ -93,8 +93,8 @@ func (d *Driver) getCredentials(secretPath string) (credentials Credentials, err
 	return credentials, err
 }
 
-// getCredentialsFromMac will attempt to retrieve the credentials associated with the given mac address.
-func (d *Driver) getCredentialsFromMac(mac string) (Credentials, errors.EdgeX) {
+// tryGetCredentialsFromMac will attempt to retrieve the credentials associated with the given mac address.
+func (d *Driver) tryGetCredentialsFromMac(mac string) (Credentials, errors.EdgeX) {
 	if mac == "" {
 		credential, edgexErr := tryGetCredentials(d.config.AppCustom.DefaultSecretPath)
 		if edgexErr != nil {
