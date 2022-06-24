@@ -6,8 +6,6 @@
 package driver
 
 import (
-	"fmt"
-
 	"github.com/IOTechSystems/onvif"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/startup"
@@ -110,8 +108,16 @@ func (d *Driver) getCredentialsFromMac(mac string) (Credentials, errors.EdgeX) {
 
 	credentials, edgexErr := d.macAddressMapper.TryGetCredentialsForMACAddress(mac)
 	if edgexErr != nil {
-		d.lc.Errorf("failed to get credentials for mac %s", mac)
-		return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials from mac address %s", mac), edgexErr)
+		d.lc.Errorf("failed to get credentials for mac %s in lookup table", mac)
+
+		credential, edgexErr := tryGetCredentials(d.config.AppCustom.DefaultSecretPath)
+		if edgexErr != nil {
+			d.lc.Error("failed to get credentials from default secret path", "err", edgexErr)
+			return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get default credentials", edgexErr)
+		}
+
+		d.lc.Debug("Using credentials from default secret path for mac address not in lookup table")
+		return credential, nil
 	}
 
 	d.lc.Debug("Using credentials for mac %s", mac)
