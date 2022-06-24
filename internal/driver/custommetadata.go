@@ -17,6 +17,14 @@ import (
 
 // setCustomMetadata will return a map containing the fields provided in the call to the function
 func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) (contract.Device, errors.EdgeX) {
+	if _, found := device.Protocols[CustomMetadata]; !found {
+		saveOnvifProtocol := device.Protocols[OnvifProtocol]
+		device.Protocols = map[string]contract.ProtocolProperties{
+			OnvifProtocol:  saveOnvifProtocol,
+			CustomMetadata: {},
+		}
+	}
+
 	var dataObj contract.ProtocolProperties
 	err := json.Unmarshal(data, &dataObj)
 	if err != nil {
@@ -26,16 +34,17 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in PUT command", err)
 	}
 
+	for okey, ovalue := range device.Protocols[OnvifProtocol] {
+		fmt.Printf("%s, %s", okey, ovalue)
+	}
 	for key, value := range dataObj {
 		value = strings.TrimSpace(value)
 		key = strings.TrimSpace(key)
 		if len(key) == 0 {
+			onvifClient.driver.lc.Warn("tried to add an empty key: {\"\": \"%s\"}", value)
 			continue
 		}
 
-		if _, found := device.Protocols[CustomMetadata]; !found {
-			device.Protocols[CustomMetadata] = make(contract.ProtocolProperties)
-		}
 		device.Protocols[CustomMetadata][key] = value // create or update a field in CustomMetadata
 	}
 
@@ -44,6 +53,13 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 
 // getCustomMetadata will return all metdata or enter getSpecificCustomMetadata if a list is provided
 func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data []byte) (contract.ProtocolProperties, errors.EdgeX) {
+	if _, found := device.Protocols[CustomMetadata]; !found {
+		saveOnvifProtocol := device.Protocols[OnvifProtocol]
+		device.Protocols = map[string]contract.ProtocolProperties{
+			OnvifProtocol:  saveOnvifProtocol,
+			CustomMetadata: {},
+		}
+	}
 
 	if len(data) == 0 { // if no list is provided, return all
 		return device.Protocols[CustomMetadata], nil

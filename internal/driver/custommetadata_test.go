@@ -72,6 +72,11 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 			expected: contract.ProtocolProperties{},
 		},
 		{
+			name:     "happy path create CustomMetadata",
+			device:   contract.Device{},
+			expected: contract.ProtocolProperties{},
+		},
+		{
 			name:          "empty data (error)",
 			device:        getTestDevice(),
 			data:          `{"CustomMetadata":[]}`,
@@ -111,7 +116,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 		name          string
 		device        contract.Device
 		data          string
-		expected      contract.ProtocolProperties
+		expected      contract.Device
 		errorExpected bool
 	}{
 		{
@@ -121,8 +126,12 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 					CustomMetadata: {},
 				},
 			},
-			data:          `{}`,
-			expected:      contract.ProtocolProperties{},
+			data: `{}`,
+			expected: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					CustomMetadata: {},
+				},
+			},
 			errorExpected: true,
 		},
 		{
@@ -133,8 +142,10 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 				},
 			},
 			data: `{"CommonName":"Front door camera"}`,
-			expected: contract.ProtocolProperties{
-				"CommonName": "Front door camera",
+			expected: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					CustomMetadata: {"CommonName": "Front door camera"},
+				},
 			},
 		},
 		{
@@ -148,9 +159,13 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 				"CommonName":"Front door camera",
 				"Location":"Front door"
 			}`,
-			expected: contract.ProtocolProperties{
-				"CommonName": "Front door camera",
-				"Location":   "Front door",
+			expected: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					CustomMetadata: {
+						"CommonName": "Front door camera",
+						"Location":   "Front door",
+					},
+				},
 			},
 		},
 		{
@@ -163,8 +178,12 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 				},
 			},
 			data: `{"CommonName": "Outdoor camera"}`,
-			expected: contract.ProtocolProperties{
-				"CommonName": "Outdoor camera",
+			expected: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					CustomMetadata: {
+						"CommonName": "Outdoor camera",
+					},
+				},
 			},
 		},
 		{
@@ -185,18 +204,63 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 				"Color":      "Purple multiple",
 				"Condition":  "Bad working condition multiple"
 			}`,
-			expected: contract.ProtocolProperties{
+			expected: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					CustomMetadata: {
+						"CommonName": "Outdoor camera multiple",
+						"Location":   "Outside multiple",
+						"Color":      "Purple multiple",
+						"Condition":  "Bad working condition multiple",
+					},
+				},
+			},
+		},
+		{
+			name:     "happy path with data (single empty field key)",
+			device:   getTestDevice(),
+			data:     `{"": "Bad key"}`,
+			expected: getTestDevice(),
+		},
+		{
+			name:     "happy path with data (multiple empty field keys)",
+			device:   getTestDevice(),
+			data:     `{"": "Bad key","":"Another bad key"}`,
+			expected: getTestDevice(),
+		},
+		{
+			name: "Custom Metadata doesn't exist",
+			device: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					OnvifProtocol: {
+						"Hello": "World",
+					},
+				},
+			},
+			data: `{
 				"CommonName": "Outdoor camera multiple",
 				"Location":   "Outside multiple",
 				"Color":      "Purple multiple",
-				"Condition":  "Bad working condition multiple",
+				"Condition":  "Bad working condition multiple"
+			}`,
+			expected: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					OnvifProtocol: {
+						"Hello": "World",
+					},
+					CustomMetadata: {
+						"CommonName": "Outdoor camera multiple",
+						"Location":   "Outside multiple",
+						"Color":      "Purple multiple",
+						"Condition":  "Bad working condition multiple",
+					},
+				},
 			},
 		},
 		{
 			name:          "bad json (error)",
 			device:        contract.Device{},
 			data:          "bogus",
-			expected:      contract.ProtocolProperties{},
+			expected:      contract.Device{},
 			errorExpected: true,
 		},
 	}
@@ -216,7 +280,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			assert.Equal(t, test.expected, updatedDevice.Protocols[CustomMetadata])
+			assert.Equal(t, test.expected, updatedDevice)
 		})
 	}
 }
@@ -247,6 +311,18 @@ func TestOnvifClient_deleteCustomMetadata(t *testing.T) {
 				"Installation date": "01/01/2022",
 				"Maintenance date":  "05/01/2022",
 			},
+		},
+		{
+			name:     "happy path with data (single non-existent field)",
+			device:   getTestDevice(),
+			data:     `["Movie"]`,
+			expected: getTestDevice().Protocols[CustomMetadata],
+		},
+		{
+			name:     "happy path with data (multiple non-existent fields)",
+			device:   getTestDevice(),
+			data:     `["Movie", "Car"]`,
+			expected: getTestDevice().Protocols[CustomMetadata],
 		},
 		{
 			name:          "empty data (error)",
