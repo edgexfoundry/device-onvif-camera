@@ -210,10 +210,10 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
 		}
 
-		updatedDevice, setErr := onvifClient.deleteCustomMetadata(device, data)
-		if setErr != nil {
+		updatedDevice, delErr := onvifClient.deleteCustomMetadata(device, data)
+		if delErr != nil {
 			onvifClient.driver.lc.Errorf("Failed to delete custom metadata for device '%s'", deviceName)
-			return nil, setErr
+			return nil, delErr
 		}
 		err = sdk.RunningService().UpdateDevice(updatedDevice)
 		if err != nil {

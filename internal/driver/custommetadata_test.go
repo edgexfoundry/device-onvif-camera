@@ -193,38 +193,6 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			},
 		},
 		{
-			name: "happy path delete (single data field)",
-			device: contract.Device{
-				Protocols: map[string]contract.ProtocolProperties{
-					CustomMetadata: {
-						"CommonName": "Front door camera",
-					},
-				},
-			},
-			data:     `{"CommonName":"delete"}`,
-			expected: contract.ProtocolProperties{},
-		},
-		{
-			name: "happy path delete (multple data fields)",
-			device: contract.Device{
-				Protocols: map[string]contract.ProtocolProperties{
-					CustomMetadata: {
-						"CommonName": "Front door camera",
-						"Location":   "Front door",
-						"Color":      "Black and white",
-						"Condition":  "Good working condition",
-					},
-				},
-			},
-			data: `{
-				"CommonName":"delete",
-				"Location":"delete",
-				"Color":"delete",
-				"Condition":"delete"
-			}`,
-			expected: contract.ProtocolProperties{},
-		},
-		{
 			name:          "bad json (error)",
 			device:        contract.Device{},
 			data:          "bogus",
@@ -249,6 +217,68 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			}
 			require.NoError(t, err)
 			assert.Equal(t, test.expected, updatedDevice.Protocols[CustomMetadata])
+		})
+	}
+}
+
+func TestOnvifClient_deleteCustomMetadata(t *testing.T) {
+	tests := []struct {
+		name          string
+		device        contract.Device
+		data          string
+		expected      contract.ProtocolProperties
+		errorExpected bool
+	}{
+		{
+			name:   "happy path with data (single field)",
+			device: getTestDevice(),
+			data:   `["CommonName"]`,
+			expected: contract.ProtocolProperties{
+				"Location":          "Front door",
+				"Installation date": "01/01/2022",
+				"Maintenance date":  "05/01/2022",
+			},
+		},
+		{
+			name:   "happy path with data (multiple fields)",
+			device: getTestDevice(),
+			data:   `["Location","CommonName"]`,
+			expected: contract.ProtocolProperties{
+				"Installation date": "01/01/2022",
+				"Maintenance date":  "05/01/2022",
+			},
+		},
+		{
+			name:          "empty data (error)",
+			device:        getTestDevice(),
+			data:          `[]`,
+			expected:      getTestDevice().Protocols[CustomMetadata],
+			errorExpected: true,
+		},
+		{
+			name:          "bad json (error)",
+			device:        getTestDevice(),
+			data:          "bogus",
+			expected:      getTestDevice().Protocols[CustomMetadata],
+			errorExpected: true,
+		},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			onvifClient := &OnvifClient{
+				driver: &Driver{
+					lc: logger.NewMockClient(),
+				},
+				DeviceName: "myDevice",
+			}
+			actual, err := onvifClient.deleteCustomMetadata(test.device, []byte(test.data))
+			if test.errorExpected {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			assert.Equal(t, test.expected, actual.Protocols[CustomMetadata])
 		})
 	}
 }
