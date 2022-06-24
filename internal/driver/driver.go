@@ -665,6 +665,11 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 		credential = noAuthCredentials
 	}
 
+	_, macEdgexErr := d.getCredentialsFromMac(device.Protocols[OnvifProtocol][MACAddress])
+	if macEdgexErr != nil {
+		d.lc.Debugf("failed to get credentials for camera %s and mac %s", device.Name, device.Protocols[OnvifProtocol][MACAddress])
+	}
+
 	d.configMu.Lock()
 	requestTimeout := d.config.AppCustom.RequestTimeout
 	d.configMu.Unlock()
