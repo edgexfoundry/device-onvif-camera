@@ -15,11 +15,10 @@ const (
 )
 
 const (
-	CustomMetadata    = "CustomMetadata"
-	GetCustomMetadata = "GetCustomMetadata"
-	SetCustomMetadata = "SetCustomMetadata"
-	Location          = "Location"
-	CommonName        = "CommonName"
+	CustomMetadata       = "CustomMetadata"
+	GetCustomMetadata    = "GetCustomMetadata"
+	SetCustomMetadata    = "SetCustomMetadata"
+	DeleteCustomMetadata = "DeleteCustomMetadata"
 )
 
 const (

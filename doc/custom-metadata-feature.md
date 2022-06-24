@@ -1,14 +1,14 @@
 # Custom Metadata
 
-Custom metadata can be applied and retreived for each camera added to the service.
+Custom metadata can be applied and retrieved for each camera added to the service.
 
 ## Usage
 
-- The `CustomMetadata` map is an element in the `ProtocolProperties` device field. It is initialized to be empty, so the user can add their desired fields.
+- The `CustomMetadata` map is an element in the `ProtocolProperties` device field. It is initialized to be empty on discovery, so the user can add their desired fields. Otherwise, the user can pre-define this field in a camera.toml file.
 
 ### Preset Custom Metadata
 
-If you add pre-defined devices, set up the CustomMetadata object as shown in the camera.toml.example file.
+If you add pre-defined devices, set up the `CustomMetadata` object as shown in the camera.toml.example file.
 
 ```toml
 # Pre-defined Devices
@@ -17,12 +17,7 @@ Name = "Camera001"
 ProfileName = "onvif-camera"
 Description = "onvif conformant camera"
   [DeviceList.Protocols]
-    [DeviceList.Protocols.Onvif]
-    Address = "192.168.12.123"
-    Port = "80"
-    # Assign AuthMode to "usernametoken" | "digest" | "both" | "none"
-    AuthMode = "digest"
-    SecretPath = "credentials001"
+    ... 
     [DeviceList.Protocols.CustomMetadata]
     CommonName = "Door camera"
     Location = "Front door"
@@ -99,7 +94,6 @@ curl http://localhost:59882/api/v2/device/name/<device name>/CustomMetadata | js
 ```
 
 
-
 ### Get Specific Custom Metadata
 
 Pass the `CustomMetadata` resource a query to get specific field(s) in CustomMetadata. The query must be a base64 encoded json object with an array of fields you want to access.
@@ -133,7 +127,7 @@ ewogICAgIkN1c3RvbU1ldGFkYXRhIjogCiAgICAgICAgWwogICAgICAgICAgICAiQ29tbW9uTmFtZSIs
 
 4. Use this command to query the fields you provided in the json object.
 ```shell
-curl http://localhost:59882/api/v2/device/name/3fa1fe68-b915-4053-a3e1-cc32e5000688/CustomMetadata?jsonObject=ewogICAgIkN1c3RvbU1ldGFkYXRhIjogCiAgICAgICAgWwogICAgICAgICAgICAiQ29tbW9uTmFtZSIsCiAgICAgICAgICAgICJMb2NhdGlvbiIKICAgICAgICBdCn0K | json_pp
+curl http://localhost:59882/api/v2/device/name/<device name>/CustomMetadata?jsonObject=ewogICAgIkN1c3RvbU1ldGFkYXRhIjogCiAgICAgICAgWwogICAgICAgICAgICAiQ29tbW9uTmFtZSIsCiAgICAgICAgICAgICJMb2NhdGlvbiIKICAgICAgICBdCn0K | json_pp
 
 ```
 
@@ -170,17 +164,16 @@ curl http://localhost:59882/api/v2/device/name/3fa1fe68-b915-4053-a3e1-cc32e5000
 
 ### Additional Usage
 
-Setting a field to "deletes" will delete that field.
+Use the DeleteCustomMetadata resource to delete entries in custom metadata
 
 1. Use this command to delete fields.
 ```shell
-curl --request PUT 'http://0.0.0.0:59882/api/v2/device/name/<device name>/CustomMetadata' \
+curl --request PUT 'http://0.0.0.0:59882/api/v2/device/name/<device name>/DeleteCustomMetadata' \
     --header 'Content-Type: application/json' \
     --data-raw '{
-        "CustomMetadata": {
-            "Color":"delete",
-            "Condition": "delete"
-        }
+        "DeleteCustomMetadata": [
+            "Color", "Condition"
+        ]
     }' | json_pp
 ```
 2. The response from the curl command.

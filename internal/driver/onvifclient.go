@@ -175,25 +175,44 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
 		}
+
 		metadataObj, edgexError := onvifClient.getCustomMetadata(device, data)
 		if edgexError != nil {
 			onvifClient.driver.lc.Errorf("Failed to get custom metadata field from device %s", onvifClient.DeviceName)
 			return nil, edgexError
 		}
-		attributes[URLRawQuery] = "" // flush out the query so it resets with new calls
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, metadataObj)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
 		}
+
+		attributes[URLRawQuery] = "" // flush out the query so it resets with new calls
 	case SetCustomMetadata:
 		deviceName := onvifClient.DeviceName
 		device, err := sdk.RunningService().GetDeviceByName(deviceName)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
 		}
+
 		updatedDevice, setErr := onvifClient.setCustomMetadata(device, data)
 		if setErr != nil {
 			onvifClient.driver.lc.Errorf("Failed to set CustomMetadata for device '%s'", deviceName)
+			return nil, setErr
+		}
+		err = sdk.RunningService().UpdateDevice(updatedDevice)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to update device '%s'", deviceName), err)
+		}
+	case DeleteCustomMetadata:
+		deviceName := onvifClient.DeviceName
+		device, err := sdk.RunningService().GetDeviceByName(deviceName)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
+		}
+
+		updatedDevice, setErr := onvifClient.deleteCustomMetadata(device, data)
+		if setErr != nil {
+			onvifClient.driver.lc.Errorf("Failed to delete custom metadata for device '%s'", deviceName)
 			return nil, setErr
 		}
 		err = sdk.RunningService().UpdateDevice(updatedDevice)

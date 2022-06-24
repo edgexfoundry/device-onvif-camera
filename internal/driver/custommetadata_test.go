@@ -37,13 +37,13 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 		errorExpected bool
 	}{
 		{
-			name:     "happy path without data - getAll",
+			name:     "happy path with no data (get all)",
 			device:   getTestDevice(),
 			data:     "",
 			expected: getTestDevice().Protocols[CustomMetadata],
 		},
 		{
-			name:   "happy path with data for single field",
+			name:   "happy path with data (single field)",
 			device: getTestDevice(),
 			data:   `{"CustomMetadata":["CommonName"]}`,
 			expected: contract.ProtocolProperties{
@@ -51,7 +51,7 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 			},
 		},
 		{
-			name:   "happy path with data for multiple field",
+			name:   "happy path with data (multiple fields)",
 			device: getTestDevice(),
 			data:   `{"CustomMetadata":["Location","CommonName"]}`,
 			expected: contract.ProtocolProperties{
@@ -60,26 +60,26 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 			},
 		},
 		{
-			name:     "happy path with data for non-existent field",
+			name:     "happy path with data (single non-existent field)",
 			device:   getTestDevice(),
 			data:     `{"CustomMetadata":["Movie"]}`,
 			expected: contract.ProtocolProperties{},
 		},
 		{
-			name:     "happy path with data for multiple non-existent fields",
+			name:     "happy path with data (multiple non-existent fields)",
 			device:   getTestDevice(),
 			data:     `{"CustomMetadata":["Movie", "Height"]}`,
 			expected: contract.ProtocolProperties{},
 		},
 		{
-			name:          "with empty data",
+			name:          "empty data (error)",
 			device:        getTestDevice(),
 			data:          `{"CustomMetadata":[]}`,
 			expected:      contract.ProtocolProperties{},
 			errorExpected: true,
 		},
 		{
-			name:          "badJson",
+			name:          "bad json (error)",
 			device:        getTestDevice(),
 			data:          "bogus",
 			expected:      getTestDevice().Protocols[CustomMetadata],
@@ -93,7 +93,7 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 				driver: &Driver{
 					lc: logger.NewMockClient(),
 				},
-				DeviceName: "getTestDevice()",
+				DeviceName: "myDevice",
 			}
 			actual, err := onvifClient.getCustomMetadata(test.device, []byte(test.data))
 			if test.errorExpected {
@@ -115,7 +115,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 		errorExpected bool
 	}{
 		{
-			name: "happy-path-withoutData",
+			name: "no data (error)",
 			device: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					CustomMetadata: {},
@@ -126,7 +126,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			errorExpected: true,
 		},
 		{
-			name: "happy-path-withSingleData",
+			name: "happy path set (single data field)",
 			device: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					CustomMetadata: {},
@@ -138,7 +138,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			},
 		},
 		{
-			name: "happy-path-withMultipleData",
+			name: "happy path set (multiple data fields)",
 			device: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					CustomMetadata: {},
@@ -154,7 +154,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			},
 		},
 		{
-			name: "happy-path-updateSingleData",
+			name: "happy path update (single data field)",
 			device: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					CustomMetadata: {
@@ -168,7 +168,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			},
 		},
 		{
-			name: "happy-path-updateMultipleData",
+			name: "happy path update (multiple data fields)",
 			device: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					CustomMetadata: {
@@ -193,7 +193,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			},
 		},
 		{
-			name: "happy-path-deleteSingleData",
+			name: "happy path delete (single data field)",
 			device: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					CustomMetadata: {
@@ -205,7 +205,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			expected: contract.ProtocolProperties{},
 		},
 		{
-			name: "happy-path-deleteMultipleData",
+			name: "happy path delete (multple data fields)",
 			device: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					CustomMetadata: {
@@ -225,7 +225,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			expected: contract.ProtocolProperties{},
 		},
 		{
-			name:          "badJson",
+			name:          "bad json (error)",
 			device:        contract.Device{},
 			data:          "bogus",
 			expected:      contract.ProtocolProperties{},

@@ -105,6 +105,7 @@ The device service also include custom function to enhance the usage for the Edg
 | System Function | EdgeX   | UnsubscribeCameraEvent | Bool             | Unsubscribe all subscription from the camera                                           |
 | Media           | EdgeX   | GetSnapshot            | Binary           | Get Snapshot from the snapshot uri                                                     |
 | Custom Metadata | EdgeX   | CustomMetadata         | Object           | Read and write custom metadata to the camera entry in EdgeX                            | 
+| Custom Metadata | EdgeX   | DeleteCustomMetadata   | Object           | Delete custom metadata fields from the camera entry in EdgeX                           |
 
 ## How does the device service work?
 

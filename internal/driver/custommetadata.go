@@ -18,7 +18,6 @@ import (
 // setCustomMetadata will return a map containing the fields provided in the call to the function
 func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) (contract.Device, errors.EdgeX) {
 	var dataObj contract.ProtocolProperties
-
 	err := json.Unmarshal(data, &dataObj)
 	if err != nil {
 		return device, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
@@ -26,14 +25,11 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 	if len(dataObj) == 0 {
 		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in PUT command", err)
 	}
+
 	for key, value := range dataObj {
 		value = strings.TrimSpace(value)
 		key = strings.TrimSpace(key)
 		if len(key) == 0 {
-			continue
-		}
-		if value == "delete" || value == "Delete" {
-			delete(device.Protocols[CustomMetadata], key)
 			continue
 		}
 
@@ -46,16 +42,15 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 	return device, nil
 }
 
+// getCustomMetadata will return all metdata or enter getSpecificCustomMetadata if a list is provided
 func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data []byte) (contract.ProtocolProperties, errors.EdgeX) {
-	var metadataObj contract.ProtocolProperties
-	var err error
 
 	if len(data) == 0 { // if no list is provided, return all
 		return device.Protocols[CustomMetadata], nil
 	}
 
-	// if a list of fields is provided, return those specific fields
-	metadataObj, err = onvifClient.getSpecificCustomMetadata(device, data)
+	// if an array of fields is provided, return those specific fields
+	metadataObj, err := onvifClient.getSpecificCustomMetadata(device, data)
 	if err != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get specific metadata for device %s", onvifClient.DeviceName), err)
 	}
@@ -74,6 +69,7 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 	if len(input[CustomMetadata]) == 0 {
 		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query body", err)
 	}
+
 	for _, key := range input[CustomMetadata] {
 		value, found := device.Protocols[CustomMetadata][key]
 		if !found {
@@ -84,4 +80,28 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 	}
 
 	return response, nil
+}
+
+// deleteCustomMetadata will delete specified entries in custom metadata
+func (onvifClient *OnvifClient) deleteCustomMetadata(device contract.Device, data []byte) (contract.Device, errors.EdgeX) {
+	var input []string
+	err := json.Unmarshal(data, &input)
+	if err != nil {
+		return device, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
+	}
+	if len(input) == 0 {
+		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query body", err)
+	}
+
+	for _, deleteKey := range input {
+		deleteKey = strings.TrimSpace(deleteKey)
+		_, found := device.Protocols[CustomMetadata][deleteKey]
+		if !found {
+			onvifClient.driver.lc.Warnf("can't delete field '%s', it does not exist in Custom Metadata", deleteKey)
+			continue
+		}
+		delete(device.Protocols[CustomMetadata], deleteKey)
+	}
+
+	return device, nil
 }

@@ -172,6 +172,15 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "RW"
+  - name: "DeleteCustomMetadata"
+    isHidden: false
+    description: "Delete custom metadata for the camera"
+    attributes:
+      service: "EdgeX"
+      setFunction: "DeleteCustomMetadata"
+    properties:
+      valueType: "Object"
+      readWrite: "W"
 
   # Video Streaming
   - name: "Profiles"
