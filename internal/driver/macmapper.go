@@ -38,14 +38,14 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 
 	credsMap := make(map[string]string)
 	for secretPath, macs := range raw {
-		if _, err := tryGetCredentials(secretPath); err != nil {
+		if _, err := sdk.RunningService().SecretProvider.GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey); err != nil {
 			lc.Warnf("One or more MAC address mappings exist for the secret path '%s' which does not exist in the Secret Store!", secretPath)
 		}
 
 		for _, mac := range strings.Split(macs, ",") {
 			sanitized, err := SanitizeMACAddress(mac)
 			if err != nil {
-				lc.Warnf("Skipping entry: %s", err.Error())
+				lc.Warnf("Skipping invalid mac address %s: %s", mac, err.Error())
 				continue
 			}
 			// note: if the mac address already has a mapping, we do not overwrite it

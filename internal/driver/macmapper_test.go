@@ -46,12 +46,11 @@ func TestSanitizeMACAddress(t *testing.T) {
 		test := test
 		t.Run(test.mac, func(t *testing.T) {
 			sanitized, err := SanitizeMACAddress(test.mac)
-			assert.Equal(t, test.sanitized, sanitized)
 			if test.err {
-				assert.Error(t, err)
-			} else {
-				assert.NoError(t, err)
-			}
+				require.Error(t, err)
+                                return
+			require.NoError(t, err)
+			assert.Equal(t, test.sanitized, sanitized)
 		})
 	}
 }

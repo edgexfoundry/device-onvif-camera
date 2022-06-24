@@ -691,8 +691,8 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 	return client, nil
 }
 
-// refreshNetworkInterfaces will attempt to retrieve the device information for the specified camera
-// and update the values in the protocol properties
+// refreshNetworkInterfaces will attempt to retrieve the mac address for the specified camera
+// and update its value in the protocol properties
 func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
 	netInfo, err := d.getNetworkInterfaces(device)
 	if err != nil {
