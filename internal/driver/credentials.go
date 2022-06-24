@@ -63,8 +63,8 @@ func tryGetCredentials(secretPath string) (Credentials, errors.EdgeX) {
 	}
 
 	if !IsAuthModeValid(secretData[AuthModeKey]) {
-		sdk.RunningService().LoggingClient.Warnf("AuthMode is set to an invalid value: %s. setting value to 'none'.", credentials.AuthMode)
-		credentials.AuthMode = AuthModeNone
+		sdk.RunningService().LoggingClient.Warnf("AuthMode is set to an invalid value: %s. setting value to 'usernametoken'.", credentials.AuthMode)
+		credentials.AuthMode = AuthModeUsernameToken
 	}
 
 	return credentials, nil
@@ -95,12 +95,13 @@ func (d *Driver) getCredentials(secretPath string) (credentials Credentials, err
 	return credentials, err
 }
 
+// getCredentialsFromMac will attempt to retrieve the credentials associated with the given mac address.
 func (d *Driver) getCredentialsFromMac(mac string) (Credentials, errors.EdgeX) {
 	if mac == "" {
 		credential, edgexErr := tryGetCredentials(d.config.AppCustom.DefaultSecretPath)
 		if edgexErr != nil {
 			d.lc.Error("failed to get credentials from default secret path", "err", edgexErr)
-			return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get default credentials for empty mac address), edgexErr)
+			return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get default credentials for empty mac address", edgexErr)
 		}
 
 		d.lc.Debug("Using default credentials from default secret path for empty mac address")

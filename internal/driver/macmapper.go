@@ -8,11 +8,11 @@ package driver
 
 import (
 	"fmt"
-	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"net"
 	"strings"
 	"sync"
 
+	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 )
 
 type MACAddressMapper struct {
@@ -76,6 +76,7 @@ func (m *MACAddressMapper) ListMACAddresses() []string {
 	return macs
 }
 
+// GetSecretPathForMACAddress will return the secret path associated with the mac address passed
 func (m *MACAddressMapper) GetSecretPathForMACAddress(mac string) (string, error) {
 	m.credsMu.RLock()
 	defer m.credsMu.RUnlock()
@@ -94,6 +95,7 @@ func (m *MACAddressMapper) GetSecretPathForMACAddress(mac string) (string, error
 	return secretPath, nil
 }
 
+// TryGetCredentialsForMACAddress will return the credentials associated with the mac address passed
 func (m *MACAddressMapper) TryGetCredentialsForMACAddress(mac string) (Credentials, error) {
 	secretPath, err := m.GetSecretPathForMACAddress(mac)
 	if err != nil {
