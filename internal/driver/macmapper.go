@@ -22,6 +22,7 @@ type MACAddressMapper struct {
 	credsMap map[string]string
 }
 
+// NewMACAddressMapper creates a new MACAddressMapper object
 func NewMACAddressMapper() *MACAddressMapper {
 	return &MACAddressMapper{
 		credsMap: make(map[string]string),

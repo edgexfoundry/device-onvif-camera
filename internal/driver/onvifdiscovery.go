@@ -133,17 +133,18 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
 
 		netInfo, err := d.getNetworkInterfaces(device)
-		if err != nil {
-			d.lc.Warnf("failed to get the network information for the camera %s, %v", endpointRefAddr, edgexErr)
-		} else {
-			device.Protocols[OnvifProtocol][MACAddress] = string(netInfo.NetworkInterfaces.Info.HwAddress)
-		}
 
 		// Spaces are not allowed in the device name
 		deviceName := fmt.Sprintf("%s-%s-%s",
 			strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
 			strings.ReplaceAll(devInfo.Model, " ", "-"),
 			endpointRefAddr)
+
+		if err != nil {
+			d.lc.Warnf("failed to get the network information for device %s, %v", deviceName, edgexErr)
+		} else {
+			device.Protocols[OnvifProtocol][MACAddress] = string(netInfo.NetworkInterfaces.Info.HwAddress)
+		}
 
 		discovered = sdkModel.DiscoveredDevice{
 			Name:        deviceName,
