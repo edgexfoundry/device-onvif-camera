@@ -100,7 +100,7 @@ func (d *Driver) getCredentialsFromMac(mac string) (Credentials, errors.EdgeX) {
 		credential, edgexErr := tryGetCredentials(d.config.AppCustom.DefaultSecretPath)
 		if edgexErr != nil {
 			d.lc.Error("failed to get credentials from default secret path", "err", edgexErr)
-			return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials from mac address %s", mac), edgexErr)
+			return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get default credentials for empty mac address), edgexErr)
 		}
 
 		d.lc.Debug("Using default credentials from default secret path")
