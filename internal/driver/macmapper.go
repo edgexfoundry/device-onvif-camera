@@ -45,7 +45,7 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 		for _, mac := range strings.Split(macs, ",") {
 			sanitized, err := SanitizeMACAddress(mac)
 			if err != nil {
-				lc.Warnf("Skipping entry: %s", err.Error())
+				lc.Warnf("Skipping invalid mac address %s: %s", mac, err.Error())
 				continue
 			}
 			// note: if the mac address already has a mapping, we do not overwrite it
