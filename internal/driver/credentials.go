@@ -120,6 +120,6 @@ func (d *Driver) getCredentialsFromMac(mac string) (Credentials, errors.EdgeX) {
 		return credential, nil
 	}
 
-	d.lc.Debug("Using credentials for mac %s", mac)
+	d.lc.Debugf("Using credentials for mac %s", mac)
 	return credentials, nil
 }
