@@ -15,8 +15,7 @@ import (
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
-// setCustomMetadata will return a map containing the fields provided in the call to the function
-func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) (contract.Device, errors.EdgeX) {
+func (onvifClient *OnvifClient) initCustomMetadata(device contract.Device) contract.Device {
 	if _, found := device.Protocols[CustomMetadata]; !found {
 		saveOnvifProtocol := device.Protocols[OnvifProtocol]
 		device.Protocols = map[string]contract.ProtocolProperties{
@@ -24,6 +23,12 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 			CustomMetadata: {},
 		}
 	}
+	return device
+}
+
+// setCustomMetadata will return a map containing the fields provided in the call to the function
+func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) (contract.Device, errors.EdgeX) {
+	device = onvifClient.initCustomMetadata(device)
 
 	var dataObj contract.ProtocolProperties
 	err := json.Unmarshal(data, &dataObj)
@@ -53,13 +58,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 
 // getCustomMetadata will return all metdata or enter getSpecificCustomMetadata if a list is provided
 func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data []byte) (contract.ProtocolProperties, errors.EdgeX) {
-	if _, found := device.Protocols[CustomMetadata]; !found {
-		saveOnvifProtocol := device.Protocols[OnvifProtocol]
-		device.Protocols = map[string]contract.ProtocolProperties{
-			OnvifProtocol:  saveOnvifProtocol,
-			CustomMetadata: {},
-		}
-	}
+	device = onvifClient.initCustomMetadata(device)
 
 	if len(data) == 0 { // if no list is provided, return all
 		return device.Protocols[CustomMetadata], nil
@@ -100,6 +99,8 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 
 // deleteCustomMetadata will delete specified entries in custom metadata
 func (onvifClient *OnvifClient) deleteCustomMetadata(device contract.Device, data []byte) (contract.Device, errors.EdgeX) {
+	device = onvifClient.initCustomMetadata(device)
+
 	var input []string
 	err := json.Unmarshal(data, &input)
 	if err != nil {
