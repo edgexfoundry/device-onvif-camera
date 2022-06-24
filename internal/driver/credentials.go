@@ -103,7 +103,7 @@ func (d *Driver) getCredentialsFromMac(mac string) (Credentials, errors.EdgeX) {
 			return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get default credentials for empty mac address), edgexErr)
 		}
 
-		d.lc.Debug("Using default credentials from default secret path")
+		d.lc.Debug("Using default credentials from default secret path for empty mac address")
 		return credential, nil
 	}
 
