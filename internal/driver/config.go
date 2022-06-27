@@ -70,8 +70,8 @@ func (c *ServiceConfig) UpdateFromRaw(rawConfig interface{}) bool {
 
 // CameraInfo holds the camera connection info
 type CameraInfo struct {
-	Address string
-	Port    int
+	Address    string
+	Port       int
 	SecretPath string
 }
 
