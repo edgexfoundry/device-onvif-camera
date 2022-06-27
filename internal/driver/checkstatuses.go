@@ -25,21 +25,21 @@ func (d *Driver) checkStatuses() {
 
 		status := d.testConnectionMethods(device)
 
-		if statusChanged, err := d.updateDeviceStatus(device.Name, status); err != nil {
-			d.lc.Warnf("Could not update device status for device %s: %s", device.Name, err.Error())
+		if statusChanged, updateDeviceStatusErr := d.updateDeviceStatus(device.Name, status); updateDeviceStatusErr != nil {
+			d.lc.Warnf("Could not update device status for device %s: %s", device.Name, updateDeviceStatusErr.Error())
 		} else if statusChanged && status == UpWithAuth {
 			d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
 			go func(device models.Device) {
-				err2 := d.refreshDeviceInformation(device)
-				if err2 != nil {
+				refreshErr := d.refreshDeviceInformation(device)
+				if refreshErr != nil {
 					d.lc.Warnf("An error occurred while refreshing the device information for %s: %s",
-						device.Name, err2.Error())
+						device.Name, refreshErr.Error())
 				}
 
-				err2 = d.refreshNetworkInterfaces(device)
-				if err2 != nil {
+				refreshErr = d.refreshNetworkInterfaces(device)
+				if refreshErr != nil {
 					d.lc.Warnf("An error occurred while refreshing the network information for %s: %s",
-						device.Name, err2.Error())
+						device.Name, refreshErr.Error())
 				}
 			}(device)
 		}
