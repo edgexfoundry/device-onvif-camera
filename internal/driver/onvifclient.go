@@ -60,7 +60,7 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
 
-	credential, edgexErr := d.tryGetCredentialsFromMac(device.Protocols[OnvifProtocol][MACAddress])
+	credential, edgexErr := d.getCredentials(cameraInfo.SecretPath)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", device.Name), edgexErr)
 	}

@@ -30,7 +30,6 @@ func (d *Driver) checkStatuses() {
 		} else if statusChanged && status == UpWithAuth {
 			d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
 			go func(device models.Device) {
-				// todo: should we update the device?
 				err2 := d.refreshDeviceInformation(device)
 				if err2 != nil {
 					d.lc.Warnf("An error occurred while refreshing the device information for %s: %s",

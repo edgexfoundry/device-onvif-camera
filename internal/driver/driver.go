@@ -706,7 +706,6 @@ func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
 	}
 
 	hwAddress := string(netInfo.NetworkInterfaces.Info.HwAddress)
-
 	if hwAddress != device.Protocols[OnvifProtocol][MACAddress] {
 		device.Protocols[OnvifProtocol][MACAddress] = hwAddress
 		return sdk.RunningService().UpdateDevice(device)
@@ -734,12 +733,12 @@ func (d *Driver) refreshDeviceInformation(device models.Device) error {
 		devInfo.FirmwareVersion != device.Protocols[OnvifProtocol][FirmwareVersion] ||
 		devInfo.SerialNumber != device.Protocols[OnvifProtocol][SerialNumber] ||
 		devInfo.HardwareId != device.Protocols[OnvifProtocol][HardwareId] {
+
 		device.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
 		device.Protocols[OnvifProtocol][Model] = devInfo.Model
 		device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
 		device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
 		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
-
 		return sdk.RunningService().UpdateDevice(device)
 	}
 
