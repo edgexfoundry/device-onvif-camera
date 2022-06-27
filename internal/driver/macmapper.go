@@ -109,7 +109,7 @@ func (m *MACAddressMapper) TryGetCredentialsForMACAddress(mac string) (Credentia
 // and will return it in the standard go format, using colons and lower case letters:
 // Example:	aa:bb:cc:dd:ee:ff
 func SanitizeMACAddress(mac string) (string, error) {
-	hwAddr, err := net.ParseMAC(mac)
+	hwAddr, err := net.ParseMAC(strings.TrimSpace(mac))
 	if err != nil {
 		return "", fmt.Errorf("'%s' is not a valid MAC Address: %s", mac, err.Error())
 	}
