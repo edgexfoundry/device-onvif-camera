@@ -705,9 +705,14 @@ func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
 		return edgeXErr
 	}
 
-	device.Protocols[OnvifProtocol][MACAddress] = string(netInfo.NetworkInterfaces.Info.HwAddress)
+	hwAddress := string(netInfo.NetworkInterfaces.Info.HwAddress)
 
-	return sdk.RunningService().UpdateDevice(device)
+	if hwAddress != device.Protocols[OnvifProtocol][MACAddress] {
+		device.Protocols[OnvifProtocol][MACAddress] = hwAddress
+		return sdk.RunningService().UpdateDevice(device)
+	}
+
+	return nil
 }
 
 // refreshDeviceInformation will attempt to retrieve the device information for the specified camera
@@ -724,11 +729,20 @@ func (d *Driver) refreshDeviceInformation(device models.Device) error {
 		return edgeXErr
 	}
 
-	device.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
-	device.Protocols[OnvifProtocol][Model] = devInfo.Model
-	device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
-	device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
-	device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
+	if devInfo.Manufacturer != device.Protocols[OnvifProtocol][Manufacturer] ||
+		devInfo.Model != device.Protocols[OnvifProtocol][Model] ||
+		devInfo.FirmwareVersion != device.Protocols[OnvifProtocol][FirmwareVersion] ||
+		devInfo.SerialNumber != device.Protocols[OnvifProtocol][SerialNumber] ||
+		devInfo.HardwareId != device.Protocols[OnvifProtocol][HardwareId] {
+		device.Protocols[OnvifProtocol][Manufacturer] = devInfo.Manufacturer
+		device.Protocols[OnvifProtocol][Model] = devInfo.Model
+		device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
+		device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
+		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
 
-	return sdk.RunningService().UpdateDevice(device)
+		return sdk.RunningService().UpdateDevice(device)
+	}
+
+	return nil
+
 }
