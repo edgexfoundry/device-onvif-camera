@@ -77,32 +77,28 @@ func (m *MACAddressMapper) ListMACAddresses() []string {
 	return macs
 }
 
-// GetSecretPathForMACAddress will return the secret path associated with the mac address passed
-func (m *MACAddressMapper) GetSecretPathForMACAddress(mac string) (string, error) {
+// TryGetSecretPathForMACAddress will return the secret path associated with the mac address passed if a mapping exists,
+// or the default secret path if the mapping is not found, or the mac address is invalid.
+func (m *MACAddressMapper) TryGetSecretPathForMACAddress(mac string, defaultSecretPath string) string {
 	m.credsMu.RLock()
 	defer m.credsMu.RUnlock()
+
+	lc := sdk.RunningService().LoggingClient
 
 	// sanitize the mac address before looking up to ensure they all match the same format
 	sanitized, err := SanitizeMACAddress(mac)
 	if err != nil {
-		return "", err
+		lc.Warn("Unable to sanitize mac address: %s. Using default secret path.", err.Error())
+		return defaultSecretPath
 	}
 
-	secretPath, ok := m.credsMap[sanitized]
-	if !ok {
-		return "", fmt.Errorf("no mapping exists for mac address '%s'", mac)
+	secretPath, found := m.credsMap[sanitized]
+	if !found {
+		lc.Debugf("No credential mapping exists for mac address '%s', will use default secret path.", mac)
+		return defaultSecretPath
 	}
 
-	return secretPath, nil
-}
-
-// TryGetCredentialsForMACAddress will return the credentials associated with the mac address passed
-func (m *MACAddressMapper) TryGetCredentialsForMACAddress(mac string) (Credentials, error) {
-	secretPath, err := m.GetSecretPathForMACAddress(mac)
-	if err != nil {
-		return Credentials{}, err
-	}
-	return tryGetCredentials(secretPath)
+	return secretPath
 }
 
 // SanitizeMACAddress takes in a MAC address in one of the IEEE 802 MAC-48, EUI-48, EUI-64 formats
