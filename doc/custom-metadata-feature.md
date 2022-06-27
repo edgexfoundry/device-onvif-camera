@@ -100,34 +100,28 @@ Pass the `CustomMetadata` resource a query to get specific field(s) in CustomMet
 
 1. Json object holding an array of fields you want to query.
 ```json
-'{
-    "CustomMetadata": 
-        [
-            "CommonName",
-            "Location"
-        ]
-}'
+'[
+    "CommonName",
+    "Location"
+]'
 ```
 
 2. Use this command to convert the json object to base64.
 ```shell
-echo '{
-    "CustomMetadata": 
-        [
-            "CommonName",
-            "Location"
-        ]
-}' | base64
+echo '[
+    "CommonName",
+    "Location"
+]' | base64
 ```
 
 3. The response converted to base64.
 ```shell
-ewogICAgIkN1c3RvbU1ldGFkYXRhIjogCiAgICAgICAgWwogICAgICAgICAgICAiQ29tbW9uTmFtZSIsCiAgICAgICAgICAgICJMb2NhdGlvbiIKICAgICAgICBdCn0K
+WwogICAgIkNvbW1vbk5hbWUiLAogICAgIkxvY2F0aW9uIgpdCg==
 ```
 
 4. Use this command to query the fields you provided in the json object.
 ```shell
-curl http://localhost:59882/api/v2/device/name/<device name>/CustomMetadata?jsonObject=ewogICAgIkN1c3RvbU1ldGFkYXRhIjogCiAgICAgICAgWwogICAgICAgICAgICAiQ29tbW9uTmFtZSIsCiAgICAgICAgICAgICJMb2NhdGlvbiIKICAgICAgICBdCn0K | json_pp
+curl http://localhost:59882/api/v2/device/name/<device name>/CustomMetadata?jsonObject=WwogICAgIkNvbW1vbk5hbWUiLAogICAgIkxvY2F0aW9uIgpdCg== | json_pp
 
 ```
 

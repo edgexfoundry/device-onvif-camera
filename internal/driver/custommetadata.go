@@ -74,18 +74,18 @@ func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data [
 
 // getSpecificCustomMetadata will return a map of the key/value pairs corresponding to the array of keys provided in the resource call
 func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device, data []byte) (obj contract.ProtocolProperties, error errors.EdgeX) {
-	input := make(map[string][]string)
+	var input []string
 	response := make(map[string]string)
 
 	err := json.Unmarshal(data, &input)
 	if err != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
-	if len(input[CustomMetadata]) == 0 {
+	if len(input) == 0 {
 		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query body", err)
 	}
 
-	for _, key := range input[CustomMetadata] {
+	for _, key := range input {
 		value, found := device.Protocols[CustomMetadata][key]
 		if !found {
 			onvifClient.driver.lc.Warnf("Failed to find custom metadata field %s", key) // TODO: should this also be displayed in command response?
