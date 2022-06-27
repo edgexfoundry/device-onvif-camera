@@ -100,6 +100,7 @@ func (d *Driver) tcpProbe(device models.Device) bool {
 	return true
 }
 
+// updateDeviceStatus updates the status of a device in the cache. Returns true if the status changed. Returns any errors that occur if failure.
 func (d *Driver) updateDeviceStatus(deviceName string, status string) (bool, error) {
 	// todo: maybe have connection levels known as ints, so that way we can log at different levels based on
 	// if the connection level went up or down
