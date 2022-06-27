@@ -45,7 +45,7 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 		{
 			name:   "happy path with data (single field)",
 			device: getTestDevice(),
-			data:   `{"CustomMetadata":["CommonName"]}`,
+			data:   `["CommonName"]`,
 			expected: contract.ProtocolProperties{
 				"CommonName": getTestDevice().Protocols[CustomMetadata]["CommonName"],
 			},
@@ -53,7 +53,7 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 		{
 			name:   "happy path with data (multiple fields)",
 			device: getTestDevice(),
-			data:   `{"CustomMetadata":["Location","CommonName"]}`,
+			data:   `["Location","CommonName"]`,
 			expected: contract.ProtocolProperties{
 				"Location":   getTestDevice().Protocols[CustomMetadata]["Location"],
 				"CommonName": getTestDevice().Protocols[CustomMetadata]["CommonName"],
@@ -62,13 +62,13 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 		{
 			name:     "happy path with data (single non-existent field)",
 			device:   getTestDevice(),
-			data:     `{"CustomMetadata":["Movie"]}`,
+			data:     `["Movie"]`,
 			expected: contract.ProtocolProperties{},
 		},
 		{
 			name:     "happy path with data (multiple non-existent fields)",
 			device:   getTestDevice(),
-			data:     `{"CustomMetadata":["Movie", "Height"]}`,
+			data:     `["Movie", "Height"]`,
 			expected: contract.ProtocolProperties{},
 		},
 		{
@@ -79,7 +79,7 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 		{
 			name:          "empty data (error)",
 			device:        getTestDevice(),
-			data:          `{"CustomMetadata":[]}`,
+			data:          `[]`,
 			expected:      contract.ProtocolProperties{},
 			errorExpected: true,
 		},
