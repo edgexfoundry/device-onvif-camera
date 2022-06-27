@@ -18,7 +18,6 @@ const (
 	OnvifProtocol      = "Onvif"
 	Address            = "Address"
 	Port               = "Port"
-	AuthMode           = "AuthMode"
 	SecretPath         = "SecretPath"
 	EndpointRefAddress = "EndpointRefAddress"
 	LastSeen           = "LastSeen"
