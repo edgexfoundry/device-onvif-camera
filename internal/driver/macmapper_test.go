@@ -7,8 +7,10 @@
 package driver
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestSanitizeMACAddress(t *testing.T) {
@@ -41,6 +43,14 @@ func TestSanitizeMACAddress(t *testing.T) {
 			mac:       "11-22-33-44-55-66",
 			sanitized: "11:22:33:44:55:66",
 		},
+		{
+			mac:       " 11-22-33-44-55-66",
+			sanitized: "11:22:33:44:55:66",
+		},
+		{
+			mac:       "11-22-33-44-55-66 ",
+			sanitized: "11:22:33:44:55:66",
+		},
 	}
 	for _, test := range tests {
 		test := test
@@ -48,7 +58,8 @@ func TestSanitizeMACAddress(t *testing.T) {
 			sanitized, err := SanitizeMACAddress(test.mac)
 			if test.err {
 				require.Error(t, err)
-                                return
+				return
+			}
 			require.NoError(t, err)
 			assert.Equal(t, test.sanitized, sanitized)
 		})
