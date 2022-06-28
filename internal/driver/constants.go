@@ -15,14 +15,21 @@ const (
 )
 
 const (
+	CustomMetadata       = "CustomMetadata"
+	GetCustomMetadata    = "GetCustomMetadata"
+	SetCustomMetadata    = "SetCustomMetadata"
+	DeleteCustomMetadata = "DeleteCustomMetadata"
+)
+
+const (
 	OnvifProtocol      = "Onvif"
 	Address            = "Address"
 	Port               = "Port"
-	AuthMode           = "AuthMode"
 	SecretPath         = "SecretPath"
 	EndpointRefAddress = "EndpointRefAddress"
 	LastSeen           = "LastSeen"
 	DeviceStatus       = "DeviceStatus"
+	MACAddress         = "MACAddress"
 
 	// Maximum interval for checkStatus interval
 	maxStatusInterval = 300

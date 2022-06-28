@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/IOTechSystems/onvif"
-	sdkModel "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
 // checkStatuses loops through all registered devices and tries to determine the most accurate connection state
@@ -28,10 +28,26 @@ func (d *Driver) checkStatuses() {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			status := d.testConnectionMethods(device)
 
-			if err := d.updateDeviceStatus(device.Name, status); err != nil {
-				d.lc.Warnf("Could not update device status for device %s: %s", device.Name, err.Error())
+			status := d.testConnectionMethods(device)
+			if statusChanged, updateDeviceStatusErr := d.updateDeviceStatus(device.Name, status); updateDeviceStatusErr != nil {
+				d.lc.Warnf("Could not update device status for device %s: %s", device.Name, updateDeviceStatusErr.Error())
+
+			} else if statusChanged && status == UpWithAuth {
+				d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
+				go func() { // refresh the device information in the background
+					refreshErr := d.refreshDeviceInformation(device)
+					if refreshErr != nil {
+						d.lc.Warnf("An error occurred while refreshing the device information for %s: %s",
+							device.Name, refreshErr.Error())
+					}
+
+					refreshErr = d.refreshNetworkInterfaces(device)
+					if refreshErr != nil {
+						d.lc.Warnf("An error occurred while refreshing the network information for %s: %s",
+							device.Name, refreshErr.Error())
+					}
+				}()
 			}
 		}()
 	}
@@ -42,7 +58,7 @@ func (d *Driver) checkStatuses() {
 // and return the most accurate status
 // Higher degrees of connection are tested first, becuase if they
 // succeed, the lower levels of connection will too
-func (d *Driver) testConnectionMethods(device sdkModel.Device) (status string) {
+func (d *Driver) testConnectionMethods(device models.Device) (status string) {
 
 	// sends get capabilities command to device (does not require credentials)
 	devClient, edgexErr := d.newTemporaryOnvifClient(device)
@@ -68,7 +84,7 @@ func (d *Driver) testConnectionMethods(device sdkModel.Device) (status string) {
 
 // tcpProbe attempts to make a connection to a specific ip and port list to determine
 // if there is a service listening at that ip+port.
-func (d *Driver) tcpProbe(device sdkModel.Device) bool {
+func (d *Driver) tcpProbe(device models.Device) bool {
 	proto, ok := device.Protocols[OnvifProtocol]
 	if !ok {
 		d.lc.Warnf("Device %s is missing required %s protocol info, cannot send probe.", device.Name, OnvifProtocol)
@@ -92,7 +108,8 @@ func (d *Driver) tcpProbe(device sdkModel.Device) bool {
 	return true
 }
 
-func (d *Driver) updateDeviceStatus(deviceName string, status string) error {
+// updateDeviceStatus updates the status of a device in the cache. Returns true if the status changed. Returns any errors that occur if failure.
+func (d *Driver) updateDeviceStatus(deviceName string, status string) (bool, error) {
 	// todo: maybe have connection levels known as ints, so that way we can log at different levels based on
 	//       if the connection level went up or down
 	shouldUpdate := false
@@ -102,14 +119,16 @@ func (d *Driver) updateDeviceStatus(deviceName string, status string) error {
 	if err != nil {
 		d.lc.Errorf("Unable to get device %s from cache while trying to update its status to %s. Error: %s",
 			device.Name, status, err.Error())
-		return err
+		return false, err
 	}
 
+	statusChanged := false
 	oldStatus := device.Protocols[OnvifProtocol][DeviceStatus]
 	if oldStatus != status {
 		d.lc.Infof("Device status for %s is now %s (used to be %s)", device.Name, status, oldStatus)
 		device.Protocols[OnvifProtocol][DeviceStatus] = status
 		shouldUpdate = true
+		statusChanged = true
 	}
 
 	if status != Unreachable {
@@ -118,10 +137,10 @@ func (d *Driver) updateDeviceStatus(deviceName string, status string) error {
 	}
 
 	if shouldUpdate {
-		return d.sdkService.UpdateDevice(device)
+		return statusChanged, d.sdkService.UpdateDevice(device)
 	}
 
-	return nil
+	return statusChanged, nil
 }
 
 // taskLoop manages all of our custom background tasks such as checking camera statuses at regular intervals

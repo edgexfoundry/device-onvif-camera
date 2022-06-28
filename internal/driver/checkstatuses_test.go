@@ -7,6 +7,7 @@
 package driver
 
 import (
+	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -19,9 +20,10 @@ func TestUpdateDeviceStatus_update(t *testing.T) {
 	mockService.On("UpdateDevice", mock.AnythingOfType("models.Device")).
 		Return(nil).Once()
 
-	err := driver.updateDeviceStatus(testDeviceName, UpWithAuth)
+	changed, err := driver.updateDeviceStatus(testDeviceName, UpWithAuth)
 	mockService.AssertExpectations(t)
 	require.NoError(t, err)
+	assert.True(t, changed)
 }
 
 func TestUpdateDeviceStatus_noUpdate(t *testing.T) {
@@ -29,7 +31,8 @@ func TestUpdateDeviceStatus_noUpdate(t *testing.T) {
 	mockService.On("GetDeviceByName", testDeviceName).
 		Return(createTestDevice(), nil).Once()
 
-	err := driver.updateDeviceStatus(testDeviceName, Unreachable)
+	changed, err := driver.updateDeviceStatus(testDeviceName, Unreachable)
 	mockService.AssertExpectations(t)
 	require.NoError(t, err)
+	assert.False(t, changed)
 }
