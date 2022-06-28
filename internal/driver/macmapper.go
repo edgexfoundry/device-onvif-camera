@@ -85,7 +85,7 @@ func (m *MACAddressMapper) TryGetSecretPathForMACAddress(mac string, defaultSecr
 	// sanitize the mac address before looking up to ensure they all match the same format
 	sanitized, err := SanitizeMACAddress(mac)
 	if err != nil {
-		m.sdkService.GetLoggingClient().Warn("Unable to sanitize mac address: %s. Using default secret path.", err.Error())
+		m.sdkService.GetLoggingClient().Warnf("Unable to sanitize mac address: %s. Using default secret path.", err.Error())
 		return defaultSecretPath
 	}
 

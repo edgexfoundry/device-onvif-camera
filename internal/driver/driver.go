@@ -208,7 +208,7 @@ func (d *Driver) updateWritableConfig(rawWritableConfig interface{}) {
 // Every subsequent call to this function before that timer elapses resets the timer to
 // discoverDebounceDuration. Once the timer finally elapses, the Discover function is called.
 func (d *Driver) debouncedDiscover() {
-	d.lc.Debug(fmt.Sprintf("trigger debounced discovery in %v", discoverDebounceDuration))
+	d.lc.Debugf("trigger debounced discovery in %v", discoverDebounceDuration)
 
 	// everything in this function is mutex-locked and is safe to access asynchronously
 	d.debounceMu.Lock()
@@ -518,8 +518,8 @@ func (d *Driver) Discover() {
 		d.watchersMu.Lock()
 		if !d.addedWatchers {
 			if err := d.addProvisionWatchers(); err != nil {
-				d.lc.Error("Error adding provision watchers. Newly discovered devices may fail to register with EdgeX.",
-					"error", err.Error())
+				d.lc.Errorf("Error adding provision watchers. Newly discovered devices may fail to register with EdgeX: %s",
+					err.Error())
 				// Do not return on failure, as it is possible there are alternative watchers registered.
 				// And if not, the discovered devices will just not be registered with EdgeX, but will
 				// still be available for discovery again.
@@ -596,7 +596,7 @@ func (d *Driver) discoverNetscan(ctx context.Context, discovered []sdkModel.Disc
 	t0 := time.Now()
 	result := netscan.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
 	if ctx.Err() != nil {
-		d.lc.Warn("Discover process has been cancelled!", "ctxErr", ctx.Err())
+		d.lc.Warnf("Discover process has been cancelled!", "ctxErr", ctx.Err())
 	}
 
 	d.lc.Debugf("NetScan result: %+v", result)
