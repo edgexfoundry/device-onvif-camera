@@ -25,7 +25,6 @@ const (
 	OnvifProtocol      = "Onvif"
 	Address            = "Address"
 	Port               = "Port"
-	SecretPath         = "SecretPath"
 	EndpointRefAddress = "EndpointRefAddress"
 	LastSeen           = "LastSeen"
 	DeviceStatus       = "DeviceStatus"
