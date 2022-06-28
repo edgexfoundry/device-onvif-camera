@@ -7,7 +7,6 @@ Description = "onvif conformant camera"
     [DeviceList.Protocols.Onvif]
     Address = "192.168.12.123"
     Port = "80"
-    # Assign AuthMode to "usernametoken" | "digest" | "both" | "none"
     [DeviceList.Protocols.CustomMetadata]
     CommonName = "Door camera"
     Location = "Front door"
