@@ -16,7 +16,6 @@ import (
 	"time"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-bootstrap/v2/config"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
@@ -85,7 +84,7 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initialize Onvif device client", err)
 	}
 
-	resource, err := getCameraEventResourceByDeviceName(device.Name)
+	resource, err := d.getCameraEventResourceByDeviceName(device.Name)
 	if err != nil {
 		return nil, errors.NewCommonEdgeXWrapper(err)
 	}
@@ -108,13 +107,12 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 	return client, nil
 }
 
-func getCameraEventResourceByDeviceName(deviceName string) (r models.DeviceResource, edgexErr errors.EdgeX) {
-	deviceService := sdk.RunningService()
-	device, err := deviceService.GetDeviceByName(deviceName)
+func (d *Driver) getCameraEventResourceByDeviceName(deviceName string) (r models.DeviceResource, edgexErr errors.EdgeX) {
+	device, err := d.sdkService.GetDeviceByName(deviceName)
 	if err != nil {
 		return r, errors.NewCommonEdgeXWrapper(err)
 	}
-	profile, err := deviceService.GetProfileByName(device.ProfileName)
+	profile, err := d.sdkService.GetProfileByName(device.ProfileName)
 	if err != nil {
 		return r, errors.NewCommonEdgeXWrapper(err)
 	}
