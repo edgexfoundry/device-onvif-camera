@@ -8,6 +8,7 @@ package driver
 import (
 	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/interfaces"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"net/http"
 )
@@ -122,7 +123,11 @@ type SDKService interface {
 	// Custom managed functionality or macros
 	// ------------------------------------------
 
-	// GetSecretProvider returns the interfaces.SecretProvider. The name chosen to avoid conflicts
+	// GetLoggingClient returns the logger.LoggingClient. The name was chosen to avoid conflicts
+	// with service.DeviceService.LoggingClient struct field.
+	GetLoggingClient() logger.LoggingClient
+
+	// GetSecretProvider returns the interfaces.SecretProvider. The name was chosen to avoid conflicts
 	// with service.DeviceService.SecretProvider struct field.
 	GetSecretProvider() interfaces.SecretProvider
 }
@@ -136,4 +141,9 @@ type DeviceSDKService struct {
 // GetSecretProvider returns the SecretProvider
 func (s *DeviceSDKService) GetSecretProvider() interfaces.SecretProvider {
 	return s.SecretProvider
+}
+
+// GetLoggingClient returns the logger.LoggingClient
+func (s *DeviceSDKService) GetLoggingClient() logger.LoggingClient {
+	return s.LoggingClient
 }

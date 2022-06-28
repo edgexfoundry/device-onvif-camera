@@ -6,6 +6,8 @@ import (
 	http "net/http"
 
 	interfaces "github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/interfaces"
+	logger "github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+
 	mock "github.com/stretchr/testify/mock"
 
 	models "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
@@ -237,6 +239,22 @@ func (_m *SDKService) GetDeviceByName(name string) (models.Device, error) {
 	}
 
 	return r0, r1
+}
+
+// GetLoggingClient provides a mock function with given fields:
+func (_m *SDKService) GetLoggingClient() logger.LoggingClient {
+	ret := _m.Called()
+
+	var r0 logger.LoggingClient
+	if rf, ok := ret.Get(0).(func() logger.LoggingClient); ok {
+		r0 = rf()
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(logger.LoggingClient)
+		}
+	}
+
+	return r0
 }
 
 // GetProfileByName provides a mock function with given fields: name

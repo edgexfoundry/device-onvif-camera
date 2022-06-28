@@ -24,7 +24,6 @@ import (
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
@@ -112,10 +111,10 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.clientsMu = new(sync.RWMutex)
 	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
-	d.macAddressMapper = NewMACAddressMapper()
 	d.sdkService = &DeviceSDKService{
 		DeviceService: service.RunningService(),
 	}
+	d.macAddressMapper = NewMACAddressMapper(d.sdkService)
 	d.config = &ServiceConfig{}
 
 	err := d.sdkService.LoadCustomConfig(d.config, "AppCustom")
@@ -658,7 +657,7 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 	}
 
 	// since this is just a temporary client, we do not want to wait for credentials to be available
-	credential, edgexErr := tryGetCredentials(cameraInfo.SecretPath)
+	credential, edgexErr := d.tryGetCredentials(cameraInfo.SecretPath)
 	if edgexErr != nil {
 		// if credentials are not found, instead of returning an error, set the AuthMode to NoAuth
 		// and allow the user to call unauthenticated endpoints
@@ -701,7 +700,7 @@ func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
 	}
 
 	// update device to latest version in cache to prevent race conditions
-	device, edgeXErr := sdk.RunningService().GetDeviceByName(device.Name)
+	device, edgeXErr := d.sdkService.GetDeviceByName(device.Name)
 	if err != nil {
 		return edgeXErr
 	}
@@ -709,7 +708,7 @@ func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
 	hwAddress := string(netInfo.NetworkInterfaces.Info.HwAddress)
 	if hwAddress != device.Protocols[OnvifProtocol][MACAddress] {
 		device.Protocols[OnvifProtocol][MACAddress] = hwAddress
-		return sdk.RunningService().UpdateDevice(device)
+		return d.sdkService.UpdateDevice(device)
 	}
 
 	return nil
@@ -724,7 +723,7 @@ func (d *Driver) refreshDeviceInformation(device models.Device) error {
 	}
 
 	// update device to latest version in cache to prevent race conditions
-	device, edgeXErr := sdk.RunningService().GetDeviceByName(device.Name)
+	device, edgeXErr := d.sdkService.GetDeviceByName(device.Name)
 	if err != nil {
 		return edgeXErr
 	}
@@ -740,7 +739,7 @@ func (d *Driver) refreshDeviceInformation(device models.Device) error {
 		device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
 		device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
 		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
-		return sdk.RunningService().UpdateDevice(device)
+		return d.sdkService.UpdateDevice(device)
 	}
 
 	return nil
