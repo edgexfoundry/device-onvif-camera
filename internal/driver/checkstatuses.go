@@ -8,6 +8,7 @@ package driver
 
 import (
 	"net"
+	"sync"
 	"time"
 
 	"github.com/IOTechSystems/onvif"
@@ -18,12 +19,17 @@ import (
 // checkStatuses loops through all registered devices and tries to determine the most accurate connection state
 func (d *Driver) checkStatuses() {
 	d.lc.Debug("checkStatuses has been called")
+	wg := sync.WaitGroup{}
 	for _, device := range service.RunningService().Devices() {
+		device := device                  // save the device value within the closure
 		if device.Name == d.serviceName { // skip control plane device
 			continue
 		}
 
-		status := d.testConnectionMethods(device)
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			status := d.testConnectionMethods(device)
 
 		if statusChanged, updateDeviceStatusErr := d.updateDeviceStatus(device.Name, status); updateDeviceStatusErr != nil {
 			d.lc.Warnf("Could not update device status for device %s: %s", device.Name, updateDeviceStatusErr.Error())
@@ -44,6 +50,7 @@ func (d *Driver) checkStatuses() {
 			}(device)
 		}
 	}
+	wg.Wait()
 }
 
 // testConnectionMethods will try to determine the state using different device calls

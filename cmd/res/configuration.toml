@@ -40,7 +40,7 @@ RequestTimeout = "5s"
   CORSMaxAge = 3600
 
 # Only used when EDGEX_SECURITY_SECRET_STORE=true which is now required for secure consul
-# Must also add `ADD_SECRETSTORE_TOKENS: "device-usb-camera"`  and  `ADD_KNOWN_SECRETS: redisdb[device-usb-camera]` to secret-store-setup environment so it generates  the token and secret store in vault for 'device-usb-camera' and added the Redis credentials
+# Must also add `ADD_SECRETSTORE_TOKENS: "device-onvif-camera"`  and  `ADD_KNOWN_SECRETS: redisdb[device-onvif-camera]` to secret-store-setup environment so it generates  the token and secret store in vault for 'device-onvif-camera' and added the Redis credentials
 [SecretStore]
 Type = "vault"
 Host = "localhost"
