@@ -8,6 +8,7 @@ package driver
 
 import (
 	"net"
+	"sync"
 	"time"
 
 	"github.com/IOTechSystems/onvif"
@@ -18,32 +19,40 @@ import (
 // checkStatuses loops through all registered devices and tries to determine the most accurate connection state
 func (d *Driver) checkStatuses() {
 	d.lc.Debug("checkStatuses has been called")
+	wg := sync.WaitGroup{}
 	for _, device := range service.RunningService().Devices() {
+		device := device                  // save the device value within the closure
 		if device.Name == d.serviceName { // skip control plane device
 			continue
 		}
 
-		status := d.testConnectionMethods(device)
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
 
-		if statusChanged, updateDeviceStatusErr := d.updateDeviceStatus(device.Name, status); updateDeviceStatusErr != nil {
-			d.lc.Warnf("Could not update device status for device %s: %s", device.Name, updateDeviceStatusErr.Error())
-		} else if statusChanged && status == UpWithAuth {
-			d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
-			go func(device models.Device) {
-				refreshErr := d.refreshDeviceInformation(device)
-				if refreshErr != nil {
-					d.lc.Warnf("An error occurred while refreshing the device information for %s: %s",
-						device.Name, refreshErr.Error())
-				}
+			status := d.testConnectionMethods(device)
+			if statusChanged, updateDeviceStatusErr := d.updateDeviceStatus(device.Name, status); updateDeviceStatusErr != nil {
+				d.lc.Warnf("Could not update device status for device %s: %s", device.Name, updateDeviceStatusErr.Error())
 
-				refreshErr = d.refreshNetworkInterfaces(device)
-				if refreshErr != nil {
-					d.lc.Warnf("An error occurred while refreshing the network information for %s: %s",
-						device.Name, refreshErr.Error())
-				}
-			}(device)
-		}
+			} else if statusChanged && status == UpWithAuth {
+				d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
+				go func() { // refresh the device information in the background
+					refreshErr := d.refreshDeviceInformation(device)
+					if refreshErr != nil {
+						d.lc.Warnf("An error occurred while refreshing the device information for %s: %s",
+							device.Name, refreshErr.Error())
+					}
+
+					refreshErr = d.refreshNetworkInterfaces(device)
+					if refreshErr != nil {
+						d.lc.Warnf("An error occurred while refreshing the network information for %s: %s",
+							device.Name, refreshErr.Error())
+					}
+				}()
+			}
+		}()
 	}
+	wg.Wait()
 }
 
 // testConnectionMethods will try to determine the state using different device calls

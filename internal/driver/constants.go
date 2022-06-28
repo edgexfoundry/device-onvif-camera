@@ -15,6 +15,13 @@ const (
 )
 
 const (
+	CustomMetadata       = "CustomMetadata"
+	GetCustomMetadata    = "GetCustomMetadata"
+	SetCustomMetadata    = "SetCustomMetadata"
+	DeleteCustomMetadata = "DeleteCustomMetadata"
+)
+
+const (
 	OnvifProtocol      = "Onvif"
 	Address            = "Address"
 	Port               = "Port"
