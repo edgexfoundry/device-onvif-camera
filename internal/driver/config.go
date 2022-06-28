@@ -20,8 +20,6 @@ type CustomConfig struct {
 	CredentialsRetryTime int
 	CredentialsRetryWait int
 	RequestTimeout       int
-	// DefaultAuthMode indicates the Onvif camera default auth mode. "digest" | "usernametoken" | "both" | "none"
-	DefaultAuthMode string
 	// DefaultSecretPath indicates the secret path to retrieve username and password from secret store.
 	DefaultSecretPath string
 	// DiscoveryEthernetInterface indicates the target EthernetInterface for discovering. The default value is `en0`, the user can modify it to meet their requirement.
@@ -45,8 +43,11 @@ type CustomConfig struct {
 	// CheckStatusInterval indicates the interval in seconds at which the device service will check device statuses
 	CheckStatusInterval int
 
-	// Location of Provision Watchers
+	// ProvisionWatcherDir is the location of Provision Watchers
 	ProvisionWatcherDir string
+
+	// CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
+	CredentialsMap map[string]string
 }
 
 // ServiceConfig a struct that wraps CustomConfig which holds the values for driver configuration
@@ -71,7 +72,6 @@ func (c *ServiceConfig) UpdateFromRaw(rawConfig interface{}) bool {
 type CameraInfo struct {
 	Address    string
 	Port       int
-	AuthMode   string
 	SecretPath string
 }
 

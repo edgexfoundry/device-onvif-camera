@@ -23,10 +23,20 @@ DEVICE_SERVICE_URL="${DEVICE_SERVICE_URL:-http://localhost:59984}"
 INSECURE_SECRETS_URL="${CONSUL_URL}/v1/kv/edgex/devices/2.0/${DEVICE_SERVICE}/Writable/InsecureSecrets"
 
 DEVICE_LIST=
+DEVICE_COUNT=
 
 DEVICE_NAME="${DEVICE_NAME:-}"
 DEVICE_USERNAME="${DEVICE_USERNAME:-}"
 DEVICE_PASSWORD="${DEVICE_PASSWORD:-}"
+AUTH_MODE="${AUTH_MODE:-}"
+
+# note: we must use a separate array here to preserve order
+AUTH_MODES=("usernametoken" "digest" "both")
+declare -A AUTH_MODES_DESC=(
+    ["usernametoken"]="Username/Token"
+    ["digest"]="Digest Auth"
+    ["both"]="Both"
+)
 
 # todo: auto-determine if service is running in secure mode
 SECURE_MODE=${SECURE_MODE:-0}
@@ -117,8 +127,11 @@ get_devices() {
         | tr '{' '\n' \
         | sed -En 's/.*"name": *"([^"]+)".*/\1/p' \
         | grep -v "${DEVICE_SERVICE}" \
+        | sort -u \
         | xargs)"
     printf "\n\n"
+
+    DEVICE_COUNT=$(wc -w <<< "${DEVICE_LIST}")
 }
 
 # prompt the user to pick a device
@@ -127,14 +140,32 @@ pick_device() {
 
     # insert the option "All Cameras" first in the list. the reason first was chosen as opposed to
     # last was to keep the index of it the same no matter how many devices there are.
-    PS3="Select a camera: "
-    select DEVICE_NAME in "${ALL}" ${DEVICE_LIST}; do break; done
+    local options=("ALL" "All Cameras")
+    for d in ${DEVICE_LIST}; do
+        options+=("$d" "$d")
+    done
+
+    DEVICE_NAME=$(whiptail --menu "Please pick a device" --notags \
+        0 0 "${DEVICE_COUNT}" \
+        "${options[@]}" 3>&1 1>&2 2>&3)
 
     if [ -z "${DEVICE_NAME}" ]; then
         log_error "No device selected, exiting..."
         return 1
     fi
     echo
+}
+
+# prompt the user to pick an auth mode
+query_auth_mode() {
+    local options=()
+    for mode in "${AUTH_MODES[@]}"; do
+        options+=("$mode" "${AUTH_MODES_DESC[$mode]}")
+    done
+
+    AUTH_MODE=$(whiptail --menu "Select an authentication mode" --notags \
+        0 0 3 \
+        "${options[@]}" 3>&1 1>&2 2>&3)
 }
 
 # set an individual InsecureSecrets consul key to a specific value
@@ -148,9 +179,8 @@ put_insecure_secrets_field() {
 # and exit if not provided
 query_username_password() {
     if [ -z "${DEVICE_USERNAME}" ]; then
-        # shellcheck disable=SC2059
-        printf "${bold}Username: ${clear}"
-        read -r DEVICE_USERNAME
+        DEVICE_USERNAME=$(whiptail --inputbox "Enter username for ${DEVICE_NAME}" \
+            10 0 3>&1 1>&2 2>&3)
 
         if [ -z "${DEVICE_USERNAME}" ]; then
             log_error "No username entered, exiting..."
@@ -159,10 +189,8 @@ query_username_password() {
     fi
 
     if [ -z "${DEVICE_PASSWORD}" ]; then
-        # shellcheck disable=SC2059
-        printf "${bold}Password: ${clear}"
-        read -rs DEVICE_PASSWORD
-        printf "\n\n"
+        DEVICE_PASSWORD=$(whiptail --passwordbox "Enter password for ${DEVICE_NAME}" \
+            10 0 3>&1 1>&2 2>&3)
 
         if [ -z "${DEVICE_PASSWORD}" ]; then
             log_error "No password entered, exiting..."
@@ -187,7 +215,7 @@ try_set_argument() {
 }
 
 print_usage() {
-    log_info "Usage: ${SELF_CMD} [-s/--secure-mode] [-d <device_name>] [-u <username>] [-p <password>] [-a/--all]"
+    log_info "Usage: ${SELF_CMD} [-s/--secure-mode] [-d <device_name>] [-u <username>] [-p <password>] [-a/--all] [--auth-mode <auth mode>]"
 }
 
 parse_args() {
@@ -200,6 +228,11 @@ parse_args() {
 
         -d | --device | --device-name)
             try_set_argument "DEVICE_NAME" "$@"
+            shift
+            ;;
+
+        -A | --auth | --auth-mode)
+            try_set_argument "AUTH_MODE" "$@"
             shift
             ;;
 
@@ -250,9 +283,10 @@ parse_args() {
 
 # create or update the insecure secrets by setting the 3 required fields in Consul
 set_insecure_secrets() {
-    put_insecure_secrets_field "${DEVICE_NAME}/Path" "${DEVICE_NAME}"
-    put_insecure_secrets_field "${DEVICE_NAME}/Secrets/username" "${DEVICE_USERNAME}"
-    put_insecure_secrets_field "${DEVICE_NAME}/Secrets/password" "${DEVICE_PASSWORD}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Path"                "${DEVICE_NAME}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Secrets/username"    "${DEVICE_USERNAME}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Secrets/password"    "${DEVICE_PASSWORD}"
+    put_insecure_secrets_field "${DEVICE_NAME}/Secrets/mode"        "${AUTH_MODE}"
 }
 
 # set the secure secrets by posting to the device service's secret endpoint
@@ -268,6 +302,10 @@ set_secure_secrets() {
         {
             \"key\":\"password\",
             \"value\":\"${DEVICE_PASSWORD}\"
+        },
+        {
+            \"key\":\"mode\",
+            \"value\":\"${AUTH_MODE}\"
         }
     ]
 }"
@@ -296,6 +334,10 @@ main() {
     log_info "Selected Device: ${DEVICE_NAME}"
 
     query_username_password
+
+    if [ -z "${AUTH_MODE}" ]; then
+        query_auth_mode
+    fi
 
     if [ "${DEVICE_NAME}" == "${ALL}" ]; then
         get_devices # update the device list in the case where the user passed the --all flag

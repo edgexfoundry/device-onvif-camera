@@ -95,7 +95,6 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 			OnvifProtocol: {
 				Address:            address,
 				Port:               port,
-				AuthMode:           d.config.AppCustom.DefaultAuthMode,
 				SecretPath:         d.config.AppCustom.DefaultSecretPath,
 				EndpointRefAddress: endpointRefAddr,
 				DeviceStatus:       Reachable,
@@ -139,6 +138,13 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 			strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
 			strings.ReplaceAll(devInfo.Model, " ", "-"),
 			endpointRefAddr)
+
+		netInfo, err := d.getNetworkInterfaces(device)
+		if err != nil {
+			d.lc.Warnf("failed to get the network information for device %s, %v", deviceName, edgexErr)
+		} else {
+			device.Protocols[OnvifProtocol][MACAddress] = string(netInfo.NetworkInterfaces.Info.HwAddress)
+		}
 
 		discovered = sdkModel.DiscoveredDevice{
 			Name:        deviceName,

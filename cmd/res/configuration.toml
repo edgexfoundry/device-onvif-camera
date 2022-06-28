@@ -13,6 +13,7 @@ LogLevel = "INFO"
       [Writable.InsecureSecrets.Camera001.Secrets]
       username = "administrator"
       password = "Password1!"
+      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
     # If having more than one camera, uncomment the following config settings
 #    [Writable.InsecureSecrets.Camera002]
 #    path = "credentials002"
@@ -109,7 +110,6 @@ CredentialsRetryTime = 120 # Seconds
 CredentialsRetryWait = 1 # Seconds
 RequestTimeout = 5 # Seconds
 DiscoveryEthernetInterface = ""
-DefaultAuthMode = "usernametoken"
 DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
 BaseNotificationURL = "http://192.168.12.112:59984"
@@ -138,3 +138,13 @@ EnableStatusCheck = true
 # A longer interval will mean the service will detect changes in status less quickly
 # Maximum 300s (5 minutes)
 CheckStatusInterval = 30
+
+  # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
+  #
+  # Example: (Single mapping for 1 mac address to 1 credential)
+  #   credentials001 = "aa:bb:cc:dd:ee:ff"
+  #
+  # Example: (Multi mapping for 3 mac address to 1 shared credentials)
+  #   credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
+  #
+  [AppCustom.CredentialsMap]

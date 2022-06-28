@@ -18,7 +18,6 @@ import (
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/config"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
@@ -61,12 +60,14 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
 
-	var credential config.Credentials
-	if cameraInfo.AuthMode != onvif.NoAuth {
-		credential, edgexErr = d.getCredentials(cameraInfo.SecretPath)
-		if edgexErr != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", device.Name), edgexErr)
-		}
+	credential, edgexErr := d.getCredentials(cameraInfo.SecretPath)
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", device.Name), edgexErr)
+	}
+
+	_, tryGetCredentialsForDeviceEdgexErr := d.tryGetCredentialsForDevice(device)
+	if tryGetCredentialsForDeviceEdgexErr != nil {
+		d.lc.Warnf("Unable to find credentials for Device %s", device.Name)
 	}
 
 	d.configMu.Lock()
@@ -77,7 +78,7 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		Xaddr:    deviceAddress(cameraInfo),
 		Username: credential.Username,
 		Password: credential.Password,
-		AuthMode: cameraInfo.AuthMode,
+		AuthMode: credential.AuthMode,
 		HttpClient: &http.Client{
 			Timeout: time.Duration(requestTimeout) * time.Second,
 		},

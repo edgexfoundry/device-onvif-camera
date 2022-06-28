@@ -160,8 +160,7 @@ This method is going to be slower and more network-intensive than multicast WS-D
 
 - Device Name:  Manufacturer-Model-UUID (The UUID extracted from the probe response's EndpointReference address)
 - The serviceName, profileName, adminState, autoEvents are defined by the provisionWatcher
-- Predefine the driver config authMode and secretPath for discovered device, for exmaple:
-  - DefaultAuthMode="usernametoken"
+- Predefine the secretPath for discovered device, for exmaple:
   - DefaultSecretPath="credentials001"
 - GetDeviceInformation function provides Manufacturer, Model, FirmwareVersion, SerialNumber, HardwareId to protocol properties for provision watcher to filter
 
@@ -181,7 +180,6 @@ CredentialsRetryTime = "120" # Seconds
 CredentialsRetryWait = "1" # Seconds
 RequestTimeout = "5" # Seconds
 DiscoveryEthernetInterface = ""
-DefaultAuthMode = "usernametoken"
 DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
 BaseNotificationURL = "http://192.168.12.112:59984"
