@@ -29,26 +29,28 @@ func (d *Driver) checkStatuses() {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
+
 			status := d.testConnectionMethods(device)
+			if statusChanged, updateDeviceStatusErr := d.updateDeviceStatus(device.Name, status); updateDeviceStatusErr != nil {
+				d.lc.Warnf("Could not update device status for device %s: %s", device.Name, updateDeviceStatusErr.Error())
 
-		if statusChanged, updateDeviceStatusErr := d.updateDeviceStatus(device.Name, status); updateDeviceStatusErr != nil {
-			d.lc.Warnf("Could not update device status for device %s: %s", device.Name, updateDeviceStatusErr.Error())
-		} else if statusChanged && status == UpWithAuth {
-			d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
-			go func(device models.Device) {
-				refreshErr := d.refreshDeviceInformation(device)
-				if refreshErr != nil {
-					d.lc.Warnf("An error occurred while refreshing the device information for %s: %s",
-						device.Name, refreshErr.Error())
-				}
+			} else if statusChanged && status == UpWithAuth {
+				d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
+				go func() { // refresh the device information in the background
+					refreshErr := d.refreshDeviceInformation(device)
+					if refreshErr != nil {
+						d.lc.Warnf("An error occurred while refreshing the device information for %s: %s",
+							device.Name, refreshErr.Error())
+					}
 
-				refreshErr = d.refreshNetworkInterfaces(device)
-				if refreshErr != nil {
-					d.lc.Warnf("An error occurred while refreshing the network information for %s: %s",
-						device.Name, refreshErr.Error())
-				}
-			}(device)
-		}
+					refreshErr = d.refreshNetworkInterfaces(device)
+					if refreshErr != nil {
+						d.lc.Warnf("An error occurred while refreshing the network information for %s: %s",
+							device.Name, refreshErr.Error())
+					}
+				}()
+			}
+		}()
 	}
 	wg.Wait()
 }
