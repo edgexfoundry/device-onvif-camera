@@ -32,7 +32,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 		return device, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
 	if len(dataObj) == 0 {
-		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in PUT command", err)
+		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in request body", err)
 	}
 	saveDevice := device
 	for key, value := range dataObj {
@@ -41,8 +41,6 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 		if len(key) == 0 {
 			inputErr := error.New("tried to add an empty key")
 			return saveDevice, errors.NewCommonEdgeX(errors.KindContractInvalid, "tried to add an empty key to Custom Metadata", inputErr)
-			// onvifClient.driver.lc.Warn("tried to add an empty key: {\"\": \"%s\"}", value)
-			// continue
 		}
 
 		device.Protocols[CustomMetadata][key] = value // create or update a field in CustomMetadata
@@ -74,7 +72,7 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 
 	err := json.Unmarshal(data, &input)
 	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json query parameter", err)
 	}
 	if len(input) == 0 {
 		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query parameter", err)
@@ -102,7 +100,7 @@ func (onvifClient *OnvifClient) deleteCustomMetadata(device contract.Device, dat
 		return device, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
 	if len(input) == 0 {
-		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query parameter", err)
+		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in request body", err)
 	}
 
 	for _, deleteKey := range input {
