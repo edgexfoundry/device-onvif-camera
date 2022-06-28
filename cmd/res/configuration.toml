@@ -110,7 +110,6 @@ CredentialsRetryTime = 120 # Seconds
 CredentialsRetryWait = 1 # Seconds
 RequestTimeout = 5 # Seconds
 DiscoveryEthernetInterface = ""
-DefaultAuthMode = "usernametoken"
 DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
 BaseNotificationURL = "http://192.168.12.112:59984"
