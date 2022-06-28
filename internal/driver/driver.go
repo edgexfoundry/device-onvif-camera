@@ -656,8 +656,7 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
 
-	// since this is just a temporary client, we do not want to wait for credentials to be available
-	credential, edgexErr := tryGetCredentials(cameraInfo.SecretPath)
+	credential, edgexErr := d.tryGetCredentialsForDevice(device)
 	if edgexErr != nil {
 		// if credentials are not found, instead of returning an error, set the AuthMode to NoAuth
 		// and allow the user to call unauthenticated endpoints

@@ -60,14 +60,10 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
 
-	credential, edgexErr := d.getCredentials(cameraInfo.SecretPath)
+	credential, edgexErr := d.tryGetCredentialsForDevice(device)
 	if edgexErr != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", device.Name), edgexErr)
-	}
-
-	_, tryGetCredentialsForDeviceEdgexErr := d.tryGetCredentialsForDevice(device)
-	if tryGetCredentialsForDeviceEdgexErr != nil {
-		d.lc.Warnf("Unable to find credentials for Device %s", device.Name)
+		d.lc.Warnf("Unable to find credentials for Device %s, reverting to no auth", device.Name)
+		credential = noAuthCredentials
 	}
 
 	d.configMu.Lock()

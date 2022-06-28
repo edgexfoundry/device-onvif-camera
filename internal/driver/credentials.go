@@ -9,7 +9,6 @@ package driver
 import (
 	"github.com/IOTechSystems/onvif"
 	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/startup"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
@@ -70,37 +69,10 @@ func tryGetCredentials(secretPath string) (Credentials, errors.EdgeX) {
 	return credentials, nil
 }
 
-// getCredentials will repeatedly try and get the credentials located at secretPath from
-// secret provider every CredentialsRetryTime seconds for a maximum of CredentialsRetryWait seconds.
-// Note that this function will block until either the credentials are found, or CredentialsRetryWait
-// seconds have elapsed.
-func (d *Driver) getCredentials(secretPath string) (credentials Credentials, err errors.EdgeX) {
-	d.configMu.RLock()
-	timer := startup.NewTimer(d.config.AppCustom.CredentialsRetryTime, d.config.AppCustom.CredentialsRetryWait)
-	d.configMu.RUnlock()
-
-	for timer.HasNotElapsed() {
-		if credentials, err = tryGetCredentials(secretPath); err == nil {
-			return credentials, nil
-		}
-
-		d.lc.Warnf(
-			"Unable to retrieve camera credentials from SecretProvider at path '%s': %s. Retrying for %s",
-			secretPath,
-			err.Error(),
-			timer.RemainingAsString())
-		timer.SleepForInterval()
-	}
-
-	return credentials, err
-}
-
 // tryGetCredentialsForDevice will attempt to use the device's MAC address to look up the credentials
 // from the Secret Store. If a mapping does not exist, or the device's MAC address is missing or invalid,
 // the default secret path will be used to look up the credentials. An error is returned if the secret path
 // does not exist in the Secret Store.
-// todo: remove nolint once function is used.
-//nolint:golint,unused
 func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, errors.EdgeX) {
 	d.configMu.RLock()
 	defaultSecretPath := d.config.AppCustom.DefaultSecretPath

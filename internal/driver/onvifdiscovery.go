@@ -87,7 +87,6 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 	address, port := addressAndPort(xaddr)
 	timestamp := time.Now().Format(time.UnixDate)
 
-	d.configMu.RLock()
 	device := contract.Device{
 		// Using Xaddr as the temporary name
 		Name: xaddr,
@@ -95,7 +94,6 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 			OnvifProtocol: {
 				Address:            address,
 				Port:               port,
-				SecretPath:         d.config.AppCustom.DefaultSecretPath,
 				EndpointRefAddress: endpointRefAddr,
 				DeviceStatus:       Reachable,
 				LastSeen:           timestamp,
@@ -103,15 +101,16 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 			CustomMetadata: {},
 		},
 	}
-	d.configMu.RUnlock()
+
+	mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr)
+	if mac != "" {
+		d.lc.Debugf("EndpointRefAddress %s was matched to MAC Address %s", endpointRefAddr, mac)
+		device.Protocols[OnvifProtocol][MACAddress] = mac
+	} else {
+		d.lc.Debugf("No MAC Address match was found for EndpointRefAddress %s")
+	}
 
 	devInfo, edgexErr := d.getDeviceInformation(device)
-	if edgexErr != nil {
-		// try again using the endpointRefAddr as the SecretPath. the reason for this is that
-		// the user may have pre-filled the secret store with per-device credentials based on the endpointRefAddr.
-		device.Protocols[OnvifProtocol][SecretPath] = endpointRefAddr
-		devInfo, edgexErr = d.getDeviceInformation(device)
-	}
 
 	var discovered sdkModel.DiscoveredDevice
 	if edgexErr != nil {
