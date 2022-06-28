@@ -39,7 +39,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 		value = strings.TrimSpace(value)
 		key = strings.TrimSpace(key)
 		if len(key) == 0 {
-			inputErr := error.New("tried to add an emptu key")
+			inputErr := error.New("tried to add an empty key")
 			return saveDevice, errors.NewCommonEdgeX(errors.KindContractInvalid, "tried to add an empty key to Custom Metadata", inputErr)
 			// onvifClient.driver.lc.Warn("tried to add an empty key: {\"\": \"%s\"}", value)
 			// continue

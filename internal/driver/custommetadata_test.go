@@ -72,8 +72,10 @@ func TestOnvifClient_getCustomMetadata(t *testing.T) {
 			expected: contract.ProtocolProperties{},
 		},
 		{
-			name:     "happy path create CustomMetadata",
-			device:   contract.Device{},
+			name: "happy path create CustomMetadata",
+			device: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{},
+			},
 			expected: contract.ProtocolProperties{},
 		},
 		{
@@ -216,16 +218,18 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			},
 		},
 		{
-			name:     "happy path with data (single empty field key)",
-			device:   getTestDevice(),
-			data:     `{"": "Bad key"}`,
-			expected: getTestDevice(),
+			name:          "happy path with data (single empty field key)",
+			device:        getTestDevice(),
+			data:          `{"": "Bad key"}`,
+			expected:      getTestDevice(),
+			errorExpected: true,
 		},
 		{
-			name:     "happy path with data (multiple empty field keys)",
-			device:   getTestDevice(),
-			data:     `{"": "Bad key","":"Another bad key"}`,
-			expected: getTestDevice(),
+			name:          "happy path with data (multiple empty field keys)",
+			device:        getTestDevice(),
+			data:          `{"": "Bad key","":"Another bad key"}`,
+			expected:      getTestDevice(),
+			errorExpected: true,
 		},
 		{
 			name: "Custom Metadata doesn't exist",
