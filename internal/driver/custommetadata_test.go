@@ -258,7 +258,7 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 		},
 		{
 			name:          "bad json (error)",
-			device:        contract.Device{},
+			device:        contract.Device{Protocols: map[string]contract.ProtocolProperties{}},
 			data:          "bogus",
 			expected:      contract.Device{},
 			errorExpected: true,

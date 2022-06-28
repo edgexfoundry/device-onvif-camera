@@ -8,6 +8,7 @@ package driver
 
 import (
 	"encoding/json"
+	error "errors"
 	"fmt"
 	"strings"
 
@@ -15,20 +16,15 @@ import (
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
-func (onvifClient *OnvifClient) initCustomMetadata(device contract.Device) contract.Device {
+func (onvifClient *OnvifClient) initCustomMetadata(device *contract.Device) {
 	if _, found := device.Protocols[CustomMetadata]; !found {
-		saveOnvifProtocol := device.Protocols[OnvifProtocol]
-		device.Protocols = map[string]contract.ProtocolProperties{
-			OnvifProtocol:  saveOnvifProtocol,
-			CustomMetadata: {},
-		}
+		device.Protocols[CustomMetadata] = contract.ProtocolProperties{}
 	}
-	return device
 }
 
 // setCustomMetadata will return a map containing the fields provided in the call to the function
 func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data []byte) (contract.Device, errors.EdgeX) {
-	device = onvifClient.initCustomMetadata(device)
+	onvifClient.initCustomMetadata(&device)
 
 	var dataObj contract.ProtocolProperties
 	err := json.Unmarshal(data, &dataObj)
@@ -38,16 +34,15 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 	if len(dataObj) == 0 {
 		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in PUT command", err)
 	}
-
-	for okey, ovalue := range device.Protocols[OnvifProtocol] {
-		fmt.Printf("%s, %s", okey, ovalue)
-	}
+	saveDevice := device
 	for key, value := range dataObj {
 		value = strings.TrimSpace(value)
 		key = strings.TrimSpace(key)
 		if len(key) == 0 {
-			onvifClient.driver.lc.Warn("tried to add an empty key: {\"\": \"%s\"}", value)
-			continue
+			inputErr := error.New("tried to add an emptu key")
+			return saveDevice, errors.NewCommonEdgeX(errors.KindContractInvalid, "tried to add an empty key to Custom Metadata", inputErr)
+			// onvifClient.driver.lc.Warn("tried to add an empty key: {\"\": \"%s\"}", value)
+			// continue
 		}
 
 		device.Protocols[CustomMetadata][key] = value // create or update a field in CustomMetadata
@@ -58,7 +53,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 
 // getCustomMetadata will return all metdata or enter getSpecificCustomMetadata if a list is provided
 func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data []byte) (contract.ProtocolProperties, errors.EdgeX) {
-	device = onvifClient.initCustomMetadata(device)
+	onvifClient.initCustomMetadata(&device)
 
 	if len(data) == 0 { // if no list is provided, return all
 		return device.Protocols[CustomMetadata], nil
@@ -82,13 +77,13 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
 	if len(input) == 0 {
-		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query body", err)
+		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query parameter", err)
 	}
 
 	for _, key := range input {
 		value, found := device.Protocols[CustomMetadata][key]
 		if !found {
-			onvifClient.driver.lc.Warnf("Failed to find custom metadata field %s", key) // TODO: should this also be displayed in command response?
+			onvifClient.driver.lc.Warnf("Failed to find custom metadata field %s", key)
 			continue
 		}
 		response[key] = value
@@ -99,7 +94,7 @@ func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device
 
 // deleteCustomMetadata will delete specified entries in custom metadata
 func (onvifClient *OnvifClient) deleteCustomMetadata(device contract.Device, data []byte) (contract.Device, errors.EdgeX) {
-	device = onvifClient.initCustomMetadata(device)
+	onvifClient.initCustomMetadata(&device)
 
 	var input []string
 	err := json.Unmarshal(data, &input)
@@ -107,13 +102,12 @@ func (onvifClient *OnvifClient) deleteCustomMetadata(device contract.Device, dat
 		return device, errors.NewCommonEdgeX(errors.KindServerError, "failed to unmarshal the json request body", err)
 	}
 	if len(input) == 0 {
-		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query body", err)
+		return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "no data in query parameter", err)
 	}
 
 	for _, deleteKey := range input {
 		deleteKey = strings.TrimSpace(deleteKey)
-		_, found := device.Protocols[CustomMetadata][deleteKey]
-		if !found {
+		if _, found := device.Protocols[CustomMetadata][deleteKey]; !found {
 			onvifClient.driver.lc.Warnf("can't delete field '%s', it does not exist in Custom Metadata", deleteKey)
 			continue
 		}
