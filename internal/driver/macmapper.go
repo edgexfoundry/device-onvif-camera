@@ -111,3 +111,54 @@ func SanitizeMACAddress(mac string) (string, error) {
 	}
 	return hwAddr.String(), nil
 }
+
+// macAddressBytewiseReverse returns the byte-wise reverse of the input MAC Address.
+// Examples:
+// 		aa:bb:cc:dd:ee:ff -> ff:ee:dd:cc:bb:aa
+//		12:34:56:78:9a:bc -> bc:9a:78:56:34:12
+func macAddressBytewiseReverse(mac string) (string, error) {
+	var err error
+	if mac, err = SanitizeMACAddress(mac); err != nil {
+		return "", err
+	}
+	mac = strings.ReplaceAll(mac, ":", "")
+	if len(mac)%2 != 0 {
+		return "", fmt.Errorf("mac address %s has invalid length of %d", mac, len(mac))
+	}
+
+	buf := strings.Builder{}
+	// loop through the string backwards two characters at a time (1-byte)
+	for i := len(mac); i > 0; i -= 2 {
+		buf.WriteString(mac[i-2 : i])
+		if i > 2 { // only write delimiter if more bytes exist
+			buf.WriteByte(':')
+		}
+	}
+	return buf.String(), nil
+}
+
+// MatchEndpointRefAddressToMAC will return a mac address if one is found in the Endpoint Reference Address,
+// or empty string if not
+func (m *MACAddressMapper) MatchEndpointRefAddressToMAC(endpointRef string) string {
+	endpointRef = strings.ToLower(strings.ReplaceAll(endpointRef, "-", ""))
+
+	m.credsMu.RLock()
+	defer m.credsMu.RUnlock()
+
+	for mac := range m.credsMap {
+		if strings.Contains(endpointRef, strings.ReplaceAll(mac, ":", "")) {
+			return mac
+		}
+
+		reversedMAC, err := macAddressBytewiseReverse(mac)
+		if err != nil {
+			sdk.RunningService().LoggingClient.Warnf("issue computing byte-wise reverse of MAC address %s: %s", mac, err.Error())
+			continue
+		}
+		if strings.Contains(endpointRef, reversedMAC) {
+			return mac
+		}
+	}
+
+	return "" // not found
+}
