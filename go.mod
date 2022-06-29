@@ -7,7 +7,7 @@ require (
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.2.0
 	github.com/gofrs/uuid v3.2.0+incompatible
 	github.com/gorilla/mux v1.8.0
-	github.com/stretchr/testify v1.7.2
+	github.com/stretchr/testify v1.7.5
 )
 
 require (
