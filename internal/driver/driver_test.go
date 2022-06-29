@@ -24,10 +24,10 @@ const (
 	testDeviceName = "test-device"
 )
 
-func createDriverWithMockService() (*mocks.SDKService, *Driver) {
+func createDriverWithMockService() (*Driver, *mocks.SDKService) {
 	mockService := &mocks.SDKService{}
 	driver := &Driver{sdkService: mockService, lc: logger.MockLogger{}}
-	return mockService, driver
+	return driver, mockService
 }
 
 func createTestDevice() models.Device {

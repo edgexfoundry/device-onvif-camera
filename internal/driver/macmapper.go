@@ -149,7 +149,7 @@ func (m *MACAddressMapper) MatchEndpointRefAddressToMAC(endpointRef string) stri
 
 		reversedMAC, err := macAddressBytewiseReverse(mac)
 		if err != nil {
-			sdk.RunningService().LoggingClient.Warnf("issue computing byte-wise reverse of MAC address %s: %s", mac, err.Error())
+			m.sdkService.GetLoggingClient().Warnf("issue computing byte-wise reverse of MAC address %s: %s", mac, err.Error())
 			continue
 		}
 		if strings.Contains(endpointRef, reversedMAC) {

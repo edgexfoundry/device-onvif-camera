@@ -14,7 +14,7 @@ import (
 )
 
 func TestUpdateDeviceStatus_update(t *testing.T) {
-	mockService, driver := createDriverWithMockService()
+	driver, mockService := createDriverWithMockService()
 	mockService.On("GetDeviceByName", testDeviceName).
 		Return(createTestDevice(), nil).Once()
 	mockService.On("UpdateDevice", mock.AnythingOfType("models.Device")).
@@ -27,7 +27,7 @@ func TestUpdateDeviceStatus_update(t *testing.T) {
 }
 
 func TestUpdateDeviceStatus_noUpdate(t *testing.T) {
-	mockService, driver := createDriverWithMockService()
+	driver, mockService := createDriverWithMockService()
 	mockService.On("GetDeviceByName", testDeviceName).
 		Return(createTestDevice(), nil).Once()
 
