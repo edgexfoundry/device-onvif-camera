@@ -105,7 +105,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		d.lc.Debugf("EndpointRefAddress %s was matched to MAC Address %s", endpointRefAddr, mac)
 		device.Protocols[OnvifProtocol][MACAddress] = mac
 	} else {
-		d.lc.Debugf("No MAC Address match was found for EndpointRefAddress %s")
+		d.lc.Debugf("No MAC Address match was found for EndpointRefAddress %s", endpointRefAddr)
 	}
 
 	devInfo, edgexErr := d.getDeviceInformation(device)

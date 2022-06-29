@@ -10,6 +10,7 @@ import (
 	"github.com/IOTechSystems/onvif"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"strings"
 )
 
 // Credentials encapsulates username, password, and AuthMode attributes.
@@ -25,6 +26,12 @@ const (
 	AuthModeUsernameToken string = onvif.UsernameTokenAuth
 	AuthModeBoth          string = onvif.Both
 	AuthModeNone          string = onvif.NoAuth
+)
+
+const (
+	// noAuthSecretPath is the magic string used to define a group which does not use credentials
+	// this is defined in lowercase and compared in lowercase
+	noAuthSecretPath = "noauth"
 )
 
 const (
@@ -49,6 +56,12 @@ func IsAuthModeValid(mode string) bool {
 // tryGetCredentials will attempt one time to get the credentials located at secretPath from
 // secret provider and return them, otherwise return an error.
 func (d *Driver) tryGetCredentials(secretPath string) (Credentials, errors.EdgeX) {
+	// if the secret path is the special NoAuth magic key, do not look it up, instead return the noAuthCredentials
+	// todo: add unit tests for noAuth magic key
+	if strings.ToLower(secretPath) == noAuthSecretPath {
+		return noAuthCredentials, nil
+	}
+
 	secretData, err := d.sdkService.GetSecretProvider().GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey)
 	if err != nil {
 		return Credentials{}, errors.NewCommonEdgeXWrapper(err)
@@ -61,7 +74,7 @@ func (d *Driver) tryGetCredentials(secretPath string) (Credentials, errors.EdgeX
 	}
 
 	if !IsAuthModeValid(secretData[AuthModeKey]) {
-		d.lc.Warnf("AuthMode is set to an invalid value: %s. setting value to 'usernametoken'.", credentials.AuthMode)
+		d.lc.Warnf("AuthMode is set to an invalid value: %s. setting value to '%s'.", credentials.AuthMode, AuthModeUsernameToken)
 		credentials.AuthMode = AuthModeUsernameToken
 	}
 
