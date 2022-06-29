@@ -11,6 +11,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -23,7 +24,6 @@ import (
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
@@ -55,10 +55,11 @@ const (
 // Driver implements the sdkModel.ProtocolDriver interface for
 // the device service
 type Driver struct {
-	lc          logger.LoggingClient
-	asynchCh    chan<- *sdkModel.AsyncValues
-	deviceCh    chan<- []sdkModel.DiscoveredDevice
-	serviceName string
+	lc       logger.LoggingClient
+	asynchCh chan<- *sdkModel.AsyncValues
+	deviceCh chan<- []sdkModel.DiscoveredDevice
+
+	sdkService SDKService
 
 	onvifClients map[string]*OnvifClient
 	clientsMu    *sync.RWMutex
@@ -110,14 +111,13 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.clientsMu = new(sync.RWMutex)
 	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
-	d.macAddressMapper = NewMACAddressMapper()
-
-	deviceService := sdk.RunningService()
-
-	d.serviceName = deviceService.Name()
+	d.sdkService = &DeviceSDKService{
+		DeviceService: service.RunningService(),
+	}
+	d.macAddressMapper = NewMACAddressMapper(d.sdkService)
 	d.config = &ServiceConfig{}
 
-	err := deviceService.LoadCustomConfig(d.config, "AppCustom")
+	err := d.sdkService.LoadCustomConfig(d.config, "AppCustom")
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, "custom driver configuration failed to load", err)
 	}
@@ -131,14 +131,14 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 	d.macAddressMapper.UpdateMappings(d.config.AppCustom.CredentialsMap)
 
-	err = deviceService.ListenForCustomConfigChanges(&d.config.AppCustom, "AppCustom", d.updateWritableConfig)
+	err = d.sdkService.ListenForCustomConfigChanges(&d.config.AppCustom, "AppCustom", d.updateWritableConfig)
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, "failed to listen to custom config changes", err)
 	}
 
-	for _, device := range deviceService.Devices() {
+	for _, device := range d.sdkService.Devices() {
 		// onvif client should not be created for the control-plane device
-		if device.Name == d.serviceName {
+		if device.Name == d.sdkService.Name() {
 			continue
 		}
 
@@ -154,7 +154,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		d.clientsMu.Unlock()
 	}
 
-	handler := NewRestNotificationHandler(deviceService, lc, asyncCh)
+	handler := NewRestNotificationHandler(d.sdkService, lc, asyncCh)
 	edgexErr := handler.AddRoute()
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
@@ -208,7 +208,7 @@ func (d *Driver) updateWritableConfig(rawWritableConfig interface{}) {
 // Every subsequent call to this function before that timer elapses resets the timer to
 // discoverDebounceDuration. Once the timer finally elapses, the Discover function is called.
 func (d *Driver) debouncedDiscover() {
-	d.lc.Debug(fmt.Sprintf("trigger debounced discovery in %v", discoverDebounceDuration))
+	d.lc.Debugf("trigger debounced discovery in %v", discoverDebounceDuration)
 
 	// everything in this function is mutex-locked and is safe to access asynchronously
 	d.debounceMu.Lock()
@@ -280,7 +280,7 @@ func (d *Driver) addProvisionWatchers() error {
 			continue
 		}
 
-		if _, err := sdk.RunningService().GetProvisionWatcherByName(watcher.Name); err == nil {
+		if _, err := d.sdkService.GetProvisionWatcherByName(watcher.Name); err == nil {
 			d.lc.Debugf("skip existing provision watcher %s", watcher.Name)
 			continue // provision watcher already exists
 		}
@@ -288,7 +288,7 @@ func (d *Driver) addProvisionWatchers() error {
 		watcherModel := dtos.ToProvisionWatcherModel(watcher)
 
 		d.lc.Infof("Adding provision watcher:%s", watcherModel.Name)
-		id, err := sdk.RunningService().AddProvisionWatcher(watcherModel)
+		id, err := d.sdkService.AddProvisionWatcher(watcherModel)
 		if err != nil {
 			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "error adding provision watcher "+watcherModel.Name, err))
 			continue
@@ -307,7 +307,7 @@ func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) 
 	defer d.clientsMu.RUnlock()
 	onvifClient, ok := d.onvifClients[deviceName]
 	if !ok {
-		device, err := sdk.RunningService().GetDeviceByName(deviceName)
+		device, err := d.sdkService.GetDeviceByName(deviceName)
 		if err != nil {
 			return nil, errors.NewCommonEdgeXWrapper(err)
 		}
@@ -437,7 +437,7 @@ func (d *Driver) publishControlPlaneEvent(deviceName, eventType string) {
 	}
 
 	asyncValues := &sdkModel.AsyncValues{
-		DeviceName:    d.serviceName,
+		DeviceName:    d.sdkService.Name(),
 		CommandValues: []*sdkModel.CommandValue{cv},
 	}
 	d.asynchCh <- asyncValues
@@ -447,7 +447,7 @@ func (d *Driver) publishControlPlaneEvent(deviceName, eventType string) {
 // when a new Device associated with this Device Service is added
 func (d *Driver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
 	// only execute if this was not called for the control-plane device
-	if deviceName != d.serviceName {
+	if deviceName != d.sdkService.Name() {
 		d.publishControlPlaneEvent(deviceName, cameraAdded)
 		err := d.createOnvifClient(deviceName)
 		if err != nil {
@@ -461,7 +461,7 @@ func (d *Driver) AddDevice(deviceName string, protocols map[string]models.Protoc
 // when a Device associated with this Device Service is updated
 func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
 	// only execute if this was not called for the control-plane device
-	if deviceName != d.serviceName {
+	if deviceName != d.sdkService.Name() {
 		d.publishControlPlaneEvent(deviceName, cameraUpdated)
 		// Invoke the createOnvifClient func to create new onvif client and replace the old one
 		err := d.createOnvifClient(deviceName)
@@ -476,7 +476,7 @@ func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.Pro
 // when a Device associated with this Device Service is removed
 func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
 	// only execute if this was not called for the control-plane device
-	if deviceName != d.serviceName {
+	if deviceName != d.sdkService.Name() {
 		d.publishControlPlaneEvent(deviceName, cameraDeleted)
 		d.removeOnvifClient(deviceName)
 	}
@@ -485,7 +485,7 @@ func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.Pro
 
 // createOnvifClient creates the Onvif client used to communicate with the specified the device
 func (d *Driver) createOnvifClient(deviceName string) error {
-	device, err := sdk.RunningService().GetDeviceByName(deviceName)
+	device, err := d.sdkService.GetDeviceByName(deviceName)
 	if err != nil {
 		return errors.NewCommonEdgeXWrapper(err)
 	}
@@ -518,8 +518,8 @@ func (d *Driver) Discover() {
 		d.watchersMu.Lock()
 		if !d.addedWatchers {
 			if err := d.addProvisionWatchers(); err != nil {
-				d.lc.Error("Error adding provision watchers. Newly discovered devices may fail to register with EdgeX.",
-					"error", err.Error())
+				d.lc.Errorf("Error adding provision watchers. Newly discovered devices may fail to register with EdgeX: %s",
+					err.Error())
 				// Do not return on failure, as it is possible there are alternative watchers registered.
 				// And if not, the discovered devices will just not be registered with EdgeX, but will
 				// still be available for discovery again.
@@ -596,7 +596,7 @@ func (d *Driver) discoverNetscan(ctx context.Context, discovered []sdkModel.Disc
 	t0 := time.Now()
 	result := netscan.AutoDiscover(ctx, NewOnvifProtocolDiscovery(d), params)
 	if ctx.Err() != nil {
-		d.lc.Warn("Discover process has been cancelled!", "ctxErr", ctx.Err())
+		d.lc.Warnf("Discover process has been cancelled!", "ctxErr", ctx.Err())
 	}
 
 	d.lc.Debugf("NetScan result: %+v", result)
@@ -651,7 +651,7 @@ func (d *Driver) getDeviceInformation(device models.Device) (devInfo *onvifdevic
 
 // newOnvifClient creates a temporary client for auto-discovery
 func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
-	cameraInfo, edgexErr := CreateCameraInfo(device.Protocols)
+	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
@@ -669,7 +669,7 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 	d.configMu.Unlock()
 
 	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
-		Xaddr:    deviceAddress(cameraInfo),
+		Xaddr:    xAddr,
 		Username: credential.Username,
 		Password: credential.Password,
 		AuthMode: credential.AuthMode,
@@ -684,7 +684,6 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 	client := &OnvifClient{
 		lc:          d.lc,
 		DeviceName:  device.Name,
-		cameraInfo:  cameraInfo,
 		onvifDevice: onvifDevice,
 	}
 	return client, nil
@@ -699,7 +698,7 @@ func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
 	}
 
 	// update device to latest version in cache to prevent race conditions
-	device, edgeXErr := sdk.RunningService().GetDeviceByName(device.Name)
+	device, edgeXErr := d.sdkService.GetDeviceByName(device.Name)
 	if err != nil {
 		return edgeXErr
 	}
@@ -707,7 +706,7 @@ func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
 	hwAddress := string(netInfo.NetworkInterfaces.Info.HwAddress)
 	if hwAddress != device.Protocols[OnvifProtocol][MACAddress] {
 		device.Protocols[OnvifProtocol][MACAddress] = hwAddress
-		return sdk.RunningService().UpdateDevice(device)
+		return d.sdkService.UpdateDevice(device)
 	}
 
 	return nil
@@ -722,7 +721,7 @@ func (d *Driver) refreshDeviceInformation(device models.Device) error {
 	}
 
 	// update device to latest version in cache to prevent race conditions
-	device, edgeXErr := sdk.RunningService().GetDeviceByName(device.Name)
+	device, edgeXErr := d.sdkService.GetDeviceByName(device.Name)
 	if err != nil {
 		return edgeXErr
 	}
@@ -738,7 +737,7 @@ func (d *Driver) refreshDeviceInformation(device models.Device) error {
 		device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
 		device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
 		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
-		return sdk.RunningService().UpdateDevice(device)
+		return d.sdkService.UpdateDevice(device)
 	}
 
 	return nil

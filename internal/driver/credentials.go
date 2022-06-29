@@ -8,9 +8,9 @@ package driver
 
 import (
 	"github.com/IOTechSystems/onvif"
-	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"strings"
 )
 
 // Credentials encapsulates username, password, and AuthMode attributes.
@@ -26,6 +26,12 @@ const (
 	AuthModeUsernameToken string = onvif.UsernameTokenAuth
 	AuthModeBoth          string = onvif.Both
 	AuthModeNone          string = onvif.NoAuth
+)
+
+const (
+	// noAuthSecretPath is the magic string used to define a group which does not use credentials
+	// this is defined in lowercase and compared in lowercase
+	noAuthSecretPath = "noauth"
 )
 
 const (
@@ -49,8 +55,14 @@ func IsAuthModeValid(mode string) bool {
 
 // tryGetCredentials will attempt one time to get the credentials located at secretPath from
 // secret provider and return them, otherwise return an error.
-func tryGetCredentials(secretPath string) (Credentials, errors.EdgeX) {
-	secretData, err := sdk.RunningService().SecretProvider.GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey)
+func (d *Driver) tryGetCredentials(secretPath string) (Credentials, errors.EdgeX) {
+	// if the secret path is the special NoAuth magic key, do not look it up, instead return the noAuthCredentials
+	// todo: add unit tests for noAuth magic key
+	if strings.ToLower(secretPath) == noAuthSecretPath {
+		return noAuthCredentials, nil
+	}
+
+	secretData, err := d.sdkService.GetSecretProvider().GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey)
 	if err != nil {
 		return Credentials{}, errors.NewCommonEdgeXWrapper(err)
 	}
@@ -62,7 +74,7 @@ func tryGetCredentials(secretPath string) (Credentials, errors.EdgeX) {
 	}
 
 	if !IsAuthModeValid(secretData[AuthModeKey]) {
-		sdk.RunningService().LoggingClient.Warnf("AuthMode is set to an invalid value: %s. setting value to 'usernametoken'.", credentials.AuthMode)
+		d.lc.Warnf("AuthMode is set to an invalid value: %s. setting value to '%s'.", credentials.AuthMode, AuthModeUsernameToken)
 		credentials.AuthMode = AuthModeUsernameToken
 	}
 
@@ -85,7 +97,7 @@ func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, 
 		d.lc.Warnf("Device %s is missing MAC Address, using default secret path", device.Name)
 	}
 
-	credentials, edgexErr := tryGetCredentials(secretPath)
+	credentials, edgexErr := d.tryGetCredentials(secretPath)
 	if edgexErr != nil {
 		d.lc.Errorf("Failed to retrieve credentials for the secret path %s: %s", secretPath, edgexErr.Error())
 		return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get credentials", edgexErr)
