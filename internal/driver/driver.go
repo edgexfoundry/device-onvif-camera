@@ -651,7 +651,7 @@ func (d *Driver) getDeviceInformation(device models.Device) (devInfo *onvifdevic
 
 // newOnvifClient creates a temporary client for auto-discovery
 func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
-	cameraInfo, edgexErr := CreateCameraInfo(device.Protocols)
+	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
@@ -669,7 +669,7 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 	d.configMu.Unlock()
 
 	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
-		Xaddr:    deviceAddress(cameraInfo),
+		Xaddr:    xAddr,
 		Username: credential.Username,
 		Password: credential.Password,
 		AuthMode: credential.AuthMode,
@@ -684,7 +684,6 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 	client := &OnvifClient{
 		lc:          d.lc,
 		DeviceName:  device.Name,
-		cameraInfo:  cameraInfo,
 		onvifDevice: onvifDevice,
 	}
 	return client, nil

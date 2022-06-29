@@ -79,15 +79,15 @@ func (m *MACAddressMapper) ListMACAddresses() []string {
 // TryGetSecretPathForMACAddress will return the secret path associated with the mac address passed if a mapping exists,
 // or the default secret path if the mapping is not found, or the mac address is invalid.
 func (m *MACAddressMapper) TryGetSecretPathForMACAddress(mac string, defaultSecretPath string) string {
-	m.credsMu.RLock()
-	defer m.credsMu.RUnlock()
-
 	// sanitize the mac address before looking up to ensure they all match the same format
 	sanitized, err := SanitizeMACAddress(mac)
 	if err != nil {
 		m.sdkService.GetLoggingClient().Warnf("Unable to sanitize mac address: %s. Using default secret path.", err.Error())
 		return defaultSecretPath
 	}
+
+	m.credsMu.RLock()
+	defer m.credsMu.RUnlock()
 
 	secretPath, found := m.credsMap[sanitized]
 	if !found {

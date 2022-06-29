@@ -42,7 +42,6 @@ type OnvifClient struct {
 	driver      *Driver
 	lc          logger.LoggingClient
 	DeviceName  string
-	cameraInfo  *CameraInfo
 	onvifDevice *onvif.Device
 	// RebootNeeded indicates the camera should reboot to apply the configuration change
 	RebootNeeded bool
@@ -54,7 +53,7 @@ type OnvifClient struct {
 
 // newOnvifClient returns an OnvifClient for a single camera
 func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
-	cameraInfo, edgexErr := CreateCameraInfo(device.Protocols)
+	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
@@ -70,7 +69,7 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 	d.configMu.Unlock()
 
 	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
-		Xaddr:    deviceAddress(cameraInfo),
+		Xaddr:    xAddr,
 		Username: credential.Username,
 		Password: credential.Password,
 		AuthMode: credential.AuthMode,
@@ -91,7 +90,6 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		driver:              d,
 		lc:                  d.lc,
 		DeviceName:          device.Name,
-		cameraInfo:          cameraInfo,
 		onvifDevice:         onvifDevice,
 		CameraEventResource: resource,
 	}
@@ -121,10 +119,6 @@ func (d *Driver) getCameraEventResourceByDeviceName(deviceName string) (r models
 		}
 	}
 	return r, errors.NewCommonEdgeX(errors.KindEntityDoesNotExist, fmt.Sprintf("device resource with Getfunciton '%s' not found", CameraEvent), nil)
-}
-
-func deviceAddress(cameraInfo *CameraInfo) string {
-	return fmt.Sprintf("%s:%d", cameraInfo.Address, cameraInfo.Port)
 }
 
 // CallOnvifFunction send the request to the camera via onvif client
