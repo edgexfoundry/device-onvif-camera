@@ -282,6 +282,7 @@ See the sample at [cmd/res/devices/camera.toml.example](cmd/res/devices/camera.t
 
 - [User Handling](./doc/api-usage-user-handling.md)
 - [Analytics Support](./doc/api-analytic-support.md)
+- [Test with Postman](./doc/test-with-postman.md) - Test with Postman for ONVIF and device-onvif-camera APIs
 
 ## Onvif User Authentication
 [Setup Onvif User Authentication](./doc/onvif-user-authentication.md)

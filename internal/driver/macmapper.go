@@ -11,8 +11,6 @@ import (
 	"net"
 	"strings"
 	"sync"
-
-	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 )
 
 type MACAddressMapper struct {
@@ -20,12 +18,15 @@ type MACAddressMapper struct {
 	credsMu sync.RWMutex
 	// credsMap is a map between mac address to secretPath
 	credsMap map[string]string
+
+	sdkService SDKService
 }
 
 // NewMACAddressMapper creates a new MACAddressMapper object
-func NewMACAddressMapper() *MACAddressMapper {
+func NewMACAddressMapper(sdkService SDKService) *MACAddressMapper {
 	return &MACAddressMapper{
-		credsMap: make(map[string]string),
+		credsMap:   make(map[string]string),
+		sdkService: sdkService,
 	}
 }
 
@@ -35,23 +36,21 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 	m.credsMu.Lock()
 	defer m.credsMu.Unlock()
 
-	lc := sdk.RunningService().LoggingClient
-
 	credsMap := make(map[string]string)
 	for secretPath, macs := range raw {
-		if _, err := sdk.RunningService().SecretProvider.GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey); err != nil {
-			lc.Warnf("One or more MAC address mappings exist for the secret path '%s' which does not exist in the Secret Store!", secretPath)
+		if _, err := m.sdkService.GetSecretProvider().GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey); err != nil {
+			m.sdkService.GetLoggingClient().Warnf("One or more MAC address mappings exist for the secret path '%s' which does not exist in the Secret Store!", secretPath)
 		}
 
 		for _, mac := range strings.Split(macs, ",") {
 			sanitized, err := SanitizeMACAddress(mac)
 			if err != nil {
-				lc.Warnf("Skipping invalid mac address %s: %s", mac, err.Error())
+				m.sdkService.GetLoggingClient().Warnf("Skipping invalid mac address %s: %s", mac, err.Error())
 				continue
 			}
 			// note: if the mac address already has a mapping, we do not overwrite it
 			if existing, found := credsMap[sanitized]; found {
-				lc.Warnf("Unable to set credential group to %s. MAC address '%s' already belongs to credential group %s.", secretPath, mac, existing)
+				m.sdkService.GetLoggingClient().Warnf("Unable to set credential group to %s. MAC address '%s' already belongs to credential group %s.", secretPath, mac, existing)
 			} else {
 				credsMap[sanitized] = secretPath
 			}
@@ -83,18 +82,16 @@ func (m *MACAddressMapper) TryGetSecretPathForMACAddress(mac string, defaultSecr
 	m.credsMu.RLock()
 	defer m.credsMu.RUnlock()
 
-	lc := sdk.RunningService().LoggingClient
-
 	// sanitize the mac address before looking up to ensure they all match the same format
 	sanitized, err := SanitizeMACAddress(mac)
 	if err != nil {
-		lc.Warn("Unable to sanitize mac address: %s. Using default secret path.", err.Error())
+		m.sdkService.GetLoggingClient().Warnf("Unable to sanitize mac address: %s. Using default secret path.", err.Error())
 		return defaultSecretPath
 	}
 
 	secretPath, found := m.credsMap[sanitized]
 	if !found {
-		lc.Debugf("No credential mapping exists for mac address '%s', will use default secret path.", mac)
+		m.sdkService.GetLoggingClient().Debugf("No credential mapping exists for mac address '%s', will use default secret path.", mac)
 		return defaultSecretPath
 	}
 

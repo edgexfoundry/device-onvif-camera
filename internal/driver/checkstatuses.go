@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/IOTechSystems/onvif"
-	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
@@ -20,9 +19,9 @@ import (
 func (d *Driver) checkStatuses() {
 	d.lc.Debug("checkStatuses has been called")
 	wg := sync.WaitGroup{}
-	for _, device := range service.RunningService().Devices() {
-		device := device                  // save the device value within the closure
-		if device.Name == d.serviceName { // skip control plane device
+	for _, device := range d.sdkService.Devices() {
+		device := device                        // save the device value within the closure
+		if device.Name == d.sdkService.Name() { // skip control plane device
 			continue
 		}
 
@@ -112,11 +111,11 @@ func (d *Driver) tcpProbe(device models.Device) bool {
 // updateDeviceStatus updates the status of a device in the cache. Returns true if the status changed. Returns any errors that occur if failure.
 func (d *Driver) updateDeviceStatus(deviceName string, status string) (bool, error) {
 	// todo: maybe have connection levels known as ints, so that way we can log at different levels based on
-	// if the connection level went up or down
+	//       if the connection level went up or down
 	shouldUpdate := false
 
 	// lookup device from cache to ensure we are updating the latest version
-	device, err := service.RunningService().GetDeviceByName(deviceName)
+	device, err := d.sdkService.GetDeviceByName(deviceName)
 	if err != nil {
 		d.lc.Errorf("Unable to get device %s from cache while trying to update its status to %s. Error: %s",
 			device.Name, status, err.Error())
@@ -138,7 +137,7 @@ func (d *Driver) updateDeviceStatus(deviceName string, status string) (bool, err
 	}
 
 	if shouldUpdate {
-		return statusChanged, service.RunningService().UpdateDevice(device)
+		return statusChanged, d.sdkService.UpdateDevice(device)
 	}
 
 	return statusChanged, nil
