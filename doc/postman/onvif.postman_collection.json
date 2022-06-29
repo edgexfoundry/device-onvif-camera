@@ -1,0 +1,3879 @@
+{
+	"info": {
+		"_postman_id": "3399311d-8679-4a8b-8cde-f669c4478c48",
+		"name": "onvif",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "185601"
+	},
+	"item": [
+		{
+			"name": "Capabilities",
+			"item": [
+				{
+					"name": "GetCapabilities",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetCapabilities></tds:GetCapabilities>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetServices",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetServices>\n            <tds:IncludeCapability>true</IncludeCapability:Category>\n        </tds:GetServices>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetServiceCapabilities",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    <soap-env:Header>\n        <Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">\n            <UsernameToken>\n                <Username>iotechsys</Username>\n                <Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">+HKcvc+LCGClVwuros1sJuXepQY=</Password>\n                <Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">w490bn6rlib33d5rb8t6ulnqlmz9h43m</Nonce>\n                <Created xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">2021-10-21T03:43:21.02075Z</Created>\n            </UsernameToken>\n        </Security>\n    </soap-env:Header>\n    <soap-env:Body>\n        <tds:GetServiceCapabilities>\n        </tds:GetServiceCapabilities>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auto Discovery",
+			"item": [
+				{
+					"name": "GetDiscoveryMode",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetDiscoveryMode/>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetDiscoveryMode",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetDiscoveryMode>\n            <tds:DiscoveryMode>Discoverable</tds:DiscoveryMode>\n        </tds:SetDiscoveryMode>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetScopes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetScopes/>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "AddScopes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:AddScopes>\n            <tds:ScopeItem>123</tds:ScopeItem>\n            <tds:ScopeItem>456</tds:ScopeItem>\n        </tds:AddScopes>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetScopes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetScopes>\n            <tds:Scopes>222</tds:Scopes>\n            <tds:Scopes>333</tds:Scopes>\n        </tds:SetScopes>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveScopes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:RemoveScopes>\n            <tds:ScopeItem>333</tds:ScopeItem>\n        </tds:RemoveScopes>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Network Configuration",
+			"item": [
+				{
+					"name": "GetHostname",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetHostname>\n        </tds:GetHostname>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetHostname",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetHostname>\n            <tds:Name>localhost555</tds:Name>\n        </tds:SetHostname>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetDNS",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetDNS>\n        </tds:GetDNS>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetDNS",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetDNS>\n            <tds:FromDHCP>true</tds:FromDHCP>\n            <tds:SearchDomain/>\n            <tds:DNSManual>\n                <onvif:Type>IPv4</onvif:Type>\n                <onvif:IPv4Address>192.168.12.1</onvif:IPv4Address>\n            </tds:DNSManual>\n        </tds:SetDNS>\n    </soap-env:Body>\n  </soap-env:Envelope>\n\n\n",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetNetworkInterfaces",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetNetworkInterfaces>\n        </tds:GetNetworkInterfaces>\n    </soap-env:Body>\n</soap-env:Envelope>\n",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetNetworkInterfaces",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetNetworkInterfaces>\n            <tds:InterfaceToken>1</tds:InterfaceToken>\n            <tds:NetworkInterface>\n                <onvif:Enabled>true</onvif:Enabled>\n                <onvif:IPv4>\n                    <onvif:Enabled>true</onvif:Enabled>\n                    <onvif:Manual>\n                        <onvif:Address>192.168.12.148</onvif:Address>\n                        <onvif:PrefixLength>24</onvif:PrefixLength>\n                    </onvif:Manual>\n                    <onvif:DHCP>true</onvif:DHCP>\n                </onvif:IPv4>\n            </tds:NetworkInterface>\n        </tds:SetNetworkInterfaces>\n    </soap-env:Body>\n</soap-env:Envelope>\n",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetNetworkProtocols",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetNetworkProtocols>\n        </tds:GetNetworkProtocols>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetNetworkProtocols",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetNetworkProtocols>\n            <tds:NetworkProtocols>\n                <onvif:Name>HTTP</onvif:Name>\n                <onvif:Enabled>true</onvif:Enabled>\n                <onvif:Port>{{ONVIF_PORT}}</onvif:Port>\n            </tds:NetworkProtocols>\n            <tds:NetworkProtocols>\n                <onvif:Name>HTTPS</onvif:Name>\n                <onvif:Enabled>false</onvif:Enabled>\n                <onvif:Port>443</onvif:Port>\n            </tds:NetworkProtocols>\n            <tds:NetworkProtocols>\n                <onvif:Name>RTSP</onvif:Name>\n                <onvif:Enabled>true</onvif:Enabled>\n                <onvif:Port>554</onvif:Port>\n            </tds:NetworkProtocols>      \n        </tds:SetNetworkProtocols>\n    </soap-env:Body>\n</soap-env:Envelope>\n",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetNetworkDefaultGateway",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetNetworkDefaultGateway>\n        </tds:GetNetworkDefaultGateway>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetNetworkDefaultGateway",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetNetworkDefaultGateway>\n            <tds:IPv4Address>192.168.12.1</tds:IPv4Address>\n        </tds:SetNetworkDefaultGateway>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "System Function",
+			"item": [
+				{
+					"name": "GetDeviceInformation",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetDeviceInformation>\n        </tds:GetDeviceInformation>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetSystemDateAndTime",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetSystemDateAndTime>\n        </tds:GetSystemDateAndTime>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetSystemDateAndTime",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetSystemDateAndTime>\n            <tds:DateTimeType>Manual</tds:DateTimeType>\n            <tds:DaylightSavings>false</tds:DaylightSavings>\n            <tds:UTCDateTime>\n                    <onvif:Time>\n                        <onvif:Hour>13</onvif:Hour>\n                        <onvif:Minute>39</onvif:Minute>\n                        <onvif:Second>55</onvif:Second>\n                    </onvif:Time>\n                    <onvif:Date>\n                        <onvif:Year>2021</onvif:Year>\n                        <onvif:Month>12</onvif:Month>\n                        <onvif:Day>11</onvif:Day>\n                    </onvif:Date>\n            </tds:UTCDateTime>\n        </tds:SetSystemDateAndTime>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetSystemFactoryDefault",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetSystemFactoryDefault>\n            <tds:FactoryDefault>Soft</tds:FactoryDefault>\n        </tds:SetSystemFactoryDefault>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "Reboot",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SystemReboot/>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Handling",
+			"item": [
+				{
+					"name": "GetUsers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:GetUsers/>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateUsers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:CreateUsers>\n            <tds:User>\n                <onvif:Username>admin5</onvif:Username>\n                <onvif:Password>Password1!</onvif:Password>\n                <onvif:UserLevel>Administrator</onvif:UserLevel>\n\n            </tds:User>\n            <tds:User>\n                <onvif:Username>admin6</onvif:Username>\n                <onvif:Password>Password1!</onvif:Password>\n                <onvif:UserLevel>Administrator</onvif:UserLevel>\n            </tds:User>\n        </tds:CreateUsers>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUsers",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:DeleteUsers>\n            <Username>admin5</Username>\n            <Username>admin6</Username>\n        </tds:DeleteUsers>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetUser",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetUser>\n            <tds:User>\n                <Username>admin5</Username>\n                <Password>Password2!</Password>\n                <UserLevel>Administrator</UserLevel>\n                <Extension/>\n            </tds:User>\n        </tds:SetUser>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{DEVICE_ENDPOINT}}",
+							"host": [
+								"{{DEVICE_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Metadata Configuration",
+			"item": [
+				{
+					"name": "GetMetadataConfigurations",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetMetadataConfigurations/>\n    </soap-env:Body>\n</soap-env:Envelope>\n",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetMetadataConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetMetadataConfiguration>\n            <trt:ConfigurationToken>{{MEDIA_CONFIG_TOKEN}}</trt:ConfigurationToken>\n        </trt:GetMetadataConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetMetadataConfiguration",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:SetMetadataConfiguration>\n            <trt:ForcePersistence>false</trt:ForcePersistence>\n            <trt:Configuration token=\"{{MEDIA_CONFIG_TOKEN}}\">\n                <tt:Name>metadata</tt:Name>\n                <tt:UseCount>1</tt:UseCount>\n                <tt:Analytics>false</tt:Analytics>\n                <tt:Multicast>\n                    <tt:Address>\n                        <tt:Type>IPv4</tt:Type>\n                        <tt:IPv4Address>0.0.0.0</tt:IPv4Address>\n                    </tt:Address>\n                    <tt:Port>8864</tt:Port>\n                    <tt:TTL>1</tt:TTL>\n                    <tt:AutoStart>false</tt:AutoStart>\n                </tt:Multicast>\n                <tt:SessionTimeout>PT5S</tt:SessionTimeout>\n                <tt:AnalyticsEngineConfiguration></tt:AnalyticsEngineConfiguration>\n            </trt:Configuration>\n        </trt:SetMetadataConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetCompatibleMetadataConfigurations",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetCompatibleMetadataConfigurations>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</trt:ProfileToken>\n        </trt:GetCompatibleMetadataConfigurations>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetMetadataConfigurationOptions",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetMetadataConfigurationOptions>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</trt:ProfileToken>\n        </trt:GetMetadataConfigurationOptions>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "AddMetadataConfiguration",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:AddMetadataConfiguration>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</trt:ProfileToken>\n            <trt:ConfigurationToken>{{MEDIA_CONFIG_TOKEN}}</trt:ConfigurationToken>\n        </trt:AddMetadataConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveMetadataConfiguration",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:RemoveMetadataConfiguration>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</trt:ProfileToken>\n        </trt:RemoveMetadataConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Video Streaming",
+			"item": [
+				{
+					"name": "GetProfiles",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetProfiles/>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetStreamUri",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "administrator",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetStreamUri>\n            <trt:StreamSetup>\n                <onvif:Stream>RTP-Unicast</onvif:Stream>\n                <onvif:Transport>\n                    <onvif:Protocol>RTSP</onvif:Protocol>\n                </onvif:Transport>\n            </trt:StreamSetup>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</trt:ProfileToken>\n        </trt:GetStreamUri>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetSnapshotUri",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "username",
+									"value": "iotechsys",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetSnapshotUri>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</trt:ProfileToken>\n        </trt:GetSnapshotUri>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Video Encoder Configuration",
+			"item": [
+				{
+					"name": "GetVideoEncoderConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetVideoEncoderConfiguration>\n            <trt:ConfigurationToken>{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}</trt:ConfigurationToken>\n        </trt:GetVideoEncoderConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetVideoEncoderConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:SetVideoEncoderConfiguration>\n            <trt:ForcePersistence>false</trt:ForcePersistence>\n            <trt:Configuration token=\"{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}\">\n                <trt:Encoding>H264</trt:Encoding>\n                <trt:Quality>3</trt:Quality>\n                <trt:Resolution>\n                    <Width>1280</Width>\n                    <Height>960</Height>\n                </trt:Resolution>\n                <trt:RateControl>\n                    <trt:FrameRateLimit>15</trt:FrameRateLimit>\n                    <trt:EncodingInterval>1</trt:EncodingInterval>\n                    <trt:BitrateLimit>1024</trt:BitrateLimit>\n                </trt:RateControl>\n                 <trt:H264>\n                    <trt:GovLength>25</trt:GovLength>\n                    <trt:H264Profile>Main</trt:H264Profile>\n                </trt:H264>\n                <trt:Multicast>\n                    <trt:Address>\n                        <trt:Type>IPv4</trt:Type>\n                        <trt:IPv4Address>0.0.0.0</trt:IPv4Address>\n                    </trt:Address>\n                    <trt:Port>8860</trt:Port>\n                    <trt:TTL>1</trt:TTL>\n                    <trt:AutoStart>false</trt:AutoStart>\n                </trt:Multicast>\n                <trt:SessionTimeout>PT0H1M5S</trt:SessionTimeout>\n            </trt:Configuration>\n        </trt:SetVideoEncoderConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetVideoEncoderConfigurationOptions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetVideoEncoderConfigurationOptions>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</trt:ProfileToken>\n            <trt:ConfigurationToken>{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}</trt:ConfigurationToken>\n        </trt:GetVideoEncoderConfigurationOptions>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PTZ",
+			"item": [
+				{
+					"name": "--- Capabilities ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetNodes",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetNodes/>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetNode",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetNode>\n            <tptz:NodeToken>{{PTZ_NODE_TOKEN}}</tptz:NodeToken>\n        </tptz:GetNode>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- Configuration ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetConfigurations",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetConfigurations/>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetConfiguration>\n            <tptz:PTZConfigurationToken>{{PTZ_CONFIG_TOKEN}}</tptz:PTZConfigurationToken>\n        </tptz:GetConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetConfigurationOptions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetConfigurationOptions>\n            <tptz:ConfigurationToken>{{PTZ_CONFIG_TOKEN}}</tptz:ConfigurationToken>\n        </tptz:GetConfigurationOptions>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:SetConfiguration >\n            <tptz:PTZConfiguration token=\"{{PTZ_CONFIG_TOKEN}}\">\n                <tptz:NodeToken>{{PTZ_NODE_TOKEN}}</tptz:NodeToken>\n                <PanTiltLimits>\n                    <Range>\n                        <XRange>\n                            <Min>-170</Min>\n                            <Max>170</Max>\n                        </XRange>\n                        <YRange>\n                            <Min>-32</Min>\n                            <Max>35</Max>\n                        </YRange>\n                    </Range>\n                </PanTiltLimits>\n            </tptz:PTZConfiguration>\n            <tptz:ForcePersistence>false</tptz:ForcePersistence>\n        </tptz:SetConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "AddPTZConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:AddPTZConfiguration >\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n            <trt:ConfigurationToken>{{PTZ_CONFIG_TOKEN}}</tptz:ConfigurationToken>\n        </trt:AddPTZConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "RemovePTZConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:RemovePTZConfiguration>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </trt:RemovePTZConfiguration>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- Acuation ---",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "AbsoluteMove",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:AbsoluteMove>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n            <tptz:Position>\n                <onvif:PanTilt x=\"-60\" y=\"0\" />\n                <onvif:Zoom x=\"1\" />\n            </tptz:Position>\n            <tptz:Speed>\n                <onvif:PanTilt x=\"0\" y=\"0\" />\n                <onvif:Zoom x=\"3\" />\n            </tptz:Speed>\n        </tptz:AbsoluteMove>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "RelativeMove",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:RelativeMove>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n            <tptz:Translation>\n                <onvif:PanTilt x=\"30\" y=\"0\" />\n            </tptz:Position>\n        </tptz:RelativeMove>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "ContinuousMove",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:ContinuousMove>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n            <tptz:Velocity>\n                <onvif:PanTilt x=\"1\" y=\"1\" />\n            </tptz:Velocity>\n        </tptz:ContinuousMove>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "Stop",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:Stop>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n            <tptz:PanTilt>true</tptz:PanTilt>\n            <tptz:Zoom>true</tptz:Zoom>\n        </tptz:Stop>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetStatus",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetStatus>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </tptz:GetStatus>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- Preset ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetPreset",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:SetPreset>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n\n        </tptz:SetPreset>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetPresets",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetPresets>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </tptz:GetPresets>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GotoPreset",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GotoPreset>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n            <tptz:PresetToken>Preset2</tptz:PresetToken>\n        </tptz:GotoPreset>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "RemovePreset",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:RemovePreset>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n            <tptz:PresetToken>Preset2</tptz:PresetToken>\n        </tptz:RemovePreset>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- Home Position ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GotoHomePosition",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GotoHomePosition>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n            <tptz:Speed>\n                <onvif:PanTilt x=\"1\" y=\"0\" />\n            </tptz:Speed>\n        </tptz:GotoHomePosition>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SetHomePosition",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:SetHomePosition>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </tptz:SetHomePosition>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- Auxiliary ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "SendAuxiliaryCommand",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:SendAuxiliaryCommand>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n            <tptz:AuxiliaryData>123</tptz:AuxiliaryData>\n        </tptz:SendAuxiliaryCommand>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{PTZ_ENDPOINT}}",
+							"host": [
+								"{{PTZ_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event Handling",
+			"item": [
+				{
+					"name": "GetEventProperties",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tev:GetEventProperties/>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{EVENT_ENDPOINT}}",
+							"host": [
+								"{{EVENT_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- PullPoint ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "CreatePullPointSubscription",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "service",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tev:CreatePullPointSubscription>\n           <tev:Filter>\n                 <!-- <wsnt:TopicExpression>\n                    tns:RuleEngine/TamperDetector\n                </wsnt:TopicExpression> -->\n                <!-- <wsnt:MessageContent>\n                    boolean(//tt:SimpleItem[@Name=\"Rule\"])\n                </wsnt:MessageContent> -->\n     \t    </tev:Filter>\n            <tev:SubscriptionPolicy ChangedOnly=\"true\"/>\n            <tev:InitialTerminationTime>PT100S</tev:InitialTerminationTime>\n        </tev:CreatePullPointSubscription>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{EVENT_ENDPOINT}}",
+							"host": [
+								"{{EVENT_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "PullMessages",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tev:PullMessages>\n            <tev:Timeout>PT5S</tev:Timeout>\n            <tev:MessageLimit>10</tev:MessageLimit>\n        </tev:PullMessages>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.12.123/onvif/Events/PullSubManager__2",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"12",
+								"123"
+							],
+							"path": [
+								"onvif",
+								"Events",
+								"PullSubManager__2"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "UnsubscribeRequest",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tev:Unsubscribe />\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.12.123/onvif/Events/PullSubManager__2",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"12",
+								"123"
+							],
+							"path": [
+								"onvif",
+								"Events",
+								"PullSubManager__2"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- BaseNotification ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "Subscribe",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "service",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <wsnt:Subscribe>\n            <wsnt:ConsumerReference>\n                <wsa:Address>http://192.168.12.112:8080/ping</wsa:Address>\n            </wsnt:ConsumerReference>\n            <wsnt:TerminationTime>\n                PT1H\n            </wsnt:TerminationTime>\n        </wsnt:Subscribe>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{EVENT_ENDPOINT}}",
+							"host": [
+								"{{EVENT_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "Renew",
+					"request": {
+						"auth": {
+							"type": "digest",
+							"digest": [
+								{
+									"key": "password",
+									"value": "Password1!",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "service",
+									"type": "string"
+								},
+								{
+									"key": "algorithm",
+									"value": "MD5",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    <!-- {{SECURITY_HEADER}} -->\n    <soap-env:Body>\n        <wsnt:Renew>\n            <wsnt:TerminationTime>\n                2021-12-03T15:50:03Z\n            </wsnt:TerminationTime>\n        </wsnt:Renew>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://192.168.12.148/Web_Service?Idx=0",
+							"protocol": "http",
+							"host": [
+								"192",
+								"168",
+								"12",
+								"148"
+							],
+							"path": [
+								"Web_Service"
+							],
+							"query": [
+								{
+									"key": "Idx",
+									"value": "0"
+								}
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "AddVideoAnalyticsConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tr2=\"http://www.onvif.org/ver20/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:AddVideoAnalyticsConfiguration>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</trt:ProfileToken>\n            <trt:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</trt:ConfigurationToken>\n        </trt:AddVideoAnalyticsConfiguration>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetCompatibleVideoAnalyticsConfigurations",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tr2=\"http://www.onvif.org/ver20/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <trt:GetCompatibleVideoAnalyticsConfigurations>\n            <trt:ProfileToken>{{MEDIA_PROFILE}}</trt:ProfileToken>\n        </trt:GetCompatibleVideoAnalyticsConfigurations>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- Configuration of Analytics profile ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetProfiles",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tr2=\"http://www.onvif.org/ver20/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tr2:GetProfiles/>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_2_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_2_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAnalyticsConfigurations",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tr2=\"http://www.onvif.org/ver20/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tr2:GetAnalyticsConfigurations/>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_2_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_2_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "AddConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tr2=\"http://www.onvif.org/ver20/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tr2:AddConfiguration>\n            <tr2:ProfileToken>{{MEDIA_PROFILE}}</tr2:ProfileToken>\n            <tr2:Configuration>\n                <tr2:Type>Analytics</tr2:Type>\n                <tr2:Token>{{ANALYTIC_CONFIG_TOKEN}}</tr2:Token>\n            </tr2:Configuration>\n        </tr2:AddConfiguration>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_2_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_2_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveConfiguration",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tr2=\"http://www.onvif.org/ver20/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tr2:RemoveConfiguration>\n            <tr2:ProfileToken>{{MEDIA_PROFILE}}</tr2:ProfileToken>\n            <tr2:Configuration>\n                <tr2:Type>Analytics</tr2:Type>\n                <tr2:Token>{{ANALYTIC_CONFIG_TOKEN}}</tr2:Token>\n            </tr2:Configuration>\n        </tr2:RemoveConfiguration>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{MEDIA_2_ENDPOINT}}",
+							"host": [
+								"{{MEDIA_2_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- Analytics Module configuration ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetServiceCapabilities",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetServiceCapabilities/>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetSupportedAnalyticsModules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetSupportedAnalyticsModules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetSupportedAnalyticsModules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAnalyticsModules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetAnalyticsModules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetAnalyticsModules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetAnalyticsModuleOptions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetAnalyticsModuleOptions>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetAnalyticsModuleOptions>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateAnalyticsModules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:CreateAnalyticsModules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n            <tan:AnalyticsModule Name=\"TestAnalyticsModule\" Type={{ANALYTIC_MODULE_TYPE}}>\n                <tt:Parameters>\n                    <tt:SimpleItem Name={{ANALYTIC_MODULE_OPTION_NAME}} Value={{ANALYTIC_MODULE_OPTION_VALUE}}/>\n                </tt:Parameters>\n            </tan:AnalyticsModule>\n        </tan:CreateAnalyticsModules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteAnalyticsModules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:DeleteAnalyticsModules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n            <tan:AnalyticsModuleName>TestAnalyticsModule</tan:AnalyticsModuleName>\n        </tan:DeleteAnalyticsModules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "ModifyAnalyticsModules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:ModifyAnalyticsModules>\n            <tan:ConfigurationToken>1</tan:ConfigurationToken>\n            <tan:AnalyticsModule Name=\"Viproc\" Type=\"tt:Viproc\">\n                <tt:Parameters>\n                    <tt:SimpleItem Name=\"Mode\" Value=\"Profile 1\"></tt:SimpleItem>\n                </tt:Parameters>\n            </tan:AnalyticsModule>\n        </tan:ModifyAnalyticsModules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "--- Rule configuration ---",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": ""
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetSupportedRules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetSupportedRules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetSupportedRules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetRules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetRules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetRules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "CreateRules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:CreateRules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n            <tan:Rule Name=\"TestRule\" Type=\"tt:ObjectInField\">\n                <tt:Parameters>\n                    <tt:SimpleItem Name=\"ClassFilter\" Value=\"Bike Car\"></tt:SimpleItem>\n                </tt:Parameters>\n            </tan:Rule>\n        </tan:CreateRules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteRules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:DeleteRules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n            <tan:RuleName>TestRule</tan:RuleName>\n        </tan:DeleteRules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "GetRuleOptions",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetRuleOptions>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetRuleOptions>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				},
+				{
+					"name": "ModifyRules",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/soap+xml",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:ModifyRules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n            <tan:Rule Name=\"TestRule\" Type=\"tt:ObjectInField\">\n                <tt:Parameters>\n                    <tt:SimpleItem Name=\"MinObjectHeight\" Value=\"20\"></tt:SimpleItem>\n                </tt:Parameters>\n            </tan:Rule>\n        </tan:ModifyRules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"options": {
+								"raw": {
+									"language": "xml"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ANALYTIC_ENDPOINT}}",
+							"host": [
+								"{{ANALYTIC_ENDPOINT}}"
+							]
+						},
+						"description": "Input:\n\n[GetCapabilities]\n\nCategory - optional, unbounded; [CapabilityCategory]\n\nList of categories to retrieve capability information on.\n- enum { 'All', 'Analytics', 'Device', 'Events', 'Imaging', 'Media', 'PTZ' }"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"let securityHeader = `",
+					"    <soap-env:Header>",
+					"        <Security xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd\">",
+					"              <UsernameToken>",
+					"                <Username>{{WS_USERNAME}}</Username>",
+					"                <Password Type=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest\">{{WS_PASSWORD_DIGEST}}</Password>",
+					"                <Nonce EncodingType=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-soap-message-security-1.0#Base64Binary\">{{WS_NONCE}}</Nonce>",
+					"                <Created xmlns=\"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd\">{{WS_UTC_TIME}}</Created>",
+					"            </UsernameToken>",
+					"        </Security>",
+					"    </soap-env:Header>",
+					"`;",
+					"",
+					"pm.environment.set(\"SECURITY_HEADER\", securityHeader);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
