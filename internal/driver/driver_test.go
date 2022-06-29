@@ -9,6 +9,9 @@ package driver
 import (
 	"encoding/base64"
 	"fmt"
+	"github.com/edgexfoundry/device-onvif-camera/internal/driver/mocks"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"testing"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
@@ -16,6 +19,24 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+const (
+	testDeviceName = "test-device"
+)
+
+func createDriverWithMockService() (*Driver, *mocks.SDKService) {
+	mockService := &mocks.SDKService{}
+	driver := &Driver{sdkService: mockService, lc: logger.MockLogger{}}
+	return driver, mockService
+}
+
+func createTestDevice() models.Device {
+	return models.Device{Name: testDeviceName, Protocols: map[string]models.ProtocolProperties{
+		OnvifProtocol: map[string]string{
+			DeviceStatus: Unreachable,
+		},
+	}}
+}
 
 func TestParametersFromURLRawQuery(t *testing.T) {
 	parameters := `{ "ProfileToken": "Profile_1" }`

@@ -126,7 +126,8 @@ func convertMACMappings(t *testing.T, raw map[string]string) map[string]string {
 }
 
 func TestMatchEndpointRefAddressToMAC(t *testing.T) {
-	macMapper := NewMACAddressMapper()
+	_, mockService := createDriverWithMockService()
+	macMapper := NewMACAddressMapper(mockService)
 	macMapper.credsMap = convertMACMappings(t, map[string]string{
 		"bosch":     "00:07:5f:c4:23:b6,00:07:5f:d8:85:f9",
 		"geovision": "00:13:e2:25:95:6f",
