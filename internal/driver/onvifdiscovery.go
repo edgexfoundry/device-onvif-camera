@@ -115,7 +115,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRefAddr, edgexErr)
 		device.Protocols[OnvifProtocol][DeviceStatus] = Reachable // update device status in this error case
 		discovered = sdkModel.DiscoveredDevice{
-			Name:        endpointRefAddr,
+			Name:        "unknown_unknown_" + endpointRefAddr,
 			Protocols:   device.Protocols,
 			Description: "Auto discovered Onvif camera",
 			Labels:      []string{"auto-discovery"},
