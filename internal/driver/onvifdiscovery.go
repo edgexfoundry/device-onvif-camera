@@ -18,8 +18,6 @@ import (
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	sdk "github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
-
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/gofrs/uuid"
@@ -226,11 +224,11 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 
 // makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress
 func (d *Driver) makeDeviceMap() map[string]contract.Device {
-	devices := sdk.RunningService().Devices()
+	devices := d.sdkService.Devices()
 	deviceMap := make(map[string]contract.Device, len(devices))
 
 	for _, dev := range devices {
-		if dev.Name == d.serviceName {
+		if dev.Name == d.sdkService.Name() {
 			// skip control plane device
 			continue
 		}
@@ -314,7 +312,7 @@ func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.D
 		return nil
 	}
 
-	err := sdk.RunningService().UpdateDevice(device)
+	err := d.sdkService.UpdateDevice(device)
 	if err != nil {
 		d.lc.Errorf("There was an error updating the network address for device %s: %s", device.Name, err.Error())
 		return errors.NewCommonEdgeXWrapper(err)
