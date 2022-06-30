@@ -9,6 +9,7 @@ package driver
 import (
 	stdErrors "errors"
 	"fmt"
+	"github.com/google/uuid"
 	"net"
 	"os"
 	"strings"
@@ -20,7 +21,6 @@ import (
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
-	"github.com/gofrs/uuid"
 )
 
 const (
@@ -172,7 +172,7 @@ func mapProbeResults(host, port string, devices []onvif.Device) (res []netscan.P
 // probe message directly over the connection and listening for any responses. Those
 // responses are then converted into a slice of onvif.Device.
 func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, error) {
-	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.Must(uuid.NewV4()).String(), nil, nil,
+	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.NewString(), nil, nil,
 		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 
 	addr := conn.RemoteAddr().String()

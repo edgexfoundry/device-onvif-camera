@@ -1,11 +1,11 @@
 module github.com/edgexfoundry/device-onvif-camera
 
 require (
-	github.com/IOTechSystems/onvif v0.1.1
+	github.com/IOTechSystems/onvif v0.1.2
 	github.com/edgexfoundry/device-sdk-go/v2 v2.2.0
 	github.com/edgexfoundry/go-mod-bootstrap/v2 v2.2.0
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.2.0
-	github.com/gofrs/uuid v3.2.0+incompatible
+	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/stretchr/testify v1.7.5
 )
@@ -33,7 +33,6 @@ require (
 	github.com/go-playground/validator/v10 v10.10.1 // indirect
 	github.com/go-redis/redis/v7 v7.3.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/hashicorp/consul/api v1.9.1 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
@@ -57,7 +56,7 @@ require (
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/rcrowley/go-metrics v0.0.0-20181016184325-3113b8401b8a // indirect
 	github.com/spiffe/go-spiffe/v2 v2.0.0 // indirect
-	github.com/stretchr/objx v0.1.1 // indirect
+	github.com/stretchr/objx v0.4.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/zeebo/errs v1.2.2 // indirect
 	golang.org/x/crypto v0.0.0-20211215153901-e495a2d5b3d3 // indirect
