@@ -221,7 +221,7 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 	return devices, nil
 }
 
-// makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress
+// makeDeviceMap creates a lookup table of existing devices by MacAddress.
 func (d *Driver) makeDeviceMap() map[string]contract.Device {
 	devices := d.sdkService.Devices()
 	deviceMap := make(map[string]contract.Device, len(devices))
@@ -238,14 +238,14 @@ func (d *Driver) makeDeviceMap() map[string]contract.Device {
 			continue
 		}
 
-		endpointRef := onvifInfo[EndpointRefAddress]
-		if endpointRef == "" {
+		macAddress := onvifInfo[MACAddress]
+		if macAddress == "" {
 			d.lc.Warnf("Registered device %s is missing required %s protocol information: %s.",
-				dev.Name, OnvifProtocol, EndpointRefAddress)
+				dev.Name, OnvifProtocol, MACAddress)
 			continue
 		}
 
-		deviceMap[endpointRef] = dev
+		deviceMap[macAddress] = dev
 	}
 
 	return deviceMap
@@ -258,17 +258,17 @@ func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) (
 	// filter out duplicate discovered devices by endpoint reference
 	discoveredMap := make(map[string]sdkModel.DiscoveredDevice)
 	for _, device := range discoveredDevices {
-		endpointRef := device.Protocols[OnvifProtocol][EndpointRefAddress]
-		if _, found := discoveredMap[endpointRef]; !found {
-			discoveredMap[endpointRef] = device
+		macAddress := device.Protocols[OnvifProtocol][MACAddress]
+		if _, found := discoveredMap[macAddress]; !found {
+			discoveredMap[macAddress] = device
 		}
 	}
 
 	existingDevices := d.makeDeviceMap() // create comparison map
 
 	// loop through discovered devices and see if they are already discovered
-	for endpointRef, device := range discoveredMap {
-		if existingDevice, found := existingDevices[endpointRef]; found {
+	for macAddress, device := range discoveredMap {
+		if existingDevice, found := existingDevices[macAddress]; found {
 			if err := d.updateExistingDevice(existingDevice, device); err != nil {
 				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
 			}
