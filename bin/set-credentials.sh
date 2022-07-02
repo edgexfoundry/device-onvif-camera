@@ -14,7 +14,7 @@
 
 set -euo pipefail
 
-ALL="All Cameras"
+ALL_CAMERAS="All Cameras"
 CORE_METADATA_URL="${CORE_METADATA_URL:-http://localhost:59881}"
 CONSUL_URL="${CONSUL_URL:-http://localhost:8500}"
 DEVICE_SERVICE="${DEVICE_SERVICE:-device-onvif-camera}"
@@ -140,7 +140,7 @@ pick_device() {
 
     # insert the option "All Cameras" first in the list. the reason first was chosen as opposed to
     # last was to keep the index of it the same no matter how many devices there are.
-    local options=("ALL" "All Cameras")
+    local options=("${ALL_CAMERAS}" "${ALL_CAMERAS}")
     for d in ${DEVICE_LIST}; do
         options+=("$d" "$d")
     done
@@ -237,7 +237,7 @@ parse_args() {
             ;;
 
         -a | --all)
-            DEVICE_NAME="${ALL}"
+            DEVICE_NAME="${ALL_CAMERAS}"
             ;;
 
         -u | --user | --username)
@@ -339,7 +339,7 @@ main() {
         query_auth_mode
     fi
 
-    if [ "${DEVICE_NAME}" == "${ALL}" ]; then
+    if [ "${DEVICE_NAME}" == "${ALL_CAMERAS}" ]; then
         get_devices # update the device list in the case where the user passed the --all flag
         for DEVICE_NAME in ${DEVICE_LIST}; do
             set_secrets
