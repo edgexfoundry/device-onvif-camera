@@ -655,7 +655,7 @@ func (d *Driver) getEndpointReference(device models.Device) (devInfo *onvifdevic
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	endpointRefResponse, edgexErr := devClient.callOnvifFunction(onvif.DeviceWebService, "GetEndpointReference", []byte{}) //TODO: update to use constant onvif.GetEndpointReference
+	endpointRefResponse, edgexErr := devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, []byte{})
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
