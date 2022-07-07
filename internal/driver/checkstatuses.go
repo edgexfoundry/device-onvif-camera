@@ -47,6 +47,12 @@ func (d *Driver) checkStatuses() {
 						d.lc.Warnf("An error occurred while refreshing the network information for %s: %s",
 							device.Name, refreshErr.Error())
 					}
+
+					refreshErr = d.refreshEndpointReference(device)
+					if refreshErr != nil {
+						d.lc.Warnf("An error occurred while refreshing the endpoint reference for %s: %s",
+							device.Name, refreshErr.Error())
+					}
 				}()
 			}
 		}()

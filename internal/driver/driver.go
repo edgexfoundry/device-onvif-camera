@@ -11,7 +11,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -19,6 +18,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
@@ -649,6 +650,22 @@ func (d *Driver) getDeviceInformation(device models.Device) (devInfo *onvifdevic
 	return devInfo, nil
 }
 
+func (d *Driver) getEndpointReference(device models.Device) (devInfo *onvifdevice.GetEndpointReferenceResponse, edgexErr errors.EdgeX) {
+	devClient, edgexErr := d.newTemporaryOnvifClient(device)
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	endpointRefResponse, edgexErr := devClient.callOnvifFunction(onvif.DeviceWebService, "GetEndpointReference", []byte{}) //TODO: update to use constant onvif.GetEndpointReference
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	devEndpointRef, ok := endpointRefResponse.(*onvifdevice.GetEndpointReferenceResponse)
+	if !ok {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetEndpointReferenceResponse for the camera %s", device.Name), nil)
+	}
+	return devEndpointRef, nil
+}
+
 // newOnvifClient creates a temporary client for auto-discovery
 func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
 	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
@@ -737,6 +754,30 @@ func (d *Driver) refreshDeviceInformation(device models.Device) error {
 		device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
 		device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
 		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
+
+		return d.sdkService.UpdateDevice(device)
+	}
+
+	return nil
+
+}
+
+// refreshEndpointReference will attempt to retrieve the device endpoint reference for the specified camera
+// and update the values in the protocol properties
+func (d *Driver) refreshEndpointReference(device models.Device) error {
+	devInfo, err := d.getEndpointReference(device)
+	if err != nil {
+		return err
+	}
+
+	// update device to latest version in cache to prevent race conditions
+	device, edgeXErr := d.sdkService.GetDeviceByName(device.Name)
+	if err != nil {
+		return edgeXErr
+	}
+
+	if devInfo.GUID != device.Protocols[OnvifProtocol][EndpointRefAddress] {
+		device.Protocols[OnvifProtocol][EndpointRefAddress] = devInfo.GUID
 		return d.sdkService.UpdateDevice(device)
 	}
 
