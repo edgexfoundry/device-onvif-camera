@@ -770,23 +770,24 @@ func (d *Driver) refreshEndpointReference(device models.Device) error {
 		return err
 	}
 
+	splitGuid := strings.Split(devInfo.GUID, ":")
+
+	if len(splitGuid) != 3 {
+		return errors.NewCommonEdgeX(errors.KindServerError, "failed to initialize Onvif device client", fmt.Errorf("invalid endpoint reference guid: %s", devInfo.GUID))
+	}
+
+	guid := splitGuid[2]
+
 	// update device to latest version in cache to prevent race conditions
 	device, edgeXErr := d.sdkService.GetDeviceByName(device.Name)
 	if err != nil {
 		return edgeXErr
 	}
 
-	if devInfo.GUID != device.Protocols[OnvifProtocol][EndpointRefAddress] {
-
-		parsedGuid := strings.Split(devInfo.GUID, ":")
-
-		if len(parsedGuid) != 3 {
-			return errors.NewCommonEdgeX(errors.KindServerError, "failed to initialize Onvif device client", fmt.Errorf("invalid endpoint reference guid: %s", devInfo.GUID))
-		}
-		device.Protocols[OnvifProtocol][EndpointRefAddress] = parsedGuid[2]
+	if guid != device.Protocols[OnvifProtocol][EndpointRefAddress] {
+		device.Protocols[OnvifProtocol][EndpointRefAddress] = guid
 		return d.sdkService.UpdateDevice(device)
 	}
 
 	return nil
-
 }
