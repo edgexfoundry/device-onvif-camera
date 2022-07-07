@@ -777,7 +777,13 @@ func (d *Driver) refreshEndpointReference(device models.Device) error {
 	}
 
 	if devInfo.GUID != device.Protocols[OnvifProtocol][EndpointRefAddress] {
-		device.Protocols[OnvifProtocol][EndpointRefAddress] = devInfo.GUID
+
+		parsedGuid := strings.Split(devInfo.GUID, ":")
+
+		if len(parsedGuid) != 3 {
+			return errors.NewCommonEdgeX(errors.KindServerError, "failed to initialize Onvif device client", fmt.Errorf("invalid endpoint reference guid: %s", devInfo.GUID))
+		}
+		device.Protocols[OnvifProtocol][EndpointRefAddress] = parsedGuid[2]
 		return d.sdkService.UpdateDevice(device)
 	}
 
