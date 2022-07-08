@@ -24,25 +24,22 @@ plugs:
 apps:
   device-onvif-camera:
     adapter: full
-    command: bin/device-onvif-camera -confdir $SNAP_DATA/config/device-onvif-camera -profile res --registry $CONSUL_ADDR
+    command: bin/device-onvif-camera $CONFIG_PRO_ARG $CONF_ARG $REGISTRY_ARG
     command-chain:
       - bin/source-env-file.sh
     environment:
-      CONSUL_ADDR: "consul://localhost:8500"
+      CONFIG_PRO_ARG: "--cp=consul.http://localhost:8500"
+      CONF_ARG: "--confdir=$SNAP_DATA/config/device-onvif-camera/res"
+      REGISTRY_ARG: "--registry"
       APPCUSTOM_PROVISIONWATCHERDIR: $SNAP_DATA/config/device-onvif-camera/res/provision_watchers
       DEVICE_PROFILESDIR: $SNAP_DATA/config/device-onvif-camera/res/profiles
       DEVICE_DEVICESDIR: $SNAP_DATA/config/device-onvif-camera/res/devices
-      SECRETSTORE_SECRETSFILE: $SNAP_DATA/device-onvif-camera/onvif-credentials.json
-      SECRETSTORE_DISABLESCRUBSECRETSFILE: "false"
       SECRETSTORE_TOKENFILE: $SNAP_DATA/device-onvif-camera/secrets-token.json
     daemon: simple
     install-mode: disable
     plugs: [network, network-bind]
 
-
-
 parts:
-
   helper-go:
     source: snap/local/helper-go
     plugin: make
@@ -67,7 +64,7 @@ parts:
       # the version is needed for the build
       cat ./VERSION
 
-      make clean
+      make tidy
       make build
 
       install -DT cmd/device-onvif-camera $SNAPCRAFT_PART_INSTALL/bin/device-onvif-camera

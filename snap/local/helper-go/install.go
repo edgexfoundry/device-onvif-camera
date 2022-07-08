@@ -17,15 +17,22 @@
 package main
 
 import (
+	"os"
+
 	hooks "github.com/canonical/edgex-snap-hooks/v2"
 	"github.com/canonical/edgex-snap-hooks/v2/env"
 	"github.com/canonical/edgex-snap-hooks/v2/log"
 )
 
 func installConfig() error {
-	path := "/config/device-onvif-camera/res"
+	resPath := "/config/device-onvif-camera/res"
+	err := os.MkdirAll(env.SnapData+resPath, 0755)
+	if err != nil {
+		return err
+	}
 
-	err := hooks.CopyDir(
+	path := resPath + "/configuration.toml"
+	err = hooks.CopyFile(
 		env.Snap+path,
 		env.SnapData+path)
 	if err != nil {

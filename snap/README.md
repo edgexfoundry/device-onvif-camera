@@ -1,5 +1,5 @@
 # EdgeX ONVIF Camera Device Service Snap
-[![edgex-device-onvif-camera](https://snapcraft.io/edgex-device-onvif-cameratt/badge.svg)](https://snapcraft.io/edgex-device-onvif-camera)
+[![edgex-device-onvif-camera](https://snapcraft.io/edgex-device-onvif-camera/badge.svg)](https://snapcraft.io/edgex-device-onvif-camera)
 
 This directory contains the snap packaging of the EdgeX ONVIF Camera device service.
 
