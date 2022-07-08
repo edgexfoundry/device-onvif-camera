@@ -773,7 +773,7 @@ func (d *Driver) refreshEndpointReference(device models.Device) error {
 	splitGuid := strings.Split(devInfo.GUID, ":")
 
 	if len(splitGuid) != 3 {
-		return errors.NewCommonEdgeX(errors.KindServerError, "failed to initialize Onvif device client", fmt.Errorf("invalid endpoint reference guid: %s", devInfo.GUID))
+		return errors.NewCommonEdgeX(errors.KindServerError, "invalid endpoint reference", fmt.Errorf("invalid endpoint reference guid: %s", devInfo.GUID))
 	}
 
 	guid := splitGuid[2]
