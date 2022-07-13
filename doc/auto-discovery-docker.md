@@ -44,10 +44,9 @@ Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10018          EndpointRefAddress: 43
 Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10019          EndpointRefAddress: 6e17721c-d861-4609-880b-efd72e00b8bc
 level=INFO ts=2022-05-17T17:17:03.069067014Z app=device-onvif-camera source=driver.go:422 msg="Discovered 20 device(s) in 1.133374208s via netscan."
 ```
-Then user can follow [this doc to add a provision watcher](./auto-discovery.md) to add the discovered devices to EdgeX.
 
 
-## Security Mode
+## Secure Mode
 
 ### Deploy EdgeX services and device-onvif-camera
 Deploy services with the following command:
@@ -98,4 +97,3 @@ Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10018          EndpointRefAddress: 43
 Onvif WS-Discovery: Find Xaddr: 10.0.0.147:10019          EndpointRefAddress: 6e17721c-d861-4609-880b-efd72e00b8bc
 level=INFO ts=2022-05-17T17:17:03.069067014Z app=device-onvif-camera source=driver.go:422 msg="Discovered 20 device(s) in 1.133374208s via netscan."
 ```
-Then user can follow [this doc to add a provision watcher](./auto-discovery.md) to add the discovered devices to EdgeX.
