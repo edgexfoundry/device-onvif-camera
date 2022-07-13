@@ -12,8 +12,15 @@ LogLevel = "INFO"
     [Writable.InsecureSecrets.credentials001]
     path = "credentials001"
       [Writable.InsecureSecrets.credentials001.Secrets]
-      username = "administrator"
-      password = "Password1!"
+      username = ""
+      password = ""
+      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+
+    [Writable.InsecureSecrets.credentials002]
+    path = "credentials002"
+      [Writable.InsecureSecrets.credentials002.Secrets]
+      username = ""
+      password = ""
       mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
 
 [Service]
@@ -142,4 +149,8 @@ CheckStatusInterval = 30
   # Example: (Multi mapping for 3 mac address to 1 shared credentials)
   #   credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
   #
+  # The special group 'NoAuth' defines mac addresses of cameras where no authentication is to be used. This
+  # group will cause the code to skip looking in the SecretStore altogether. 'NoAuth' is a special group
+  # name that does not exist in the SecretStore.
   [AppCustom.CredentialsMap]
+  NoAuth = ""
