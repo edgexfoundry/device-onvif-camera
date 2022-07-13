@@ -7,16 +7,21 @@ Description = "onvif conformant camera"
     [DeviceList.Protocols.Onvif]
     Address = "192.168.12.123"
     Port = "80"
+    MACAddress = "aa:bb:cc:dd:ee:ff"
+    FriendlyName = "Front Camera"
     [DeviceList.Protocols.CustomMetadata]
-    CommonName = "Door camera"
-    Location = "Front door"
+    Location = "Front Exit"
 
 # If having more than one camera, uncomment the following config settings
-# [[DeviceList]]
-# Name = "Camera002"
-# ProfileName = "onvif-camera"
-# Description = "Simulator of onvif conformant camera"
-#   [DeviceList.Protocols]
-#     [DeviceList.Protocols.Onvif]
-#     Address = "192.168.12.128"
-#     Port = "2020"
+[[DeviceList]]
+Name = "Camera002"
+ProfileName = "onvif-camera"
+Description = "onvif conformant camera"
+  [DeviceList.Protocols]
+    [DeviceList.Protocols.Onvif]
+    Address = "192.168.12.135"
+    Port = "2020"
+    MACAddress = "11:22:33:44:55:66"
+    FriendlyName = "Back Camera"
+    [DeviceList.Protocols.CustomMetadata]
+    Location = "Back Exit"

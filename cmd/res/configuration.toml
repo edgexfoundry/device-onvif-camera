@@ -8,18 +8,13 @@ LogLevel = "INFO"
       [Writable.InsecureSecrets.DB.Secrets]
       username = ""
       password = ""
-    [Writable.InsecureSecrets.Camera001]
+
+    [Writable.InsecureSecrets.credentials001]
     path = "credentials001"
-      [Writable.InsecureSecrets.Camera001.Secrets]
+      [Writable.InsecureSecrets.credentials001.Secrets]
       username = "administrator"
       password = "Password1!"
       mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
-    # If having more than one camera, uncomment the following config settings
-#    [Writable.InsecureSecrets.Camera002]
-#    path = "credentials002"
-#      [Writable.InsecureSecrets.Camera002.Secrets]
-#      username = "administrator"
-#      password = "Password1!"
 
 [Service]
 HealthCheckInterval = "10s"
@@ -109,7 +104,7 @@ UseMessageBus = true
 CredentialsRetryTime = 120 # Seconds
 CredentialsRetryWait = 1 # Seconds
 RequestTimeout = 5 # Seconds
-DiscoveryEthernetInterface = ""
+DiscoveryEthernetInterface = "eth0"
 DefaultSecretPath = "credentials001"
 # BaseNotificationURL indicates the device service network location
 BaseNotificationURL = "http://192.168.12.112:59984"
