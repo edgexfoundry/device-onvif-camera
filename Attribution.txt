@@ -155,9 +155,6 @@ https://github.com/IOTechSystems/onvif/blob/master/LICENSE
 beevik/etree 1.1.0 (Unspecified) https://github.com/beevik/etree
 https://github.com/beevik/etree/blob/master/LICENSE
 
-gofrs/uuid 4.0.0 (MIT) https://github.com/gofrs/uuid
-https://github.com/gofrs/uuid/blob/master/LICENSE
-
 gopkg.in/yaml.v3 (MIT) https://github.com/go-yaml/yaml/
 https://github.com/go-yaml/yaml/blob/v3/LICENSE
 
