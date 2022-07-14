@@ -14,12 +14,11 @@ import (
 
 // CustomConfig holds the values for the driver configuration
 type CustomConfig struct {
-	CredentialsRetryTime int
-	CredentialsRetryWait int
-	RequestTimeout       int
+	// RequestTimeout is the number of seconds to wait when making an Onvif request before timing out.
+	RequestTimeout int
 	// DefaultSecretPath indicates the secret path to retrieve username and password from secret store.
 	DefaultSecretPath string
-	// DiscoveryEthernetInterface indicates the target EthernetInterface for discovering. The default value is `en0`, the user can modify it to meet their requirement.
+	// DiscoveryEthernetInterface indicates the target EthernetInterface for multicast discovering.
 	DiscoveryEthernetInterface string
 	// BaseNotificationURL indicates the device service network location
 	BaseNotificationURL string
