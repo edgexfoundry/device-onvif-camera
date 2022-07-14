@@ -26,4 +26,12 @@ LintOutput.json
 device-onvif-camera
 run
 
+# snap files
+*.snap
+*.assert
+prime/
+stage/
+parts/
+squashfs-root/
+
 VERSION
