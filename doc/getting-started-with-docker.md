@@ -43,29 +43,29 @@ The user can add or modify the username and password from the Consul.
 
 ![Consul](images/getting-started-with-docker-consul-keyvalue.jpg)
 
-The configuration.toml file defined the default username and password as below:
-```yaml
+The [configuration.toml](../cmd/res/configuration.toml) file defines the default username and password as below:
+```toml
 [Writable]
-LogLevel = "INFO"
-  # Example InsecureSecrets configuration that simulates SecretStore for when EDGEX_SECURITY_SECRET_STORE=false
-  # InsecureSecrets are required for when Redis is used for message bus
-  [Writable.InsecureSecrets]
-    [Writable.InsecureSecrets.DB]
-    path = "redisdb"
-      [Writable.InsecureSecrets.DB.Secrets]
-    [Writable.InsecureSecrets.Camera001]
+    [Writable.InsecureSecrets.credentials001]
     path = "credentials001"
-      [Writable.InsecureSecrets.Camera001.Secrets]
-      username = "administrator"
-      password = "Password1!"
-    # If having more than one camera, uncomment the following config settings
-    [Writable.InsecureSecrets.Camera002]
+      [Writable.InsecureSecrets.credentials001.Secrets]
+      username = "<Credentials 1 username>"
+      password = "<Credentials 1 password>"
+      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+
+    [Writable.InsecureSecrets.credentials002]
     path = "credentials002"
-      [Writable.InsecureSecrets.Camera002.Secrets]
-      username = "administrator"
-      password = "Password1!"
+      [Writable.InsecureSecrets.credentials002.Secrets]
+      username = "<Credentials 1 password>"
+      password = "<Credentials 2 password>"
+      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+
+# ...
+
+[AppCustom]
+DefaultSecretPath = "credentials001"
+
 ```
-https://github.com/edgexfoundry/device-onvif-camera/blob/main/cmd/res/configuration.toml
 
 ## 5. Add the device profile to EdgeX
 Add the device profile to core-metadata service with the following command:
@@ -104,7 +104,7 @@ curl -X POST -H 'Content-Type: application/json'  \
 
 Check the available commands from core-command service:
 ```shell
-$ curl http://localhost:59882/api/v2/device/name/Camera003 | json_pp
+$ curl http://localhost:59882/api/v2/device/name/Camera003 | jq .
 {
    "apiVersion" : "v2",
    "deviceCoreCommand" : {
@@ -145,7 +145,7 @@ $ curl http://localhost:59882/api/v2/device/name/Camera003 | json_pp
 
 ## 7. Execute a Get Command
 ```shell
-$ curl http://0.0.0.0:59882/api/v2/device/name/Camera003/Hostname | json_pp
+$ curl http://0.0.0.0:59882/api/v2/device/name/Camera003/Hostname | jq .
 {
    "apiVersion" : "v2",
    "event" : {
