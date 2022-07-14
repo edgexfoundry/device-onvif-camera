@@ -23,8 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download and test snap
-        # uses: canonical/edgex-snap-testing/test@v2
-        uses: MonicaisHer/edgex-snap-testing/test@EDGEX-475-device-onvif-camera
+        uses: canonical/edgex-snap-testing/test@v2
         with:
           name: device-onvif-camera
           snap: ${{needs.build.outputs.snap}}
