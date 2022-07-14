@@ -7,7 +7,7 @@ Description = "onvif conformant camera"
     [DeviceList.Protocols.Onvif]
     Address = "192.168.12.123"
     Port = "80"
-    MACAddress = "00-01-02-03-04-05"
+    MACAddress = "00:01:02:03:04:05"
     [DeviceList.Protocols.CustomMetadata]
     CommonName = "Door camera"
     Location = "Front door"
@@ -21,4 +21,4 @@ Description = "onvif conformant camera"
 #     [DeviceList.Protocols.Onvif]
 #     Address = "192.168.12.128"
 #     Port = "2020"
-#     MACAddress = "00-01-02-03-04-05"
+#     MACAddress = "00:01:02:03:04:05"

@@ -770,13 +770,8 @@ func (d *Driver) refreshEndpointReference(device models.Device) error {
 		return err
 	}
 
-	splitGuid := strings.Split(devInfo.GUID, ":")
-
-	if len(splitGuid) != 3 {
-		return errors.NewCommonEdgeX(errors.KindServerError, "invalid endpoint reference", fmt.Errorf("invalid endpoint reference guid: %s", devInfo.GUID))
-	}
-
-	guid := splitGuid[2]
+	uuidElements := strings.Split(devInfo.GUID, ":")
+	endpointRefAddress := uuidElements[len(uuidElements)-1]
 
 	// update device to latest version in cache to prevent race conditions
 	device, edgeXErr := d.sdkService.GetDeviceByName(device.Name)
@@ -784,8 +779,8 @@ func (d *Driver) refreshEndpointReference(device models.Device) error {
 		return edgeXErr
 	}
 
-	if guid != device.Protocols[OnvifProtocol][EndpointRefAddress] {
-		device.Protocols[OnvifProtocol][EndpointRefAddress] = guid
+	if endpointRefAddress != device.Protocols[OnvifProtocol][EndpointRefAddress] {
+		device.Protocols[OnvifProtocol][EndpointRefAddress] = endpointRefAddress
 		return d.sdkService.UpdateDevice(device)
 	}
 
