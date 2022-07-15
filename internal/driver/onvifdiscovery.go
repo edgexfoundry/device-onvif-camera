@@ -286,7 +286,6 @@ func (d *Driver) makeDeviceRefMap() map[string]contract.Device {
 // of devices in metadata or are from an alternate discovery method.
 // will return an empty slice if no new devices are discovered
 func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
-	// filter out duplicate discovered devices by mac address
 	discoveredMap := make(map[string]sdkModel.DiscoveredDevice)
 	existingRefDevices := d.makeDeviceRefMap() // create comparison map endpoint references
 	existingMacDevices := d.makeDeviceMacMap() // create comparison map for mac addresses
