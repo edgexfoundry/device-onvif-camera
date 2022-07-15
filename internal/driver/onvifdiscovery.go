@@ -9,11 +9,12 @@ package driver
 import (
 	stdErrors "errors"
 	"fmt"
-	"github.com/google/uuid"
 	"net"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/IOTechSystems/onvif"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
@@ -221,7 +222,7 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 	return devices, nil
 }
 
-// makeDeviceMap creates a lookup table of existing devices by MacAddress.
+// makeDeviceMacMap creates a lookup table of existing devices by MacAddress.
 func (d *Driver) makeDeviceMacMap() map[string]contract.Device {
 	devices := d.sdkService.Devices()
 	deviceMap := make(map[string]contract.Device, len(devices))
@@ -251,7 +252,7 @@ func (d *Driver) makeDeviceMacMap() map[string]contract.Device {
 	return deviceMap
 }
 
-// makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress.
+// makeDeviceRefMap creates a lookup table of existing devices by EndpointRefAddress.
 func (d *Driver) makeDeviceRefMap() map[string]contract.Device {
 	devices := d.sdkService.Devices()
 	deviceMap := make(map[string]contract.Device, len(devices))
@@ -286,38 +287,36 @@ func (d *Driver) makeDeviceRefMap() map[string]contract.Device {
 // will return an empty slice if no new devices are discovered
 func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) (filtered []sdkModel.DiscoveredDevice) {
 	// filter out duplicate discovered devices by mac address
-	discoveredMacMap := make(map[string]sdkModel.DiscoveredDevice)
-	discoveredRefMap := make(map[string]sdkModel.DiscoveredDevice)
+	discoveredMap := make(map[string]sdkModel.DiscoveredDevice)
+	existingRefDevices := d.makeDeviceRefMap() // create comparison map endpoint references
+	existingMacDevices := d.makeDeviceMacMap() // create comparison map for mac addresses
+
+	// filter out duplicate discovered devices by endpoint reference
+
 	for _, device := range discoveredDevices {
 		macAddress := device.Protocols[OnvifProtocol][MACAddress]
-		if _, found := discoveredMacMap[macAddress]; !found {
-			discoveredMacMap[macAddress] = device
+		if _, found := discoveredMap[macAddress]; !found {
+			discoveredMap[macAddress] = device
 		}
+
 		endpointRefAddress := device.Protocols[OnvifProtocol][EndpointRefAddress]
-		if _, found := discoveredRefMap[endpointRefAddress]; !found {
-			discoveredRefMap[endpointRefAddress] = device
+		if _, found := discoveredMap[endpointRefAddress]; !found {
+			discoveredMap[endpointRefAddress] = device
 		}
 	}
 
-	existingRefDevices := d.makeDeviceRefMap() // create comparison map
-	existingMacDevices := d.makeDeviceMacMap() // create comparison map
-
 	// loop through discovered devices and see if they are already discovered
-	for macAddress, device := range discoveredMacMap {
-		if existingDevice, found := existingMacDevices[macAddress]; found {
+	for key, device := range discoveredMap {
+		if existingDevice, found := existingMacDevices[key]; found {
 			if err := d.updateExistingDevice(existingDevice, device); err != nil {
 				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
 			}
 			continue // skip registering existing device
-		} else {
-			for endpointRefAddr, device := range discoveredRefMap {
-				if existingDevice, found := existingRefDevices[endpointRefAddr]; found {
-					if err := d.updateExistingDevice(existingDevice, device); err != nil {
-						d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
-					}
-					continue // skip registering existing device
-				}
+		} else if existingDevice, found := existingRefDevices[key]; found {
+			if err := d.updateExistingDevice(existingDevice, device); err != nil {
+				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
 			}
+			continue // skip registering existing device
 		}
 		// if device was not found, add it to the list of new devices to be registered with EdgeX
 		filtered = append(filtered, device)
