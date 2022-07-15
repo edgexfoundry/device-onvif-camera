@@ -271,7 +271,7 @@ func (d *Driver) makeDeviceRefMap() map[string]contract.Device {
 
 		endpointRef := onvifInfo[EndpointRefAddress]
 		if endpointRef == "" {
-			d.lc.Warnf("Registered device %s is missing required %s protocol information: %s.",
+			d.lc.Infof("Registered device %s is missing optional %s protocol information: %s.",
 				dev.Name, OnvifProtocol, EndpointRefAddress)
 			continue
 		}
@@ -282,60 +282,44 @@ func (d *Driver) makeDeviceRefMap() map[string]contract.Device {
 	return deviceMap
 }
 
-type DiscoveredDeviceWithMacAndEndpointRef struct {
-	mac         string
-	endpointRef string
-	device      sdkModel.DiscoveredDevice
-}
-
 // discoverFilter iterates through the discovered devices, and returns any that are not duplicates
-// of devices in metadata or are from an alternate discovery method
+// of devices in metadata or are from an alternate discovery method.
 // will return an empty slice if no new devices are discovered
-func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) (filtered []sdkModel.DiscoveredDevice) {
+func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
 	// filter out duplicate discovered devices by mac address
-	discoveredMacMap := make(map[string]sdkModel.DiscoveredDevice)
-	discoveredRefMap := make(map[string]sdkModel.DiscoveredDevice)
+	discoveredMap := make(map[string]sdkModel.DiscoveredDevice)
 	existingRefDevices := d.makeDeviceRefMap() // create comparison map endpoint references
 	existingMacDevices := d.makeDeviceMacMap() // create comparison map for mac addresses
 
-	var discovered []DiscoveredDeviceWithMacAndEndpointRef
+	var discovered []sdkModel.DiscoveredDevice
 
-	// filter out duplicate discovered devices by mac address or endpoint reference
-
+	// filter out newly discovered devices with the same EndpointRefAddress. This is common when using a DiscoveryMode
+	// of 'both', and the device being discovered from both modes
 	for _, device := range discoveredDevices {
-		newDeviceFound := false
-		macAddress := device.Protocols[OnvifProtocol][MACAddress]
-		if _, found := discoveredMacMap[macAddress]; !found {
-			discoveredMacMap[macAddress] = device
-			newDeviceFound = true
-		}
-
 		endpointRefAddress := device.Protocols[OnvifProtocol][EndpointRefAddress]
-		if _, found := discoveredRefMap[endpointRefAddress]; !found {
-			discoveredRefMap[endpointRefAddress] = device
-			newDeviceFound = true
-		}
-
-		if newDeviceFound {
-			discovered = append(discovered, DiscoveredDeviceWithMacAndEndpointRef{mac: macAddress, endpointRef: endpointRefAddress, device: device})
+		if _, found := discoveredMap[endpointRefAddress]; !found {
+			discoveredMap[endpointRefAddress] = device
+			discovered = append(discovered, device)
 		}
 	}
 
-	// loop through discovered devices and see if they are already discovered
+	// loop through discovered devices and see if they already exist in the system
+	filtered := make([]sdkModel.DiscoveredDevice, 0, len(discovered))
 	for _, device := range discovered {
-		if existingDevice, found := existingMacDevices[device.mac]; found {
-			if err := d.updateExistingDevice(existingDevice, device.device); err != nil {
+		macAddress := device.Protocols[OnvifProtocol][MACAddress]
+		if existingDevice, found := existingMacDevices[macAddress]; found && macAddress != "" {
+			if err := d.updateExistingDevice(existingDevice, device); err != nil {
 				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
 			}
 			continue // skip registering existing device
-		} else if existingDevice, found := existingRefDevices[device.endpointRef]; found {
-			if err := d.updateExistingDevice(existingDevice, device.device); err != nil {
+		} else if existingDevice, found := existingRefDevices[device.Protocols[OnvifProtocol][EndpointRefAddress]]; found {
+			if err := d.updateExistingDevice(existingDevice, device); err != nil {
 				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
 			}
 			continue // skip registering existing device
 		}
 		// if device was not found, add it to the list of new devices to be registered with EdgeX
-		filtered = append(filtered, device.device)
+		filtered = append(filtered, device)
 	}
 
 	return filtered
