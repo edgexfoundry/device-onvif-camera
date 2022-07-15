@@ -174,8 +174,8 @@ This method is going to be slower and more network-intensive than multicast WS-D
 
 
 ```toml
-# Custom configs
-[AppCustom]
+# Driver configs
+[Driver]
 CredentialsRetryTime = "120" # Seconds
 CredentialsRetryWait = "1" # Seconds
 RequestTimeout = "5" # Seconds
@@ -238,7 +238,7 @@ The provision watcher is used to filter the discovered devices and provide infor
 
 Any discovered devices that match the `Manufacturer` and `Model` should be added to core metadata by the device service
 ```shell
-curl --request POST 'http://localhost:59881/api/v2/provisionwatcher' \
+curl --request POST 'http://0.0.0.0:59881/api/v2/provisionwatcher' \
     --header 'Content-Type: application/json' \
     -d '[
        {
@@ -265,7 +265,7 @@ curl --request POST 'http://localhost:59881/api/v2/provisionwatcher' \
 Add any unknown discovered devices to core metadata with a generic profile.
 
 ```shell
-curl --request POST 'http://localhost:59881/api/v2/provisionwatcher' \
+curl --request POST 'http://0.0.0.0:59881/api/v2/provisionwatcher' \
     --header 'Content-Type: application/json' \
     -d '[
        {
@@ -352,10 +352,10 @@ Credentials can be added via EdgeX Secrets:
 
 > **Note:** Replace `<device-name>` with the device name of the
 > camera you want to set credentials for, `<username>` with the username, and
-> `<password>` with the password, and <mode> with the auth mode.
+> `<password>` with the password.
 
 ```shell
-curl --location --request POST 'http://localhost:59984/api/v2/secret' \
+curl --location --request POST 'http://0.0.0.0:59984/api/v2/secret' \
     --header 'Content-Type: application/json' \
     --data-raw '
 {
@@ -369,10 +369,6 @@ curl --location --request POST 'http://localhost:59984/api/v2/secret' \
         {
             "key":"password",
             "value":"<password>"
-        },
-        {
-            "key":"mode",
-            "value":"<mode>"
         }
     ]
 }'

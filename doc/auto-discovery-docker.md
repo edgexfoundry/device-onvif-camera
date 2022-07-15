@@ -1,26 +1,49 @@
 # Set Up Auto Discovery with Docker
 
-This is a guide on how to configure the ONVIF device service for automatic device discovery using Docker.
+This is a guide on how to configure the ONVIF device service for automatic device discovery using Docke.
 
 <img alt="overview" src="images/auto-discovery-docker-overview.jpg" width="75%"/>
 
-## Prepare edgex-compose/compose-builder
-1. Download  or clone [edgex-compose](https://github.com/edgexfoundry/edgex-compose)
-2. Change the directory to ` edgex-compose/compose-builder`
-
-## Update the `./add-device-onvif-camera.yml`
-Add subnets for discovering cameras:
-```yaml
-services:
-  device-onvif-camera:
-    ...
-    environment:
-      ...
-      APPCUSTOM_DISCOVERYSUBNETS: "192.168.1.0/24,10.0.0.0/24"
-```
-See more settings at the [AppCustom section of the configuration.toml](https://github.com/edgexfoundry/device-onvif-camera/blob/main/cmd/res/configuration.toml)
+Note: For macOS, the network_mode: "host" probably does not work as expected: https://github.com/docker/for-mac/issues/1031
 
 ## Non-Security Mode
+
+### Prepare edgex-compose/compose-builder
+
+#### 1. Download the [edgex-compose](https://github.com/edgexfoundry/edgex-compose) and setup it according to the [docker-compose setup guide](./docker-compose/README.md)
+
+#### 2. Update  the `add-device-onvif-camera.yml` file with the following content:
+
+```yaml
+version: '3.7'
+
+services:
+  device-onvif-camera:
+    image: edgexfoundry/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
+    ports:
+      - "127.0.0.1:59984:59984"
+    container_name: edgex-device-onvif-camera
+    hostname: edgex-device-onvif-camera
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common.env
+      - device-common.env
+    environment:
+      SERVICE_HOST: edgex-device-onvif-camera
+      MESSAGEQUEUE_HOST: edgex-redis
+    depends_on:
+      - consul
+      - data
+      - metadata
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+
+```
+> Example add-device-onvif-camera.yml contents
 
 ### Deploy EdgeX services and device-onvif-camera
 Deploy services with the following command:
@@ -49,16 +72,64 @@ Then user can follow [this doc to add a provision watcher](./auto-discovery.md) 
 
 ## Security Mode
 
+### Prepare edgex-compose/compose-builder
+
+#### 1. Download the [edgex-compose](https://github.com/edgexfoundry/edgex-compose) and setup it according to the [docker-compose setup guide](./docker-compose/README.md)
+
+#### 2. Replace the `add-device-onvif-camera.yml` with the following content:
+```yaml
+version: '3.7'
+
+services:
+  device-onvif-camera:
+    image: edgexfoundry/device-onvif-camera${ARCH}:${DEVICE_ONVIFCAM_VERSION}
+    ports:
+      - "127.0.0.1:59984:59984"
+    container_name: edgex-device-onvif-camera
+    hostname: edgex-device-onvif-camera
+    read_only: true
+    restart: always
+    networks:
+      - edgex-network
+    env_file:
+      - common.env
+      - device-common.env
+    environment:
+      SERVICE_HOST: edgex-device-onvif-camera
+      MESSAGEQUEUE_HOST: edgex-redis
+      SECRETSTORE_HOST: localhost
+      STAGEGATE_BOOTSTRAPPER_HOST: localhost
+      STAGEGATE_READY_TORUNPORT: 54329
+      STAGEGATE_WAITFOR_TIMEOUT: 60s
+    depends_on:
+      - consul
+      - data
+      - metadata
+    security_opt:
+      - no-new-privileges:true
+    user: "${EDGEX_USER}:${EDGEX_GROUP}"
+```
+
+#### 3. Export the Security Bootstrapper
+Open the `add-security.yml` file and modify the `security-bootstrapper` section to export the port. This port is used for the device-onvif-camera to wait for the security setup.
+```yaml
+services:
+  security-bootstrapper:
+    ...
+    ports:
+      - "54329:54329"
+```
+
 ### Deploy EdgeX services and device-onvif-camera
 Deploy services with the following command:
 ```shell
-make run ds-onvif-camera
+make run device-onvif-camera
 ```
 
 ### Add Secrets to Secret Store (Vault)
 
 ```shell
-curl --request POST 'http://localhost:59984/api/v2/secret' \
+curl --request POST 'http://192.168.56.101:59984/api/v2/secret' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "apiVersion":"v2",
@@ -71,10 +142,6 @@ curl --request POST 'http://localhost:59984/api/v2/secret' \
         {
             "key":"password",
             "value":"Password1!"
-        },
-        {
-            "key":"mode",
-            "value":"usernametoken"
         }
     ]
 }'
