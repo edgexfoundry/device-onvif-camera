@@ -111,9 +111,6 @@ UseMessageBus = true
 # The number of seconds to wait when making an Onvif request before timing out
 RequestTimeout = 5 # Seconds
 
-# The target EthernetInterface for multicast discovering
-DiscoveryEthernetInterface = "eth0"
-
 # The Secret Path of the default credentials to use for devices which do not have MAC Addresses defined, or do not
 # have credentials defined in the CredentialsMap. The magic value of 'NoAuth' here will cause the devices to default
 # to not using any authentication. If authentication is required, it would then need to be manually configured.
@@ -125,6 +122,9 @@ BaseNotificationURL = "http://192.168.12.112:59984"
 
 # Select which discovery mechanism(s) to use
 DiscoveryMode = "both" # netscan, multicast, or both
+
+# The target ethernet interface for multicast discovering
+DiscoveryEthernetInterface = "eth0"
 
 # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
 # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
@@ -149,7 +149,7 @@ EnableStatusCheck = true
 # Maximum 300s (5 minutes)
 CheckStatusInterval = 30
 
-# the location of Provision Watcher json files to import when using auto-discovery
+# The location of Provision Watcher json files to import when using auto-discovery
 ProvisionWatcherDir = "res/provision_watchers"
 
   # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
