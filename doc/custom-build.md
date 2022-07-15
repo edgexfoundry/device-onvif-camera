@@ -89,41 +89,6 @@ Configuring pre-defined devices will allow the service to automatically provisio
    <i>Sample: Snippet from configuration.toml</i>
 </p>
 
-<!-- 4. Configure the `AppCustom` settings in the lower section of the `configuration.toml` Each value has a short description to describe its use, but they can mostly be left as the default values. If you want to utilize discovery, ensure to update `DiscoverySubnets` with your local subnet mask. Learn more about discovery [here](./discovery.md)
-
-```toml
-...
-[AppCustom]
-...
-# List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
-# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-DiscoverySubnets = ""
-
-EnableStatusCheck = true
-
-# The interval in seconds at which the service will check the connection of all known cameras and update the device status 
-# A longer interval will mean the service will detect changes in status less quickly
-# Maximum 300s (5 minutes)
-CheckStatusInterval = 30
-
-  # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
-  #
-  # Example: (Single mapping for 1 mac address to 1 credential)
-  #   credentials001 = "aa:bb:cc:dd:ee:ff"
-  #
-  # Example: (Multi mapping for 3 mac address to 1 shared credentials)
-  #   credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
-  #
-  [AppCustom.CredentialsMap]
-  credentials001 = "cc:32:e5:00:06:88"
-```
-
-<p align="left">
-   <i>Sample: Snippet from configuration.toml</i>
-</p>
-
->NOTE: To learn more about credentials, please refer to [this document](./credentials) -->
-
 ### Additional Configuration Options
 For optional configurations, see [here.](#additional-configuration)
 

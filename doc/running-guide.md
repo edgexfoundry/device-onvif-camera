@@ -119,14 +119,6 @@
 ## Manage Devices
 Follow these instructions to update devices.
 
-<!-- Do we want this?
-### EdgeX Console
-
-#### Add Device
-
-#### Update Device
-
-#### Delete Device -->
 
 ### Curl Commands
 

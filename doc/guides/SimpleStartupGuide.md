@@ -218,15 +218,6 @@ Clone the device-onvif-camera repository:
 ## Manage Devices
 Follow these instructions to update devices.
 
-<!-- Do we want this?
-### EdgeX Console
-
-#### Add Device
-
-#### Update Device
-
-#### Delete Device -->
-
 ### Curl Commands
 
 #### Add Device
@@ -436,11 +427,9 @@ There are multiple commands that can update aspects of the camera entry in meta-
    streamURI: rtsp://192.168.86.34:554/stream1
    ``` 
 
-4. Stream the RTSP stream. <!-- &*() I would recommend VLC? -->
+4. Stream the RTSP stream. 
 
-   VLC can be used as shown in the [Verify Camera Operation](#verify-camera-operation) section.
-
-   Alternatively, ffplay can be used to stream. The command follows this format: 
+   ffplay can be used to stream. The command follows this format: 
    
    `ffplay -rtsp_transport tcp rtsp://'<user>':'<password>'@<IP address>:<port>/<streamname>`.
 

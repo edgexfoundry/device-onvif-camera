@@ -1,11 +1,3 @@
-<!-- 
-TODO: 
-    Explanations of everything, not just images.
-    Reword heading.
-    Link to other docs.
-    Mention to follow other guides first     
--->
-
 # Camera Management Example App Service
 The purpose of the camera management app is to automatically discover and connect to nearby ONVIF based cameras, 
 control cameras via commands, create inference pipelines for the camera video streams and publish inference 

@@ -43,7 +43,7 @@ You must have administrator (sudo) privileges to execute the user guide commands
 ## How It Works
 The figure below illustrates the software flow through the architecture components.
 
-![high-level-arch](../iimages/ONVIFDeviceServiceArch.png)
+![high-level-arch](../images/ONVIFDeviceServiceArch.png)
 <p align="left">
       <i>Figure 1: Software Flow</i>
 </p>
@@ -215,7 +215,7 @@ To see the RTSP stream:
 2. Choose **File** > **Open Network Stream**:
 
    <p align="center">
-      <img src="../iimages/vlcstream1.png" alt="NetworkVLC"><br>
+      <img src="../images/vlcstream1.png" alt="NetworkVLC"><br>
    <i>Figure 2: VLC Open Network Stream</i>
    </p>
 
@@ -233,14 +233,14 @@ To see the RTSP stream:
    - `IPAddress`: IP address of the Tapo C200 Camera found in **Camera Settings** in the Tapo Camera app.
 
    <p align="center">
-      <img src="../iimages/vlcstream2.png" alt="NetworkVLC"><br>
+      <img src="../images/vlcstream2.png" alt="NetworkVLC"><br>
    <i>Figure 3: VLC Enter Network URL</i>
    </p>
 
 3. Click on the **Play** button so that VLC Player plays the RTSP stream from the camera.
 
    <p align="center">
-      <img src="../iimages/vlcstream3.png" alt="NetworkVLC"><br>
+      <img src="../images/vlcstream3.png" alt="NetworkVLC"><br>
    <i>Figure 4: VLC RTSP Stream</i>
    </p>
 
@@ -454,24 +454,24 @@ LogLevel = "INFO"
 ### Use EdgeX Console to Verify Device Services, Devices, and Device Profiles
 1. Visit http://localhost:4000 to go to the dashboard for EdgeX Console GUI:
 
-   ![EdgeXConsoleDashboard](../iimages/EdgeXDashboard.png)
+   ![EdgeXConsoleDashboard](../images/EdgeXDashboard.png)
    <p align="left">
       <i>Figure 5: EdgeX Console Dashboard</i>
    </p>
 
 2. To see **Device Services**, **Devices**, or **Device Profiles**, click on their respective tab:
 
-   ![EdgeXConsoleDeviceServices](../iimages/EdgeXDeviceServices.png)
+   ![EdgeXConsoleDeviceServices](../images/EdgeXDeviceServices.png)
    <p align="left">
       <i>Figure 6: EdgeX Console Device Service List</i>
    </p>
 
-   ![EdgeXConsoleDeviceList](../iimages/EdgeXDeviceList.png)
+   ![EdgeXConsoleDeviceList](../images/EdgeXDeviceList.png)
    <p align="left">
       <i>Figure 7: EdgeX Console Device List</i>
    </p>
 
-   ![EdgeXConsoleDeviceProfileList](../iimages/EdgeXDeviceProfiles.png)
+   ![EdgeXConsoleDeviceProfileList](../images/EdgeXDeviceProfiles.png)
    <p align="left">
       <i>Figure 8: EdgeX Console Device Profile List</i>
    </p>
