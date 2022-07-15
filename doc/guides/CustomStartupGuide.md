@@ -375,24 +375,24 @@ For optional configurations, see [here.](#additional-configuration)
 ### Using EdgeX UI
 1. Visit http://localhost:4000 to go to the dashboard for EdgeX Console GUI:
 
-   ![EdgeXConsoleDashboard](./images/EdgeXDashboard.png)
+   ![EdgeXConsoleDashboard](../images/EdgeXDashboard.png)
    <p align="left">
       <i>Figure 1: EdgeX Console Dashboard</i>
    </p>
 
 2. To see **Device Services**, **Devices**, or **Device Profiles**, click on their respective tab:
 
-   ![EdgeXConsoleDeviceServices](./images/EdgeXDeviceServices.png)
+   ![EdgeXConsoleDeviceServices](../images/EdgeXDeviceServices.png)
    <p align="left">
       <i>Figure 2: EdgeX Console Device Service List</i>
    </p>
 
-   ![EdgeXConsoleDeviceList](./images/EdgeXDeviceList.png)
+   ![EdgeXConsoleDeviceList](../images/EdgeXDeviceList.png)
    <p align="left">
       <i>Figure 3: EdgeX Console Device List</i>
    </p>
 
-   ![EdgeXConsoleDeviceProfileList](./images/EdgeXDeviceProfiles.png)
+   ![EdgeXConsoleDeviceProfileList](../images/EdgeXDeviceProfiles.png)
    <p align="left">
       <i>Figure 4: EdgeX Console Device Profile List</i>
    </p>
@@ -449,28 +449,28 @@ Follow these instructions to update devices.
       ```
    b. Select the device(s):
 
-      ![creds-select-devices](./images/set-credentials-start.png)
+      ![creds-select-devices](../images/set-credentials-start.png)
       <p align="left">
          <i>Figure 5: Select device for set-credentials.sh</i>
       </p>
 
    c. Set the username for the device(s).
 
-      ![creds-set-username](./images/set-credentials-username.png)
+      ![creds-set-username](../images/set-credentials-username.png)
       <p align="left">
          <i>Figure 6: Select username for devices</i>
       </p>
 
    d. Set the password for the device(s).
 
-      ![creds-set-password](./images/set-credentials-password.png)
+      ![creds-set-password](../images/set-credentials-password.png)
       <p align="left">
          <i>Figure 7: Select password for devices</i>
       </p>
 
    e. Set the authmode for the device(s).
 
-      ![creds-set-authmode](./images/set-credentials-authmode.png)
+      ![creds-set-authmode](../images/set-credentials-authmode.png)
       <p align="left">
          <i>Figure 8: Select authmode for devices</i>
       </p>
@@ -620,7 +620,7 @@ Here is some information on how to specially configure parts of the service beyo
 
 ### Configure the Device Profiles
 
-The device profile contains general information about the camera and includes all the device resources and commands that the device resources can use to manage the cameras. The default [profile](../cmd/res/camera.yaml) contains all possible resources a camera could implement. Enable and disable supported resources in this file, or create an entirely new profile. It is important to set up the device profile to match the capabilities of the camera. Information on the resources supported by specific cameras can be found [here](./ONVIF-protocol.md#tested-onvif-cameras). Learn more about device profiles in EdgeX [here.](https://docs.edgexfoundry.org/1.2/microservices/device/profile/Ch-DeviceProfile/)
+The device profile contains general information about the camera and includes all the device resources and commands that the device resources can use to manage the cameras. The default [profile](../../cmd/res/profiles/camera.yaml) contains all possible resources a camera could implement. Enable and disable supported resources in this file, or create an entirely new profile. It is important to set up the device profile to match the capabilities of the camera. Information on the resources supported by specific cameras can be found [here](../ONVIF-protocol.md#tested-onvif-cameras). Learn more about device profiles in EdgeX [here.](https://docs.edgexfoundry.org/1.2/microservices/device/profile/Ch-DeviceProfile/)
 
 ```yaml
 name: "onvif-camera" # general information about the profile
@@ -672,7 +672,7 @@ The provision watcher sets up parameters for EdgeX to automatically add devices 
 </p>
 
 ## Summary and Next Steps
-This user guide demonstrated how to:
+This guide demonstrated how to:
 
 - deploy EdgeX with the ONVIF Device Service 
 - use the EdgeX REST APIs and the ONVIF Device Service to acquire the camera's RTSP stream

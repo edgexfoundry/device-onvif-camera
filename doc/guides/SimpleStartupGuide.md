@@ -16,7 +16,7 @@
 - Ubuntu 20.04.4 LTS
 - ONVIF-compliant Camera
 
->NOTE: The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera, referred to throughout this document as the **Tapo C200 Camera**. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](./ONVIF-protocol.md#tested-onvif-cameras)
+>NOTE: The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera, referred to throughout this document as the **Tapo C200 Camera**. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](../ONVIF-protocol.md#tested-onvif-cameras)
 
 **Time to Complete**
 
@@ -98,7 +98,7 @@ Install Docker from the official repository as documented on the [Docker Compose
    ```bash
    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
    ```
-   >NOTE: When this User Guide was created, version 1.29.2 was current.
+   >NOTE: When this guide was created, version 1.29.2 was current.
 
 2. Set permissions:
    ```bash
@@ -277,28 +277,28 @@ Follow these instructions to update devices.
       ```
    b. Select the device(s):
 
-      ![creds-select-devices](./images/set-credentials-start.png)
+      ![creds-select-devices](../images/set-credentials-start.png)
       <p align="left">
          <i>Figure 1: Select device for set-credentials.sh</i>
       </p>
 
    c. Set the username for the device(s):
 
-      ![creds-set-username](./images/set-credentials-username.png)
+      ![creds-set-username](../images/set-credentials-username.png)
       <p align="left">
          <i>Figure 2: Select username for devices</i>
       </p>
 
    d. Set the password for the device(s):
 
-      ![creds-set-password](./images/set-credentials-password.png)
+      ![creds-set-password](../images/set-credentials-password.png)
       <p align="left">
          <i>Figure 3: Select password for devices</i>
       </p>
 
    e. Set the authmode for the device(s):
 
-      ![creds-set-authmode](./images/set-credentials-authmode.png)
+      ![creds-set-authmode](../images/set-credentials-authmode.png)
       <p align="left">
          <i>Figure 4: Select authmode for devices</i>
       </p>
@@ -367,24 +367,24 @@ There are multiple commands that can update aspects of the camera entry in meta-
 ### Use EdgeX Console to Verify Device Services, Devices, and Device Profiles
 1. Visit http://localhost:4000 to go to the dashboard for EdgeX Console GUI:
 
-   ![EdgeXConsoleDashboard](./images/EdgeXDashboard.png)
+   ![EdgeXConsoleDashboard](../images/EdgeXDashboard.png)
    <p align="left">
       <i>Figure 5: EdgeX Console Dashboard</i>
    </p>
 
 2. To get device status information, click on the tabs **Device Services**, **Devices**, or **Device Profiles**:
 
-   ![EdgeXConsoleDeviceServices](./images/EdgeXDeviceServices.png)
+   ![EdgeXConsoleDeviceServices](../images/EdgeXDeviceServices.png)
    <p align="left">
       <i>Figure 6: EdgeX Console Device Service List</i>
    </p>
 
-   ![EdgeXConsoleDeviceList](./images/EdgeXDeviceList.png)
+   ![EdgeXConsoleDeviceList](../images/EdgeXDeviceList.png)
    <p align="left">
       <i>Figure 7: EdgeX Console Device List</i>
    </p>
 
-   ![EdgeXConsoleDeviceProfileList](./images/EdgeXDeviceProfiles.png)
+   ![EdgeXConsoleDeviceProfileList](../images/EdgeXDeviceProfiles.png)
    <p align="left">
       <i>Figure 8: EdgeX Console Device Profile List</i>
    </p>
@@ -468,7 +468,7 @@ To stop all EdgeX services (containers), execute the `make down` command:
    ```
 
 ## Summary and Next Steps
-This user guide demonstrated how to:
+This guide demonstrated how to:
 
 - deploy EdgeX with the ONVIF Device Service 
 - use the EdgeX REST APIs and the ONVIF Device Service to acquire the camera's RTSP stream
