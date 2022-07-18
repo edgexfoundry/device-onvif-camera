@@ -242,7 +242,7 @@ create_or_update_credentials() {
     fi
     log_info "Secret Path: ${SECRET_PATH}"
     # we need to inject the secret path into the map to avoid key not found errors later on
-    CREDENTIALS_MAP[$SECRET_PATH]=""
+    CREDENTIALS_MAP[$SECRET_PATH]=$(get_credentials_map_field "$SECRET_PATH" || printf '')
 
     query_username_password
 
@@ -253,8 +253,7 @@ create_or_update_credentials() {
     # store the credentials
     set_secret
 
-    # create an empty mapping for the credentials (that way it shows up on the list when queried)
-    add_empty_mac_mapping
+    put_credentials_map_field "${SECRET_PATH}" "${CREDENTIALS_MAP[$SECRET_PATH]}"
 }
 
 # prompt the user to pick a secret path mapping
@@ -510,10 +509,6 @@ parse_args() {
 
         shift
     done
-}
-
-add_empty_mac_mapping() {
-    put_credentials_map_field "${SECRET_PATH}" ""
 }
 
 # create or update the insecure secrets by setting the 3 required fields in Consul
