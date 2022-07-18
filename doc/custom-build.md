@@ -74,15 +74,20 @@ Configuring pre-defined devices will allow the service to automatically provisio
 
 ```toml
 [Writable]
-...
-  [Writable.InsecureSecrets]
-    ...
-    [Writable.InsecureSecrets.Camera001]
+    [Writable.InsecureSecrets.credentials001]
     path = "credentials001"
-      [Writable.InsecureSecrets.Camera001.Secrets]
-      username = "admin"                  # Set to your camera account username
-      password = "Password123"            # Set to your camera account password
+      [Writable.InsecureSecrets.credentials001.Secrets]
+      username = "<Credentials 1 username>"
+      password = "<Credentials 1 password>"
       mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+
+    [Writable.InsecureSecrets.credentials002]
+    path = "credentials002"
+      [Writable.InsecureSecrets.credentials002.Secrets]
+      username = "<Credentials 1 password>"
+      password = "<Credentials 2 password>"
+      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+
 ```
 
 <p align="left">

@@ -198,15 +198,20 @@ Configuring pre-defined devices will allow the service to automatically provisio
 
 ```toml
 [Writable]
-...
-  [Writable.InsecureSecrets]
-    ...
-    [Writable.InsecureSecrets.Camera001]
+    [Writable.InsecureSecrets.credentials001]
     path = "credentials001"
-      [Writable.InsecureSecrets.Camera001.Secrets]
-      username = "admin"                  # Set to your camera account username
-      password = "Password123"            # Set to your camera account password
+      [Writable.InsecureSecrets.credentials001.Secrets]
+      username = "<Credentials 1 username>"
+      password = "<Credentials 1 password>"
       mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+
+    [Writable.InsecureSecrets.credentials002]
+    path = "credentials002"
+      [Writable.InsecureSecrets.credentials002.Secrets]
+      username = "<Credentials 1 password>"
+      password = "<Credentials 2 password>"
+      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+
 ```
 
 <p align="left">
@@ -406,75 +411,68 @@ Follow these instructions to update devices.
    [{"apiVersion":"v2","statusCode":201,"id":"fb5fb7f2-768b-4298-a916-d4779523c6b5"}]
    ```
 
-1. Add credentials using the `set-credentials.sh` script.  
-   1. Navigate to the `device-onvif-camera/bin` directory.
-   1. Run the `set-credentials.sh` script
+ Map credentials using the `map-credentials.sh` script.  
+   a. Run `bin/map-credentials.sh`    
+   b. Select `(Create New)`
+      ![](../images/create_new.png)
+   c. Enter the Secret Path to associate with these credentials  
+      ![](../images/secret_path.png)
+   d. Enter the username  
+      ![](../images/set_username.png)
+   e. Enter the password  
+      ![](../images/set_password.png)
+   f. Choose the Authentication Mode  
+      ![](../images/auth_mode.png)
+   g. Assign one or more MAC Addresses to the credential group  
+      ![](../images/assign_mac.png)
+   h. Learn more about updating credentials [here](../utility-scripts.md)  
 
-      ```bash
-      ./set-credentials.sh
-      ```
-   b. Select the device(s):
-
-      ![creds-select-devices](../images/set-credentials-start.png)
-      <p align="left">
-         <i>Figure 5: Select device for set-credentials.sh</i>
-      </p>
-
-   c. Set the username for the device(s).
-
-      ![creds-set-username](../images/set-credentials-username.png)
-      <p align="left">
-         <i>Figure 6: Select username for devices</i>
-      </p>
-
-   d. Set the password for the device(s).
-
-      ![creds-set-password](../images/set-credentials-password.png)
-      <p align="left">
-         <i>Figure 7: Select password for devices</i>
-      </p>
-
-   e. Set the authmode for the device(s).
-
-      ![creds-set-authmode](../images/set-credentials-authmode.png)
-      <p align="left">
-         <i>Figure 8: Select authmode for devices</i>
-      </p>
-
-   Good output:
+   Successful:
    
-   ```bash
-   curl --data "<redacted>" -X GET http://localhost:59881/api/v2/device/service/name/device-onvif-camera
+   ```bash 
+   Dependencies Check: Success
+         Consul Check: ...
+                     curl -X GET http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera?keys=true
+   Response [200]      Success
+   curl -X GET http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap?keys=true
    Response [200] 
-
-
-   Selected Device: Camera001
-   Setting InsecureSecret: Camera001/Path
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/Camera001/Path
+   Secret Path: a
+   curl -X GET http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
+   Response [404] 
+   Failed! curl returned a status code of '404'
+   Setting InsecureSecret: a/Path
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/a/Path
    Response [200] true
 
-   Setting InsecureSecret: Camera001/Secrets/username
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/Camera001/Secrets/username
+
+   Setting InsecureSecret: a/Secrets/username
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/username
    Response [200] true
 
-   Setting InsecureSecret: Camera001/Secrets/password
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/Camera001/Secrets/password
+
+   Setting InsecureSecret: a/Secrets/password
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/password
    Response [200] true
 
-   Setting InsecureSecret: Camera001/Secrets/mode
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/Camera001/Secrets/mode
+
+   Setting InsecureSecret: a/Secrets/mode
+   curl --data "usern<redacted>metoken" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/mode
    Response [200] true
 
-   Patching protocols["Onvif"].SecretPath to Camera001
-   curl --data "<redacted>" -X GET http://localhost:59881/api/v2/device/name/Camera001
-   Response [200] curl --data "<redacted>" -X PATCH http://localhost:59881/api/v2/device
-   Response [207] [
-      {
-         "apiVersion": "v2",
-         "statusCode": 200
-      }
-   ]
-   ```
+
+   Setting Credentials Map: a = ''
+   curl -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a
+   Response [200] true
+
+
+
+   Secret Path: a
+   curl -X GET http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
+   Response [200] 
+   Setting Credentials Map: a = '11:22:33:44:55:66'
+   curl --data "11:22:33:44:55:66" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a
+   Response [200] true
+   ``` 
 
 
 2. Verify device(s) have been succesfully added to core-metadata.
