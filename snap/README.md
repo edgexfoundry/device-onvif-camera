@@ -34,5 +34,5 @@ Please refer [here][secret-store-token] for further information.
 
 
 [edgex-device-onvif-camera]: https://snapcraft.io/edgex-device-onvif-camera
-[docs]: https://docs.edgexfoundry.org/2.2/getting-started/Ch-GettingStartedSnapUsers/#device-onvif-camera
-[secret-store-token]: https://docs.edgexfoundry.org/2.2/getting-started/Ch-GettingStartedSnapUsers/#secret-store-token
+[docs]: https://docs.edgexfoundry.org/2.3/getting-started/Ch-GettingStartedSnapUsers/#device-onvif-camera
+[secret-store-token]: https://docs.edgexfoundry.org/2.3/getting-started/Ch-GettingStartedSnapUsers/#secret-store-token
