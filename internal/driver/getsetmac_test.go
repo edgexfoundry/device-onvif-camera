@@ -19,7 +19,7 @@ func getTestDeviceMac() contract.Device {
 	return contract.Device{
 		Protocols: map[string]contract.ProtocolProperties{
 			OnvifProtocol: {
-				MACAddress: "ab-cd-ef-12-34-56",
+				MACAddress: "ab:cd:ef:12:34:56",
 			},
 		},
 	}
@@ -93,7 +93,7 @@ func TestOnvifClient_setMACAddress(t *testing.T) {
 			data: `{"MACAddress":"ab-cd-ef-12-34-56"}`,
 			expected: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
-					OnvifProtocol: {"MACAddress": "ab-cd-ef-12-34-56"},
+					OnvifProtocol: {"MACAddress": "ab:cd:ef:12:34:56"},
 				},
 			},
 		},
@@ -102,7 +102,7 @@ func TestOnvifClient_setMACAddress(t *testing.T) {
 			device: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					OnvifProtocol: {
-						"MACAddress": "ab-cd-ef-12-34-56s",
+						"MACAddress": "ab:cd:ef:12:34:56",
 					},
 				},
 			},
@@ -110,7 +110,7 @@ func TestOnvifClient_setMACAddress(t *testing.T) {
 			expected: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					OnvifProtocol: {
-						"MACAddress": "12-23-34-45-56-67",
+						"MACAddress": "12:23:34:45:56:67",
 					},
 				},
 			},
@@ -120,7 +120,7 @@ func TestOnvifClient_setMACAddress(t *testing.T) {
 			device: contract.Device{
 				Protocols: map[string]contract.ProtocolProperties{
 					OnvifProtocol: {
-						"MACAddress": "ab-cd-ef-12-34-56s",
+						"MACAddress": "ab:cd:ef:12:34:56s",
 					},
 				},
 			},

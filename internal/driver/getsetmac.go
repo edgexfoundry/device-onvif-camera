@@ -32,12 +32,12 @@ func (onvifClient *OnvifClient) setMACAddress(device contract.Device, data []byt
 			err := error.New("invalid key")
 			return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "error setting MACAddress", err)
 		}
-		_, err := SanitizeMACAddress(value)
+		mac, err := SanitizeMACAddress(value)
 		if err != nil {
 			return device, errors.NewCommonEdgeX(errors.KindContractInvalid, "error setting MACAddress:", err)
 		}
 
-		device.Protocols[OnvifProtocol][MACAddress] = value // create or update mac address field
+		device.Protocols[OnvifProtocol][MACAddress] = mac // create or update mac address field
 	}
 
 	return device, nil
