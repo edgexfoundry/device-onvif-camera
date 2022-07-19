@@ -326,12 +326,6 @@ query_mac_address() {
         CREDENTIALS_MAP[$SECRET_PATH]=$(get_credentials_map_field "$SECRET_PATH")
         MAC_ADDRESSES=$(whiptail --inputbox "Enter one or more mac addresses to associate with credentials: '${SECRET_PATH}'" \
             10 0 "${CREDENTIALS_MAP[$SECRET_PATH]}" 3>&1 1>&2 2>&3)
-
-        if [ -z "${MAC_ADDRESSES}" ]; then
-            log_error "No mac addresses entered, exiting..."
-
-            return 1
-        fi
     fi
 }
 
