@@ -26,13 +26,15 @@ main() {
     consul_check
 
     if [ -z "${SECRET_PATH}" ]; then
-        pick_secret_path
+        pick_secret_path 1 1
     fi
     log_info "Secret Path: ${SECRET_PATH}"
 
     query_mac_address
 
     put_credentials_map_field "${SECRET_PATH}" "${MAC_ADDRESSES}"
+
+    echo -e "${green}${bold}Success${clear}"
 }
 
 main "$@"

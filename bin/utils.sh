@@ -259,19 +259,37 @@ create_or_update_credentials() {
 }
 
 # prompt the user to pick a secret path mapping
+# usage: pick_secret_path <Include NoAuth 0/1> <Include Add New 0/1>
+# examples: pick_secret_path 0 0
+# examples: pick_secret_path 1 1
 pick_secret_path() {
     get_credentials_map_keys
 
+    local OPTIONS_COUNT=$CREDENTIALS_COUNT
     local options=()
     for d in ${CREDENTIALS_MAP_KEYS}; do
-        options+=("$d" "$d")
+        if [ "$1" -eq 1 ] || [ "$d" != "NoAuth" ]; then
+            # only allow NoAuth if $1 == 1
+            options+=("$d" "$d")
+        else
+            OPTIONS_COUNT=$((OPTIONS_COUNT - 1)) # one less option
+        fi
     done
-    # insert the option "_ADD_NEW_" last in the list. if the user selects this, prompt them to
-    # create a new secret
-    options+=("${ADD_NEW_SECRET_KEY}" "(Create New)")
+
+    if [ "$2" -eq 1 ]; then
+        # insert the option "_ADD_NEW_" last in the list. if the user selects this, prompt them to
+        # create a new secret
+        options+=("${ADD_NEW_SECRET_KEY}" "(Create New)")
+        OPTIONS_COUNT=$((OPTIONS_COUNT + 1))
+    fi
+    
+    if [ $OPTIONS_COUNT -eq 0 ]; then
+        log_error "No credentials found that can be edited! Please add some using the other scripts."
+        return 1
+    fi
 
     SECRET_PATH=$(whiptail --menu "Please pick credentials" --notags \
-        0 0 "${CREDENTIALS_COUNT}" \
+        0 0 "${OPTIONS_COUNT}" \
         "${options[@]}" 3>&1 1>&2 2>&3)
 
     if [ "${SECRET_PATH}" == "${ADD_NEW_SECRET_KEY}" ]; then

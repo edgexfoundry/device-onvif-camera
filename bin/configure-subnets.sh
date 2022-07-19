@@ -43,6 +43,8 @@ main() {
 
     log_info "\nSetting DiscoverySubnets to '${SUBNETS}'"
     put_consul_kv "${APPCUSTOM_BASE_KEY}/DiscoverySubnets" "${SUBNETS}"
+
+    echo -e "${green}${bold}Success${clear}"
 }
 
 main "$@"

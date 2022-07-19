@@ -24,12 +24,14 @@ main() {
     dependencies_check
     consul_check
 
-    pick_secret_path
+    pick_secret_path 0 0
     if [ "${SECRET_PATH}" == "NoAuth" ]; then
-        log_error "Unable to change credentials for NoAuth!"
+        log_error "NoAuth is a built-in value and cannot be modified by the user. It contains no actual credentials!"
         return 1
     fi
     create_or_update_credentials
+
+    echo -e "${green}${bold}Success${clear}"
 }
 
 main "$@"
