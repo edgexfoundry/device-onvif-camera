@@ -572,7 +572,7 @@ check_consul_return_code() {
             # Error 404 means it connected to consul but couldn't find the key
             echo -e "${red}* Have you deployed the ${bold}${DEVICE_SERVICE}${normal} service?${clear}"
         elif [ $((CURL_CODE)) -eq 401 ]; then
-            if [ "${CURL_OUTPUT}" == "ACL Support Disabled" ]; then
+            if [ "${CURL_OUTPUT}" == "ACL support disabled" ]; then
                 SECURE_MODE=0
                 CONSUL_TOKEN=""
                 return
@@ -600,17 +600,19 @@ consul_check() {
 
     # use || true because we want to handle the result and not let the script auto exit
     do_curl '[{"Resource":"key","Access":"read"},{"Resource":"key","Access":"write"}]' \
-        -H "X-Consul-Token:${CONSUL_TOKEN}" -X POST "${CONSUL_URL}/v1/internal/acl/authorize" || true
+        -H "X-Consul-Token:${CONSUL_TOKEN}" -X POST "${CONSUL_URL}/v1/internal/acl/authorize" 2>/dev/null || true
     check_consul_return_code
 
 
-    local authorized
-    # use || true because we want to handle the result and not let the script auto exit
-    # this could be parsed better if using `jq`, but don't want to require the user to have it installed
-    authorized=$(grep -c '"Allow":true'<<<"${CURL_OUTPUT}" || true)
-    if [ $((authorized)) -ne 2 ]; then
-        SECURE_MODE=1
-        query_consul_token
+    if [ $((CURL_CODE)) -eq 200 ]; then
+        local authorized
+        # use || true because we want to handle the result and not let the script auto exit
+        # this could be parsed better if using `jq`, but don't want to require the user to have it installed
+        authorized=$(grep -c '"Allow":true'<<<"${CURL_OUTPUT}" || true)
+        if [ $((authorized)) -ne 2 ]; then
+            SECURE_MODE=1
+            query_consul_token
+        fi
     fi
 
     # use || true because we want to handle the result and not let the script auto exit
