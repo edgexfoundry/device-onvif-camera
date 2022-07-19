@@ -639,6 +639,12 @@ This guide demonstrated how to:
 - deploy EdgeX with the ONVIF Device Service 
 - use the EdgeX REST APIs and the ONVIF Device Service to acquire the camera's RTSP stream
 
+### Next Steps
+
+[Explore how to further use this device service](../general-usage.md)
+
+Refer to the main [README](../../README.md) to find links to the rest of the documents.
+
 ## References
 
 - ONVIF Website: http://www.onvif.org
