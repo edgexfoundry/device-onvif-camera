@@ -18,7 +18,7 @@ export EDGEX_SECURITY_SECRET_STORE=false
 
 Check the device service is added to EdgeX
 ```shell
-curl http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | json_pp
+curl http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq .
 {
    "apiVersion" : "v2",
    "service" : {
@@ -70,7 +70,7 @@ curl -X POST -H 'Content-Type: application/json'  \
 
 Check the available commands from core-command service:
 ```shell
-$ curl http://localhost:59882/api/v2/device/name/Camera001 | json_pp
+$ curl http://localhost:59882/api/v2/device/name/Camera001 | jq .
 {
    "apiVersion" : "v2",
    "deviceCoreCommand" : {
@@ -111,7 +111,7 @@ $ curl http://localhost:59882/api/v2/device/name/Camera001 | json_pp
 
 ## 5. Execute a Get Command - Read Single Resource
 ```shell
-$ curl http://0.0.0.0:59882/api/v2/device/name/Camera001/Hostname | json_pp
+$ curl http://0.0.0.0:59882/api/v2/device/name/Camera001/Hostname | jq .
 {
    "apiVersion" : "v2",
    "event" : {
@@ -143,7 +143,7 @@ $ curl http://0.0.0.0:59882/api/v2/device/name/Camera001/Hostname | json_pp
 ```
 ## 6. Execute a Get Command - Read Multiple Resources
 ```shell
-$ curl http://0.0.0.0:59882/api/v2/device/name/Camera001/NetworkConfiguration | json_pp
+$ curl http://0.0.0.0:59882/api/v2/device/name/Camera001/NetworkConfiguration | jq .
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  1942  100  1942    0     0  10167      0 --:--:-- --:--:-- --:--:-- 10167

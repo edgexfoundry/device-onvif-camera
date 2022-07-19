@@ -96,6 +96,8 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 				EndpointRefAddress: endpointRefAddr,
 				DeviceStatus:       Reachable,
 				LastSeen:           timestamp,
+				MACAddress:         "",
+				FriendlyName:       "",
 			},
 			CustomMetadata: {},
 		},
@@ -116,7 +118,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRefAddr, edgexErr)
 		device.Protocols[OnvifProtocol][DeviceStatus] = Reachable // update device status in this error case
 		discovered = sdkModel.DiscoveredDevice{
-			Name:        "unknown_unknown_" + endpointRefAddr,
+			Name:        UnknownDevicePrefix + endpointRefAddr,
 			Protocols:   device.Protocols,
 			Description: "Auto discovered Onvif camera",
 			Labels:      []string{"auto-discovery"},
@@ -130,6 +132,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
 		device.Protocols[OnvifProtocol][DeviceStatus] = UpWithAuth
 		device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
+		device.Protocols[OnvifProtocol][FriendlyName] = devInfo.Manufacturer + " " + devInfo.Model
 
 		// Spaces are not allowed in the device name
 		deviceName := fmt.Sprintf("%s-%s-%s",
@@ -346,6 +349,17 @@ func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.D
 		device.Protocols[OnvifProtocol][Address] = discAddr
 		device.Protocols[OnvifProtocol][Port] = discPort
 
+		shouldUpdate = true
+	}
+
+	if device.Protocols[OnvifProtocol][EndpointRefAddress] != discDev.Protocols[OnvifProtocol][EndpointRefAddress] {
+		device.Protocols[OnvifProtocol][EndpointRefAddress] = discDev.Protocols[OnvifProtocol][EndpointRefAddress]
+		shouldUpdate = true
+	}
+
+	discoveredMAC := discDev.Protocols[OnvifProtocol][MACAddress]
+	if discoveredMAC != "" && device.Protocols[OnvifProtocol][MACAddress] != discoveredMAC {
+		device.Protocols[OnvifProtocol][MACAddress] = discoveredMAC
 		shouldUpdate = true
 	}
 

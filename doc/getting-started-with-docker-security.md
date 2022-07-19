@@ -85,7 +85,7 @@ curl -X POST -H 'Content-Type: application/json'  \
 
 Check the available commands from core-command service:
 ```shell
-$ curl http://localhost:59882/api/v2/device/name/Camera003 | json_pp
+$ curl http://localhost:59882/api/v2/device/name/Camera003 | jq .
 {
    "apiVersion" : "v2",
    "deviceCoreCommand" : {
@@ -126,7 +126,7 @@ $ curl http://localhost:59882/api/v2/device/name/Camera003 | json_pp
 
 ## 7. Execute a Get Command
 ```shell
-$ curl http://0.0.0.0:59882/api/v2/device/name/Camera003/Users | json_pp
+$ curl http://0.0.0.0:59882/api/v2/device/name/Camera003/Users | jq .
 {
    "apiVersion" : "v2",
    "event" : {

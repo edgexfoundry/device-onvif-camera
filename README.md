@@ -293,5 +293,12 @@ See the sample at [cmd/res/devices/camera.toml.example](cmd/res/devices/camera.t
 
 ## Control Plane Events
 [Control Plane Events](./doc/control-plane-events.md)
+
+## Custom Metadata
+[CustomMetadata](./doc/custom-metadata-feature.md)
+
+## Get and set Friendly Name and MAC Address
+[FriendlyName and MACAddress](./doc/get-set-friendlyname-mac.md)
+
 ## License
 [Apache-2.0](LICENSE)

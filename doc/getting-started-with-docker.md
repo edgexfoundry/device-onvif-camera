@@ -20,7 +20,7 @@ make run no-secty ds-onvif-camera
 
 Check whether the device service is added to EdgeX
 ```shell
-$ curl http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | json_pp
+$ curl http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq .
 {
    "apiVersion" : "v2",
    "service" : {

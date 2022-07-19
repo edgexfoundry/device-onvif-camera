@@ -106,7 +106,7 @@ func (m *MACAddressMapper) TryGetSecretPathForMACAddress(mac string, defaultSecr
 func SanitizeMACAddress(mac string) (string, error) {
 	hwAddr, err := net.ParseMAC(strings.TrimSpace(mac))
 	if err != nil {
-		return "", fmt.Errorf("'%s' is not a valid MAC Address: %s", mac, err.Error())
+		return "", err
 	}
 	return hwAddr.String(), nil
 }

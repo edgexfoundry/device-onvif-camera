@@ -22,13 +22,21 @@ const (
 )
 
 const (
+	MACAddress      = "MACAddress"
+	FriendlyName    = "FriendlyName"
+	GetFriendlyName = "GetFriendlyName"
+	SetFriendlyName = "SetFriendlyName"
+	GetMACAddress   = "GetMACAddress"
+	SetMACAddress   = "SetMACAddress"
+)
+
+const (
 	OnvifProtocol      = "Onvif"
 	Address            = "Address"
 	Port               = "Port"
 	EndpointRefAddress = "EndpointRefAddress"
 	LastSeen           = "LastSeen"
 	DeviceStatus       = "DeviceStatus"
-	MACAddress         = "MACAddress"
 
 	// Maximum interval for checkStatus interval
 	maxStatusInterval = 300
@@ -66,4 +74,6 @@ const (
 	FirmwareVersion = "FirmwareVersion"
 	SerialNumber    = "SerialNumber"
 	HardwareId      = "HardwareId"
+
+	UnknownDevicePrefix = "unknown_unknown_"
 )

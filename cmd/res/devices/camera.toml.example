@@ -7,10 +7,11 @@ Description = "onvif conformant camera"
     [DeviceList.Protocols.Onvif]
     Address = "192.168.12.123"
     Port = "80"
+    FriendlyName = "Home camera"
     MACAddress = "aa:bb:cc:dd:ee:ff"
-    FriendlyName = "Front Camera"
     [DeviceList.Protocols.CustomMetadata]
-    Location = "Front Exit"
+    Location = "Front door"
+    Color = "Black and white"
 
 # If having more than one camera, uncomment the following config settings
 [[DeviceList]]

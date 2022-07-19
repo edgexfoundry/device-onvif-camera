@@ -22,7 +22,7 @@ For more information, please refer to the Annex D. Radiometry https://www.onvif.
 ### Query the Analytics Module
 
 ```shell
-curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/AnalyticsModules?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | json_pp
+curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/AnalyticsModules?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | jq .
 {
    "apiVersion" : "v2",
    "event" : {
@@ -66,7 +66,7 @@ curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/AnalyticsM
 ### Query the Supported Analytics Module and Options
 
 ```shell
-curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetSupportedAnalyticsModules' | json_pp
+curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetSupportedAnalyticsModules' | jq .
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100   692  100   692    0     0   2134      0 --:--:-- --:--:-- --:--:--  2217
@@ -109,7 +109,7 @@ curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetSupport
 }
 ```
 ```shell
-curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetAnalyticsModuleOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | json_pp
+curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetAnalyticsModuleOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | jq .
 {
    "apiVersion" : "v2",
    "event" : {
@@ -199,7 +199,7 @@ curl --request PUT 'http://0.0.0.0:59882/api/v2/device/name/Camera003/AnalyticsM
 ### Query the Rules
 
 ```shell
-curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/Rules?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | json_pp
+curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/Rules?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | jq .
 {
    "apiVersion" : "v2",
    "event" : {
@@ -244,7 +244,7 @@ curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/Rules?json
 
 ### Query the Supported Rule and Options
 ```shell
-curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetSupportedRules?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | json_pp
+curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetSupportedRules?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | jq .
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  9799    0  9799    0     0   9605      0 --:--:--  0:00:01 --:--:--  9740
@@ -334,7 +334,7 @@ curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetSupport
 ```
 
 ```shell
-curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetRuleOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | json_pp
+curl --request GET 'http://0.0.0.0:59882/api/v2/device/name/Camera003/GetRuleOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiIxIn0=' | jq .
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  1168  100  1168    0     0    755      0  0:00:01  0:00:01 --:--:--   759
