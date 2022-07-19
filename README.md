@@ -36,14 +36,15 @@ For a full walktrhough of building custom images, use this [guide.](./doc/guides
 
 ### General
 [Supported ONVIF features](./doc/ONVIF-protocol.md)  
-[Credentials]()  
 [Auto discovery](./doc/auto-discovery.md)  
 [Control-plane events](./doc/control-plane-events.md)  
+[Utility Scripts](./doc/utility-scripts.md)
 
 
 ### Custom Features
 [Custom Metadata](./doc/custom-metadata-feature.md)  
 [Reboot Needed](./doc/custom-feature-rebootneeded.md)  
+[Friendly Name and Mac Address](./doc/get-set-friendlyname-mac.md)  
 
 ### API Support
 [API Analytic Handling](./doc/api-analytic-support.md)  
