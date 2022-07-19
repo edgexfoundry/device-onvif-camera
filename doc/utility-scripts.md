@@ -23,7 +23,7 @@
 
 1. Run `bin/map-credentials.sh`
 2. Select the name of the existing credentials you want to assign devices to
-   ![](images/create_new.png)
+   ![](images/select_creds.png)
 3. Assign one or more MAC Addresses to the credential group
    ![](images/assign_mac_2.png)
 
@@ -53,6 +53,12 @@ Output will look something like this:
             simcreds = 'cb:4f:86:30:ef:19,87:52:89:4d:66:4d,f0:27:d2:e8:9e:e1,9d:97:d9:d8:07:4b,99:70:6d:f5:c2:16'
            tapocreds = '10:27:F5:EA:88:F3'
 ```
+
+### Configure DiscoverySubnets
+1. Run `bin/configure-subnets.sh`
+2. (Optional) If running secure mode, enter Consul Token
+   ![](images/consul_acl_sm.png)
+
 
 ## configure-subnets.sh
 ### About

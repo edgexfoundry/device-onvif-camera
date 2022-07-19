@@ -38,6 +38,7 @@ declare -A CREDENTIALS_MAP
 NET_IFACES=
 SUBNETS=
 CURL_CODE=
+CURL_OUTPUT=
 
 # note: we must use a separate array here to preserve order
 AUTH_MODES=("usernametoken" "digest" "both")
@@ -104,7 +105,7 @@ do_curl() {
     redacted_args="${redacted_args//-H X-Consul-Token: /}"
     local redacted_data=""
     if [ -n "${payload}" ]; then
-        redacted_data="--data \"${payload//${SECRET_PASSWORD}/<redacted>}\" "
+        redacted_data="--data '${payload//${SECRET_PASSWORD}/<redacted>}' "
     fi
     log_debug "curl ${redacted_data}${redacted_args}" >&2
 
@@ -118,6 +119,7 @@ do_curl() {
     output="$(<"${tmp}")"
 
     declare -g CURL_CODE="$((code))"
+    declare -g CURL_OUTPUT="${output}"
     printf "Response [%3d] " "$((code))" >&2
     if [ $((code)) -lt 200 ] || [ $((code)) -gt 299 ]; then
         format_output "$output" >&2
@@ -180,7 +182,7 @@ query_auth_mode() {
 }
 
 query_consul_token() {
-    CONSUL_TOKEN=$(whiptail --inputbox "Enter Consul Token" \
+    CONSUL_TOKEN=$(whiptail --inputbox "Enter Consul ACL Token (xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)" \
         10 0 3>&1 1>&2 2>&3)
 
     if [ -z "${CONSUL_TOKEN}" ]; then
@@ -242,7 +244,7 @@ create_or_update_credentials() {
     fi
     log_info "Secret Path: ${SECRET_PATH}"
     # we need to inject the secret path into the map to avoid key not found errors later on
-    CREDENTIALS_MAP[$SECRET_PATH]=$(get_credentials_map_field "$SECRET_PATH" || printf '')
+    CREDENTIALS_MAP[$SECRET_PATH]=$(get_credentials_map_field "$SECRET_PATH" 2>/dev/null || printf '')
 
     query_username_password
 
@@ -561,27 +563,52 @@ dependencies_check() {
     echo -e "${prev_line}${green}Success${clear}"
 }
 
+check_consul_return_code() {
+    if [ $((CURL_CODE)) -ne 200 ]; then
+        if [ $((CURL_CODE)) -eq 7 ]; then
+            # Special message for error code 7
+            echo -e "${red}* Error code '7' denotes 'Failed to connect to host or proxy'${clear}"
+        elif [ $((CURL_CODE)) -eq 404 ]; then
+            # Error 404 means it connected to consul but couldn't find the key
+            echo -e "${red}* Have you deployed the ${bold}${DEVICE_SERVICE}${normal} service?${clear}"
+        elif [ $((CURL_CODE)) -eq 401 ] || [ $((CURL_CODE)) -eq 403 ]; then
+            # Error 401 and 403 are authentication errors
+            if [ -z "${CONSUL_TOKEN}" ]; then
+                SECURE_MODE=1
+                query_consul_token
+                consul_check
+                return
+            fi
+            echo -e "${red}* Are you running in secure mode? Is your Consul token correct?${clear}"
+        else
+            echo -e "${red}* Is Consul deployed and accessible?${clear}"
+        fi
+        return $((CURL_CODE))
+    fi
+}
+
 # Consul Check
 consul_check() {
     printf "${bold}%${spacing}s${clear}: ...\n%${spacing}s  " "Consul Check" ""
 
-    get_consul_kv "${CONSUL_BASE_KEY}" "keys=true" > /dev/null
+    # use || true because we want to handle the result and not let the script auto exit
+    do_curl '[{"Resource":"key","Access":"read"},{"Resource":"key","Access":"write"}]' \
+        -H "X-Consul-Token:${CONSUL_TOKEN}" -X POST "${CONSUL_URL}/v1/internal/acl/authorize" || true
+    check_consul_return_code
 
-    if [ $((CURL_CODE)) -ne 200 ]; then
-        echo -e "${red}${bold}Failed!${normal} curl returned a status code of '${bold}$((CURL_CODE))'${normal}"
-        if [ $((CURL_CODE)) -eq 7 ]; then
-            # Special message for error code 7
-            echo -e "* Error code '7' denotes 'Failed to connect to host or proxy'"
-        elif [ $((CURL_CODE)) -eq 404 ]; then
-            # Error 404 means it connected to consul but couldn't find the key
-            echo -e "* Have you deployed the ${bold}${DEVICE_SERVICE}${normal} service?${clear}"
-        elif [ $((CURL_CODE)) -eq 401 ] || [ $((CURL_CODE)) -eq 403 ]; then
-            # Error 401 and 403 are authentication errors
-            echo -e "* Are you running in secure mode? Is your Consul token correct?"
-        else
-            echo -e "* Is Consul deployed and accessible?${clear}"
-        fi
-        return $((CURL_CODE))
+
+    local authorized
+    # use || true because we want to handle the result and not let the script auto exit
+    # this could be parsed better if using `jq`, but don't want to require the user to have it installed
+    authorized=$(grep -c '"Allow":true'<<<"${CURL_OUTPUT}" || true)
+    if [ $((authorized)) -ne 2 ]; then
+        SECURE_MODE=1
+        query_consul_token
     fi
+
+    # use || true because we want to handle the result and not let the script auto exit
+    get_consul_kv "${CONSUL_BASE_KEY}" "keys=true" > /dev/null || true
+    check_consul_return_code
+
     echo -e "${prev_line}${green}Success${clear}"
 }

@@ -104,7 +104,11 @@ credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
 ```
 </details>
 
-**B: via [utility scripts](./utility-scripts.md#use-cases)**
+<details>
+<summary><strong>B: via utility scripts</strong></summary>
+
+See the full documentation [here](./utility-scripts.md#use-cases).
+</details>
 
 ## Configuration Guide
 ### DiscoveryMode
@@ -141,7 +145,9 @@ the [bin/configure-subnets.sh](../bin/configure-subnets.sh) script.
 ### DiscoveryEthernetInterface
 > For docker, set the env var `APPCUSTOM_DISCOVERYETHERNETINTERFACE`
 
-This is the target Ethernet Interface to use for [multicast](#multicast) discovering.
+This is the target Ethernet Interface to use for [multicast](#multicast) discovering. Keep in mind this interface
+is relative to the environment it is being run under. For example, when running in docker, those interfaces
+are different from your host machine's interfaces.
 
 ### ProbeAsyncLimit
 > For docker, set the env var `APPCUSTOM_PROBEASYNCLIMIT`
@@ -162,186 +168,24 @@ It is especially important to have this configured in the case of larger subnets
 
 
 ## Adding the Devices to EdgeX
-```
-┌─────────────────┐               ┌──────────────┐                  ┌─────────────────┐
-│                 │               │              │                  │                 │
-│                 │3.Create device│    Onvif     │1.Discover camera │                 │
-│ metadata service◄───────────────┼─   Device  ──┼──────────────────┼──► Onvif Camera │
-│                 │               │    Service   │2.Get device info │                 │
-│                 │               │           ◄──┼──────────────────┼──               │
-└─────────────────┘               └──────────────┘                  └─────────────────┘
-```
-
-1. Discover camera via WS-Discovery
-2. Get device information via SOAP action
-   ```xml
-    <tds:GetDeviceInformationResponse>
-        <tds:Manufacturer>HIKVISION</tds:Manufacturer>
-        <tds:Model>DFI6256TE</tds:Model>
-        <tds:FirmwareVersion>V5.5.80 build 190528</tds:FirmwareVersion>
-        <tds:SerialNumber>DFI6256TE20190608AAWRD26707311</tds:SerialNumber>
-        <tds:HardwareId>88</tds:HardwareId>
-    </tds:GetDeviceInformationResponse>
-   ```
-3. Create device to metadata service
-   ```json
-    {
-      "apiVersion": "v2",
-      "device": {
-        "name":"HIKVISION-DFI6256TE-cea94000-fb96-11b3-8260-686dbc5cb15d",
-        "serviceName": "device-onvif-camera",
-        "profileName": "onvif-camera",
-        "description": "HIKVISION camera",
-        "protocols": {
-            "Onvif": {
-                "Address": "192.168.12.123",
-                "Port": "80",
-                "AuthMode": "usernametoken",
-                "SecretPath": "credentials001",
-                "Manufacturer": "HIKVISION",
-                "Model": "DFI6256TE",
-                "FirmwareVersion": "V5.5.80 build 190528",
-                "SerialNumber": "DFI6256TE20190608AAWRD26707311",
-                "HardwareId": "88",
-            }
-         }
-       }
-    }
-    ```
-
-- Device Name:  Manufacturer-Model-UUID (The UUID extracted from the probe response's EndpointReference address)
-- The serviceName, profileName, adminState, autoEvents are defined by the provisionWatcher
-- Predefine the secretPath for discovered device, for exmaple:
-  - DefaultSecretPath="credentials001"
-- GetDeviceInformation function provides Manufacturer, Model, FirmwareVersion, SerialNumber, HardwareId to protocol properties for provision watcher to filter
-
-
-## Usage
-## 1. Define driver config
-
-1. Ensure that the cameras are all installed and configured before attempting discovery. 
-
-2. Define the following configurations in `cmd/res/configuration.toml` for auto-discovery mechanism:
-
-
-```toml
-# Custom configs
-[AppCustom]
-CredentialsRetryTime = "120" # Seconds
-CredentialsRetryWait = "1" # Seconds
-RequestTimeout = "5" # Seconds
-DiscoveryEthernetInterface = ""
-DefaultSecretPath = "credentials001"
-# BaseNotificationURL indicates the device service network location
-BaseNotificationURL = "http://192.168.12.112:59984"
-
-# Select which discovery mechanism(s) to use
-DiscoveryMode = "both" # netscan, multicast, or both
-
-# List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
-# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-DiscoverySubnets = ""
-
-# Maximum simultaneous network probes
-ProbeAsyncLimit = "4000"
-
-# Maximum amount of milliseconds to wait for each IP probe before timing out.
-# This will also be the minimum time the discovery process can take.
-ProbeTimeoutMillis = "2000"
-
-# Maximum amount of seconds the discovery process is allowed to run before it will be cancelled.
-# It is especially important to have this configured in the case of larger subnets such as /16 and /8
-MaxDiscoverDurationSeconds = "300"
-
-EnableStatusCheck = true
-
-# The interval in seconds at which the service will check the connection of all known cameras and update the device status 
-# A longer interval will mean the service will detect changes in status less quickly
-# Maximum 300s (1 hour)
-CheckStatusInterval = 30
-
-```
->Example of configuration.toml contents
-
-### 2. Enable the Discovery Mechanism
-Device discovery is triggered by the device SDK. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
->NOTE: you can also manually call discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
-
-[Option 1] Enable from `configuration.toml`
-```yaml
-[Device] 
-...
-    [Device.Discovery]
-    Enabled = true
-    Interval = "30s"
+```mermaid
+sequenceDiagram
+    Onvif Device Service->>Onvif Camera: WS-Discovery Probe
+    Onvif Camera->>Onvif Device Service: Probe Response
+    Onvif Device Service->>Onvif Camera: GetDeviceInformation
+    Onvif Camera->>Onvif Device Service: GetDeviceInformation Response
+    Onvif Device Service->>Onvif Camera: GetNetworkInterfaces
+    Onvif Camera->>Onvif Device Service: GetNetworkInterfaces Response
+    Onvif Device Service->>EdgeX Core-Metadata: Create Device
+    EdgeX Core-Metadata->>Onvif Device Service: Device Added
 ```
 
-[Option 2] Enable from the env
-```shell
-export DEVICE_DISCOVERY_ENABLED=true
-export DEVICE_DISCOVERY_INTERVAL=30s
-```
-
-### 3. Add Provision Watcher
-The provision watcher is used to filter the discovered devices and provide information to create the devices.
-
-#### Example - HIKVISION Onvif Camera Provision
-
-Any discovered devices that match the `Manufacturer` and `Model` should be added to core metadata by the device service
-```shell
-curl --request POST 'http://localhost:59881/api/v2/provisionwatcher' \
-    --header 'Content-Type: application/json' \
-    -d '[
-       {
-          "provisionwatcher":{
-             "apiVersion":"v2",
-             "name":"Test-Provision-Watcher",
-             "adminState":"UNLOCKED",
-             "identifiers":{
-                "Manufacturer": "HIKVISION",
-                "Model": "DFI6256TE"
-             },
-             "serviceName": "device-onvif-camera",
-             "profileName": "onvif-camera",
-             "autoEvents": [
-                 { "interval": "15s", "sourceName": "Users" }
-              ]
-          },
-          "apiVersion":"v2"
-       }
-    ]'
-```
-
-#### Example - Unknown Onvif Camera Provision
-Add any unknown discovered devices to core metadata with a generic profile.
-
-```shell
-curl --request POST 'http://localhost:59881/api/v2/provisionwatcher' \
-    --header 'Content-Type: application/json' \
-    -d '[
-       {
-          "provisionwatcher":{
-             "apiVersion":"v2",
-             "name":"Test-Provision-Watcher-Unknown",
-             "adminState":"UNLOCKED",
-             "identifiers":{
-                "Address": "."
-             },
-             "blockingIdentifiers":{
-                "Manufacturer": [ "HIKVISION" ]
-             },
-             "serviceName": "device-onvif-camera",
-             "profileName": "onvif-camera"
-          },
-          "apiVersion":"v2"
-       }
-    ]'
-```
-
-### 4. Add Credentials to Unknown Camera
+### Add Credentials to Unknown Camera
 If a camera is discovered in which the credentials are unknown, it will be
 added as a generic onvif camera, and will require the user to set the credentials
 in order to call most ONVIF commands.
+
+Credentials can be added and modified via [utility scripts](./utility-scripts.md#use-cases)
 
 #### Non-Secure Mode
 ##### Helper Script
@@ -441,8 +285,8 @@ Currently, there are 4 different statuses that a camera can have
 
 **UpWithAuth**: Can execute commands requiring credentials  
 **UpWithoutAuth**: Can only execute commands that do not require credentials. Usually this means the camera's credentials have not been registered with the service yet, or have been changed.  
-**Reachable**: Can be discovered but no commands can be recieved.  
-**Unreachable**: Cannot be seen by service at all. Usually this means that there is a connection issue either physically or with the network.   
+**Reachable**: Can be discovered but no commands can be received.  
+**Unreachable**: Cannot be seen by service at all. Typically, this means that there is a connection issue either physically or with the network.   
 
 ### Configuration Options
 - Use `EnableStatusCheck` to enable the device status background service.
@@ -460,7 +304,11 @@ CheckStatusInterval = 30
 ## Troubleshooting
 
 #### netscan discovery was called, but DiscoverySubnets are empty!
-This message occurs when you have not configured the AppCustom.DiscoverySubnets configuration.
-It is required in order to know which subnets to scan for Onvif Cameras. See [here](#DiscoverySubnets)
+This message occurs when you have not configured the `AppCustom.DiscoverySubnets` configuration.
+It is required in order to know which subnets to scan for Onvif Cameras.
+See [here](#DiscoverySubnets)
 
-#### 
+#### route ip+net: no such network interface
+This message occurs when you have multicast discovery enabled, but `AppCustom.DiscoveryEthernetInterface`
+is configured to a network interface that does not exist.
+See [here](#DiscoveryEthernetInterface)

@@ -38,8 +38,10 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 
 	credsMap := make(map[string]string)
 	for secretPath, macs := range raw {
-		if _, err := m.sdkService.GetSecretProvider().GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey); err != nil {
-			m.sdkService.GetLoggingClient().Warnf("One or more MAC address mappings exist for the secret path '%s' which does not exist in the Secret Store!", secretPath)
+		if strings.ToLower(secretPath) != noAuthSecretPath { // do not check for noAuth
+			if _, err := m.sdkService.GetSecretProvider().GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey); err != nil {
+				m.sdkService.GetLoggingClient().Warnf("One or more MAC address mappings exist for the secret path '%s' which does not exist in the Secret Store!", secretPath)
+			}
 		}
 
 		for _, mac := range strings.Split(macs, ",") {

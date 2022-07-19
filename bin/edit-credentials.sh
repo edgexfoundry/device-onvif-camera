@@ -25,6 +25,10 @@ main() {
     consul_check
 
     pick_secret_path
+    if [ "${SECRET_PATH}" == "NoAuth" ]; then
+        log_error "Unable to change credentials for NoAuth!"
+        return 1
+    fi
     create_or_update_credentials
 }
 
