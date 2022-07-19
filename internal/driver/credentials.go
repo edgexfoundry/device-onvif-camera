@@ -7,10 +7,11 @@
 package driver
 
 import (
+	"strings"
+
 	"github.com/IOTechSystems/onvif"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
-	"strings"
 )
 
 // Credentials encapsulates username, password, and AuthMode attributes.
@@ -57,7 +58,6 @@ func IsAuthModeValid(mode string) bool {
 // secret provider and return them, otherwise return an error.
 func (d *Driver) tryGetCredentials(secretPath string) (Credentials, errors.EdgeX) {
 	// if the secret path is the special NoAuth magic key, do not look it up, instead return the noAuthCredentials
-	// todo: add unit tests for noAuth magic key
 	if strings.ToLower(secretPath) == noAuthSecretPath {
 		return noAuthCredentials, nil
 	}
@@ -91,7 +91,7 @@ func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, 
 	d.configMu.RUnlock()
 
 	secretPath := defaultSecretPath
-	if mac, hasMAC := device.Protocols[OnvifProtocol][MACAddress]; hasMAC {
+	if mac := device.Protocols[OnvifProtocol][MACAddress]; mac != "" {
 		secretPath = d.macAddressMapper.TryGetSecretPathForMACAddress(mac, defaultSecretPath)
 	} else {
 		d.lc.Warnf("Device %s is missing MAC Address, using default secret path", device.Name)
