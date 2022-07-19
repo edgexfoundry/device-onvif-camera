@@ -571,7 +571,14 @@ check_consul_return_code() {
         elif [ $((CURL_CODE)) -eq 404 ]; then
             # Error 404 means it connected to consul but couldn't find the key
             echo -e "${red}* Have you deployed the ${bold}${DEVICE_SERVICE}${normal} service?${clear}"
-        elif [ $((CURL_CODE)) -eq 401 ] || [ $((CURL_CODE)) -eq 403 ]; then
+        elif [ $((CURL_CODE)) -eq 401 ]; then
+            if [ "${CURL_OUTPUT}" == "ACL Support Disabled" ]; then
+                SECURE_MODE=0
+                CONSUL_TOKEN=""
+                return
+            fi
+            echo -e "${red}* Are you running in secure mode? Is your Consul token correct?${clear}"
+        elif [ $((CURL_CODE)) -eq 403 ]; then
             # Error 401 and 403 are authentication errors
             if [ -z "${CONSUL_TOKEN}" ]; then
                 SECURE_MODE=1

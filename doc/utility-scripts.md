@@ -1,5 +1,8 @@
 # Utility Scripts
 
+> **NOTE:** If running EdgeX in Secure Mode, you will need a **[Consul ACL Token](https://docs.edgexfoundry.org/2.1/security/Ch-Secure-Consul/#how-to-get-consul-acl-token)**
+> in order to use these scripts.
+
 ## Use Cases
 ### Create new credentials and assign MAC Addresses
 1. Run `bin/map-credentials.sh`
