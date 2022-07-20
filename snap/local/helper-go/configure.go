@@ -35,7 +35,7 @@ func configure() {
 	}
 
 	log.Info("Processing config options")
-	err = options.ProcessAppConfig(service)
+	err = options.ProcessConfig(service)
 	if err != nil {
 		log.Fatalf("could not process config options: %v", err)
 	}
