@@ -140,7 +140,7 @@ This option combines both [netscan](#netscan) and [multicast](#multicast).
 
 This is the list of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
 separated by commas ex: "192.168.1.0/24,10.0.0.0/24". This value can be configured automatically via
-the [bin/configure-subnets.sh](../bin/configure-subnets.sh) script.
+the [bin/configure-subnets.sh](utility-scripts.md#configure-subnetssh) script.
 
 ### DiscoveryEthernetInterface
 > For docker, set the env var `APPCUSTOM_DISCOVERYETHERNETINTERFACE`
