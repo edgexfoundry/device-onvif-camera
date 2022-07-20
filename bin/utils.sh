@@ -11,7 +11,6 @@
 # this service in order to reduce duplicated code.
 #
 
-CORE_METADATA_URL="${CORE_METADATA_URL:-http://localhost:59881}"
 CONSUL_URL="${CONSUL_URL:-http://localhost:8500}"
 DEVICE_SERVICE="${DEVICE_SERVICE:-device-onvif-camera}"
 DEVICE_SERVICE_URL="${DEVICE_SERVICE_URL:-http://localhost:59984}"
@@ -39,6 +38,7 @@ NET_IFACES=
 SUBNETS=
 CURL_CODE=
 CURL_OUTPUT=
+USER_SET_CREDENTIALS=0
 
 # note: we must use a separate array here to preserve order
 AUTH_MODES=("usernametoken" "digest" "both")
@@ -48,7 +48,6 @@ declare -A AUTH_MODES_DESC=(
     ["both"]="Both"
 )
 
-# todo: auto-determine if service is running in secure mode
 SECURE_MODE=${SECURE_MODE:-0}
 
 SELF_CMD="${0##*/}"
@@ -130,43 +129,6 @@ do_curl() {
     fi
 
     echo >&2
-}
-
-# query EdgeX Core Metadata for the list of all devices
-get_devices() {
-    # grab the names of all devices for the specific device service.
-    # filter out the fake control plane device (grep -v "${DEVICE_SERVICE}")
-    DEVICE_LIST="$(do_curl "" -X GET "${CORE_METADATA_URL}/api/v2/device/service/name/${DEVICE_SERVICE}" \
-        | tr '{' '\n' \
-        | sed -En 's/.*"name": *"([^"]+)".*/\1/p' \
-        | grep -v "${DEVICE_SERVICE}" \
-        | sort -u \
-        | xargs)"
-    printf "\n\n"
-
-    DEVICE_COUNT=$(wc -w <<< "${DEVICE_LIST}")
-}
-
-# prompt the user to pick a device
-pick_device() {
-    get_devices
-
-    # insert the option "All Cameras" first in the list. the reason first was chosen as opposed to
-    # last was to keep the index of it the same no matter how many devices there are.
-    local options=("ALL" "All Cameras")
-    for d in ${DEVICE_LIST}; do
-        options+=("$d" "$d")
-    done
-
-    DEVICE_NAME=$(whiptail --menu "Please pick a device" --notags \
-        0 0 "${DEVICE_COUNT}" \
-        "${options[@]}" 3>&1 1>&2 2>&3)
-
-    if [ -z "${DEVICE_NAME}" ]; then
-        log_error "No device selected, exiting..."
-        return 1
-    fi
-    echo
 }
 
 # prompt the user to pick an auth mode
@@ -449,7 +411,7 @@ try_set_argument() {
 }
 
 print_usage() {
-    log_info "Usage: ${SELF_CMD} [-s/--secure-mode] [-d <device_name>] [-u <username>] [-p <password>] [-a/--all] [--auth-mode <auth mode>] [-t <consul token>]"
+    log_info "Usage: ${SELF_CMD} [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-path] [-M mac-addresses] [-t <consul token>]"
 }
 
 parse_args() {
@@ -465,27 +427,25 @@ parse_args() {
             shift
             ;;
 
-        -d | --device | --device-name)
-            try_set_argument "DEVICE_NAME" "$@"
-            shift
-            ;;
-
         -A | --auth | --auth-mode)
             try_set_argument "AUTH_MODE" "$@"
+            USER_SET_CREDENTIALS=1
+            if [ -z "${AUTH_MODES_DESC[$AUTH_MODE]+found}" ]; then
+                log_error "'$AUTH_MODE' is not a valid auth mode! Valid modes: ${AUTH_MODES[*]}"
+                return 1
+            fi
             shift
-            ;;
-
-        -a | --all)
-            DEVICE_NAME="${ALL}"
             ;;
 
         -u | --user | --username)
             try_set_argument "SECRET_USERNAME" "$@"
+            USER_SET_CREDENTIALS=1
             shift
             ;;
 
         -p | --pass | --password)
             try_set_argument "SECRET_PASSWORD" "$@"
+            USER_SET_CREDENTIALS=1
             shift
             ;;
 
@@ -506,6 +466,11 @@ parse_args() {
 
         -U | --device-service-url)
             try_set_argument "DEVICE_SERVICE_URL" "$@"
+            shift
+            ;;
+
+        -M | --mac-addresses)
+            try_set_argument "MAC_ADDRESSES" "$@"
             shift
             ;;
 

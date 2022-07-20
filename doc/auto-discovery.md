@@ -107,7 +107,7 @@ credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
 <details>
 <summary><strong>B: via utility scripts</strong></summary>
 
-See the full documentation [here](./utility-scripts.md#use-cases).
+See the full documentation [here](./utility-scripts.md).
 </details>
 
 ## Configuration Guide
@@ -185,69 +185,55 @@ If a camera is discovered in which the credentials are unknown, it will be
 added as a generic onvif camera, and will require the user to set the credentials
 in order to call most ONVIF commands.
 
-Credentials can be added and modified via [utility scripts](./utility-scripts.md#use-cases)
+Credentials can be added and modified via [utility scripts](./utility-scripts.md)
 
 #### Non-Secure Mode
-##### Helper Script
-Run the [bin/set-credentials.sh](../bin/set-credentials.sh) script
-```shell
-# Usage: bin/set-credentials.sh [-s/--secure-mode] [-d <device_name>] [-u <username>] [-p <password>]
-bin/set-credentials.sh
-
-# Select which camera by device-name (uuid)
-# Enter username when prompted
-# Enter password when prompted
-
-```
+##### Helper Scripts
+See [here](./utility-scripts.md) for the full guide.
 
 ***
 
 ##### Manual
-> **Note:** Replace `<device-name>` with the device name of the
-> camera you want to set credentials for, `<username>` with the username, and
-> `<password>` with the password.
+> **Note:** Replace `<secret-path>` with the name of the secret, `<username>` with the username,
+> `<password>` with the password, and `<mode>` with the auth mode.
 
 Set Path to `<device-name>`
 ```shell
-curl -X PUT --data "<device-name>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<device-name>/Path"
+curl -X PUT --data "<secret-path>" \
+    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Path"
 ```
 
 Set username to `<username>`
 ```shell
 curl -X PUT --data "<username>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<device-name>/Secrets/username"
+    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/username"
 ```
 
 Set password to `<password>`
 ```shell
 curl -X PUT --data "<password>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<device-name>/Secrets/password"
+    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/password"
+```
+
+Set auth mode to `<auth-mode>`
+```shell
+curl -X PUT --data "<auth-mode>" \
+    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/mode"
 ```
 
 ***
 
 #### Secure Mode
-##### Helper Script
-Run the [bin/set-credentials.sh](../bin/set-credentials.sh) script with `--secure-mode` flag
-```shell
-# Usage: bin/set-credentials.sh [-s/--secure-mode] [-d <device_name>] [-u <username>] [-p <password>]
-bin/set-credentials.sh --secure-mode
-
-# Select which camera by device-name (uuid)
-# Enter username when prompted
-# Enter password when prompted
-
-```
+##### Helper Scripts
+See [here](./utility-scripts.md) for the full guide.
 
 ***
 
 ##### Manual
 Credentials can be added via EdgeX Secrets:
 
-> **Note:** Replace `<device-name>` with the device name of the
-> camera you want to set credentials for, `<username>` with the username, and
-> `<password>` with the password, and <mode> with the auth mode.
+> **Note:** Replace `<secret-path>` with the name for the new secret, `<username>` with the username,
+> `<password>` with the password, and <mode> with the authentication mode.
 
 ```shell
 curl --location --request POST 'http://localhost:59984/api/v2/secret' \
@@ -255,7 +241,7 @@ curl --location --request POST 'http://localhost:59984/api/v2/secret' \
     --data-raw '
 {
     "apiVersion":"v2",
-    "path": "<device-name>",
+    "path": "<secret-path>",
     "secretData":[
         {
             "key":"username",

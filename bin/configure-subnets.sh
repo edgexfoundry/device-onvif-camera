@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Copyright (C) 2020-2022 Intel Corporation
+# Copyright (C) 2022 Intel Corporation
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -13,10 +13,9 @@
 # This allows the device-onvif-camera device service to be run in a NAT-ed environment without host-mode networking,
 # because the subnet information is user-provided and does not rely on device-onvif-camera to detect it.
 #
-# Essentially how this script works is it polls the machine it is running on and finds the active subnet for
-# any and all network interfaces that are on the machine which are physical (non-virtual) and online.
-# It uses this information to automatically fill out the "DiscoverySubnets" configuration option through Consul of a deployed
-# device-onvif-camera instance.
+# This script finds the active subnet for any and all network interfaces that are on the machine
+# which are physical (non-virtual) and online (up). It uses this information to automatically fill out the
+# "DiscoverySubnets" configuration option through Consul of a deployed device-onvif-camera instance.
 #
 # NOTE 1: This script requires EdgeX Consul and the device-onvif-camera service to have been run before this
 # script will function.

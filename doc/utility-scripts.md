@@ -64,6 +64,10 @@ Output will look something like this:
 
 
 ## configure-subnets.sh
+### Usage
+```shell
+bin/configure-subnets.sh [-s/--secure-mode] [-t <consul token>]
+```
 ### About
 The purpose of this script is to make it easier for an end user to configure Onvif device discovery
 without the need to have knowledge about subnets and/or CIDR format. The `DiscoverySubnets` config
@@ -71,23 +75,34 @@ option defaults to blank in the `configuration.toml` file, and needs to be provi
 This allows the device-onvif-camera device service to be run in a NAT-ed environment without host-mode networking,
 because the subnet information is user-provided and does not rely on `device-onvif-camera` to detect it.
 
-Essentially how this script works is it polls the machine it is running on and finds the active subnet for
-any and all network interfaces that are on the machine which are physical (non-virtual) and online.
-It uses this information to automatically fill out the `DiscoverySubnets` configuration option through Consul of a deployed
-`device-onvif-camera` instance.
+This script finds the active subnet for any and all network interfaces that are on the machine 
+which are physical (non-virtual) and online (up). It uses this information to automatically fill out the 
+`DiscoverySubnets` configuration option through Consul of a deployed `device-onvif-camera` instance.
 
 ## edit-credentials.sh
+### Usage
+```shell
+bin/edit-credentials.sh [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-path] [-M mac-addresses] [-t <consul token>]
+```
 ### About
 The purpose of this script is to allow end-users to modify credentials either through
 EdgeX InsecureSecrets via Consul, or EdgeX Secrets via the device service.
 
 ## map-credentials.sh
+### Usage
+```shell
+bin/map-credentials.sh [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-path] [-M mac-addresses] [-t <consul token>]
+```
 ### About
 The purpose of this script is to allow end-users to add credentials either through
 EdgeX InsecureSecrets via Consul, or EdgeX Secrets via the device service. It then allows the
 end-user to add a list of MAC Addresses to map to those credentials via Consul.
 
 ## query-mappings.sh
+### Usage
+```shell
+bin/query-mappings.sh [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-path] [-M mac-addresses] [-t <consul token>]
+```
 ### About
 The purpose of this script is to allow end-users to see what MAC Addresses are
 mapped to what credentials.

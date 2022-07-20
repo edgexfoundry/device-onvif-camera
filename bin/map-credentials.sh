@@ -30,6 +30,11 @@ main() {
     fi
     log_info "Secret Path: ${SECRET_PATH}"
 
+    # if the user manually passed credentials in via the command line, create or update the secret
+    if [ "$USER_SET_CREDENTIALS" -eq 1 ]; then
+        create_or_update_credentials
+    fi
+
     query_mac_address
 
     put_credentials_map_field "${SECRET_PATH}" "${MAC_ADDRESSES}"
