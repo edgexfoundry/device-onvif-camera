@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "5fc8ca62-a306-4370-8511-8684a70c4239",
+		"name": "MAC and Friendly Name",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7889146"
+	},
+	"item": [
+		{
+			"name": "Get MACAddress",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{command_host}}:{{command_port}}/api/v2/device/name/{{camera_name}}/MACAddress",
+					"protocol": "http",
+					"host": [
+						"{{command_host}}"
+					],
+					"port": "{{command_port}}",
+					"path": [
+						"api",
+						"v2",
+						"device",
+						"name",
+						"{{camera_name}}",
+						"MACAddress"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set MACAddress",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"MACAddress\": \"11:22:33:44:55:66\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{command_host}}:{{command_port}}/api/v2/device/name/{{camera_name}}/MACAddress",
+					"protocol": "http",
+					"host": [
+						"{{command_host}}"
+					],
+					"port": "{{command_port}}",
+					"path": [
+						"api",
+						"v2",
+						"device",
+						"name",
+						"{{camera_name}}",
+						"MACAddress"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get FriendlyName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{command_host}}:{{command_port}}/api/v2/device/name/{{camera_name}}/FriendlyName",
+					"protocol": "http",
+					"host": [
+						"{{command_host}}"
+					],
+					"port": "{{command_port}}",
+					"path": [
+						"api",
+						"v2",
+						"device",
+						"name",
+						"{{camera_name}}",
+						"FriendlyName"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set FriendlyName",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \"FriendlyName\": \"My cool camera\" }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{command_host}}:{{command_port}}/api/v2/device/name/{{camera_name}}/FriendlyName",
+					"protocol": "http",
+					"host": [
+						"{{command_host}}"
+					],
+					"port": "{{command_port}}",
+					"path": [
+						"api",
+						"v2",
+						"device",
+						"name",
+						"{{camera_name}}",
+						"FriendlyName"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
