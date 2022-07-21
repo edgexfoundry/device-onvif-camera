@@ -8,8 +8,6 @@ import (
 func TestUpdateFromRaw(t *testing.T) {
 	expectedConfig := &ServiceConfig{
 		AppCustom: CustomConfig{
-			CredentialsRetryTime:       5,
-			CredentialsRetryWait:       5,
 			RequestTimeout:             5,
 			DefaultSecretPath:          "default_secret",
 			DiscoveryEthernetInterface: "eth0",

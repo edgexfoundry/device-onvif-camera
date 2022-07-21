@@ -9,11 +9,12 @@ package driver
 import (
 	stdErrors "errors"
 	"fmt"
-	"github.com/google/uuid"
 	"net"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/google/uuid"
 
 	"github.com/IOTechSystems/onvif"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
@@ -85,7 +86,6 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 	address, port := addressAndPort(xaddr)
 	timestamp := time.Now().Format(time.UnixDate)
 
-	d.configMu.RLock()
 	device := contract.Device{
 		// Using Xaddr as the temporary name
 		Name: xaddr,
@@ -93,30 +93,32 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 			OnvifProtocol: {
 				Address:            address,
 				Port:               port,
-				SecretPath:         d.config.AppCustom.DefaultSecretPath,
 				EndpointRefAddress: endpointRefAddr,
 				DeviceStatus:       Reachable,
 				LastSeen:           timestamp,
+				MACAddress:         "",
+				FriendlyName:       "",
 			},
 			CustomMetadata: {},
 		},
 	}
-	d.configMu.RUnlock()
+
+	mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr)
+	if mac != "" {
+		d.lc.Debugf("EndpointRefAddress %s was matched to MAC Address %s", endpointRefAddr, mac)
+		device.Protocols[OnvifProtocol][MACAddress] = mac
+	} else {
+		d.lc.Debugf("No MAC Address match was found for EndpointRefAddress %s", endpointRefAddr)
+	}
 
 	devInfo, edgexErr := d.getDeviceInformation(device)
-	if edgexErr != nil {
-		// try again using the endpointRefAddr as the SecretPath. the reason for this is that
-		// the user may have pre-filled the secret store with per-device credentials based on the endpointRefAddr.
-		device.Protocols[OnvifProtocol][SecretPath] = endpointRefAddr
-		devInfo, edgexErr = d.getDeviceInformation(device)
-	}
 
 	var discovered sdkModel.DiscoveredDevice
 	if edgexErr != nil {
 		d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRefAddr, edgexErr)
 		device.Protocols[OnvifProtocol][DeviceStatus] = Reachable // update device status in this error case
 		discovered = sdkModel.DiscoveredDevice{
-			Name:        endpointRefAddr,
+			Name:        UnknownDevicePrefix + endpointRefAddr,
 			Protocols:   device.Protocols,
 			Description: "Auto discovered Onvif camera",
 			Labels:      []string{"auto-discovery"},
@@ -130,6 +132,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
 		device.Protocols[OnvifProtocol][DeviceStatus] = UpWithAuth
 		device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
+		device.Protocols[OnvifProtocol][FriendlyName] = devInfo.Manufacturer + " " + devInfo.Model
 
 		// Spaces are not allowed in the device name
 		deviceName := fmt.Sprintf("%s-%s-%s",
@@ -222,8 +225,38 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 	return devices, nil
 }
 
-// makeDeviceMap creates a lookup table of existing devices by EndpointRefAddress
-func (d *Driver) makeDeviceMap() map[string]contract.Device {
+// makeDeviceMacMap creates a lookup table of existing devices by MacAddress.
+func (d *Driver) makeDeviceMacMap() map[string]contract.Device {
+	devices := d.sdkService.Devices()
+	deviceMap := make(map[string]contract.Device, len(devices))
+
+	for _, dev := range devices {
+		if dev.Name == d.sdkService.Name() {
+			// skip control plane device
+			continue
+		}
+
+		onvifInfo, ok := dev.Protocols[OnvifProtocol]
+		if !ok {
+			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)
+			continue
+		}
+
+		macAddress := onvifInfo[MACAddress]
+		if macAddress == "" {
+			d.lc.Warnf("Registered device %s is missing required %s protocol information: %s.",
+				dev.Name, OnvifProtocol, MACAddress)
+			continue
+		}
+
+		deviceMap[macAddress] = dev
+	}
+
+	return deviceMap
+}
+
+// makeDeviceRefMap creates a lookup table of existing devices by EndpointRefAddress.
+func (d *Driver) makeDeviceRefMap() map[string]contract.Device {
 	devices := d.sdkService.Devices()
 	deviceMap := make(map[string]contract.Device, len(devices))
 
@@ -241,7 +274,7 @@ func (d *Driver) makeDeviceMap() map[string]contract.Device {
 
 		endpointRef := onvifInfo[EndpointRefAddress]
 		if endpointRef == "" {
-			d.lc.Warnf("Registered device %s is missing required %s protocol information: %s.",
+			d.lc.Infof("Registered device %s is missing optional %s protocol information: %s.",
 				dev.Name, OnvifProtocol, EndpointRefAddress)
 			continue
 		}
@@ -253,23 +286,35 @@ func (d *Driver) makeDeviceMap() map[string]contract.Device {
 }
 
 // discoverFilter iterates through the discovered devices, and returns any that are not duplicates
-// of devices in metadata or are from an alternate discovery method
+// of devices in metadata or are from an alternate discovery method.
 // will return an empty slice if no new devices are discovered
-func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) (filtered []sdkModel.DiscoveredDevice) {
-	// filter out duplicate discovered devices by endpoint reference
+func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
 	discoveredMap := make(map[string]sdkModel.DiscoveredDevice)
+	existingRefDevices := d.makeDeviceRefMap() // create comparison map endpoint references
+	existingMacDevices := d.makeDeviceMacMap() // create comparison map for mac addresses
+
+	var discovered []sdkModel.DiscoveredDevice
+
+	// filter out newly discovered devices with the same EndpointRefAddress. This is common when using a DiscoveryMode
+	// of 'both', and the device being discovered from both modes
 	for _, device := range discoveredDevices {
-		endpointRef := device.Protocols[OnvifProtocol][EndpointRefAddress]
-		if _, found := discoveredMap[endpointRef]; !found {
-			discoveredMap[endpointRef] = device
+		endpointRefAddress := device.Protocols[OnvifProtocol][EndpointRefAddress]
+		if _, found := discoveredMap[endpointRefAddress]; !found {
+			discoveredMap[endpointRefAddress] = device
+			discovered = append(discovered, device)
 		}
 	}
 
-	existingDevices := d.makeDeviceMap() // create comparison map
-
-	// loop through discovered devices and see if they are already discovered
-	for endpointRef, device := range discoveredMap {
-		if existingDevice, found := existingDevices[endpointRef]; found {
+	// loop through discovered devices and see if they already exist in the system
+	filtered := make([]sdkModel.DiscoveredDevice, 0, len(discovered))
+	for _, device := range discovered {
+		macAddress := device.Protocols[OnvifProtocol][MACAddress]
+		if existingDevice, found := existingMacDevices[macAddress]; found && macAddress != "" {
+			if err := d.updateExistingDevice(existingDevice, device); err != nil {
+				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
+			}
+			continue // skip registering existing device
+		} else if existingDevice, found := existingRefDevices[device.Protocols[OnvifProtocol][EndpointRefAddress]]; found {
 			if err := d.updateExistingDevice(existingDevice, device); err != nil {
 				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
 			}
@@ -304,6 +349,17 @@ func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.D
 		device.Protocols[OnvifProtocol][Address] = discAddr
 		device.Protocols[OnvifProtocol][Port] = discPort
 
+		shouldUpdate = true
+	}
+
+	if device.Protocols[OnvifProtocol][EndpointRefAddress] != discDev.Protocols[OnvifProtocol][EndpointRefAddress] {
+		device.Protocols[OnvifProtocol][EndpointRefAddress] = discDev.Protocols[OnvifProtocol][EndpointRefAddress]
+		shouldUpdate = true
+	}
+
+	discoveredMAC := discDev.Protocols[OnvifProtocol][MACAddress]
+	if discoveredMAC != "" && device.Protocols[OnvifProtocol][MACAddress] != discoveredMAC {
+		device.Protocols[OnvifProtocol][MACAddress] = discoveredMAC
 		shouldUpdate = true
 	}
 

@@ -11,7 +11,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -19,6 +18,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
 
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
@@ -197,6 +198,8 @@ func (d *Driver) updateWritableConfig(rawWritableConfig interface{}) {
 	}
 
 	d.macAddressMapper.UpdateMappings(d.config.AppCustom.CredentialsMap)
+	// check device statuses in case the credentials map was updated
+	d.checkStatuses()
 }
 
 // debouncedDiscover adds or updates a future call to Discover. This function is intended to be
@@ -649,15 +652,30 @@ func (d *Driver) getDeviceInformation(device models.Device) (devInfo *onvifdevic
 	return devInfo, nil
 }
 
+func (d *Driver) getEndpointReference(device models.Device) (devInfo *onvifdevice.GetEndpointReferenceResponse, edgexErr errors.EdgeX) {
+	devClient, edgexErr := d.newTemporaryOnvifClient(device)
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	endpointRefResponse, edgexErr := devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, []byte{})
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	devEndpointRef, ok := endpointRefResponse.(*onvifdevice.GetEndpointReferenceResponse)
+	if !ok {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetEndpointReferenceResponse for the camera %s", device.Name), nil)
+	}
+	return devEndpointRef, nil
+}
+
 // newOnvifClient creates a temporary client for auto-discovery
 func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
-	cameraInfo, edgexErr := CreateCameraInfo(device.Protocols)
+	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
 
-	// since this is just a temporary client, we do not want to wait for credentials to be available
-	credential, edgexErr := d.tryGetCredentials(cameraInfo.SecretPath)
+	credential, edgexErr := d.tryGetCredentialsForDevice(device)
 	if edgexErr != nil {
 		// if credentials are not found, instead of returning an error, set the AuthMode to NoAuth
 		// and allow the user to call unauthenticated endpoints
@@ -670,7 +688,7 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 	d.configMu.Unlock()
 
 	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
-		Xaddr:    deviceAddress(cameraInfo),
+		Xaddr:    xAddr,
 		Username: credential.Username,
 		Password: credential.Password,
 		AuthMode: credential.AuthMode,
@@ -685,47 +703,53 @@ func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, er
 	client := &OnvifClient{
 		lc:          d.lc,
 		DeviceName:  device.Name,
-		cameraInfo:  cameraInfo,
 		onvifDevice: onvifDevice,
 	}
 	return client, nil
 }
 
-// refreshNetworkInterfaces will attempt to retrieve the mac address for the specified camera
-// and update its value in the protocol properties
-func (d *Driver) refreshNetworkInterfaces(device models.Device) error {
-	netInfo, err := d.getNetworkInterfaces(device)
-	if err != nil {
-		return err
-	}
-
-	// update device to latest version in cache to prevent race conditions
-	device, edgeXErr := d.sdkService.GetDeviceByName(device.Name)
-	if err != nil {
-		return edgeXErr
-	}
-
-	hwAddress := string(netInfo.NetworkInterfaces.Info.HwAddress)
-	if hwAddress != device.Protocols[OnvifProtocol][MACAddress] {
-		device.Protocols[OnvifProtocol][MACAddress] = hwAddress
-		return d.sdkService.UpdateDevice(device)
-	}
-
-	return nil
-}
-
-// refreshDeviceInformation will attempt to retrieve the device information for the specified camera
+// refreshDevice will attempt to retrieve the MAC address and the device info for the specified camera
 // and update the values in the protocol properties
-func (d *Driver) refreshDeviceInformation(device models.Device) error {
+// Also the device name is updated if the name starts with the UnknownDevicePrefix and the status is UpWithAuth
+func (d *Driver) refreshDevice(device models.Device) error {
+	// save the MAC Address in case it was changed by the calling code
+	hwAddress := device.Protocols[OnvifProtocol][MACAddress]
+
 	devInfo, err := d.getDeviceInformation(device)
 	if err != nil {
 		return err
 	}
 
+	netInfo, netErr := d.getNetworkInterfaces(device)
+	if netErr != nil {
+		d.lc.Warnf("Error trying to get network interfaces for device %s: %s", device.Name, netErr.Error())
+	}
+
+	endpointRef, endpointErr := d.getEndpointReference(device)
+	if endpointErr != nil {
+		d.lc.Warnf("Error trying to get get endpoint reference for device %s: %s", device.Name, endpointErr.Error())
+	}
+
 	// update device to latest version in cache to prevent race conditions
 	device, edgeXErr := d.sdkService.GetDeviceByName(device.Name)
 	if err != nil {
 		return edgeXErr
+	}
+
+	isChanged := false
+
+	if netErr == nil { // only update if there was no error querying the net info
+		hwAddress = string(netInfo.NetworkInterfaces.Info.HwAddress)
+	}
+	if hwAddress != device.Protocols[OnvifProtocol][MACAddress] {
+		device.Protocols[OnvifProtocol][MACAddress] = hwAddress
+		isChanged = true
+	}
+
+	if endpointErr == nil { // only update if there was no error querying the endpoint ref address
+		uuidElements := strings.Split(endpointRef.GUID, ":")
+		device.Protocols[OnvifProtocol][EndpointRefAddress] = uuidElements[len(uuidElements)-1]
+		isChanged = true
 	}
 
 	if devInfo.Manufacturer != device.Protocols[OnvifProtocol][Manufacturer] ||
@@ -739,9 +763,34 @@ func (d *Driver) refreshDeviceInformation(device models.Device) error {
 		device.Protocols[OnvifProtocol][FirmwareVersion] = devInfo.FirmwareVersion
 		device.Protocols[OnvifProtocol][SerialNumber] = devInfo.SerialNumber
 		device.Protocols[OnvifProtocol][HardwareId] = devInfo.HardwareId
-		return d.sdkService.UpdateDevice(device)
+		isChanged = true
 	}
 
-	return nil
+	if device.Protocols[OnvifProtocol][FriendlyName] == "" { // initialize the friendly name if it is blank
+		device.Protocols[OnvifProtocol][FriendlyName] = devInfo.Manufacturer + " " + devInfo.Model
+	}
 
+	if isChanged {
+		if strings.HasPrefix(device.Name, UnknownDevicePrefix) {
+			d.lc.Infof("Removing device '%s' to update device with the updated name", device.Name)
+			err := d.sdkService.RemoveDeviceByName(device.Name)
+			if err != nil {
+				d.lc.Warnf("An error occurred while removing the device %s: %s",
+					device.Name, err)
+			}
+
+			device.Id = ""
+			// Spaces are not allowed in the device name
+			device.Name = fmt.Sprintf("%s-%s-%s",
+				strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
+				strings.ReplaceAll(devInfo.Model, " ", "-"),
+				device.Protocols[OnvifProtocol][EndpointRefAddress])
+			d.lc.Infof("Adding device back with the updated name '%s'", device.Name)
+			_, err = d.sdkService.AddDevice(device)
+			return err
+		}
+
+		return d.sdkService.UpdateDevice(device)
+	}
+	return nil
 }

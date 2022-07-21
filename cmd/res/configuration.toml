@@ -8,18 +8,20 @@ LogLevel = "INFO"
       [Writable.InsecureSecrets.DB.Secrets]
       username = ""
       password = ""
-    [Writable.InsecureSecrets.Camera001]
+
+    [Writable.InsecureSecrets.credentials001]
     path = "credentials001"
-      [Writable.InsecureSecrets.Camera001.Secrets]
-      username = "administrator"
-      password = "Password1!"
+      [Writable.InsecureSecrets.credentials001.Secrets]
+      username = ""
+      password = ""
       mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
-    # If having more than one camera, uncomment the following config settings
-#    [Writable.InsecureSecrets.Camera002]
-#    path = "credentials002"
-#      [Writable.InsecureSecrets.Camera002.Secrets]
-#      username = "administrator"
-#      password = "Password1!"
+
+    [Writable.InsecureSecrets.credentials002]
+    path = "credentials002"
+      [Writable.InsecureSecrets.credentials002.Secrets]
+      username = ""
+      password = ""
+      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
 
 [Service]
 HealthCheckInterval = "10s"
@@ -106,22 +108,29 @@ UseMessageBus = true
 
 # Custom configs
 [AppCustom]
-CredentialsRetryTime = 120 # Seconds
-CredentialsRetryWait = 1 # Seconds
+# The number of seconds to wait when making an Onvif request before timing out
 RequestTimeout = 5 # Seconds
-DiscoveryEthernetInterface = ""
+
+# The Secret Path of the default credentials to use for devices which do not have MAC Addresses defined, or do not
+# have credentials defined in the CredentialsMap. The magic value of 'NoAuth' here will cause the devices to default
+# to not using any authentication. If authentication is required, it would then need to be manually configured.
 DefaultSecretPath = "credentials001"
-# BaseNotificationURL indicates the device service network location
+
+# BaseNotificationURL indicates the device service network location (which should be accessible from onvif devices on the network), when
+# configuring an Onvif Event subscription.
 BaseNotificationURL = "http://192.168.12.112:59984"
 
 # Select which discovery mechanism(s) to use
 DiscoveryMode = "both" # netscan, multicast, or both
 
+# The target ethernet interface for multicast discovering
+DiscoveryEthernetInterface = "eth0"
+
 # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
 # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
 DiscoverySubnets = ""
 
-# Maximum simultaneous network probes
+# Maximum simultaneous network probes when running netscan discovery.
 ProbeAsyncLimit = 4000
 
 # Maximum amount of milliseconds to wait for each IP probe before timing out.
@@ -132,12 +141,16 @@ ProbeTimeoutMillis = 2000
 # It is especially important to have this configured in the case of larger subnets such as /16 and /8
 MaxDiscoverDurationSeconds = 300
 
+# Enable or disable the built in status checking of devices, which runs every CheckStatusInterval.
 EnableStatusCheck = true
 
 # The interval in seconds at which the service will check the connection of all known cameras and update the device status 
 # A longer interval will mean the service will detect changes in status less quickly
 # Maximum 300s (5 minutes)
 CheckStatusInterval = 30
+
+# The location of Provision Watcher json files to import when using auto-discovery
+ProvisionWatcherDir = "res/provision_watchers"
 
   # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
   #
@@ -147,4 +160,8 @@ CheckStatusInterval = 30
   # Example: (Multi mapping for 3 mac address to 1 shared credentials)
   #   credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
   #
+  # The special group 'NoAuth' defines mac addresses of cameras where no authentication is to be used. This
+  # group will cause the code to skip looking in the SecretStore altogether. 'NoAuth' is a special group
+  # name that does not exist in the SecretStore.
   [AppCustom.CredentialsMap]
+  NoAuth = ""

@@ -181,6 +181,26 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
+  - name: "FriendlyName"
+    isHidden: false
+    description: "Get and set friendly name for the camera"
+    attributes:
+      service: "EdgeX"
+      getFunction: "GetFriendlyName"
+      setFunction: "SetFriendlyName"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
+  - name: "MACAddress"
+    isHidden: false
+    description: "Get and set MAC address for the camera"
+    attributes:
+      service: "EdgeX"
+      getFunction: "GetMACAddress"
+      setFunction: "SetMACAddress"
+    properties:
+      valueType: "Object"
+      readWrite: "RW"
 
   # Video Streaming
   - name: "Profiles"

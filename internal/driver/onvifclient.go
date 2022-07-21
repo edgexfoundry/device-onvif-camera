@@ -42,7 +42,6 @@ type OnvifClient struct {
 	driver      *Driver
 	lc          logger.LoggingClient
 	DeviceName  string
-	cameraInfo  *CameraInfo
 	onvifDevice *onvif.Device
 	// RebootNeeded indicates the camera should reboot to apply the configuration change
 	RebootNeeded bool
@@ -54,19 +53,15 @@ type OnvifClient struct {
 
 // newOnvifClient returns an OnvifClient for a single camera
 func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
-	cameraInfo, edgexErr := CreateCameraInfo(device.Protocols)
+	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
 
-	credential, edgexErr := d.getCredentials(cameraInfo.SecretPath)
+	credential, edgexErr := d.tryGetCredentialsForDevice(device)
 	if edgexErr != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get credentials for camera %s", device.Name), edgexErr)
-	}
-
-	_, tryGetCredentialsForDeviceEdgexErr := d.tryGetCredentialsForDevice(device)
-	if tryGetCredentialsForDeviceEdgexErr != nil {
-		d.lc.Warnf("Unable to find credentials for Device %s", device.Name)
+		d.lc.Warnf("Unable to find credentials for Device %s, reverting to no auth", device.Name)
+		credential = noAuthCredentials
 	}
 
 	d.configMu.Lock()
@@ -74,7 +69,7 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 	d.configMu.Unlock()
 
 	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
-		Xaddr:    deviceAddress(cameraInfo),
+		Xaddr:    xAddr,
 		Username: credential.Username,
 		Password: credential.Password,
 		AuthMode: credential.AuthMode,
@@ -95,7 +90,6 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		driver:              d,
 		lc:                  d.lc,
 		DeviceName:          device.Name,
-		cameraInfo:          cameraInfo,
 		onvifDevice:         onvifDevice,
 		CameraEventResource: resource,
 	}
@@ -125,10 +119,6 @@ func (d *Driver) getCameraEventResourceByDeviceName(deviceName string) (r models
 		}
 	}
 	return r, errors.NewCommonEdgeX(errors.KindEntityDoesNotExist, fmt.Sprintf("device resource with Getfunciton '%s' not found", CameraEvent), nil)
-}
-
-func deviceAddress(cameraInfo *CameraInfo) string {
-	return fmt.Sprintf("%s:%d", cameraInfo.Address, cameraInfo.Port)
 }
 
 // CallOnvifFunction send the request to the camera via onvif client
@@ -177,7 +167,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 
 		metadataObj, edgexError := onvifClient.getCustomMetadata(device, data)
 		if edgexError != nil {
-			onvifClient.driver.lc.Errorf("Failed to get custom metadata field from device %s", onvifClient.DeviceName)
+			onvifClient.driver.lc.Errorf("Failed to get customMetadata from the device %s", onvifClient.DeviceName)
 			return nil, edgexError
 		}
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, metadataObj)
@@ -195,7 +185,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 
 		updatedDevice, setErr := onvifClient.setCustomMetadata(device, data)
 		if setErr != nil {
-			onvifClient.driver.lc.Errorf("Failed to set CustomMetadata for device '%s'", deviceName)
+			onvifClient.driver.lc.Errorf("Failed to set customMetadata for the device '%s'", deviceName)
 			return nil, setErr
 		}
 		err = onvifClient.driver.sdkService.UpdateDevice(updatedDevice)
@@ -211,7 +201,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 
 		updatedDevice, delErr := onvifClient.deleteCustomMetadata(device, data)
 		if delErr != nil {
-			onvifClient.driver.lc.Errorf("Failed to delete custom metadata for device '%s'", deviceName)
+			onvifClient.driver.lc.Errorf("Failed to delete customMetadata for the device '%s'", deviceName)
 			return nil, delErr
 		}
 		err = onvifClient.driver.sdkService.UpdateDevice(updatedDevice)
@@ -240,6 +230,70 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, serviceName, fu
 			return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 		}
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeBinary, res)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
+		}
+	case SetFriendlyName:
+		deviceName := onvifClient.DeviceName
+		device, err := onvifClient.driver.sdkService.GetDeviceByName(deviceName)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
+		}
+
+		updatedDevice, setErr := onvifClient.setFriendlyName(device, data)
+		if setErr != nil {
+			onvifClient.driver.lc.Errorf("Failed to set friendlyName for the device '%s'", deviceName)
+			return nil, setErr
+		}
+		err = onvifClient.driver.sdkService.UpdateDevice(updatedDevice)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to update device '%s'", deviceName), err)
+		}
+	case GetFriendlyName:
+		deviceName := onvifClient.DeviceName
+		device, err := onvifClient.driver.sdkService.GetDeviceByName(deviceName)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
+		}
+
+		metadataObj, edgexError := onvifClient.getFriendlyName(device)
+		if edgexError != nil {
+			onvifClient.driver.lc.Errorf("Failed to get friendlyName from the device %s", onvifClient.DeviceName)
+			return nil, edgexError
+		}
+		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, metadataObj)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
+		}
+	case SetMACAddress:
+		deviceName := onvifClient.DeviceName
+		device, err := onvifClient.driver.sdkService.GetDeviceByName(deviceName)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
+		}
+
+		updatedDevice, setErr := onvifClient.setMACAddress(device, data)
+		if setErr != nil {
+			onvifClient.driver.lc.Errorf("Failed to set MACAddress for the device '%s'", deviceName)
+			return nil, setErr
+		}
+		err = onvifClient.driver.sdkService.UpdateDevice(updatedDevice)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to update device '%s'", deviceName), err)
+		}
+	case GetMACAddress:
+		deviceName := onvifClient.DeviceName
+		device, err := onvifClient.driver.sdkService.GetDeviceByName(deviceName)
+		if err != nil {
+			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
+		}
+
+		metadataObj, edgexError := onvifClient.getMACAddress(device)
+		if edgexError != nil {
+			onvifClient.driver.lc.Errorf("Failed to get MACAddress from the device %s", onvifClient.DeviceName)
+			return nil, edgexError
+		}
+		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeObject, metadataObj)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", serviceName, functionName), err)
 		}

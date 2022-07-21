@@ -8,21 +8,17 @@ package driver
 
 import (
 	"fmt"
-	"reflect"
-	"strconv"
-
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
 
 // CustomConfig holds the values for the driver configuration
 type CustomConfig struct {
-	CredentialsRetryTime int
-	CredentialsRetryWait int
-	RequestTimeout       int
+	// RequestTimeout is the number of seconds to wait when making an Onvif request before timing out.
+	RequestTimeout int
 	// DefaultSecretPath indicates the secret path to retrieve username and password from secret store.
 	DefaultSecretPath string
-	// DiscoveryEthernetInterface indicates the target EthernetInterface for discovering. The default value is `en0`, the user can modify it to meet their requirement.
+	// DiscoveryEthernetInterface indicates the target EthernetInterface for multicast discovering.
 	DiscoveryEthernetInterface string
 	// BaseNotificationURL indicates the device service network location
 	BaseNotificationURL string
@@ -68,53 +64,22 @@ func (c *ServiceConfig) UpdateFromRaw(rawConfig interface{}) bool {
 	return true
 }
 
-// CameraInfo holds the camera connection info
-type CameraInfo struct {
-	Address    string
-	Port       int
-	SecretPath string
-}
-
-// CreateCameraInfo creates new CameraInfo entity from the protocol properties
-func CreateCameraInfo(protocols map[string]models.ProtocolProperties) (*CameraInfo, errors.EdgeX) {
-	info := new(CameraInfo)
+// GetCameraXAddr returns the Address:Port of the camera from the Onvif protocol properties
+// todo: unit test!
+func GetCameraXAddr(protocols map[string]models.ProtocolProperties) (string, errors.EdgeX) {
 	protocol, ok := protocols[OnvifProtocol]
 	if !ok {
-		return info, errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("unable to load config, Protocol '%s' not exist", OnvifProtocol), nil)
+		return "", errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("unable to load config, Protocol '%s' not exist", OnvifProtocol), nil)
 	}
 
-	if err := load(protocol, info); err != nil {
-		return info, errors.NewCommonEdgeXWrapper(err)
+	address, port := protocol[Address], protocol[Port]
+	if address == "" {
+		return "", errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("unable to load XAddr, %s Address does not exist", OnvifProtocol), nil)
+	}
+	xAddr := address
+	if port != "" {
+		xAddr += ":" + port
 	}
 
-	return info, nil
-}
-
-// load by reflect to check map key and then fetch the value
-func load(config map[string]string, des interface{}) error {
-	errorMessage := "unable to load config, '%s' not exist"
-	val := reflect.ValueOf(des).Elem()
-	for i := 0; i < val.NumField(); i++ {
-		typeField := val.Type().Field(i)
-		valueField := val.Field(i)
-
-		val, ok := config[typeField.Name]
-		if !ok {
-			return fmt.Errorf(errorMessage, typeField.Name)
-		}
-
-		switch valueField.Kind() {
-		case reflect.Int:
-			intVal, err := strconv.Atoi(val)
-			if err != nil {
-				return err
-			}
-			valueField.SetInt(int64(intVal))
-		case reflect.String:
-			valueField.SetString(val)
-		default:
-			return fmt.Errorf("none supported value type %v ,%v", valueField.Kind(), typeField.Name)
-		}
-	}
-	return nil
+	return xAddr, nil
 }

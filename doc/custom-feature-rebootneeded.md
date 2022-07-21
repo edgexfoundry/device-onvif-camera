@@ -26,7 +26,7 @@ curl --request PUT 'http://0.0.0.0:59882/api/v2/device/name/Camera001/NetworkInt
 ### 2. Check the RebootNeeded value:
 Using the **RebootNeeded** resource to check whether the camera need to reboot:
 ```shell
-$ curl 'http://0.0.0.0:59882/api/v2/device/name/Camera001/RebootNeeded' | json_pp
+$ curl 'http://0.0.0.0:59882/api/v2/device/name/Camera001/RebootNeeded' | jq .
 {
    "apiVersion" : "v2",
    "event" : {
@@ -66,7 +66,7 @@ The SystemReboot command also change the **RebootNeeded** value from `true` to `
 
 ### 4. Check The RebootNeeded value
 ```shell
-$ curl 'http://0.0.0.0:59882/api/v2/device/name/Camera001/RebootNeeded' | json_pp
+$ curl 'http://0.0.0.0:59882/api/v2/device/name/Camera001/RebootNeeded' | jq .
 {
    "apiVersion" : "v2",
    "event" : {

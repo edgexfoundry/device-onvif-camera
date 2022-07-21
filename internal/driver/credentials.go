@@ -7,8 +7,9 @@
 package driver
 
 import (
+	"strings"
+
 	"github.com/IOTechSystems/onvif"
-	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/startup"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
@@ -26,6 +27,12 @@ const (
 	AuthModeUsernameToken string = onvif.UsernameTokenAuth
 	AuthModeBoth          string = onvif.Both
 	AuthModeNone          string = onvif.NoAuth
+)
+
+const (
+	// noAuthSecretPath is the magic string used to define a group which does not use credentials
+	// this is defined in lowercase and compared in lowercase
+	noAuthSecretPath = "noauth"
 )
 
 const (
@@ -50,6 +57,11 @@ func IsAuthModeValid(mode string) bool {
 // tryGetCredentials will attempt one time to get the credentials located at secretPath from
 // secret provider and return them, otherwise return an error.
 func (d *Driver) tryGetCredentials(secretPath string) (Credentials, errors.EdgeX) {
+	// if the secret path is the special NoAuth magic key, do not look it up, instead return the noAuthCredentials
+	if strings.ToLower(secretPath) == noAuthSecretPath {
+		return noAuthCredentials, nil
+	}
+
 	secretData, err := d.sdkService.GetSecretProvider().GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey)
 	if err != nil {
 		return Credentials{}, errors.NewCommonEdgeXWrapper(err)
@@ -62,51 +74,24 @@ func (d *Driver) tryGetCredentials(secretPath string) (Credentials, errors.EdgeX
 	}
 
 	if !IsAuthModeValid(secretData[AuthModeKey]) {
-		d.lc.Warnf("AuthMode is set to an invalid value: %s. setting value to 'usernametoken'.", credentials.AuthMode)
+		d.lc.Warnf("AuthMode is set to an invalid value: %s. setting value to '%s'.", credentials.AuthMode, AuthModeUsernameToken)
 		credentials.AuthMode = AuthModeUsernameToken
 	}
 
 	return credentials, nil
 }
 
-// getCredentials will repeatedly try and get the credentials located at secretPath from
-// secret provider every CredentialsRetryTime seconds for a maximum of CredentialsRetryWait seconds.
-// Note that this function will block until either the credentials are found, or CredentialsRetryWait
-// seconds have elapsed.
-func (d *Driver) getCredentials(secretPath string) (credentials Credentials, err errors.EdgeX) {
-	d.configMu.RLock()
-	timer := startup.NewTimer(d.config.AppCustom.CredentialsRetryTime, d.config.AppCustom.CredentialsRetryWait)
-	d.configMu.RUnlock()
-
-	for timer.HasNotElapsed() {
-		if credentials, err = d.tryGetCredentials(secretPath); err == nil {
-			return credentials, nil
-		}
-
-		d.lc.Warnf(
-			"Unable to retrieve camera credentials from SecretProvider at path '%s': %s. Retrying for %s",
-			secretPath,
-			err.Error(),
-			timer.RemainingAsString())
-		timer.SleepForInterval()
-	}
-
-	return credentials, err
-}
-
 // tryGetCredentialsForDevice will attempt to use the device's MAC address to look up the credentials
 // from the Secret Store. If a mapping does not exist, or the device's MAC address is missing or invalid,
 // the default secret path will be used to look up the credentials. An error is returned if the secret path
 // does not exist in the Secret Store.
-// todo: remove nolint once function is used.
-//nolint:golint,unused
 func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, errors.EdgeX) {
 	d.configMu.RLock()
 	defaultSecretPath := d.config.AppCustom.DefaultSecretPath
 	d.configMu.RUnlock()
 
 	secretPath := defaultSecretPath
-	if mac, hasMAC := device.Protocols[OnvifProtocol][MACAddress]; hasMAC {
+	if mac := device.Protocols[OnvifProtocol][MACAddress]; mac != "" {
 		secretPath = d.macAddressMapper.TryGetSecretPathForMACAddress(mac, defaultSecretPath)
 	} else {
 		d.lc.Warnf("Device %s is missing MAC Address, using default secret path", device.Name)
@@ -117,6 +102,8 @@ func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, 
 		d.lc.Errorf("Failed to retrieve credentials for the secret path %s: %s", secretPath, edgexErr.Error())
 		return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get credentials", edgexErr)
 	}
+
+	d.lc.Infof("Found credentials for device %s", device.Name)
 
 	return credentials, nil
 }

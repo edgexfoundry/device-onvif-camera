@@ -49,7 +49,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 	return device, nil
 }
 
-// getCustomMetadata will return all metdata or enter getSpecificCustomMetadata if a list is provided
+// getCustomMetadata will return all metadata or enter getSpecificCustomMetadata if a list is provided
 func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data []byte) (contract.ProtocolProperties, errors.EdgeX) {
 	onvifClient.initCustomMetadata(&device)
 
