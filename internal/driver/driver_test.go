@@ -38,6 +38,10 @@ func createTestDevice() models.Device {
 	}}
 }
 
+func createTestDeviceWithProtocols(protocols map[string]models.ProtocolProperties) models.Device {
+	return models.Device{Name: testDeviceName, Protocols: protocols}
+}
+
 func TestParametersFromURLRawQuery(t *testing.T) {
 	parameters := `{ "ProfileToken": "Profile_1" }`
 	base64EncodedStr := base64.StdEncoding.EncodeToString([]byte(parameters))
