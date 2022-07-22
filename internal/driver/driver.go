@@ -407,13 +407,26 @@ func (d *Driver) HandleWriteCommands(deviceName string, protocols map[string]mod
 	}
 
 	for i, req := range reqs {
-		parameters, err := params[i].ObjectValue()
-		if err != nil {
-			return errors.NewCommonEdgeXWrapper(err)
-		}
-		data, err := json.Marshal(parameters)
-		if err != nil {
-			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to marshal set command parameter for resource '%s'", req.DeviceResourceName), err)
+		var data []byte
+
+		switch req.Type {
+		case common.ValueTypeString:
+			str, err := params[i].StringValue()
+			if err != nil {
+				return errors.NewCommonEdgeXWrapper(err)
+			}
+			data = []byte(str)
+		case common.ValueTypeObject:
+			parameters, err := params[i].ObjectValue()
+			if err != nil {
+				return errors.NewCommonEdgeXWrapper(err)
+			}
+			data, err = json.Marshal(parameters)
+			if err != nil {
+				return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to marshal set command parameter for resource '%s'", req.DeviceResourceName), err)
+			}
+		default:
+			return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("value type %s is not supported for write commands", req.Type), nil)
 		}
 
 		result, err := onvifClient.CallOnvifFunction(req, SetFunction, data)

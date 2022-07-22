@@ -103,7 +103,7 @@ func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, 
 		return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get credentials", edgexErr)
 	}
 
-	d.lc.Infof("Found credentials for device %s", device.Name)
+	d.lc.Debugf("Found credentials from secret path %s for device %s", secretPath, device.Name)
 
 	return credentials, nil
 }

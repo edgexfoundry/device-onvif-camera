@@ -189,7 +189,7 @@ deviceResources:
       getFunction: "GetFriendlyName"
       setFunction: "SetFriendlyName"
     properties:
-      valueType: "Object"
+      valueType: "String"
       readWrite: "RW"
   - name: "MACAddress"
     isHidden: false
@@ -199,7 +199,7 @@ deviceResources:
       getFunction: "GetMACAddress"
       setFunction: "SetMACAddress"
     properties:
-      valueType: "Object"
+      valueType: "String"
       readWrite: "RW"
 
   # Video Streaming
