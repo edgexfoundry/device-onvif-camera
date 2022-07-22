@@ -47,6 +47,10 @@ const (
 
 	// enable this by default, otherwise discovery will not work.
 	registerProvisionWatchers = true
+	// maximum amount of tries to register provision watchers
+	maxProvisionWatcherTries = 3
+	// how long to sleep in-between retries
+	provisionWatcherRetrySleep = 200 * time.Millisecond
 
 	// discoverDebounceDuration is the amount of time to wait for additional changes to discover
 	// configuration before auto-triggering a discovery
@@ -290,10 +294,19 @@ func (d *Driver) addProvisionWatchers() error {
 
 		watcherModel := dtos.ToProvisionWatcherModel(watcher)
 
-		d.lc.Infof("Adding provision watcher:%s", watcherModel.Name)
+		d.lc.Infof("Adding provision watcher: %s", watcherModel.Name)
+
 		id, err := d.sdkService.AddProvisionWatcher(watcherModel)
+		for i := 1; err != nil && i < maxProvisionWatcherTries; i++ {
+			d.lc.Errorf("Error adding provision watcher %s, retrying in %v...", watcherModel.Name, provisionWatcherRetrySleep)
+			time.Sleep(provisionWatcherRetrySleep)
+			d.lc.Infof("Retry adding provision watcher: %s", watcherModel.Name)
+			id, err = d.sdkService.AddProvisionWatcher(watcherModel)
+		}
+
 		if err != nil {
-			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "error adding provision watcher "+watcherModel.Name, err))
+			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError,
+				fmt.Sprintf("error adding provision watcher %s after %d tries", watcherModel.Name, maxProvisionWatcherTries), err))
 			continue
 		}
 		d.lc.Infof("Successfully added provision watcher: %s,  ID: %s", watcherModel.Name, id)
