@@ -248,8 +248,14 @@ func (d *Driver) makeDeviceMacMap() map[string]contract.Device {
 				dev.Name, OnvifProtocol, MACAddress)
 			continue
 		}
+		sanitized, err := SanitizeMACAddress(macAddress)
+		if err != nil {
+			d.lc.Warnf("Registered device %s has an invalid mac address %s: %s",
+				dev.Name, macAddress, err.Error())
+			continue
+		}
 
-		deviceMap[macAddress] = dev
+		deviceMap[sanitized] = dev // put the sanitized version in the map to standardize lookups
 	}
 
 	return deviceMap
@@ -309,7 +315,8 @@ func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) [
 	filtered := make([]sdkModel.DiscoveredDevice, 0, len(discovered))
 	for _, device := range discovered {
 		macAddress := device.Protocols[OnvifProtocol][MACAddress]
-		if existingDevice, found := existingMacDevices[macAddress]; found && macAddress != "" {
+		sanitizedMAC, macErr := SanitizeMACAddress(macAddress)
+		if existingDevice, found := existingMacDevices[sanitizedMAC]; found && macErr == nil {
 			if err := d.updateExistingDevice(existingDevice, device); err != nil {
 				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
 			}
@@ -358,13 +365,14 @@ func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.D
 	}
 
 	discoveredMAC := discDev.Protocols[OnvifProtocol][MACAddress]
-	if discoveredMAC != "" && device.Protocols[OnvifProtocol][MACAddress] != discoveredMAC {
-		device.Protocols[OnvifProtocol][MACAddress] = discoveredMAC
+	sanitizedMAC, macErr := SanitizeMACAddress(discoveredMAC)
+	if macErr == nil && device.Protocols[OnvifProtocol][MACAddress] != sanitizedMAC {
+		device.Protocols[OnvifProtocol][MACAddress] = sanitizedMAC
 		shouldUpdate = true
 	}
 
 	if !shouldUpdate {
-		d.lc.Debug("Re-discovered existing device at the same network address, nothing to do")
+		d.lc.Debugf("Re-discovered existing device at the same network address %s:%s, nothing to do", existAddr, existPort)
 		return nil
 	}
 
