@@ -275,7 +275,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, functionName st
 
 		mac, err = SanitizeMACAddress(mac)
 		if err != nil {
-			return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "error setting MACAddress:", err)
+			return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "error setting MACAddress", err)
 		}
 
 		device.Protocols[OnvifProtocol][MACAddress] = mac // create or update mac address field
