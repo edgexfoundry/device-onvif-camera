@@ -8,7 +8,7 @@ Friendly name and MAC address can be set and retrieved for each camera added to 
 if credentials are provided on discovery. The user can also pre-define this field in a camera.toml file.
 
 If you add pre-defined devices, set up the `FriendlyName` field as shown in the
-[camera.toml.example file](cmd/res/devices/camera.toml.example).
+[camera.toml.example file](../cmd/res/devices/camera.toml.example).
 
 ```toml
 # Pre-defined Devices
@@ -90,12 +90,18 @@ curl http://localhost:59882/api/v2/device/name/<device name>/FriendlyName | jq .
 it will be set with the MAC address value of the camera if valid credentials are provided.
 The user can pre-define this field in a camera.toml file.
 
+
+
 If you add pre-defined devices, set up the `MACAddress` field as shown in the
-[camera.toml.example file](cmd/res/devices/camera.toml.example).
+[camera.toml.example file](../cmd/res/devices/camera.toml.example).
 
 ## Set MAC Address
 
-MACAddress can also be set via Edgex device command.
+MACAddress can also be set via Edgex device command.This is useful for setting the MAC Address for devices which do not contain 
+the MAC Address in the Endpoint Reference Address, or have been added manually without a MAC Address. 
+Since the MAC is used to map credentials for cameras, it is important to have this field filled out.
+
+> Note: When a camera successfully becomes `UpWithAuth`, the MAC Address is automatically queried and overridden by the system if available.
 Device resource MACAddress is used to set `MACAddress` of a camera.
 
 1. Use this command to set MACAddress field.
