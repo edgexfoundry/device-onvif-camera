@@ -372,7 +372,7 @@ func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.D
 	}
 
 	if !shouldUpdate {
-		d.lc.Debugf("Re-discovered existing device at the same network address %s:%s, nothing to do", existAddr, existPort)
+		d.lc.Debugf("Re-discovered existing device %s at the same network address %s:%s, nothing to do", device.Name, existAddr, existPort)
 		return nil
 	}
 
