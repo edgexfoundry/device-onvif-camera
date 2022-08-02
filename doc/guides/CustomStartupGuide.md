@@ -98,20 +98,6 @@ To enable running Docker commands without the preface of sudo, add the user to t
    ...
    ```
 
-### Install Docker Compose
-Install Docker from the official repository as documented on the [Docker Compose](https://docs.docker.com/compose/install/#install-compose) site. See the Linux tab. 
-
-1. Download current stable Docker Compose:
-   ```bash
-   sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-   ```
-   >NOTE: When this guide was created, version 1.29.2 was current.
-
-2. Set permissions:
-   ```bash
-   sudo chmod +x /usr/local/bin/docker-compose
-   ```
-
 ###  Download EdgeX Compose
 Clone the EdgeX compose repository
 
@@ -123,7 +109,7 @@ Clone the EdgeX compose repository
 Install the build, media streaming, and parsing tools:
 
 ```bash
-sudo apt install build-essential vlc ffmpeg jq curl
+sudo apt install build-essential ffmpeg jq curl
 ```
 
 ### Tool Descriptions
@@ -497,7 +483,7 @@ Follow these instructions to update devices.
 
    ```bash
    curl -X 'DELETE' \
-   'http://localhost:59881/api/v2/device/name/<device name>' \
+   'http://localhost:59881/api/v2/device/name/< >' \
    -H 'accept: application/json' 
    ```
 ## Execute GetStreamURI Command through EdgeX
