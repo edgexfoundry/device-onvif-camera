@@ -47,7 +47,7 @@
 2. Check whether the device service is added to EdgeX:
 
    ```bash
-   curl -s http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq
+   curl -s http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq .
    ```
    Good response:
    ```json
@@ -90,7 +90,7 @@
    profileName: 
    statusCode: 404
    ```
-   > note: `jq -r` is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)'`
+   > note: `jq -r` is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
 
 ### Using EdgeX UI
 1. Visit http://localhost:4000 to go to the dashboard for EdgeX Console GUI:
@@ -235,7 +235,7 @@ Follow these instructions to update devices.
    deviceName: device-onvif-camera
    ```
    >note: device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >note: `jq -r` is used to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name''`
+   >note: `jq -r` is used to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
 
 #### Update Device
 

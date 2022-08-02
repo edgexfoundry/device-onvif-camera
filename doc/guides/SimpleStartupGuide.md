@@ -30,7 +30,7 @@ You must have administrator (sudo) privileges to execute the user guide commands
 For an explanation of the architecture, see the [User Guide](UserGuide.md#how-it-works).
 
 ## Dependencies
-The software has dependencies, including Git, Docker, Docker Compose, and assorted tools (e.g., curl). Follow the instructions below to install any dependency that is not already installed. 
+The software has dependencies, including Git, Docker, Docker Compose, and assorted tools. Follow the instructions below to install any dependency that is not already installed. 
 
 ### Install Git
 Install Git from the official repository as documented on the [Git SCM](https://git-scm.com/download/linux) site.
@@ -156,7 +156,7 @@ Clone the device-onvif-camera repository:
 2. Check that the device service is added to EdgeX:
 
    ```bash
-   curl -s http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq
+   curl -s http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq .
    ```
    Successful:
    ```json
@@ -199,7 +199,7 @@ Clone the device-onvif-camera repository:
    profileName: 
    statusCode: 404
    ```
-   > NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)'`
+   > NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
 
 ## Manage Devices
 Follow these instructions to update devices.
@@ -320,7 +320,7 @@ Follow these instructions to update devices.
    deviceName: device-onvif-camera
    ```
    >NOTE: The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >NOTE: The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name''`
+   >NOTE: The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
 
 #### Update Device
 

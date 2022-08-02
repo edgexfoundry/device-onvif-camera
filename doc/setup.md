@@ -8,7 +8,6 @@ Follow this guide to set up your system to run the ONVIF Device Service.
 [Dependencies](#dependencies)  
 &nbsp;&nbsp;&nbsp;&nbsp;[Git](#install-git)  
 &nbsp;&nbsp;&nbsp;&nbsp;[Docker](#install-docker)   
-&nbsp;&nbsp;&nbsp;&nbsp;[Docker Compose](#install-docker-compose)  
 &nbsp;&nbsp;&nbsp;&nbsp;[Tools](#install-tools)    
 [Download EdgeX Compose](#download-edgex-compose)
 
@@ -25,7 +24,7 @@ Follow this guide to set up your system to run the ONVIF Device Service.
 You must have administrator (sudo) privileges to execute the user guide commands.
 
 ## Dependencies
-The software has dependencies, including Git, Docker, Docker Compose, and assorted tools (e.g., curl). Follow the instructions below to install any dependency that is not already installed. 
+The software has dependencies, including Git, Docker, Docker Compose, and assorted tools. Follow the instructions below to install any dependency that is not already installed. 
 
 ### Install Git
 Install Git from the official repository as documented on the [Git SCM](https://git-scm.com/download/linux) site.
