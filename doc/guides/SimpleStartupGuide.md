@@ -128,13 +128,56 @@ Clone the device-onvif-camera repository:
 
 ### Run the Service
 
-1. Navigate to the `edgex-compose/compose-builder` directory.
+<details>
+<summary><strong>Run the Service using Docker</strong></summary>
 
-2. Run EdgeX with the microservice:
+   1. Navigate to the EdgeX `compose-builder` directory:
 
-   ```bash
-   make run no-secty ds-onvif-camera
-   ```
+      ```bash
+      cd edgex-compose/compose-builder/
+      ```
+
+   1. Run EdgeX with the microservice in non-secure mode:
+
+      ```bash
+      make run no-secty ds-onvif-camera
+      ```
+   
+   1. Run EdgeX with the microservice in secure mode:
+
+      ```bash
+      make run ds-onvif-camera
+      ```
+</details>
+
+<details>
+<summary><strong>Run the Service natively</summary><strong>  
+
+   1. Navigate to the EdgeX `compose-builder` directory:
+
+      ```bash
+      cd edgex-compose/compose-builder/
+      ```
+
+   1. Run EdgeX:
+
+      ```bash
+      make run no-secty
+      ```
+
+   1. Navigate out of the `edgex-compose` directory to the `device-onvif-camera` directory:
+
+      ```bash
+      cd device-onvif-camera
+      ```
+
+   1. Run the service:
+
+      ```bash
+      make run 
+      ```
+
+</details>
 
 ## Verify Service and Device Profiles
 
