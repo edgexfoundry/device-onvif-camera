@@ -1,4 +1,4 @@
-.PHONY: build docker test clean prepare update
+.PHONY: build docker test clean prepare update openapi
 
 #GOOS=linux
 
@@ -72,3 +72,6 @@ clean:
 
 vendor:
 	$(GO) mod vendor
+
+openapi:
+	$(MAKE) -C doc/openapi gen
