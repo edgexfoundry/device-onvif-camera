@@ -175,7 +175,7 @@ And the response should be like the following XML data:
 </SOAP-ENV:Envelope>
 ```
 
-Since the SOAP is a HTTP call, the device service can just do the transformation between REST(JSON) and SOAP(XML).
+Since the SOAP message is an HTTP call, the device service can just do the transformation between REST(JSON) and SOAP(XML).
 
 For the concept of implementation:
 - The device service accepts the REST request from the client, then transforms the request to SOAP format and forward it to the Onvif camera.
@@ -210,111 +210,165 @@ The following table shows the Onvif functions tested for various Onvif cameras:
 
 * '✔' means the function works for the specified camera.
 * '❌' means the function does not work or is not implemented by the specified camera.
+* 'ⓘ' means there is additional details available. Click it to read more.
 
-| Feature                                | Onvif Web Service | Onvif Function                      | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 |
-|----------------------------------------|-------------------|-------------------------------------|---------------------|-----------|-----------------------------------|---------------------|
-| **User Authentication**                | **Core**          | WS-UsernameToken                    | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | HTTP Digest                         | ✔                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **Auto Discovery**                     | **Core**          | WS-Discovery                        | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        | **Device**        | GetDiscoveryMode                    | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | SetDiscoveryMode                    | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | GetScopes                           | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | SetScopes                           | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | AddScopes                           | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | RemoveScopes                        | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   |                                     |                     |
-| **Network Configuration**              | **Device**        | GetHostname                         | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | SetHostname                         | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | GetDNS                              | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | SetDNS                              | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | GetNetworkInterfaces                | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | SetNetworkInterfaces                | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | GetNetworkProtocols                 | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | SetNetworkProtocols                 | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | GetNetworkDefaultGateway            | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | SetNetworkDefaultGateway            | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   |                                     |                     |
-| **System Function**                    | **Device**        | GetDeviceInformation                | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | GetSystemDateAndTime                | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | SetSystemDateAndTime                | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | SetSystemFactoryDefault             | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | Reboot                              | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   |                                     |                     |
-| **User Handling**                      | **Device**        | GetUsers                            | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | CreateUsers                         | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | DeleteUsers                         | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | SetUser                             | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   |                                     |                     |
-| **Metadata Configuration**             | **Media**         | GetMetadataConfigurations           | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | GetMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | GetCompatibleMetadataConfigurations | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | GetMetadataConfigurationOptions     | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | AddMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | RemoveMetadataConfiguration         | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | SetMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   |                                     |                     |
-| **Video Streaming**                    | **Media**         | GetProfiles                         | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | GetStreamUri                        | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        | **EdgeX**         | GetSnapshot                         | ✔                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **VideoEncoder  Config**               | **Media**         | GetVideoEncoderConfiguration        | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   | SetVideoEncoderConfiguration        | ✔                   | ❌         | ✔                                 | ✔                   |
-|                                        |                   | GetVideoEncoderConfigurationOptions | ✔                   | ✔         | ✔                                 | ✔                   |
-|                                        |                   |                                     |                     |
-| **PTZ Node**                           | **PTZ**           | GetNodes                            | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | GetNode                             | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **PTZ Configuration**                  | **PTZ**           | GetConfigurations                   | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | GetConfiguration                    | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | GetConfigurationOptions             | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | SetConfiguration                    | ❌                   | ❌         | ❌                                 | ❌                   |
-|                                        | **Media**         | AddPTZConfiguration                 | ❌                   | ❌         | ❌                                 | ❌                   |
-|                                        | **Media**         | RemovePTZConfiguration              | ❌                   | ❌         | ❌                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **PTZ Actuation**                      | **PTZ**           | AbsoluteMove                        | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | RelativeMove                        | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | ContinuousMove                      | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | Stop                                | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | GetStatus                           | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **PTZ Preset**                         | **PTZ**           | SetPreset                           | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | GetPresets                          | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | GotoPreset                          | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   | RemovePreset                        | ❌                   | ✔         | ❌                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **PTZ Home Position**                  | **PTZ**           | GotoHomePosition                    | ❌                   | ❌         | ❌                                 | ❌                   |
-|                                        |                   | SetHomePosition                     | ❌                   | ❌         | ❌                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **PTZ AuxiliaryOperations**            | **PTZ**           | SendAuxiliaryCommand                | ❌                   | ❌         | ❌                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **Event Handling**                     | **Event**         | Notify                              | ✔                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | Subscribe                           | ✔                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | Renew                               | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | Unsubscribe                         | ✔                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | CreatePullPointSubscription         | ✔                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | PullMessages                        | ✔                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | TopicFilter                         | ✔                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | MessageContentFilter                | ❌                   | ❌         | ❌                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **Configuration of Analytics profile** | **Media2**        | GetProfiles                         | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | GetAnalyticsConfigurations          | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | AddConfiguration                    | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | RemoveConfiguration                 | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   |                                     |                     | 
-| **Analytics Module configuration**     | **Analytics**     | GetSupportedAnalyticsModules        | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | GetAnalyticsModules                 | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | CreateAnalyticsModules              | ❌                   | ❌         | ❌                                 | ❌                   |
-|                                        |                   | DeleteAnalyticsModules              | ❌                   | ❌         | ❌                                 | ❌                   |
-|                                        |                   | GetAnalyticsModuleOptions           | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | ModifyAnalyticsModules              | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   |                                     |                     |
-| **Rule configuration**                 | **Analytics**     | GetSupportedRules                   | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | GetRules                            | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | CreateRules                         | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | DeleteRules                         | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | GetRuleOptions                      | ❌                   | ❌         | ✔                                 | ❌                   |
-|                                        |                   | ModifyRules                         | ❌                   | ❌         | ✔                                 | ❌                   |
+### User Authentication
+| Onvif Web Service | Onvif Function   | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Core**          | WS-UsernameToken | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | HTTP Digest      | ✔                   | ❌         | ✔                                 | ❌                   |                     |
 
-## License
-[Apache-2.0](LICENSE)
+### Auto Discovery
+| Onvif Web Service | Onvif Function   | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Core**          | WS-Discovery     | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+| **Device**        | GetDiscoveryMode | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | SetDiscoveryMode | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | GetScopes        | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | SetScopes        | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | AddScopes        | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | RemoveScopes     | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+
+### Network Configuration
+| Onvif Web Service | Onvif Function           | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|--------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Device**        | GetHostname              | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | SetHostname              | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | GetDNS                   | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | SetDNS                   | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | GetNetworkInterfaces     | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | SetNetworkInterfaces     | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | GetNetworkProtocols      | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | SetNetworkProtocols      | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | GetNetworkDefaultGateway | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | SetNetworkDefaultGateway | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+
+### System Function
+| Onvif Web Service | Onvif Function          | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|-------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Device**        | GetDeviceInformation    | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | GetSystemDateAndTime    | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | SetSystemDateAndTime    | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | SetSystemFactoryDefault | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | Reboot                  | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+
+### User Handling
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200                                             | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|----------------|---------------------|-------------------------------------------------------|-----------------------------------|---------------------|---------------------|
+| **Device**        | GetUsers       | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |                     |
+|                   | CreateUsers    | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |                     |
+|                   | DeleteUsers    | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |                     |
+|                   | SetUser        | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |                     |
+
+### Metadata Configuration
+| Onvif Web Service | Onvif Function                      | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|-------------------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Media**         | GetMetadataConfigurations           | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | GetMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | GetCompatibleMetadataConfigurations | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | GetMetadataConfigurationOptions     | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | AddMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | RemoveMetadataConfiguration         | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | SetMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+
+### Video Streaming
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|----------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Media**         | GetProfiles    | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | GetStreamUri   | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+
+### VideoEncoder Config
+| Onvif Web Service | Onvif Function                      | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|-------------------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Media**         | GetVideoEncoderConfiguration        | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | SetVideoEncoderConfiguration        | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+|                   | GetVideoEncoderConfigurationOptions | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+
+### PTZ Node
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|----------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **PTZ**           | GetNodes       | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | GetNode        | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+
+### PTZ Configuration
+| Onvif Web Service | Onvif Function          | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|-------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **PTZ**           | GetConfigurations       | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | GetConfiguration        | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | GetConfigurationOptions | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | SetConfiguration        | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+| **Media**         | AddPTZConfiguration     | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+| **Media**         | RemovePTZConfiguration  | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+
+### PTZ Actuation
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|----------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **PTZ**           | AbsoluteMove   | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | RelativeMove   | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | ContinuousMove | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | Stop           | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | GetStatus      | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+
+### PTZ Preset
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|----------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **PTZ**           | SetPreset      | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | GetPresets     | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | GotoPreset     | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+|                   | RemovePreset   | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+
+### PTZ Home Position
+| Onvif Web Service | Onvif Function   | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **PTZ**           | GotoHomePosition | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+|                   | SetHomePosition  | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+
+### PTZ AuxiliaryOperations
+| Onvif Web Service | Onvif Function       | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|----------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **PTZ**           | SendAuxiliaryCommand | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+
+### Event Handling
+| Onvif Web Service | Onvif Function              | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|-----------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Event**         | Notify                      | ✔                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | Subscribe                   | ✔                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | Renew                       | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | Unsubscribe                 | ✔                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | CreatePullPointSubscription | ✔                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | PullMessages                | ✔                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | TopicFilter                 | ✔                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | MessageContentFilter        | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+
+### Configuration of Analytics Profile
+| Onvif Web Service | Onvif Function             | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|----------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Media2**        | GetProfiles                | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | GetAnalyticsConfigurations | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | AddConfiguration           | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | RemoveConfiguration        | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+
+### Analytics Module Configuration
+| Onvif Web Service | Onvif Function               | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|------------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Analytics**     | GetSupportedAnalyticsModules | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | GetAnalyticsModules          | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | CreateAnalyticsModules       | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+|                   | DeleteAnalyticsModules       | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+|                   | GetAnalyticsModuleOptions    | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | ModifyAnalyticsModules       | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+
+### Rule Configuration
+| Onvif Web Service | Onvif Function    | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|-------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
+| **Analytics**     | GetSupportedRules | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | GetRules          | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | CreateRules       | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | DeleteRules       | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | GetRuleOptions    | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | ModifyRules       | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+
+### Custom EdgeX
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD             | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|----------------|---------------------|-----------|-----------------------------------------------|---------------------|---------------------|
+| **EdgeX**         | GetSnapshot    | ✔                   | ❌         | ✔ [ⓘ](onvif-footnotes.md#bosch---getsnapshot) | ❌                   |                     |
