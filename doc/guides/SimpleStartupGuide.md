@@ -282,10 +282,9 @@ Follow these instructions to update devices.
                   "operatingState": "UP",
                   "protocols": {
                      "Onvif": {
-                        "Address": "x.x.x.x",
+                        "Address": "10.0.0.0",
                         "Port": "10000",
-                        "AuthMode": "usernametoken",
-                        "SecretPath": "credentials001"
+                        "MACAddress": "aa:bb:cc:11:22:33"
                      },
                      "CustomMetadata": {
                         "CommonName":"Default Camera",
