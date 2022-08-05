@@ -41,12 +41,13 @@ LABEL license='SPDX-License-Identifier: Apache-2.0' \
   copyright='Copyright (c) 2022: Intel Corporation'
 
 # dumb-init needed for injected secure bootstrapping entrypoint script when run in secure mode.
-RUN apk add --update --no-cache zeromq dumb-init
+RUN apk add --update --no-cache zeromq dumb-init bash newt curl jq
 
 WORKDIR /
 COPY --from=builder /device-onvif-camera/cmd /
 COPY --from=builder /device-onvif-camera/LICENSE /
 COPY --from=builder /device-onvif-camera/Attribution.txt /
+COPY --from=builder /device-onvif-camera/bin /scripts/
 
 EXPOSE 59984
 

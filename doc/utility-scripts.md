@@ -3,6 +3,16 @@
 > **NOTE:** If running EdgeX in Secure Mode, you will need a **[Consul ACL Token](https://docs.edgexfoundry.org/2.1/security/Ch-Secure-Consul/#how-to-get-consul-acl-token)**
 > in order to use these scripts.
 
+## Run scripts via docker
+In order to run the bash scripts directly from the docker images, you can use the following approach:
+```shell
+docker run -it --rm --net=host --entrypoint /scripts/<script-name> <docker image and version>
+```
+For example, to run the `map-credentials.sh` script from `edgexfoundry/device-onvif-camera` version `0.0.0-dev`
+```shell
+docker run -it --rm --net=host --entrypoint /scripts/map-credentials.sh edgexfoundry/device-onvif-camera:0.0.0-dev
+```
+
 ## Use Cases
 ### Create new credentials and assign MAC Addresses
 1. Run `bin/map-credentials.sh`
