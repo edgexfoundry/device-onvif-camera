@@ -150,35 +150,35 @@ The following logic to determine if the device is already registered or not.
 %% links between the various nodes.
 graph TD;
     %% -------- Node Definitions -------- %%
-    multicast[Discover Multicast]
-    netscan[Discover Netscan]
-    filter[Duplicate Filtering<br/>based on EndpointRef]    
-    macmatch{MAC Address<br/>matches existing<br/>device?}
-    refmatch{EndpointRef<br/>matches existing<br/>device?}
-    update[Update Existing Device]
-    ipchange{IP Address<br/>Changed?}
-    macchange{MAC Address<br/>Changed?}
-    newip[Update IP Address]
-    newmac[Update MAC Address]
-    add[Register New Device<br/>With EdgeX]
-    pwmatch{Device matches<br/>Provision Watcher?}
+    Multicast[Discover Multicast]
+    Netscan[Discover Netscan]
+    DupeFilter[Duplicate Filtering<br/>based on EndpointRef]    
+    MACMatches{MAC Address<br/>matches existing<br/>device?}
+    RefMatches{EndpointRef<br/>matches existing<br/>device?}
+    UpdateDevice[Update Existing Device]
+    IPChanged{IP Address<br/>Changed?}
+    MACChanged{MAC Address<br/>Changed?}
+    UpdateIP[Update IP Address]
+    UpdateMAC[Update MAC Address]
+    RegisterDevice[Register New Device<br/>With EdgeX]
+    PWMatches{Device matches<br/>Provision Watcher?}
     
     %% -------- Graph Definitions -------- %%
-    multicast --> filter
-    netscan --> filter
-    filter --> macmatch
+    Multicast --> DupeFilter
+    Netscan --> DupeFilter
+    DupeFilter --> MACMatches
     subgraph For Each Unique Device
-        macmatch --Yes--> update
-        macmatch --No--> refmatch
-        refmatch --Yes--> update
-        refmatch --No--> pwmatch
-        update-->ipchange
-        ipchange--No-->macchange
-        ipchange--Yes-->newip
-        newip-->macchange
-        macchange--Yes-->newmac
+        MACMatches -- Yes --> UpdateDevice
+        MACMatches -- No --> RefMatches
+        RefMatches -- Yes --> UpdateDevice
+        RefMatches -- No --> PWMatches
+        UpdateDevice --> IPChanged
+        IPChanged -- No --> MACChanged
+        IPChanged -- Yes --> UpdateIP
+        UpdateIP --> MACChanged
+        MACChanged -- Yes --> UpdateMAC
         subgraph For Each Provision Watcher
-            pwmatch--Yes-->add
+            PWMatches -- Yes --> RegisterDevice
         end
     end
 ```

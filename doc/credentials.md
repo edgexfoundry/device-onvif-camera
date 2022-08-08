@@ -163,36 +163,35 @@ Here is an in-depth look at the logic behind mapping `Credentials` to Devices.
 %% links between the various nodes.
 graph TD;   
     %% -------- Node Definitions -------- %%
-    discover[Discovered Device]
-    default[Use Default Credentials]
-    refmac{Does EndpointRef<br/>contain<br/>MAC Address?}
-    noauth{MAC Belongs<br/>to NoAuth group?}
-    none[Set AuthMode to 'none']
-    apply[Apply Credentials]
-    instore{Credentials exist<br/>in SecretStore?}
-    info[Get Device Information]
-    success{Success?}
-    net[Get Network Interfaces]
-    create[Create Device:<br/>&ltMfg&gt-&ltModel&gt-&ltEndpointRef&gt]
-    unk[Create Device:<br/>unknown_unknown_&ltEndpointRef&gt]
+    DiscoveredDevice[Discovered Device]
+    UseDefault[Use Default Credentials]
+    EndpointRefHasMAC{Does EndpointRef<br/>contain<br/>MAC Address?}
+    InNoAuthGroup{MAC Belongs<br/>to NoAuth group?}
+    AuthModeNone[Set AuthMode to 'none']
+    ApplyCreds[Apply Credentials]
+    InSecretStore{Credentials exist<br/>in SecretStore?}
+    GetDeviceInfo[Get Device Information]
+    GetNetIfaces[Get Network Interfaces]
+    CreateDevice[Create Device:<br/>&ltMfg&gt-&ltModel&gt-&ltEndpointRef&gt]
+    CreateUnknownDevice[Create Device:<br/>unknown_unknown_&ltEndpointRef&gt]
 
     %% -------- Graph Definitions -------- %%
-    discover-->refmac
+    DiscoveredDevice --> EndpointRefHasMAC
     subgraph For all MAC Addresses<br/>in CredentialsMap
-      refmac
+      EndpointRefHasMAC
     end
-    refmac--Yes-->noauth
-    refmac--NoMatches-->default
-    noauth--Yes-->none
-    noauth--No-->instore
-    default-->instore
-    none-->info
-    instore--Yes-->apply
-    instore--No-->none
-    apply-->info
-    info--Failed-->unk
-    info--Success-->net
-    net---->create
+    EndpointRefHasMAC -- Yes --> InNoAuthGroup
+    EndpointRefHasMAC -- No Matches --> UseDefault
+    InNoAuthGroup -- Yes --> AuthModeNone
+    InNoAuthGroup -- No --> InSecretStore
+    UseDefault --> InSecretStore
+    AuthModeNone --> GetDeviceInfo
+    InSecretStore -- Yes --> ApplyCreds
+    InSecretStore -- No --> AuthModeNone
+    ApplyCreds --> GetDeviceInfo
+    GetDeviceInfo -- Failed --> CreateUnknownDevice
+    GetDeviceInfo -- Success --> GetNetIfaces
+    GetNetIfaces ----> CreateDevice
 ```
 
 ### Connecting to Existing Devices
@@ -201,23 +200,27 @@ graph TD;
 %% links between the various nodes.
 graph TD;
     %% -------- Node Definitions -------- %%
-    exist[Existing Device]
-    hasmac{Device Metadata contains<br/>MAC Address?}
-    map{MAC exists in<br/>CredentialsMap?}
-    noauth{MAC Belongs<br/>to NoAuth group?}
-    default[Use Default Credentials]
-    none[Set AuthMode to 'none']
-    apply[Apply Credentials]
-    instore{Credentials exist<br/>in SecretStore?}
+    ExistingDevice[Existing Device]
+    ContainsMAC{Device Metadata contains<br/>MAC Address?}
+    ValidMAC{Is it a valid<br/>MAC Address?}
+    InMap{MAC exists in<br/>CredentialsMap?}
+    InNoAuth{MAC Belongs<br/>to NoAuth group?}
+    UseDefault[Use Default Credentials]
+    AuthModeNone[Set AuthMode to 'none']
+    ApplyCreds[Apply Credentials]
+    InSecretStore{Credentials exist<br/>in SecretStore?}
 
-    %% -------- Graph Definitions -------- %%
-    exist-->hasmac
-    hasmac--Yes-->map
-    map--Yes-->noauth
-    hasmac--No-->default
-    noauth--Yes-->none
-    noauth--No-->instore
-    default-->instore
-    instore--Yes-->apply
-    instore--No-->none
+    %% -------- Edge Definitions -------- %%
+    ExistingDevice --> ContainsMAC
+    ContainsMAC -- Yes --> ValidMAC
+    ValidMAC -- Yes --> InMap
+    ValidMAC -- No --> AuthModeNone
+    InMap -- Yes --> InNoAuth
+    InMap -- No --> AuthModeNone
+    ContainsMAC -- No --> UseDefault
+    InNoAuth -- Yes --> AuthModeNone
+    InNoAuth -- No --> InSecretStore
+    UseDefault --> InSecretStore
+    InSecretStore -- Yes --> ApplyCreds
+    InSecretStore -- No --> AuthModeNone
 ```
