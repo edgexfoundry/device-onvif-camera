@@ -91,7 +91,7 @@ To enable running Docker commands without the preface of sudo, add the user to t
    ...
    ```
 
-## Install Docker Compose
+### Install Docker Compose
 Install Docker from the official repository as documented on the [Docker Compose](https://docs.docker.com/compose/install/#install-compose) site. See the Linux tab. 
 
 1. Download current stable Docker Compose:
