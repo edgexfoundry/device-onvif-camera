@@ -130,7 +130,7 @@ in conjunction with each other.
 ### Manual Configuration
 > **Note:** Any key present in `AppCustom.CredentialsMap` must also exist in the secret store!
 ```toml
-# AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses.
+  # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses.
 # Every SecretPath used here must also exist as a valid secret in the Secret Store.
 #
 # Note: Anything not defined here will be assigned the default credentials configured via `DefaultSecretPath`.
@@ -141,12 +141,15 @@ in conjunction with each other.
 # Example: (Multi mapping for 3 mac address to 1 shared credentials)
 #   credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
 #
+# These mappings can also be referred to as "groups". In the above case, the `credentials001` group has 1 MAC
+# Address, and the `credentials002` group has 3 MAC Addresses.
+#
 # The special group 'NoAuth' defines mac addresses of cameras where no authentication is needed.
-# The 'NoAuth' group does not exist in the SecretStore. It is not required to place cameras in here,
+# The 'NoAuth' key does not exist in the SecretStore. It is not required to add MAC Addresses in here,
 # however it avoids sending the default credentials to cameras which do not need it.
 #
 # IMPORTANT: A MAC Address may only exist in one credential group. If a MAC address is defined in more
-# than one group, it is random which group the MAC will end up in! If you wish to change the group a MAC
+# than one group, it is unpredictable which group the MAC will end up in! If you wish to change the group a MAC
 # address belongs to, first remove it from its existing group, and then add it to the new one.
 [AppCustom.CredentialsMap]
 NoAuth = "44:33:22:11:33:fd"
