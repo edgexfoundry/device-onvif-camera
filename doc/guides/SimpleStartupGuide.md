@@ -474,7 +474,7 @@ There are multiple commands that can update aspects of the camera entry in meta-
    ffplay -rtsp_transport tcp rtsp://'admin':'Password123'@192.168.86.34:554/stream1
    ```
    >NOTE: While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
-   >NOTE: If the password uses special characters, you must use percent-encoding. Use the resources found here to find the special character conversions. We do not recommend entering your full password to the site.
+   >NOTE: If the password uses special characters, you must use percent-encoding.  
 
 5. To shut down ffplay, use the ctrl-c command.
 
