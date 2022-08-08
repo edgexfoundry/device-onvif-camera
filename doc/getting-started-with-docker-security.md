@@ -42,6 +42,10 @@ curl --location --request POST 'http://0.0.0.0:59984/api/v2/secret' \
         {
             "key":"password",
             "value":"Password1!"
+        },
+        {
+            "key":"mode",
+            "value":"digest"
         }
     ]
 }'

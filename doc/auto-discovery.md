@@ -2,7 +2,7 @@
 There are two methods that the device service can use to discover and add ONVIF
 compliant cameras using WS-Discovery: multicast and netscan.
 
-For more info on how WS-Discovery works, see [here](./ws-discovery.md).
+For more info on how WS-Discovery works, see [here](ws-discovery.md).
 
 
 ## How To
@@ -11,37 +11,7 @@ For more info on how WS-Discovery works, see [here](./ws-discovery.md).
 Device discovery is triggered by the device SDK. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
 > **Note:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
 
-
-### Step 1. Enable the Discovery Mechanism
-> **Note:** This is already enabled by default.
-
-<details>
-<summary><strong>via configuration.toml</strong></summary>
-
-Define the following configurations in [cmd/res/configuration.toml](../cmd/res/configuration.toml):
-
-```toml
-[Device]
-    [Device.Discovery]
-    Enabled = true
-    Interval = "1h"
-```
-</details>
-
-<details>
-<summary><strong>via Docker / Env Vars</strong></summary>
-
-Define the following environment variables in your `docker-compose.yaml`:
-```yaml
-device-onvif-camera:
-  environment:
-    DEVICE_DISCOVERY_ENABLED: "true"
-    DEVICE_DISCOVERY_INTERVAL: "1h"
-```
-
-</details>
-
-### Step 2. Discovery Configuration
+### Step 1. Discovery Configuration
 
 > _See [Configuration Section](#Configuration-Guide) for full details_
 
@@ -54,6 +24,11 @@ device-onvif-camera:
 Define the following configurations in [cmd/res/configuration.toml](../cmd/res/configuration.toml) for auto-discovery mechanism:
 
 ```toml
+[Device]
+    [Device.Discovery]
+    Enabled = true    # enable device discovery
+    Interval = "1h"   # set to desired interval
+
 # Custom configs
 [AppCustom]
 # The target ethernet interface for multicast discovering
@@ -64,7 +39,7 @@ DefaultSecretPath = "credentials001"
 DiscoveryMode = "both" # netscan, multicast, or both
 # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
 # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-DiscoverySubnets = ""
+DiscoverySubnets = "192.168.1.0/24"
 ```
 </details>
 
@@ -75,40 +50,23 @@ Define the following environment variables in `docker-compose.yaml`:
 ```yaml
 device-onvif-camera:
   environment:
+    DEVICE_DISCOVERY_ENABLED: "true"  # enable device discovery
+    DEVICE_DISCOVERY_INTERVAL: "1h"   # set to desired interval
+
+    # The target ethernet interface for multicast discovering
     APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
+    # The Secret Path of the default credentials to use for devices
     APPCUSTOM_DEFAULTSECRETPATH: "credentials001"
-    APPCUSTOM_DISCOVERYMODE: "both"
+    # Select which discovery mechanism(s) to use
+    APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
+    # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+    # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
     APPCUSTOM_DISCOVERYSUBNETS: "192.168.1.0/24"
 ```
 </details>
 
-### Step 3. Set CredentialsMap
-<details>
-<summary><strong>A: via configuration.toml</strong></summary>
-
-Define the following configurations in [cmd/res/configuration.toml](../cmd/res/configuration.toml):
-
-```toml
-# AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
-#
-# The special group 'NoAuth' defines mac addresses of cameras where no authentication is to be used. This
-# group will cause the code to skip looking in the SecretStore altogether. 'NoAuth' is a special group
-# name that does not exist in the SecretStore.
-[AppCustom.CredentialsMap]
-# Example: (MAC Addresses of devices without credentials)
-NoAuth = "ab:bc:cd:de:ff:aa"
-# Example: (Single mapping for 1 mac address to 1 credential)
-credentials001 = "aa:bb:cc:dd:ee:ff"
-# Example: (Multi mapping for 3 mac address to 1 shared credentials)
-credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
-```
-</details>
-
-<details>
-<summary><strong>B: via utility scripts</strong></summary>
-
-See the full documentation [here](./utility-scripts.md).
-</details>
+### Step 2. Set CredentialsMap
+See [Credentials Guide](credentials.md) for more information.
 
 ## Configuration Guide
 ### DiscoveryMode
@@ -180,111 +138,49 @@ sequenceDiagram
     EdgeX Core-Metadata->>Onvif Device Service: Device Added
 ```
 
-### Add Credentials to Unknown Camera
-If a camera is discovered in which the credentials are unknown, it will be
-added as a generic onvif camera, and will require the user to set the credentials
-in order to call most ONVIF commands.
-
-Credentials can be added and modified via [utility scripts](./utility-scripts.md)
-
-#### Non-Secure Mode
-##### Helper Scripts
-See [here](./utility-scripts.md) for the full guide.
-
-***
-
-##### Manual
-> **Note:** Replace `<secret-path>` with the name of the secret, `<username>` with the username,
-> `<password>` with the password, and `<mode>` with the auth mode.
-
-Set Path to `<device-name>`
-```shell
-curl -X PUT --data "<secret-path>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Path"
-```
-
-Set username to `<username>`
-```shell
-curl -X PUT --data "<username>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/username"
-```
-
-Set password to `<password>`
-```shell
-curl -X PUT --data "<password>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/password"
-```
-
-Set auth mode to `<auth-mode>`
-```shell
-curl -X PUT --data "<auth-mode>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/mode"
-```
-
-***
-
-#### Secure Mode
-##### Helper Scripts
-See [here](./utility-scripts.md) for the full guide.
-
-***
-
-##### Manual
-Credentials can be added via EdgeX Secrets:
-
-> **Note:** Replace `<secret-path>` with the name for the new secret, `<username>` with the username,
-> `<password>` with the password, and <mode> with the authentication mode.
-
-```shell
-curl --location --request POST 'http://localhost:59984/api/v2/secret' \
-    --header 'Content-Type: application/json' \
-    --data-raw '
-{
-    "apiVersion":"v2",
-    "path": "<secret-path>",
-    "secretData":[
-        {
-            "key":"username",
-            "value":"<username>"
-        },
-        {
-            "key":"password",
-            "value":"<password>"
-        },
-        {
-            "key":"mode",
-            "value":"<mode>"
-        }
-    ]
-}'
-```
 ## Rediscovery
+The device service is able to rediscover and update devices that have been discovered previously.
+Nothing additional is needed to enable this. It will run whenever the discover call is sent, regardless
+of whether it is a manual or automated call to discover.
 
-The device service is able to rediscover and update devices that have been discovered previously. Nothing additional is needed to enable this. It will run whenever the discover call is sent, regardless of whether it is a manual or automated call to discover.
+The following logic to determine if the device is already registered or not.
 
-
-## Device Status
-The device status goes hand in hand with the rediscovery of the cameras, but goes beyond the scope of just discovery. It is a separate background task running at a specified interval (default 30s) to determine the most accurate operating status of the existing cameras.
-
-### States and Descriptions
-Currently, there are 4 different statuses that a camera can have  
-
-**UpWithAuth**: Can execute commands requiring credentials  
-**UpWithoutAuth**: Can only execute commands that do not require credentials. Usually this means the camera's credentials have not been registered with the service yet, or have been changed.  
-**Reachable**: Can be discovered but no commands can be received.  
-**Unreachable**: Cannot be seen by service at all. Typically, this means that there is a connection issue either physically or with the network.   
-
-### Configuration Options
-- Use `EnableStatusCheck` to enable the device status background service.
-- `CheckStatusInterval` is the interval at which the service will determine the status of each camera.
-
-```toml
-EnableStatusCheck = true
-
-# The interval in seconds at which the service will check the connection of all known cameras and update the device status 
-# A longer interval will mean the service will detect changes in status less quickly
-# Maximum 300s (1 hour)
-CheckStatusInterval = 30
+```mermaid
+%% Note: The node and edge definitions are split up to make it easier to adjust the
+%% links between the various nodes.
+graph TD;
+    %% -------- Node Definitions -------- %%
+    multicast[Discover Multicast]
+    netscan[Discover Netscan]
+    filter[Duplicate Filtering<br/>based on EndpointRef]    
+    macmatch{MAC Address<br/>matches existing<br/>device?}
+    refmatch{EndpointRef<br/>matches existing<br/>device?}
+    update[Update Existing Device]
+    ipchange{IP Address<br/>Changed?}
+    macchange{MAC Address<br/>Changed?}
+    newip[Update IP Address]
+    newmac[Update MAC Address]
+    add[Register New Device<br/>With EdgeX]
+    pwmatch{Device matches<br/>Provision Watcher?}
+    
+    %% -------- Graph Definitions -------- %%
+    multicast --> filter
+    netscan --> filter
+    filter --> macmatch
+    subgraph For Each Unique Device
+        macmatch --Yes--> update
+        macmatch --No--> refmatch
+        refmatch --Yes--> update
+        refmatch --No--> pwmatch
+        update-->ipchange
+        ipchange--No-->macchange
+        ipchange--Yes-->newip
+        newip-->macchange
+        macchange--Yes-->newmac
+        subgraph For Each Provision Watcher
+            pwmatch--Yes-->add
+        end
+    end
 ```
 
 ## Troubleshooting

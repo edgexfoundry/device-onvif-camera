@@ -152,7 +152,10 @@ CheckStatusInterval = 30
 # The location of Provision Watcher json files to import when using auto-discovery
 ProvisionWatcherDir = "res/provision_watchers"
 
-  # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
+  # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses.
+  # Every SecretPath used here must also exist as a valid secret in the Secret Store.
+  #
+  # Note: Anything not defined here will be assigned the default credentials configured via `DefaultSecretPath`.
   #
   # Example: (Single mapping for 1 mac address to 1 credential)
   #   credentials001 = "aa:bb:cc:dd:ee:ff"
@@ -160,8 +163,12 @@ ProvisionWatcherDir = "res/provision_watchers"
   # Example: (Multi mapping for 3 mac address to 1 shared credentials)
   #   credentials002 = "11:22:33:44:55:66,ff:ee:dd:cc:bb:aa,ab:12:12:34:34:56:56"
   #
-  # The special group 'NoAuth' defines mac addresses of cameras where no authentication is to be used. This
-  # group will cause the code to skip looking in the SecretStore altogether. 'NoAuth' is a special group
-  # name that does not exist in the SecretStore.
+  # The special group 'NoAuth' defines mac addresses of cameras where no authentication is needed.
+  # The 'NoAuth' group does not exist in the SecretStore. It is not required to place cameras in here,
+  # however it avoids sending the default credentials to cameras which do not need it.
+  #
+  # IMPORTANT: A MAC Address may only exist in one credential group. If a MAC address is defined in more
+  # than one group, it is random which group the MAC will end up in! If you wish to change the group a MAC
+  # address belongs to, first remove it from its existing group, and then add it to the new one.
   [AppCustom.CredentialsMap]
   NoAuth = ""
