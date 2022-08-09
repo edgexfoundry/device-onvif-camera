@@ -411,7 +411,7 @@ Follow these instructions to update devices.
 
 #### Add Device
 
-1. Edit the information to appropriately match the camera. The fields `Address`, and `Port` should match that of the camera:
+1. Edit the information to appropriately match the camera. The fields `Address`, `MACAddress` and `Port` should match that of the camera:
 
    ```bash
    curl -X POST -H 'Content-Type: application/json'  \
@@ -430,10 +430,10 @@ Follow these instructions to update devices.
                      "Onvif": {
                         "Address": "10.0.0.0",
                         "Port": "10000",
-                        "MACAddress": "aa:bb:cc:11:22:33"
+                        "MACAddress": "aa:bb:cc:11:22:33",
+                        "FriendlyName":"Default Camera"
                      },
                      "CustomMetadata": {
-                        "CommonName":"Default Camera",
                         "Location":"Front door"
                      }
                   }

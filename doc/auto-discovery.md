@@ -138,25 +138,22 @@ multicast requires some additional configuration. edit the `add-device-onvif-cam
     services:
         device-onvif-camera:
             image: edgexfoundry/device-onvif-camera${ARCH}:0.0.0-dev
-        #    ports:
-        #      - "0.0.0.0:59984:59984"
             container_name: edgex-device-onvif-camera
             hostname: edgex-device-onvif-camera
             read_only: true
             restart: always
             network_mode: "host"
             environment:
-                SERVICE_HOST: 192.168.93.151
+                SERVICE_HOST: 192.168.93.151 # set to internal ip of your machine
                 MESSAGEQUEUE_HOST: localhost
                 EDGEX_SECURITY_SECRET_STORE: "false"
                 REGISTRY_HOST: localhost
                 CLIENTS_CORE_DATA_HOST: localhost
                 CLIENTS_CORE_METADATA_HOST: localhost
                 # Host Network Interface, IP, Subnet
-                APPCUSTOM_DISCOVERYETHERNETINTERFACE: wlp1s0
-                APPCUSTOM_DISCOVERYSUBNETS: 192.168.93.0/24
+                APPCUSTOM_DISCOVERYETHERNETINTERFACE: wlp1s0 # determine this setting for your machine
+                APPCUSTOM_DISCOVERYSUBNETS: 192.168.93.0/24 # determine this setting for your machine
                 APPCUSTOM_DISCOVERYMODE: multicast
-                WRITABLE_LOGLEVEL: DEBUG
             depends_on:
             - consul
             - data
