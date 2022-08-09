@@ -18,6 +18,12 @@ Device discovery is triggered by the device SDK. Once the device service starts,
 > **Note:** Alternatively, for `netscan` you can set the `DiscoverySubnets` automatically
 > _after_ the service has been deployed by running the [bin/configure-subnets.sh](./utility-scripts.md#configure-subnetssh) script
 
+> For `Netscan`, there is a one line command to determine the `DiscoverySubnets` of your current machine:
+> ```shell
+> ip -4 -o route list scope link | sed -En "s/ dev ($(find /sys/class/net -mindepth 1 -maxdepth 2 -not -lname '*devices/virtual*' -execdir grep -q 'up' "{}/operstate" \; -printf '%f\n' | paste -sd\| -)).+//p" | grep -v "169.254.0.0/16" | sort -u | paste -sd, -
+> ```
+> Example Output: `192.168.1.0/24`
+
 <details>
 <summary><strong>via configuration.toml</strong></summary>
 
@@ -39,7 +45,7 @@ DefaultSecretPath = "credentials001"
 DiscoveryMode = "both" # netscan, multicast, or both
 # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
 # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-DiscoverySubnets = "192.168.1.0/24"
+DiscoverySubnets = "192.168.1.0/24" # Fill in with your actual subnet(s)
 ```
 </details>
 
@@ -61,7 +67,7 @@ device-onvif-camera:
     APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
     # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
     # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-    APPCUSTOM_DISCOVERYSUBNETS: "192.168.1.0/24"
+    APPCUSTOM_DISCOVERYSUBNETS: "192.168.1.0/24" # Fill in with your actual subnet(s)
 ```
 </details>
 
@@ -99,6 +105,12 @@ This option combines both [netscan](#netscan) and [multicast](#multicast).
 This is the list of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
 separated by commas ex: "192.168.1.0/24,10.0.0.0/24". This value can be configured automatically via
 the [bin/configure-subnets.sh](utility-scripts.md#configure-subnetssh) script.
+
+Also, the following one-line command can determine the subnets of your machine:
+```shell
+ip -4 -o route list scope link | sed -En "s/ dev ($(find /sys/class/net -mindepth 1 -maxdepth 2 -not -lname '*devices/virtual*' -execdir grep -q 'up' "{}/operstate" \; -printf '%f\n' | paste -sd\| -)).+//p" | grep -v "169.254.0.0/16" | sort -u | paste -sd, -
+```
+Example Output: `192.168.1.0/24`
 
 ### DiscoveryEthernetInterface
 > For docker, set the env var `APPCUSTOM_DISCOVERYETHERNETINTERFACE`
@@ -148,38 +160,44 @@ The following logic to determine if the device is already registered or not.
 ```mermaid
 %% Note: The node and edge definitions are split up to make it easier to adjust the
 %% links between the various nodes.
-graph TD;
+flowchart TD;
     %% -------- Node Definitions -------- %%
-    Multicast[Devices Discovered<br/>via Multicast]
-    Netscan[Devices Discovered<br/>via Netscan]
-    DupeFilter[Duplicate Filtering<br/>based on EndpointRef]    
+    Multicast[/Devices Discovered<br/>via Multicast/]
+    Netscan[/Devices Discovered<br/>via Netscan/]
+    DupeFilter[Filter Duplicate Devices<br/>based on EndpointRef]    
     MACMatches{MAC Address<br/>matches existing<br/>device?}
     RefMatches{EndpointRef<br/>matches existing<br/>device?}
-    UpdateDevice[Update Existing Device]
     IPChanged{IP Address<br/>Changed?}
     MACChanged{MAC Address<br/>Changed?}
     UpdateIP[Update IP Address]
-    UpdateMAC[Update MAC Address]
-    RegisterDevice[Register New Device<br/>With EdgeX]
+    UpdateMAC(Update MAC Address)
+    RegisterDevice(Register New Device<br/>With EdgeX)
+    DeviceNotRegistered(Device Not Registered)
     PWMatches{Device matches<br/>Provision Watcher?}
     
     %% -------- Graph Definitions -------- %%
     Multicast --> DupeFilter
     Netscan --> DupeFilter
-    DupeFilter --> MACMatches
-    subgraph For Each Unique Device
-        MACMatches -- Yes --> UpdateDevice
-        MACMatches -- No --> RefMatches
-        RefMatches -- Yes --> UpdateDevice
-        RefMatches -- No --> PWMatches
-        UpdateDevice --> IPChanged
-        IPChanged -- No --> MACChanged
-        IPChanged -- Yes --> UpdateIP
-        UpdateIP --> MACChanged
-        MACChanged -- Yes --> UpdateMAC
-        subgraph For Each Provision Watcher
-            PWMatches -- Yes --> RegisterDevice
+    DupeFilter --> ForEachDevice
+    subgraph ForEachDevice[For Each Unique Device]
+        MACMatches -->|Yes| UpdateDevice
+        MACMatches -->|No| RefMatches
+        RefMatches -->|Yes| UpdateDevice
+        RefMatches -->|No| ForEachPW
+
+        subgraph UpdateDevice[Update Existing Device]
+            direction TB
+            IPChanged -->|No| MACChanged
+            IPChanged -->|Yes| UpdateIP
+            UpdateIP --> MACChanged
+            MACChanged -->|Yes| UpdateMAC
         end
+        
+        subgraph ForEachPW[For Each Provision Watcher]
+            direction TB
+            PWMatches -->|Yes| RegisterDevice
+        end
+        ForEachPW -->|No Matches| DeviceNotRegistered
     end
 ```
 

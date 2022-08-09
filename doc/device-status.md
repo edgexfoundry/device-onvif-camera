@@ -32,23 +32,23 @@ flowchart TD;
     UpdateMACAddress[Update MAC Address]
     UpdateEndpointRef[Update EndpointRefAddress]
     DeviceUnknown{Device Name<br/>begins with<br/>unknown_unknown_?}
-    RemoveDevice[Remove Device<br/>unknown_unknown_]
+    RemoveDevice[Remove Device<br/>unknown_unknown_&ltEndpointRef&gt]
     CreateDevice[Create Device<br/>&ltMfg&gt-&ltModel&gt-&ltEndpointRef&gt]
     
     %% -------- Graph Definitions -------- %%
     CheckDeviceStatus --> DeviceHasMAC
-    DeviceHasMAC -- No --> CheckUpdatedMAC
-    DeviceHasMAC -- Yes --> CreateClient
+    DeviceHasMAC -->|No| CheckUpdatedMAC
+    DeviceHasMAC -->|Yes| CreateClient
     CheckUpdatedMAC --> CreateClient
     
-    subgraph Test Connection Methods
+    subgraph TestConnection[Test Connection Methods]
         CreateClient --> GetCapabilities
-        GetCapabilities -- Failed --> TCPProbe
-        GetCapabilities -- Success --> GetDeviceInfo
-        GetDeviceInfo -- Success --> UpWithAuth
-        GetDeviceInfo -- Failed --> UpWithoutAuth
-        TCPProbe -- Failed --> Unreachable
-        TCPProbe -- Success --> Reachable
+        GetCapabilities -->|Failed| TCPProbe
+        GetCapabilities -->|Success| GetDeviceInfo
+        GetDeviceInfo -->|Success| UpWithAuth
+        GetDeviceInfo -->|Failed| UpWithoutAuth
+        TCPProbe -->|Failed| Unreachable
+        TCPProbe -->|Success| Reachable
     end
     
     UpWithAuth --> SetLastSeen
@@ -57,14 +57,14 @@ flowchart TD;
     Unreachable --> UpdateDeviceStatus
     UpdateDeviceStatus --> CheckNowUpWithAuth
     SetLastSeen --> UpdateDeviceStatus
-    CheckNowUpWithAuth -- Yes --> RefreshDevice
+    CheckNowUpWithAuth -->|Yes| RefreshDevice
     
     subgraph RefreshDevice[Refresh Device]
         UpdateDeviceInfo --> UpdateMACAddress
         UpdateMACAddress --> UpdateEndpointRef
         UpdateEndpointRef --> DeviceUnknown
-        DeviceUnknown -- No --> UpdateMetadata
-        DeviceUnknown -- Yes --> RemoveDevice
+        DeviceUnknown -->|No| UpdateMetadata
+        DeviceUnknown -->|Yes| RemoveDevice
         RemoveDevice --> CreateDevice
     end
 ```

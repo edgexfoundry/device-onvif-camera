@@ -13,7 +13,7 @@ Three things must be done in order to add an authenticated camera to EdgeX:
   - Configure as `DefaultSecretPath`
 
 ## Terminology / Definitions
-- **Secret**: A generic object which is stored as key/value pairs in the `Secret Store` under a specific `Secret Path` key.
+- **Secret**: A generic map/object which is stored as multiple key/value pairs in the `Secret Store` under a specific `Secret Path` key.
 - **Credentials**: A specific type of `Secret` which contains a mapping of `username`, `password`, and authentication `mode`.
 - **Secret Store**: The place EdgeX stores all `Secrets`
   - In secure mode this is `Vault`
@@ -22,7 +22,7 @@ Three things must be done in order to add an authenticated camera to EdgeX:
 - **Secret Path**: The name/key of the `Secret` as they are stored in the `Secret Store`.
 - **CredentialsMap**: (aka `AppCustom.CredentialsMap`) this contains the mappings between `Secret Path` and
     `MAC Address`. Each key in the map is a `Secret Path` which points to `Credentials` in the `Secret Store`. The value
-    for each key is a comma separated list of `MAC Address`es which should use those `Credentials`.
+    for each key is a comma separated list of `MAC Addresses` which should use those `Credentials`.
 - **DefaultSecretPath**: The `Secret Path` which points to the `Credentials` to use as the default for all devices
     which are not configured in the `CredentialsMap`.
 - **NoAuth**: A special `Secret Path` that does not exist in the `Secret Store`. It is pre-configured as `Credentials`
@@ -173,35 +173,36 @@ Here is an in-depth look at the logic behind mapping `Credentials` to Devices.
 %% links between the various nodes.
 flowchart TD;   
     %% -------- Node Definitions -------- %%
-    DiscoveredDevice[Discovered Device]
+    DiscoveredDevice[/Discovered Device/]
     UseDefault[Use Default Credentials]
     EndpointRefHasMAC{Does EndpointRef<br/>contain<br/>MAC Address?}
     InNoAuthGroup{MAC Belongs<br/>to NoAuth group?}
     AuthModeNone[Set AuthMode to 'none']
     ApplyCreds[Apply Credentials]
     InSecretStore{Credentials exist<br/>in SecretStore?}
+    CreateClient[Create Onvif Client]
     GetDeviceInfo[Get Device Information]
     GetNetIfaces[Get Network Interfaces]
-    CreateDevice[Create Device:<br/>&ltMfg&gt-&ltModel&gt-&ltEndpointRef&gt]
-    CreateUnknownDevice[Create Device:<br/>unknown_unknown_&ltEndpointRef&gt]
+    CreateDevice(Create Device:<br/>&ltMfg&gt-&ltModel&gt-&ltEndpointRef&gt)
+    CreateUnknownDevice(Create Device:<br/>unknown_unknown_&ltEndpointRef&gt)
 
     %% -------- Graph Definitions -------- %%
     DiscoveredDevice --> ForAllMAC
     subgraph ForAllMAC[For all MAC Addresses in CredentialsMap]
       EndpointRefHasMAC
-      style ForAllMAC rankSpacing:100;
     end
-    EndpointRefHasMAC -- Yes --> InNoAuthGroup
+    EndpointRefHasMAC -->|Yes| InNoAuthGroup
     EndpointRefHasMAC -- No Matches --> UseDefault
-    InNoAuthGroup -- Yes --> AuthModeNone
-    InNoAuthGroup -- No --> InSecretStore
+    InNoAuthGroup -->|Yes| AuthModeNone
+    InNoAuthGroup -->|No| InSecretStore
     UseDefault --> InSecretStore
-    AuthModeNone --> GetDeviceInfo
-    InSecretStore -- Yes --> ApplyCreds
-    InSecretStore -- No --> AuthModeNone
-    ApplyCreds --> GetDeviceInfo
-    GetDeviceInfo -- Failed --> CreateUnknownDevice
-    GetDeviceInfo -- Success --> GetNetIfaces
+    AuthModeNone --> CreateClient
+    InSecretStore -->|Yes| ApplyCreds
+    InSecretStore -->|No| AuthModeNone
+    ApplyCreds --> CreateClient
+    CreateClient --> GetDeviceInfo
+    GetDeviceInfo -->|Failed| CreateUnknownDevice
+    GetDeviceInfo -->|Success| GetNetIfaces
     GetNetIfaces ----> CreateDevice
 ```
 
@@ -211,27 +212,30 @@ flowchart TD;
 %% links between the various nodes.
 flowchart TD;
     %% -------- Node Definitions -------- %%
-    ExistingDevice[Existing Device]
+    ExistingDevice[/Existing Device/]
     ContainsMAC{Device Metadata contains<br/>MAC Address?}
     ValidMAC{Is it a valid<br/>MAC Address?}
     InMap{MAC exists in<br/>CredentialsMap?}
     InNoAuth{MAC Belongs<br/>to NoAuth group?}
     UseDefault[Use Default Credentials]
-    AuthModeNone[Set AuthMode to 'none']
-    ApplyCreds[Apply Credentials]
     InSecretStore{Credentials exist<br/>in SecretStore?}
+    AuthModeNone(Set AuthMode to 'none')
+    ApplyCreds(Apply Credentials)
+    CreateClient(Create Onvif Client)
 
     %% -------- Edge Definitions -------- %%
     ExistingDevice --> ContainsMAC
-    ContainsMAC -- Yes --> ValidMAC
-    ValidMAC -- Yes --> InMap
-    ValidMAC -- No --> AuthModeNone
-    InMap -- Yes --> InNoAuth
-    InMap -- No --> AuthModeNone
-    ContainsMAC -- No --> UseDefault
-    InNoAuth -- Yes --> AuthModeNone
-    InNoAuth -- No --> InSecretStore
+    ContainsMAC -->|Yes| ValidMAC
+    ValidMAC -->|Yes| InMap
+    ValidMAC -->|No| AuthModeNone
+    InMap -->|Yes| InNoAuth
+    InMap -->|No| AuthModeNone
+    ContainsMAC -->|No| UseDefault
+    InNoAuth -->|Yes| AuthModeNone
+    InNoAuth -->|No| InSecretStore
     UseDefault --> InSecretStore
-    InSecretStore -- Yes --> ApplyCreds
-    InSecretStore -- No --> AuthModeNone
+    InSecretStore -->|Yes| ApplyCreds
+    InSecretStore -->|No| AuthModeNone
+    AuthModeNone ----> CreateClient
+    ApplyCreds ----> CreateClient
 ```
