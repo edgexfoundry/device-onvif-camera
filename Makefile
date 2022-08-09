@@ -30,10 +30,9 @@ CGOFLAGS=-ldflags "-linkmode=external \
 
 build: $(MICROSERVICES)
 
-run:
-	make build
-	cd cmd; \
-		export EDGEX_SECURITY_SECRET_STORE=false; \
+run: build
+	cd cmd && \
+		EDGEX_SECURITY_SECRET_STORE=false \
 		./device-onvif-camera -c ./res -cp=consul.http://localhost:8500
 
 
