@@ -150,8 +150,8 @@ The following logic to determine if the device is already registered or not.
 %% links between the various nodes.
 graph TD;
     %% -------- Node Definitions -------- %%
-    Multicast[Discover Multicast]
-    Netscan[Discover Netscan]
+    Multicast[Devices Discovered<br/>via Multicast]
+    Netscan[Devices Discovered<br/>via Netscan]
     DupeFilter[Duplicate Filtering<br/>based on EndpointRef]    
     MACMatches{MAC Address<br/>matches existing<br/>device?}
     RefMatches{EndpointRef<br/>matches existing<br/>device?}

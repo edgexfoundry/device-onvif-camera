@@ -17,7 +17,8 @@ Three things must be done in order to add an authenticated camera to EdgeX:
 - **Credentials**: A specific type of `Secret` which contains a mapping of `username`, `password`, and authentication `mode`.
 - **Secret Store**: The place EdgeX stores all `Secrets`
   - In secure mode this is `Vault`
-  - In non-secure mode this is `Consul` and/or `configuration.toml` via `Writable.InsecureSecrets`
+  - In non-secure mode this is the configuration provider (typically `Consul`). 
+    They can be pre-configured via `configuration.toml`'s  `Writable.InsecureSecrets` section.
 - **Secret Path**: The name/key of the `Secret` as they are stored in the `Secret Store`.
 - **CredentialsMap**: (aka `AppCustom.CredentialsMap`) this contains the mappings between `Secret Path` and
     `MAC Address`. Each key in the map is a `Secret Path` which points to `Credentials` in the `Secret Store`. The value
@@ -91,7 +92,7 @@ See [here](./utility-scripts.md) for the full guide.
 Credentials can be added via EdgeX Secrets:
 
 > **Note:** Replace `<secret-path>` with the name for the new secret, `<username>` with the username,
-> `<password>` with the password, and <mode> with the authentication mode.
+> `<password>` with the password, and `<mode>` with the authentication mode.
 
 ```shell
 curl --location --request POST 'http://localhost:59984/api/v2/secret' \
