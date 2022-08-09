@@ -533,7 +533,7 @@ Follow these instructions to update devices.
 
    ```bash
    curl -X 'DELETE' \
-   'http://localhost:59881/api/v2/device/name/< >' \
+   'http://localhost:59881/api/v2/device/name/<device name>' \
    -H 'accept: application/json' 
    ```
 ## Execute GetStreamURI Command through EdgeX
