@@ -15,59 +15,57 @@ Currently, there are 4 different statuses that a camera can have
 ```mermaid
 %% Note: The node and edge definitions are split up to make it easier to adjust the
 %% links between the various nodes.
-graph TD;
+flowchart TD;
     %% -------- Node Definitions -------- %%
-    update[Update Device Status<br/>in Core-Metadata]
-    seen[Set `LastSeen` = Now]
-    meta[Update Core-Metadata]
-    with[UpWithAuth]
-    without[UpWithoutAuth]
-    reach[Reachable]
-    unreach[Unreachable]
-    check{Status Changed<br/>&&<br/>Status == UpWithAuth?}
-    hasmac{Device Has<br/>MAC Address?}
-    client[Create Onvif Client]
-    caps[Device::GetCapabilities]
-    macupdate[Check CredentialsMap for<br/>updated MAC Address]
-    tcp[TCP Probe]
-    info[GetDeviceInformation]
-    uinfo[Update Device Information]
-    umac[Update MAC Address]
-    uref[Update EndpointRefAddress]
-    unk{Device Name<br/>begins with<br/>unknown_unknown_?}
-    remove[Remove Device<br/>unknown_unknown_]
-    readd[Create Device<br/>&ltMfg&gt-&ltModel&gt-&ltEndpointRef&gt]
+    CheckDeviceStatus(Check Device Status)
+    UpdateDeviceStatus[Update Device Status<br/>in Core-Metadata]
+    SetLastSeen[Set LastSeen = Now]
+    UpdateMetadata[Update Core-Metadata]
+    CheckNowUpWithAuth{Status Changed<br/>&&<br/>Status == UpWithAuth?}
+    DeviceHasMAC{Device Has<br/>MAC Address?}
+    CreateClient[Create Onvif Client]
+    GetCapabilities[Device::GetCapabilities]
+    CheckUpdatedMAC[Check CredentialsMap for<br/>updated MAC Address]
+    TCPProbe[TCP Probe]
+    GetDeviceInfo[GetDeviceInformation]
+    UpdateDeviceInfo[Update Device Information]
+    UpdateMACAddress[Update MAC Address]
+    UpdateEndpointRef[Update EndpointRefAddress]
+    DeviceUnknown{Device Name<br/>begins with<br/>unknown_unknown_?}
+    RemoveDevice[Remove Device<br/>unknown_unknown_]
+    CreateDevice[Create Device<br/>&ltMfg&gt-&ltModel&gt-&ltEndpointRef&gt]
     
     %% -------- Graph Definitions -------- %%
-    hasmac--No-->macupdate
-    hasmac--Yes-->client
-    macupdate-->client
+    CheckDeviceStatus --> DeviceHasMAC
+    DeviceHasMAC -- No --> CheckUpdatedMAC
+    DeviceHasMAC -- Yes --> CreateClient
+    CheckUpdatedMAC --> CreateClient
     
     subgraph Test Connection Methods
-        client-->caps
-        caps--Failed-->tcp
-        caps--Success-->info
-        info--Success-->with
-        info--Failed-->without
-        tcp--Failed-->unreach
-        tcp--Success-->reach
+        CreateClient --> GetCapabilities
+        GetCapabilities -- Failed --> TCPProbe
+        GetCapabilities -- Success --> GetDeviceInfo
+        GetDeviceInfo -- Success --> UpWithAuth
+        GetDeviceInfo -- Failed --> UpWithoutAuth
+        TCPProbe -- Failed --> Unreachable
+        TCPProbe -- Success --> Reachable
     end
     
-    with-->seen
-    without-->seen
-    reach-->seen
-    unreach-->update
-    update-->check
-    seen-->update
-    check--Yes-->uinfo
+    UpWithAuth --> SetLastSeen
+    UpWithoutAuth --> SetLastSeen
+    Reachable --> SetLastSeen
+    Unreachable --> UpdateDeviceStatus
+    UpdateDeviceStatus --> CheckNowUpWithAuth
+    SetLastSeen --> UpdateDeviceStatus
+    CheckNowUpWithAuth -- Yes --> UpdateDeviceInfo
     
     subgraph Refresh Device
-        uinfo-->umac
-        umac-->uref
-        uref-->unk
-        unk--No-->meta
-        unk--Yes-->remove
-        remove-->readd
+        UpdateDeviceInfo --> UpdateMACAddress
+        UpdateMACAddress --> UpdateEndpointRef
+        UpdateEndpointRef --> DeviceUnknown
+        DeviceUnknown -- No --> UpdateMetadata
+        DeviceUnknown -- Yes --> RemoveDevice
+        RemoveDevice --> CreateDevice
     end
 ```
 

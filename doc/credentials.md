@@ -164,7 +164,7 @@ Here is an in-depth look at the logic behind mapping `Credentials` to Devices.
 ```mermaid
 %% Note: The node and edge definitions are split up to make it easier to adjust the
 %% links between the various nodes.
-graph TD;   
+flowchart TD;   
     %% -------- Node Definitions -------- %%
     DiscoveredDevice[Discovered Device]
     UseDefault[Use Default Credentials]
@@ -201,7 +201,7 @@ graph TD;
 ```mermaid
 %% Note: The node and edge definitions are split up to make it easier to adjust the
 %% links between the various nodes.
-graph TD;
+flowchart TD;
     %% -------- Node Definitions -------- %%
     ExistingDevice[Existing Device]
     ContainsMAC{Device Metadata contains<br/>MAC Address?}
