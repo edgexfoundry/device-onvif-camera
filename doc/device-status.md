@@ -57,9 +57,9 @@ flowchart TD;
     Unreachable --> UpdateDeviceStatus
     UpdateDeviceStatus --> CheckNowUpWithAuth
     SetLastSeen --> UpdateDeviceStatus
-    CheckNowUpWithAuth -- Yes --> UpdateDeviceInfo
+    CheckNowUpWithAuth -- Yes --> RefreshDevice
     
-    subgraph Refresh Device
+    subgraph RefreshDevice[Refresh Device]
         UpdateDeviceInfo --> UpdateMACAddress
         UpdateMACAddress --> UpdateEndpointRef
         UpdateEndpointRef --> DeviceUnknown

@@ -47,12 +47,15 @@ or by configuring the `AppCustom.CredentialsMap` which maps one or more MAC Addr
 > **Note:** Credentials can be added and modified via [utility scripts](./utility-scripts.md) after the service is running
 
 ### Non-Secure Mode
-#### Helper Scripts
+<details>
+<summary><strong>Helper Scripts</strong></summary>
+
 See [here](./utility-scripts.md) for the full guide.
+</details>
 
-***
+<details>
+<summary><strong>Manual</strong></summary>
 
-#### Manual
 > **Note:** Replace `<secret-path>` with the name of the secret, `<username>` with the username,
 > `<password>` with the password, and `<mode>` with the auth mode.
 
@@ -79,16 +82,18 @@ Set auth mode to `<auth-mode>`
 curl -X PUT --data "<auth-mode>" \
     "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/mode"
 ```
-
-***
+</details>
 
 ### Secure Mode
-#### Helper Scripts
+<details>
+<summary><strong>Helper Scripts</strong></summary>
+
 See [here](./utility-scripts.md) for the full guide.
+</details>
 
-***
+<details>
+<summary><strong>Manual</strong></summary>
 
-#### Manual
 Credentials can be added via EdgeX Secrets:
 
 > **Note:** Replace `<secret-path>` with the name for the new secret, `<username>` with the username,
@@ -117,6 +122,7 @@ curl --location --request POST 'http://localhost:59984/api/v2/secret' \
     ]
 }'
 ```
+</details>
 
 ## Mapping Credentials to Devices
 > **Note:** Credential mappings can be set via [utility scripts](./utility-scripts.md) after the service is running
@@ -180,9 +186,10 @@ flowchart TD;
     CreateUnknownDevice[Create Device:<br/>unknown_unknown_&ltEndpointRef&gt]
 
     %% -------- Graph Definitions -------- %%
-    DiscoveredDevice --> EndpointRefHasMAC
-    subgraph For all MAC Addresses<br/>in CredentialsMap
+    DiscoveredDevice --> ForAllMAC
+    subgraph ForAllMAC[For all MAC Addresses in CredentialsMap]
       EndpointRefHasMAC
+      style ForAllMAC rankSpacing:100;
     end
     EndpointRefHasMAC -- Yes --> InNoAuthGroup
     EndpointRefHasMAC -- No Matches --> UseDefault
