@@ -12,19 +12,56 @@
 
 ## Deploy EdgeX and ONVIF Device Camera Microservice
 
-### Run the Service
+<details>
+<summary><strong>Run the Service using Docker</strong></summary>
 
-1. Go to the EdgeX compose-builder directory:
+   1. Navigate to the EdgeX `compose-builder` directory:
 
-   ```bash
-   cd edgex-compose/compose-builder/
-   ```
+      ```bash
+      cd edgex-compose/compose-builder/
+      ```
 
-1. Run EdgeX with the microservice:
+   1. Run EdgeX with the microservice in non-secure mode:
 
-   ```bash
-   make run no-secty ds-onvif-camera
-   ```
+      ```bash
+      make run no-secty ds-onvif-camera
+      ```
+   
+   1. Run EdgeX with the microservice in secure mode:
+
+      ```bash
+      make run ds-onvif-camera
+      ```
+</details>
+
+<details>
+<summary><strong>Run the Service natively</summary><strong>  
+
+   1. Navigate to the EdgeX `compose-builder` directory:
+
+      ```bash
+      cd edgex-compose/compose-builder/
+      ```
+
+   1. Run EdgeX:
+
+      ```bash
+      make run no-secty
+      ```
+
+   1. Navigate out of the `edgex-compose` directory to the `device-onvif-camera` directory:
+
+      ```bash
+      cd device-onvif-camera
+      ```
+
+   1. Run the service:
+
+      ```bash
+      make run 
+      ```
+
+</details>
 
 ## Verify Service and Device Profiles
 
@@ -47,7 +84,7 @@
 2. Check whether the device service is added to EdgeX:
 
    ```bash
-   curl -s http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq
+   curl -s http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq .
    ```
    Good response:
    ```json
@@ -90,7 +127,7 @@
    profileName: 
    statusCode: 404
    ```
-   > note: `jq -r` is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)'`
+   > note: `jq -r` is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
 
 ### Using EdgeX UI
 1. Visit http://localhost:4000 to go to the dashboard for EdgeX Console GUI:
@@ -124,7 +161,7 @@ Follow these instructions to update devices.
 
 #### Add Device
 
-1. Edit the information to appropriately match the camera. The fields `Address`, and `Port` should match that of the camera:
+1. Edit the information to appropriately match the camera. The fields `Address`, `MACAddress` and `Port` should match that of the camera:
 
    ```bash
    curl -X POST -H 'Content-Type: application/json'  \
@@ -141,12 +178,12 @@ Follow these instructions to update devices.
                   "operatingState": "UP",
                   "protocols": {
                      "Onvif": {
-                        "Address": "x.x.x.x",
+                        "Address": "10.0.0.0",
                         "Port": "10000",
-                        "SecretPath": "credentials001"
+                        "MACAddress": "aa:bb:cc:11:22:33",
+                        "FriendlyName":"Default Camera"
                      },
                      "CustomMetadata": {
-                        "CommonName":"Default Camera",
                         "Location":"Front door"
                      }
                   }
@@ -235,7 +272,7 @@ Follow these instructions to update devices.
    deviceName: device-onvif-camera
    ```
    >note: device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >note: `jq -r` is used to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name''`
+   >note: `jq -r` is used to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
 
 #### Update Device
 

@@ -30,7 +30,7 @@ You must have administrator (sudo) privileges to execute the user guide commands
 For an explanation of the architecture, see the [User Guide](UserGuide.md#how-it-works).
 
 ## Dependencies
-The software has dependencies, including Git, Docker, Docker Compose, and assorted tools (e.g., curl). Follow the instructions below to install any dependency that is not already installed. 
+The software has dependencies, including Git, Docker, Docker Compose, and assorted tools. Follow the instructions below to install any dependency that is not already installed. 
 
 ### Install Git
 Install Git from the official repository as documented on the [Git SCM](https://git-scm.com/download/linux) site.
@@ -116,7 +116,7 @@ Clone the EdgeX compose repository
 Install the build, media streaming, and parsing tools:
 
    ```bash
-   sudo apt install build-essential vlc ffmpeg jq curl
+   sudo apt install build-essential ffmpeg jq curl
    ```
 
 ### Tool Descriptions
@@ -142,13 +142,56 @@ Clone the device-onvif-camera repository:
 
 ### Run the Service
 
-1. Navigate to the `edgex-compose/compose-builder` directory.
+<details>
+<summary><strong>Run the Service using Docker</strong></summary>
 
-2. Run EdgeX with the microservice:
+   1. Navigate to the EdgeX `compose-builder` directory:
 
-   ```bash
-   make run no-secty ds-onvif-camera
-   ```
+      ```bash
+      cd edgex-compose/compose-builder/
+      ```
+
+   1. Run EdgeX with the microservice in non-secure mode:
+
+      ```bash
+      make run no-secty ds-onvif-camera
+      ```
+   
+   1. Run EdgeX with the microservice in secure mode:
+
+      ```bash
+      make run ds-onvif-camera
+      ```
+</details>
+
+<details>
+<summary><strong>Run the Service natively</summary><strong>  
+
+   1. Navigate to the EdgeX `compose-builder` directory:
+
+      ```bash
+      cd edgex-compose/compose-builder/
+      ```
+
+   1. Run EdgeX:
+
+      ```bash
+      make run no-secty
+      ```
+
+   1. Navigate out of the `edgex-compose` directory to the `device-onvif-camera` directory:
+
+      ```bash
+      cd device-onvif-camera
+      ```
+
+   1. Run the service:
+
+      ```bash
+      make run 
+      ```
+
+</details>
 
 ## Verify Service and Device Profiles
 
@@ -170,7 +213,7 @@ Clone the device-onvif-camera repository:
 2. Check that the device service is added to EdgeX:
 
    ```bash
-   curl -s http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq
+   curl -s http://localhost:59881/api/v2/deviceservice/name/device-onvif-camera | jq .
    ```
    Successful:
    ```json
@@ -213,7 +256,7 @@ Clone the device-onvif-camera repository:
    profileName: 
    statusCode: 404
    ```
-   > NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)'`
+   > NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
 
 ## Manage Devices
 Follow these instructions to update devices.
@@ -222,7 +265,7 @@ Follow these instructions to update devices.
 
 #### Add Device
 
-1. Edit the information to appropriately match the camera. The fields `Address`, and `Port` should match that of the camera:
+1. Edit the information to appropriately match the camera. The fields `Address`, `MACAddress` and `Port` should match that of the camera:
 
    ```bash
    curl -X POST -H 'Content-Type: application/json'  \
@@ -239,13 +282,12 @@ Follow these instructions to update devices.
                   "operatingState": "UP",
                   "protocols": {
                      "Onvif": {
-                        "Address": "x.x.x.x",
+                        "Address": "10.0.0.0",
                         "Port": "10000",
-                        "AuthMode": "usernametoken",
-                        "SecretPath": "credentials001"
+                        "MACAddress": "aa:bb:cc:11:22:33",
+                        "FriendlyName":"Default Camera"
                      },
                      "CustomMetadata": {
-                        "CommonName":"Default Camera",
                         "Location":"Front door"
                      }
                   }
@@ -334,7 +376,7 @@ Follow these instructions to update devices.
    deviceName: device-onvif-camera
    ```
    >NOTE: The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >NOTE: The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name''`
+   >NOTE: The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
 
 #### Update Device
 
@@ -432,7 +474,7 @@ There are multiple commands that can update aspects of the camera entry in meta-
    ffplay -rtsp_transport tcp rtsp://'admin':'Password123'@192.168.86.34:554/stream1
    ```
    >NOTE: While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
-   >NOTE: If the password uses special characters, you must use percent-encoding. Use the resources found here to find the special character conversions. We do not recommend entering your full password to the site.
+   >NOTE: If the password uses special characters, you must use percent-encoding.  
 
 5. To shut down ffplay, use the ctrl-c command.
 
