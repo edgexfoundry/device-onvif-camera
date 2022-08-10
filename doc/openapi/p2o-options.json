@@ -1,0 +1,13 @@
+{
+    "info": {
+        "title": "EdgeX Onvif Device Service",
+        "version": "1.0.0",
+        "description": "EdgeX Onvif Device Service REST APIs"
+    },
+    "folders": {
+        "separator": " - "
+    },
+    "additionalVars": {
+        "EDGEX_DEVICE_NAME": "Camera001"
+    }
+}
