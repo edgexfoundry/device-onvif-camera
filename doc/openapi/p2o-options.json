@@ -1,7 +1,7 @@
 {
     "info": {
         "title": "EdgeX Onvif Device Service",
-        "version": "1.0.0",
+        "version": "2.2.0",
         "description": "EdgeX Onvif Device Service REST APIs"
     },
     "folders": {

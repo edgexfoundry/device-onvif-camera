@@ -5,6 +5,8 @@ POSTMAN_COLLECTION = ../postman/device-onvif-camera.postman_collection.json
 OPENAPI_FILE = v2/device-onvif-camera.yaml
 POSTMAN_2_OPENAPI_OPTIONS = p2o-options.json
 
+# todo: replace the API version number based on the actual source code version
+
 $(OPENAPI_FILE) gen: $(POSTMAN_COLLECTION)
 	p2o $(POSTMAN_COLLECTION) -f $(OPENAPI_FILE) -o $(POSTMAN_2_OPENAPI_OPTIONS)
 	$(MAKE) replace
