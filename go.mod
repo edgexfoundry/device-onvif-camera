@@ -6,7 +6,7 @@ require (
 	github.com/IOTechSystems/onvif v0.1.3
 	github.com/edgexfoundry/device-sdk-go/v2 v2.3.0-dev.18
 	github.com/edgexfoundry/go-mod-bootstrap/v2 v2.3.0-dev.12
-	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.3.0-dev.13
+	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.3.0-dev.14
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/stretchr/testify v1.8.0
