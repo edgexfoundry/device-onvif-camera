@@ -9,12 +9,11 @@ package driver
 import (
 	stdErrors "errors"
 	"fmt"
+	"github.com/google/uuid"
 	"net"
 	"os"
 	"strings"
 	"time"
-
-	"github.com/google/uuid"
 
 	"github.com/IOTechSystems/onvif"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
@@ -175,7 +174,7 @@ func mapProbeResults(host, port string, devices []onvif.Device) (res []netscan.P
 // probe message directly over the connection and listening for any responses. Those
 // responses are then converted into a slice of onvif.Device.
 func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, error) {
-	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.NewString(), nil, nil,
+	probeSOAP := wsdiscovery.BuildProbeMessage(uuid.NewString(), nil, []string{"dn:NetworkVideoTransmitter"},
 		map[string]string{"dn": "http://www.onvif.org/ver10/network/wsdl"})
 
 	addr := conn.RemoteAddr().String()

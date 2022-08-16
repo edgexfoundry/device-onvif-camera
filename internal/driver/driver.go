@@ -562,7 +562,7 @@ func (d *Driver) Discover() {
 	var discoveredDevices []sdkModel.DiscoveredDevice
 
 	if discoveryMode.IsMulticastEnabled() {
-		discoveredDevices = append(discoveredDevices, d.discoverMulticast(discoveredDevices)...)
+		discoveredDevices = append(discoveredDevices, d.discoverMulticast()...)
 	}
 
 	if discoveryMode.IsNetScanEnabled() {
@@ -573,7 +573,7 @@ func (d *Driver) Discover() {
 				time.Duration(maxSeconds)*time.Second)
 			defer cancel()
 		}
-		discoveredDevices = append(discoveredDevices, d.discoverNetscan(ctx, discoveredDevices)...)
+		discoveredDevices = append(discoveredDevices, d.discoverNetscan(ctx)...)
 	}
 
 	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
@@ -582,7 +582,9 @@ func (d *Driver) Discover() {
 }
 
 // multicast enable/disable via config option
-func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
+func (d *Driver) discoverMulticast() []sdkModel.DiscoveredDevice {
+	var discovered []sdkModel.DiscoveredDevice
+
 	d.configMu.RLock()
 	discoveryEthernetInterface := d.config.AppCustom.DiscoveryEthernetInterface
 	d.configMu.RUnlock()
@@ -603,7 +605,8 @@ func (d *Driver) discoverMulticast(discovered []sdkModel.DiscoveredDevice) []sdk
 }
 
 // netscan enable/disable via config option
-func (d *Driver) discoverNetscan(ctx context.Context, discovered []sdkModel.DiscoveredDevice) []sdkModel.DiscoveredDevice {
+func (d *Driver) discoverNetscan(ctx context.Context) []sdkModel.DiscoveredDevice {
+	var discovered []sdkModel.DiscoveredDevice
 
 	if len(strings.TrimSpace(d.config.AppCustom.DiscoverySubnets)) == 0 {
 		d.lc.Warn("netscan discovery was called, but DiscoverySubnets are empty!")
