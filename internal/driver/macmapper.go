@@ -113,8 +113,9 @@ func SanitizeMACAddress(mac string) (string, error) {
 
 // macAddressBytewiseReverse returns the byte-wise reverse of the input MAC Address.
 // Examples:
-// 		aa:bb:cc:dd:ee:ff -> ff:ee:dd:cc:bb:aa
-//		12:34:56:78:9a:bc -> bc:9a:78:56:34:12
+//
+//	aa:bb:cc:dd:ee:ff -> ff:ee:dd:cc:bb:aa
+//	12:34:56:78:9a:bc -> bc:9a:78:56:34:12
 func macAddressBytewiseReverse(mac string) (string, error) {
 	var err error
 	if mac, err = SanitizeMACAddress(mac); err != nil {
