@@ -38,15 +38,15 @@ func TestIsAuthModeValid(t *testing.T) {
 			expected: true,
 		},
 		{
-			input:    onvif.DigestAuth,
+			input:    onvif.UsernameTokenAuth,
 			expected: true,
 		},
 		{
-			input:    onvif.DigestAuth,
+			input:    onvif.Both,
 			expected: true,
 		},
 		{
-			input:    onvif.DigestAuth,
+			input:    onvif.NoAuth,
 			expected: true,
 		},
 		{
