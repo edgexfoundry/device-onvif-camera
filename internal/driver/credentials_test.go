@@ -9,6 +9,7 @@ package driver
 import (
 	"testing"
 
+	"github.com/IOTechSystems/onvif"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -23,4 +24,42 @@ func TestTryGetCredentials_noAuth(t *testing.T) {
 	}
 	require.NoError(t, err)
 	assert.Equal(t, expected, result)
+}
+
+// TestIsAuthModeValid verifies auth mode is set correctly.
+func TestIsAuthModeValid(t *testing.T) {
+
+	tests := []struct {
+		input    string
+		expected bool
+	}{
+		{
+			input:    onvif.DigestAuth,
+			expected: true,
+		},
+		{
+			input:    onvif.DigestAuth,
+			expected: true,
+		},
+		{
+			input:    onvif.DigestAuth,
+			expected: true,
+		},
+		{
+			input:    onvif.DigestAuth,
+			expected: true,
+		},
+		{
+			input:    "invalidValue",
+			expected: false,
+		},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.input, func(t *testing.T) {
+			result := IsAuthModeValid(test.input)
+			assert.Equal(t, test.expected, result)
+		})
+	}
 }
