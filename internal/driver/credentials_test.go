@@ -95,6 +95,18 @@ func TestTryGetCredentials(t *testing.T) {
 			expected:      Credentials{},
 			errorExpected: true,
 		},
+		{
+			path:     "validPathInvalidAuthMode",
+			username: "username",
+			password: "password",
+			authMode: "invalidAuthMode",
+			expected: Credentials{
+				AuthMode: AuthModeUsernameToken,
+				Username: "username",
+				Password: "password",
+			},
+			errorExpected: false,
+		},
 	}
 
 	driver, mockService := createDriverWithMockService()
