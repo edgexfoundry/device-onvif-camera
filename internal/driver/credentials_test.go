@@ -171,11 +171,32 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 			expected:      Credentials{},
 			errorExpected: true,
 		},
+		{
+			existingProtocols: map[string]models.ProtocolProperties{
+				OnvifProtocol: {
+					MACAddress: "aa:bb:cc:dd:ee:ff",
+				},
+			},
+
+			path:     "secret_path",
+			username: "username",
+			password: "password",
+			authMode: onvif.UsernameTokenAuth,
+			expected: Credentials{
+				AuthMode: AuthModeUsernameToken,
+				Username: "username",
+				Password: "password",
+			},
+			errorExpected: false,
+		},
 	}
 
 	driver, mockService := createDriverWithMockService()
 
 	driver.macAddressMapper = NewMACAddressMapper(mockService)
+	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{
+		"secret_path": "aa:bb:cc:dd:ee:ff",
+	})
 	driver.configMu = new(sync.RWMutex)
 	driver.config = &ServiceConfig{
 		AppCustom: CustomConfig{
