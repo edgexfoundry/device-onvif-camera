@@ -7,11 +7,13 @@
 package driver
 
 import (
+	"sync"
 	"testing"
 
 	"github.com/IOTechSystems/onvif"
 	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/interfaces/mocks"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -134,7 +136,80 @@ func TestTryGetCredentials(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			assert.Equal(t, test.expected, actual)
+			assert.Equal(t, test.expected.Username, actual.Username)
+			assert.Equal(t, test.expected.Password, actual.Password)
+			assert.Equal(t, test.expected.AuthMode, actual.AuthMode)
+		})
+	}
+}
+
+// TestTryGetCredentials verifies correct credentials are returned.
+func TestTryGetCredentialsForDevice(t *testing.T) {
+
+	tests := []struct {
+		existingProtocols map[string]models.ProtocolProperties
+		device            models.Device
+		expected          Credentials
+		path              string
+
+		errorExpected bool
+		username      string
+		password      string
+		authMode      string
+	}{
+		{
+			existingProtocols: map[string]models.ProtocolProperties{
+				OnvifProtocol: {
+					MACAddress: "",
+				},
+			},
+
+			path:          "default_secret_path",
+			username:      "username",
+			password:      "password",
+			authMode:      onvif.DigestAuth,
+			expected:      Credentials{},
+			errorExpected: true,
+		},
+	}
+
+	driver, mockService := createDriverWithMockService()
+
+	driver.macAddressMapper = NewMACAddressMapper(mockService)
+	driver.configMu = new(sync.RWMutex)
+	driver.config = &ServiceConfig{
+		AppCustom: CustomConfig{
+			DefaultSecretPath: "default_secret_path",
+		},
+	}
+
+	mockSecretProvider := &mocks.SecretProvider{}
+
+	for i, _ := range tests {
+		if tests[i].errorExpected {
+			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
+
+		} else {
+			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": tests[i].username, "password": tests[i].password, "mode": tests[i].authMode}, nil).Once()
+		}
+	}
+
+	mockService.On("GetSecretProvider").Return(mockSecretProvider)
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.path, func(t *testing.T) {
+
+			actual, err := driver.tryGetCredentialsForDevice(createTestDeviceWithProtocols(test.existingProtocols))
+
+			if test.errorExpected {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			assert.Equal(t, test.expected.Username, actual.Username)
+			assert.Equal(t, test.expected.Password, actual.Password)
+			assert.Equal(t, test.expected.AuthMode, actual.AuthMode)
 		})
 	}
 }
