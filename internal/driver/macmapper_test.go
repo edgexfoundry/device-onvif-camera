@@ -8,8 +8,10 @@ package driver
 
 import (
 	"strings"
+	"sync"
 	"testing"
 
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -175,6 +177,51 @@ func TestMatchEndpointRefAddressToMAC(t *testing.T) {
 		test := test
 		t.Run(test.endpointRef, func(t *testing.T) {
 			assert.Equal(t, test.mac, macMapper.MatchEndpointRefAddressToMAC(test.endpointRef))
+		})
+	}
+}
+
+// TestTryGetSecretPathForMACAddress verify the correct secret path is returned for a given mac address.
+func TestTryGetSecretPathForMACAddress(t *testing.T) {
+
+	tests := []struct {
+		mac      string // input mac address
+		expected string
+	}{
+		{
+			mac:      "aa:bb:cc:dd:ee:ff",
+			expected: "secret_path",
+		},
+		{
+			mac:      "bb:bb:cc:dd:ee:ff",
+			expected: "default_secret_path",
+		},
+		{
+			mac:      "invalid_mac",
+			expected: "noauth",
+		},
+	}
+
+	driver, mockService := createDriverWithMockService()
+
+	mockService.On("GetLoggingClient").Return(logger.MockLogger{})
+
+	driver.macAddressMapper = NewMACAddressMapper(mockService)
+	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{
+		"secret_path": "aa:bb:cc:dd:ee:ff",
+	})
+	driver.configMu = new(sync.RWMutex)
+	driver.config = &ServiceConfig{
+		AppCustom: CustomConfig{
+			DefaultSecretPath: "default_secret_path",
+		},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.mac, func(t *testing.T) {
+			actual := driver.macAddressMapper.TryGetSecretPathForMACAddress(test.mac, driver.config.AppCustom.DefaultSecretPath)
+			assert.Equal(t, test.expected, actual)
 		})
 	}
 }
