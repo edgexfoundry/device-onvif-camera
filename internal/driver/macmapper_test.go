@@ -7,6 +7,7 @@
 package driver
 
 import (
+	"reflect"
 	"strings"
 	"sync"
 	"testing"
@@ -184,11 +185,10 @@ func TestMatchEndpointRefAddressToMAC(t *testing.T) {
 
 func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 	tests := []struct {
-		name          string
-		currentMap    map[string]string
-		invalidMacs   int
-		duplicateMacs int
-		expected      map[string]string
+		name              string
+		currentMap        map[string]string
+		expected          map[string]string
+		alternateExpected map[string]string
 	}{
 		{
 			name: "no update",
@@ -197,34 +197,65 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 				"creds2": "11:22:33:44:55:66",
 			},
 			expected: map[string]string{
-				"creds1": "AA:BB:CC:DD:EE:FF",
-				"creds2": "11:22:33:44:55:66",
+				"aa:bb:cc:dd:ee:ff": "creds1",
+				"11:22:33:44:55:66": "creds2",
 			},
 		},
 		{
 			name: "single update",
 			currentMap: map[string]string{
+				"creds1": "aa:bb:cc:dd:ee:ff",
+				"creds2": "11:22:33:44:55:66",
+				"creds3": "ff:ee:dd:cc:bb:aa",
+			},
+			expected: map[string]string{
+				"aa:bb:cc:dd:ee:ff": "creds1",
+				"11:22:33:44:55:66": "creds2",
+				"ff:ee:dd:cc:bb:aa": "creds3",
+			},
+		},
+		{
+			name: "Add invalid macs",
+			currentMap: map[string]string{
+				"creds3": "FF:EE:DD:CC:BB:AA,asbc,asdf",
 				"creds1": "AA:BB:CC:DD:EE:FF",
+				"creds2": "11:22:33:44:55:66",
+			},
+			expected: map[string]string{
+				"aa:bb:cc:dd:ee:ff": "creds1",
+				"11:22:33:44:55:66": "creds2",
+				"ff:ee:dd:cc:bb:aa": "creds3",
+			},
+		},
+		{
+			name: "invalid macs",
+			currentMap: map[string]string{
+				"creds3": "FF:EE:DD:CC:BB:AA,asbc,asdf",
+				"creds1": "AA:BB:CC:DD:EE:FF",
+				"creds2": "11:22:33:44:55:66",
+			},
+			expected: map[string]string{
+				"aa:bb:cc:dd:ee:ff": "creds1",
+				"11:22:33:44:55:66": "creds2",
+				"ff:ee:dd:cc:bb:aa": "creds3",
+			},
+		},
+		{
+			name: "duplicate macs",
+			currentMap: map[string]string{
+				"creds1": "FF:EE:DD:CC:BB:AA",
 				"creds2": "11:22:33:44:55:66",
 				"creds3": "FF:EE:DD:CC:BB:AA",
 			},
 			expected: map[string]string{
-				"creds1": "AA:BB:CC:DD:EE:FF",
-				"creds2": "11:22:33:44:55:66",
-				"creds3": "FF:EE:DD:CC:BB:AA",
+				"ff:ee:dd:cc:bb:aa": "creds1",
+				"11:22:33:44:55:66": "creds2",
+			},
+			alternateExpected: map[string]string{
+				"ff:ee:dd:cc:bb:aa": "creds3",
+				"11:22:33:44:55:66": "creds2",
 			},
 		},
-		// {
-		// 	name: "Add invalid macs",
-		// 	raw: map[string]string{
-		// 		"creds3": "FF:EE:DD:CC:BB:AA,asbc,asdf",
-		// 	},
-		// 	currentMap: map[string]string{
-		// 		"creds1": "AA:BB:CC:DD:EE:FF",
-		// 		"creds2": "11:22:33:44:55:66",
-		// 	},
-		// 	invalidMacs: 2,
-		// },
 	}
 	for _, test := range tests {
 		test := test
@@ -232,9 +263,9 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 
 			driver, mockService := createDriverWithMockService()
 			driver.macAddressMapper = NewMACAddressMapper(mockService)
-			mockSecretProvider := &mocks.SecretProvider{}
-			// mockLoggingClient := logger.MockLogger{}
 			driver.macAddressMapper.credsMap = test.currentMap
+			mockSecretProvider := &mocks.SecretProvider{}
+			mockLoggingClient := logger.MockLogger{}
 
 			if len(test.currentMap) == 0 {
 				return
@@ -246,12 +277,18 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 						Return(nil, nil)
 				}
 			}
+
 			mockService.On("GetSecretProvider").
 				Return(mockSecretProvider)
-			// mockService.On("GetLoggingClient").Times(test.invalidMacs + test.duplicateMacs)
-			// driver.lc.Warnf("Skipping invalid mac address %s: %s")
+			mockService.On("GetLoggingClient").Return(mockLoggingClient)
 			driver.macAddressMapper.UpdateMappings(test.currentMap)
 
+			if test.name == "duplicate macs" {
+				ex1 := reflect.DeepEqual(test.expected, driver.macAddressMapper.credsMap)
+				ex2 := reflect.DeepEqual(test.alternateExpected, driver.macAddressMapper.credsMap)
+				assert.Equal(t, true, (ex1 || ex2))
+				return
+			}
 			assert.Equal(t, test.expected, driver.macAddressMapper.credsMap)
 		})
 	}
