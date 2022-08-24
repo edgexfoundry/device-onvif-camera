@@ -7,7 +7,6 @@
 package driver
 
 import (
-	"fmt"
 	"net"
 	"strings"
 	"sync"
@@ -121,10 +120,6 @@ func macAddressBytewiseReverse(mac string) (string, error) {
 		return "", err
 	}
 	mac = strings.ReplaceAll(mac, ":", "")
-	if len(mac)%2 != 0 {
-		return "", fmt.Errorf("mac address %s has invalid length of %d", mac, len(mac))
-	}
-
 	buf := strings.Builder{}
 	// loop through the string backwards two characters at a time (1-byte)
 	for i := len(mac); i > 0; i -= 2 {
