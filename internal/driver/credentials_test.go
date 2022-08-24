@@ -115,7 +115,7 @@ func TestTryGetCredentials(t *testing.T) {
 
 	mockSecretProvider := &mocks.SecretProvider{}
 
-	for i, _ := range tests {
+	for i := range tests {
 		if tests[i].errorExpected {
 			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
 
@@ -206,7 +206,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 
 	mockSecretProvider := &mocks.SecretProvider{}
 
-	for i, _ := range tests {
+	for i := range tests {
 		if tests[i].errorExpected {
 			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
 

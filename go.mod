@@ -22,6 +22,7 @@ require (
 	github.com/clbanning/mxj/v2 v2.3.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.4.1 // indirect
+	github.com/edgexfoundry/device-sdk-go v1.4.0 // indirect
 	github.com/edgexfoundry/go-mod-configuration/v2 v2.2.0 // indirect
 	github.com/edgexfoundry/go-mod-messaging/v2 v2.3.0-dev.12 // indirect
 	github.com/edgexfoundry/go-mod-registry/v2 v2.2.0 // indirect
@@ -74,6 +75,6 @@ require (
 	google.golang.org/grpc v1.46.0 // indirect
 	google.golang.org/protobuf v1.28.0 // indirect
 	gopkg.in/square/go-jose.v2 v2.4.1 // indirect
-	gopkg.in/yaml.v2 v2.3.0 // indirect
+	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
