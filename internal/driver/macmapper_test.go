@@ -11,6 +11,7 @@ import (
 	"sync"
 	"testing"
 
+	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/interfaces/mocks"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -177,6 +178,154 @@ func TestMatchEndpointRefAddressToMAC(t *testing.T) {
 		test := test
 		t.Run(test.endpointRef, func(t *testing.T) {
 			assert.Equal(t, test.mac, macMapper.MatchEndpointRefAddressToMAC(test.endpointRef))
+		})
+	}
+}
+
+func TestMACAddressMapper_UpdateMappings(t *testing.T) {
+	tests := []struct {
+		name          string
+		currentMap    map[string]string
+		invalidMacs   int
+		duplicateMacs int
+		expected      map[string]string
+	}{
+		{
+			name: "no update",
+			currentMap: map[string]string{
+				"creds1": "AA:BB:CC:DD:EE:FF",
+				"creds2": "11:22:33:44:55:66",
+			},
+			expected: map[string]string{
+				"creds1": "AA:BB:CC:DD:EE:FF",
+				"creds2": "11:22:33:44:55:66",
+			},
+		},
+		{
+			name: "single update",
+			currentMap: map[string]string{
+				"creds1": "AA:BB:CC:DD:EE:FF",
+				"creds2": "11:22:33:44:55:66",
+				"creds3": "FF:EE:DD:CC:BB:AA",
+			},
+			expected: map[string]string{
+				"creds1": "AA:BB:CC:DD:EE:FF",
+				"creds2": "11:22:33:44:55:66",
+				"creds3": "FF:EE:DD:CC:BB:AA",
+			},
+		},
+		// {
+		// 	name: "Add invalid macs",
+		// 	raw: map[string]string{
+		// 		"creds3": "FF:EE:DD:CC:BB:AA,asbc,asdf",
+		// 	},
+		// 	currentMap: map[string]string{
+		// 		"creds1": "AA:BB:CC:DD:EE:FF",
+		// 		"creds2": "11:22:33:44:55:66",
+		// 	},
+		// 	invalidMacs: 2,
+		// },
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+
+			driver, mockService := createDriverWithMockService()
+			driver.macAddressMapper = NewMACAddressMapper(mockService)
+			mockSecretProvider := &mocks.SecretProvider{}
+			// mockLoggingClient := logger.MockLogger{}
+			driver.macAddressMapper.credsMap = test.currentMap
+
+			if len(test.currentMap) == 0 {
+				return
+			}
+
+			for secretPath := range test.currentMap {
+				if strings.ToLower(secretPath) != noAuthSecretPath {
+					mockSecretProvider.On("GetSecret", secretPath, UsernameKey, PasswordKey, AuthModeKey).
+						Return(nil, nil)
+				}
+			}
+			mockService.On("GetSecretProvider").
+				Return(mockSecretProvider)
+			// mockService.On("GetLoggingClient").Times(test.invalidMacs + test.duplicateMacs)
+			// driver.lc.Warnf("Skipping invalid mac address %s: %s")
+			driver.macAddressMapper.UpdateMappings(test.currentMap)
+
+			assert.Equal(t, test.expected, driver.macAddressMapper.credsMap)
+		})
+	}
+}
+
+func TestMACAddressMapper_ListMACAddresses(t *testing.T) {
+	tests := []struct {
+		name     string
+		credMap  map[string]string
+		expected []string
+	}{
+		{
+			name: "single entry",
+			credMap: map[string]string{
+				"AA:BB:CC:DD:EE:FF": "creds1",
+			},
+			expected: []string{
+				"AA:BB:CC:DD:EE:FF",
+			},
+		},
+		{
+			name: "double entry same path",
+			credMap: map[string]string{
+				"AA:BB:CC:DD:EE:FF": "creds1",
+				"11:22:33:44:55:66": "creds1",
+			},
+			expected: []string{
+				"AA:BB:CC:DD:EE:FF",
+				"11:22:33:44:55:66",
+			},
+		},
+		{
+			name: "double entry different path",
+			credMap: map[string]string{
+				"AA:BB:CC:DD:EE:FF": "creds1",
+				"11:22:33:44:55:66": "creds2",
+			},
+			expected: []string{
+				"AA:BB:CC:DD:EE:FF",
+				"11:22:33:44:55:66",
+			},
+		},
+		{
+			name: "many entries different paths",
+			credMap: map[string]string{
+				"AA:BB:CC:DD:EE:FF": "creds1",
+				"11:22:33:44:55:66": "creds2",
+				"AA:BB:CC:FF:EE:DD": "creds1",
+				"FF:EE:DD:CC:BB:AA": "creds1",
+				"66:55:44:33:22:11": "creds2",
+			},
+			expected: []string{
+				"AA:BB:CC:DD:EE:FF",
+				"11:22:33:44:55:66",
+				"AA:BB:CC:FF:EE:DD",
+				"FF:EE:DD:CC:BB:AA",
+				"66:55:44:33:22:11",
+			},
+		},
+		{
+			name:     "no entries",
+			credMap:  map[string]string{},
+			expected: []string{},
+		},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			m := &MACAddressMapper{
+				credsMu:  sync.RWMutex{},
+				credsMap: test.credMap,
+			}
+			actual := m.ListMACAddresses()
+			assert.ElementsMatch(t, test.expected, actual)
 		})
 	}
 }
