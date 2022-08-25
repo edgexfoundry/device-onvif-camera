@@ -9,13 +9,13 @@ package driver
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/edgexfoundry/device-onvif-camera/internal/driver/mocks"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"testing"
 
+	"github.com/edgexfoundry/device-sdk-go/v2/pkg/interfaces/mocks"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -24,8 +24,9 @@ const (
 	testDeviceName = "test-device"
 )
 
-func createDriverWithMockService() (*Driver, *mocks.SDKService) {
-	mockService := &mocks.SDKService{}
+func createDriverWithMockService() (*Driver, *mocks.DeviceServiceSDK) {
+
+	mockService := &mocks.DeviceServiceSDK{}
 	driver := &Driver{sdkService: mockService, lc: logger.MockLogger{}}
 	return driver, mockService
 }
