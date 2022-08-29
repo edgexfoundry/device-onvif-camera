@@ -59,6 +59,36 @@ func TestParametersFromURLRawQuery(t *testing.T) {
 	assert.Equal(t, parameters, string(data))
 }
 
+// TestAddressAndPort splits the address and port from a given string.
+func TestAddressAndPort(t *testing.T) {
+
+	tests := []struct {
+		input           string
+		expectedAddress string
+		expectedPort    string
+	}{
+		{
+			input:           "localhost:80",
+			expectedAddress: "localhost",
+			expectedPort:    "80",
+		},
+		{
+			input:           "localhost",
+			expectedAddress: "localhost",
+			expectedPort:    "80",
+		},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.input, func(t *testing.T) {
+			resultAddress, resultPort := addressAndPort(test.input)
+			assert.Equal(t, test.expectedAddress, resultAddress)
+			assert.Equal(t, test.expectedPort, resultPort)
+		})
+	}
+}
+
 type mockGetOnvifClient struct {
 	mock.Mock
 }
