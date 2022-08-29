@@ -16,8 +16,10 @@ import (
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )
 
@@ -57,12 +59,30 @@ func TestParametersFromURLRawQuery(t *testing.T) {
 	assert.Equal(t, parameters, string(data))
 }
 
+type mockGetOnvifClient struct {
+	mock.Mock
+}
+
+type mockCallOnvifFunction struct {
+	mock.Mock
+}
+
+func (m *mockGetOnvifClient) GetOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) {
+	return &OnvifClient{}, nil
+}
+
+func (m *mockCallOnvifFunction) CallOnvifFunction(req sdkModel.CommandRequest, functionType string, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
+	return &sdkModel.CommandValue{}, nil
+}
+
 func TestDriver_HandleReadCommands(t *testing.T) {
 	tests := []struct {
 		name          string
 		deviceName    string
 		protocols     map[string]models.ProtocolProperties
 		reqs          []sdkModel.CommandRequest
+		getFunction   string
+		data          string
 		expected      []*sdkModel.CommandValue
 		errorExpected bool
 	}{
@@ -78,6 +98,8 @@ func TestDriver_HandleReadCommands(t *testing.T) {
 					},
 					Type: "Object",
 				}},
+			getFunction: "GetDeviceInformation",
+			data:        "",
 			expected: []*sdkModel.CommandValue{
 				{
 					DeviceResourceName: "DeviceInformation",
@@ -98,6 +120,13 @@ func TestDriver_HandleReadCommands(t *testing.T) {
 		test := test
 		t.Run(test.name, func(t *testing.T) {
 			d := &Driver{}
+			mockCallOnvifFunction := &mockCallOnvifFunction{}
+			mockGetOnvifClient := &mockGetOnvifClient{}
+			for _, req := range test.reqs {
+				mockCallOnvifFunction.On("CallOnvifFunction", req, test.getFunction, []byte(test.data)).
+					Return()
+			}
+			mockGetOnvifClient.GetOnvifClient(test.deviceName)
 			actual, err := d.HandleReadCommands(test.deviceName, test.protocols, test.reqs)
 			if test.errorExpected {
 				require.Error(t, err)
