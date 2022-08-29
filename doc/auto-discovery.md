@@ -98,37 +98,36 @@ such as docker networks (except in the case of running an Onvif simulator inside
 
 multicast requires some additional configuration. edit the `add-device-onvif-camera.yml` in the `edgex-compose/compose-builder` as follows:
 
-    ```yml
-    services:
-        device-onvif-camera:
-            image: edgexfoundry/device-onvif-camera${ARCH}:0.0.0-dev
-            container_name: edgex-device-onvif-camera
-            hostname: edgex-device-onvif-camera
-            read_only: true
-            restart: always
-            network_mode: "host"
-            environment:
-                SERVICE_HOST: 192.168.93.151 # set to internal ip of your machine
-                MESSAGEQUEUE_HOST: localhost
-                EDGEX_SECURITY_SECRET_STORE: "false"
-                REGISTRY_HOST: localhost
-                CLIENTS_CORE_DATA_HOST: localhost
-                CLIENTS_CORE_METADATA_HOST: localhost
-                # Host Network Interface, IP, Subnet
-                APPCUSTOM_DISCOVERYETHERNETINTERFACE: wlp1s0 # determine this setting for your machine
-                APPCUSTOM_DISCOVERYSUBNETS: 192.168.93.0/24 # determine this setting for your machine
-                APPCUSTOM_DISCOVERYMODE: multicast
-            depends_on:
-            - consul
-            - data
-            - metadata
-            security_opt:
-            - no-new-privileges:true
-            user: "${EDGEX_USER}:${EDGEX_GROUP}"
-            command: --cp=consul.http://localhost:8500 --confdir=/res
-    ```
-    
->NOTE: use the instructions below to configure certain environment variables
+> NOTE: use the instructions below to configure certain environment variables
+```yml
+services:
+    device-onvif-camera:
+        image: edgexfoundry/device-onvif-camera${ARCH}:0.0.0-dev
+        container_name: edgex-device-onvif-camera
+        hostname: edgex-device-onvif-camera
+        read_only: true
+        restart: always
+        network_mode: "host"
+        environment:
+            SERVICE_HOST: 192.168.93.151 # set to internal ip of your machine
+            MESSAGEQUEUE_HOST: localhost
+            EDGEX_SECURITY_SECRET_STORE: "false"
+            REGISTRY_HOST: localhost
+            CLIENTS_CORE_DATA_HOST: localhost
+            CLIENTS_CORE_METADATA_HOST: localhost
+            # Host Network Interface, IP, Subnet
+            APPCUSTOM_DISCOVERYETHERNETINTERFACE: wlp1s0 # determine this setting for your machine
+            APPCUSTOM_DISCOVERYSUBNETS: 192.168.93.0/24 # determine this setting for your machine
+            APPCUSTOM_DISCOVERYMODE: multicast
+        depends_on:
+        - consul
+        - data
+        - metadata
+        security_opt:
+        - no-new-privileges:true
+        user: "${EDGEX_USER}:${EDGEX_GROUP}"
+        command: --cp=consul.http://localhost:8500 --confdir=/res
+```
 
 #### both
 This option combines both [netscan](#netscan) and [multicast](#multicast).
