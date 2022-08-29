@@ -4,8 +4,8 @@ bitbucket.org/bertimus9/systemstat v0.5.0/go.mod h1:EkUWPp8lKFPMXP8vnbpT5JDI0W/s
 cloud.google.com/go v0.26.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 cloud.google.com/go v0.34.0/go.mod h1:aQUYkXzVsufM+DwF1aE+0xfcU+56JwCaLick0ClmMTw=
 github.com/BurntSushi/toml v0.3.1/go.mod h1:xHWCNGjB5oqiDr8zfno3MHue2Ht5sIBksp03qcyfWMU=
-github.com/IOTechSystems/onvif v0.1.3 h1:aYVBz9maccOwbWwks++SR/ZXwVKEgLl5xqAfylgDkdU=
-github.com/IOTechSystems/onvif v0.1.3/go.mod h1:fm6RkIlr9uWJVFLvbGPR7NpmFXDE+PwawSCkQse0Pp4=
+github.com/IOTechSystems/onvif v0.1.4 h1:Hlyvdjix/iM+jqpJFvGgJC5KFZcaPUpiyMbdI+Ue7o0=
+github.com/IOTechSystems/onvif v0.1.4/go.mod h1:fm6RkIlr9uWJVFLvbGPR7NpmFXDE+PwawSCkQse0Pp4=
 github.com/Microsoft/go-winio v0.5.2 h1:a9IhgEQBCUEk6QCdml9CiJGhAws+YwffDHEMp1VMrpA=
 github.com/Microsoft/go-winio v0.5.2/go.mod h1:WpS1mjBmmwHBEWmogvA2mj8546UReBk4v8QkMxJ6pZY=
 github.com/OneOfOne/xxhash v1.2.2/go.mod h1:HSdplMjZKSmBqAxg5vPj2TmRDmfkzw+cTzAElWljhcU=
@@ -45,6 +45,8 @@ github.com/edgexfoundry/device-sdk-go v1.4.0 h1:e4eboSp2ty52qrT9xjme1lOs0xP8qjCF
 github.com/edgexfoundry/device-sdk-go v1.4.0/go.mod h1:P+ESYmdUoAZj3EawoXWuxwSF8JA3TeXAi2Ck1IxKeCA=
 github.com/edgexfoundry/device-sdk-go/v2 v2.3.0-dev.18 h1:zNMhvKby8G/4nTwrhqsvey1DhrDcu4opLAoD/b1BfGM=
 github.com/edgexfoundry/device-sdk-go/v2 v2.3.0-dev.18/go.mod h1:OicWI5MGWgLzKrA0FtuNefuGhiHPzdxxkLK7G8kUU8E=
+github.com/edgexfoundry/device-sdk-go/v2 v2.3.0-dev.19 h1:VHlafZpoHR9CTr4WAM3y6ckbaeRD1M/tQKCgZQBzYl8=
+github.com/edgexfoundry/device-sdk-go/v2 v2.3.0-dev.19/go.mod h1:HLqj/H3VTtpLHd5REolu64YyfODqIk1YXKWh3M4INfU=
 github.com/edgexfoundry/go-mod-bootstrap v0.0.60/go.mod h1:qy6ThigL69oiQ34czGB1sWjcTZzJu53LiD4SjKuO5GQ=
 github.com/edgexfoundry/go-mod-bootstrap/v2 v2.3.0-dev.12 h1:bVTjv56lGmMpr6eECOApNODGakybNlREv3oxFK+grN8=
 github.com/edgexfoundry/go-mod-bootstrap/v2 v2.3.0-dev.12/go.mod h1:h+vCqw+fw9GN+c/ZMDKW6Ik08uL/4mMJjqVIGepmoSU=
@@ -53,10 +55,12 @@ github.com/edgexfoundry/go-mod-configuration/v2 v2.2.0 h1:AZeaAPJM5X93ITFgwbwluY
 github.com/edgexfoundry/go-mod-configuration/v2 v2.2.0/go.mod h1:YP17JhMnXTitowXE13QJwFaKo0oc03iyoKLjWAYl4FE=
 github.com/edgexfoundry/go-mod-core-contracts v0.1.111/go.mod h1:84hDSh/zad/Tc56pSMW0yVLRS7BjAOxFCjW/2VJ9bio=
 github.com/edgexfoundry/go-mod-core-contracts v0.1.115/go.mod h1:84hDSh/zad/Tc56pSMW0yVLRS7BjAOxFCjW/2VJ9bio=
-github.com/edgexfoundry/go-mod-core-contracts/v2 v2.3.0-dev.13 h1:lPjtuVk2QXoUxs6sAsb0qflxmREB5kgHIjFrkNNnx6A=
-github.com/edgexfoundry/go-mod-core-contracts/v2 v2.3.0-dev.13/go.mod h1:YdJ0iBWad86sgOs6am01mE3IAX6d22H08f/enVho4TU=
+github.com/edgexfoundry/go-mod-core-contracts/v2 v2.3.0-dev.14 h1:dA5YAbVHBzzD3Qi7qc9Hyqnp174zyIEhv6PtDiSJHsA=
+github.com/edgexfoundry/go-mod-core-contracts/v2 v2.3.0-dev.14/go.mod h1:YdJ0iBWad86sgOs6am01mE3IAX6d22H08f/enVho4TU=
 github.com/edgexfoundry/go-mod-messaging/v2 v2.3.0-dev.12 h1:YdO9V8pSFK3L2FSpPru3OulK0kFCt96+tsdxTtkfeqk=
 github.com/edgexfoundry/go-mod-messaging/v2 v2.3.0-dev.12/go.mod h1:yLJ9EK4Feg409FDr0oP87LbaRLyOSGJk/ikaIfEDKcI=
+github.com/edgexfoundry/go-mod-messaging/v2 v2.3.0-dev.13 h1:Z7bpS0HK9fdKdAb4r264Ds1nnl1yfRQk7cJMTeh6tl4=
+github.com/edgexfoundry/go-mod-messaging/v2 v2.3.0-dev.13/go.mod h1:yLJ9EK4Feg409FDr0oP87LbaRLyOSGJk/ikaIfEDKcI=
 github.com/edgexfoundry/go-mod-registry v0.1.26/go.mod h1:H780oknnbMe17mBooaU6rKxzIe6K2floNa3K/DJT3Yk=
 github.com/edgexfoundry/go-mod-registry/v2 v2.2.0 h1:dk9ul1t7INAiyZXeu/GrpinFE3qOekdy8uZOqEGgIiE=
 github.com/edgexfoundry/go-mod-registry/v2 v2.2.0/go.mod h1:DUQRnAd5fVzoROc5SI+PTFUD/vCNeZmZHBMrLElbmwI=

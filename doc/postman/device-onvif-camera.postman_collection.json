@@ -729,7 +729,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/Camera001/NetworkConfiguration",
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
 							"protocol": "http",
 							"host": [
 								"0",
@@ -743,7 +743,7 @@
 								"v2",
 								"device",
 								"name",
-								"Camera001",
+								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkConfiguration"
 							]
 						}

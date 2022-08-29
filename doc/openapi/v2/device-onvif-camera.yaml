@@ -590,7 +590,6 @@ paths:
                       value: ''
                       objectValue:
                         NetworkGateway: {}
-  /api/v2/device/name/Camera001/NetworkConfiguration:
     put:
       tags:
         - Network Configuration
@@ -621,6 +620,13 @@ paths:
                       Port: 80
                 NetworkDefaultGateway:
                   IPv4Address: 192.168.12.1
+      parameters:
+        - name: EDGEX_DEVICE_NAME
+          in: path
+          schema:
+            type: string
+          required: true
+          example: Camera001
       responses:
         '200':
           description: Successful response
