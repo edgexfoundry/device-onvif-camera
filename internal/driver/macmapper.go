@@ -61,22 +61,6 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 	m.credsMap = credsMap
 }
 
-// ListMACAddresses will return a slice of mac addresses that have been assigned credentials
-func (m *MACAddressMapper) ListMACAddresses() []string {
-	m.credsMu.RLock()
-	defer m.credsMu.RUnlock()
-
-	macs := make([]string, len(m.credsMap))
-
-	i := 0
-	for mac := range m.credsMap {
-		macs[i] = mac
-		i++
-	}
-
-	return macs
-}
-
 // TryGetSecretPathForMACAddress will return the secret path associated with the mac address passed if a mapping exists,
 // the default secret path if the mapping is not found, or no auth if the mac address is invalid.
 func (m *MACAddressMapper) TryGetSecretPathForMACAddress(mac string, defaultSecretPath string) string {
