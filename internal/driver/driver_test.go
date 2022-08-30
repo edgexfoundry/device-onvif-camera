@@ -16,11 +16,9 @@ import (
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )
 
@@ -90,21 +88,21 @@ func TestAddressAndPort(t *testing.T) {
 	}
 }
 
-type mockGetOnvifClient struct {
-	mock.Mock
-}
+// type mockGetOnvifClient struct {
+// 	mock.Mock
+// }
 
-type mockCallOnvifFunction struct {
-	mock.Mock
-}
+// type mockCallOnvifFunction struct {
+// 	mock.Mock
+// }
 
-func (m *mockGetOnvifClient) GetOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) {
-	return &OnvifClient{}, nil
-}
+// func (m *mockGetOnvifClient) GetOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) {
+// 	return &OnvifClient{}, nil
+// }
 
-func (m *mockCallOnvifFunction) CallOnvifFunction(req sdkModel.CommandRequest, functionType string, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
-	return &sdkModel.CommandValue{}, nil
-}
+// func (m *mockCallOnvifFunction) CallOnvifFunction(req sdkModel.CommandRequest, functionType string, data []byte) (cv *sdkModel.CommandValue, edgexErr errors.EdgeX) {
+// 	return &sdkModel.CommandValue{}, nil
+// }
 
 // func TestDriver_HandleReadCommands(t *testing.T) {
 // 	tests := []struct {
