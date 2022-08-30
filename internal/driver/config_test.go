@@ -75,6 +75,14 @@ func TestGetCameraXAddr(t *testing.T) {
 		{
 			input: map[string]models.ProtocolProperties{
 				OnvifProtocol: {
+					Address: "http://localhost",
+				},
+			},
+			expected: "http://localhost",
+		},
+		{
+			input: map[string]models.ProtocolProperties{
+				OnvifProtocol: {
 					CustomMetadata: "custommetadata",
 				},
 			},

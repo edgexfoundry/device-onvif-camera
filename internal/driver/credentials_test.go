@@ -75,7 +75,6 @@ func TestTryGetCredentials(t *testing.T) {
 			expected: Credentials{
 				AuthMode: AuthModeNone,
 			},
-			errorExpected: false,
 		},
 		{
 			path:     "validPath",
@@ -87,7 +86,6 @@ func TestTryGetCredentials(t *testing.T) {
 				Username: "username",
 				Password: "password",
 			},
-			errorExpected: false,
 		},
 		{
 			path:          "invalidPath",
@@ -107,7 +105,6 @@ func TestTryGetCredentials(t *testing.T) {
 				Username: "username",
 				Password: "password",
 			},
-			errorExpected: false,
 		},
 	}
 
@@ -143,7 +140,7 @@ func TestTryGetCredentials(t *testing.T) {
 	}
 }
 
-// TestTryGetCredentials verifies correct credentials are returned.
+// TestTryGetCredentialsForDevice verifies correct credentials are returned for a device based on the MAC address of the device.
 func TestTryGetCredentialsForDevice(t *testing.T) {
 
 	tests := []struct {
@@ -187,7 +184,6 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 				Username: "username",
 				Password: "password",
 			},
-			errorExpected: false,
 		},
 	}
 

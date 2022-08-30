@@ -59,7 +59,7 @@ func TestParametersFromURLRawQuery(t *testing.T) {
 	assert.Equal(t, parameters, string(data))
 }
 
-// TestAddressAndPort splits the address and port from a given string.
+// TestAddressAndPort verifies splitting of address and port from a given string.
 func TestAddressAndPort(t *testing.T) {
 
 	tests := []struct {
@@ -166,7 +166,7 @@ func TestAddressAndPort(t *testing.T) {
 // 	}
 // }
 
-// TestUpdateDevice: test for the proper updating of device information
+// TestUpdateDevice: verifies proper updating of device information
 func TestUpdateDevice(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
 	tests := []struct {
@@ -175,6 +175,8 @@ func TestUpdateDevice(t *testing.T) {
 
 		expectedDevice models.Device
 		errorExpected  bool
+
+		removeDeviceFailExpected bool
 	}{
 		{
 			device: contract.Device{
@@ -187,7 +189,6 @@ func TestUpdateDevice(t *testing.T) {
 				SerialNumber:    "9a32410c",
 				HardwareId:      "1.0",
 			},
-			errorExpected: false,
 		},
 		{
 			device: contract.Device{
@@ -203,13 +204,18 @@ func TestUpdateDevice(t *testing.T) {
 			expectedDevice: contract.Device{
 				Name: "Intel-SimCamera-",
 			},
-			errorExpected: false,
 		},
 	}
 
 	for _, test := range tests {
 		test := test
 		t.Run(test.device.Name, func(t *testing.T) {
+
+			if test.removeDeviceFailExpected {
+				mockService.On("RemoveDeviceByName", test.device.Name).Return("error").Once()
+			} else {
+				mockService.On("RemoveDeviceByName", test.device.Name).Return(nil).Once()
+			}
 			mockService.On("RemoveDeviceByName", test.device.Name).Return(nil).Once()
 			mockService.On("AddDevice", test.expectedDevice).Return(test.expectedDevice.Name, nil).Once()
 			mockService.On("UpdateDevice", test.device).Return(nil).Once()
