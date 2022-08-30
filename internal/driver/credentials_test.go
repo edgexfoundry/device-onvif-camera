@@ -111,21 +111,17 @@ func TestTryGetCredentials(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
 
 	mockSecretProvider := &mocks.SecretProvider{}
-
-	for i := range tests {
-		if tests[i].errorExpected {
-			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
-
-		} else {
-			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": tests[i].username, "password": tests[i].password, "mode": tests[i].authMode}, nil).Once()
-		}
-	}
-
 	mockService.On("GetSecretProvider").Return(mockSecretProvider)
 
 	for _, test := range tests {
 		test := test
 		t.Run(test.path, func(t *testing.T) {
+			if test.errorExpected {
+				mockSecretProvider.On("GetSecret", test.path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
+
+			} else {
+				mockSecretProvider.On("GetSecret", test.path, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": test.username, "password": test.password, "mode": test.authMode}, nil).Once()
+			}
 			actual, err := driver.tryGetCredentials(test.path)
 
 			if test.errorExpected {

@@ -14,7 +14,7 @@ func TestUpdateFromRaw(t *testing.T) {
 			RequestTimeout:             5,
 			DefaultSecretPath:          "default_secret",
 			DiscoveryEthernetInterface: "eth0",
-			BaseNotificationURL:        "http://localhost:59984",
+			BaseNotificationURL:        "localhost:59984",
 			DiscoveryMode:              "netscan",
 			DiscoverySubnets:           "127.0.0.1/32,127.0.1.1/32",
 			ProbeAsyncLimit:            50,
@@ -66,19 +66,19 @@ func TestGetCameraXAddr(t *testing.T) {
 		{
 			input: map[string]models.ProtocolProperties{
 				OnvifProtocol: {
-					Address: "http://localhost",
+					Address: "localhost",
 					Port:    "80",
 				},
 			},
-			expected: "http://localhost:80",
+			expected: "localhost:80",
 		},
 		{
 			input: map[string]models.ProtocolProperties{
 				OnvifProtocol: {
-					Address: "http://localhost",
+					Address: "localhost",
 				},
 			},
-			expected: "http://localhost",
+			expected: "localhost",
 		},
 		{
 			input: map[string]models.ProtocolProperties{
@@ -98,6 +98,7 @@ func TestGetCameraXAddr(t *testing.T) {
 			errorExpected: true,
 		},
 		{
+			input:         nil,
 			errorExpected: true,
 		},
 	}

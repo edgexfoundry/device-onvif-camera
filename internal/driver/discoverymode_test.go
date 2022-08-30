@@ -12,8 +12,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// TestIsValid verifies discovery mode setting.
-func TestIsValid(t *testing.T) {
+// TestDiscoveryModeIsValid verifies discovery mode setting.
+func TestDiscoveryModeIsValid(t *testing.T) {
 
 	tests := []struct {
 		input    DiscoveryMode

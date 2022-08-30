@@ -294,7 +294,8 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 	}
 }
 
-func TestMACAddressMapper_ListMACAddresses(t *testing.T) {
+// TestMACAddressMapperListMACAddresses verifies the correct list of MAC addresses are returned that have credentials attached to them.
+func TestMACAddressMapperListMACAddresses(t *testing.T) {
 	tests := []struct {
 		name     string
 		credMap  map[string]string
