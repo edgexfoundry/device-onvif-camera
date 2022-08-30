@@ -55,13 +55,12 @@ func TestUpdateFromRaw(t *testing.T) {
 	}
 }
 
-// TestGetCameraXAddr verify the parsing of the camera XAddr
+// TestGetCameraXAddr verifies the parsing of the camera XAddr
 func TestGetCameraXAddr(t *testing.T) {
 
 	tests := []struct {
-		input    map[string]models.ProtocolProperties
-		expected string
-
+		input         map[string]models.ProtocolProperties
+		expected      string
 		errorExpected bool
 	}{
 		{
@@ -77,6 +76,15 @@ func TestGetCameraXAddr(t *testing.T) {
 			input: map[string]models.ProtocolProperties{
 				OnvifProtocol: {
 					CustomMetadata: "custommetadata",
+				},
+			},
+			errorExpected: true,
+		},
+		{
+			input: map[string]models.ProtocolProperties{
+				OnvifProtocol: {
+					Address: "",
+					Port:    "",
 				},
 			},
 			errorExpected: true,
