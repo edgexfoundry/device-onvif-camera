@@ -167,9 +167,7 @@ func TestAddressAndPort(t *testing.T) {
 
 // TestUpdateDevice: test for the proper updating of device information
 func TestUpdateDevice(t *testing.T) {
-
 	driver, mockService := createDriverWithMockService()
-
 	tests := []struct {
 		device  models.Device
 		devInfo *device.GetDeviceInformationResponse
