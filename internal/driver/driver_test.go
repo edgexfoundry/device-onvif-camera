@@ -154,6 +154,8 @@ func TestUpdateDevice(t *testing.T) {
 	}
 }
 
+// TestDriver_RemoveDevice tests the different code flows of the RemoveDevice when called with an actual device
+// versus when called with the control plane device.
 func TestDriver_RemoveDevice(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
 	driver.asynchCh = make(chan *sdkModel.AsyncValues, 1)
@@ -173,8 +175,8 @@ func TestDriver_RemoveDevice(t *testing.T) {
 			protocols:  map[string]models.ProtocolProperties{},
 		},
 		{
-			name:       "simple device",
-			deviceName: "my-device",
+			name:       "regular onvif device",
+			deviceName: "my-added-device",
 			protocols:  map[string]models.ProtocolProperties{},
 		},
 	}
