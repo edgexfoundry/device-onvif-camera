@@ -11,12 +11,14 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/IOTechSystems/onvif/device"
 	"github.com/edgexfoundry/device-sdk-go/v2/pkg/interfaces/mocks"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -164,3 +166,64 @@ func (m *mockCallOnvifFunction) CallOnvifFunction(req sdkModel.CommandRequest, f
 // 		})
 // 	}
 // }
+
+// TestUpdateDevice: test for the proper updating of device information
+func TestUpdateDevice(t *testing.T) {
+
+	driver, mockService := createDriverWithMockService()
+
+	tests := []struct {
+		device  models.Device
+		devInfo *device.GetDeviceInformationResponse
+
+		expectedDevice models.Device
+		errorExpected  bool
+	}{
+		{
+			device: contract.Device{
+				Name: "testName",
+			},
+			devInfo: &device.GetDeviceInformationResponse{
+				Manufacturer:    "Intel",
+				Model:           "SimCamera",
+				FirmwareVersion: "2.5a",
+				SerialNumber:    "9a32410c",
+				HardwareId:      "1.0",
+			},
+			errorExpected: false,
+		},
+		{
+			device: contract.Device{
+				Name: "unknown_unknown_device",
+			},
+			devInfo: &device.GetDeviceInformationResponse{
+				Manufacturer:    "Intel",
+				Model:           "SimCamera",
+				FirmwareVersion: "2.5a",
+				SerialNumber:    "9a32410c",
+				HardwareId:      "1.0",
+			},
+			expectedDevice: contract.Device{
+				Name: "Intel-SimCamera-",
+			},
+			errorExpected: false,
+		},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.device.Name, func(t *testing.T) {
+			mockService.On("RemoveDeviceByName", test.device.Name).Return(nil).Once()
+			mockService.On("AddDevice", test.expectedDevice).Return(test.expectedDevice.Name, nil).Once()
+			mockService.On("UpdateDevice", test.device).Return(nil).Once()
+
+			err := driver.updateDevice(test.device, test.devInfo)
+
+			if test.errorExpected {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+		})
+	}
+}
