@@ -367,7 +367,7 @@ func TestMACAddressMapper_ListMACAddresses(t *testing.T) {
 	}
 }
 
-// TestTryGetSecretPathForMACAddress verify the correct secret path is returned for a given mac address.
+// TestTryGetSecretPathForMACAddress verifies the correct secret path is returned for a given mac address.
 func TestTryGetSecretPathForMACAddress(t *testing.T) {
 
 	tests := []struct {
