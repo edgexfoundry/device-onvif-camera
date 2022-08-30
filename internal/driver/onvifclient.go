@@ -330,7 +330,10 @@ func (onvifClient *OnvifClient) callGetSnapshotFunction() ([]byte, errors.EdgeX)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	profilesResp := respContent.(*media.GetProfilesResponse)
+	profilesResp, ok := respContent.(*media.GetProfilesResponse)
+	if !ok {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetProfilesResponse of type %T for the camera %s", respContent, onvifClient.DeviceName), nil)
+	}
 	if len(profilesResp.Profiles) == 0 {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, "no onvif profiles found", nil)
 	}
@@ -343,7 +346,10 @@ func (onvifClient *OnvifClient) callGetSnapshotFunction() ([]byte, errors.EdgeX)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	uriResponse := respContent.(*media.GetSnapshotUriResponse)
+	uriResponse, ok := respContent.(*media.GetSnapshotUriResponse)
+	if !ok {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetSnapshotUriResponse of type %T for the camera %s", respContent, onvifClient.DeviceName), nil)
+	}
 	url := uriResponse.MediaUri.Uri
 
 	// Get the snapshot binary data

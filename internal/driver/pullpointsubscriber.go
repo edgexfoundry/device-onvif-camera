@@ -98,7 +98,10 @@ func (sub *Subscriber) pullMessage() errors.EdgeX {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get the PullMessage response for '%s', %v", sub.Name, edgexErr), edgexErr)
 	}
 
-	res := response.Body.Content.(*event.PullMessagesResponse)
+	res, ok := response.Body.Content.(*event.PullMessagesResponse)
+	if !ok {
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid PullMessagesResponse of type %T for the camera %s", response.Body.Content, sub.onvifClient.DeviceName), nil)
+	}
 	if len(res.NotificationMessage) == 0 {
 		return nil
 	}
@@ -127,7 +130,10 @@ func (sub *Subscriber) createPullPoint() errors.EdgeX {
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	subscriptionResponse := respContent.(*event.CreatePullPointSubscriptionResponse)
+	subscriptionResponse, ok := respContent.(*event.CreatePullPointSubscriptionResponse)
+	if !ok {
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid CreatePullPointSubscriptionResponse of type %T for the camera %s", respContent, sub.onvifClient.DeviceName), nil)
+	}
 	sub.SubscriptionAddress = fmt.Sprint(subscriptionResponse.SubscriptionReference.Address)
 	return nil
 }

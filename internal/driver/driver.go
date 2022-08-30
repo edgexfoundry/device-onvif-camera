@@ -660,7 +660,7 @@ func (d *Driver) getNetworkInterfaces(device models.Device) (netInfo *onvifdevic
 	}
 	devInfo, ok := devInfoResponse.(*onvifdevice.GetNetworkInterfacesResponse)
 	if !ok {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetNetworkInterfacesResponse for the camera %s", device.Name), nil)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetNetworkInterfacesResponse of type %T for the camera %s", devInfoResponse, device.Name), nil)
 	}
 	return devInfo, nil
 }
@@ -676,7 +676,7 @@ func (d *Driver) getDeviceInformation(device models.Device) (devInfo *onvifdevic
 	}
 	devInfo, ok := devInfoResponse.(*onvifdevice.GetDeviceInformationResponse)
 	if !ok {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetDeviceInformationResponse for the camera %s", device.Name), nil)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetDeviceInformationResponse of type %T for the camera %s", devInfoResponse, device.Name), nil)
 	}
 	return devInfo, nil
 }
@@ -692,7 +692,7 @@ func (d *Driver) getEndpointReference(device models.Device) (devInfo *onvifdevic
 	}
 	devEndpointRef, ok := endpointRefResponse.(*onvifdevice.GetEndpointReferenceResponse)
 	if !ok {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetEndpointReferenceResponse for the camera %s", device.Name), nil)
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetEndpointReferenceResponse of type %T for the camera %s", endpointRefResponse, device.Name), nil)
 	}
 	return devEndpointRef, nil
 }

@@ -105,7 +105,10 @@ func (consumer *Consumer) subscribe() errors.EdgeX {
 	if edgexErr != nil {
 		return errors.NewCommonEdgeX(errors.Kind(edgexErr), fmt.Sprintf("failed to subscribe again for resource '%s', %v", consumer.Name, err), edgexErr)
 	}
-	subscribeResponse := respContent.(*event.SubscribeResponse)
+	subscribeResponse, ok := respContent.(*event.SubscribeResponse)
+	if !ok {
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid SubscribeResponse of type %T for the camera %s", respContent, consumer.onvifClient.DeviceName), nil)
+	}
 	consumer.SubscriptionAddress = fmt.Sprint(subscribeResponse.SubscriptionReference.Address)
 	return nil
 }
