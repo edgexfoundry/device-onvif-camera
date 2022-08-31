@@ -254,7 +254,8 @@ func TestDriver_HandleReadCommands(t *testing.T) {
 		test := test
 		t.Run(test.name, func(t *testing.T) {
 			server := httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-				writer.Write([]byte(test.resp))
+				_, err := writer.Write([]byte(test.resp))
+				assert.NoError(t, err)
 			}))
 			defer server.Close()
 
