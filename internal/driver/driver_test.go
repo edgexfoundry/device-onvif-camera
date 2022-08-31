@@ -9,15 +9,16 @@ package driver
 import (
 	"encoding/base64"
 	"fmt"
-	"github.com/IOTechSystems/onvif"
-	"github.com/IOTechSystems/onvif/xsd"
-	xsdOnvif "github.com/IOTechSystems/onvif/xsd/onvif"
-	"github.com/stretchr/testify/mock"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"sync"
 	"testing"
+
+	"github.com/IOTechSystems/onvif"
+	"github.com/IOTechSystems/onvif/xsd"
+	xsdOnvif "github.com/IOTechSystems/onvif/xsd/onvif"
+	"github.com/stretchr/testify/mock"
 
 	"github.com/IOTechSystems/onvif/device"
 	sdkMocks "github.com/edgexfoundry/device-sdk-go/v2/pkg/interfaces/mocks"
@@ -282,7 +283,7 @@ func TestDriver_HandleReadCommands(t *testing.T) {
 	}
 }
 
-// TestUpdateDevice: verifies proper updating of device information
+// TestUpdateDevice verifies proper updating of device information
 func TestUpdateDevice(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
 	tests := []struct {
@@ -309,7 +310,11 @@ func TestUpdateDevice(t *testing.T) {
 		{
 			device: contract.Device{
 				Name: "unknown_unknown_device",
-			},
+				Protocols: map[string]models.ProtocolProperties{
+					OnvifProtocol: map[string]string{
+						EndpointRefAddress: "793dfb2-28b0-11ed-a261-0242ac120002",
+					},
+				}},
 			devInfo: &device.GetDeviceInformationResponse{
 				Manufacturer:    "Intel",
 				Model:           "SimCamera",
@@ -318,7 +323,12 @@ func TestUpdateDevice(t *testing.T) {
 				HardwareId:      "1.0",
 			},
 			expectedDevice: contract.Device{
-				Name: "Intel-SimCamera-",
+				Name: "Intel-SimCamera-793dfb2-28b0-11ed-a261-0242ac120002",
+				Protocols: map[string]models.ProtocolProperties{
+					OnvifProtocol: map[string]string{
+						EndpointRefAddress: "793dfb2-28b0-11ed-a261-0242ac120002",
+					},
+				},
 			},
 		},
 	}
