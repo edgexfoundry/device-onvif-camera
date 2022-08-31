@@ -92,7 +92,6 @@ func TestTryGetCredentials(t *testing.T) {
 			mockUsername:  "username",
 			mockPassword:  "password",
 			mockAuthMode:  onvif.DigestAuth,
-			expected:      Credentials{},
 			errorExpected: true,
 		},
 		{
@@ -118,7 +117,6 @@ func TestTryGetCredentials(t *testing.T) {
 		t.Run(test.path, func(t *testing.T) {
 			if test.errorExpected {
 				mockSecretProvider.On("GetSecret", test.path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
-
 			} else {
 				mockSecretProvider.On("GetSecret", test.path, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": test.mockUsername, "password": test.mockPassword, "mode": test.mockAuthMode}, nil).Once()
 			}
@@ -161,7 +159,6 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 			username:      "username",
 			password:      "password",
 			authMode:      onvif.DigestAuth,
-			expected:      Credentials{},
 			errorExpected: true,
 		},
 		{
@@ -201,7 +198,6 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 	for i := range tests {
 		if tests[i].errorExpected {
 			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
-
 		} else {
 			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": tests[i].username, "password": tests[i].password, "mode": tests[i].authMode}, nil).Once()
 		}

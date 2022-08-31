@@ -297,42 +297,49 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 // TestTryGetSecretPathForMACAddress verifies the correct secret path is returned for a given mac address.
 func TestTryGetSecretPathForMACAddress(t *testing.T) {
 
+	mappedMac := "aa:bb:cc:dd:ee:ff"
+	defaultSecretPath := "default_secret_path"
+
 	tests := []struct {
+		name     string
 		mac      string // input mac address
 		expected string
 	}{
 		{
-			mac:      "aa:bb:cc:dd:ee:ff",
-			expected: "secret_path",
+			name:     "mac address for valid secret path",
+			mac:      mappedMac,
+			expected: "valid_secret_path",
 		},
 		{
+			name:     "mac address for default secret path",
 			mac:      "bb:bb:cc:dd:ee:ff",
-			expected: "default_secret_path",
+			expected: defaultSecretPath,
 		},
 		{
+			name:     "invalid mac address",
 			mac:      "invalid_mac",
-			expected: "noauth",
+			expected: noAuthSecretPath,
 		},
 	}
 
 	driver, mockService := createDriverWithMockService()
-
-	mockService.On("GetLoggingClient").Return(logger.MockLogger{})
+	mockLogger := logger.NewMockClient()
+	mockService.On("GetLoggingClient").Return(mockLogger)
 
 	driver.macAddressMapper = NewMACAddressMapper(mockService)
 	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{
-		"secret_path": "aa:bb:cc:dd:ee:ff",
+		"valid_secret_path": mappedMac,
 	})
 	driver.configMu = new(sync.RWMutex)
 	driver.config = &ServiceConfig{
 		AppCustom: CustomConfig{
-			DefaultSecretPath: "default_secret_path",
+			DefaultSecretPath: defaultSecretPath,
 		},
 	}
 
 	for _, test := range tests {
 		test := test
-		t.Run(test.mac, func(t *testing.T) {
+		t.Run(test.name, func(t *testing.T) {
 			actual := driver.macAddressMapper.TryGetSecretPathForMACAddress(test.mac, driver.config.AppCustom.DefaultSecretPath)
 			assert.Equal(t, test.expected, actual)
 		})

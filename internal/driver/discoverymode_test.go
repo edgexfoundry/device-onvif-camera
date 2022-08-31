@@ -16,100 +16,73 @@ import (
 func TestDiscoveryModeIsValid(t *testing.T) {
 
 	tests := []struct {
-		input    DiscoveryMode
+		mode     DiscoveryMode
 		expected bool
 	}{
 		{
-			input:    ModeNetScan,
+			mode:     ModeNetScan,
 			expected: true,
 		},
 		{
-			input:    ModeMulticast,
+			mode:     ModeMulticast,
 			expected: true,
 		},
 		{
-			input:    ModeBoth,
+			mode:     ModeBoth,
 			expected: true,
 		},
 		{
-			input:    "invalidValue",
+			mode:     "invalidValue",
 			expected: false,
 		},
 	}
 
 	for _, test := range tests {
 		test := test
-		t.Run(string(test.input), func(t *testing.T) {
-			result := test.input.IsValid()
+		t.Run(string(test.mode), func(t *testing.T) {
+			result := test.mode.IsValid()
 			assert.Equal(t, test.expected, result)
 		})
 	}
 }
 
-// TestIsMulticastEnabled verifies multicast setting.
-func TestIsMulticastEnabled(t *testing.T) {
+// TestIsNetScanAndIsMulticastEnabled verifies netscan and multicast settings.
+func TestIsNetScanAndIsMulticastEnabled(t *testing.T) {
 
 	tests := []struct {
-		input    DiscoveryMode
-		expected bool
+		mode              DiscoveryMode
+		multicastExpected bool
+		netscanExpected   bool
 	}{
 		{
-			input:    ModeNetScan,
-			expected: false,
+			mode:              ModeNetScan,
+			netscanExpected:   true,
+			multicastExpected: false,
 		},
 		{
-			input:    ModeMulticast,
-			expected: true,
+			mode:              ModeMulticast,
+			netscanExpected:   false,
+			multicastExpected: true,
 		},
 		{
-			input:    ModeBoth,
-			expected: true,
+			mode:              ModeBoth,
+			netscanExpected:   true,
+			multicastExpected: true,
 		},
 		{
-			input:    "invalidValue",
-			expected: false,
+			mode:              "invalidValue",
+			netscanExpected:   false,
+			multicastExpected: false,
 		},
 	}
 
 	for _, test := range tests {
 		test := test
-		t.Run(string(test.input), func(t *testing.T) {
-			result := test.input.IsMulticastEnabled()
-			assert.Equal(t, test.expected, result)
-		})
-	}
-}
-
-// TestIsNetScanEnabled verifies netscan setting.
-func TestIsNetScanEnabled(t *testing.T) {
-
-	tests := []struct {
-		input    DiscoveryMode
-		expected bool
-	}{
-		{
-			input:    ModeNetScan,
-			expected: true,
-		},
-		{
-			input:    ModeMulticast,
-			expected: false,
-		},
-		{
-			input:    ModeBoth,
-			expected: true,
-		},
-		{
-			input:    "invalidValue",
-			expected: false,
-		},
-	}
-
-	for _, test := range tests {
-		test := test
-		t.Run(string(test.input), func(t *testing.T) {
-			result := test.input.IsNetScanEnabled()
-			assert.Equal(t, test.expected, result)
+		t.Run(string(test.mode), func(t *testing.T) {
+			multicastActual := test.mode.IsMulticastEnabled()
+			netscanActual := test.mode.IsNetScanEnabled()
+			assert.Equal(t, test.multicastExpected, multicastActual)
+			assert.Equal(t, test.netscanExpected, netscanActual)
 		})
 	}
 }

@@ -106,7 +106,8 @@ func macAddressBytewiseReverse(mac string) (string, error) {
 	}
 	mac = strings.ReplaceAll(mac, ":", "")
 	buf := strings.Builder{}
-	// loop through the string backwards two characters at a time (1-byte)
+	// loop through the string backwards two characters at a time (1-byte). Since the MAC address is
+	// already sanitized, we are guaranteed to have an even number of characters.
 	for i := len(mac); i > 0; i -= 2 {
 		buf.WriteString(mac[i-2 : i])
 		if i > 2 { // only write delimiter if more bytes exist
