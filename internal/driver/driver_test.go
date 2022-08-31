@@ -369,18 +369,15 @@ func TestDriver_RemoveDevice(t *testing.T) {
 	tests := []struct {
 		name       string
 		deviceName string
-		protocols  map[string]models.ProtocolProperties
 		wantErr    bool
 	}{
 		{
 			name:       "control plane device",
 			deviceName: "device-onvif-camera",
-			protocols:  map[string]models.ProtocolProperties{},
 		},
 		{
 			name:       "regular onvif device",
 			deviceName: "my-added-device",
-			protocols:  map[string]models.ProtocolProperties{},
 		},
 	}
 
@@ -389,7 +386,7 @@ func TestDriver_RemoveDevice(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			mockService.On("Name").Return(test.deviceName)
 
-			err := driver.RemoveDevice(test.deviceName, test.protocols)
+			err := driver.RemoveDevice(test.deviceName, map[string]models.ProtocolProperties{})
 			if test.wantErr {
 				require.Error(t, err)
 			}
