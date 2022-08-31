@@ -43,7 +43,7 @@ type OnvifClient struct {
 	driver      *Driver
 	lc          logger.LoggingClient
 	DeviceName  string
-	onvifDevice *onvif.Device
+	onvifDevice OnvifDevice
 	// RebootNeeded indicates the camera should reboot to apply the configuration change
 	RebootNeeded bool
 	// CameraEventResource is used to send the async event to north bound
@@ -410,7 +410,7 @@ func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName stri
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create '%s' response for the web service '%s'", functionName, serviceName), edgexErr)
 	}
-	res, _ := xml.Marshal(responseEnvelope.Body.Content)
+	res, _ := xml.Marshal(responseEnvelope)
 	onvifClient.lc.Debugf("SOAP Response: %v", string(res))
 
 	if servResp.StatusCode == http.StatusUnauthorized {

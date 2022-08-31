@@ -78,7 +78,7 @@ func (manager *PullPointManager) NewSubscriber(onvifClient *OnvifClient, resourc
 	return nil
 }
 
-func (manager *PullPointManager) newSubscriberOnvifDevice(device *onvif.Device, messageTimeout string, httpRequestTimeout int) (*onvif.Device, error) {
+func (manager *PullPointManager) newSubscriberOnvifDevice(device OnvifDevice, messageTimeout string, httpRequestTimeout int) (OnvifDevice, error) {
 	timeout, err := ParseISO8601(messageTimeout)
 	if err != nil {
 		return nil, err
