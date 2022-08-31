@@ -63,24 +63,24 @@ func TestTryGetCredentials(t *testing.T) {
 		path          string
 		expected      Credentials
 		errorExpected bool
-		username      string
-		password      string
-		authMode      string
+		mockUsername  string
+		mockPassword  string
+		mockAuthMode  string
 	}{
 		{
-			path:     noAuthSecretPath,
-			username: "username",
-			password: "password",
-			authMode: onvif.DigestAuth,
+			path:         noAuthSecretPath,
+			mockUsername: "username",
+			mockPassword: "password",
+			mockAuthMode: onvif.DigestAuth,
 			expected: Credentials{
 				AuthMode: AuthModeNone,
 			},
 		},
 		{
-			path:     "validPath",
-			username: "username",
-			password: "password",
-			authMode: onvif.DigestAuth,
+			path:         "validPath",
+			mockUsername: "username",
+			mockPassword: "password",
+			mockAuthMode: onvif.DigestAuth,
 			expected: Credentials{
 				AuthMode: AuthModeDigest,
 				Username: "username",
@@ -89,17 +89,17 @@ func TestTryGetCredentials(t *testing.T) {
 		},
 		{
 			path:          "invalidPath",
-			username:      "username",
-			password:      "password",
-			authMode:      onvif.DigestAuth,
+			mockUsername:  "username",
+			mockPassword:  "password",
+			mockAuthMode:  onvif.DigestAuth,
 			expected:      Credentials{},
 			errorExpected: true,
 		},
 		{
-			path:     "validPathInvalidAuthMode",
-			username: "username",
-			password: "password",
-			authMode: "invalidAuthMode",
+			path:         "validPathInvalidAuthMode",
+			mockUsername: "username",
+			mockPassword: "password",
+			mockAuthMode: "invalidAuthMode",
 			expected: Credentials{
 				AuthMode: AuthModeUsernameToken,
 				Username: "username",
@@ -120,7 +120,7 @@ func TestTryGetCredentials(t *testing.T) {
 				mockSecretProvider.On("GetSecret", test.path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
 
 			} else {
-				mockSecretProvider.On("GetSecret", test.path, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": test.username, "password": test.password, "mode": test.authMode}, nil).Once()
+				mockSecretProvider.On("GetSecret", test.path, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": test.mockUsername, "password": test.mockPassword, "mode": test.mockAuthMode}, nil).Once()
 			}
 			actual, err := driver.tryGetCredentials(test.path)
 

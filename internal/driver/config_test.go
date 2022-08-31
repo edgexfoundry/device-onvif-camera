@@ -14,7 +14,7 @@ func TestUpdateFromRaw(t *testing.T) {
 			RequestTimeout:             5,
 			DefaultSecretPath:          "default_secret",
 			DiscoveryEthernetInterface: "eth0",
-			BaseNotificationURL:        "localhost:59984",
+			BaseNotificationURL:        "http://localhost:59984",
 			DiscoveryMode:              "netscan",
 			DiscoverySubnets:           "127.0.0.1/32,127.0.1.1/32",
 			ProbeAsyncLimit:            50,
