@@ -25,6 +25,7 @@ import (
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/stretchr/testify/assert"
@@ -291,15 +292,18 @@ func TestUpdateDevice(t *testing.T) {
 		device  models.Device
 		devInfo *device.GetDeviceInformationResponse
 
-		expectedDevice models.Device
-		errorExpected  bool
-
+		expectedDevice           models.Device
+		errorExpected            bool
+		updateDeviceExpected     bool
+		addDeviceExpected        bool
+		removeDeviceExpected     bool
 		removeDeviceFailExpected bool
 	}{
 		{
 			device: contract.Device{
 				Name: "testName",
 			},
+			updateDeviceExpected: true,
 			devInfo: &device.GetDeviceInformationResponse{
 				Manufacturer:    "Intel",
 				Model:           "SimCamera",
@@ -309,6 +313,9 @@ func TestUpdateDevice(t *testing.T) {
 			},
 		},
 		{
+			removeDeviceExpected:     true,
+			removeDeviceFailExpected: true,
+			addDeviceExpected:        true,
 			device: contract.Device{
 				Name: "unknown_unknown_device",
 				Protocols: map[string]models.ProtocolProperties{
@@ -338,17 +345,25 @@ func TestUpdateDevice(t *testing.T) {
 		test := test
 		t.Run(test.device.Name, func(t *testing.T) {
 
-			if test.removeDeviceFailExpected {
-				mockService.On("RemoveDeviceByName", test.device.Name).Return("error").Once()
-			} else {
-				mockService.On("RemoveDeviceByName", test.device.Name).Return(nil).Once()
+			if test.removeDeviceExpected {
+				if test.removeDeviceFailExpected {
+					mockService.On("RemoveDeviceByName", test.device.Name).Return(errors.NewCommonEdgeX(errors.KindContractInvalid, "unit test error", nil)).Once()
+				} else {
+					mockService.On("RemoveDeviceByName", test.device.Name).Return(nil).Once()
+				}
 			}
-			mockService.On("RemoveDeviceByName", test.device.Name).Return(nil).Once()
-			mockService.On("AddDevice", test.expectedDevice).Return(test.expectedDevice.Name, nil).Once()
-			mockService.On("UpdateDevice", test.device).Return(nil).Once()
+
+			if test.updateDeviceExpected {
+				mockService.On("UpdateDevice", test.device).Return(nil).Once()
+			}
+
+			if test.addDeviceExpected {
+				mockService.On("AddDevice", test.expectedDevice).Return(test.expectedDevice.Name, nil).Once()
+			}
 
 			err := driver.updateDevice(test.device, test.devInfo)
 
+			mockService.AssertExpectations(t)
 			if test.errorExpected {
 				require.Error(t, err)
 				return
