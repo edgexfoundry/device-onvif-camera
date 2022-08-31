@@ -191,18 +191,7 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 		alternateExpected map[string]string
 	}{
 		{
-			name: "no update",
-			currentMap: map[string]string{
-				"creds1": "AA:BB:CC:DD:EE:FF",
-				"creds2": "11:22:33:44:55:66",
-			},
-			expected: map[string]string{
-				"aa:bb:cc:dd:ee:ff": "creds1",
-				"11:22:33:44:55:66": "creds2",
-			},
-		},
-		{
-			name: "single update",
+			name: "happy path simple",
 			currentMap: map[string]string{
 				"creds1": "aa:bb:cc:dd:ee:ff",
 				"creds2": "11:22:33:44:55:66",
