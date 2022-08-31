@@ -88,7 +88,6 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 		name      string
 		devices   []contract.Device
 		deviceMap map[string]contract.Device
-		nameCalls int
 	}{
 		{
 			name:    "3 devices",
@@ -116,7 +115,6 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 					},
 				},
 			},
-			nameCalls: 4,
 		},
 		{
 			name: "NoProtocol",
@@ -143,7 +141,6 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 					},
 				},
 			},
-			nameCalls: 2,
 		},
 		{
 			name: "NoEndpointReference",
@@ -174,7 +171,6 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 					},
 				},
 			},
-			nameCalls: 2,
 		},
 	}
 	for _, test := range tests {
@@ -199,14 +195,12 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 		devices           []contract.Device
 		discoveredDevices []sdkModel.DiscoveredDevice
 		filtered          []sdkModel.DiscoveredDevice
-		nameCalls         int
 	}{
 		{
 			name:              "No new devices",
 			devices:           createTestDeviceList(),
 			discoveredDevices: createDiscoveredList(),
 			filtered:          []sdkModel.DiscoveredDevice{},
-			nameCalls:         4,
 		},
 		{
 			name: "All new devices",
@@ -221,7 +215,6 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 			},
 			discoveredDevices: createDiscoveredList(),
 			filtered:          createDiscoveredList(),
-			nameCalls:         1,
 		},
 		{
 			name:    "new and old devices",
@@ -279,7 +272,6 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 					},
 				},
 			},
-			nameCalls: 4,
 		},
 	}
 	for _, test := range tests {
