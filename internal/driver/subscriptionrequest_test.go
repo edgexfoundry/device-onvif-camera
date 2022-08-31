@@ -30,6 +30,14 @@ func TestParseISO8601(t *testing.T) {
 			expected: 18367000000000,
 		},
 		{
+			input:    "P1YT5H",
+			expected: 18000000000000,
+		},
+		{
+			input:    "P5DT2M",
+			expected: 120000000000,
+		},
+		{
 			input:         "3Y6M4DT12H30M5S",
 			errorExpected: true,
 		},
