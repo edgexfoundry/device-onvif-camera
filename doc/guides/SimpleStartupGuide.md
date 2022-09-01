@@ -172,6 +172,7 @@ Clone the device-onvif-camera repository:
 >NOTE: Go version 1.18+ is required to run natively.
 
 <br/>
+
    1. Navigate to the EdgeX `compose-builder` directory:
 
       ```bash
