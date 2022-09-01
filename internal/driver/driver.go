@@ -800,26 +800,31 @@ func (d *Driver) refreshDevice(device models.Device) error {
 	}
 
 	if isChanged {
-		if strings.HasPrefix(device.Name, UnknownDevicePrefix) {
-			d.lc.Infof("Removing device '%s' to update device with the updated name", device.Name)
-			err := d.sdkService.RemoveDeviceByName(device.Name)
-			if err != nil {
-				d.lc.Warnf("An error occurred while removing the device %s: %s",
-					device.Name, err)
-			}
+		return d.updateDevice(device, devInfo)
+	}
 
-			device.Id = ""
-			// Spaces are not allowed in the device name
-			device.Name = fmt.Sprintf("%s-%s-%s",
-				strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
-				strings.ReplaceAll(devInfo.Model, " ", "-"),
-				device.Protocols[OnvifProtocol][EndpointRefAddress])
-			d.lc.Infof("Adding device back with the updated name '%s'", device.Name)
-			_, err = d.sdkService.AddDevice(device)
-			return err
+	return nil
+}
+
+func (d *Driver) updateDevice(device models.Device, deviceInfo *onvifdevice.GetDeviceInformationResponse) error {
+	if strings.HasPrefix(device.Name, UnknownDevicePrefix) {
+		d.lc.Infof("Removing device '%s' to update device with the updated name", device.Name)
+		err := d.sdkService.RemoveDeviceByName(device.Name)
+		if err != nil {
+			d.lc.Warnf("An error occurred while removing the device %s: %s",
+				device.Name, err)
 		}
 
-		return d.sdkService.UpdateDevice(device)
+		device.Id = ""
+		// Spaces are not allowed in the device name
+		device.Name = fmt.Sprintf("%s-%s-%s",
+			strings.ReplaceAll(deviceInfo.Manufacturer, " ", "-"),
+			strings.ReplaceAll(deviceInfo.Model, " ", "-"),
+			device.Protocols[OnvifProtocol][EndpointRefAddress])
+		d.lc.Infof("Adding device back with the updated name '%s'", device.Name)
+		_, err = d.sdkService.AddDevice(device)
+		return err
 	}
-	return nil
+
+	return d.sdkService.UpdateDevice(device)
 }

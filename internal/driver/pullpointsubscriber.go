@@ -28,7 +28,7 @@ type Subscriber struct {
 	onvifClient *OnvifClient
 
 	// onvifDevice is used to send the pullMessage onvif function with specified request timeout
-	onvifDevice *onvif.Device
+	onvifDevice OnvifDevice
 	// SubscriptionAddress is used to pull the event from the camera
 	SubscriptionAddress string
 	// subscriptionRequest is used to create the PullPoint subscription

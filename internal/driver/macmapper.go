@@ -7,7 +7,6 @@
 package driver
 
 import (
-	"fmt"
 	"net"
 	"strings"
 	"sync"
@@ -62,22 +61,6 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 	m.credsMap = credsMap
 }
 
-// ListMACAddresses will return a slice of mac addresses that have been assigned credentials
-func (m *MACAddressMapper) ListMACAddresses() []string {
-	m.credsMu.RLock()
-	defer m.credsMu.RUnlock()
-
-	macs := make([]string, len(m.credsMap))
-
-	i := 0
-	for mac := range m.credsMap {
-		macs[i] = mac
-		i++
-	}
-
-	return macs
-}
-
 // TryGetSecretPathForMACAddress will return the secret path associated with the mac address passed if a mapping exists,
 // the default secret path if the mapping is not found, or no auth if the mac address is invalid.
 func (m *MACAddressMapper) TryGetSecretPathForMACAddress(mac string, defaultSecretPath string) string {
@@ -122,12 +105,9 @@ func macAddressBytewiseReverse(mac string) (string, error) {
 		return "", err
 	}
 	mac = strings.ReplaceAll(mac, ":", "")
-	if len(mac)%2 != 0 {
-		return "", fmt.Errorf("mac address %s has invalid length of %d", mac, len(mac))
-	}
-
 	buf := strings.Builder{}
-	// loop through the string backwards two characters at a time (1-byte)
+	// loop through the string backwards two characters at a time (1-byte). Since the MAC address is
+	// already sanitized, we are guaranteed to have an even number of characters.
 	for i := len(mac); i > 0; i -= 2 {
 		buf.WriteString(mac[i-2 : i])
 		if i > 2 { // only write delimiter if more bytes exist

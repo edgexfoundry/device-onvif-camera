@@ -7,9 +7,13 @@
 package driver
 
 import (
+	"reflect"
 	"strings"
+	"sync"
 	"testing"
 
+	"github.com/edgexfoundry/go-mod-bootstrap/v2/bootstrap/interfaces/mocks"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -175,6 +179,158 @@ func TestMatchEndpointRefAddressToMAC(t *testing.T) {
 		test := test
 		t.Run(test.endpointRef, func(t *testing.T) {
 			assert.Equal(t, test.mac, macMapper.MatchEndpointRefAddressToMAC(test.endpointRef))
+		})
+	}
+}
+
+func TestMACAddressMapper_UpdateMappings(t *testing.T) {
+	tests := []struct {
+		name              string
+		currentMap        map[string]string
+		expected          map[string]string
+		alternateExpected map[string]string
+	}{
+		{
+			name: "happy path simple",
+			currentMap: map[string]string{
+				"creds1": "aa:bb:cc:dd:ee:ff",
+				"creds2": "11:22:33:44:55:66",
+				"creds3": "ff:ee:dd:cc:bb:aa",
+			},
+			expected: map[string]string{
+				"aa:bb:cc:dd:ee:ff": "creds1",
+				"11:22:33:44:55:66": "creds2",
+				"ff:ee:dd:cc:bb:aa": "creds3",
+			},
+		},
+		{
+			name: "multiple valid creds",
+			currentMap: map[string]string{
+				"creds1": "aa:bb:cc:dd:ee:ff,12:23:34:45:56:11,a1:b2:c3:d4:e5:f6",
+				"creds2": "11:22:33:44:55:66",
+				"creds3": "ff:ee:dd:cc:bb:aa",
+			},
+			expected: map[string]string{
+				"aa:bb:cc:dd:ee:ff": "creds1",
+				"12:23:34:45:56:11": "creds1",
+				"a1:b2:c3:d4:e5:f6": "creds1",
+				"11:22:33:44:55:66": "creds2",
+				"ff:ee:dd:cc:bb:aa": "creds3",
+			},
+		},
+		{
+			name: "Add invalid macs",
+			currentMap: map[string]string{
+				"creds3": "FF:EE:DD:CC:BB:AA,asbc,asdf",
+				"creds1": "AA:BB:CC:DD:EE:FF",
+				"creds2": "11:22:33:44:55:66",
+			},
+			expected: map[string]string{
+				"aa:bb:cc:dd:ee:ff": "creds1",
+				"11:22:33:44:55:66": "creds2",
+				"ff:ee:dd:cc:bb:aa": "creds3",
+			},
+		},
+		{
+			name: "duplicate macs",
+			currentMap: map[string]string{
+				"creds1": "FF:EE:DD:CC:BB:AA",
+				"creds2": "11:22:33:44:55:66",
+				"creds3": "FF:EE:DD:CC:BB:AA",
+			},
+			expected: map[string]string{
+				"ff:ee:dd:cc:bb:aa": "creds1",
+				"11:22:33:44:55:66": "creds2",
+			},
+			alternateExpected: map[string]string{
+				"ff:ee:dd:cc:bb:aa": "creds3",
+				"11:22:33:44:55:66": "creds2",
+			},
+		},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+
+			driver, mockService := createDriverWithMockService()
+			driver.macAddressMapper = NewMACAddressMapper(mockService)
+			driver.macAddressMapper.credsMap = test.currentMap
+			mockSecretProvider := &mocks.SecretProvider{}
+			mockLoggingClient := logger.NewMockClient()
+
+			require.NotEmpty(t, test.currentMap)
+
+			for secretPath := range test.currentMap {
+				if strings.ToLower(secretPath) != noAuthSecretPath {
+					mockSecretProvider.On("GetSecret", secretPath, UsernameKey, PasswordKey, AuthModeKey).
+						Return(nil, nil)
+				}
+			}
+
+			mockService.On("GetSecretProvider").
+				Return(mockSecretProvider)
+			mockService.On("GetLoggingClient").Return(mockLoggingClient)
+			driver.macAddressMapper.UpdateMappings(test.currentMap)
+
+			if test.alternateExpected != nil {
+				ex1 := reflect.DeepEqual(test.expected, driver.macAddressMapper.credsMap)
+				ex2 := reflect.DeepEqual(test.alternateExpected, driver.macAddressMapper.credsMap)
+				assert.True(t, ex1 || ex2)
+				return
+			}
+			assert.Equal(t, test.expected, driver.macAddressMapper.credsMap)
+		})
+	}
+}
+
+// TestTryGetSecretPathForMACAddress verifies the correct secret path is returned for a given mac address.
+func TestTryGetSecretPathForMACAddress(t *testing.T) {
+
+	mappedMac := "aa:bb:cc:dd:ee:ff"
+	defaultSecretPath := "default_secret_path"
+
+	tests := []struct {
+		name     string
+		mac      string // input mac address
+		expected string
+	}{
+		{
+			name:     "mac address for valid secret path",
+			mac:      mappedMac,
+			expected: "valid_secret_path",
+		},
+		{
+			name:     "mac address for default secret path",
+			mac:      "bb:bb:cc:dd:ee:ff",
+			expected: defaultSecretPath,
+		},
+		{
+			name:     "invalid mac address",
+			mac:      "invalid_mac",
+			expected: noAuthSecretPath,
+		},
+	}
+
+	driver, mockService := createDriverWithMockService()
+	mockLogger := logger.NewMockClient()
+	mockService.On("GetLoggingClient").Return(mockLogger)
+
+	driver.macAddressMapper = NewMACAddressMapper(mockService)
+	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{
+		"valid_secret_path": mappedMac,
+	})
+	driver.configMu = new(sync.RWMutex)
+	driver.config = &ServiceConfig{
+		AppCustom: CustomConfig{
+			DefaultSecretPath: defaultSecretPath,
+		},
+	}
+
+	for _, test := range tests {
+		test := test
+		t.Run(test.name, func(t *testing.T) {
+			actual := driver.macAddressMapper.TryGetSecretPathForMACAddress(test.mac, driver.config.AppCustom.DefaultSecretPath)
+			assert.Equal(t, test.expected, actual)
 		})
 	}
 }

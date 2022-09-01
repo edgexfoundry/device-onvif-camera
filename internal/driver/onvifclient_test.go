@@ -7,6 +7,8 @@
 package driver
 
 import (
+	"github.com/edgexfoundry/device-onvif-camera/internal/driver/mocks"
+	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
 	"testing"
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
@@ -21,6 +23,16 @@ const (
 	testMACAddress   = "ab-cd-ef-12-34-56"
 	testFriendlyName = "Outdoor camera"
 )
+
+func createOnvifClientWithMockDevice(driver *Driver, deviceName string) (*OnvifClient, *mocks.OnvifDevice) {
+	mockDevice := &mocks.OnvifDevice{}
+	return &OnvifClient{
+		driver:      driver,
+		DeviceName:  deviceName,
+		onvifDevice: mockDevice,
+		lc:          logger.NewMockClient(),
+	}, mockDevice
+}
 
 func TestOnvifClient_getFriendlyName(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
