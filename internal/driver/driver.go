@@ -11,6 +11,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/edgexfoundry/device-sdk-go/v2/pkg/interfaces"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -64,7 +65,7 @@ type Driver struct {
 	asynchCh chan<- *sdkModel.AsyncValues
 	deviceCh chan<- []sdkModel.DiscoveredDevice
 
-	sdkService SDKService
+	sdkService interfaces.DeviceServiceSDK
 
 	onvifClients map[string]*OnvifClient
 	clientsMu    *sync.RWMutex
@@ -116,9 +117,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	d.clientsMu = new(sync.RWMutex)
 	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
-	d.sdkService = &DeviceSDKService{
-		DeviceService: service.RunningService(),
-	}
+	d.sdkService = service.RunningService()
 	d.macAddressMapper = NewMACAddressMapper(d.sdkService)
 	d.config = &ServiceConfig{}
 

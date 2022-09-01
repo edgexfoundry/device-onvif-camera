@@ -7,6 +7,7 @@
 package driver
 
 import (
+	"github.com/edgexfoundry/device-sdk-go/v2/pkg/interfaces"
 	"net"
 	"strings"
 	"sync"
@@ -18,11 +19,11 @@ type MACAddressMapper struct {
 	// credsMap is a map between mac address to secretPath
 	credsMap map[string]string
 
-	sdkService SDKService
+	sdkService interfaces.DeviceServiceSDK
 }
 
 // NewMACAddressMapper creates a new MACAddressMapper object
-func NewMACAddressMapper(sdkService SDKService) *MACAddressMapper {
+func NewMACAddressMapper(sdkService interfaces.DeviceServiceSDK) *MACAddressMapper {
 	return &MACAddressMapper{
 		credsMap:   make(map[string]string),
 		sdkService: sdkService,

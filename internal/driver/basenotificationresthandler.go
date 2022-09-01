@@ -9,6 +9,7 @@ package driver
 import (
 	"encoding/xml"
 	"fmt"
+	"github.com/edgexfoundry/device-sdk-go/v2/pkg/interfaces"
 	"io/ioutil"
 	"net/http"
 
@@ -31,13 +32,13 @@ const (
 
 // RestNotificationHandler handle the notification from the camera and send to async value channel
 type RestNotificationHandler struct {
-	sdkService  SDKService
+	sdkService  interfaces.DeviceServiceSDK
 	lc          logger.LoggingClient
 	asyncValues chan<- *models.AsyncValues
 }
 
 // NewRestNotificationHandler create a new RestNotificationHandler entity
-func NewRestNotificationHandler(service SDKService, logger logger.LoggingClient, asyncValues chan<- *models.AsyncValues) *RestNotificationHandler {
+func NewRestNotificationHandler(service interfaces.DeviceServiceSDK, logger logger.LoggingClient, asyncValues chan<- *models.AsyncValues) *RestNotificationHandler {
 	handler := RestNotificationHandler{
 		sdkService:  service,
 		lc:          logger,
