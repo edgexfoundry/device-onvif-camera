@@ -40,10 +40,6 @@ const (
 	URLRawQuery = "urlRawQuery"
 	jsonObject  = "jsonObject"
 
-	cameraAdded   = "CameraAdded"
-	cameraUpdated = "CameraUpdated"
-	cameraDeleted = "CameraDeleted"
-
 	wsDiscoveryPort = "3702"
 
 	// enable this by default, otherwise discovery will not work.
@@ -141,11 +137,6 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 	}
 
 	for _, device := range d.sdkService.Devices() {
-		// onvif client should not be created for the control-plane device
-		if device.Name == d.sdkService.Name() {
-			continue
-		}
-
 		d.lc.Infof("Initializing onvif client for '%s' camera", device.Name)
 
 		onvifClient, err := d.newOnvifClient(device)
@@ -454,33 +445,12 @@ func (d *Driver) Stop(force bool) error {
 	return nil
 }
 
-func (d *Driver) publishControlPlaneEvent(deviceName, eventType string) {
-	var cv *sdkModel.CommandValue
-	var err error
-
-	cv, err = sdkModel.NewCommandValue(eventType, common.ValueTypeString, deviceName)
-	if err != nil {
-		d.lc.Errorf("issue creating control plane-event %s for device %s: %v", eventType, deviceName, err)
-		return
-	}
-
-	asyncValues := &sdkModel.AsyncValues{
-		DeviceName:    d.sdkService.Name(),
-		CommandValues: []*sdkModel.CommandValue{cv},
-	}
-	d.asynchCh <- asyncValues
-}
-
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (d *Driver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	// only execute if this was not called for the control-plane device
-	if deviceName != d.sdkService.Name() {
-		d.publishControlPlaneEvent(deviceName, cameraAdded)
-		err := d.createOnvifClient(deviceName)
-		if err != nil {
-			return errors.NewCommonEdgeXWrapper(err)
-		}
+	err := d.createOnvifClient(deviceName)
+	if err != nil {
+		return errors.NewCommonEdgeXWrapper(err)
 	}
 	return nil
 }
@@ -488,14 +458,10 @@ func (d *Driver) AddDevice(deviceName string, protocols map[string]models.Protoc
 // UpdateDevice is a callback function that is invoked
 // when a Device associated with this Device Service is updated
 func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	// only execute if this was not called for the control-plane device
-	if deviceName != d.sdkService.Name() {
-		d.publishControlPlaneEvent(deviceName, cameraUpdated)
-		// Invoke the createOnvifClient func to create new onvif client and replace the old one
-		err := d.createOnvifClient(deviceName)
-		if err != nil {
-			return errors.NewCommonEdgeXWrapper(err)
-		}
+	// Invoke the createOnvifClient func to create new onvif client and replace the old one
+	err := d.createOnvifClient(deviceName)
+	if err != nil {
+		return errors.NewCommonEdgeXWrapper(err)
 	}
 	return nil
 }
@@ -503,11 +469,7 @@ func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.Pro
 // RemoveDevice is a callback function that is invoked
 // when a Device associated with this Device Service is removed
 func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
-	// only execute if this was not called for the control-plane device
-	if deviceName != d.sdkService.Name() {
-		d.publishControlPlaneEvent(deviceName, cameraDeleted)
-		d.removeOnvifClient(deviceName)
-	}
+	d.removeOnvifClient(deviceName)
 	return nil
 }
 

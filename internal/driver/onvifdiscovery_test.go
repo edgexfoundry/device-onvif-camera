@@ -27,13 +27,6 @@ const (
 func createTestDeviceList() []contract.Device {
 	return []models.Device{
 		{
-			Name: "device-onvif-camera", Protocols: map[string]models.ProtocolProperties{
-				OnvifProtocol: map[string]string{
-					EndpointRefAddress: uuid1,
-				},
-			},
-		},
-		{
 			Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
 				OnvifProtocol: map[string]string{
 					EndpointRefAddress: uuid2,
@@ -179,8 +172,6 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 			driver, mockService := createDriverWithMockService()
 			mockService.On("Devices").
 				Return(test.devices).Once()
-			mockService.On("Name").
-				Return("device-onvif-camera")
 			devices := driver.makeDeviceRefMap()
 			mockService.AssertExpectations(t)
 
@@ -203,16 +194,8 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 			filtered:          []sdkModel.DiscoveredDevice{},
 		},
 		{
-			name: "All new devices",
-			devices: []contract.Device{
-				{
-					Name: "device-onvif-camera", Protocols: map[string]models.ProtocolProperties{
-						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid1,
-						},
-					},
-				},
-			},
+			name:              "All new devices",
+			devices:           []contract.Device{},
 			discoveredDevices: createDiscoveredList(),
 			filtered:          createDiscoveredList(),
 		},
@@ -280,8 +263,6 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 			driver, mockService := createDriverWithMockService()
 			mockService.On("Devices").
 				Return(test.devices)
-			mockService.On("Name").
-				Return("device-onvif-camera")
 			filtered := driver.discoverFilter(test.discoveredDevices)
 			mockService.AssertExpectations(t)
 

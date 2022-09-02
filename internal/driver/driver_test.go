@@ -373,40 +373,22 @@ func TestUpdateDevice(t *testing.T) {
 	}
 }
 
-// TestDriver_RemoveDevice tests the different code flows of the RemoveDevice when called with an actual device
-// versus when called with the control plane device.
 func TestDriver_RemoveDevice(t *testing.T) {
-	driver, mockService := createDriverWithMockService()
-	driver.asynchCh = make(chan *sdkModel.AsyncValues, 1)
+	driver, _ := createDriverWithMockService()
 	driver.clientsMu = new(sync.RWMutex)
-	driver.configMu = new(sync.RWMutex)
-	driver.onvifClients = make(map[string]*OnvifClient)
-
-	tests := []struct {
-		name       string
-		deviceName string
-		wantErr    bool
-	}{
-		{
-			name:       "control plane device",
-			deviceName: "device-onvif-camera",
-		},
-		{
-			name:       "regular onvif device",
-			deviceName: "my-added-device",
-		},
+	driver.onvifClients = map[string]*OnvifClient{
+		testDeviceName: {},
 	}
 
-	for _, test := range tests {
-		test := test
-		t.Run(test.name, func(t *testing.T) {
-			mockService.On("Name").Return(test.deviceName)
+	assert.Len(t, driver.onvifClients, 1)
 
-			err := driver.RemoveDevice(test.deviceName, map[string]models.ProtocolProperties{})
-			if test.wantErr {
-				require.Error(t, err)
-			}
-			mockService.AssertExpectations(t)
-		})
-	}
+	// remove a non-existent device. should be no error and still have 1 device
+	err := driver.RemoveDevice("bogus device", map[string]models.ProtocolProperties{})
+	require.NoError(t, err)
+	assert.Len(t, driver.onvifClients, 1)
+
+	// remove actual device and check that there are no devices left
+	err = driver.RemoveDevice(testDeviceName, map[string]models.ProtocolProperties{})
+	require.NoError(t, err)
+	assert.Len(t, driver.onvifClients, 0)
 }
