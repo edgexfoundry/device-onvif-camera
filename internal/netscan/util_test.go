@@ -165,18 +165,6 @@ func TestIpGenerator(t *testing.T) {
 			inet: mustParseCIDR(t, "192.168.1.100/0"),
 			size: 0,
 		},
-		//{
-		//	name: "invalid subnet /99",
-		//	inet: "1.1.1.1/99",
-		//},
-		//{
-		//	name: "invalid ip address",
-		//	inet: "1.1/24",
-		//},
-		//{
-		//	name: "missing ip address",
-		//	inet: "/24",
-		//},
 		{
 			name: "skip ipv6 subnet",
 			inet: mustParseCIDR(t, "2001:4860:4860::8888/32"),
