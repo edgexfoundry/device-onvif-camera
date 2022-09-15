@@ -31,6 +31,7 @@ For a full walkthrough of using the default images, use this [guide.](./doc/guid
 
 For a full walktrhough of building custom images, use this [guide.](./doc/guides/CustomStartupGuide.md)  
 
+A brief video demonstration of building and using the device service can be found [here.](https://www.youtube.com/watch?v=vZqd3j2Zn2Y)
 
 # Learn More 
 
