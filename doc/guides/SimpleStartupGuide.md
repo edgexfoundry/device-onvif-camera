@@ -271,6 +271,9 @@ Follow these instructions to update devices.
 
 #### Add Device
 
+<details>
+<summary><strong>Manually</strong></summary>
+
 1. Edit the information to appropriately match the camera. The fields `Address`, `MACAddress` and `Port` should match that of the camera:
 
    ```bash
@@ -306,6 +309,25 @@ Follow these instructions to update devices.
    ```bash
    [{"apiVersion":"v2","statusCode":201,"id":"fb5fb7f2-768b-4298-a916-d4779523c6b5"}]
    ```
+</details>
+
+<details>
+
+<summary><strong>Auto-Discovery</strong></summary>  
+
+<br/>
+
+ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.  Refer to [How does WS-Discovery work?](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/ws-discovery.md) and [Auto Discovery](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/auto-discovery.md) for more information auto-discovery mechanism.
+
+> **NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.
+
+
+1. Set the DiscoverySubnets by running `bin/configure-subnets.sh`.
+
+2. Device discovery is triggered by the device SDK. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
+> **Note:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
+
+</details>
 
 1. Map credentials using the `map-credentials.sh` script.  
    a. Run `bin/map-credentials.sh`    
@@ -321,6 +343,9 @@ Follow these instructions to update devices.
       ![](../images/auth_mode.png)
    g. Assign one or more MAC Addresses to the credential group  
       ![](../images/assign_mac.png)
+
+      >NOTE: The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../cmd/res/configuration.toml).  
+
    h. Learn more about updating credentials [here](../utility-scripts.md)  
 
    Successful:
@@ -382,7 +407,8 @@ Follow these instructions to update devices.
    deviceName: device-onvif-camera
    ```
    >NOTE: The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >NOTE: The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
+   >NOTE: The deviceName `Camera001` will be used in all the following commands.  Please use the exact deviceName obtained for your device.  
+   >NOTE: The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`  
 
 #### Update Device
 
@@ -425,6 +451,8 @@ There are multiple commands that can update aspects of the camera entry in meta-
 
 1. Get the profile token by executing the `GetProfiles` command:
 
+   >NOTE: Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the "Verify device(s) have been successfully added to core-metadata" step above.  
+
    ```bash
    curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/Profiles | jq -r '"profileToken: " + '.event.readings[].objectValue.Profiles[].Token''
    ```
@@ -435,60 +463,50 @@ There are multiple commands that can update aspects of the camera entry in meta-
    profileToken: profile_2
    ```
 
-2. Convert the JSON input to Base64:
+2. Execute the `GetStreamURI` command to get RTSP URI from the ONVIF device.  
 
-   >NOTE: Make sure to change the profile token to the one found in step 1. In this example, it is the string `profile_1`.
-
-   ```json
-   {
-      "ProfileToken": "profile_1"
-   }
-   ```
-   Example Output:
+   >NOTE: Make sure to change the profile token to the one found in step 1. In this example, it is the string `profile_1`.  
 
    ```bash
-   echo -n '{
-      "ProfileToken": "profile_1"
-   }' | base64
-   ewogICAgICAiUHJvZmlsZVRva2VuIjogInByb2ZpbGVfMSIKfQ==
-   ```
-
-3. Execute the `GetStreamURI` command to get RTSP URI from the ONVIF device. Make sure to put the Base64 JSON data after *?jsonObject=* in the command.
-
-   ```bash
-   curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/StreamUri?jsonObject=ewogICAgICAiUHJvZmlsZVRva2VuIjogInByb2ZpbGVfMSIKfQ== | jq -r '"streamURI: " + '.event.readings[].objectValue.MediaUri.Uri''
+      curl -s "http://0.0.0.0:59882/api/v2/device/name/Camera001/StreamUri?jsonObject=$(base64 -w 0 <<< '{
+         "StreamSetup" : {
+            "Stream" : "RTP-Unicast",
+            "Transport" : {
+               "Protocol" : "RTSP"
+            }
+         },
+         "ProfileToken": "profile_1"
+      }')" | jq -r '"streamURI: " + '.event.readings[].objectValue.MediaUri.Uri''
    ```
    
    Example Output:
 
    ```bash
-      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-   100   553  100   553    0     0  21269      0 --:--:-- --:--:-- --:--:-- 21269
    streamURI: rtsp://192.168.86.34:554/stream1
    ``` 
 
-4. Stream the RTSP stream. 
+3. Stream the RTSP stream. 
 
    ffplay can be used to stream. The command follows this format: 
    
-   `ffplay -rtsp_transport tcp rtsp://'<user>':'<password>'@<IP address>:<port>/<streamname>`.
+   `ffplay -rtsp_transport tcp "rtsp://<user>:<password>@<IP address>:<port>/<streamname>"`.
 
    Using the `streamURI` returned from the previous step, run ffplay:
    
    ```bash
-   ffplay -rtsp_transport tcp rtsp://'admin':'Password123'@192.168.86.34:554/stream1
+   ffplay -rtsp_transport tcp "rtsp://admin:Password123@192.168.86.34:554/stream1"
    ```
+
    >NOTE: While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
    >NOTE: If the password uses special characters, you must use percent-encoding.  
 
-5. To shut down ffplay, use the ctrl-c command.
+4. To shut down ffplay, use the ctrl-c command.
 
 ## Shutting Down
 To stop all EdgeX services (containers), execute the `make down` command:
 
 1. Navigate to the `edgex-compose/compose-builder` directory.
-1. Run this command
+1. To shut down, run this command
    ```bash
    make down
    ```
@@ -496,6 +514,7 @@ To stop all EdgeX services (containers), execute the `make down` command:
    ```bash
    make clean
    ```
+   >NOTE: As this command deletes all volumes, you will need to rerun the Add Device steps to re-enable your device(s). 
 
 ## Summary and Next Steps
 This guide demonstrated how to:

@@ -466,7 +466,10 @@ Follow these instructions to update devices.
    f. Choose the Authentication Mode  
       ![](../images/auth_mode.png)
    g. Assign one or more MAC Addresses to the credential group  
-      ![](../images/assign_mac.png)
+      ![](../images/assign_mac.png)  
+
+   >NOTE: The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../cmd/res/configuration.toml).  
+
    h. Learn more about updating credentials [here](../utility-scripts.md)  
 
    Successful:
@@ -517,7 +520,7 @@ Follow these instructions to update devices.
    ``` 
 
 
-2. Verify device(s) have been succesfully added to core-metadata.
+2. Verify device(s) have been successfully added to core-metadata.
 
    ```bash
    curl -s http://localhost:59881/api/v2/device/all | jq -r '"deviceName: " + '.devices[].name''
@@ -529,6 +532,7 @@ Follow these instructions to update devices.
    deviceName: device-onvif-camera
    ```
    >NOTE: The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
+   >NOTE: The deviceName `Camera001` will be used in all the following commands.  Please use the exact deviceName obtained for your device.  
    >NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
 
 #### Update Device
@@ -546,6 +550,9 @@ Follow these instructions to update devices.
 
 1. Get the profile token by executing the `GetProfiles` command:
 
+
+   >NOTE: Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the "Verify device(s) have been successfully added to core-metadata" step above.  
+
    ```bash
    curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/Profiles | jq -r '"profileToken: " + '.event.readings[].objectValue.Profiles[].Token''
    ```
@@ -556,50 +563,40 @@ Follow these instructions to update devices.
    profileToken: profile_2
    ```
 
-2. Convert the JSON input to Base64:
+2. Execute the `GetStreamURI` command to get RTSP URI from the ONVIF device. 
 
-   >NOTE: Make sure to change the profile token to the one found in step 1. In this example, it is the string `profile_1`.
-
-   ```json
-   {
-      "ProfileToken": "profile_1"
-   }
-   ```
-   Example Output:
+   >NOTE: Make sure to change the profile token to the one found in step 1. In this example, it is the string `profile_1`.  
 
    ```bash
-   echo -n '{
-      "ProfileToken": "profile_1"
-   }' | base64
-   ewogICAgICAiUHJvZmlsZVRva2VuIjogInByb2ZpbGVfMSIKfQ==
-   ```
-
-3. Execute `GetStreamURI` command to get RTSP URI from the ONVIF device. Make sure to put the Base64 JSON data after *?jsonObject=* in the command.
-
-   ```bash
-   curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/StreamUri?jsonObject=ewogICAgICAiUHJvZmlsZVRva2VuIjogInByb2ZpbGVfMSIKfQ== | jq -r '"streamURI: " + '.event.readings[].objectValue.MediaUri.Uri''
+      curl -s "http://0.0.0.0:59882/api/v2/device/name/Camera001/StreamUri?jsonObject=$(base64 -w 0 <<< '{
+         "StreamSetup" : {
+            "Stream" : "RTP-Unicast",
+            "Transport" : {
+               "Protocol" : "RTSP"
+            }
+         },
+         "ProfileToken": "profile_1"
+      }')" | jq -r '"streamURI: " + '.event.readings[].objectValue.MediaUri.Uri''
    ```
    
    Example Output:
 
    ```bash
-      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-   100   553  100   553    0     0  21269      0 --:--:-- --:--:-- --:--:-- 21269
    streamURI: rtsp://192.168.86.34:554/stream1
    ``` 
 
-4. Stream the RTSP stream:
+3. Stream the RTSP stream. 
 
    ffplay can be used to stream. The command follows this format: 
    
-   `ffplay -rtsp_transport tcp rtsp://'<user>':'<password>'@<IP address>:<port>/<streamname>`.
+   `ffplay -rtsp_transport tcp "rtsp://<user>:<password>@<IP address>:<port>/<streamname>"`.
 
    Using the `streamURI` returned from the previous step, run ffplay:
    
    ```bash
-   ffplay -rtsp_transport tcp rtsp://'admin':'Password123'@192.168.86.34:554/stream1
+   ffplay -rtsp_transport tcp "rtsp://admin:Password123@192.168.86.34:554/stream1"
    ```
+
    >NOTE: While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
    >NOTE: If the password uses special characters, you must use percent-encoding.
 
@@ -617,6 +614,7 @@ To stop all EdgeX services (containers), execute the `make down` command. This w
    ```bash
    make clean
    ```
+   >NOTE: As this command deletes all volumes, you will need to rerun the Add Device steps to re-enable your device(s). 
 
 ## Additional Configuration
 
