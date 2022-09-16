@@ -5,7 +5,7 @@
 [System Requirements](#system-requirements)  
 [Dependencies](#dependencies)  
 [Deploy the Service](#deploy-edgex-and-onvif-device-camera-microservice)  
-[Verify the Service](#verify-service-and-device-profiles)   
+[Verify the Service](#verify-service-and-device-profiles)
 [Manage Devices](#manage-devices)  
 [Execute Example Command](#execute-getstreamuri-command-through-edgex)  
 [Shutting Down](#shutting-down)  
@@ -269,7 +269,7 @@ Follow these instructions to update devices.
 
 ### Curl Commands
 
-#### Add Device
+#### Add Device  
 
 <details>
 <summary><strong>Manually</strong></summary>
@@ -393,7 +393,8 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
    Setting Credentials Map: a = '11:22:33:44:55:66'
    curl --data "11:22:33:44:55:66" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a
    Response [200] true
-   ``` 
+   ```  
+    <a name="verify-device"></a>  
 
 2. Verify device(s) have been successfully added to core-metadata:
 
@@ -401,13 +402,12 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
    curl -s http://localhost:59881/api/v2/device/all | jq -r '"deviceName: " + '.devices[].name''
    ```
 
-   Example Output: 
+   Example Output:  
    ```bash
    deviceName: Camera001
    deviceName: device-onvif-camera
    ```
    >NOTE: The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >NOTE: The deviceName `Camera001` will be used in all the following commands.  Please use the exact deviceName obtained for your device.  
    >NOTE: The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`  
 
 #### Update Device
@@ -449,9 +449,9 @@ There are multiple commands that can update aspects of the camera entry in meta-
 
 ## Execute GetStreamURI Command through EdgeX
 
-1. Get the profile token by executing the `GetProfiles` command:
+1. <a name="step1"></a>Get the profile token by executing the `GetProfiles` command:
 
-   >NOTE: Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the "Verify device(s) have been successfully added to core-metadata" step above.  
+   >NOTE: Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the ["Verify device(s) have been successfully added to core-metadata"](#verify-device) step above.  
 
    ```bash
    curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/Profiles | jq -r '"profileToken: " + '.event.readings[].objectValue.Profiles[].Token''
@@ -463,9 +463,8 @@ There are multiple commands that can update aspects of the camera entry in meta-
    profileToken: profile_2
    ```
 
-2. Execute the `GetStreamURI` command to get RTSP URI from the ONVIF device.  
-
-   >NOTE: Make sure to change the profile token to the one found in step 1. In this example, it is the string `profile_1`.  
+2. To get the RTSP URI from the ONVIF device, execute the `GetStreamURI` command, using a profileToken found in [step 1](#step1):  
+   In this example, `profile_1` is the profileToken:  
 
    ```bash
       curl -s "http://0.0.0.0:59882/api/v2/device/name/Camera001/StreamUri?jsonObject=$(base64 -w 0 <<< '{
@@ -514,7 +513,7 @@ To stop all EdgeX services (containers), execute the `make down` command:
    ```bash
    make clean
    ```
-   >NOTE: As this command deletes all volumes, you will need to rerun the Add Device steps to re-enable your device(s). 
+   >NOTE: As this command deletes all volumes, you will need to rerun the [Add Device](#add-device) steps to re-enable your device(s). 
 
 ## Summary and Next Steps
 This guide demonstrated how to:
