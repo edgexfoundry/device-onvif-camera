@@ -519,6 +519,7 @@ Follow these instructions to update devices.
    Response [200] true
    ``` 
 
+   <a name="verify-device"></a>  
 
 2. Verify device(s) have been successfully added to core-metadata.
 
@@ -532,7 +533,6 @@ Follow these instructions to update devices.
    deviceName: device-onvif-camera
    ```
    >NOTE: The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >NOTE: The deviceName `Camera001` will be used in all the following commands.  Please use the exact deviceName obtained for your device.  
    >NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
 
 #### Update Device
@@ -548,10 +548,9 @@ Follow these instructions to update devices.
    ```
 ## Execute GetStreamURI Command through EdgeX
 
-1. Get the profile token by executing the `GetProfiles` command:
+1. <a name="step1"></a>Get the profile token by executing the `GetProfiles` command:
 
-
-   >NOTE: Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the "Verify device(s) have been successfully added to core-metadata" step above.  
+   >NOTE: Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the ["Verify device(s) have been successfully added to core-metadata"](#verify-device) step above.  
 
    ```bash
    curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/Profiles | jq -r '"profileToken: " + '.event.readings[].objectValue.Profiles[].Token''
@@ -563,9 +562,8 @@ Follow these instructions to update devices.
    profileToken: profile_2
    ```
 
-2. Execute the `GetStreamURI` command to get RTSP URI from the ONVIF device. 
-
-   >NOTE: Make sure to change the profile token to the one found in step 1. In this example, it is the string `profile_1`.  
+2. Get the RTSP URI, from the ONVIF device, by executing the `GetStreamURI` command with the profileToken found in [step 1](#step1):  
+   In this example, `profile_1` is the ProfileToken:  
 
    ```bash
       curl -s "http://0.0.0.0:59882/api/v2/device/name/Camera001/StreamUri?jsonObject=$(base64 -w 0 <<< '{
@@ -614,7 +612,7 @@ To stop all EdgeX services (containers), execute the `make down` command. This w
    ```bash
    make clean
    ```
-   >NOTE: As this command deletes all volumes, you will need to rerun the Add Device steps to re-enable your device(s). 
+   >NOTE: As this command deletes all volumes, you will need to rerun the [Add Device](#add-device) steps to re-enable your device(s). 
 
 ## Additional Configuration
 
