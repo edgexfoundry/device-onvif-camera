@@ -23,7 +23,7 @@
 - Ubuntu 20.04.4 LTS
 - ONVIF-compliant Camera
 
->NOTE: The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](./ONVIF-protocol.md#tested-onvif-cameras)
+>**NOTE:** The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](./ONVIF-protocol.md#tested-onvif-cameras)
 
 **Time to Complete**
 
@@ -67,7 +67,7 @@ To enable running Docker commands without the preface of sudo, add the user to t
    ```bash
    sudo groupadd docker
    ```
-   >NOTE: If the group already exists, `groupadd` outputs a message: **groupadd: group `docker` already exists**. This is OK.
+   >**NOTE:** If the group already exists, `groupadd` outputs a message: **groupadd: group `docker` already exists**. This is OK.
 
 2. Add User to group:
    ```bash
@@ -105,7 +105,7 @@ Install Docker from the official repository as documented on the [Docker Compose
    ```bash
    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
    ```
-   >NOTE: When this guide was created, version 1.29.2 was current.
+   >**NOTE:** When this guide was created, version 1.29.2 was current.
 
 2. Set permissions:
    ```bash
@@ -290,7 +290,7 @@ For optional configurations, see [here.](#additional-configuration)
 
 <br/>
 
->NOTE: Go version 1.18+ is required to run natively.
+>**NOTE:** Go version 1.18+ is required to run natively.
 
 <br/>
 
@@ -384,7 +384,7 @@ For optional configurations, see [here.](#additional-configuration)
    profileName: 
    statusCode: 404
    ```
-   > NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
+   >**NOTE:** The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
 
 ### Using EdgeX UI
 1. Visit http://localhost:4000 to go to the dashboard for EdgeX Console GUI:
@@ -416,6 +416,9 @@ Follow these instructions to update devices.
 ### Curl Commands
 
 #### Add Device
+
+<details>
+<summary><strong>Manually</strong></summary>
 
 1. Edit the information to appropriately match the camera. The fields `Address`, `MACAddress` and `Port` should match that of the camera:
 
@@ -452,8 +455,85 @@ Follow these instructions to update devices.
    ```bash
    [{"apiVersion":"v2","statusCode":201,"id":"fb5fb7f2-768b-4298-a916-d4779523c6b5"}]
    ```
+</details>
 
- Map credentials using the `map-credentials.sh` script.  
+<details>
+<summary><strong>Auto-Discovery</strong></summary>  
+
+<br/>
+
+ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.  Refer to [Auto Discovery](../auto-discovery.md) for detailed information on the auto-discovery mechanism.  
+>**NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.    
+
+> For `Netscan`, there is a one line command to determine the `DiscoverySubnets` of your current machine:
+> ```shell
+> ip -4 -o route list scope link | sed -En "s/ dev ($(find /sys/class/net -mindepth 1 -maxdepth 2 -not -lname '*devices/virtual*' -execdir grep -q 'up' "{}/operstate" \; -printf '%f\n' | paste -sd\| -)).+//p" | grep -v "169.254.0.0/16" | sort -u | paste -sd, -
+> ```
+> Example Output: `192.168.1.0/24`
+
+>**NOTE:** Alternatively, for `netscan` you can set the `DiscoverySubnets` automatically _after_ the service has been deployed by running the [bin/configure-subnets.sh](../utility-scripts.md#configure-subnetssh) script
+
+#### 1. Discovery Configuration
+
+> _See the [Auto Discovery Configuration Guide](../auto-discovery.md#Configuration-Guide)  for full details_
+>
+<details>
+<summary><strong>via configuration.toml</strong></summary>
+
+Define the following configurations in [cmd/res/configuration.toml](../../cmd/res/configuration.toml) for auto-discovery mechanism:
+
+```toml
+[Device]
+    [Device.Discovery]
+    Enabled = true    # enable device discovery
+    Interval = "1h"   # set to desired interval
+
+# Custom configs
+[AppCustom]
+# The target ethernet interface for multicast discovering
+DiscoveryEthernetInterface = "eth0"
+# The Secret Path of the default credentials to use for devices
+DefaultSecretPath = "credentials001"
+# Select which discovery mechanism(s) to use
+DiscoveryMode = "both" # netscan, multicast, or both
+# List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+DiscoverySubnets = "192.168.1.0/24" # Fill in with your actual subnet(s)
+```
+</details>
+
+<details>
+<summary><strong>via Docker / Env Vars</strong></summary>
+
+Define the following environment variables in `docker-compose.yaml`:
+```yaml
+device-onvif-camera:
+  environment:
+    DEVICE_DISCOVERY_ENABLED: "true"  # enable device discovery
+    DEVICE_DISCOVERY_INTERVAL: "1h"   # set to desired interval
+
+    # The target ethernet interface for multicast discovering
+    APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
+    # The Secret Path of the default credentials to use for devices
+    APPCUSTOM_DEFAULTSECRETPATH: "credentials001"
+    # Select which discovery mechanism(s) to use
+    APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
+    # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+    # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+    APPCUSTOM_DISCOVERYSUBNETS: "192.168.1.0/24" # Fill in with your actual subnet(s)
+```
+</details>
+
+<br/>  
+
+Device discovery is triggered by the device SDK. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
+>**NOTE:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
+
+</details>  
+
+<br/>
+
+1. Map credentials using the `map-credentials.sh` script.  
    a. Run `bin/map-credentials.sh`    
    b. Select `(Create New)`
       ![](../images/create_new.png)
@@ -468,7 +548,7 @@ Follow these instructions to update devices.
    g. Assign one or more MAC Addresses to the credential group  
       ![](../images/assign_mac.png)  
 
-   >NOTE: The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../cmd/res/configuration.toml).  
+   >**NOTE:** The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).  
 
    h. Learn more about updating credentials [here](../utility-scripts.md)  
 
@@ -532,8 +612,8 @@ Follow these instructions to update devices.
    deviceName: Camera001
    deviceName: device-onvif-camera
    ```
-   >NOTE: The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
+   >**NOTE:** The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
+   >**NOTE:** The `jq -r` option is used to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
 
 #### Update Device
 
@@ -550,7 +630,7 @@ Follow these instructions to update devices.
 
 1. <a name="step1"></a>Get the profile token by executing the `GetProfiles` command:
 
-   >NOTE: Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the ["Verify device(s) have been successfully added to core-metadata"](#verify-device) step above.  
+   >**NOTE:** Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the ["Verify device(s) have been successfully added to core-metadata"](#verify-device) step above.  
 
    ```bash
    curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/Profiles | jq -r '"profileToken: " + '.event.readings[].objectValue.Profiles[].Token''
@@ -595,8 +675,8 @@ Follow these instructions to update devices.
    ffplay -rtsp_transport tcp "rtsp://admin:Password123@192.168.86.34:554/stream1"
    ```
 
-   >NOTE: While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
-   >NOTE: If the password uses special characters, you must use percent-encoding.
+   >**NOTE:** While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
+   >**NOTE:** If the password uses special characters, you must use percent-encoding.
 
 5. To shut down ffplay, use the ctrl-c command.
 
@@ -612,7 +692,7 @@ To stop all EdgeX services (containers), execute the `make down` command. This w
    ```bash
    make clean
    ```
-   >NOTE: As this command deletes all volumes, you will need to rerun the [Add Device](#add-device) steps to re-enable your device(s). 
+   >**NOTE:** As this command deletes all volumes, you will need to rerun the [Add Device](#add-device) steps to re-enable your device(s). 
 
 ## Additional Configuration
 
