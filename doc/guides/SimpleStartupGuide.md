@@ -16,7 +16,7 @@
 - Ubuntu 20.04.4 LTS
 - ONVIF-compliant Camera
 
->NOTE: The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera, referred to throughout this document as the **Tapo C200 Camera**. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](../ONVIF-protocol.md#tested-onvif-cameras)
+>**NOTE:** The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera, referred to throughout this document as the **Tapo C200 Camera**. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](../ONVIF-protocol.md#tested-onvif-cameras)
 
 **Time to Complete**
 
@@ -27,7 +27,7 @@
 You must have administrator (sudo) privileges to execute the user guide commands.
 
 ## How It Works
-For an explanation of the architecture, see the [User Guide](UserGuide.md#how-it-works).
+For an explanation of the architecture, see the [User Guide](../../README.md#how-it-works).
 
 ## Dependencies
 The software has dependencies, including Git, Docker, Docker Compose, and assorted tools. Follow the instructions below to install any dependency that is not already installed. 
@@ -60,7 +60,7 @@ To enable running Docker commands without the preface of sudo, add the user to t
    ```bash
    sudo groupadd docker
    ```
-   >NOTE: If the group already exists, `groupadd` outputs a message: **groupadd: group `docker` already exists**. This is OK.
+   >**NOTE:** If the group already exists, `groupadd` outputs a message: **groupadd: group `docker` already exists**. This is OK.
 
 2. Add User to group:
    ```bash
@@ -98,7 +98,7 @@ Install Docker from the official repository as documented on the [Docker Compose
    ```bash
    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
    ```
-   >NOTE: When this guide was created, version 1.29.2 was current.
+   >**NOTE:** When this guide was created, version 1.29.2 was current.
 
 2. Set permissions:
    ```bash
@@ -169,7 +169,7 @@ Clone the device-onvif-camera repository:
 
 <br/>
 
->NOTE: Go version 1.18+ is required to run natively.
+>**NOTE:** Go version 1.18+ is required to run natively.
 
 <br/>
 
@@ -262,14 +262,16 @@ Clone the device-onvif-camera repository:
    profileName: 
    statusCode: 404
    ```
-   > NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
+   >**NOTE:** The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
 
 ## Manage Devices
 Follow these instructions to update devices.
 
 ### Curl Commands
 
-#### Add Device  
+#### Add Device
+
+>**NOTE:** The scripts used here are from the device-onvif-camera repository.  
 
 <details>
 <summary><strong>Manually</strong></summary>
@@ -313,7 +315,7 @@ Follow these instructions to update devices.
 
 <details>
 
-<summary><strong>Auto-Discovery</strong></summary>  
+<summary><strong>Auto Discovery</strong></summary>  
 
 <br/>
 
@@ -321,32 +323,34 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 
 > **NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.
 
+1. Navigate to the `device-onvif-camera` directory.
+   
+2. Set the DiscoverySubnets by running `bin/configure-subnets.sh`.
 
-1. Set the DiscoverySubnets by running `bin/configure-subnets.sh`.
-
-2. Device discovery is triggered by the device SDK. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
+Device discovery is triggered by the device service. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
 > **Note:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
 
 </details>
 
 1. Map credentials using the `map-credentials.sh` script.  
-   a. Run `bin/map-credentials.sh`    
-   b. Select `(Create New)`
+   a. Navigate to the `device-onvif-camera` directory  
+   b. Run `bin/map-credentials.sh`    
+   c. Select `(Create New)`
       ![](../images/create_new.png)
-   c. Enter the Secret Path to associate with these credentials  
+   d. Enter the Secret Path to associate with these credentials  
       ![](../images/secret_path.png)
-   d. Enter the username  
+   e. Enter the username  
       ![](../images/set_username.png)
-   e. Enter the password  
+   f. Enter the password  
       ![](../images/set_password.png)
-   f. Choose the Authentication Mode  
+   g. Choose the Authentication Mode  
       ![](../images/auth_mode.png)
-   g. Assign one or more MAC Addresses to the credential group  
+   h. Assign one or more MAC Addresses to the credential group  
       ![](../images/assign_mac.png)
 
-      >NOTE: The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../cmd/res/configuration.toml).  
+      >**NOTE:** The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).  
 
-   h. Learn more about updating credentials [here](../utility-scripts.md)  
+   i. Learn more about updating credentials [here](../utility-scripts.md)  
 
    Successful:
    
@@ -402,17 +406,13 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
    curl -s http://localhost:59881/api/v2/device/all | jq -r '"deviceName: " + '.devices[].name''
    ```
 
-   Example Output:  
+   Example Output:
    ```bash
    deviceName: Camera001
    deviceName: device-onvif-camera
    ```
-   >NOTE: The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >NOTE: The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`  
-
-#### Update Device
-
-There are multiple commands that can update aspects of the camera entry in meta-data. Refer to the [Swagger documentation]() for more information (not implemented).
+   >**NOTE:** The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
+   >**NOTE:** The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`  
 
 #### Delete Device
 
@@ -451,7 +451,7 @@ There are multiple commands that can update aspects of the camera entry in meta-
 
 1. <a name="step1"></a>Get the profile token by executing the `GetProfiles` command:
 
-   >NOTE: Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the ["Verify device(s) have been successfully added to core-metadata"](#verify-device) step above.  
+   >**NOTE:** Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the ["Verify device(s) have been successfully added to core-metadata"](#verify-device) step above.  
 
    ```bash
    curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/Profiles | jq -r '"profileToken: " + '.event.readings[].objectValue.Profiles[].Token''
@@ -496,8 +496,8 @@ There are multiple commands that can update aspects of the camera entry in meta-
    ffplay -rtsp_transport tcp "rtsp://admin:Password123@192.168.86.34:554/stream1"
    ```
 
-   >NOTE: While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
-   >NOTE: If the password uses special characters, you must use percent-encoding.  
+   >**NOTE:** While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
+   >**NOTE:** If the password uses special characters, you must use percent-encoding.  
 
 4. To shut down ffplay, use the ctrl-c command.
 
@@ -513,7 +513,7 @@ To stop all EdgeX services (containers), execute the `make down` command:
    ```bash
    make clean
    ```
-   >NOTE: As this command deletes all volumes, you will need to rerun the [Add Device](#add-device) steps to re-enable your device(s). 
+   >**NOTE:** Since this command deletes all volumes, you will need to rerun the [Add Device](#add-device) steps to re-enable your device(s). 
 
 ## Summary and Next Steps
 This guide demonstrated how to:
