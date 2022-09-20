@@ -5,7 +5,8 @@
 [System Requirements](#system-requirements)  
 [Dependencies](#dependencies)  
 [Get the Source Code](#get-the-source-code)  
-[Configure the Pre-Defined Devices](#configure-the-pre-defined-devices)   
+[Configure the Pre-Defined Devices](#configure-the-pre-defined-devices)  
+[Configure Auto Discovery for ONVIF Devices (Optional)](#configure-auto-discovery-for-onvif-devices-optional)  
 [Configure the Device Service](#configure-the-device-service)  
 [Build the Docker Image](#build-the-docker-image)  
 [Deploy the Service](#deploy-edgex-and-onvif-device-camera-microservice)  
@@ -14,7 +15,7 @@
 [Execute Example Command](#execute-getstreamuri-command-through-edgex)  
 [Shutting Down](#shutting-down)  
 [Additional Configuration](#additional-configuration)  
-[Next Steps](#summary-and-next-steps)    
+[Next Steps](#summary-and-next-steps)  
 
 
 ## System Requirements
@@ -23,7 +24,7 @@
 - Ubuntu 20.04.4 LTS
 - ONVIF-compliant Camera
 
->**NOTE:** The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](./ONVIF-protocol.md#tested-onvif-cameras)
+>**NOTE:** The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](../ONVIF-protocol.md#tested-onvif-cameras)
 
 **Time to Complete**
 
@@ -34,7 +35,7 @@
 You must have administrator (sudo) privileges to execute the user guide commands.
 
 ## How It Works
-For an explanation of the architecture, see the [User Guide](UserGuide.md#how-it-works).
+For an explanation of the architecture, see the [User Guide](../../README.md#how-it-works).
 
 ## Dependencies
 The software has dependencies, including Git, Docker, Docker Compose, and assorted tools. Follow the instructions below to install any dependency that is not already installed. 
@@ -188,6 +189,72 @@ Configuring pre-defined devices will allow the service to automatically provisio
 
 5. To add more pre-defined devices, copy the above configuration and edit to match your extra devices.
 
+<br/>
+
+### Configure Auto Discovery for ONVIF Devices (Optional)
+
+ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.  Refer to [Auto Discovery](../auto-discovery.md) for detailed information on the auto-discovery mechanism.  
+
+> The following one-line command can be used to discover subnets of your current machine:
+> ```shell
+> ip -4 -o route list scope link | sed -En "s/ dev ($(find /sys/class/net -mindepth 1 -maxdepth 2 -not -lname '*devices/virtual*' -execdir grep -q 'up' "{}/operstate" \; -printf '%f\n' | paste -sd\| -)).+//p" | grep -v "169.254.0.0/16" | sort -u | paste -sd, -
+> ```
+> Example Output: `192.168.1.0/24`
+
+#### 1. Discovery Configuration
+
+> _See the [Auto Discovery Configuration Guide](../auto-discovery.md#Configuration-Guide)  for full details_
+>
+<details>
+<summary><strong>via Configuration File</strong></summary>
+
+Define the following configurations in [cmd/res/configuration.toml](../../cmd/res/configuration.toml) for auto-discovery mechanism:
+
+```toml
+[Device]
+    [Device.Discovery]
+    Enabled = true    # enable device discovery
+    Interval = "1h"   # set to desired interval
+
+# Custom configs
+[AppCustom]
+# The target ethernet interface for multicast discovering
+DiscoveryEthernetInterface = "eth0"
+# The Secret Path of the default credentials to use for devices
+DefaultSecretPath = "credentials001"
+# Select which discovery mechanism(s) to use
+DiscoveryMode = "both" # netscan, multicast, or both
+# List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+DiscoverySubnets = "192.168.1.0/24" # Fill in with your actual subnet(s)
+```
+</details>
+
+<details>
+<summary><strong>via Docker environment variables</strong></summary>
+
+Add the following environment variables in `add-device-onvif-camera.yaml`:
+```yaml
+device-onvif-camera:
+  environment:
+    DEVICE_DISCOVERY_ENABLED: "true"  # enable device discovery
+    DEVICE_DISCOVERY_INTERVAL: "1h"   # set to desired interval
+
+    # The target ethernet interface for multicast discovering
+    APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
+    # The Secret Path of the default credentials to use for devices
+    APPCUSTOM_DEFAULTSECRETPATH: "credentials001"
+    # Select which discovery mechanism(s) to use
+    APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
+    # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+    # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+    APPCUSTOM_DISCOVERYSUBNETS: "192.168.1.0/24" # Fill in with your actual subnet(s)
+```
+</details>
+
+</details>  
+
+<br/>
 
 ### Configure the Device Service
 1. Open the [configuration.toml](../../cmd/res/configuration.toml) file using your preferred text editor.
@@ -417,6 +484,8 @@ Follow these instructions to update devices.
 
 #### Add Device
 
+>**NOTE:** The scripts used here are from the device-onvif-camera repository.  
+
 <details>
 <summary><strong>Manually</strong></summary>
 
@@ -458,99 +527,43 @@ Follow these instructions to update devices.
 </details>
 
 <details>
-<summary><strong>Auto-Discovery</strong></summary>  
+<summary><strong>Auto Discovery</strong></summary>  
 
 <br/>
 
-ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.  Refer to [Auto Discovery](../auto-discovery.md) for detailed information on the auto-discovery mechanism.  
->**NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.    
+ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices. Refer to Auto Discovery for detailed information on the auto-discovery mechanism.
 
-> For `Netscan`, there is a one line command to determine the `DiscoverySubnets` of your current machine:
-> ```shell
-> ip -4 -o route list scope link | sed -En "s/ dev ($(find /sys/class/net -mindepth 1 -maxdepth 2 -not -lname '*devices/virtual*' -execdir grep -q 'up' "{}/operstate" \; -printf '%f\n' | paste -sd\| -)).+//p" | grep -v "169.254.0.0/16" | sort -u | paste -sd, -
-> ```
-> Example Output: `192.168.1.0/24`
+If auto discovery was not configured using the [Configure Auto Discovery for ONVIF Devices](#configure-auto-discovery-for-onvif-devices-optional) steps above, you can set the `DiscoverySubnets` automatically _after_ the service has been deployed.
+>**NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.
 
->**NOTE:** Alternatively, for `netscan` you can set the `DiscoverySubnets` automatically _after_ the service has been deployed by running the [bin/configure-subnets.sh](../utility-scripts.md#configure-subnetssh) script
+1. Navigate to the `device-onvif-camera` directory.
+   
+2. Set the DiscoverySubnets by running `bin/configure-subnets.sh`.
 
-#### 1. Discovery Configuration
-
-> _See the [Auto Discovery Configuration Guide](../auto-discovery.md#Configuration-Guide)  for full details_
->
-<details>
-<summary><strong>via configuration.toml</strong></summary>
-
-Define the following configurations in [cmd/res/configuration.toml](../../cmd/res/configuration.toml) for auto-discovery mechanism:
-
-```toml
-[Device]
-    [Device.Discovery]
-    Enabled = true    # enable device discovery
-    Interval = "1h"   # set to desired interval
-
-# Custom configs
-[AppCustom]
-# The target ethernet interface for multicast discovering
-DiscoveryEthernetInterface = "eth0"
-# The Secret Path of the default credentials to use for devices
-DefaultSecretPath = "credentials001"
-# Select which discovery mechanism(s) to use
-DiscoveryMode = "both" # netscan, multicast, or both
-# List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
-# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-DiscoverySubnets = "192.168.1.0/24" # Fill in with your actual subnet(s)
-```
-</details>
-
-<details>
-<summary><strong>via Docker / Env Vars</strong></summary>
-
-Define the following environment variables in `docker-compose.yaml`:
-```yaml
-device-onvif-camera:
-  environment:
-    DEVICE_DISCOVERY_ENABLED: "true"  # enable device discovery
-    DEVICE_DISCOVERY_INTERVAL: "1h"   # set to desired interval
-
-    # The target ethernet interface for multicast discovering
-    APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
-    # The Secret Path of the default credentials to use for devices
-    APPCUSTOM_DEFAULTSECRETPATH: "credentials001"
-    # Select which discovery mechanism(s) to use
-    APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
-    # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
-    # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-    APPCUSTOM_DISCOVERYSUBNETS: "192.168.1.0/24" # Fill in with your actual subnet(s)
-```
-</details>
-
-<br/>  
-
-Device discovery is triggered by the device SDK. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
+Device discovery is triggered by the device service. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
 >**NOTE:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
 
-</details>  
-
-<br/>
+</details>
 
 1. Map credentials using the `map-credentials.sh` script.  
-   a. Run `bin/map-credentials.sh`    
-   b. Select `(Create New)`
+   a. Navigate to the `device-onvif-camera` directory   
+   b. Run `bin/map-credentials.sh`    
+   c. Select `(Create New)`
       ![](../images/create_new.png)
-   c. Enter the Secret Path to associate with these credentials  
+   d. Enter the Secret Path to associate with these credentials  
       ![](../images/secret_path.png)
-   d. Enter the username  
+   e. Enter the username  
       ![](../images/set_username.png)
-   e. Enter the password  
+   f. Enter the password  
       ![](../images/set_password.png)
-   f. Choose the Authentication Mode  
+   g. Choose the Authentication Mode  
       ![](../images/auth_mode.png)
-   g. Assign one or more MAC Addresses to the credential group  
+   h. Assign one or more MAC Addresses to the credential group  
       ![](../images/assign_mac.png)  
 
    >**NOTE:** The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).  
 
-   h. Learn more about updating credentials [here](../utility-scripts.md)  
+   i. Learn more about updating credentials [here](../utility-scripts.md)  
 
    Successful:
    
@@ -615,10 +628,6 @@ Device discovery is triggered by the device SDK. Once the device service starts,
    >**NOTE:** The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
    >**NOTE:** The `jq -r` option is used to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
 
-#### Update Device
-
-   There are multiple commands that can update aspects of the camera entry in meta-data. Refer to the [Swagger documentation]() for more information (not implemented).
-
 #### Delete Device
 
    ```bash
@@ -642,7 +651,7 @@ Device discovery is triggered by the device SDK. Once the device service starts,
    profileToken: profile_2
    ```
 
-2. Get the RTSP URI, from the ONVIF device, by executing the `GetStreamURI` command with the profileToken found in [step 1](#step1):  
+2. To request an RTSP URI that can be used to initiate a live media stream from the ONVIF device, execute the following [`GetStreamURI`](https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetStreamUri) command with the profileToken found in [step 1](#step1):  
    In this example, `profile_1` is the ProfileToken:  
 
    ```bash
@@ -692,7 +701,7 @@ To stop all EdgeX services (containers), execute the `make down` command. This w
    ```bash
    make clean
    ```
-   >**NOTE:** As this command deletes all volumes, you will need to rerun the [Add Device](#add-device) steps to re-enable your device(s). 
+   >**NOTE:** Since this command deletes all volumes, you will need to rerun the [Add Device](#add-device) steps to re-enable your device(s). 
 
 ## Additional Configuration
 
