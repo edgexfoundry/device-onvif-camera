@@ -286,7 +286,7 @@ For optional configurations, see [here.](#additional-configuration)
 </details>
 
 <details>
-<summary><strong>Run the Service natively</summary><strong>
+<summary><strong>Run the Service natively</strong></summary>
 
 <br/>
 
