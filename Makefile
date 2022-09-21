@@ -13,6 +13,8 @@ CGO_LDFLAGS="-Wl,-O1,–sort-common,–as-needed,-z,relro,-z,now"
 
 ARCH=$(shell uname -m)
 
+# Bogus comment for checking Conventional Commit Bot
+
 MICROSERVICES=cmd/device-onvif-camera
 .PHONY: $(MICROSERVICES)
 
