@@ -5,7 +5,7 @@
 [System Requirements](#system-requirements)  
 [Dependencies](#dependencies)  
 [Deploy the Service](#deploy-edgex-and-onvif-device-camera-microservice)  
-[Verify the Service](#verify-service-and-device-profiles)   
+[Verify the Service](#verify-service-and-device-profiles)
 [Manage Devices](#manage-devices)  
 [Execute Example Command](#execute-getstreamuri-command-through-edgex)  
 [Shutting Down](#shutting-down)  
@@ -16,7 +16,7 @@
 - Ubuntu 20.04.4 LTS
 - ONVIF-compliant Camera
 
->NOTE: The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera, referred to throughout this document as the **Tapo C200 Camera**. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](../ONVIF-protocol.md#tested-onvif-cameras)
+>**NOTE:** The instructions in this guide were developed and tested using Ubuntu 20.04 LTS and the Tapo C200 Pan/Tilt Wi-Fi Camera, referred to throughout this document as the **Tapo C200 Camera**. However, the software may work with other Linux distributions and ONVIF-compliant cameras. Refer to our [list of tested cameras for more information](../ONVIF-protocol.md#tested-onvif-cameras)
 
 **Time to Complete**
 
@@ -27,7 +27,7 @@
 You must have administrator (sudo) privileges to execute the user guide commands.
 
 ## How It Works
-For an explanation of the architecture, see the [User Guide](UserGuide.md#how-it-works).
+For an explanation of the architecture, see the [User Guide](../../README.md#how-it-works).
 
 ## Dependencies
 The software has dependencies, including Git, Docker, Docker Compose, and assorted tools. Follow the instructions below to install any dependency that is not already installed. 
@@ -60,7 +60,7 @@ To enable running Docker commands without the preface of sudo, add the user to t
    ```bash
    sudo groupadd docker
    ```
-   >NOTE: If the group already exists, `groupadd` outputs a message: **groupadd: group `docker` already exists**. This is OK.
+   >**NOTE:** If the group already exists, `groupadd` outputs a message: **groupadd: group `docker` already exists**. This is OK.
 
 2. Add User to group:
    ```bash
@@ -98,7 +98,7 @@ Install Docker from the official repository as documented on the [Docker Compose
    ```bash
    sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
    ```
-   >NOTE: When this guide was created, version 1.29.2 was current.
+   >**NOTE:** When this guide was created, version 1.29.2 was current.
 
 2. Set permissions:
    ```bash
@@ -169,9 +169,10 @@ Clone the device-onvif-camera repository:
 
 <br/>
 
->NOTE: Go version 1.18+ is required to run natively.
+>**NOTE:** Go version 1.18+ is required to run natively.
 
 <br/>
+
    1. Navigate to the EdgeX `compose-builder` directory:
 
       ```bash
@@ -261,7 +262,7 @@ Clone the device-onvif-camera repository:
    profileName: 
    statusCode: 404
    ```
-   > NOTE: The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
+   >**NOTE:** The `jq -r` option is used to reduce the size of the displayed response. The entire device profile with all resources can be seen by removing `-r '"profileName: " + '.profile.name' + "\nstatusCode: " + (.statusCode|tostring)', and replacing it with '.'`
 
 ## Manage Devices
 Follow these instructions to update devices.
@@ -269,6 +270,11 @@ Follow these instructions to update devices.
 ### Curl Commands
 
 #### Add Device
+
+>**NOTE:** The scripts used here are from the device-onvif-camera repository.  
+
+<details>
+<summary><strong>Manually</strong></summary>
 
 1. Edit the information to appropriately match the camera. The fields `Address`, `MACAddress` and `Port` should match that of the camera:
 
@@ -305,22 +311,46 @@ Follow these instructions to update devices.
    ```bash
    [{"apiVersion":"v2","statusCode":201,"id":"fb5fb7f2-768b-4298-a916-d4779523c6b5"}]
    ```
+</details>
+
+<details>
+
+<summary><strong>Auto Discovery</strong></summary>  
+
+<br/>
+
+ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.  Refer to [How does WS-Discovery work?](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/ws-discovery.md) and [Auto Discovery](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/auto-discovery.md) for more information auto-discovery mechanism.
+
+> **NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.
+
+1. Navigate to the `device-onvif-camera` directory.
+   
+2. Set the DiscoverySubnets by running `bin/configure-subnets.sh`.
+
+Device discovery is triggered by the device service. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
+> **Note:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
+
+</details>
 
 1. Map credentials using the `map-credentials.sh` script.  
-   a. Run `bin/map-credentials.sh`    
-   b. Select `(Create New)`
+   a. Navigate to the `device-onvif-camera` directory  
+   b. Run `bin/map-credentials.sh`    
+   c. Select `(Create New)`
       ![](../images/create_new.png)
-   c. Enter the Secret Path to associate with these credentials  
+   d. Enter the Secret Path to associate with these credentials  
       ![](../images/secret_path.png)
-   d. Enter the username  
+   e. Enter the username  
       ![](../images/set_username.png)
-   e. Enter the password  
+   f. Enter the password  
       ![](../images/set_password.png)
-   f. Choose the Authentication Mode  
+   g. Choose the Authentication Mode  
       ![](../images/auth_mode.png)
-   g. Assign one or more MAC Addresses to the credential group  
+   h. Assign one or more MAC Addresses to the credential group  
       ![](../images/assign_mac.png)
-   h. Learn more about updating credentials [here](../utility-scripts.md)  
+
+      >**NOTE:** The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).  
+
+   i. Learn more about updating credentials [here](../utility-scripts.md)  
 
    Successful:
    
@@ -367,7 +397,8 @@ Follow these instructions to update devices.
    Setting Credentials Map: a = '11:22:33:44:55:66'
    curl --data "11:22:33:44:55:66" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a
    Response [200] true
-   ``` 
+   ```  
+    <a name="verify-device"></a>  
 
 2. Verify device(s) have been successfully added to core-metadata:
 
@@ -375,17 +406,13 @@ Follow these instructions to update devices.
    curl -s http://localhost:59881/api/v2/device/all | jq -r '"deviceName: " + '.devices[].name''
    ```
 
-   Example Output: 
+   Example Output:
    ```bash
    deviceName: Camera001
    deviceName: device-onvif-camera
    ```
-   >NOTE: The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
-   >NOTE: The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`
-
-#### Update Device
-
-There are multiple commands that can update aspects of the camera entry in meta-data. Refer to the [Swagger documentation]() for more information (not implemented).
+   >**NOTE:** The device with name `device-onvif-camera` is a stand-in device and can be ignored.  
+   >**NOTE:** The `jq -r` option is used in the curl command to reduce the size of the displayed response. The entire device with all information can be seen by removing `-r '"deviceName: " + '.devices[].name'', and replacing it with '.'`  
 
 #### Delete Device
 
@@ -422,7 +449,9 @@ There are multiple commands that can update aspects of the camera entry in meta-
 
 ## Execute GetStreamURI Command through EdgeX
 
-1. Get the profile token by executing the `GetProfiles` command:
+1. <a name="step1"></a>Get the profile token by executing the `GetProfiles` command:
+
+   >**NOTE:** Make sure to replace `Camera001` in all the commands below, with the deviceName returned in the ["Verify device(s) have been successfully added to core-metadata"](#verify-device) step above.  
 
    ```bash
    curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/Profiles | jq -r '"profileToken: " + '.event.readings[].objectValue.Profiles[].Token''
@@ -434,60 +463,49 @@ There are multiple commands that can update aspects of the camera entry in meta-
    profileToken: profile_2
    ```
 
-2. Convert the JSON input to Base64:
-
-   >NOTE: Make sure to change the profile token to the one found in step 1. In this example, it is the string `profile_1`.
-
-   ```json
-   {
-      "ProfileToken": "profile_1"
-   }
-   ```
-   Example Output:
+2. To get the RTSP URI from the ONVIF device, execute the `GetStreamURI` command, using a profileToken found in [step 1](#step1):  
+   In this example, `profile_1` is the profileToken:  
 
    ```bash
-   echo -n '{
-      "ProfileToken": "profile_1"
-   }' | base64
-   ewogICAgICAiUHJvZmlsZVRva2VuIjogInByb2ZpbGVfMSIKfQ==
-   ```
-
-3. Execute the `GetStreamURI` command to get RTSP URI from the ONVIF device. Make sure to put the Base64 JSON data after *?jsonObject=* in the command.
-
-   ```bash
-   curl -s http://0.0.0.0:59882/api/v2/device/name/Camera001/StreamUri?jsonObject=ewogICAgICAiUHJvZmlsZVRva2VuIjogInByb2ZpbGVfMSIKfQ== | jq -r '"streamURI: " + '.event.readings[].objectValue.MediaUri.Uri''
+      curl -s "http://0.0.0.0:59882/api/v2/device/name/Camera001/StreamUri?jsonObject=$(base64 -w 0 <<< '{
+         "StreamSetup" : {
+            "Stream" : "RTP-Unicast",
+            "Transport" : {
+               "Protocol" : "RTSP"
+            }
+         },
+         "ProfileToken": "profile_1"
+      }')" | jq -r '"streamURI: " + '.event.readings[].objectValue.MediaUri.Uri''
    ```
    
    Example Output:
 
    ```bash
-      % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-   100   553  100   553    0     0  21269      0 --:--:-- --:--:-- --:--:-- 21269
    streamURI: rtsp://192.168.86.34:554/stream1
    ``` 
 
-4. Stream the RTSP stream. 
+3. Stream the RTSP stream. 
 
    ffplay can be used to stream. The command follows this format: 
    
-   `ffplay -rtsp_transport tcp rtsp://'<user>':'<password>'@<IP address>:<port>/<streamname>`.
+   `ffplay -rtsp_transport tcp "rtsp://<user>:<password>@<IP address>:<port>/<streamname>"`.
 
    Using the `streamURI` returned from the previous step, run ffplay:
    
    ```bash
-   ffplay -rtsp_transport tcp rtsp://'admin':'Password123'@192.168.86.34:554/stream1
+   ffplay -rtsp_transport tcp "rtsp://admin:Password123@192.168.86.34:554/stream1"
    ```
-   >NOTE: While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
-   >NOTE: If the password uses special characters, you must use percent-encoding.  
 
-5. To shut down ffplay, use the ctrl-c command.
+   >**NOTE:** While the `streamURI` returned did not contain the username and password, those credentials are required in order to correctly authenticate the request and play the stream. Therefore, it is included in both the VLC and ffplay streaming examples.  
+   >**NOTE:** If the password uses special characters, you must use percent-encoding.  
+
+4. To shut down ffplay, use the ctrl-c command.
 
 ## Shutting Down
 To stop all EdgeX services (containers), execute the `make down` command:
 
 1. Navigate to the `edgex-compose/compose-builder` directory.
-1. Run this command
+1. To shut down, run this command
    ```bash
    make down
    ```
@@ -495,6 +513,7 @@ To stop all EdgeX services (containers), execute the `make down` command:
    ```bash
    make clean
    ```
+   >**NOTE:** Since this command deletes all volumes, you will need to rerun the [Add Device](#add-device) steps to re-enable your device(s). 
 
 ## Summary and Next Steps
 This guide demonstrated how to:
