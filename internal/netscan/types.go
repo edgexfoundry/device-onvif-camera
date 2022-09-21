@@ -4,7 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 
-//go:generate mockery --name=ProtocolSpecificDiscovery --inpackage --testonly
+//go:generate mockery --name=ProtocolSpecificDiscovery --inpackage
 
 package netscan
 

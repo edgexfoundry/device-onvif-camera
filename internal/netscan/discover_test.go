@@ -13,22 +13,30 @@ import (
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 	"net/http"
 	"net/http/httptest"
-	"strings"
+	"net/url"
 	"testing"
 	"time"
 )
 
-func TestAutoDiscover_EmptyOrInvalidSubnets(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		_, err := writer.Write([]byte("Hello World!"))
+// startServerWithResponse starts a new httptest.Server, and returns the server plus the port number.
+// NOTE: defer server.Close() should be called immediately after calling this function.
+func startServerWithResponse(t *testing.T, response string) (server *httptest.Server, port string) {
+	server = httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
+		_, err := writer.Write([]byte(response))
 		assert.NoError(t, err)
 	}))
-	defer server.Close()
 
-	tokens := strings.Split(server.URL, ":")
-	port := tokens[len(tokens)-1]
+	u, err := url.Parse(server.URL)
+	require.NoError(t, err)
+	return server, u.Port()
+}
+
+func TestAutoDiscover_EmptyOrInvalidSubnets(t *testing.T) {
+	server, port := startServerWithResponse(t, "Hello World!")
+	defer server.Close()
 
 	tests := []struct {
 		name    string
@@ -76,14 +84,8 @@ func TestAutoDiscover_EmptyOrInvalidSubnets(t *testing.T) {
 }
 
 func TestAutoDiscover(t *testing.T) {
-	server := httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		_, err := writer.Write([]byte("Hello World!"))
-		assert.NoError(t, err)
-	}))
+	server, port := startServerWithResponse(t, "Hello World!")
 	defer server.Close()
-
-	tokens := strings.Split(server.URL, ":")
-	port := tokens[len(tokens)-1]
 
 	params := Params{
 		Subnets:         []string{"127.0.0.1/32"},
@@ -140,34 +142,14 @@ func TestAutoDiscover(t *testing.T) {
 }
 
 func TestAutoDiscover_MultiPort(t *testing.T) {
-	var tokens []string
-
-	server1 := httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		_, err := writer.Write([]byte("Hello World!"))
-		assert.NoError(t, err)
-	}))
+	server1, port1 := startServerWithResponse(t, "Hello World from server 1!")
 	defer server1.Close()
 
-	tokens = strings.Split(server1.URL, ":")
-	port1 := tokens[len(tokens)-1]
-
-	server2 := httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		_, err := writer.Write([]byte("Hello World!"))
-		assert.NoError(t, err)
-	}))
+	server2, port2 := startServerWithResponse(t, "Hello World from server 2!")
 	defer server2.Close()
 
-	tokens = strings.Split(server2.URL, ":")
-	port2 := tokens[len(tokens)-1]
-
-	server3 := httptest.NewServer(http.HandlerFunc(func(writer http.ResponseWriter, request *http.Request) {
-		_, err := writer.Write([]byte("Hello World!"))
-		assert.NoError(t, err)
-	}))
+	server3, port3 := startServerWithResponse(t, "Hello World from server 3!")
 	defer server3.Close()
-
-	tokens = strings.Split(server3.URL, ":")
-	port3 := tokens[len(tokens)-1]
 
 	params := Params{
 		Subnets:         []string{"127.0.0.1/32"},
