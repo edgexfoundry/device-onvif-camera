@@ -5,7 +5,7 @@
 [System Requirements](#system-requirements)  
 [Dependencies](#dependencies)  
 [Deploy the Service](#deploy-edgex-and-onvif-device-camera-microservice)  
-[Verify the Service](#verify-service-and-device-profiles)
+[Verify the Service](#verify-service-and-device-profiles)  
 [Manage Devices](#manage-devices)  
 [Execute Example Command](#execute-getstreamuri-command-through-edgex)  
 [Shutting Down](#shutting-down)  
