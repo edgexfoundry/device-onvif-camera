@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a211ead6-39f1-48ba-a3a2-20d191a660c4",
+		"_postman_id": "9dadcad5-4884-4037-aa1c-cba9f22915db",
 		"name": "device-onvif-camera",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "7889146"
+		"_exporter_id": "19151794"
 	},
 	"item": [
 		{
@@ -120,7 +120,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetHostname",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Hostname\": {\n        \"Name\": \"localhost555\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Hostname"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "8ff7406a-6544-4c19-9205-9c81e24cb090"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:18:17 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "DNS",
@@ -165,15 +224,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
 									"protocol": "http",
@@ -254,7 +304,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetDNS",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"DNS\": {\n        \"FromDHCP\": true,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DNS"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "f596f4f6-812f-4124-a502-f427f3a8ac7b"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:19:16 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "NetworkInterfaces",
@@ -367,7 +476,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetNetworkInterfaces",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": true\n            }\n        }\n        \n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"NetworkInterfaces"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "1ccf5e8a-352b-4a85-8ea7-71f9333a5bf4"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:19:43 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "NetworkProtocols",
@@ -453,7 +621,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": {{ONVIF_PORT}}\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    } \n}",
+							"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 2020\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    } \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -480,7 +648,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetNetworkProtocols",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 2020\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    } \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"NetworkProtocols"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "a7f75e35-bb5c-46b2-a502-c269c574a7b0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:26:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "NetworkDefaultGateway",
@@ -525,15 +752,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
 									"protocol": "http",
@@ -614,7 +832,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetNetworkDefaultGateway",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    } \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"NetworkDefaultGateway"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "84ab80db-4334-49e7-a956-e2ce4aab9b99"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:26:55 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "NetworkConfiguration",
@@ -659,15 +936,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
 									"protocol": "http",
@@ -748,9 +1016,69 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetNetworkConfiguration",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Hostname\": {\n        \"Name\": \"localhost\"\n    },\n    \"DNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    },\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": false\n            }\n        }\n        \n    },\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [ \n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 80\n            }\n        ]\n    },\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"NetworkConfiguration"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "2955d163-0007-4fa3-9a2c-267510c01e44"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:10:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				}
-			]
+			],
+			"description": "test description\n\nlink: [https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl)"
 		},
 		{
 			"name": "System Function",
@@ -875,15 +1203,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
 									"protocol": "http",
@@ -964,7 +1283,47 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetSystemDateAndTime",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"SystemDateAndTime\": {\n        \"DateTimeType\":\"Manual\",\n        \"DaylightSavings\": false,\n        \"UTCDateTime\": {\n            \"Date\": {\n                \"Month\": 12,\n                \"Year\": 2021,\n                \"Day\": 11\n\n            },\n            \"Time\": {\n                \"Hour\": 5,\n                \"Minute\": 48,\n                \"Second\": 20\n            }\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"SystemDateAndTime"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
 				},
 				{
 					"name": "SetSystemFactoryDefault",
@@ -1000,7 +1359,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetSystemFactoryDefault",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"SetSystemFactoryDefault\": {\n        \"FactoryDefault\":\"Soft\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SetSystemFactoryDefault",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"SetSystemFactoryDefault"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "fb9339bb-b588-49f8-82b1-d0da167897c0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:27:07 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "RebootNeeded",
@@ -1228,7 +1646,63 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "MetadataConfiguration",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration?jsonObject={{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"MetadataConfiguration"
+									],
+									"query": [
+										{
+											"key": "jsonObject",
+											"value": "{{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "96f2ec58-26af-410c-8264-5c62c45425eb"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:11:29 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "557"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"53480499-ece4-4437-b795-0ff4f57a564a\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfiguration\",\n        \"origin\": 1663974689815368367,\n        \"readings\": [\n            {\n                \"id\": \"b6cda316-6a50-4990-8279-e2777be95c79\",\n                \"origin\": 1663974689815368367,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n                \"resourceName\": \"MetadataConfiguration\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configuration\": {}\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "SetMetadataConfiguration",
@@ -1264,7 +1738,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetMetadataConfiguration",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"MetadataConfiguration\": {\n        \"ForcePersistence\": true,\n        \"Configuration\":{\n            \"token\": \"{{MEDIA_CONFIG_TOKEN}}\",\n            \"Analytics\": true\n        }\n        \n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"MetadataConfiguration"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "f9b22e19-bfba-4bb3-84bf-48ed200b9cf1"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:13:37 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "CompatibleMetadataConfigurations",
@@ -1478,7 +2011,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "AddMetadataConfiguration",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"AddMetadataConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"ConfigurationToken\": \"{{MEDIA_CONFIG_TOKEN}}\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddMetadataConfiguration",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"AddMetadataConfiguration"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "9aaf8833-760d-4e7b-ac10-123c36fa71fb"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:13:44 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "RemoveMetadataConfiguration",
@@ -1514,7 +2106,66 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "RemoveMetadataConfiguration",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"RemoveMetadataConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveMetadataConfiguration",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"RemoveMetadataConfiguration"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "f591166b-b0ae-4c3e-8d87-3fa2fb0f180c"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:13:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				}
 			]
 		},
@@ -1564,15 +2215,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Profiles",
 									"protocol": "http",
@@ -1756,15 +2398,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetVideoEncoderConfigurations",
 									"protocol": "http",
@@ -2809,15 +3442,6 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"GetNode\":{\"NodeToken\": \"Node0\"}\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
 											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurations",
 											"protocol": "http",
@@ -2914,15 +3538,6 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"GetNode\":{\"NodeToken\": \"Node0\"}\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
 											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Configuration?jsonObject=eyJQVFpDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
 											"protocol": "http",
@@ -3025,15 +3640,6 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"GetNode\":{\"NodeToken\": \"Node0\"}\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
 											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
 											"protocol": "http",
@@ -3358,15 +3964,6 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
 											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetStatus?jsonObject=eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==",
 											"protocol": "http",
@@ -5088,9 +5685,299 @@
 							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
 						}
 					]
+				},
+				{
+					"name": "Get CustomMetadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"CustomMetadata"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get CustomMetadata",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"CustomMetadata"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "286e0f26-f708-457d-ba3e-af6203e85c72"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:35:47 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "610"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"6905a513-3aff-454b-981d-ea8e0c79f195\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"CustomMetadata\",\n        \"origin\": 1663976147356099321,\n        \"readings\": [\n            {\n                \"id\": \"c90f88b6-7e2f-4e37-8fa7-b173a4d6ffec\",\n                \"origin\": 1663976147356099321,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n                \"resourceName\": \"CustomMetadata\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Business\": \"John's Grocery Store\",\n                    \"Install Date\": \"01/01/1970\",\n                    \"Location\": \"Front door\"\n                }\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "GetSpecificCustomMetadata-multipleFields Copy",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "/* Test steps\n1) Get PTZ configuration token by executing get configurations API\n2) Update ptz_token env variable in postman with value retrieved in above step\n*/\n",
+									"options": {
+										"raw": {
+											"language": "javascript"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata?jsonObject={{ptz_enc}}",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"CustomMetadata"
+									],
+									"query": [
+										{
+											"key": "jsonObject",
+											"value": "{{ptz_enc}}",
+											"description": "Base64 encoded json string"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "d03c3b7a-77f0-4c5a-8470-1d36996e352f"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:36:17 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "582"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"0749ab9c-05b4-4515-a2b0-5d253aeb8be9\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"CustomMetadata\",\n        \"origin\": 1663976177486171795,\n        \"readings\": [\n            {\n                \"id\": \"295d2e23-ffae-4c7e-9440-6be14fc1c93e\",\n                \"origin\": 1663976177486171795,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n                \"resourceName\": \"CustomMetadata\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Business\": \"John's Grocery Store\",\n                    \"Location\": \"Front door\"\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Set CustomMetadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CustomMetadata\": {\n        \"Location\":\"Front door\",\n        \"Business\":\"John's Grocery Store\",\n        \"Install Date\":\"01/01/1970\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"CustomMetadata"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Set CustomMetadata",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"CustomMetadata\": {\n        \"Location\":\"Front door\",\n        \"Business\":\"John's Grocery Store\",\n        \"Install Date\":\"01/01/1970\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"CustomMetadata"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "65511822-66bc-48e5-94fc-71d393be11a4"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:35:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				}
 			],
 			"description": "Custom commands outside of the ONVIF spec handled by the device service directly."
+		}
+	],
+	"variable": [
+		{
+			"key": "ptz_enc",
+			"value": ""
 		}
 	]
 }
