@@ -30,6 +30,9 @@ CGOFLAGS=-ldflags "-linkmode=external \
 
 build: $(MICROSERVICES)
 
+build-nats:
+	make -e ADD_BUILD_TAGS=include_nats_messaging build
+
 run: build
 	cd cmd && \
 		EDGEX_SECURITY_SECRET_STORE=false \
@@ -37,15 +40,19 @@ run: build
 
 
 cmd/device-onvif-camera:
-	$(GOCGO) build $(CGOFLAGS) -o $@ ./cmd
+	$(GOCGO) build -tags "$(ADD_BUILD_TAGS)" $(CGOFLAGS) -o $@ ./cmd
 
 docker:
 	docker build . \
+		--build-arg ADD_BUILD_TAGS=$(ADD_BUILD_TAGS) \
 		--build-arg http_proxy=$(HTTP_PROXY) \
 		--build-arg https_proxy=$(HTTPS_PROXY) \
 		--build-arg no_proxy=$(NO_PROXY) \
 		-t edgexfoundry/device-onvif-camera:$(GIT_SHA) \
 		-t edgexfoundry/device-onvif-camera:$(VERSION)-dev
+
+docker-nats:
+	make -e ADD_BUILD_TAGS=include_nats_messaging docker
 
 tidy:
 	go mod tidy

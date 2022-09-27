@@ -17,7 +17,9 @@
 ARG BASE=golang:1.18-alpine3.16
 FROM ${BASE} AS builder
 
-ARG MAKE="make build"
+ARG ADD_BUILD_TAGS=""
+ARG MAKE="make -e ADD_BUILD_TAGS=$ADD_BUILD_TAGS build"
+
 ARG ALPINE_PKG_BASE="make git gcc libc-dev zeromq-dev libsodium-dev"
 ARG ALPINE_PKG_EXTRA=""
 
