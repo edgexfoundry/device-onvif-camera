@@ -26,23 +26,24 @@ func computeNetSz(subnetSz int) uint32 {
 // ipGenerator generates all valid IP addresses for a given subnet, and
 // sends them to the ip channel one at a time
 func ipGenerator(ctx context.Context, inet *net.IPNet, ipCh chan<- uint32) {
+	if inet == nil {
+		return
+	}
 	addr := inet.IP.To4()
 	if addr == nil {
 		return
 	}
 
-	mask := inet.Mask
-	if len(mask) == net.IPv6len {
-		mask = mask[12:]
-	} else if len(mask) != net.IPv4len {
+	if len(inet.Mask) != net.IPv4len {
 		return
 	}
 
-	umask := binary.BigEndian.Uint32(mask)
+	umask := binary.BigEndian.Uint32(inet.Mask)
 	maskSz := bits.OnesCount32(umask)
 	if maskSz <= 1 {
-		return // skip point-to-point connections
+		return // skip subnet-zero mask
 	} else if maskSz >= 31 {
+		// on /31 and /32 subnets, just return the ip back
 		ipCh <- binary.BigEndian.Uint32(inet.IP)
 		return
 	}

@@ -230,11 +230,6 @@ func (d *Driver) makeDeviceMacMap() map[string]contract.Device {
 	deviceMap := make(map[string]contract.Device, len(devices))
 
 	for _, dev := range devices {
-		if dev.Name == d.sdkService.Name() {
-			// skip control plane device
-			continue
-		}
-
 		onvifInfo, ok := dev.Protocols[OnvifProtocol]
 		if !ok {
 			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)
@@ -266,11 +261,6 @@ func (d *Driver) makeDeviceRefMap() map[string]contract.Device {
 	deviceMap := make(map[string]contract.Device, len(devices))
 
 	for _, dev := range devices {
-		if dev.Name == d.sdkService.Name() {
-			// skip control plane device
-			continue
-		}
-
 		onvifInfo, ok := dev.Protocols[OnvifProtocol]
 		if !ok {
 			d.lc.Warnf("Found registered device %s without %s protocol information.", dev.Name, OnvifProtocol)

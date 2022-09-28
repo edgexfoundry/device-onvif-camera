@@ -21,10 +21,7 @@ func (d *Driver) checkStatuses() {
 	d.lc.Debug("checkStatuses has been called")
 	wg := sync.WaitGroup{}
 	for _, device := range d.sdkService.Devices() {
-		device := device                        // save the device value within the closure
-		if device.Name == d.sdkService.Name() { // skip control plane device
-			continue
-		}
+		device := device // save the device value within the closure
 
 		wg.Add(1)
 		go func() {

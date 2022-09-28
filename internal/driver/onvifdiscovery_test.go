@@ -16,41 +16,33 @@ import (
 )
 
 const (
-	uuid1 = "1793ddc8-28b0-11ed-a261-0242ac120002"
-	uuid2 = "1793dfb2-28b0-11ed-a261-0242ac120002"
-	uuid3 = "1793e0a2-28b0-11ed-a261-0242ac120002"
-	uuid4 = "1793e19c-28b0-11ed-a261-0242ac120002"
-	uuid5 = "8076305c-28b0-11ed-a261-0242ac120002"
-	uuid6 = "80763188-28b0-11ed-a261-0242ac120002"
+	uuid1 = "1793dfb2-28b0-11ed-a261-0242ac120002"
+	uuid2 = "1793e0a2-28b0-11ed-a261-0242ac120002"
+	uuid3 = "1793e19c-28b0-11ed-a261-0242ac120002"
+	uuid4 = "8076305c-28b0-11ed-a261-0242ac120002"
+	uuid5 = "80763188-28b0-11ed-a261-0242ac120002"
 )
 
 func createTestDeviceList() []contract.Device {
 	return []models.Device{
 		{
-			Name: "device-onvif-camera", Protocols: map[string]models.ProtocolProperties{
+			Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
 				OnvifProtocol: map[string]string{
 					EndpointRefAddress: uuid1,
 				},
 			},
 		},
 		{
-			Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
+			Name: "testDevice2", Protocols: map[string]models.ProtocolProperties{
 				OnvifProtocol: map[string]string{
 					EndpointRefAddress: uuid2,
 				},
 			},
 		},
 		{
-			Name: "testDevice2", Protocols: map[string]models.ProtocolProperties{
-				OnvifProtocol: map[string]string{
-					EndpointRefAddress: uuid3,
-				},
-			},
-		},
-		{
 			Name: "testDevice3", Protocols: map[string]models.ProtocolProperties{
 				OnvifProtocol: map[string]string{
-					EndpointRefAddress: uuid4,
+					EndpointRefAddress: uuid3,
 				},
 			},
 		},
@@ -62,21 +54,21 @@ func createDiscoveredList() []sdkModel.DiscoveredDevice {
 		{
 			Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
 				OnvifProtocol: map[string]string{
-					EndpointRefAddress: uuid2,
+					EndpointRefAddress: uuid1,
 				},
 			},
 		},
 		{
 			Name: "testDevice2", Protocols: map[string]models.ProtocolProperties{
 				OnvifProtocol: map[string]string{
-					EndpointRefAddress: uuid3,
+					EndpointRefAddress: uuid2,
 				},
 			},
 		},
 		{
 			Name: "testDevice3", Protocols: map[string]models.ProtocolProperties{
 				OnvifProtocol: map[string]string{
-					EndpointRefAddress: uuid4,
+					EndpointRefAddress: uuid3,
 				},
 			},
 		},
@@ -93,24 +85,24 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 			name:    "3 devices",
 			devices: createTestDeviceList(),
 			deviceMap: map[string]contract.Device{
-				uuid2: {
+				uuid1: {
 					Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
+						OnvifProtocol: map[string]string{
+							EndpointRefAddress: uuid1,
+						},
+					},
+				},
+				uuid2: {
+					Name: "testDevice2", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
 							EndpointRefAddress: uuid2,
 						},
 					},
 				},
 				uuid3: {
-					Name: "testDevice2", Protocols: map[string]models.ProtocolProperties{
-						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid3,
-						},
-					},
-				},
-				uuid4: {
 					Name: "testDevice3", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid4,
+							EndpointRefAddress: uuid3,
 						},
 					},
 				},
@@ -123,7 +115,7 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 					Name: "testDevice1",
 					Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid2,
+							EndpointRefAddress: uuid1,
 						},
 					},
 				},
@@ -133,10 +125,10 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 				},
 			},
 			deviceMap: map[string]contract.Device{
-				uuid2: {
+				uuid1: {
 					Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid2,
+							EndpointRefAddress: uuid1,
 						},
 					},
 				},
@@ -149,7 +141,7 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 					Name: "testDevice1",
 					Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid2,
+							EndpointRefAddress: uuid1,
 						},
 					},
 				},
@@ -163,10 +155,10 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 				},
 			},
 			deviceMap: map[string]contract.Device{
-				uuid2: {
+				uuid1: {
 					Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid2,
+							EndpointRefAddress: uuid1,
 						},
 					},
 				},
@@ -179,8 +171,6 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 			driver, mockService := createDriverWithMockService()
 			mockService.On("Devices").
 				Return(test.devices).Once()
-			mockService.On("Name").
-				Return("device-onvif-camera")
 			devices := driver.makeDeviceRefMap()
 			mockService.AssertExpectations(t)
 
@@ -203,16 +193,8 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 			filtered:          []sdkModel.DiscoveredDevice{},
 		},
 		{
-			name: "All new devices",
-			devices: []contract.Device{
-				{
-					Name: "device-onvif-camera", Protocols: map[string]models.ProtocolProperties{
-						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid1,
-						},
-					},
-				},
-			},
+			name:              "All new devices",
+			devices:           []contract.Device{},
 			discoveredDevices: createDiscoveredList(),
 			filtered:          createDiscoveredList(),
 		},
@@ -223,28 +205,28 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 				{
 					Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid2,
+							EndpointRefAddress: uuid1,
 						},
 					},
 				},
 				{
 					Name: "testDevice2", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid3,
+							EndpointRefAddress: uuid2,
 						},
 					},
 				},
 				{
 					Name: "testDevice3", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid4,
+							EndpointRefAddress: uuid3,
 						},
 					},
 				},
 				{
 					Name: "testDevice4", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid6,
+							EndpointRefAddress: uuid4,
 						},
 					},
 				},
@@ -260,7 +242,7 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 				{
 					Name: "testDevice4", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]string{
-							EndpointRefAddress: uuid6,
+							EndpointRefAddress: uuid4,
 						},
 					},
 				},
@@ -280,8 +262,6 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 			driver, mockService := createDriverWithMockService()
 			mockService.On("Devices").
 				Return(test.devices)
-			mockService.On("Name").
-				Return("device-onvif-camera")
 			filtered := driver.discoverFilter(test.discoveredDevices)
 			mockService.AssertExpectations(t)
 
