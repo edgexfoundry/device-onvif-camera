@@ -1,5 +1,5 @@
 
-.PHONY: gen install convert
+.PHONY: gen install
 
 POSTMAN_COLLECTION = ../postman/device-onvif-camera.postman_collection.json
 OPENAPI_FILE = v2/device-onvif-camera.yaml
@@ -9,9 +9,12 @@ SIDECAR_FILE = sidecar.yaml
 
 # todo: replace the API version number based on the actual source code version
 
-$(OPENAPI_FILE) gen: $(POSTMAN_COLLECTION) | ./tmp
+$(OPENAPI_FILE) gen: $(SIDECAR_FILE) $(OPENAPI_TEMP_FILE) python/postprocess.py
+	python3 python/postprocess.py $(OPENAPI_TEMP_FILE) $(SIDECAR_FILE) $(OPENAPI_FILE)
+
+
+$(OPENAPI_TEMP_FILE): $(POSTMAN_COLLECTION) $(POSTMAN_2_OPENAPI_OPTIONS) | ./tmp
 	p2o $(POSTMAN_COLLECTION) -f $(OPENAPI_TEMP_FILE) -o $(POSTMAN_2_OPENAPI_OPTIONS)
-	$(MAKE) convert
 
 ./tmp:
 	mkdir -p $@
@@ -19,6 +22,3 @@ $(OPENAPI_FILE) gen: $(POSTMAN_COLLECTION) | ./tmp
 install:
 	npm install -g postman-to-openapi
 	pip3 install -r python/requirements.txt
-
-convert: $(SIDECAR_FILE) $(OPENAPI_TEMP_FILE)
-	python3 python/postprocess.py $(OPENAPI_TEMP_FILE) $(SIDECAR_FILE) $(OPENAPI_FILE)

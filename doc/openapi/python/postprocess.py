@@ -6,6 +6,11 @@ import sys
 import yaml
 
 EDGEX_DEVICE_NAME = 'Camera001'
+API_PREFIX = '/api/v2/device/name/{EDGEX_DEVICE_NAME}'
+
+
+class ProcessingError(RuntimeError):
+    pass
 
 
 @dataclasses.dataclass
@@ -14,7 +19,7 @@ class YamlProcessor:
     sidecar_file: str
     output_file: str
     yml = None
-    extra = None
+    sidecar = None
 
     """Read input yaml file and sidecar yaml files"""
     def _load(self):
@@ -24,7 +29,7 @@ class YamlProcessor:
 
         # read sidecar file
         with open(self.sidecar_file) as f:
-            self.extra = yaml.safe_load(f.read())
+            self.sidecar = yaml.safe_load(f.read())
 
     """Output modified yaml file"""
     def _write(self):
@@ -33,7 +38,26 @@ class YamlProcessor:
 
     """Side load data from sidecar yaml file into yaml object"""
     def _sideload_data(self):
-        pass
+        self._sideload_external_docs()
+
+    """Side load externalDocs"""
+    def _sideload_external_docs(self):
+        for cmd, methods in self.sidecar['externalDocs'].items():
+            api = f'{API_PREFIX}/{cmd}'
+            if api not in self.yml['paths']:
+                raise ProcessingError(f'Expected api "{api}" was not found in input yaml!')
+            path_obj = self.yml['paths'][api]
+
+            for method, url in methods.items():
+                if method not in path_obj:
+                    raise ProcessingError(f'Method {method} missing from api "{api}" in input yaml!')
+
+                print(f'Patching external docs for [{method}] {api}')
+                method_obj = path_obj[method]
+                method_obj['externalDocs'] = {
+                    'description': 'Onvif Specification',
+                    'url': url
+                }
 
     """
     Goes through the paths and adds example values to all missing fields
@@ -41,11 +65,11 @@ class YamlProcessor:
     paths/[path]/[method]/parameters/[name=EDGEX_DEVICE_NAME]
     """
     def _add_example_vars(self):
-        for p, path in self.yml['paths'].items():
-            for m, method in path.items():
-                for param in method['parameters']:
-                    if param['name'] == 'EDGEX_DEVICE_NAME':
-                        param['example'] = EDGEX_DEVICE_NAME
+        for _, path_obj in self.yml['paths'].items():
+            for _, method_obj in path_obj.items():
+                for param_obj in method_obj['parameters']:
+                    if param_obj['name'] == 'EDGEX_DEVICE_NAME':
+                        param_obj['example'] = EDGEX_DEVICE_NAME
 
     """Process the input yaml files, and create the final output yaml file"""
     def process(self):
@@ -61,6 +85,7 @@ def main():
         sys.exit(1)
 
     proc = YamlProcessor(sys.argv[1], sys.argv[2], sys.argv[3])
+    # todo: try-catch ProcessingError and dump trace
     proc.process()
 
 

@@ -1,5 +1,7 @@
 # This file contains additional OpenAPI metadata to be side-loaded into the final OpenAPI document
 ---
 externalDocs:
-
+  Hostname:
+    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
+    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
 
