@@ -1078,7 +1078,7 @@
 					]
 				}
 			],
-			"description": "test description\n\nlink: [https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl)"
+			"description": "Onvif Protocol Specification [https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl)"
 		},
 		{
 			"name": "System Function",

@@ -4527,10 +4527,7 @@ paths:
 servers:
 - url: http://0.0.0.0:59882
 tags:
-- description: 'test description
-
-
-    link: [https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl)'
+- description: Onvif Protocol Specification [https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl)
   name: Network Configuration
 - name: System Function
 - name: Metadata Configuration
