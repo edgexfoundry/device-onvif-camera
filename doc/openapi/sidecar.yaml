@@ -2,49 +2,49 @@
 ---
 externalDocs:
   Hostname:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
   DNS:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
   NetworkInterfaces:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
   NetworkProtocols:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
   NetworkDefaultGateway:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
   NetworkConfiguration: 
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkConfiguration
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkConfiguration
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkConfiguration
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkConfiguration
   DeviceInformation:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
   SystemDateAndTime:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
   SetSystemFactoryDefault:
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSetSystemFactoryDefault
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSetSystemFactoryDefault
   SystemReboot:
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemReboot
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemReboot
   RebootNeeded:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetRebootNeeded
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetRebootNeeded
   MetadataConfiguration:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfiguration
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetMetadataConfiguration
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfiguration
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetMetadataConfiguration
   MetadataConfigurations:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfigurations
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfigurations
   CompatibleMetadataConfigurations:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCompatibleMetadataConfigurations
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCompatibleMetadataConfigurations
   MetadataConfigurationOptions:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfigurationOptions
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfigurationOptions
   AddMetadataConfiguration:
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetAddMetadataConfiguration
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetAddMetadataConfiguration
   RemoveMetadataConfiguration:
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetRemoveMetadataConfiguration
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetRemoveMetadataConfiguration
   MetadataConfiguration:
-    get: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCustomMetadata
-    put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetCustomMetadata
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCustomMetadata
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetCustomMetadata
   #DeleteCustomMetadata:
-   # put: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDeleteCustomMetadata
+   # put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDeleteCustomMetadata
