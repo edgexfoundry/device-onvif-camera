@@ -1,0 +1,160 @@
+externalDocs:
+  AbsoluteMove:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AbsoluteMove
+  AddConfiguration:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddConfiguration
+  AddMetadataConfiguration:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddMetadataConfiguration
+  AddPTZConfiguration:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddPTZConfiguration
+  AddScopes:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
+  AnalyticsModules:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetAnalyticsModules
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.ModifyAnalyticsModules
+  BaseNotificationSubscription:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SubscribeCameraEvent
+  CompatibleMetadataConfigurations:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCompatibleMetadataConfigurations
+  Configuration:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetConfiguration
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetConfiguration
+  ContinuousMove:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.ContinuousMove
+  CreateAnalyticsModules:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateAnalyticsModules
+  CreateRules:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateRules
+  CreateUsers:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
+  CustomMetadata:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCustomMetadata
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetCustomMetadata
+  DNS:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
+  DeleteAnalyticsModules:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteAnalyticsModules
+  DeleteCustomMetadata:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteCustomMetadata
+  DeleteRules:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteRules
+  DeleteUsers:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
+  DeviceInformation:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
+  DiscoveryMode:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
+  FriendlyName:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetFriendlyName
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetFriendlyName
+  GetAnalyticsConfigurations:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetAnalyticsConfigurations
+  GetAnalyticsModuleOptions:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetAnalyticsModuleOptions
+  GetConfigurationOptions:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetConfigurationOptions
+  GetConfigurations:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetConfigurations
+  GetEventProperties:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetEventProperties
+  GetNode:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNode
+  GetNodes:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNodes
+  GetPresets:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetPresets
+  GetRuleOptions:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetRuleOptions
+  GetStatus:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetStatus
+  GetSupportedAnalyticsModules:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSupportedAnalyticsModules
+  GetSupportedRules:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSupportedRules
+  GetVideoEncoderConfigurations:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetVideoEncoderConfigurations
+  GotoHomePosition:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GotoHomePosition
+  GotoPreset:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GotoPreset
+  Hostname:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
+  MACAddress:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMACAddress
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetMACAddress
+  Media2Profiles:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetProfiles
+  MetadataConfiguration:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfiguration
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetMetadataConfiguration
+  MetadataConfigurationOptions:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfigurationOptions
+  MetadataConfigurations:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfigurations
+  NetworkDefaultGateway:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
+  NetworkInterfaces:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
+  NetworkProtocols:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
+  OnvifCameraEvent:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CameraEvent
+  Profiles:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetProfiles
+  PullPointSubscription:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SubscribeCameraEvent
+  RebootNeeded:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RebootNeeded
+  RelativeMove:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RelativeMove
+  RemoveConfiguration:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveConfiguration
+  RemoveMetadataConfiguration:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveMetadataConfiguration
+  RemovePTZConfiguration:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemovePTZConfiguration
+  RemovePreset:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemovePreset
+  RemoveScopes:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
+  Rules:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetRules
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.ModifyRules
+  Scopes:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
+  SendAuxiliaryCommand:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SendAuxiliaryCommand
+  SetHomePosition:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHomePosition
+  SetPreset:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetPreset
+  SetSystemFactoryDefault:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
+  Snapshot:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSnapshot
+  Stop:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.Stop
+  StreamUri:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetStreamUri
+  SystemDateAndTime:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
+  SystemReboot:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot
+  UnsubscribeCameraEvent:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.UnsubscribeCameraEvent
+  Users:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser
+  VideoEncoderConfiguration:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetVideoEncoderConfiguration
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetVideoEncoderConfiguration
+  VideoEncoderConfigurationOptions:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetVideoEncoderConfigurationOptions
