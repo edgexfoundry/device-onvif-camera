@@ -3,7 +3,7 @@ module github.com/edgexfoundry/device-onvif-camera
 go 1.18
 
 require (
-	github.com/IOTechSystems/onvif v0.1.4
+	github.com/IOTechSystems/onvif v0.1.5
 	github.com/edgexfoundry/device-sdk-go/v2 v2.3.0-dev.30
 	github.com/edgexfoundry/go-mod-bootstrap/v2 v2.3.0-dev.16
 	github.com/edgexfoundry/go-mod-core-contracts/v2 v2.3.0-dev.17
