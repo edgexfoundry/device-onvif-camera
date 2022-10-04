@@ -5,9 +5,7 @@
 [System Requirements](#system-requirements)  
 [Dependencies](#dependencies)  
 [Get the Source Code](#get-the-source-code)  
-[Configure the Pre-Defined Devices](#configure-the-pre-defined-devices)  
-[Configure Auto Discovery for ONVIF Devices (Optional)](#configure-auto-discovery-for-onvif-devices-optional)  
-[Configure the Device Service](#configure-the-device-service)  
+[Configuration](#configuration)  
 [Build the Docker Image](#build-the-docker-image)  
 [Deploy the Service](#deploy-edgex-and-onvif-device-camera-microservice)  
 [Verify the Service](#verify-service-and-device-profiles)  
@@ -154,17 +152,26 @@ The table below lists command line tools this guide uses to help with EdgeX conf
 
 ## Configuration
 
-### Configure the Pre-Defined Devices
+### Configure Devices  
+
+<details>  
+<summary><strong>Manually Configure the Pre-Defined Devices</strong></summary>
 
 Configuring pre-defined devices will allow the service to automatically provision them into core-metadata. Create a list of devices with the appropriate information as outlined below.
 
-1. Make a copy of the `camera.toml.example`:  
+1. Navigate to the `device-onvif-camera` directory:
+
+   ```bash
+   cd device-onvif-camera
+   ```
+
+2. Make a copy of the `camera.toml.example`:  
 
    ```bash
    cp ./cmd/res/devices/camera.toml.example ./cmd/res/devices/camera.toml
    ```
 
-2. Open the `cmd/res/devices/camera.toml` file using your preferred text editor and update the `Address` and `Port` fields to match the IP address of the Camera and port used for ONVIF services:
+3. Open the `cmd/res/devices/camera.toml` file using your preferred text editor and update the `Address` and `Port` fields to match the IP address of the Camera and port used for ONVIF services:
 
    ```toml
    [[DeviceList]]
@@ -189,9 +196,10 @@ Configuring pre-defined devices will allow the service to automatically provisio
 
 5. To add more pre-defined devices, copy the above configuration and edit to match your extra devices.
 
-<br/>
+</details>
 
-### Configure Auto Discovery for ONVIF Devices (Optional)
+<details>
+<summary><strong>Configure Auto Discovery for ONVIF Devices</strong></summary>
 
 ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.  Refer to [Auto Discovery](../auto-discovery.md) for detailed information on the auto-discovery mechanism.  
 
@@ -208,82 +216,102 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 <details>
 <summary><strong>via Configuration File</strong></summary>
 
-Define the following configurations in [cmd/res/configuration.toml](../../cmd/res/configuration.toml) for auto-discovery mechanism:
+1. Navigate to the `device-onvif-camera` directory:
 
-```toml
-[Device]
-    [Device.Discovery]
-    Enabled = true    # enable device discovery
-    Interval = "1h"   # set to desired interval
+   ```bash
+   cd device-onvif-camera
+   ```
 
-# Custom configs
-[AppCustom]
-# The target ethernet interface for multicast discovering
-DiscoveryEthernetInterface = "eth0"
-# The Secret Path of the default credentials to use for devices
-DefaultSecretPath = "credentials001"
-# Select which discovery mechanism(s) to use
-DiscoveryMode = "both" # netscan, multicast, or both
-# List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
-# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-DiscoverySubnets = "192.168.1.0/24" # Fill in with your actual subnet(s)
-```
+2. Define the following configurations in [cmd/res/configuration.toml](../../cmd/res/configuration.toml) for auto-discovery mechanism:
+
+   ```toml
+   [Device]
+      [Device.Discovery]
+      Enabled = true    # enable device discovery
+      Interval = "1h"   # set to desired interval
+
+   # Custom configs
+   [AppCustom]
+   # The target ethernet interface for multicast discovering
+   DiscoveryEthernetInterface = "eth0"
+   # The Secret Path of the default credentials to use for devices
+   DefaultSecretPath = "credentials001"
+   # Select which discovery mechanism(s) to use
+   DiscoveryMode = "both" # netscan, multicast, or both
+   # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+   # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+   DiscoverySubnets = "192.168.1.0/24" # Fill in with your actual subnet(s)
+   ```
 </details>
 
 <details>
 <summary><strong>via Docker environment variables</strong></summary>
 
-Add the following environment variables in `add-device-onvif-camera.yaml`:
-```yaml
-device-onvif-camera:
-  environment:
-    DEVICE_DISCOVERY_ENABLED: "true"  # enable device discovery
-    DEVICE_DISCOVERY_INTERVAL: "1h"   # set to desired interval
+1. Navigate to the EdgeX `compose-builder` directory:
 
-    # The target ethernet interface for multicast discovering
-    APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
-    # The Secret Path of the default credentials to use for devices
-    APPCUSTOM_DEFAULTSECRETPATH: "credentials001"
-    # Select which discovery mechanism(s) to use
-    APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
-    # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
-    # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-    APPCUSTOM_DISCOVERYSUBNETS: "192.168.1.0/24" # Fill in with your actual subnet(s)
-```
+   ```bash
+   cd edgex-compose/compose-builder/
+   ```
+
+2. Add the following environment variables in `add-device-onvif-camera.yaml`:  
+
+   ```yaml
+   device-onvif-camera:
+   environment:
+      DEVICE_DISCOVERY_ENABLED: "true"  # enable device discovery
+      DEVICE_DISCOVERY_INTERVAL: "1h"   # set to desired interval
+
+      # The target ethernet interface for multicast discovering
+      APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
+      # The Secret Path of the default credentials to use for devices
+      APPCUSTOM_DEFAULTSECRETPATH: "credentials001"
+      # Select which discovery mechanism(s) to use
+      APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
+      # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+      # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+      APPCUSTOM_DISCOVERYSUBNETS: "192.168.1.0/24" # Fill in with your actual subnet(s)
+   ```
 </details>
 
-</details>  
+</details>
 
 <br/>
 
-### Configure the Device Service
-1. Open the [configuration.toml](../../cmd/res/configuration.toml) file using your preferred text editor.
+### Configure the Device Service  
 
-2. Make sure `path` is set to match `SecretPath` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret paths match.
+1. Navigate to the `device-onvif-camera` directory:
 
-3. Under `path`, set `username` and `password` to your camera credentials. If you have multiple cameras copy the `Writable.InsecureSecrets` section and edit to include the new information.
+   ```bash
+   cd device-onvif-camera
+   ```
 
-```toml
-[Writable]
-    [Writable.InsecureSecrets.credentials001]
-    path = "credentials001"
-      [Writable.InsecureSecrets.credentials001.Secrets]
-      username = "<Credentials 1 username>"
-      password = "<Credentials 1 password>"
-      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+2. Open the [configuration.toml](../../cmd/res/configuration.toml) file using your preferred text editor.
 
-    [Writable.InsecureSecrets.credentials002]
-    path = "credentials002"
-      [Writable.InsecureSecrets.credentials002.Secrets]
-      username = "<Credentials 1 password>"
-      password = "<Credentials 2 password>"
-      mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+3. Make sure `path` is set to match `SecretPath` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret paths match.
 
-```
+4. Under `path`, set `username` and `password` to your camera credentials. If you have multiple cameras copy the `Writable.InsecureSecrets` section and edit to include the new information.
 
-<p align="left">
-   <i>Sample: Snippet from configuration.toml</i>
-</p>
+   ```toml
+   [Writable]
+      [Writable.InsecureSecrets.credentials001]
+      path = "credentials001"
+         [Writable.InsecureSecrets.credentials001.Secrets]
+         username = "<Credentials 1 username>"
+         password = "<Credentials 1 password>"
+         mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+
+      [Writable.InsecureSecrets.credentials002]
+      path = "credentials002"
+         [Writable.InsecureSecrets.credentials002.Secrets]
+         username = "<Credentials 1 password>"
+         password = "<Credentials 2 password>"
+         mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
+
+   ```
+
+   <p align="left">
+      <i>Sample: Snippet from configuration.toml</i>
+   </p>
 
 
 ### Additional Configuration Options
@@ -307,10 +335,10 @@ For optional configurations, see [here.](#additional-configuration)
    edgexfoundry-holding/device-onvif-camera   0.0.0-dev    75684e673feb   6 weeks ago    21.3MB
    ```
 
-3. Navigate to `edgex-compose` and enter the `compose-builder` directory:
+3. Navigate to the EdgeX `compose-builder` directory:
 
    ```bash
-   cd edgex-compose/compose-builder
+   cd edgex-compose/compose-builder/
    ```
 
 4. Update `.env` file to add the registry and image version variable for device-onvif-camera:
@@ -489,6 +517,8 @@ Follow these instructions to update devices.
 <details>
 <summary><strong>Manually</strong></summary>
 
+>**NOTE:** Only use to manually add new devices that were not configured in the [Manually Configure the Pre-Defined Devices](#configuration) step.
+
 1. Edit the information to appropriately match the camera. The fields `Address`, `MACAddress` and `Port` should match that of the camera:
 
    ```bash
@@ -531,9 +561,10 @@ Follow these instructions to update devices.
 
 <br/>
 
-ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices. Refer to Auto Discovery for detailed information on the auto-discovery mechanism.
+>**NOTE:** If auto discovery is required and was not configured with the [Configure Auto Discovery for ONVIF Devices](#configure-devices) steps above, the following steps will enable  auto discovery using the `netscan` method _after_ the service has been deployed.
 
-If auto discovery was not configured using the [Configure Auto Discovery for ONVIF Devices](#configure-auto-discovery-for-onvif-devices-optional) steps above, you can set the `DiscoverySubnets` automatically _after_ the service has been deployed.
+ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices. Refer to [Auto Discovery](../auto-discovery.md) for detailed information on the auto-discovery mechanism.
+
 >**NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.
 
 1. Navigate to the `device-onvif-camera` directory.
