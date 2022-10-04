@@ -1,50 +1,44 @@
-# This file contains additional OpenAPI metadata to be side-loaded into the final OpenAPI document
----
 externalDocs:
-  Hostname:
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
-    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
+  AddScopes:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
+  CreateUsers:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
   DNS:
     get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
     put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
+  DeleteUsers:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
+  DeviceInformation:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
+  DiscoveryMode:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
+  Hostname:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
+  NetworkDefaultGateway:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
   NetworkInterfaces:
     get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces
     put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
   NetworkProtocols:
     get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols
     put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
-  NetworkDefaultGateway:
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
-    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
-  NetworkConfiguration: 
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkConfiguration
-    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkConfiguration
-  DeviceInformation:
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
+  RemoveScopes:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
+  Scopes:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
+  SendAuxiliaryCommand:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SendAuxiliaryCommand
+  SetSystemFactoryDefault:
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
   SystemDateAndTime:
     get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime
     put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
-  SetSystemFactoryDefault:
-    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSetSystemFactoryDefault
   SystemReboot:
-    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemReboot
-  RebootNeeded:
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetRebootNeeded
-  MetadataConfiguration:
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfiguration
-    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetMetadataConfiguration
-  MetadataConfigurations:
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfigurations
-  CompatibleMetadataConfigurations:
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCompatibleMetadataConfigurations
-  MetadataConfigurationOptions:
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetMetadataConfigurationOptions
-  AddMetadataConfiguration:
-    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetAddMetadataConfiguration
-  RemoveMetadataConfiguration:
-    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetRemoveMetadataConfiguration
-  MetadataConfiguration:
-    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCustomMetadata
-    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetCustomMetadata
-  #DeleteCustomMetadata:
-   # put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDeleteCustomMetadata
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot
+  Users:
+    get: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers
+    put: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser

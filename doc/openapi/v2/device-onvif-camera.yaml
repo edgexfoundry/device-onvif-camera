@@ -137,6 +137,9 @@ paths:
       - PTZ - Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddScopes:
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
       parameters:
       - example: Camera001
         in: path
@@ -515,6 +518,9 @@ paths:
       - Analytics - Rules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/CreateUsers:
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
       parameters:
       - example: Camera001
         in: path
@@ -678,6 +684,9 @@ paths:
       - Custom
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DNS:
     get:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
       parameters:
       - example: Camera001
         in: path
@@ -733,6 +742,9 @@ paths:
       tags:
       - Network Configuration
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
       parameters:
       - example: Camera001
         in: path
@@ -837,6 +849,9 @@ paths:
       - Analytics - Rules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteUsers:
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
       parameters:
       - example: Camera001
         in: path
@@ -864,6 +879,9 @@ paths:
       - User Handling
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeviceInformation:
     get:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
       parameters:
       - example: Camera001
         in: path
@@ -924,6 +942,9 @@ paths:
       - System Function
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DiscoveryMode:
     get:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
       parameters:
       - example: Camera001
         in: path
@@ -979,6 +1000,9 @@ paths:
       tags:
       - Auto Discovery
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
       parameters:
       - example: Camera001
         in: path
@@ -2140,9 +2164,12 @@ paths:
       - PTZ - Preset
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Hostname:
     get:
+      description: This operation is used by an endpoint to get the hostname from
+        a device. The device shall return its hostname configurations through the
+        GetHostname command.
       externalDocs:
         description: Onvif Specification
-        url: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
       parameters:
       - example: Camera001
         in: path
@@ -2202,7 +2229,7 @@ paths:
     put:
       externalDocs:
         description: Onvif Specification
-        url: http://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
       parameters:
       - example: Camera001
         in: path
@@ -2798,6 +2825,9 @@ paths:
       - Network Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkDefaultGateway:
     get:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
       parameters:
       - example: Camera001
         in: path
@@ -2853,6 +2883,9 @@ paths:
       tags:
       - Network Configuration
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
       parameters:
       - example: Camera001
         in: path
@@ -2900,6 +2933,9 @@ paths:
       - Network Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkInterfaces:
     get:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces
       parameters:
       - example: Camera001
         in: path
@@ -2968,6 +3004,9 @@ paths:
       tags:
       - Network Configuration
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
       parameters:
       - example: Camera001
         in: path
@@ -3019,6 +3058,9 @@ paths:
       - Network Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkProtocols:
     get:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols
       parameters:
       - example: Camera001
         in: path
@@ -3080,6 +3122,9 @@ paths:
       tags:
       - Network Configuration
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
       parameters:
       - example: Camera001
         in: path
@@ -3654,6 +3699,9 @@ paths:
       - PTZ - Preset
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemoveScopes:
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
       parameters:
       - example: Camera001
         in: path
@@ -3733,6 +3781,9 @@ paths:
       - Analytics - Rules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Scopes:
     get:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
       parameters:
       - example: Camera001
         in: path
@@ -3798,6 +3849,9 @@ paths:
       tags:
       - Auto Discovery
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
       parameters:
       - example: Camera001
         in: path
@@ -3824,6 +3878,9 @@ paths:
       - Auto Discovery
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SendAuxiliaryCommand:
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SendAuxiliaryCommand
       parameters:
       - example: Camera001
         in: path
@@ -3922,6 +3979,9 @@ paths:
       - PTZ - Preset
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SetSystemFactoryDefault:
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
       parameters:
       - example: Camera001
         in: path
@@ -4060,6 +4120,9 @@ paths:
       - Video Streaming
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SystemDateAndTime:
     get:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime
       parameters:
       - example: Camera001
         in: path
@@ -4138,6 +4201,9 @@ paths:
       tags:
       - System Function
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
       parameters:
       - example: Camera001
         in: path
@@ -4167,7 +4233,7 @@ paths:
         undefined:
           content:
             text/plain:
-              example: null
+              example: ''
               schema:
                 type: string
       summary: SetSystemDateAndTime
@@ -4175,6 +4241,9 @@ paths:
       - System Function
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SystemReboot:
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot
       parameters:
       - example: Camera001
         in: path
@@ -4223,6 +4292,9 @@ paths:
       - Event Handling
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Users:
     get:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers
       parameters:
       - example: Camera001
         in: path
@@ -4239,6 +4311,9 @@ paths:
       tags:
       - User Handling
     put:
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser
       parameters:
       - example: Camera001
         in: path
