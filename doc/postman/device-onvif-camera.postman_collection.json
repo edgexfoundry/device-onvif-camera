@@ -32,7 +32,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Hostname"
 							]
-						}
+						},
+						"description": "This operation is used by an endpoint to get the hostname from a device. The device shall return its hostname configurations through the GetHostname command."
 					},
 					"response": [
 						{

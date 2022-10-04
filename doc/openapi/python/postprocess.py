@@ -45,7 +45,9 @@ class YamlProcessor:
         for cmd, methods in self.sidecar['externalDocs'].items():
             api = f'{API_PREFIX}/{cmd}'
             if api not in self.yml['paths']:
-                raise ProcessingError(f'Expected api "{api}" was not found in input yaml!')
+                print (f'WARNING: {api} not found in {self.input_file}')
+                continue
+                #raise ProcessingError(f'Expected api "{api}" was not found in input yaml!')
             path_obj = self.yml['paths'][api]
 
             for method, url in methods.items():
