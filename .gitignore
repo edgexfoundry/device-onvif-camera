@@ -37,3 +37,5 @@ squashfs-root/
 VERSION
 
 doc/openapi/tmp
+doc/postman/schemas/_extracted.json
+doc/postman/openapi.json

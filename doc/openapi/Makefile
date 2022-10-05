@@ -9,14 +9,13 @@ SIDECAR_FILE = sidecar.yaml
 PROFILE_FILE = ../../cmd/res/profiles/camera.yaml
 
 SCHEMA_POSTMAN = ./device-onvif-camera.postman_collection.json
-SCHEMA_TEMP = ./openapi.json
-SCHEMA_OUTPUT = ../openapi/tmp/device-onvif-camera.yaml
+SCHEMA_TEMP = ../postman/openapi.json
+OPENAPI_SCHEMA_TEMP_FILE = ./tmp/device-onvif-camera.schema.yaml
 
 # todo: replace the API version number based on the actual source code version
 
-$(OPENAPI_FILE) gen: $(SIDECAR_FILE) $(OPENAPI_TEMP_FILE) python/postprocess.py
-#$(MAKE) schema-gen
-	python3 python/postprocess.py $(OPENAPI_TEMP_FILE) $(SIDECAR_FILE) $(PROFILE_FILE) $(OPENAPI_FILE)
+$(OPENAPI_FILE) gen: $(SIDECAR_FILE) $(OPENAPI_SCHEMA_TEMP_FILE) $(PROFILE_FILE) python/postprocess.py
+	python3 python/postprocess.py $(OPENAPI_SCHEMA_TEMP_FILE) $(SIDECAR_FILE) $(PROFILE_FILE) $(OPENAPI_FILE)
 
 
 $(OPENAPI_TEMP_FILE): $(POSTMAN_COLLECTION) $(POSTMAN_2_OPENAPI_OPTIONS) | ./tmp
@@ -31,7 +30,11 @@ install:
 	pip3 install -r python/requirements.txt
 	snap install yq
 
-schema-gen:
-	cd ../postman; p2ojx extract $(SCHEMA_POSTMAN)
-	cd ../postman; p2ojx build
-	cd ../postman; yq $(SCHEMA_TEMP)
+$(SCHEMA_TEMP) schema-gen:
+	cd ../postman && \
+	p2ojx extract $(SCHEMA_POSTMAN) && \
+	p2ojx build
+
+
+$(OPENAPI_SCHEMA_TEMP_FILE): $(SCHEMA_TEMP) | ./tmp
+	yq . -o=yaml $(SCHEMA_TEMP) -P > $(OPENAPI_SCHEMA_TEMP_FILE)
