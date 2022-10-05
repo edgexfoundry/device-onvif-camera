@@ -2,11 +2,24 @@
 
 import dataclasses
 import sys
+# from xml.etree import ElementTree
 
 import yaml
 
+EDGEX = 'EdgeX'
 EDGEX_DEVICE_NAME = 'Camera001'
 API_PREFIX = '/api/v2/device/name/{EDGEX_DEVICE_NAME}'
+
+
+SERVICE_WSDL = {
+    'Analytics': 'https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl',
+    'Device': 'https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl',
+    'Event': 'https://www.onvif.org/ver10/events/wsdl/event.wsdl',
+    'Imaging': 'https://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl',
+    'Media': 'https://www.onvif.org/ver10/media/wsdl/media.wsdl',
+    'Media2': 'https://www.onvif.org/ver20/media/wsdl/media.wsdl',
+    'PTZ': 'https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl'
+}
 
 
 class ProcessingError(RuntimeError):
@@ -17,47 +30,79 @@ class ProcessingError(RuntimeError):
 class YamlProcessor:
     input_file: str
     sidecar_file: str
+    profile_file: str
     output_file: str
     yml = None
     sidecar = None
+    profile = None
+    resources = {}
+    # tree = None
+    # root = None
 
     """Read input yaml file and sidecar yaml files"""
     def _load(self):
-        # read input yaml file
+        print(f'Reading input OpenAPI file: {self.input_file}')
         with open(self.input_file) as f:
             self.yml = yaml.safe_load(f.read())
 
-        # read sidecar file
+        print(f'Reading sidecar file: {self.sidecar_file}')
         with open(self.sidecar_file) as f:
             self.sidecar = yaml.safe_load(f.read())
 
+        print(f'Reading profile file: {self.profile_file}')
+        with open(self.profile_file) as f:
+            self.profile = yaml.safe_load(f.read())
+
+    """Parse the device resources into a lookup table"""
+    def _parse(self):
+        for resource in self.profile['deviceResources']:
+            self.resources[resource['name']] = resource
+        # self.tree = ElementTree.parse('devicemgmt.wsdl')
+        # self.root = self.tree.getroot()
+
     """Output modified yaml file"""
     def _write(self):
+        print(f'Writing output OpenAPI file: {self.output_file}')
         with open(self.output_file, 'w') as w:
             w.write(yaml.dump(self.yml))
 
-    """Side load data from sidecar yaml file into yaml object"""
-    def _sideload_data(self):
-        self._sideload_external_docs()
-
-    """Side load externalDocs"""
+    """Sideload externalDocs using EdgeX profile file"""
     def _sideload_external_docs(self):
-        for cmd, methods in self.sidecar['externalDocs'].items():
+        for path, path_obj in self.yml['paths'].items():
+            for method, method_obj in path_obj.items():
+                cmd = path.split('/')[-1]
+
+                prefix = 'set' if method == 'put' else method
+                if cmd in self.resources:
+                    attrs = self.resources[cmd]['attributes']
+                    fn = attrs[f'{prefix}Function']
+                    service = attrs['service']
+
+                    if service != EDGEX:
+                        print(f'| {method.upper()} | {cmd} | {fn} | {fn.replace(cmd, "")} |')
+                        # print(f'Patching external docs for {method.upper()} {cmd}')
+                        method_obj = path_obj[method]
+                        method_obj['externalDocs'] = {
+                            'description': 'Onvif Specification',
+                            'url': f'{SERVICE_WSDL[service]}#op.{fn}'
+                        }
+
+                        # if service == 'Device':
+                        #     x = self.root.find(".//{http://schemas.xmlsoap.org/wsdl/}operation[@name='%s']/{http://schemas.xmlsoap.org/wsdl/}documentation" % fn)
+                        #     print(x.text)
+
+    def _verify_complete(self):
+        for cmd, cmd_obj in self.resources.items():
             api = f'{API_PREFIX}/{cmd}'
             if api not in self.yml['paths']:
-                raise ProcessingError(f'Expected api "{api}" was not found in input yaml!')
+                print(f'\033[33m[WARNING] API "{api}" is missing from input collection!\033[0m')
+                continue
+
             path_obj = self.yml['paths'][api]
-
-            for method, url in methods.items():
-                if method not in path_obj:
-                    raise ProcessingError(f'Method {method} missing from api "{api}" in input yaml!')
-
-                print(f'Patching external docs for [{method}] {api}')
-                method_obj = path_obj[method]
-                method_obj['externalDocs'] = {
-                    'description': 'Onvif Specification',
-                    'url': url
-                }
+            if 'getFunction' in cmd_obj['attributes'] and 'get' not in path_obj:
+                print(f'\033[33m[WARNING] Expected call GET "{cmd}" was not found in input yaml!\033[0m')
+            if 'setFunction' in cmd_obj['attributes'] and 'put' not in path_obj:
+                print(f'\033[33m[WARNING] Expected call PUT "{cmd}" was not found in input yaml!\033[0m')
 
     """
     Goes through the paths and adds example values to all missing fields
@@ -74,17 +119,26 @@ class YamlProcessor:
     """Process the input yaml files, and create the final output yaml file"""
     def process(self):
         self._load()
-        self._sideload_data()
+        self._parse()
+        self._sideload_external_docs()
+        # self._sideload_desc()
         self._add_example_vars()
+        self._verify_complete()
         self._write()
+
+    # def _sideload_desc(self):
+    #     root = self.tree.getroot()
+    #     xx = root.findall(".//{http://schemas.xmlsoap.org/wsdl/}operation[@name='GetDiscoveryMode']/{http://schemas.xmlsoap.org/wsdl/}documentation")
+    #     for x in xx:
+    #         print(x.text)
 
 
 def main():
-    if len(sys.argv) != 4:
-        print(f'Usage: {sys.argv[0]} <input_file> <sidecar_file> <output_file>')
+    if len(sys.argv) != 5:
+        print(f'Usage: {sys.argv[0]} <input_file> <sidecar_file> <profile_file> <output_file>')
         sys.exit(1)
 
-    proc = YamlProcessor(sys.argv[1], sys.argv[2], sys.argv[3])
+    proc = YamlProcessor(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
     # todo: try-catch ProcessingError and dump trace
     proc.process()
 
