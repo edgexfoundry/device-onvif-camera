@@ -191,7 +191,8 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 	buf := make([]byte, bufSize)
 	// keep reading from the PacketConn until the read deadline expires or an error occurs
 	for {
-		n, _, err := (conn.(net.PacketConn)).ReadFrom(buf)
+		//n, _, err := (conn.(net.PacketConn)).ReadFrom(buf) //comment by edgego
+		n, err := conn.Read(buf) //add by edgego
 		if err != nil {
 			// ErrDeadlineExceeded is expected once the read timeout is expired
 			if !stdErrors.Is(err, os.ErrDeadlineExceeded) {
