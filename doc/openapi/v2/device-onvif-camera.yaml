@@ -24,6 +24,22 @@ paths:
                       x: 0
                       y: -10
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                AbsoluteMove:
+                  properties:
+                    Position:
+                      properties:
+                        PanTilt:
+                          properties:
+                            x:
+                              type: number
+                            y:
+                              type: number
+                          type: object
+                      type: object
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -52,6 +68,21 @@ paths:
                   - Token: '{{ANALYTIC_CONFIG_TOKEN}}'
                     Type: Analytics
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                AddConfiguration:
+                  properties:
+                    Configuration:
+                      items:
+                        properties:
+                          Token:
+                            type: string
+                          Type:
+                            type: string
+                        type: object
+                      type: array
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -78,6 +109,14 @@ paths:
                 AddMetadataConfiguration:
                   ConfigurationToken: '{{MEDIA_CONFIG_TOKEN}}'
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                AddMetadataConfiguration:
+                  properties:
+                    ConfigurationToken:
+                      type: string
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -87,6 +126,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -126,6 +170,14 @@ paths:
                 AddPTZConfiguration:
                   ConfigurationToken: '{{PTZ_CONFIG_TOKEN}}'
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                AddPTZConfiguration:
+                  properties:
+                    ConfigurationToken:
+                      type: string
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -159,6 +211,14 @@ paths:
                 AddScopes:
                   ScopeItem:
                   - http//:123
+              properties:
+                AddScopes:
+                  properties:
+                    ScopeItem:
+                      items:
+                        type: string
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -212,6 +272,33 @@ paths:
                         Value: '{{ANALYTIC_MODULE_OPTION_VALUE}}'
                     Type: '{{ANALYTIC_MODULE_TYPE}}'
                   ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
+              properties:
+                AnalyticsModules:
+                  properties:
+                    AnalyticsModule:
+                      items:
+                        properties:
+                          Name:
+                            type: string
+                          Parameters:
+                            properties:
+                              SimpleItem:
+                                items:
+                                  properties:
+                                    Name:
+                                      type: string
+                                    Value:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          Type:
+                            type: string
+                        type: object
+                      type: array
+                    ConfigurationToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -238,6 +325,14 @@ paths:
                 BaseNotificationSubscription:
                   InitialTerminationTime: PT180S
                   TopicFilter: tns1:RuleEngine/TamperDetector/Tamper
+              properties:
+                BaseNotificationSubscription:
+                  properties:
+                    InitialTerminationTime:
+                      type: string
+                    TopicFilter:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -286,6 +381,51 @@ paths:
                   sourceName: CompatibleMetadataConfigurations
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Configurations:
+                                  properties: {}
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -363,6 +503,86 @@ paths:
                   sourceName: Configuration
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                PTZConfiguration:
+                                  properties:
+                                    DefaultAbsolutePantTiltPositionSpace:
+                                      type: string
+                                    DefaultContinuousPanTiltVelocitySpace:
+                                      type: string
+                                    DefaultPTZSpeed:
+                                      properties: {}
+                                      type: object
+                                    DefaultPTZTimeout:
+                                      type: string
+                                    DefaultRelativePanTiltTranslationSpace:
+                                      type: string
+                                    PanTiltLimits:
+                                      properties:
+                                        Range:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            YRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                      type: object
+                                    Token:
+                                      type: string
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -410,6 +630,37 @@ paths:
                           Max: 35
                           Min: -32
                     Token: '{{PTZ_CONFIG_TOKEN}}'
+              properties:
+                Configuration:
+                  properties:
+                    PTZConfiguration:
+                      properties:
+                        NodeToken:
+                          type: string
+                        PanTiltLimits:
+                          properties:
+                            Range:
+                              properties:
+                                XRange:
+                                  properties:
+                                    Max:
+                                      type: number
+                                    Min:
+                                      type: number
+                                  type: object
+                                YRange:
+                                  properties:
+                                    Max:
+                                      type: number
+                                    Min:
+                                      type: number
+                                  type: object
+                              type: object
+                          type: object
+                        Token:
+                          type: string
+                      type: object
+                  type: object
               type: object
       responses:
         '200':
@@ -439,6 +690,22 @@ paths:
                     PanTilt:
                       x: -1
                       y: -1
+              properties:
+                ContinuousMove:
+                  properties:
+                    ProfileToken:
+                      type: string
+                    Velocity:
+                      properties:
+                        PanTilt:
+                          properties:
+                            x:
+                              type: number
+                            y:
+                              type: number
+                          type: object
+                      type: object
+                  type: object
               type: object
       responses:
         '200':
@@ -471,6 +738,33 @@ paths:
                         Value: '{{ANALYTIC_MODULE_OPTION_VALUE}}'
                     Type: '{{ANALYTIC_MODULE_TYPE}}'
                   ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
+              properties:
+                CreateAnalyticsModules:
+                  properties:
+                    AnalyticsModule:
+                      items:
+                        properties:
+                          Name:
+                            type: string
+                          Parameters:
+                            properties:
+                              SimpleItem:
+                                items:
+                                  properties:
+                                    Name:
+                                      type: string
+                                    Value:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          Type:
+                            type: string
+                        type: object
+                      type: array
+                    ConfigurationToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -511,6 +805,55 @@ paths:
                       - Name: Armed
                         Value: 'true'
                     Type: tt:LineCounting
+              properties:
+                CreateRules:
+                  properties:
+                    ConfigurationToken:
+                      type: string
+                    Rule:
+                      items:
+                        properties:
+                          Name:
+                            type: string
+                          Parameters:
+                            properties:
+                              ElementItem:
+                                items:
+                                  properties:
+                                    Name:
+                                      type: string
+                                    Polyline:
+                                      properties:
+                                        Point:
+                                          items:
+                                            properties:
+                                              x:
+                                                type: string
+                                              y:
+                                                type: string
+                                            required:
+                                            - x
+                                            - y
+                                            type: object
+                                          type: array
+                                      type: object
+                                  type: object
+                                type: array
+                              SimpleItem:
+                                items:
+                                  properties:
+                                    Name:
+                                      type: string
+                                    Value:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          Type:
+                            type: string
+                        type: object
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -556,6 +899,25 @@ paths:
                   - Password: Password1!
                     UserLevel: User
                     Username: user2
+              properties:
+                CreateUsers:
+                  properties:
+                    User:
+                      items:
+                        properties:
+                          Password:
+                            type: string
+                          UserLevel:
+                            type: string
+                          Username:
+                            type: string
+                        required:
+                        - Username
+                        - Password
+                        - UserLevel
+                        type: object
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -666,6 +1028,16 @@ paths:
                   Business: John's Grocery Store
                   Install Date: 01/01/1970
                   Location: Front door
+              properties:
+                CustomMetadata:
+                  properties:
+                    Business:
+                      type: string
+                    Install Date:
+                      type: string
+                    Location:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -675,6 +1047,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -739,6 +1116,51 @@ paths:
                   sourceName: DNS
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                DNSInformation:
+                                  properties: {}
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -784,6 +1206,19 @@ paths:
                     IPv4Address: 192.168.12.1
                     Type: IPv4
                   FromDHCP: true
+              properties:
+                DNS:
+                  properties:
+                    DNSManual:
+                      properties:
+                        IPv4Address:
+                          type: string
+                        Type:
+                          type: string
+                      type: object
+                    FromDHCP:
+                      type: boolean
+                  type: object
               type: object
       responses:
         '200':
@@ -793,6 +1228,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -833,6 +1273,16 @@ paths:
                   AnalyticsModuleName:
                   - TestAnalyticsModule
                   ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
+              properties:
+                DeleteAnalyticsModules:
+                  properties:
+                    AnalyticsModuleName:
+                      items:
+                        type: string
+                      type: array
+                    ConfigurationToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -860,6 +1310,16 @@ paths:
                   ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
                   RuleName:
                   - TestRule2
+              properties:
+                DeleteRules:
+                  properties:
+                    ConfigurationToken:
+                      type: string
+                    RuleName:
+                      items:
+                        type: string
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -895,6 +1355,14 @@ paths:
                   Username:
                   - user1
                   - user2
+              properties:
+                DeleteUsers:
+                  properties:
+                    Username:
+                      items:
+                        type: string
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -946,6 +1414,58 @@ paths:
                   sourceName: DeviceInformation
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                FirmwareVersion:
+                                  type: string
+                                HardwareId:
+                                  type: string
+                                Manufacturer:
+                                  type: string
+                                Model:
+                                  type: string
+                                SerialNumber:
+                                  type: string
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1009,6 +1529,50 @@ paths:
                   sourceName: DiscoveryMode
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                DiscoveryMode:
+                                  type: string
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1053,6 +1617,12 @@ paths:
               example:
                 DiscoveryMode:
                   DiscoveryMode: Discoverable
+              properties:
+                DiscoveryMode:
+                  properties:
+                    DiscoveryMode:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -1062,6 +1632,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1116,6 +1691,45 @@ paths:
                   sourceName: FriendlyName
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1153,6 +1767,12 @@ paths:
               example:
                 FriendlyName:
                   FriendlyName: My Camera
+              properties:
+                FriendlyName:
+                  properties:
+                    FriendlyName:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -1162,6 +1782,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1208,6 +1833,13 @@ paths:
                   detail: , fault code: SOAP-ENV:Sender  ","statusCode":500}'
                 statusCode: 500
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  message:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: Internal Server Error
           headers:
@@ -1346,6 +1978,180 @@ paths:
                   sourceName: GetConfigurationOptions
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                PTZConfigurationOptions:
+                                  properties:
+                                    PTZTimeout:
+                                      properties:
+                                        Max:
+                                          type: string
+                                        Min:
+                                          type: string
+                                      type: object
+                                    Spaces:
+                                      properties:
+                                        AbsolutePanTiltPositionSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            YRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        AbsoluteZoomPositionSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        ContinuousPanTiltVelocitySpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            YRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        ContinuousZoomVelocitySpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        Extension:
+                                          type: string
+                                        PanTiltSpeedSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        RelativePanTiltTranslationSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            YRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        RelativeZoomTranslationSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        ZoomSpeedSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                      type: object
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1417,6 +2223,88 @@ paths:
                   sourceName: GetConfigurations
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                PTZConfiguration:
+                                  items:
+                                    properties:
+                                      DefaultAbsolutePantTiltPositionSpace:
+                                        type: string
+                                      DefaultContinuousPanTiltVelocitySpace:
+                                        type: string
+                                      DefaultPTZSpeed:
+                                        properties: {}
+                                        type: object
+                                      DefaultPTZTimeout:
+                                        type: string
+                                      DefaultRelativePanTiltTranslationSpace:
+                                        type: string
+                                      PanTiltLimits:
+                                        properties:
+                                          Range:
+                                            properties:
+                                              URI:
+                                                type: string
+                                              XRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                              YRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                            type: object
+                                        type: object
+                                      Token:
+                                        type: string
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1584,6 +2472,254 @@ paths:
                   sourceName: GetEventProperties
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                FixedTopicSet:
+                                  type: boolean
+                                MessageContentFilterDialect:
+                                  type: string
+                                MessageContentSchemaLocation:
+                                  type: string
+                                TopicExpressionDialect:
+                                  type: string
+                                TopicNamespaceLocation:
+                                  type: string
+                                TopicSet:
+                                  properties:
+                                    tns1:RuleEngine:
+                                      properties:
+                                        '#seq':
+                                          type: number
+                                        CellMotionDetector:
+                                          properties:
+                                            '#seq':
+                                              type: number
+                                            Motion:
+                                              properties:
+                                                '#attr':
+                                                  properties:
+                                                    wstop:topic:
+                                                      properties:
+                                                        '#seq':
+                                                          type: number
+                                                        '#text':
+                                                          type: string
+                                                      type: object
+                                                  type: object
+                                                '#seq':
+                                                  type: number
+                                                tt:MessageDescription:
+                                                  properties:
+                                                    '#attr':
+                                                      properties:
+                                                        IsProperty:
+                                                          properties:
+                                                            '#seq':
+                                                              type: number
+                                                            '#text':
+                                                              type: string
+                                                          type: object
+                                                      type: object
+                                                    '#seq':
+                                                      type: number
+                                                    tt:Data:
+                                                      properties:
+                                                        '#seq':
+                                                          type: number
+                                                        tt:SimpleItemDescription:
+                                                          properties:
+                                                            '#attr':
+                                                              properties:
+                                                                Name:
+                                                                  properties:
+                                                                    '#seq':
+                                                                      type: number
+                                                                    '#text':
+                                                                      type: string
+                                                                  type: object
+                                                                Type:
+                                                                  properties:
+                                                                    '#seq':
+                                                                      type: number
+                                                                    '#text':
+                                                                      type: string
+                                                                  type: object
+                                                              type: object
+                                                            '#seq':
+                                                              type: number
+                                                          type: object
+                                                      type: object
+                                                    tt:Source:
+                                                      properties:
+                                                        '#seq':
+                                                          type: number
+                                                        tt:SimpleItemDescription:
+                                                          items:
+                                                            properties:
+                                                              '#attr':
+                                                                properties:
+                                                                  Name:
+                                                                    properties:
+                                                                      '#seq':
+                                                                        type: number
+                                                                      '#text':
+                                                                        type: string
+                                                                    type: object
+                                                                  Type:
+                                                                    properties:
+                                                                      '#seq':
+                                                                        type: number
+                                                                      '#text':
+                                                                        type: string
+                                                                    type: object
+                                                                type: object
+                                                              '#seq':
+                                                                type: number
+                                                            required:
+                                                            - '#attr'
+                                                            - '#seq'
+                                                            type: object
+                                                          type: array
+                                                      type: object
+                                                  type: object
+                                              type: object
+                                          type: object
+                                        TamperDetector:
+                                          properties:
+                                            '#seq':
+                                              type: number
+                                            Tamper:
+                                              properties:
+                                                '#attr':
+                                                  properties:
+                                                    wstop:topic:
+                                                      properties:
+                                                        '#seq':
+                                                          type: number
+                                                        '#text':
+                                                          type: string
+                                                      type: object
+                                                  type: object
+                                                '#seq':
+                                                  type: number
+                                                tt:MessageDescription:
+                                                  properties:
+                                                    '#attr':
+                                                      properties:
+                                                        IsProperty:
+                                                          properties:
+                                                            '#seq':
+                                                              type: number
+                                                            '#text':
+                                                              type: string
+                                                          type: object
+                                                      type: object
+                                                    '#seq':
+                                                      type: number
+                                                    tt:Data:
+                                                      properties:
+                                                        '#seq':
+                                                          type: number
+                                                        tt:SimpleItemDescription:
+                                                          properties:
+                                                            '#attr':
+                                                              properties:
+                                                                Name:
+                                                                  properties:
+                                                                    '#seq':
+                                                                      type: number
+                                                                    '#text':
+                                                                      type: string
+                                                                  type: object
+                                                                Type:
+                                                                  properties:
+                                                                    '#seq':
+                                                                      type: number
+                                                                    '#text':
+                                                                      type: string
+                                                                  type: object
+                                                              type: object
+                                                            '#seq':
+                                                              type: number
+                                                          type: object
+                                                      type: object
+                                                    tt:Source:
+                                                      properties:
+                                                        '#seq':
+                                                          type: number
+                                                        tt:SimpleItemDescription:
+                                                          items:
+                                                            properties:
+                                                              '#attr':
+                                                                properties:
+                                                                  Name:
+                                                                    properties:
+                                                                      '#seq':
+                                                                        type: number
+                                                                      '#text':
+                                                                        type: string
+                                                                    type: object
+                                                                  Type:
+                                                                    properties:
+                                                                      '#seq':
+                                                                        type: number
+                                                                      '#text':
+                                                                        type: string
+                                                                    type: object
+                                                                type: object
+                                                              '#seq':
+                                                                type: number
+                                                            required:
+                                                            - '#attr'
+                                                            - '#seq'
+                                                            type: object
+                                                          type: array
+                                                      type: object
+                                                  type: object
+                                              type: object
+                                          type: object
+                                      type: object
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1700,6 +2836,179 @@ paths:
                   sourceName: GetNode
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                PTZNode:
+                                  properties:
+                                    HomeSupported:
+                                      type: boolean
+                                    Name:
+                                      type: string
+                                    SupportedPTZSpaces:
+                                      properties:
+                                        AbsolutePanTiltPositionSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            YRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        AbsoluteZoomPositionSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        ContinuousPanTiltVelocitySpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            YRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        ContinuousZoomVelocitySpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        Extension:
+                                          type: string
+                                        PanTiltSpeedSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        RelativePanTiltTranslationSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            YRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        RelativeZoomTranslationSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        ZoomSpeedSpace:
+                                          properties:
+                                            URI:
+                                              type: string
+                                            XRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                      type: object
+                                    Token:
+                                      type: string
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1810,6 +3119,181 @@ paths:
                   sourceName: GetNodes
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                PTZNode:
+                                  items:
+                                    properties:
+                                      HomeSupported:
+                                        type: boolean
+                                      Name:
+                                        type: string
+                                      SupportedPTZSpaces:
+                                        properties:
+                                          AbsolutePanTiltPositionSpace:
+                                            properties:
+                                              URI:
+                                                type: string
+                                              XRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                              YRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                            type: object
+                                          AbsoluteZoomPositionSpace:
+                                            properties:
+                                              URI:
+                                                type: string
+                                              XRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                            type: object
+                                          ContinuousPanTiltVelocitySpace:
+                                            properties:
+                                              URI:
+                                                type: string
+                                              XRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                              YRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                            type: object
+                                          ContinuousZoomVelocitySpace:
+                                            properties:
+                                              URI:
+                                                type: string
+                                              XRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                            type: object
+                                          Extension:
+                                            type: string
+                                          PanTiltSpeedSpace:
+                                            properties:
+                                              URI:
+                                                type: string
+                                              XRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                            type: object
+                                          RelativePanTiltTranslationSpace:
+                                            properties:
+                                              URI:
+                                                type: string
+                                              XRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                              YRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                            type: object
+                                          RelativeZoomTranslationSpace:
+                                            properties:
+                                              URI:
+                                                type: string
+                                              XRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                            type: object
+                                          ZoomSpeedSpace:
+                                            properties:
+                                              URI:
+                                                type: string
+                                              XRange:
+                                                properties:
+                                                  Max:
+                                                    type: number
+                                                  Min:
+                                                    type: number
+                                                type: object
+                                            type: object
+                                        type: object
+                                      Token:
+                                        type: string
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1893,6 +3377,73 @@ paths:
                   sourceName: GetPresets
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Preset:
+                                  items:
+                                    properties:
+                                      Name:
+                                        type: string
+                                      PTZPosition:
+                                        properties:
+                                          PanTilt:
+                                            properties:
+                                              Space:
+                                                type: string
+                                              X:
+                                                type: number
+                                              Y:
+                                                type: number
+                                            type: object
+                                        type: object
+                                      Token:
+                                        type: string
+                                    required:
+                                    - Name
+                                    - PTZPosition
+                                    - Token
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -1985,6 +3536,70 @@ paths:
                   sourceName: GetStatus
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                PTZStatus:
+                                  properties:
+                                    MoveStatus:
+                                      properties:
+                                        PanTilt:
+                                          type: string
+                                      type: object
+                                    Position:
+                                      properties:
+                                        PanTilt:
+                                          properties:
+                                            Space:
+                                              type: string
+                                            X:
+                                              type: number
+                                            Y:
+                                              type: number
+                                          type: object
+                                      type: object
+                                    UtcTime:
+                                      type: string
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2103,6 +3718,102 @@ paths:
                   sourceName: GetVideoEncoderConfigurations
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Configurations:
+                                  properties:
+                                    Encoding:
+                                      type: string
+                                    H264:
+                                      properties:
+                                        GovLength:
+                                          type: number
+                                        H264Profile:
+                                          type: string
+                                      type: object
+                                    Multicast:
+                                      properties:
+                                        Address:
+                                          properties:
+                                            IPv4Address:
+                                              type: string
+                                            Type:
+                                              type: string
+                                          type: object
+                                        AutoStart:
+                                          type: boolean
+                                        Port:
+                                          type: number
+                                        TTL:
+                                          type: number
+                                      type: object
+                                    Name:
+                                      type: string
+                                    Quality:
+                                      type: number
+                                    RateControl:
+                                      properties:
+                                        BitrateLimit:
+                                          type: number
+                                        EncodingInterval:
+                                          type: number
+                                        FrameRateLimit:
+                                          type: number
+                                      type: object
+                                    Resolution:
+                                      properties:
+                                        Height:
+                                          type: number
+                                        Width:
+                                          type: number
+                                      type: object
+                                    SessionTimeout:
+                                      type: string
+                                    Token:
+                                      type: string
+                                    UseCount:
+                                      type: number
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2141,6 +3852,12 @@ paths:
               example:
                 GotoHomePosition:
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                GotoHomePosition:
+                  properties:
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -2150,6 +3867,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2189,6 +3911,14 @@ paths:
                 GotoPreset:
                   PresetToken: Preset1
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                GotoPreset:
+                  properties:
+                    PresetToken:
+                      type: string
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -2240,6 +3970,55 @@ paths:
                   sourceName: Hostname
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                HostnameInformation:
+                                  properties:
+                                    FromDHCP:
+                                      type: boolean
+                                    Name:
+                                      type: string
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2263,11 +4042,11 @@ paths:
       tags:
       - Network Configuration
     put:
-      description: "This operation sets the hostname on a device. It shall be possible\
-        \ to set the device hostname configurations through the SetHostname command.\
-        \  \nA device shall accept string formatted according to RFC 1123 section\
-        \ 2.1 or alternatively to RFC 952, other string shall be considered as invalid\
-        \ strings."
+      description: 'This operation sets the hostname on a device. It shall be possible
+        to set the device hostname configurations through the SetHostname command.
+
+        A device shall accept string formatted according to RFC 1123 section 2.1 or
+        alternatively to RFC 952, other string shall be considered as invalid strings.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
@@ -2285,6 +4064,12 @@ paths:
               example:
                 Hostname:
                   Name: localhost555
+              properties:
+                Hostname:
+                  properties:
+                    Name:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -2294,6 +4079,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2348,6 +4138,45 @@ paths:
                   sourceName: MACAddress
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2384,6 +4213,9 @@ paths:
             schema:
               example:
                 MACAddress: 10-27-f5-ea-88-f4
+              properties:
+                MACAddress:
+                  type: string
               type: object
       responses:
         '200':
@@ -2393,6 +4225,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2438,6 +4275,13 @@ paths:
                   name or namespace not recognized, fault detail: , fault code: SOAP-ENV:Sender  ","statusCode":500}'
                 statusCode: 500
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  message:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: Internal Server Error
           headers:
@@ -2499,6 +4343,51 @@ paths:
                   sourceName: MetadataConfiguration
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Configuration:
+                                  properties: {}
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2539,6 +4428,19 @@ paths:
                     Analytics: true
                     token: '{{MEDIA_CONFIG_TOKEN}}'
                   ForcePersistence: true
+              properties:
+                MetadataConfiguration:
+                  properties:
+                    Configuration:
+                      properties:
+                        Analytics:
+                          type: boolean
+                        token:
+                          type: string
+                      type: object
+                    ForcePersistence:
+                      type: boolean
+                  type: object
               type: object
       responses:
         '200':
@@ -2548,6 +4450,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2609,6 +4516,51 @@ paths:
                   sourceName: MetadataConfigurationOptions
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Options:
+                                  properties: {}
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2665,6 +4617,51 @@ paths:
                   sourceName: MetadataConfigurations
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Configurations:
+                                  properties: {}
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2778,6 +4775,118 @@ paths:
                   sourceName: NetworkConfiguration
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                DNSInformation:
+                                  properties: {}
+                                  type: object
+                                HostnameInformation:
+                                  properties:
+                                    FromDHCP:
+                                      type: boolean
+                                    Name:
+                                      type: string
+                                  type: object
+                                NetworkGateway:
+                                  properties: {}
+                                  type: object
+                                NetworkInterfaces:
+                                  properties:
+                                    Enabled:
+                                      type: boolean
+                                    IPv4:
+                                      properties:
+                                        Config:
+                                          properties:
+                                            DHCP:
+                                              type: boolean
+                                            Manual:
+                                              properties:
+                                                Address:
+                                                  type: string
+                                                PrefixLength:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        Enabled:
+                                          type: boolean
+                                      type: object
+                                    Info:
+                                      properties:
+                                        HwAddress:
+                                          type: string
+                                        MTU:
+                                          type: number
+                                        Name:
+                                          type: string
+                                      type: object
+                                    Token:
+                                      type: string
+                                  type: object
+                                NetworkProtocols:
+                                  items:
+                                    properties:
+                                      Enabled:
+                                        type: boolean
+                                      Name:
+                                        type: string
+                                      Port:
+                                        type: number
+                                    required:
+                                    - Enabled
+                                    - Name
+                                    - Port
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          required:
+                          - id
+                          - origin
+                          - deviceName
+                          - resourceName
+                          - profileName
+                          - valueType
+                          - value
+                          - objectValue
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2833,6 +4942,58 @@ paths:
                   - Enabled: true
                     Name: HTTP
                     Port: 80
+              properties:
+                DNS:
+                  properties:
+                    DNSManual:
+                      properties:
+                        IPv4Address:
+                          type: string
+                        Type:
+                          type: string
+                      type: object
+                    FromDHCP:
+                      type: boolean
+                  type: object
+                Hostname:
+                  properties:
+                    Name:
+                      type: string
+                  type: object
+                NetworkDefaultGateway:
+                  properties:
+                    IPv4Address:
+                      type: string
+                  type: object
+                NetworkInterfaces:
+                  properties:
+                    InterfaceToken:
+                      type: string
+                    NetworkInterface:
+                      properties:
+                        Enabled:
+                          type: boolean
+                        IPv4:
+                          properties:
+                            DHCP:
+                              type: boolean
+                          type: object
+                      type: object
+                  type: object
+                NetworkProtocols:
+                  properties:
+                    NetworkProtocols:
+                      items:
+                        properties:
+                          Enabled:
+                            type: boolean
+                          Name:
+                            type: string
+                          Port:
+                            type: number
+                        type: object
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -2842,6 +5003,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2904,6 +5070,51 @@ paths:
                   sourceName: NetworkDefaultGateway
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                NetworkGateway:
+                                  properties: {}
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -2947,6 +5158,12 @@ paths:
               example:
                 NetworkDefaultGateway:
                   IPv4Address: 192.168.12.1
+              properties:
+                NetworkDefaultGateway:
+                  properties:
+                    IPv4Address:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -2956,6 +5173,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -3032,6 +5254,81 @@ paths:
                   sourceName: NetworkInterfaces
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                NetworkInterfaces:
+                                  properties:
+                                    Enabled:
+                                      type: boolean
+                                    IPv4:
+                                      properties:
+                                        Config:
+                                          properties:
+                                            DHCP:
+                                              type: boolean
+                                            Manual:
+                                              properties:
+                                                Address:
+                                                  type: string
+                                                PrefixLength:
+                                                  type: number
+                                              type: object
+                                          type: object
+                                        Enabled:
+                                          type: boolean
+                                      type: object
+                                    Info:
+                                      properties:
+                                        HwAddress:
+                                          type: string
+                                        MTU:
+                                          type: number
+                                        Name:
+                                          type: string
+                                      type: object
+                                    Token:
+                                      type: string
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -3082,6 +5379,22 @@ paths:
                     Enabled: true
                     IPv4:
                       DHCP: true
+              properties:
+                NetworkInterfaces:
+                  properties:
+                    InterfaceToken:
+                      type: string
+                    NetworkInterface:
+                      properties:
+                        Enabled:
+                          type: boolean
+                        IPv4:
+                          properties:
+                            DHCP:
+                              type: boolean
+                          type: object
+                      type: object
+                  type: object
               type: object
       responses:
         '200':
@@ -3091,6 +5404,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -3159,6 +5477,63 @@ paths:
                   sourceName: NetworkProtocols
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                NetworkProtocols:
+                                  items:
+                                    properties:
+                                      Enabled:
+                                        type: boolean
+                                      Name:
+                                        type: string
+                                      Port:
+                                        type: number
+                                    required:
+                                    - Enabled
+                                    - Name
+                                    - Port
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -3211,6 +5586,25 @@ paths:
                   - Enabled: true
                     Name: RTSP
                     Port: 554
+              properties:
+                NetworkProtocols:
+                  properties:
+                    NetworkProtocols:
+                      items:
+                        properties:
+                          Enabled:
+                            type: boolean
+                          Name:
+                            type: string
+                          Port:
+                            type: number
+                        required:
+                        - Name
+                        - Enabled
+                        - Port
+                        type: object
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -3220,6 +5614,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -3502,6 +5901,311 @@ paths:
                   sourceName: Profiles
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Profiles:
+                                  items:
+                                    properties:
+                                      AudioEncoderConfiguration:
+                                        properties:
+                                          Bitrate:
+                                            type: number
+                                          Encoding:
+                                            type: string
+                                          Multicast:
+                                            properties:
+                                              Address:
+                                                properties:
+                                                  IPv4Address:
+                                                    type: string
+                                                  Type:
+                                                    type: string
+                                                type: object
+                                              AutoStart:
+                                                type: boolean
+                                              Port:
+                                                type: number
+                                              TTL:
+                                                type: number
+                                            type: object
+                                          Name:
+                                            type: string
+                                          SampleRate:
+                                            type: number
+                                          SessionTimeout:
+                                            type: string
+                                          Token:
+                                            type: string
+                                          UseCount:
+                                            type: number
+                                        type: object
+                                      AudioSourceConfiguration:
+                                        properties:
+                                          Name:
+                                            type: string
+                                          SourceToken:
+                                            type: string
+                                          Token:
+                                            type: string
+                                          UseCount:
+                                            type: number
+                                        type: object
+                                      Extension:
+                                        type: 'null'
+                                      Fixed:
+                                        type: boolean
+                                      MetadataConfiguration:
+                                        type: 'null'
+                                      Name:
+                                        type: string
+                                      PTZConfiguration:
+                                        properties:
+                                          DefaultAbsolutePantTiltPositionSpace:
+                                            type: string
+                                          DefaultContinuousPanTiltVelocitySpace:
+                                            type: string
+                                          DefaultPTZSpeed:
+                                            properties: {}
+                                            type: object
+                                          DefaultPTZTimeout:
+                                            type: string
+                                          DefaultRelativePanTiltTranslationSpace:
+                                            type: string
+                                          PanTiltLimits:
+                                            properties:
+                                              Range:
+                                                properties:
+                                                  URI:
+                                                    type: string
+                                                  XRange:
+                                                    properties:
+                                                      Max:
+                                                        type: number
+                                                      Min:
+                                                        type: number
+                                                    type: object
+                                                  YRange:
+                                                    properties:
+                                                      Max:
+                                                        type: number
+                                                      Min:
+                                                        type: number
+                                                    type: object
+                                                type: object
+                                            type: object
+                                          Token:
+                                            type: string
+                                        type: object
+                                      Token:
+                                        type: string
+                                      VideoAnalyticsConfiguration:
+                                        properties:
+                                          AnalyticsEngineConfiguration:
+                                            properties:
+                                              AnalyticsModule:
+                                                items:
+                                                  properties:
+                                                    Name:
+                                                      type: string
+                                                    Parameters:
+                                                      properties:
+                                                        ElementItem:
+                                                          items:
+                                                            properties:
+                                                              Name:
+                                                                type: string
+                                                            required:
+                                                            - Name
+                                                            type: object
+                                                          type: array
+                                                        SimpleItem:
+                                                          items:
+                                                            properties:
+                                                              Name:
+                                                                type: string
+                                                              Value:
+                                                                type: string
+                                                            required:
+                                                            - Name
+                                                            - Value
+                                                            type: object
+                                                          type: array
+                                                      type: object
+                                                    Type:
+                                                      type: string
+                                                  required:
+                                                  - Name
+                                                  - Parameters
+                                                  - Type
+                                                  type: object
+                                                type: array
+                                            type: object
+                                          Name:
+                                            type: string
+                                          RuleEngineConfiguration:
+                                            properties:
+                                              Rule:
+                                                properties:
+                                                  Name:
+                                                    type: string
+                                                  Parameters:
+                                                    properties:
+                                                      SimpleItem:
+                                                        items:
+                                                          properties:
+                                                            Name:
+                                                              type: string
+                                                            Value:
+                                                              type: string
+                                                          required:
+                                                          - Name
+                                                          - Value
+                                                          type: object
+                                                        type: array
+                                                    type: object
+                                                  Type:
+                                                    type: string
+                                                type: object
+                                            type: object
+                                          Token:
+                                            type: string
+                                          UseCount:
+                                            type: number
+                                        type: object
+                                      VideoEncoderConfiguration:
+                                        properties:
+                                          Encoding:
+                                            type: string
+                                          H264:
+                                            properties:
+                                              GovLength:
+                                                type: number
+                                              H264Profile:
+                                                type: string
+                                            type: object
+                                          Multicast:
+                                            properties:
+                                              Address:
+                                                properties:
+                                                  IPv4Address:
+                                                    type: string
+                                                  Type:
+                                                    type: string
+                                                type: object
+                                              AutoStart:
+                                                type: boolean
+                                              Port:
+                                                type: number
+                                              TTL:
+                                                type: number
+                                            type: object
+                                          Name:
+                                            type: string
+                                          Quality:
+                                            type: number
+                                          RateControl:
+                                            properties:
+                                              BitrateLimit:
+                                                type: number
+                                              EncodingInterval:
+                                                type: number
+                                              FrameRateLimit:
+                                                type: number
+                                            type: object
+                                          Resolution:
+                                            properties:
+                                              Height:
+                                                type: number
+                                              Width:
+                                                type: number
+                                            type: object
+                                          SessionTimeout:
+                                            type: string
+                                          Token:
+                                            type: string
+                                          UseCount:
+                                            type: number
+                                        type: object
+                                      VideoSourceConfiguration:
+                                        properties:
+                                          Bounds:
+                                            properties:
+                                              Height:
+                                                type: number
+                                              Width:
+                                                type: number
+                                              X:
+                                                type: number
+                                              Y:
+                                                type: number
+                                            type: object
+                                          Extension:
+                                            type: 'null'
+                                          Name:
+                                            type: string
+                                          SourceToken:
+                                            type: string
+                                          Token:
+                                            type: string
+                                          UseCount:
+                                            type: number
+                                          ViewMode:
+                                            type: string
+                                        type: object
+                                    required:
+                                    - AudioEncoderConfiguration
+                                    - AudioSourceConfiguration
+                                    - Extension
+                                    - Fixed
+                                    - MetadataConfiguration
+                                    - Name
+                                    - PTZConfiguration
+                                    - Token
+                                    - VideoAnalyticsConfiguration
+                                    - VideoEncoderConfiguration
+                                    - VideoSourceConfiguration
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -3542,6 +6246,16 @@ paths:
                   InitialTerminationTime: PT120S
                   MessageContentFilter: boolean(//tt:SimpleItem[@Name="Rule"])
                   MessageTimeout: PT20S
+              properties:
+                PullPointSubscription:
+                  properties:
+                    InitialTerminationTime:
+                      type: string
+                    MessageContentFilter:
+                      type: string
+                    MessageTimeout:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -3585,6 +6299,45 @@ paths:
                   sourceName: RebootNeeded
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -3627,6 +6380,22 @@ paths:
                     PanTilt:
                       x: 10
                       y: 10
+              properties:
+                RelativeMove:
+                  properties:
+                    ProfileToken:
+                      type: string
+                    Translation:
+                      properties:
+                        PanTilt:
+                          properties:
+                            x:
+                              type: number
+                            y:
+                              type: number
+                          type: object
+                      type: object
+                  type: object
               type: object
       responses:
         '200':
@@ -3655,6 +6424,21 @@ paths:
                   - Token: '{{ANALYTIC_CONFIG_TOKEN}}'
                     Type: Analytics
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                RemoveConfiguration:
+                  properties:
+                    Configuration:
+                      items:
+                        properties:
+                          Token:
+                            type: string
+                          Type:
+                            type: string
+                        type: object
+                      type: array
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -3680,6 +6464,12 @@ paths:
               example:
                 RemoveMetadataConfiguration:
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                RemoveMetadataConfiguration:
+                  properties:
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -3689,6 +6479,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -3727,6 +6522,12 @@ paths:
               example:
                 RemovePTZConfiguration:
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                RemovePTZConfiguration:
+                  properties:
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -3753,6 +6554,14 @@ paths:
                 RemovePreset:
                   PresetToken: Preset1
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                RemovePreset:
+                  properties:
+                    PresetToken:
+                      type: string
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -3786,6 +6595,14 @@ paths:
                 RemoveScopes:
                   ScopeItem:
                   - onvif://www.onvif.org/name/Geovision
+              properties:
+                RemoveScopes:
+                  properties:
+                    ScopeItem:
+                      items:
+                        type: string
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -3839,6 +6656,33 @@ paths:
                       - Name: ClassFilter
                         Value: ' Bike Car Truck'
                     Type: tt:ObjectInField
+              properties:
+                Rules:
+                  properties:
+                    ConfigurationToken:
+                      type: string
+                    Rule:
+                      items:
+                        properties:
+                          Name:
+                            type: string
+                          Parameters:
+                            properties:
+                              SimpleItem:
+                                items:
+                                  properties:
+                                    Name:
+                                      type: string
+                                    Value:
+                                      type: string
+                                  type: object
+                                type: array
+                            type: object
+                          Type:
+                            type: string
+                        type: object
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -3850,15 +6694,20 @@ paths:
       - Analytics - Rules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Scopes:
     get:
-      description: "This operation requests the scope parameters of a device. The\
-        \ scope parameters are used in the device discovery to match a probe message,\
-        \ see Section 7. The Scope parameters are of two different types:  \n\\- Fixed\
-        \  \n\\- Configurable  \nFixed scope parameters are permanent device characteristics\
-        \ and cannot be removed through the device management interface. The scope\
-        \ type is indicated in the scope list returned in the get scope parameters\
-        \ response. A device shall support retrieval of discovery scope parameters\
-        \ through the GetScopes command. As some scope parameters are mandatory, the\
-        \ device shall return a non-empty scope list in the response."
+      description: 'This operation requests the scope parameters of a device. The
+        scope parameters are used in the device discovery to match a probe message,
+        see Section 7. The Scope parameters are of two different types:
+
+        \- Fixed
+
+        \- Configurable
+
+        Fixed scope parameters are permanent device characteristics and cannot be
+        removed through the device management interface. The scope type is indicated
+        in the scope list returned in the get scope parameters response. A device
+        shall support retrieval of discovery scope parameters through the GetScopes
+        command. As some scope parameters are mandatory, the device shall return a
+        non-empty scope list in the response.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
@@ -3904,6 +6753,60 @@ paths:
                   sourceName: Scopes
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Scopes:
+                                  items:
+                                    properties:
+                                      ScopeDef:
+                                        type: string
+                                      ScopeItem:
+                                        type: string
+                                    required:
+                                    - ScopeDef
+                                    - ScopeItem
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -3945,6 +6848,14 @@ paths:
                 Scopes:
                   Scopes:
                   - http//:123
+              properties:
+                Scopes:
+                  properties:
+                    Scopes:
+                      items:
+                        type: string
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -3962,16 +6873,16 @@ paths:
         \ capability.\n\nAlthough the name of the auxiliary commands can be freely\
         \ defined, commands starting with the prefix tt: are reserved to define frequently\
         \ used commands and these reserved commands shall all share the \"tt:command|parameter\"\
-        \ syntax.  \ntt:Wiper|On \u2013 Request to start the wiper.  \ntt:Wiper|Off\
-        \ \u2013 Request to stop the wiper.  \ntt:Washer|On \u2013 Request to start\
-        \ the washer.  \ntt:Washer|Off \u2013 Request to stop the washer.  \ntt:WashingProcedure|On\
-        \ \u2013 Request to start the washing procedure.  \ntt: WashingProcedure |Off\
-        \ \u2013 Request to stop the washing procedure.  \ntt:IRLamp|On \u2013 Request\
-        \ to turn ON an IR illuminator attached to the unit.  \ntt:IRLamp|Off \u2013\
-        \ Request to turn OFF an IR illuminator attached to the unit.  \ntt:IRLamp|Auto\
-        \ \u2013 Request to configure an IR illuminator attached to the unit so that\
-        \ it automatically turns ON and OFF.  \nA device that indicates auxiliary\
-        \ service capability shall support this command."
+        \ syntax.\ntt:Wiper|On \u2013 Request to start the wiper.\ntt:Wiper|Off \u2013\
+        \ Request to stop the wiper.\ntt:Washer|On \u2013 Request to start the washer.\n\
+        tt:Washer|Off \u2013 Request to stop the washer.\ntt:WashingProcedure|On \u2013\
+        \ Request to start the washing procedure.\ntt: WashingProcedure |Off \u2013\
+        \ Request to stop the washing procedure.\ntt:IRLamp|On \u2013 Request to turn\
+        \ ON an IR illuminator attached to the unit.\ntt:IRLamp|Off \u2013 Request\
+        \ to turn OFF an IR illuminator attached to the unit.\ntt:IRLamp|Auto \u2013\
+        \ Request to configure an IR illuminator attached to the unit so that it automatically\
+        \ turns ON and OFF.\nA device that indicates auxiliary service capability\
+        \ shall support this command."
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SendAuxiliaryCommand
@@ -3990,6 +6901,14 @@ paths:
                 SendAuxiliaryCommand:
                   AuxiliaryData: '123'
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                SendAuxiliaryCommand:
+                  properties:
+                    AuxiliaryData:
+                      type: string
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -4015,6 +6934,12 @@ paths:
               example:
                 SetHomePosition:
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                SetHomePosition:
+                  properties:
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -4024,6 +6949,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -4062,6 +6992,12 @@ paths:
               example:
                 SetPreset:
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                SetPreset:
+                  properties:
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -4092,6 +7028,12 @@ paths:
               example:
                 SetSystemFactoryDefault:
                   FactoryDefault: Soft
+              properties:
+                SetSystemFactoryDefault:
+                  properties:
+                    FactoryDefault:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -4101,6 +7043,11 @@ paths:
                 apiVersion: v2
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -4140,6 +7087,14 @@ paths:
                 Stop:
                   PanTilt: true
                   ProfileToken: '{{MEDIA_PROFILE}}'
+              properties:
+                Stop:
+                  properties:
+                    PanTilt:
+                      type: boolean
+                    ProfileToken:
+                      type: string
+                  type: object
               type: object
       responses:
         '200':
@@ -4192,6 +7147,59 @@ paths:
                   sourceName: StreamUri
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                MediaUri:
+                                  properties:
+                                    InvalidAfterConnect:
+                                      type: boolean
+                                    InvalidAfterReboot:
+                                      type: boolean
+                                    Timeout:
+                                      type: string
+                                    Uri:
+                                      type: string
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -4281,6 +7289,100 @@ paths:
                   sourceName: SystemDateAndTime
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                SystemDateAndTime:
+                                  properties:
+                                    DateTimeType:
+                                      type: string
+                                    DaylightSavings:
+                                      type: boolean
+                                    Extension:
+                                      type: string
+                                    LocalDateTime:
+                                      properties:
+                                        Date:
+                                          properties:
+                                            Month:
+                                              type: string
+                                            Year:
+                                              type: string
+                                          type: object
+                                        Time:
+                                          properties:
+                                            Hour:
+                                              type: string
+                                            Minute:
+                                              type: string
+                                            Second:
+                                              type: string
+                                          type: object
+                                      type: object
+                                    TimeZone:
+                                      properties:
+                                        TZ:
+                                          type: string
+                                      type: object
+                                    UTCDateTime:
+                                      properties:
+                                        Date:
+                                          properties:
+                                            Month:
+                                              type: string
+                                            Year:
+                                              type: string
+                                          type: object
+                                        Time:
+                                          properties:
+                                            Hour:
+                                              type: string
+                                            Minute:
+                                              type: string
+                                            Second:
+                                              type: string
+                                          type: object
+                                      type: object
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -4348,6 +7450,35 @@ paths:
                       Hour: 5
                       Minute: 48
                       Second: 20
+              properties:
+                SystemDateAndTime:
+                  properties:
+                    DateTimeType:
+                      type: string
+                    DaylightSavings:
+                      type: boolean
+                    UTCDateTime:
+                      properties:
+                        Date:
+                          properties:
+                            Day:
+                              type: number
+                            Month:
+                              type: number
+                            Year:
+                              type: number
+                          type: object
+                        Time:
+                          properties:
+                            Hour:
+                              type: number
+                            Minute:
+                              type: number
+                            Second:
+                              type: number
+                          type: object
+                      type: object
+                  type: object
               type: object
       responses:
         undefined:
@@ -4379,6 +7510,10 @@ paths:
             schema:
               example:
                 SystemReboot: {}
+              properties:
+                SystemReboot:
+                  properties: {}
+                  type: object
               type: object
       responses:
         '200':
@@ -4403,6 +7538,10 @@ paths:
             schema:
               example:
                 UnsubscribeCameraEvent: {}
+              properties:
+                UnsubscribeCameraEvent:
+                  properties: {}
+                  type: object
               type: object
       responses:
         '200':
@@ -4473,6 +7612,25 @@ paths:
                   - Password: Password1!
                     UserLevel: Operator
                     Username: user2
+              properties:
+                Users:
+                  properties:
+                    User:
+                      items:
+                        properties:
+                          Password:
+                            type: string
+                          UserLevel:
+                            type: string
+                          Username:
+                            type: string
+                        required:
+                        - Username
+                        - Password
+                        - UserLevel
+                        type: object
+                      type: array
+                  type: object
               type: object
       responses:
         '200':
@@ -4544,6 +7702,102 @@ paths:
                   sourceName: VideoEncoderConfiguration
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Configuration:
+                                  properties:
+                                    Encoding:
+                                      type: string
+                                    H264:
+                                      properties:
+                                        GovLength:
+                                          type: number
+                                        H264Profile:
+                                          type: string
+                                      type: object
+                                    Multicast:
+                                      properties:
+                                        Address:
+                                          properties:
+                                            IPv4Address:
+                                              type: string
+                                            Type:
+                                              type: string
+                                          type: object
+                                        AutoStart:
+                                          type: boolean
+                                        Port:
+                                          type: number
+                                        TTL:
+                                          type: number
+                                      type: object
+                                    Name:
+                                      type: string
+                                    Quality:
+                                      type: number
+                                    RateControl:
+                                      properties:
+                                        BitrateLimit:
+                                          type: number
+                                        EncodingInterval:
+                                          type: number
+                                        FrameRateLimit:
+                                          type: number
+                                      type: object
+                                    Resolution:
+                                      properties:
+                                        Height:
+                                          type: number
+                                        Width:
+                                          type: number
+                                      type: object
+                                    SessionTimeout:
+                                      type: string
+                                    Token:
+                                      type: string
+                                    UseCount:
+                                      type: number
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
@@ -4595,6 +7849,44 @@ paths:
                       Width: 1920
                     token: '{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}'
                   ForcePersistence: false
+              properties:
+                VideoEncoderConfiguration:
+                  properties:
+                    Configuration:
+                      properties:
+                        Encoding:
+                          type: string
+                        Multicast:
+                          properties:
+                            Address:
+                              properties:
+                                IPv4Address:
+                                  type: string
+                                Type:
+                                  type: string
+                              type: object
+                            AutoStart:
+                              type: boolean
+                            Port:
+                              type: number
+                            TTL:
+                              type: number
+                          type: object
+                        Quality:
+                          type: number
+                        Resolution:
+                          properties:
+                            Height:
+                              type: number
+                            Width:
+                              type: number
+                          type: object
+                        token:
+                          type: string
+                      type: object
+                    ForcePersistence:
+                      type: boolean
+                  type: object
               type: object
       responses:
         '500':
@@ -4610,6 +7902,13 @@ paths:
                   , fault code: SOAP-ENV:Sender  ","statusCode":500}'
                 statusCode: 500
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  message:
+                    type: string
+                  statusCode:
+                    type: number
                 type: object
           description: Internal Server Error
           headers:
@@ -4716,6 +8015,148 @@ paths:
                   sourceName: VideoEncoderConfigurationOptions
                 statusCode: 200
               schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Options:
+                                  properties:
+                                    Extension:
+                                      properties:
+                                        H264:
+                                          properties:
+                                            BitrateRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            EncodingIntervalRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            FrameRateRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            GovLengthRange:
+                                              properties:
+                                                Max:
+                                                  type: number
+                                                Min:
+                                                  type: number
+                                              type: object
+                                            H264ProfilesSupported:
+                                              items:
+                                                type: string
+                                              type: array
+                                            ResolutionsAvailable:
+                                              items:
+                                                properties:
+                                                  Height:
+                                                    type: number
+                                                  Width:
+                                                    type: number
+                                                required:
+                                                - Height
+                                                - Width
+                                                type: object
+                                              type: array
+                                          type: object
+                                      type: object
+                                    H264:
+                                      properties:
+                                        EncodingIntervalRange:
+                                          properties:
+                                            Max:
+                                              type: number
+                                            Min:
+                                              type: number
+                                          type: object
+                                        FrameRateRange:
+                                          properties:
+                                            Max:
+                                              type: number
+                                            Min:
+                                              type: number
+                                          type: object
+                                        GovLengthRange:
+                                          properties:
+                                            Max:
+                                              type: number
+                                            Min:
+                                              type: number
+                                          type: object
+                                        H264ProfilesSupported:
+                                          items:
+                                            type: string
+                                          type: array
+                                        ResolutionsAvailable:
+                                          items:
+                                            properties:
+                                              Height:
+                                                type: number
+                                              Width:
+                                                type: number
+                                            required:
+                                            - Height
+                                            - Width
+                                            type: object
+                                          type: array
+                                      type: object
+                                    QualityRange:
+                                      properties:
+                                        Max:
+                                          type: number
+                                        Min:
+                                          type: number
+                                      type: object
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
                 type: object
           description: OK
           headers:
