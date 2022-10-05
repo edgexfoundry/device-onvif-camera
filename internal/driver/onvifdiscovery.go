@@ -136,7 +136,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		// Spaces are not allowed in the device name
 		deviceName := fmt.Sprintf("%s-%s-%s",
 			strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
-			strings.ReplaceAll(devInfo.Model, " ", "-"),
+			strings.ReplaceAll(strings.ReplaceAll(devInfo.Model, "/", "-"), " ", "-"), //modified by edgego
 			endpointRefAddr)
 
 		netInfo, err := d.getNetworkInterfaces(device)
