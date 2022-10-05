@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "9dadcad5-4884-4037-aa1c-cba9f22915db",
+		"_postman_id": "74f237f6-a599-4413-8a00-83b908e0d9a8",
 		"name": "device-onvif-camera",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19151794"
+		"_exporter_id": "17657811"
 	},
 	"item": [
 		{
@@ -119,7 +119,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Hostname"
 							]
-						}
+						},
+						"description": "This operation sets the hostname on a device. It shall be possible to set the device hostname configurations through the SetHostname command.  \nA device shall accept string formatted according to RFC 1123 section 2.1 or alternatively to RFC 952, other string shall be considered as invalid strings."
 					},
 					"response": [
 						{
@@ -217,7 +218,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DNS"
 							]
-						}
+						},
+						"description": "StartFragment\n\nThis operation gets the DNS settings from a device. The device shall return its DNS configurations through the GetDNS command."
 					},
 					"response": [
 						{
@@ -303,7 +305,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DNS"
 							]
-						}
+						},
+						"description": "This operation sets the DNS settings on a device. It shall be possible to set the device DNS configurations through the SetDNS command."
 					},
 					"response": [
 						{
@@ -389,7 +392,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkInterfaces"
 							]
-						}
+						},
+						"description": "This operation gets the network interface configuration from a device. The device shall support return of network interface configuration settings as defined by the NetworkInterface type through the GetNetworkInterfaces command."
 					},
 					"response": [
 						{
@@ -475,7 +479,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkInterfaces"
 							]
-						}
+						},
+						"description": "This operation sets the network interface configuration on a device. The device shall support network configuration of supported network interfaces through the SetNetworkInterfaces command.\n\nFor interoperability with a client unaware of the IEEE 802.11 extension a device shall retain its IEEE 802.11 configuration if the IEEE 802.11 configuration element isn’t present in the request."
 					},
 					"response": [
 						{
@@ -561,7 +566,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkProtocols"
 							]
-						}
+						},
+						"description": "This operation gets defined network protocols from a device. The device shall support the GetNetworkProtocols command returning configured network protocols."
 					},
 					"response": [
 						{
@@ -647,7 +653,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkProtocols"
 							]
-						}
+						},
+						"description": "This operation configures defined network protocols on a device. The device shall support configuration of defined network protocols through the SetNetworkProtocols command."
 					},
 					"response": [
 						{
@@ -745,7 +752,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkDefaultGateway"
 							]
-						}
+						},
+						"description": "This operation gets the default gateway settings from a device. The device shall support the GetNetworkDefaultGateway command returning configured default gateway address(es)."
 					},
 					"response": [
 						{
@@ -831,7 +839,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkDefaultGateway"
 							]
-						}
+						},
+						"description": "This operation sets the default gateway settings on a device. The device shall support configuration of default gateway through the SetNetworkDefaultGateway command."
 					},
 					"response": [
 						{
@@ -1107,7 +1116,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeviceInformation"
 							]
-						}
+						},
+						"description": "This operation gets basic device information from the device."
 					},
 					"response": [
 						{
@@ -1196,7 +1206,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemDateAndTime"
 							]
-						}
+						},
+						"description": "This operation gets the device system date and time. The device shall support the return of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the GetSystemDateAndTime command.\n\nA device shall provide the UTCDateTime information."
 					},
 					"response": [
 						{
@@ -1282,7 +1293,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemDateAndTime"
 							]
-						}
+						},
+						"description": "This operation sets the device system date and time. The device shall support the configuration of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the SetSystemDateAndTime command.\n\nIf system time and date are set manually, the client shall include UTCDateTime in the request.\n\nA TimeZone token which is not formed according to the rules of IEEE 1003.1 section 8.3 is considered as invalid timezone.\n\nThe DayLightSavings flag should be set to true to activate any DST settings of the TimeZone string. Clear the DayLightSavings flag if the DST portion of the TimeZone settings should be ignored."
 					},
 					"response": [
 						{
@@ -1319,10 +1331,10 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": null,
-							"header": null,
+							"_postman_previewlanguage": "Text",
+							"header": [],
 							"cookie": [],
-							"body": null
+							"body": ""
 						}
 					]
 				},
@@ -1358,7 +1370,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SetSystemFactoryDefault"
 							]
-						}
+						},
+						"description": "This operation reloads the parameters on the device to their factory default values."
 					},
 					"response": [
 						{
@@ -1444,7 +1457,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"RebootNeeded"
 							]
-						}
+						},
+						"description": "Indicates whether or not a reboot is required after configuration updates."
 					},
 					"response": [
 						{
@@ -1530,7 +1544,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemReboot"
 							]
-						}
+						},
+						"description": "Indicates whether or not a reboot is required after configuration updates."
 					},
 					"response": []
 				}
@@ -2746,7 +2761,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Users"
 							]
-						}
+						},
+						"description": "This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command."
 					},
 					"response": []
 				},
@@ -2782,7 +2798,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"CreateUsers"
 							]
-						}
+						},
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
 					},
 					"response": []
 				},
@@ -2818,7 +2835,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Users"
 							]
-						}
+						},
+						"description": "StartFragment\n\nThis operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
 					},
 					"response": []
 				},
@@ -2854,7 +2872,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeleteUsers"
 							]
-						}
+						},
+						"description": "This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted."
 					},
 					"response": []
 				}
@@ -2886,7 +2905,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryMode"
 							]
-						}
+						},
+						"description": "This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command."
 					},
 					"response": [
 						{
@@ -2972,7 +2992,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryMode"
 							]
-						}
+						},
+						"description": "This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command."
 					},
 					"response": [
 						{
@@ -3067,7 +3088,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"AddScopes"
 							]
-						}
+						},
+						"description": "This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command."
 					},
 					"response": []
 				},
@@ -3094,7 +3116,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Scopes"
 							]
-						}
+						},
+						"description": "This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  \n\\- Fixed  \n\\- Configurable  \nFixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response."
 					},
 					"response": [
 						{
@@ -3216,7 +3239,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"RemoveScopes"
 							]
-						}
+						},
+						"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
 					},
 					"response": []
 				}
@@ -4488,7 +4512,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"SendAuxiliaryCommand"
 									]
-								}
+								},
+								"description": "Manage auxiliary commands supported by a device, such as controlling an Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected to the device.\n\nThe supported commands can be retrieved via the AuxiliaryCommands capability.\n\nAlthough the name of the auxiliary commands can be freely defined, commands starting with the prefix tt: are reserved to define frequently used commands and these reserved commands shall all share the \"tt:command|parameter\" syntax.  \ntt:Wiper|On – Request to start the wiper.  \ntt:Wiper|Off – Request to stop the wiper.  \ntt:Washer|On – Request to start the washer.  \ntt:Washer|Off – Request to stop the washer.  \ntt:WashingProcedure|On – Request to start the washing procedure.  \ntt: WashingProcedure |Off – Request to stop the washing procedure.  \ntt:IRLamp|On – Request to turn ON an IR illuminator attached to the unit.  \ntt:IRLamp|Off – Request to turn OFF an IR illuminator attached to the unit.  \ntt:IRLamp|Auto – Request to configure an IR illuminator attached to the unit so that it automatically turns ON and OFF.  \nA device that indicates auxiliary service capability shall support this command."
 							},
 							"response": []
 						}
@@ -5743,15 +5768,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
 									"protocol": "http",
@@ -5801,15 +5817,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "/* Test steps\n1) Get PTZ configuration token by executing get configurations API\n2) Update ptz_token env variable in postman with value retrieved in above step\n*/\n",
-									"options": {
-										"raw": {
-											"language": "javascript"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata?jsonObject={{ptz_enc}}",
 									"protocol": "http",

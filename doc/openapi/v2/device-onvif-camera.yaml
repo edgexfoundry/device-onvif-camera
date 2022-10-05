@@ -137,6 +137,10 @@ paths:
       - PTZ - Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddScopes:
     put:
+      description: This operation adds new configurable scope parameters to a device.
+        The scope parameters are used in the device discovery to match a probe message.
+        The device shall support addition of discovery scope parameters through the
+        AddScopes command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
@@ -518,6 +522,17 @@ paths:
       - Analytics - Rules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/CreateUsers:
     put:
+      description: 'This operation creates new device users and corresponding credentials
+        on a device for authentication purposes. The device shall support creation
+        of device users and their credentials through the CreateUsers command. Either
+        all users are created successfully or a fault message shall be returned without
+        creating any user.
+
+
+        ONVIF compliant devices are recommended to support password length of at least
+        28 bytes, as clients may follow the password derivation mechanism which results
+        in ''password equivalent'' of length 28 bytes, as described in section 3.1.2
+        of the ONVIF security white paper.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
@@ -684,6 +699,11 @@ paths:
       - Custom
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DNS:
     get:
+      description: 'StartFragment
+
+
+        This operation gets the DNS settings from a device. The device shall return
+        its DNS configurations through the GetDNS command.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
@@ -742,6 +762,8 @@ paths:
       tags:
       - Network Configuration
     put:
+      description: This operation sets the DNS settings on a device. It shall be possible
+        to set the device DNS configurations through the SetDNS command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
@@ -849,6 +871,11 @@ paths:
       - Analytics - Rules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteUsers:
     put:
+      description: This operation deletes users on a device. The device shall support
+        deletion of device users and their credentials through the DeleteUsers command.
+        A device may have one or more fixed users that cannot be deleted to ensure
+        access to the unit. Either all users are deleted successfully or a fault message
+        shall be returned and no users be deleted.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
@@ -879,6 +906,7 @@ paths:
       - User Handling
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeviceInformation:
     get:
+      description: This operation gets basic device information from the device.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
@@ -942,6 +970,10 @@ paths:
       - System Function
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DiscoveryMode:
     get:
+      description: This operation gets the discovery mode of a device. See Section
+        7.2 for the definition of the different device discovery modes. The device
+        shall support retrieval of the discovery mode setting through the GetDiscoveryMode
+        command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
@@ -1000,6 +1032,10 @@ paths:
       tags:
       - Auto Discovery
     put:
+      description: This operation sets the discovery mode operation of a device. See
+        Section 7.2 for the definition of the different device discovery modes. The
+        device shall support configuration of the discovery mode setting through the
+        SetDiscoveryMode command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
@@ -2227,6 +2263,11 @@ paths:
       tags:
       - Network Configuration
     put:
+      description: "This operation sets the hostname on a device. It shall be possible\
+        \ to set the device hostname configurations through the SetHostname command.\
+        \  \nA device shall accept string formatted according to RFC 1123 section\
+        \ 2.1 or alternatively to RFC 952, other string shall be considered as invalid\
+        \ strings."
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
@@ -2825,6 +2866,9 @@ paths:
       - Network Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkDefaultGateway:
     get:
+      description: This operation gets the default gateway settings from a device.
+        The device shall support the GetNetworkDefaultGateway command returning configured
+        default gateway address(es).
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
@@ -2883,6 +2927,9 @@ paths:
       tags:
       - Network Configuration
     put:
+      description: This operation sets the default gateway settings on a device. The
+        device shall support configuration of default gateway through the SetNetworkDefaultGateway
+        command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
@@ -2933,6 +2980,10 @@ paths:
       - Network Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkInterfaces:
     get:
+      description: This operation gets the network interface configuration from a
+        device. The device shall support return of network interface configuration
+        settings as defined by the NetworkInterface type through the GetNetworkInterfaces
+        command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces
@@ -3004,6 +3055,12 @@ paths:
       tags:
       - Network Configuration
     put:
+      description: "This operation sets the network interface configuration on a device.\
+        \ The device shall support network configuration of supported network interfaces\
+        \ through the SetNetworkInterfaces command.\n\nFor interoperability with a\
+        \ client unaware of the IEEE 802.11 extension a device shall retain its IEEE\
+        \ 802.11 configuration if the IEEE 802.11 configuration element isn\u2019\
+        t present in the request."
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
@@ -3058,6 +3115,9 @@ paths:
       - Network Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkProtocols:
     get:
+      description: This operation gets defined network protocols from a device. The
+        device shall support the GetNetworkProtocols command returning configured
+        network protocols.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols
@@ -3122,6 +3182,9 @@ paths:
       tags:
       - Network Configuration
     put:
+      description: This operation configures defined network protocols on a device.
+        The device shall support configuration of defined network protocols through
+        the SetNetworkProtocols command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
@@ -3490,6 +3553,8 @@ paths:
       - Event Handling
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/RebootNeeded:
     get:
+      description: Indicates whether or not a reboot is required after configuration
+        updates.
       parameters:
       - example: Camera001
         in: path
@@ -3699,6 +3764,10 @@ paths:
       - PTZ - Preset
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemoveScopes:
     put:
+      description: This operation deletes scope-configurable scope parameters from
+        a device. The scope parameters are used in the device discovery to match a
+        probe message, see Section 7. The device shall support deletion of discovery
+        scope parameters through the RemoveScopes command
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
@@ -3781,6 +3850,15 @@ paths:
       - Analytics - Rules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Scopes:
     get:
+      description: "This operation requests the scope parameters of a device. The\
+        \ scope parameters are used in the device discovery to match a probe message,\
+        \ see Section 7. The Scope parameters are of two different types:  \n\\- Fixed\
+        \  \n\\- Configurable  \nFixed scope parameters are permanent device characteristics\
+        \ and cannot be removed through the device management interface. The scope\
+        \ type is indicated in the scope list returned in the get scope parameters\
+        \ response. A device shall support retrieval of discovery scope parameters\
+        \ through the GetScopes command. As some scope parameters are mandatory, the\
+        \ device shall return a non-empty scope list in the response."
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
@@ -3878,6 +3956,22 @@ paths:
       - Auto Discovery
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SendAuxiliaryCommand:
     put:
+      description: "Manage auxiliary commands supported by a device, such as controlling\
+        \ an Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected\
+        \ to the device.\n\nThe supported commands can be retrieved via the AuxiliaryCommands\
+        \ capability.\n\nAlthough the name of the auxiliary commands can be freely\
+        \ defined, commands starting with the prefix tt: are reserved to define frequently\
+        \ used commands and these reserved commands shall all share the \"tt:command|parameter\"\
+        \ syntax.  \ntt:Wiper|On \u2013 Request to start the wiper.  \ntt:Wiper|Off\
+        \ \u2013 Request to stop the wiper.  \ntt:Washer|On \u2013 Request to start\
+        \ the washer.  \ntt:Washer|Off \u2013 Request to stop the washer.  \ntt:WashingProcedure|On\
+        \ \u2013 Request to start the washing procedure.  \ntt: WashingProcedure |Off\
+        \ \u2013 Request to stop the washing procedure.  \ntt:IRLamp|On \u2013 Request\
+        \ to turn ON an IR illuminator attached to the unit.  \ntt:IRLamp|Off \u2013\
+        \ Request to turn OFF an IR illuminator attached to the unit.  \ntt:IRLamp|Auto\
+        \ \u2013 Request to configure an IR illuminator attached to the unit so that\
+        \ it automatically turns ON and OFF.  \nA device that indicates auxiliary\
+        \ service capability shall support this command."
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SendAuxiliaryCommand
@@ -3979,6 +4073,8 @@ paths:
       - PTZ - Preset
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SetSystemFactoryDefault:
     put:
+      description: This operation reloads the parameters on the device to their factory
+        default values.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
@@ -4120,6 +4216,13 @@ paths:
       - Video Streaming
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SystemDateAndTime:
     get:
+      description: 'This operation gets the device system date and time. The device
+        shall support the return of the daylight saving setting and of the manual
+        system date and time (if applicable) or indication of NTP time (if applicable)
+        through the GetSystemDateAndTime command.
+
+
+        A device shall provide the UTCDateTime information.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime
@@ -4201,6 +4304,23 @@ paths:
       tags:
       - System Function
     put:
+      description: 'This operation sets the device system date and time. The device
+        shall support the configuration of the daylight saving setting and of the
+        manual system date and time (if applicable) or indication of NTP time (if
+        applicable) through the SetSystemDateAndTime command.
+
+
+        If system time and date are set manually, the client shall include UTCDateTime
+        in the request.
+
+
+        A TimeZone token which is not formed according to the rules of IEEE 1003.1
+        section 8.3 is considered as invalid timezone.
+
+
+        The DayLightSavings flag should be set to true to activate any DST settings
+        of the TimeZone string. Clear the DayLightSavings flag if the DST portion
+        of the TimeZone settings should be ignored.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
@@ -4241,6 +4361,8 @@ paths:
       - System Function
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SystemReboot:
     put:
+      description: Indicates whether or not a reboot is required after configuration
+        updates.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot
@@ -4292,6 +4414,9 @@ paths:
       - Event Handling
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Users:
     get:
+      description: This operation lists the registered users and corresponding credentials
+        on a device. The device shall support retrieval of registered device users
+        and their credentials for the user token through the GetUsers command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers
@@ -4311,6 +4436,20 @@ paths:
       tags:
       - User Handling
     put:
+      description: 'StartFragment
+
+
+        This operation creates new device users and corresponding credentials on a
+        device for authentication purposes. The device shall support creation of device
+        users and their credentials through the CreateUsers command. Either all users
+        are created successfully or a fault message shall be returned without creating
+        any user.
+
+
+        ONVIF compliant devices are recommended to support password length of at least
+        28 bytes, as clients may follow the password derivation mechanism which results
+        in ''password equivalent'' of length 28 bytes, as described in section 3.1.2
+        of the ONVIF security white paper.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser
