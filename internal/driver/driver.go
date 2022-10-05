@@ -257,6 +257,11 @@ func (d *Driver) addProvisionWatchers() error {
 
 	var errs []error
 	for _, file := range files {
+		//add by edgego,if existes any dir will skip , or not json file also skip
+		if file.IsDir() || !strings.HasSuffix(file.Name(), ".json") {
+			continue
+		}
+		
 		filename := filepath.Join(provisionWatcherFolder, file.Name())
 		d.lc.Debugf("processing %s", filename)
 		var watcher dtos.ProvisionWatcher
