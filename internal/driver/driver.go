@@ -257,7 +257,7 @@ func (d *Driver) addProvisionWatchers() error {
 
 	var errs []error
 	for _, file := range files {
-		/if existes any dir will skip them , or skip  non-json file
+		//skip all directories, and files that do not end with .json
 		if file.IsDir() || !strings.HasSuffix(file.Name(), ".json") {
 			continue
 		}
