@@ -219,7 +219,7 @@
 								"DNS"
 							]
 						},
-						"description": "StartFragment\n\nThis operation gets the DNS settings from a device. The device shall return its DNS configurations through the GetDNS command."
+						"description": "This operation gets the DNS settings from a device. The device shall return its DNS configurations through the GetDNS command."
 					},
 					"response": [
 						{
@@ -2836,7 +2836,7 @@
 								"Users"
 							]
 						},
-						"description": "StartFragment\n\nThis operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
 					},
 					"response": []
 				},
@@ -3275,7 +3275,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GetNodes"
 									]
-								}
+								},
+								"description": "Get the descriptions of the available PTZ Nodes.\n\nA PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may represent mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ drivers. PTZ Nodes are the lowest level entities in the PTZ control API and reflect the supported PTZ capabilities. The PTZ Node is referenced either by its name or by its reference token."
 							},
 							"response": [
 								{
@@ -3359,7 +3360,8 @@
 											"description": "{\"NodeToken\": \"Node0\"}"
 										}
 									]
-								}
+								},
+								"description": "Get a specific PTZ Node identified by a reference token or a name."
 							},
 							"response": [
 								{
@@ -3459,7 +3461,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GetConfigurations"
 									]
-								}
+								},
+								"description": "Get all the existing PTZConfigurations from the device.  \nThe default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.  \nThe allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly."
 							},
 							"response": [
 								{
@@ -3555,7 +3558,8 @@
 											"description": "{\"PTZConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
-								}
+								},
+								"description": "Get a specific PTZconfiguration from the device, identified by its reference token or name.\n\nThe default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.\n\nThe allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly."
 							},
 							"response": [
 								{
@@ -3657,7 +3661,8 @@
 											"description": "{\"ConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
-								}
+								},
+								"description": "List supported coordinate systems including their range limitations. Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node."
 							},
 							"response": [
 								{
@@ -3750,7 +3755,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Configuration"
 									]
-								}
+								},
+								"description": "Set/update a existing PTZConfiguration on the device."
 							},
 							"response": []
 						},
@@ -3786,7 +3792,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AddPTZConfiguration"
 									]
-								}
+								},
+								"description": "Add a new PTZConfiguration on the device."
 							},
 							"response": []
 						},
@@ -3822,7 +3829,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RemovePTZConfiguration"
 									]
-								}
+								},
+								"description": "Remove a PTZConfiguration on the device."
 							},
 							"response": []
 						}
@@ -3863,7 +3871,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AbsoluteMove"
 									]
-								}
+								},
+								"description": "Operation to move pan,tilt or zoom to a absolute destination.\n\nThe speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used."
 							},
 							"response": []
 						},
@@ -3899,7 +3908,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RelativeMove"
 									]
-								}
+								},
+								"description": "Operation for Relative Pan/Tilt and Zoom Move. The operation is supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space.\n\nThe speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used."
 							},
 							"response": []
 						},
@@ -3935,7 +3945,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"ContinuousMove"
 									]
-								}
+								},
+								"description": "Operation for continuous Pan/Tilt and Zoom movements. The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used."
 							},
 							"response": []
 						},
@@ -3981,7 +3992,8 @@
 											"description": "{\"ProfileToken\":\"profile_1\"}"
 										}
 									]
-								}
+								},
+								"description": "Operation to request PTZ status for the Node in the selected profile."
 							},
 							"response": [
 								{
@@ -4073,7 +4085,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Stop"
 									]
-								}
+								},
+								"description": "Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type. If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements."
 							},
 							"response": []
 						}
@@ -4114,7 +4127,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"SetPreset"
 									]
-								}
+								},
+								"description": "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation."
 							},
 							"response": []
 						},
@@ -4148,7 +4162,8 @@
 											"description": "{\"ProfileToken\":\"profile_1\"}"
 										}
 									]
-								}
+								},
+								"description": "Operation to request all PTZ presets for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode."
 							},
 							"response": [
 								{
@@ -4240,7 +4255,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GotoPreset"
 									]
-								}
+								},
+								"description": "Operation to go to a saved preset position for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode."
 							},
 							"response": []
 						},
@@ -4276,7 +4292,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RemovePreset"
 									]
-								}
+								},
+								"description": "Operation to remove a PTZ preset for the Node in the selected profile. The operation is supported if the PresetPosition capability exists for teh Node in the selected profile."
 							},
 							"response": []
 						}
@@ -4317,7 +4334,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GotoHomePosition"
 									]
-								}
+								},
+								"description": "Operation to move the PTZ device to it's \"home\" position. The operation is supported if the HomeSupported element in the PTZNode is true."
 							},
 							"response": [
 								{
@@ -4412,7 +4430,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"SetHomePosition"
 									]
-								}
+								},
+								"description": "Operation to save current position as the home position. The SetHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the SetHomePosition is successful, it is possible to recall the Home Position with the GotoHomePosition command."
 							},
 							"response": [
 								{
@@ -4547,7 +4566,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"GetEventProperties"
 							]
-						}
+						},
+						"description": "The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProperties. This specification does not require the implementation of the WS-ResourceProperty interface. Instead, the subsequent direct interface shall be implemented by an ONVIF compliant device in order to provide information about the FilterDialects, Schema files and topics supported by the device."
 					},
 					"response": [
 						{
@@ -4669,7 +4689,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"PullPointSubscription"
 							]
-						}
+						},
+						"description": "This method returns a PullPointSubscription that can be polled using PullMessages. This message contains the same elements as the SubscriptionRequest of the WS-BaseNotification without the ConsumerReference.\n\nIf no Filter is specified the pullpoint notifies all occurring events to the client.\n\nThis method is mandatory."
 					},
 					"response": []
 				},
@@ -4705,7 +4726,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"UnsubscribeCameraEvent"
 							]
-						}
+						},
+						"description": "The device shall provide the following Unsubscribe command for all SubscriptionManager endpoints returned by the CreatePullPointSubscription command.\n\nThis command shall terminate the lifetime of a pull point."
 					},
 					"response": []
 				}
@@ -4740,7 +4762,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2Profiles"
 									]
-								}
+								},
+								"description": "Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command."
 							},
 							"response": [
 								{
@@ -4817,7 +4840,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GetAnalyticsConfigurations"
 									]
-								}
+								},
+								"description": "By default this operation lists all existing video analytics configurations for a device. Provide a profile token to list only configurations that are compatible with the profile. If a configuration token is provided only a single configuration will be returned."
 							},
 							"response": [
 								{
@@ -4903,7 +4927,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AddConfiguration"
 									]
-								}
+								},
+								"description": "This operation adds one or more Configurations to an existing media profile. If a configuration exists in the media profile, it will be replaced. A device shall support adding a compatible Configuration to a Profile containing a VideoSourceConfiguration and shall support streaming video data of such a profile.\n\nNote that OSD elements must be added via the CreateOSD command."
 							},
 							"response": []
 						},
@@ -4939,7 +4964,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RemoveConfiguration"
 									]
-								}
+								},
+								"description": "This operation removes the listed configurations from an existing media profile. If the media profile does not contain one of the listed configurations that item shall be ignored."
 							},
 							"response": []
 						}
@@ -4971,7 +4997,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GetSupportedAnalyticsModules"
 									]
-								}
+								},
+								"description": "StartFragmen\n\nList all analytics modules that are supported by the given VideoAnalyticsConfiguration."
 							},
 							"response": []
 						},
@@ -5004,7 +5031,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration."
 							},
 							"response": []
 						},
@@ -5040,7 +5068,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"CreateAnalyticsModules"
 									]
-								}
+								},
+								"description": "Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the analytics module must match those of the corresponding AnalyticsModuleDescription.\n\nAlthough this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and GetAnalyticsConfigurations.\n\nThe device shall ensure that a corresponding analytics engine starts operation when a client subscribes directly or indirectly for events produced by the analytics or rule engine or when a client requests the corresponding scene description stream. An analytics module must be attached to a Video source using the media profiles before it can be used. In case differing analytics configurations are attached to the same profile it is undefined which of the analytics module configuration becomes active if no stream is activated or multiple streams with different profiles are activated at the same time."
 							},
 							"response": []
 						},
@@ -5076,7 +5105,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"DeleteAnalyticsModules"
 									]
-								}
+								},
+								"description": "Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names."
 							},
 							"response": []
 						},
@@ -5109,7 +5139,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "Return the options for the supported analytics modules that specify an Option attribute."
 							},
 							"response": []
 						},
@@ -5145,7 +5176,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AnalyticsModules"
 									]
-								}
+								},
+								"description": "Modify the settings of one or more analytics modules of a VideoAnalyticsConfiguration. The modules are referenced by their names. It is allowed to pass only a subset to be modified."
 							},
 							"response": []
 						}
@@ -5183,7 +5215,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "List all rules that are supported by the given VideoAnalyticsConfiguration."
 							},
 							"response": []
 						},
@@ -5216,7 +5249,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "List the currently assigned set of rules of a VideoAnalyticsConfiguration."
 							},
 							"response": []
 						},
@@ -5249,7 +5283,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "Return the options for the supported rules that specify an Option attribute."
 							},
 							"response": []
 						},
@@ -5285,7 +5320,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"CreateRules"
 									]
-								}
+								},
+								"description": "Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the rules must match those of the corresponding description.\n\nAlthough this method is mandatory a device implementation must not support adding rules. Instead it can provide a fixed set of predefined configurations via the media service function GetCompatibleVideoAnalyticsConfigurations."
 							},
 							"response": []
 						},
@@ -5321,7 +5357,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"DeleteRules"
 									]
-								}
+								},
+								"description": "Remove one or more rules from a VideoAnalyticsConfiguration."
 							},
 							"response": []
 						},
@@ -5357,7 +5394,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Rules"
 									]
-								}
+								},
+								"description": "Modify one or more rules of a VideoAnalyticsConfiguration. The rules are referenced by their names."
 							},
 							"response": []
 						}
