@@ -189,7 +189,7 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 
 	var responses []string
 	buf := make([]byte, bufSize)
-	// keep reading from the connection
+	// keep reading responses from the connection
 	for {
 		n, err := conn.Read(buf)
 		if err != nil {
