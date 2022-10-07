@@ -938,7 +938,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkConfiguration"
 							]
-						}
+						},
+						"description": "Used to retrieve network resources for a device such as Hostname, DNS, NetworkInterfaces, NetworkProtocols and NetworkDefaultGateway."
 					},
 					"response": [
 						{
@@ -1024,7 +1025,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkConfiguration"
 							]
-						}
+						},
+						"description": "Used to configure network resources for a device such as Hostname, DNS, NetworkInterfaces, NetworkProtocols and NetworkDefaultGateway."
 					},
 					"response": [
 						{
@@ -4667,7 +4669,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"BaseNotificationSubscription"
 							]
-						}
+						},
+						"description": "Create a subscription to subscribe the event from the camera"
 					},
 					"response": []
 				},
@@ -5012,7 +5015,7 @@
 										"GetSupportedAnalyticsModules"
 									]
 								},
-								"description": "StartFragmen\n\nList all analytics modules that are supported by the given VideoAnalyticsConfiguration."
+								"description": "List all analytics modules that are supported by the given VideoAnalyticsConfiguration."
 							},
 							"response": []
 						},
@@ -5443,7 +5446,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MACAddress"
 							]
-						}
+						},
+						"description": "This command returns the MAC address associated with a device."
 					},
 					"response": [
 						{
@@ -5529,7 +5533,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MACAddress"
 							]
-						}
+						},
+						"description": "This command sets the MAC address associated with a device."
 					},
 					"response": [
 						{
@@ -5615,7 +5620,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"FriendlyName"
 							]
-						}
+						},
+						"description": "This operation is used by an endpoint to get the FriendlyName from a device. This is a name given to a device by a user to make the device more identifiable."
 					},
 					"response": [
 						{
@@ -5701,7 +5707,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"FriendlyName"
 							]
-						}
+						},
+						"description": "This operation is used by an endpoint to set the FriendlyName of a device. This is a name given to a device by a user to make the device more identifiable."
 					},
 					"response": [
 						{
@@ -5812,7 +5819,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"CustomMetadata"
 							]
-						}
+						},
+						"description": "This command returns the user specified custom metadata associated with a device."
 					},
 					"response": [
 						{
@@ -5967,7 +5975,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"CustomMetadata"
 							]
-						}
+						},
+						"description": "This command sets the user specified custom metadata associated with a device."
 					},
 					"response": [
 						{
