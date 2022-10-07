@@ -136,7 +136,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		// Spaces and slashes are not allowed in the device name
 		deviceName := fmt.Sprintf("%s-%s-%s",
 			strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
-			strings.ReplaceAll(strings.ReplaceAll(devInfo.Model, "/", "-"), " ", "-"), 
+			strings.ReplaceAll(strings.ReplaceAll(devInfo.Model, "/", "-"), " ", "-"),
 			endpointRefAddr)
 
 		netInfo, err := d.getNetworkInterfaces(device)

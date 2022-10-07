@@ -261,7 +261,7 @@ func (d *Driver) addProvisionWatchers() error {
 		if file.IsDir() || !strings.HasSuffix(file.Name(), ".json") {
 			continue
 		}
-		
+
 		filename := filepath.Join(provisionWatcherFolder, file.Name())
 		d.lc.Debugf("processing %s", filename)
 		var watcher dtos.ProvisionWatcher
