@@ -211,7 +211,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 
 #### 1. Discovery Configuration
 
-> _See the [Auto Discovery Configuration Guide](../auto-discovery.md#Configuration-Guide)  for full details_
+> _See the [Auto Discovery Configuration Guide](../auto-discovery.md#Configuration-Guide) for full details_
 >
 <details>
 <summary><strong>via Configuration File</strong></summary>
@@ -575,6 +575,8 @@ Device discovery is triggered by the device service. Once the device service sta
 >**NOTE:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
 
 </details>
+
+<br/>
 
 1. Map credentials using the `map-credentials.sh` script.  
    a. Navigate to the `device-onvif-camera` directory   
