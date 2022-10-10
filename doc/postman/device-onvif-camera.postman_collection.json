@@ -1062,7 +1062,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"NetworkConfiguration"
 									]
-								}
+								},
+								"description": "Onvif Protocol Specification [https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl)"
 							},
 							"status": "OK",
 							"code": 200,
@@ -1090,8 +1091,7 @@
 						}
 					]
 				}
-			],
-			"description": "Onvif Protocol Specification [https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl)"
+			]
 		},
 		{
 			"name": "System Function",
@@ -1581,9 +1581,9 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"SystemReboot"
-									],
-									"description": "Indicates whether or not a reboot is required after configuration updates."
-								}
+									]
+								},
+								"description": "Indicates whether or not a reboot is required after configuration updates."
 							},
 							"status": "OK",
 							"code": 200,
@@ -2862,9 +2862,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"Users"
-							],
-							"description": "This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command."
-						}
+							]
+						},
+						"description": "This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command."
 					},
 					"response": [
 						{
@@ -2949,10 +2949,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"CreateUsers"
-							],
-							"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
-						}
-
+							]
+						},
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
 					},
 					"response": [
 						{
@@ -3027,9 +3026,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"Users"
-							],
-							"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
-						}
+							]
+						},
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
 					},
 					"response": [
 						{
@@ -3123,9 +3122,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeleteUsers"
-							],
-							"description": "This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted."
-						}
+							]
+						},
+						"description": "This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted."
 					},
 					"response": [
 						{
@@ -3398,9 +3397,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"AddScopes"
-							],
-							"description": "This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command."
-						}
+							]
+						},
+						"description": "This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command."
 					},
 					"response": [
 						{
@@ -3572,9 +3571,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"Scopes"
-							],
-							"description": "This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead."
-						}
+							]
+						},
+						"description": "This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead."
 					},
 					"response": [
 						{
@@ -3668,9 +3667,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"RemoveScopes"
-							],
-							"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
-						}
+							]						
+						},
+						"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
 					},
 					"response": [
 						{
@@ -4243,9 +4242,9 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"Configuration"
-									],
-									"description": "Set/update a existing PTZConfiguration on the device."
-								}
+									]									
+								},
+								"description": "Set/update a existing PTZConfiguration on the device."
 							},
 							"response": [
 								{
@@ -4339,9 +4338,9 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"AddPTZConfiguration"
-									],
-									"description": "Add a new PTZConfiguration on the device."
-								}
+									]
+								},
+								"description": "Add a new PTZConfiguration on the device."
 							},
 							"response": [
 								{
@@ -4551,9 +4550,9 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"ContinuousMove"
-									],
-									"description": "Operation for continuous Pan/Tilt and Zoom movements. The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used."
-								}
+									]
+								},
+								"description": "Operation for continuous Pan/Tilt and Zoom movements. The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used."
 							},
 							"response": [
 								{
@@ -4750,9 +4749,9 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"Stop"
-									],
-									"description": "Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type. If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements."
-								}
+									]
+								},
+								"description": "Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type. If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements."
 							},
 							"response": [
 								{
@@ -4851,9 +4850,9 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"SetPreset"
-									],
-									"description": "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation."
-								}
+									]
+								},
+								"description": "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation."
 							},
 							"response": [
 								{
@@ -5314,9 +5313,9 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"SendAuxiliaryCommand"
-									],
-									"description": "Manage auxiliary commands supported by a device, such as controlling an Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected to the device.\n\nThe supported commands can be retrieved via the AuxiliaryCommands capability.\n\nAlthough the name of the auxiliary commands can be freely defined, commands starting with the prefix tt: are reserved to define frequently used commands and these reserved commands shall all share the \"tt:command|parameter\" syntax.  \ntt:Wiper|On – Request to start the wiper.  \ntt:Wiper|Off – Request to stop the wiper.  \ntt:Washer|On – Request to start the washer.  \ntt:Washer|Off – Request to stop the washer.  \ntt:WashingProcedure|On – Request to start the washing procedure.  \ntt: WashingProcedure |Off – Request to stop the washing procedure.  \ntt:IRLamp|On – Request to turn ON an IR illuminator attached to the unit.  \ntt:IRLamp|Off – Request to turn OFF an IR illuminator attached to the unit.  \ntt:IRLamp|Auto – Request to configure an IR illuminator attached to the unit so that it automatically turns ON and OFF.  \nA device that indicates auxiliary service capability shall support this command."
-								}
+									]
+								},
+								"description": "Manage auxiliary commands supported by a device, such as controlling an Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected to the device.\n\nThe supported commands can be retrieved via the AuxiliaryCommands capability.\n\nAlthough the name of the auxiliary commands can be freely defined, commands starting with the prefix tt: are reserved to define frequently used commands and these reserved commands shall all share the \"tt:command|parameter\" syntax.  \ntt:Wiper|On – Request to start the wiper.  \ntt:Wiper|Off – Request to stop the wiper.  \ntt:Washer|On – Request to start the washer.  \ntt:Washer|Off – Request to stop the washer.  \ntt:WashingProcedure|On – Request to start the washing procedure.  \ntt: WashingProcedure |Off – Request to stop the washing procedure.  \ntt:IRLamp|On – Request to turn ON an IR illuminator attached to the unit.  \ntt:IRLamp|Off – Request to turn OFF an IR illuminator attached to the unit.  \ntt:IRLamp|Auto – Request to configure an IR illuminator attached to the unit so that it automatically turns ON and OFF.  \nA device that indicates auxiliary service capability shall support this command."
 							},
 							"response": [
 								{
@@ -5495,9 +5494,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"BaseNotificationSubscription"
-							],
-							"description": "Create a subscription to subscribe the event from the camera"
-						}
+							]
+						},
+						"description": "Create a subscription to subscribe the event from the camera"
 					},
 					"response": [
 						{
@@ -5591,9 +5590,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"PullPointSubscription"
-							],
-							"description": "This method returns a PullPointSubscription that can be polled using PullMessages. This message contains the same elements as the SubscriptionRequest of the WS-BaseNotification without the ConsumerReference.\n\nIf no Filter is specified the pullpoint notifies all occurring events to the client.\n\nThis method is mandatory."
-						}
+							]
+						},
+						"description": "This method returns a PullPointSubscription that can be polled using PullMessages. This message contains the same elements as the SubscriptionRequest of the WS-BaseNotification without the ConsumerReference.\n\nIf no Filter is specified the pullpoint notifies all occurring events to the client.\n\nThis method is mandatory."
 					},						
 					"response": [
 						{
@@ -5687,9 +5686,9 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"UnsubscribeCameraEvent"
-							],
-							"description": "The device shall provide the following Unsubscribe command for all SubscriptionManager endpoints returned by the CreatePullPointSubscription command.\n\nThis command shall terminate the lifetime of a pull point."
-						}
+							]
+						},
+						"description": "The device shall provide the following Unsubscribe command for all SubscriptionManager endpoints returned by the CreatePullPointSubscription command.\n\nThis command shall terminate the lifetime of a pull point."
 					},
 					"response": [
 						{
@@ -6088,9 +6087,9 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"CreateAnalyticsModules"
-									],
-									"description": "Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the analytics module must match those of the corresponding AnalyticsModuleDescription.\n\nAlthough this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and GetAnalyticsConfigurations.\n\nThe device shall ensure that a corresponding analytics engine starts operation when a client subscribes directly or indirectly for events produced by the analytics or rule engine or when a client requests the corresponding scene description stream. An analytics module must be attached to a Video source using the media profiles before it can be used. In case differing analytics configurations are attached to the same profile it is undefined which of the analytics module configuration becomes active if no stream is activated or multiple streams with different profiles are activated at the same time."
-								}
+									]
+								},
+								"description": "Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the analytics module must match those of the corresponding AnalyticsModuleDescription.\n\nAlthough this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and GetAnalyticsConfigurations.\n\nThe device shall ensure that a corresponding analytics engine starts operation when a client subscribes directly or indirectly for events produced by the analytics or rule engine or when a client requests the corresponding scene description stream. An analytics module must be attached to a Video source using the media profiles before it can be used. In case differing analytics configurations are attached to the same profile it is undefined which of the analytics module configuration becomes active if no stream is activated or multiple streams with different profiles are activated at the same time."
 							},
 							"response": [
 								{
@@ -6399,9 +6398,9 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"CreateRules"
-									],
-									"description": "Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the rules must match those of the corresponding description.\n\nAlthough this method is mandatory a device implementation must not support adding rules. Instead it can provide a fixed set of predefined configurations via the media service function GetCompatibleVideoAnalyticsConfigurations."
-								}
+									]
+								},
+								"description": "Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the rules must match those of the corresponding description.\n\nAlthough this method is mandatory a device implementation must not support adding rules. Instead it can provide a fixed set of predefined configurations via the media service function GetCompatibleVideoAnalyticsConfigurations."
 							},
 							"response": [
 								{
