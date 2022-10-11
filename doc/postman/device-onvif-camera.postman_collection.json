@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "9dadcad5-4884-4037-aa1c-cba9f22915db",
-		"name": "device-onvif-camera",
+		"_postman_id": "117aa9ba-01bf-421f-bf59-fb109888c2d4",
+		"name": "device-onvif-camera Copy 4",
 		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19151794"
@@ -2460,9 +2460,60 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Snapshot"
 							]
-						}
+						},
+						"description": "This request returns a snapshot of the video stream at the time the command is given.\n\nIt is returned in a binary format."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Snapshot",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Snapshot"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "e1116b67-69cd-4ed8-9b70-f543c9cf4a17"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 15:25:00 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"5fdf593f-2a92-4a71-b08c-791d7a27fdff\",\n        \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Snapshot\",\n        \"origin\": 1665415500727830418,\n        \"readings\": [\n            {\n                \"id\": \"d04a9dad-feb9-4099-a524-8a4b4cf2cc37\",\n                \"origin\": 1665415500727830418,\n                \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n                \"resourceName\": \"Snapshot\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Binary\",\n                \"binaryValue\": \"/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCACAAKADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzGwiBtoGx/wAs1/kK0BGPSotPH+g23/XFP5CreKxOyOwxVqTYuOlAWn7eKQFd1VQDtH3hUgtoz1QUsq/u2PoM1PikBCLWL+4KelkhOQSAOp3dKoX+sQWalVO+X0HasB9bumOfMP0oDmR2T6c/klt/4d/5VRvNOkhxvQrkcblH4/rmsaz8TT25bzP3qMCNp7Z9K3IvGcU0C211F5kROTnG4dOh7dKYXTMPysXeMV0MKgDpVC4+xTXiy2QkMXPDNuI4rRgGcUBYsqgFSgUiLUoFMmwzbU8a0wLzVmMAimMlij713+h2a2lhEpX52G5vxrj9Nthc3kUJGQx5HtXoUaYFBUELIgYZ2ivLviHKJ47tAoxDAyj8ia9TkkWGF5HOFUc15H4oJm03UZW5LQyH9DTiKo9DmdPQ/YbbH/PFP5CrgWoNNP8AxLbX/rin8hVwVIR2GBacFp4UU8LSAryL8hqrqF4LTTTICN54XNaEi/Ka5LXpi8kcfZF6e5oAxXcscmoy1KetMaqSMGLuGacGqIU8A02gNK0vWhTAJByDXX6bMLiFXXvXBxiur8NSMZBGx+X0rKRvTd3Y6VBUyjirM1uoCOg4bP5j/IqMJirTHKNhgFSxjmgJTo1IamSdL4Xh3X5fH3Vrs8Yrl/Csf7yZ/Yf1rqyKGaIyddlMemOF43naa8419c6HqJx/y7Sf+gmvQPExItIVHQuc/lXB6+MeH9SP/TtJ/wCgmtYGFU5jTVH9mWn/AFxT+Qq2FqjppP8AZ1qP+mKfyFaS9KxNI7ABTgKUCngDFICMjiuG1cEXsoPrXdtiuP8AEUW25V/7wNBMjnj1ptPbrTcc1Zix8MZedR2zzVuWEKpUDBBp1lDj5z+FWbiA7t46GspT1OmnT0uVbOHfLg9K9G0Lw8xtYLuAr5chYZZuflxk1wtpFtkz2r03w5K7aBdRXczrHbyRNGuBwH3A4+vH6UblU9GdHe2sP2Nx5iBtxK57np/9euaxTjfSSjBOBTQaqBdRp7CgU9Rg01aeOtUYnV+FjzN9BXUiuS8Ln/SWX1WuvUc0MtGJ4nQ/Z7Y44yf6VwfiEY8P6l/17Sf+gmvR/ESb9MiOORJ/MH/CvP8AxGn/ABT2pHt9lk/9BNbwOeocPp0MzWFqwdR+5T+Qq4ILr+8lJpqj+zbP/rhH/wCg1eVaxNY7FURXX95Kf9nu/wC+lWwKkAqWhmU7XKnBWsvWIxJYuzD5lwRXTyRFkIUZasPVrO5Ns6LBISeOmR+lAmjidhJp6QMx6VrLpk0Ry8R/KmPHtbGMVnKdg5CONdiYFWuGhwagqzEm5BWL1N4qxNZoN4wK9C1R/M0jSQEVWNth2A5faxVc/QAVwtpGVbPpXpviH+zrTR9Ks1niFxDHlgvcNz/P+daxYmjnIweKsqKbGqkDBzU6rWyMhB0p69aAlSpHVNEm1oD7L+L3OK7pBXnunnyriJ/Rga9CRuhpFplTWofM05sdVIavPfEq48Nap/16S/8AoBr064QTwPGf4gRXm/iZMeGtVyOlpLn/AL5NaQdkY1Fc4fTR/wASyz/64R/+gitFU4qrpUQ/sqyZ8qot48+v3RVpbiVFkiixhxg5QE/gSMj8KzNI7DguFLZGB1yRU9ncWRLLc7xgfK688+mPSs1oHbr+tK6i3i3NwPWpGaUVxam4wqMAOjMe/wBKW8vbSGM+dIq56AnrXPPeSSf8e2UTvIR/IUiwRiOS6nbeQPvSck0mxsklubedW8mVW9s1nOFOeBVS65BuYE8tg33R3FSRP5ihgeDUNDI3t1ZvkGCe1WLa3YcEVNboplBIq/GirIDjjvUuJdN62Io4SozViOEzq4X74rUisEnjPkgucZwAc04RQ2MrJEfMZ12yHHAPfFZ6nZaJjQve2hyrnGehGQa7BrcMsUsQIiliWQE+pHI/A5H4VkSxqyHI6dvSum0TbqPh2W3zmeyJdB3MZ64+h5/GtoHNWguhnhcdadkZ4pWpoHNanMWYeor0G1ffBG2eqivPYuldxob79PXnOKBo0+1cL42h8rQ9ZHrZyn/xw13ijNcj4/hx4c1WT1sZh+SGriRI820qEyaZp/p9mj/9BFX/ALKELEjHyk1Z0qK3g8M6bPMQo+yQkk+6CqNzJc3zYhR0i6Db94/X0qTSOxBcXKR/u41MkvoOg+pqolpNeEGYb8fgo/DvWpDpSR7TIM8Z254/+vV4g8jtxxQBhLZbPv8AJxj2rO1k+UkcC/Vh/KukkT94KwdcXzbmCJRl8HP41IGBGXkcKo9eKfYj9y6n7ytW9Y6X9nUtImZT+lZWwWepTQkYWTFS0ImgilyCBVxGYfeHNWEgCqAKUw07DLNrfvAwaGRo3HQqcVNJ4j1JeWuBKAc/vYlfH0yKzfLxUU/EJpWK5mbNv4kt7ydY9StIgrHDS267Hx/ujg/lWnaXn/CO67b3sJM9jJkpIoIEsZ4I+o9PUVwg4OeldZ4d1GC7h/si+ZVhIzDKesT+v0PQ/wD1qaQc76nS3doslst/asj28nQK2Sh9D+uKoVZ0OO7sdSksJ4d0E64kiZlyfQqSeTyDx1pLu0ksrh4ZR8ynGexHqKohjI+ldd4ZkzbyR+hBrkYq6Xw04W4ZP7woBHVKOK5vx9Hu8Fas392zm/8AQDXTAVheN03+BtcA6ixmP/jhoTJkeZeHLO717TtOjJKWsFtEq8dwgGa6+TSI7WFYoo8d/c1ifDS8M1ra2RXIS3VgfbA6/mK7u5T94D6AD880zWOxxU0Oxm44BqnIPmf6VuXsWC59WNY7rjf+FANFJxjrWNEq3XiBuMiPp9f8mtq6bylZj0GKo+H7cOs923LSNwfYf/XzQKxcljwM4rkNfQpepMBkcV2tyMRmuU1yJpIjjtzQFjT2DaCPTNMJpdOzLpcUjctt5PrSN1pNA0Rmqs/3TVo1Vn+6akCi9EZ/eDmnPUaffBpCO80u7l1fTWtnAluI1zbydHXH8Oe4PTnuRWvaX8eu2yQ3Mu27hG1JG4Dj0Y/ng/nWH4UMQdAW2kNuVj0Hrn/Pb61P4gtRo2us8OPKb54+OxP9Dx+FaDZfMTRMVdSpBxg1q6LKIr6LJwCcU2yceIbMTmBI5EGxpI3ySccbl9Kr2hMcqHuDQQeg1i+M/wDkR9e/7B8//otq2QQyhhyCMg1jeMv+RH1//sHT/wDotqhEyPK/BVzNptnZ6pAhkighjS6XuFIHP0+6fqK9ZiCXUMkqOGVgpUjuMZz+teWeE3XTH0l35tru0ijnB6cxjr7cg13VnIfDepCwlY/2bdHNu78+W3dCfx4qzaOwavCqwu4HaudnGE3Y9K7PVYF+zyrjI25FchIM24GOQcH8KCjn9dfZa3PbGz9RV7TrT7JYRRbcYHP1qjrdu1zfQQJ/y3Khh64P+Ga2ieKDMqXY+Suc1FC6sAOororr7hrHukySfagaZR0K7zpzI3WJsEexq64RvmQ9e1ZGiyiLUrq2b+Mfyz/jWq8TQZK8x9vagZC/ANUZjk1cnOY2+lZrNkVBJHIeaYpwaefmBpi9aQjc0q+e2ZSDxmuo1S5i1rTkjRv9Ig+aMqOq/wAQ/kR9CPSuDSUoKtW+rzWjAxvg1SYzsfD815YKZIbqAQvjzY2BLcfh/UVsEICrxNlHG9T/AD/XIrz2PV5RNuAVAeyjArqfD9691DJGzjMeHUH0PDY/Hb+tO4HpumS+bpsDbs8YNUPGX/Ij6/8A9g6f/wBFtS+HHLWTgn7r8UnjL/kR9f8A+wdP/wCi2oM5H//Z\",\n                \"mediaType\": \"image/jpeg\",\n                \"value\": \"\"\n            }\n        ]\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -2967,6 +3018,9 @@
 											"language": "json"
 										}
 									}
+								},
+								"url": {
+									"raw": ""
 								}
 							},
 							"status": "OK",
@@ -3667,7 +3721,7 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"RemoveScopes"
-							]						
+							]
 						},
 						"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
 					},
@@ -4242,7 +4296,7 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"Configuration"
-									]									
+									]
 								},
 								"description": "Set/update a existing PTZConfiguration on the device."
 							},
@@ -4410,7 +4464,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\"                \n    }\n}",
+									"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"                \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4438,7 +4492,66 @@
 								},
 								"description": "Remove a PTZConfiguration on the device."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "RemovePTZConfiguration",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"                \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemovePTZConfiguration",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"RemovePTZConfiguration"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "95a3251e-41fb-45d5-9633-dc597a9f185c"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:25:56 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						}
 					]
 				},
@@ -4452,7 +4565,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": -10\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4480,7 +4593,66 @@
 								},
 								"description": "Operation to move pan,tilt or zoom to a absolute destination.\n\nThe speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "AbsoluteMove",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AbsoluteMove",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"AbsoluteMove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "ee6ad0a6-5f98-4d65-a1dc-a5047f1bfd38"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:24:42 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "RelativeMove",
@@ -4489,7 +4661,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 10,\n                \"y\": 10\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4517,7 +4689,66 @@
 								},
 								"description": "Operation for Relative Pan/Tilt and Zoom Move. The operation is supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space.\n\nThe speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "RelativeMove",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RelativeMove",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"RelativeMove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "700ccf33-2db1-4646-9c7b-383910df2e23"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:25:28 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "ContinuousMove",
@@ -4826,7 +5057,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"SetPreset\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\"           \n    }\n}",
+									"raw": "{\n    \"SetPreset\": {\n        \"PresetName\":\"Preset1\",\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"           \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4921,7 +5152,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetPresets?jsonObject=eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==",
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetPresets?jsonObject={{PTZ_CONFIG_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -4941,7 +5172,7 @@
 									"query": [
 										{
 											"key": "jsonObject",
-											"value": "{{MEDIA_PROFILE_BASE64}}",
+											"value": "{{PTZ_CONFIG_TOKEN_BASE64}}",
 											"description": "{\"ProfileToken\":\"profile_1\"}"
 										}
 									]
@@ -5013,7 +5244,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"GotoPreset\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"PresetToken\": \"Preset4\"      \n    }\n}",
+									"raw": "{\n    \"GotoPreset\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"PresetToken\": \"Preset1\"      \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5593,7 +5824,7 @@
 							]
 						},
 						"description": "This method returns a PullPointSubscription that can be polled using PullMessages. This message contains the same elements as the SubscriptionRequest of the WS-BaseNotification without the ConsumerReference.\n\nIf no Filter is specified the pullpoint notifies all occurring events to the client.\n\nThis method is mandatory."
-					},						
+					},
 					"response": [
 						{
 							"name": "PullPointSubscription",
@@ -5922,7 +6153,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AddConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Configuration\": [\n            {\n                \"Type\": \"Analytics\",\n                \"Token\": \"{{ANALYTIC_CONFIG_TOKEN}}\"\n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"AddConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Configuration\": [\n            {\n                \"Type\": \"Analytics\",\n                \"Token\": \"{{ANALYTIC_CONFIG_TOKEN}}\"\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5959,7 +6190,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RemoveConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Configuration\": [\n            {\n                \"Type\": \"Analytics\",\n                \"Token\": \"{{ANALYTIC_CONFIG_TOKEN}}\"\n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"RemoveConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Configuration\": [\n            {\n                \"Type\": \"Analytics\",\n                \"Token\": \"{{ANALYTIC_CONFIG_TOKEN}}\"\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6054,7 +6285,63 @@
 								},
 								"description": "List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetAnalyticsModules",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"AnalyticsModules"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "e1799801-2c54-4816-b766-2d93caee89c9"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:49:35 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "678"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"76f908cd-6b34-477f-9a03-5eea4021b416\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"AnalyticsModules\",\n        \"origin\": 1665460175164293870,\n        \"readings\": [\n            {\n                \"id\": \"c5f01e17-9b31-43eb-bc55-2417617ef530\",\n                \"origin\": 1665460175164293870,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"AnalyticsModules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"AnalyticsModule\": [\n                        {\n                            \"Name\": \"MyCellMotionModule\",\n                            \"Parameters\": {\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"6\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:CellMotionEngine\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "CreateAnalyticsModules",
@@ -6187,7 +6474,66 @@
 								},
 								"description": "Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "DeleteAnalyticsModules",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"DeleteAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModuleName\": [\"TestAnalyticsModule\"]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteAnalyticsModules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"DeleteAnalyticsModules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "ffb1e371-1a66-4f14-94e1-e24b440f2cb3"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 10 Oct 2022 16:01:37 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "GetAnalyticsModuleOptions",
@@ -6221,7 +6567,63 @@
 								},
 								"description": "Return the options for the supported analytics modules that specify an Option attribute."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetAnalyticsModuleOptions",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetAnalyticsModuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"GetAnalyticsModuleOptions"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "52340a61-2358-4d2b-be02-25cbe079baa6"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:48:52 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "639"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"460b6e4f-88d7-476d-ab9c-d46c5f656124\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetAnalyticsModuleOptions\",\n        \"origin\": 1665460132225687940,\n        \"readings\": [\n            {\n                \"id\": \"42a9e19c-82f6-4552-9f1d-459bfc55600a\",\n                \"origin\": 1665460132225687940,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"GetAnalyticsModuleOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Options\": [\n                        {\n                            \"IntRange\": {\n                                \"Max\": 100,\n                                \"Min\": 0\n                            },\n                            \"Name\": \"Sensitivity\",\n                            \"Type\": \"tt:IntRange\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "ModifyAnalyticsModules",
@@ -6297,7 +6699,63 @@
 								},
 								"description": "List all rules that are supported by the given VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetSupportedRules",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetSupportedRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"GetSupportedRules"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "9c7bcb9a-4316-4905-a08d-abfe644ce0fb"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:48:18 GMT"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"4694424b-74bb-45ee-a014-ebb6d09855f9\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetSupportedRules\",\n        \"origin\": 1665460098832568388,\n        \"readings\": [\n            {\n                \"id\": \"155dc49e-caa7-492c-be74-0cf150ca2302\",\n                \"origin\": 1665460098832568388,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"GetSupportedRules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"SupportedRules\": {\n                        \"RuleContentSchemaLocation\": \"http://www.w3.org/2001/XMLSchema\",\n                        \"RuleDescription\": [\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 10,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"IsMotion\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/CellMotionDetector/Motion\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:CellMotionDetector\",\n                                \"Parameters\": {\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"MinCount\",\n                                            \"Type\": \"xs:integer\"\n                                        },\n                                        {\n                                            \"Name\": \"AlarmOnDelay\",\n                                            \"Type\": \"xs:integer\"\n                                        },\n                                        {\n                                            \"Name\": \"AlarmOffDelay\",\n                                            \"Type\": \"xs:integer\"\n                                        },\n                                        {\n                                            \"Name\": \"ActiveCells\",\n                                            \"Type\": \"xs:base64Binary\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 10,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"State\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/MotionRegionDetector/Motion\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSource\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"RuleName\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:MotionRegionDetector\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"MotionRegion\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"ElementItemDescription\": [\n                                            {\n                                                \"Name\": \"Image\"\n                                            },\n                                            {\n                                                \"Name\": \"BoundingBox\"\n                                            }\n                                        ],\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"Likelihood\",\n                                                \"Type\": \"xs:float\"\n                                            },\n                                            {\n                                                \"Name\": \"Label\",\n                                                \"Type\": \"xs:string\"\n                                            },\n                                            {\n                                                \"Name\": \"ImageUri\",\n                                                \"Type\": \"xs:anyURI\"\n                                            },\n                                            {\n                                                \"Name\": \"EnrollmentID\",\n                                                \"Type\": \"xs:string\"\n                                            },\n                                            {\n                                                \"Name\": \"RefImageUri\",\n                                                \"Type\": \"xs:anyURI\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/Recognition/Face\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSource\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"AnalyticsConfiguration\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:FaceRecognition\",\n                                \"Parameters\": {\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"IncludeImage\",\n                                            \"Type\": \"xs:string\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"ElementItemDescription\": [\n                                            {\n                                                \"Name\": \"BoundingBox\"\n                                            },\n                                            {\n                                                \"Name\": \"Image\"\n                                            },\n                                            {\n                                                \"Name\": \"LicensePlateInfo\"\n                                            },\n                                            {\n                                                \"Name\": \"VehicleInfo\"\n                                            },\n                                            {\n                                                \"Name\": \"VehicleImage\"\n                                            }\n                                        ],\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"Likelihood\",\n                                                \"Type\": \"xs:float\"\n                                            },\n                                            {\n                                                \"Name\": \"Label\",\n                                                \"Type\": \"xs:string\"\n                                            },\n                                            {\n                                                \"Name\": \"ImageUri\",\n                                                \"Type\": \"xs:anyURI\"\n                                            },\n                                            {\n                                                \"Name\": \"VehicleImageURI\",\n                                                \"Type\": \"xs:anyURI\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/Recognition/LicensePlate\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSource\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"AnalyticsConfiguration\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:LicensePlateRecognition\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Region\"\n                                        },\n                                        {\n                                            \"Name\": \"SnapLine\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"IncludeImage\",\n                                            \"Type\": \"xs:string\"\n                                        },\n                                        {\n                                            \"Name\": \"PlateLocation\",\n                                            \"Type\": \"xs:string\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"Count\",\n                                                \"Type\": \"xs:int\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/CountAggregation/Counter\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSource\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"AnalyticsConfiguration\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:LineCounting\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Segments\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"ReportTimeInterval\",\n                                            \"Type\": \"xs:duration\"\n                                        },\n                                        {\n                                            \"Name\": \"ResetTime\",\n                                            \"Type\": \"xs:time\"\n                                        },\n                                        {\n                                            \"Name\": \"Direction\",\n                                            \"Type\": \"tt:Direction\"\n                                        },\n                                        {\n                                            \"Name\": \"PassAllPolylines\",\n                                            \"Type\": \"xs:boolean\"\n                                        }\n                                    ]\n                                }\n                            }\n                        ]\n                    }\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "GetRules",
@@ -6331,7 +6789,63 @@
 								},
 								"description": "List the currently assigned set of rules of a VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetRules",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Rules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"Rules"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "1f4cb445-5625-41f0-abc3-a2a243f0b82b"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:48:09 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "763"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"16f84c82-ee09-41bb-a012-27b46cff27fe\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Rules\",\n        \"origin\": 1665460089922943960,\n        \"readings\": [\n            {\n                \"id\": \"2f46e1f1-6f39-449a-bd68-6387db6a1008\",\n                \"origin\": 1665460089922943960,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"Rules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Rule\": [\n                        {\n                            \"Name\": \"MyMotionDetectorRule\",\n                            \"Parameters\": {\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"MinCount\",\n                                        \"Value\": \"5\"\n                                    },\n                                    {\n                                        \"Name\": \"AlarmOnDelay\",\n                                        \"Value\": \"1000\"\n                                    },\n                                    {\n                                        \"Name\": \"AlarmOffDelay\",\n                                        \"Value\": \"1000\"\n                                    },\n                                    {\n                                        \"Name\": \"ActiveCells\",\n                                        \"Value\": \"zwA=\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:CellMotionDetector\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "GetRuleOptions",
@@ -6365,7 +6879,63 @@
 								},
 								"description": "Return the options for the supported rules that specify an Option attribute."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetRuleOptions",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetRuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"GetRuleOptions"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "463ddd87-95fc-46f3-bdd7-d05ed5a94fd8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:48:46 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "718"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"bf7a5fc7-7523-4690-87b7-273b2a373ed3\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetRuleOptions\",\n        \"origin\": 1665460126357157536,\n        \"readings\": [\n            {\n                \"id\": \"2bdd1ff4-7d2a-441b-bbc3-dfa50c27b096\",\n                \"origin\": 1665460126357157536,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"GetRuleOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"RuleOptions\": [\n                        {\n                            \"MotionRegionConfigOptions\": {\n                                \"DisarmSupport\": false,\n                                \"PolygonLimits\": {\n                                    \"Max\": 0,\n                                    \"Min\": 0\n                                },\n                                \"PolygonSupport\": false\n                            },\n                            \"Name\": \"MotionRegion\",\n                            \"Type\": \"axt:MotionRegionConfigOptions\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "CreateRules",
@@ -6470,7 +7040,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"DeleteRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"RuleName\": [\n            \"TestRule2\"\n        ]\n    }\n}",
+									"raw": "{\n    \"DeleteRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"RuleName\": [\n            \"Object Counting\"\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6498,7 +7068,66 @@
 								},
 								"description": "Remove one or more rules from a VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "DeleteRules",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"DeleteRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"RuleName\": [\n            \"Object Counting\"\n        ]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteRules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"DeleteRules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "96730551-cf42-4d2c-8918-aa0c694cbe9c"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 10 Oct 2022 16:01:21 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "ModifyRules",
@@ -6507,7 +7136,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"TestRule2\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6535,7 +7164,66 @@
 								},
 								"description": "Modify one or more rules of a VideoAnalyticsConfiguration. The rules are referenced by their names."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "ModifyRules",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Rules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"Rules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "ea1d0040-3a30-4fbb-a0ac-50a1b90f3e36"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:50:16 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						}
 					]
 				}
@@ -6949,15 +7637,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
 									"protocol": "http",
@@ -7007,15 +7686,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "/* Test steps\n1) Get PTZ configuration token by executing get configurations API\n2) Update ptz_token env variable in postman with value retrieved in above step\n*/\n",
-									"options": {
-										"raw": {
-											"language": "javascript"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata?jsonObject={{ptz_enc}}",
 									"protocol": "http",
