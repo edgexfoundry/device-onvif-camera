@@ -5,7 +5,7 @@
 [System Requirements](#system-requirements)  
 [Dependencies](#dependencies)  
 [Deploy the Service](#deploy-edgex-and-onvif-device-camera-microservice)  
-[Verify the Service](#verify-service-and-device-profiles)
+[Verify the Service](#verify-service-and-device-profiles)  
 [Manage Devices](#manage-devices)  
 [Execute Example Command](#execute-getstreamuri-command-through-edgex)  
 [Shutting Down](#shutting-down)  
@@ -319,9 +319,9 @@ Follow these instructions to update devices.
 
 <br/>
 
-ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.  Refer to [How does WS-Discovery work?](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/ws-discovery.md) and [Auto Discovery](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/auto-discovery.md) for more information auto-discovery mechanism.
+ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.  Refer to [How does WS-Discovery work?](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/ws-discovery.md) and [Auto Discovery](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/auto-discovery.md) for more information auto-discovery mechanism.  The following steps will enable auto discovery using the `netscan` method _after_ the service has been deployed.
 
-> **NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.
+> **NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.  
 
 1. Navigate to the `device-onvif-camera` directory.
    
@@ -331,6 +331,8 @@ Device discovery is triggered by the device service. Once the device service sta
 > **Note:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
 
 </details>
+
+<br/>
 
 1. Map credentials using the `map-credentials.sh` script.  
    a. Navigate to the `device-onvif-camera` directory  
