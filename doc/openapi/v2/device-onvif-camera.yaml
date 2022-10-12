@@ -6,6 +6,13 @@ openapi: 3.0.0
 paths:
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/AbsoluteMove:
     put:
+      description: 'Operation to move pan,tilt or zoom to a absolute destination.
+
+
+        The speed argument is optional. If an x/y speed value is given it is up to
+        the device to either use the x value as absolute resoluting speed vector or
+        to map x and y to the component speed. If the speed argument is omitted, the
+        default speed set by the PTZConfiguration will be used.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.AbsoluteMove
@@ -25,8 +32,8 @@ paths:
                   Position:
                     PanTilt:
                       x: 0
-                      y: -10
-                  ProfileToken: '{{MEDIA_PROFILE}}'
+                      y: 0
+                  ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
               properties:
                 AbsoluteMove:
                   properties:
@@ -47,13 +54,48 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Tue, 11 Oct 2022 03:24:42 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: ee6ad0a6-5f98-4d65-a1dc-a5047f1bfd38
+                type: string
       summary: AbsoluteMove
       tags:
       - PTZ - Actuation
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddConfiguration:
     put:
+      description: 'This operation adds one or more Configurations to an existing
+        media profile. If a configuration exists in the media profile, it will be
+        replaced. A device shall support adding a compatible Configuration to a Profile
+        containing a VideoSourceConfiguration and shall support streaming video data
+        of such a profile.
+
+
+        Note that OSD elements must be added via the CreateOSD command.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.AddConfiguration
@@ -73,7 +115,7 @@ paths:
                   Configuration:
                   - Token: '{{ANALYTIC_CONFIG_TOKEN}}'
                     Type: Analytics
-                  ProfileToken: '{{MEDIA_PROFILE}}'
+                  ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
               properties:
                 AddConfiguration:
                   properties:
@@ -100,6 +142,11 @@ paths:
       - Analytics - Profile Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddMetadataConfiguration:
     put:
+      description: This operation adds a Metadata configuration to an existing media
+        profile. If a configuration exists in the media profile, it will be replaced.
+        The change shall be persistent. Adding a MetadataConfiguration to a Profile
+        means that streams using that profile contain metadata. Metadata can consist
+        of events, PTZ status, and/or video analytics data.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddMetadataConfiguration
@@ -164,6 +211,7 @@ paths:
       - Metadata Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddPTZConfiguration:
     put:
+      description: Add a new PTZConfiguration on the device.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddPTZConfiguration
@@ -194,8 +242,35 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 18:27:21 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: d264aa4d-1b3f-4788-8807-00acc18388eb
+                type: string
       summary: AddPTZConfiguration
       tags:
       - PTZ - Configuration
@@ -235,13 +310,41 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Sun, 25 Sep 2022 03:41:03 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 6c1402e7-4516-4661-9ba7-b486dc20336f
+                type: string
       summary: Add Scopes
       tags:
       - Auto Discovery
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/AnalyticsModules:
     get:
+      description: List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModules
@@ -260,12 +363,123 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                event:
+                  apiVersion: v2
+                  deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                  id: 76f908cd-6b34-477f-9a03-5eea4021b416
+                  origin: 1665460175164294000
+                  profileName: onvif-camera
+                  readings:
+                  - deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                    id: c5f01e17-9b31-43eb-bc55-2417617ef530
+                    objectValue:
+                      AnalyticsModule:
+                      - Name: MyCellMotionModule
+                        Parameters:
+                          SimpleItem:
+                          - Name: Sensitivity
+                            Value: '6'
+                        Type: tt:CellMotionEngine
+                    origin: 1665460175164294000
+                    profileName: onvif-camera
+                    resourceName: AnalyticsModules
+                    value: ''
+                    valueType: Object
+                  sourceName: AnalyticsModules
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                AnalyticsModule:
+                                  items:
+                                    properties:
+                                      Name:
+                                        type: string
+                                      Parameters:
+                                        properties:
+                                          SimpleItem:
+                                            items:
+                                              properties:
+                                                Name:
+                                                  type: string
+                                                Value:
+                                                  type: string
+                                              type: object
+                                            type: array
+                                        type: object
+                                      Type:
+                                        type: string
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '678'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Tue, 11 Oct 2022 03:49:35 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: e1799801-2c54-4816-b766-2d93caee89c9
+                type: string
       summary: GetAnalyticsModules
       tags:
       - Analytics - Modules
     put:
+      description: Modify the settings of one or more analytics modules of a VideoAnalyticsConfiguration.
+        The modules are referenced by their names. It is allowed to pass only a subset
+        to be modified.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyAnalyticsModules
@@ -328,6 +542,7 @@ paths:
       - Analytics - Modules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/BaseNotificationSubscription:
     put:
+      description: Create a subscription to subscribe the event from the camera
       parameters:
       - example: Camera001
         in: path
@@ -355,13 +570,45 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 21:56:11 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 9ad845c6-441e-42fb-bb3c-f2399aa22e34
+                type: string
       summary: BaseNotificationSubscription
       tags:
       - Event Handling
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/CompatibleMetadataConfigurations:
     get:
+      description: This operation requests all the metadata configurations of the
+        device that are compatible with a certain media profile. Each of the returned
+        configurations shall be a valid input parameter for the AddMetadataConfiguration
+        command on the media profile. The result varies depending on the capabilities,
+        configurations and settings in the device.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetCompatibleMetadataConfigurations
@@ -471,6 +718,27 @@ paths:
       - Metadata Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Configuration:
     get:
+      description: 'Get a specific PTZconfiguration from the device, identified by
+        its reference token or name.
+
+
+        The default Position/Translation/Velocity Spaces are introduced to allow NVCs
+        sending move requests without the need to specify a certain coordinate system.
+        The default Speeds are introduced to control the speed of move requests (absolute,
+        relative, preset), where no explicit speed has been set.
+
+
+        The allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional
+        space range that is mapped to a specific Absolute Pan/Tilt Position Space.
+        At least one Pan/Tilt Position Space is required by the PTZNode to support
+        Pan/Tilt limits. The limits apply to all supported absolute, relative and
+        continuous Pan/Tilt movements. The limits shall be checked within the coordinate
+        system for which the limits have been specified. That means that even if movements
+        are specified in a different coordinate system, the requested movements shall
+        be transformed to the coordinate system of the limits where the limits can
+        be checked. When a relative or continuous movements is specified, which would
+        leave the specified limits, the PTZ unit has to move along the specified limits.
+        The Zoom Limits have to be interpreted accordingly.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfiguration
@@ -630,6 +898,7 @@ paths:
       tags:
       - PTZ - Configuration
     put:
+      description: Set/update a existing PTZConfiguration on the device.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetConfiguration
@@ -692,13 +961,44 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 18:05:10 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 907ca3c4-30ed-442c-b9c6-2ba7742e073a
+                type: string
       summary: SetConfiguration
       tags:
       - PTZ - Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/ContinuousMove:
     put:
+      description: Operation for continuous Pan/Tilt and Zoom movements. The operation
+        is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom
+        space. If the space argument is omitted, the default space set by the PTZConfiguration
+        will be used.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.ContinuousMove
@@ -740,13 +1040,64 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 18:27:42 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: a09ac058-3809-47a7-b90e-cfdb6d6a7231
+                type: string
       summary: ContinuousMove
       tags:
       - PTZ - Actuation
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/CreateAnalyticsModules:
     put:
+      description: 'Add one or more analytics modules to an existing VideoAnalyticsConfiguration.
+        The available supported types can be retrieved via GetSupportedAnalyticsModules,
+        where the Name of the supported AnalyticsModules correspond to the type of
+        an AnalyticsModule instance.
+
+
+        Pass unique module names which can be later used as reference. The Parameters
+        of the analytics module must match those of the corresponding AnalyticsModuleDescription.
+
+
+        Although this method is mandatory a device implementation may not support
+        adding modules. Instead it can provide a fixed set of predefined configurations
+        via the media service functions GetCompatibleVideoAnalyticsConfigurations
+        and GetAnalyticsConfigurations.
+
+
+        The device shall ensure that a corresponding analytics engine starts operation
+        when a client subscribes directly or indirectly for events produced by the
+        analytics or rule engine or when a client requests the corresponding scene
+        description stream. An analytics module must be attached to a Video source
+        using the media profiles before it can be used. In case differing analytics
+        configurations are attached to the same profile it is undefined which of the
+        analytics module configuration becomes active if no stream is activated or
+        multiple streams with different profiles are activated at the same time.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateAnalyticsModules
@@ -802,13 +1153,52 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 22:08:45 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: fe3cf678-d914-4729-805c-1e08d930a1b2
+                type: string
       summary: CreateAnalyticsModules
       tags:
       - Analytics - Modules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/CreateRules:
     put:
+      description: 'Add one or more rules to an existing VideoAnalyticsConfiguration.
+        The available supported types can be retrieved via GetSupportedRules, where
+        the Name of the supported rule correspond to the type of an rule instance.
+
+
+        Pass unique module names which can be later used as reference. The Parameters
+        of the rules must match those of the corresponding description.
+
+
+        Although this method is mandatory a device implementation must not support
+        adding rules. Instead it can provide a fixed set of predefined configurations
+        via the media service function GetCompatibleVideoAnalyticsConfigurations.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateRules
@@ -894,8 +1284,35 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 22:19:30 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: f4fb4b14-0de5-4a00-9646-1fc10b772b61
+                type: string
       summary: CreateRules
       tags:
       - Analytics - Rules
@@ -958,13 +1375,42 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Sun, 25 Sep 2022 03:40:48 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: e772e887-419e-4647-ae97-59722fbc7317
+                type: string
       summary: Create Users
       tags:
       - User Handling
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/CustomMetadata:
     get:
+      description: This command returns the user specified custom metadata associated
+        with a device.
       parameters:
       - example: Camera001
         in: path
@@ -1112,11 +1558,8 @@ paths:
       - Custom
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DNS:
     get:
-      description: 'StartFragment
-
-
-        This operation gets the DNS settings from a device. The device shall return
-        its DNS configurations through the GetDNS command.'
+      description: This operation gets the DNS settings from a device. The device
+        shall return its DNS configurations through the GetDNS command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
@@ -1293,6 +1736,8 @@ paths:
       - Network Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteAnalyticsModules:
     put:
+      description: Remove one or more analytics modules from a VideoAnalyticsConfiguration
+        referenced by their names.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteAnalyticsModules
@@ -1326,13 +1771,99 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Mon, 10 Oct 2022 16:01:37 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: ffb1e371-1a66-4f14-94e1-e24b440f2cb3
+                type: string
       summary: DeleteAnalyticsModules
       tags:
       - Analytics - Modules
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteCustomMetadata:
+    put:
+      parameters:
+      - example: Camera001
+        in: path
+        name: EDGEX_DEVICE_NAME
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              example:
+                DeleteCustomMetadata:
+                - Location
+                - Color
+              properties:
+                DeleteCustomMetadata:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 21:57:55 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: a0fd5620-29fa-4588-8bf3-e97e9aabec80
+                type: string
+      summary: Delete CustomMetadata
+      tags:
+      - Custom
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteRules:
     put:
+      description: Remove one or more rules from a VideoAnalyticsConfiguration.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteRules
@@ -1351,7 +1882,7 @@ paths:
                 DeleteRules:
                   ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
                   RuleName:
-                  - TestRule2
+                  - Object Counting
               properties:
                 DeleteRules:
                   properties:
@@ -1366,8 +1897,35 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Mon, 10 Oct 2022 16:01:21 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 96730551-cf42-4d2c-8918-aa0c694cbe9c
+                type: string
       summary: DeleteRules
       tags:
       - Analytics - Rules
@@ -1409,8 +1967,35 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Sun, 25 Sep 2022 03:40:57 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 12780a21-c3b4-42b1-9e46-11369a5926de
+                type: string
       summary: Delete users
       tags:
       - User Handling
@@ -1703,6 +2288,9 @@ paths:
       - Auto Discovery
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/FriendlyName:
     get:
+      description: This operation is used by an endpoint to get the FriendlyName from
+        a device. This is a name given to a device by a user to make the device more
+        identifiable.
       parameters:
       - example: Camera001
         in: path
@@ -1795,6 +2383,9 @@ paths:
       tags:
       - Custom
     put:
+      description: This operation is used by an endpoint to set the FriendlyName of
+        a device. This is a name given to a device by a user to make the device more
+        identifiable.
       parameters:
       - example: Camera001
         in: path
@@ -1853,6 +2444,10 @@ paths:
       - Custom
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetAnalyticsConfigurations:
     get:
+      description: By default this operation lists all existing video analytics configurations
+        for a device. Provide a profile token to list only configurations that are
+        compatible with the profile. If a configuration token is provided only a single
+        configuration will be returned.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetAnalyticsConfigurations
@@ -1909,6 +2504,8 @@ paths:
       - Analytics - Profile Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetAnalyticsModuleOptions:
     get:
+      description: Return the options for the supported analytics modules that specify
+        an Option attribute.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions
@@ -1927,13 +2524,122 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                event:
+                  apiVersion: v2
+                  deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                  id: 460b6e4f-88d7-476d-ab9c-d46c5f656124
+                  origin: 1665460132225688000
+                  profileName: onvif-camera
+                  readings:
+                  - deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                    id: 42a9e19c-82f6-4552-9f1d-459bfc55600a
+                    objectValue:
+                      Options:
+                      - IntRange:
+                          Max: 100
+                          Min: 0
+                        Name: Sensitivity
+                        Type: tt:IntRange
+                    origin: 1665460132225688000
+                    profileName: onvif-camera
+                    resourceName: GetAnalyticsModuleOptions
+                    value: ''
+                    valueType: Object
+                  sourceName: GetAnalyticsModuleOptions
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Options:
+                                  items:
+                                    properties:
+                                      IntRange:
+                                        properties:
+                                          Max:
+                                            type: number
+                                          Min:
+                                            type: number
+                                        type: object
+                                      Name:
+                                        type: string
+                                      Type:
+                                        type: string
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '639'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Tue, 11 Oct 2022 03:48:52 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 52340a61-2358-4d2b-be02-25cbe079baa6
+                type: string
       summary: GetAnalyticsModuleOptions
       tags:
       - Analytics - Modules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetConfigurationOptions:
     get:
+      description: List supported coordinate systems including their range limitations.
+        Therefore, the options MAY differ depending on whether the PTZ Configuration
+        is assigned to a Profile containing a Video Source Configuration. In that
+        case, the options may additionally contain coordinate systems referring to
+        the image coordinate system described by the Video Source Configuration. If
+        the PTZ Node supports continuous movements, it shall return a Timeout Range
+        within which Timeouts are accepted by the PTZ Node.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurationOptions
@@ -2227,6 +2933,24 @@ paths:
       - PTZ - Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetConfigurations:
     get:
+      description: 'Get all the existing PTZConfigurations from the device.
+
+        The default Position/Translation/Velocity Spaces are introduced to allow NVCs
+        sending move requests without the need to specify a certain coordinate system.
+        The default Speeds are introduced to control the speed of move requests (absolute,
+        relative, preset), where no explicit speed has been set.
+
+        The allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional
+        space range that is mapped to a specific Absolute Pan/Tilt Position Space.
+        At least one Pan/Tilt Position Space is required by the PTZNode to support
+        Pan/Tilt limits. The limits apply to all supported absolute, relative and
+        continuous Pan/Tilt movements. The limits shall be checked within the coordinate
+        system for which the limits have been specified. That means that even if movements
+        are specified in a different coordinate system, the requested movements shall
+        be transformed to the coordinate system of the limits where the limits can
+        be checked. When a relative or continuous movements is specified, which would
+        leave the specified limits, the PTZ unit has to move along the specified limits.
+        The Zoom Limits have to be interpreted accordingly.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurations
@@ -2383,6 +3107,11 @@ paths:
       - PTZ - Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetEventProperties:
     get:
+      description: The WS-BaseNotification specification defines a set of OPTIONAL
+        WS-ResouceProperties. This specification does not require the implementation
+        of the WS-ResourceProperty interface. Instead, the subsequent direct interface
+        shall be implemented by an ONVIF compliant device in order to provide information
+        about the FilterDialects, Schema files and topics supported by the device.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.GetEventProperties
@@ -2801,6 +3530,7 @@ paths:
       - Event Handling
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetNode:
     get:
+      description: Get a specific PTZ Node identified by a reference token or a name.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNode
@@ -3093,6 +3823,14 @@ paths:
       - PTZ - Capabilities
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetNodes:
     get:
+      description: 'Get the descriptions of the available PTZ Nodes.
+
+
+        A PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may represent
+        mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ drivers. PTZ Nodes
+        are the lowest level entities in the PTZ control API and reflect the supported
+        PTZ capabilities. The PTZ Node is referenced either by its name or by its
+        reference token.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNodes
@@ -3381,12 +4119,15 @@ paths:
       - PTZ - Capabilities
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetPresets:
     get:
+      description: Operation to request all PTZ presets for the PTZNode in the selected
+        profile. The operation is supported if there is support for at least on PTZ
+        preset by the PTZNode.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetPresets
       parameters:
       - description: '{"ProfileToken":"profile_1"}'
-        example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==
+        example: '{{PTZ_CONFIG_TOKEN_BASE64}}'
         in: query
         name: jsonObject
         schema:
@@ -3534,6 +4275,8 @@ paths:
       - PTZ - Preset
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetRuleOptions:
     get:
+      description: Return the options for the supported rules that specify an Option
+        attribute.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRuleOptions
@@ -3552,13 +4295,126 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                event:
+                  apiVersion: v2
+                  deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                  id: bf7a5fc7-7523-4690-87b7-273b2a373ed3
+                  origin: 1665460126357157600
+                  profileName: onvif-camera
+                  readings:
+                  - deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                    id: 2bdd1ff4-7d2a-441b-bbc3-dfa50c27b096
+                    objectValue:
+                      RuleOptions:
+                      - MotionRegionConfigOptions:
+                          DisarmSupport: false
+                          PolygonLimits:
+                            Max: 0
+                            Min: 0
+                          PolygonSupport: false
+                        Name: MotionRegion
+                        Type: axt:MotionRegionConfigOptions
+                    origin: 1665460126357157600
+                    profileName: onvif-camera
+                    resourceName: GetRuleOptions
+                    value: ''
+                    valueType: Object
+                  sourceName: GetRuleOptions
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                RuleOptions:
+                                  items:
+                                    properties:
+                                      MotionRegionConfigOptions:
+                                        properties:
+                                          DisarmSupport:
+                                            type: boolean
+                                          PolygonLimits:
+                                            properties:
+                                              Max:
+                                                type: number
+                                              Min:
+                                                type: number
+                                            type: object
+                                          PolygonSupport:
+                                            type: boolean
+                                        type: object
+                                      Name:
+                                        type: string
+                                      Type:
+                                        type: string
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '718'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Tue, 11 Oct 2022 03:48:46 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 463ddd87-95fc-46f3-bdd7-d05ed5a94fd8
+                type: string
       summary: GetRuleOptions
       tags:
       - Analytics - Rules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetStatus:
     get:
+      description: Operation to request PTZ status for the Node in the selected profile.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetStatus
@@ -3696,6 +4552,7 @@ paths:
       - PTZ - Actuation
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetSupportedAnalyticsModules:
     get:
+      description: List all analytics modules that are supported by the given VideoAnalyticsConfiguration.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedAnalyticsModules
@@ -3716,6 +4573,7 @@ paths:
       - Analytics - Modules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetSupportedRules:
     get:
+      description: List all rules that are supported by the given VideoAnalyticsConfiguration.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedRules
@@ -3734,13 +4592,341 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                event:
+                  apiVersion: v2
+                  deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                  id: 4694424b-74bb-45ee-a014-ebb6d09855f9
+                  origin: 1665460098832568300
+                  profileName: onvif-camera
+                  readings:
+                  - deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                    id: 155dc49e-caa7-492c-be74-0cf150ca2302
+                    objectValue:
+                      SupportedRules:
+                        RuleContentSchemaLocation: http://www.w3.org/2001/XMLSchema
+                        RuleDescription:
+                        - Fixed: false
+                          MaxInstances: 10
+                          Messages:
+                            Data:
+                              SimpleItemDescription:
+                              - Name: IsMotion
+                                Type: xs:boolean
+                            IsProperty: true
+                            ParentTopic: tns1:RuleEngine/CellMotionDetector/Motion
+                            Source:
+                              SimpleItemDescription:
+                              - Name: VideoSourceConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: VideoAnalyticsConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: Rule
+                                Type: xs:string
+                          Name: tt:CellMotionDetector
+                          Parameters:
+                            SimpleItemDescription:
+                            - Name: MinCount
+                              Type: xs:integer
+                            - Name: AlarmOnDelay
+                              Type: xs:integer
+                            - Name: AlarmOffDelay
+                              Type: xs:integer
+                            - Name: ActiveCells
+                              Type: xs:base64Binary
+                        - Fixed: false
+                          MaxInstances: 10
+                          Messages:
+                            Data:
+                              SimpleItemDescription:
+                              - Name: State
+                                Type: xs:boolean
+                            IsProperty: true
+                            ParentTopic: tns1:RuleEngine/MotionRegionDetector/Motion
+                            Source:
+                              SimpleItemDescription:
+                              - Name: VideoSource
+                                Type: tt:ReferenceToken
+                              - Name: RuleName
+                                Type: xs:string
+                          Name: tt:MotionRegionDetector
+                          Parameters:
+                            ElementItemDescription:
+                            - Name: MotionRegion
+                        - Fixed: false
+                          MaxInstances: 1
+                          Messages:
+                            Data:
+                              ElementItemDescription:
+                              - Name: Image
+                              - Name: BoundingBox
+                              SimpleItemDescription:
+                              - Name: Likelihood
+                                Type: xs:float
+                              - Name: Label
+                                Type: xs:string
+                              - Name: ImageUri
+                                Type: xs:anyURI
+                              - Name: EnrollmentID
+                                Type: xs:string
+                              - Name: RefImageUri
+                                Type: xs:anyURI
+                            IsProperty: true
+                            ParentTopic: tns1:RuleEngine/Recognition/Face
+                            Source:
+                              SimpleItemDescription:
+                              - Name: VideoSource
+                                Type: tt:ReferenceToken
+                              - Name: AnalyticsConfiguration
+                                Type: tt:ReferenceToken
+                              - Name: Rule
+                                Type: xs:string
+                          Name: tt:FaceRecognition
+                          Parameters:
+                            SimpleItemDescription:
+                            - Name: IncludeImage
+                              Type: xs:string
+                        - Fixed: false
+                          MaxInstances: 1
+                          Messages:
+                            Data:
+                              ElementItemDescription:
+                              - Name: BoundingBox
+                              - Name: Image
+                              - Name: LicensePlateInfo
+                              - Name: VehicleInfo
+                              - Name: VehicleImage
+                              SimpleItemDescription:
+                              - Name: Likelihood
+                                Type: xs:float
+                              - Name: Label
+                                Type: xs:string
+                              - Name: ImageUri
+                                Type: xs:anyURI
+                              - Name: VehicleImageURI
+                                Type: xs:anyURI
+                            IsProperty: true
+                            ParentTopic: tns1:RuleEngine/Recognition/LicensePlate
+                            Source:
+                              SimpleItemDescription:
+                              - Name: VideoSource
+                                Type: tt:ReferenceToken
+                              - Name: AnalyticsConfiguration
+                                Type: tt:ReferenceToken
+                              - Name: Rule
+                                Type: xs:string
+                          Name: tt:LicensePlateRecognition
+                          Parameters:
+                            ElementItemDescription:
+                            - Name: Region
+                            - Name: SnapLine
+                            SimpleItemDescription:
+                            - Name: IncludeImage
+                              Type: xs:string
+                            - Name: PlateLocation
+                              Type: xs:string
+                        - Fixed: false
+                          MaxInstances: 1
+                          Messages:
+                            Data:
+                              SimpleItemDescription:
+                              - Name: Count
+                                Type: xs:int
+                            IsProperty: true
+                            ParentTopic: tns1:RuleEngine/CountAggregation/Counter
+                            Source:
+                              SimpleItemDescription:
+                              - Name: VideoSource
+                                Type: tt:ReferenceToken
+                              - Name: AnalyticsConfiguration
+                                Type: tt:ReferenceToken
+                              - Name: Rule
+                                Type: xs:string
+                          Name: tt:LineCounting
+                          Parameters:
+                            ElementItemDescription:
+                            - Name: Segments
+                            SimpleItemDescription:
+                            - Name: ReportTimeInterval
+                              Type: xs:duration
+                            - Name: ResetTime
+                              Type: xs:time
+                            - Name: Direction
+                              Type: tt:Direction
+                            - Name: PassAllPolylines
+                              Type: xs:boolean
+                    origin: 1665460098832568300
+                    profileName: onvif-camera
+                    resourceName: GetSupportedRules
+                    value: ''
+                    valueType: Object
+                  sourceName: GetSupportedRules
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                SupportedRules:
+                                  properties:
+                                    RuleContentSchemaLocation:
+                                      type: string
+                                    RuleDescription:
+                                      items:
+                                        properties:
+                                          Fixed:
+                                            type: boolean
+                                          MaxInstances:
+                                            type: number
+                                          Messages:
+                                            properties:
+                                              Data:
+                                                properties:
+                                                  ElementItemDescription:
+                                                    items:
+                                                      properties:
+                                                        Name:
+                                                          type: string
+                                                      required:
+                                                      - Name
+                                                      type: object
+                                                    type: array
+                                                  SimpleItemDescription:
+                                                    items:
+                                                      properties:
+                                                        Name:
+                                                          type: string
+                                                        Type:
+                                                          type: string
+                                                      required:
+                                                      - Name
+                                                      - Type
+                                                      type: object
+                                                    type: array
+                                                type: object
+                                              IsProperty:
+                                                type: boolean
+                                              ParentTopic:
+                                                type: string
+                                              Source:
+                                                properties:
+                                                  SimpleItemDescription:
+                                                    items:
+                                                      properties:
+                                                        Name:
+                                                          type: string
+                                                        Type:
+                                                          type: string
+                                                      required:
+                                                      - Name
+                                                      - Type
+                                                      type: object
+                                                    type: array
+                                                type: object
+                                            type: object
+                                          Name:
+                                            type: string
+                                          Parameters:
+                                            properties:
+                                              ElementItemDescription:
+                                                items:
+                                                  properties:
+                                                    Name:
+                                                      type: string
+                                                  required:
+                                                  - Name
+                                                  type: object
+                                                type: array
+                                              SimpleItemDescription:
+                                                items:
+                                                  properties:
+                                                    Name:
+                                                      type: string
+                                                    Type:
+                                                      type: string
+                                                  required:
+                                                  - Name
+                                                  - Type
+                                                  type: object
+                                                type: array
+                                            type: object
+                                        required:
+                                        - Fixed
+                                        - MaxInstances
+                                        - Messages
+                                        - Name
+                                        - Parameters
+                                        type: object
+                                      type: array
+                                  type: object
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Tue, 11 Oct 2022 03:48:18 GMT
+                type: string
+            Transfer-Encoding:
+              schema:
+                example: chunked
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 9c7bcb9a-4316-4905-a08d-abfe644ce0fb
+                type: string
       summary: GetSupportedRules
       tags:
       - Analytics - Rules
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetVideoEncoderConfigurations:
     get:
+      description: This operation lists all existing video encoder configurations
+        of a device. This command lists all configured video encoder configurations
+        in a device. The client need not know anything apriori about the video encoder
+        configurations in order to use the command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurations
@@ -3919,6 +5105,8 @@ paths:
       - Video Encoder Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GotoHomePosition:
     put:
+      description: Operation to move the PTZ device to it's "home" position. The operation
+        is supported if the HomeSupported element in the PTZNode is true.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoHomePosition
@@ -3980,6 +5168,9 @@ paths:
       - PTZ - Home Position
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GotoPreset:
     put:
+      description: Operation to go to a saved preset position for the PTZNode in the
+        selected profile. The operation is supported if there is support for at least
+        on PTZ preset by the PTZNode.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoPreset
@@ -3997,7 +5188,7 @@ paths:
               example:
                 GotoPreset:
                   PresetToken: Preset1
-                  ProfileToken: '{{MEDIA_PROFILE}}'
+                  ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
               properties:
                 GotoPreset:
                   properties:
@@ -4195,6 +5386,7 @@ paths:
       - Network Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/MACAddress:
     get:
+      description: This command returns the MAC address associated with a device.
       parameters:
       - example: Camera001
         in: path
@@ -4287,6 +5479,7 @@ paths:
       tags:
       - Custom
     put:
+      description: This command sets the MAC address associated with a device.
       parameters:
       - example: Camera001
         in: path
@@ -4341,6 +5534,11 @@ paths:
       - Custom
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Media2Profiles:
     get:
+      description: Any endpoint can ask for the existing media profiles of a device
+        using the GetProfiles command. Pre-configured or dynamically configured profiles
+        can be retrieved using this command. This command lists all configured profiles
+        in a device. The client does not need to know the media profile in order to
+        use the command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetProfiles
@@ -4396,6 +5594,8 @@ paths:
       - Analytics - Profile Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/MetadataConfiguration:
     get:
+      description: The GetMetadataConfiguration command fetches the metadata configuration
+        if the metadata token is known.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfiguration
@@ -4504,6 +5704,13 @@ paths:
       tags:
       - Metadata Configuration
     put:
+      description: This operation modifies a metadata configuration. The ForcePersistence
+        flag indicates if the changes shall remain after reboot of the device. Changes
+        in the Multicast settings shall always be persistent. Running streams using
+        this configuration may be updated immediately according to the new settings.
+        The changes are not guaranteed to take effect unless the client requests a
+        new stream URI and restarts any affected streams. NVC methods for changing
+        a running stream are out of scope for this specification.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetMetadataConfiguration
@@ -4575,6 +5782,9 @@ paths:
       - Metadata Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurationOptions:
     get:
+      description: This operation returns the available options (supported values
+        and ranges for metadata configuration parameters) for changing the metadata
+        configuration.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurationOptions
@@ -4684,6 +5894,9 @@ paths:
       - Metadata Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurations:
     get:
+      description: This operation lists all existing metadata configurations. The
+        client need not know anything apriori about the metadata in order to use the
+        command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurations
@@ -4788,6 +6001,8 @@ paths:
       - Metadata Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkConfiguration:
     get:
+      description: Used to retrieve network resources for a device such as Hostname,
+        DNS, NetworkInterfaces, NetworkProtocols and NetworkDefaultGateway.
       parameters:
       - example: Camera001
         in: path
@@ -5012,6 +6227,8 @@ paths:
       tags:
       - Network Configuration
     put:
+      description: Used to configure network resources for a device such as Hostname,
+        DNS, NetworkInterfaces, NetworkProtocols and NetworkDefaultGateway.
       parameters:
       - example: Camera001
         in: path
@@ -5745,6 +6962,11 @@ paths:
       - Network Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Profiles:
     get:
+      description: Any endpoint can ask for the existing media profiles of a device
+        using the GetProfiles command. Pre-configured or dynamically configured profiles
+        can be retrieved using this command. This command lists all configured profiles
+        in a device. The client does not need to know the media profile in order to
+        use the command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetProfiles
@@ -6335,6 +7557,16 @@ paths:
       - Video Streaming
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/PullPointSubscription:
     put:
+      description: 'This method returns a PullPointSubscription that can be polled
+        using PullMessages. This message contains the same elements as the SubscriptionRequest
+        of the WS-BaseNotification without the ConsumerReference.
+
+
+        If no Filter is specified the pullpoint notifies all occurring events to the
+        client.
+
+
+        This method is mandatory.'
       parameters:
       - example: Camera001
         in: path
@@ -6365,8 +7597,35 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 21:56:15 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: d7f2c6d0-443f-4958-b224-d840c59eb3c3
+                type: string
       summary: PullPointSubscription
       tags:
       - Event Handling
@@ -6467,6 +7726,14 @@ paths:
       - System Function
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/RelativeMove:
     put:
+      description: 'Operation for Relative Pan/Tilt and Zoom Move. The operation is
+        supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space.
+
+
+        The speed argument is optional. If an x/y speed value is given it is up to
+        the device to either use the x value as absolute resoluting speed vector or
+        to map x and y to the component speed. If the speed argument is omitted, the
+        default speed set by the PTZConfiguration will be used.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RelativeMove
@@ -6483,11 +7750,11 @@ paths:
             schema:
               example:
                 RelativeMove:
-                  ProfileToken: '{{MEDIA_PROFILE}}'
+                  ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
                   Translation:
                     PanTilt:
-                      x: 10
-                      y: 10
+                      x: 0
+                      y: 0
               properties:
                 RelativeMove:
                   properties:
@@ -6508,13 +7775,43 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Tue, 11 Oct 2022 03:25:28 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 700ccf33-2db1-4646-9c7b-383910df2e23
+                type: string
       summary: RelativeMove
       tags:
       - PTZ - Actuation
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemoveConfiguration:
     put:
+      description: This operation removes the listed configurations from an existing
+        media profile. If the media profile does not contain one of the listed configurations
+        that item shall be ignored.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.RemoveConfiguration
@@ -6534,7 +7831,7 @@ paths:
                   Configuration:
                   - Token: '{{ANALYTIC_CONFIG_TOKEN}}'
                     Type: Analytics
-                  ProfileToken: '{{MEDIA_PROFILE}}'
+                  ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
               properties:
                 RemoveConfiguration:
                   properties:
@@ -6561,6 +7858,9 @@ paths:
       - Analytics - Profile Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemoveMetadataConfiguration:
     put:
+      description: This operation removes a MetadataConfiguration from an existing
+        media profile. If the media profile does not contain a MetadataConfiguration,
+        the operation has no effect. The removal shall be persistent.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemoveMetadataConfiguration
@@ -6622,6 +7922,7 @@ paths:
       - Metadata Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemovePTZConfiguration:
     put:
+      description: Remove a PTZConfiguration on the device.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemovePTZConfiguration
@@ -6638,7 +7939,7 @@ paths:
             schema:
               example:
                 RemovePTZConfiguration:
-                  ProfileToken: '{{MEDIA_PROFILE}}'
+                  ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
               properties:
                 RemovePTZConfiguration:
                   properties:
@@ -6649,13 +7950,43 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Tue, 11 Oct 2022 03:25:56 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 95a3251e-41fb-45d5-9633-dc597a9f185c
+                type: string
       summary: RemovePTZConfiguration
       tags:
       - PTZ - Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemovePreset:
     put:
+      description: Operation to remove a PTZ preset for the Node in the selected profile.
+        The operation is supported if the PresetPosition capability exists for teh
+        Node in the selected profile.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RemovePreset
@@ -6725,15 +8056,52 @@ paths:
                   type: object
               type: object
       responses:
-        '200':
+        '500':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                message: 'request failed, status code: 500, err: {"apiVersion":"v2","message":"error
+                  writing DeviceResourece RemoveScopes for Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
+                  -\u003e failed to execute write command, \u003cnil\u003e -\u003e
+                  invalid request for the function ''RemoveScopes'' of web service
+                  ''Device''. Onvif error: fault reason: Trying to Remove scope which
+                  does not exist, fault detail: , fault code: s:Sender ter:InvalidArgVal
+                  ter:NoScope","statusCode":500}'
+                statusCode: 500
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  message:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: Internal Server Error
+          headers:
+            Content-Length:
+              schema:
+                example: '528'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Sun, 25 Sep 2022 03:41:12 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 1585c4fb-963a-4dc2-afa1-057559aedacc
+                type: string
       summary: Remove Scopes
       tags:
       - Auto Discovery
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Rules:
     get:
+      description: List the currently assigned set of rules of a VideoAnalyticsConfiguration.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRules
@@ -6752,12 +8120,131 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                event:
+                  apiVersion: v2
+                  deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                  id: 16f84c82-ee09-41bb-a012-27b46cff27fe
+                  origin: 1665460089922944000
+                  profileName: onvif-camera
+                  readings:
+                  - deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                    id: 2f46e1f1-6f39-449a-bd68-6387db6a1008
+                    objectValue:
+                      Rule:
+                      - Name: MyMotionDetectorRule
+                        Parameters:
+                          SimpleItem:
+                          - Name: MinCount
+                            Value: '5'
+                          - Name: AlarmOnDelay
+                            Value: '1000'
+                          - Name: AlarmOffDelay
+                            Value: '1000'
+                          - Name: ActiveCells
+                            Value: zwA=
+                        Type: tt:CellMotionDetector
+                    origin: 1665460089922944000
+                    profileName: onvif-camera
+                    resourceName: Rules
+                    value: ''
+                    valueType: Object
+                  sourceName: Rules
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                Rule:
+                                  items:
+                                    properties:
+                                      Name:
+                                        type: string
+                                      Parameters:
+                                        properties:
+                                          SimpleItem:
+                                            items:
+                                              properties:
+                                                Name:
+                                                  type: string
+                                                Value:
+                                                  type: string
+                                              required:
+                                              - Name
+                                              - Value
+                                              type: object
+                                            type: array
+                                        type: object
+                                      Type:
+                                        type: string
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '763'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Tue, 11 Oct 2022 03:48:09 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 1f4cb445-5625-41f0-abc3-a2a243f0b82b
+                type: string
       summary: GetRules
       tags:
       - Analytics - Rules
     put:
+      description: Modify one or more rules of a VideoAnalyticsConfiguration. The
+        rules are referenced by their names.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyRules
@@ -6776,7 +8263,7 @@ paths:
                 Rules:
                   ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
                   Rule:
-                  - Name: TestRule2
+                  - Name: MyMotionDetectorRule
                     Parameters:
                       SimpleItem:
                       - Name: ClassFilter
@@ -6813,8 +8300,35 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Tue, 11 Oct 2022 03:50:16 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: ea1d0040-3a30-4fbb-a0ac-50a1b90f3e36
+                type: string
       summary: ModifyRules
       tags:
       - Analytics - Rules
@@ -6956,6 +8470,10 @@ paths:
       tags:
       - Auto Discovery
     put:
+      description: This operation sets the scope parameters of a device. The scope
+        parameters are used in the device discovery to match a probe message. This
+        operation replaces all existing configurable scope parameters (not fixed parameters).
+        If this shall be avoided, one should use the scope add command instead.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
@@ -6986,8 +8504,35 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Sun, 25 Sep 2022 03:41:08 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 0fa69e08-5b67-4b92-93c8-7cb642c2f43c
+                type: string
       summary: Put Scopes
       tags:
       - Auto Discovery
@@ -7039,13 +8584,44 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 18:27:09 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 417c8635-cb74-47de-bbdc-4d96df27fcb5
+                type: string
       summary: SendAuxiliaryCommand
       tags:
       - PTZ - Auxiliary
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SetHomePosition:
     put:
+      description: "Operation to save current position as the home position. The SetHomePosition\
+        \ command returns with a failure if the \u201Chome\u201D position is fixed\
+        \ and cannot be overwritten. If the SetHomePosition is successful, it is possible\
+        \ to recall the Home Position with the GotoHomePosition command."
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetHomePosition
@@ -7107,6 +8683,16 @@ paths:
       - PTZ - Home Position
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SetPreset:
     put:
+      description: The SetPreset command saves the current device position parameters
+        so that the device can move to the saved preset position through the GotoPreset
+        operation. In order to create a new preset, the SetPresetRequest contains
+        no PresetToken. If creation is successful, the Response contains the PresetToken
+        which uniquely identifies the Preset. An existing Preset can be overwritten
+        by specifying the PresetToken of the corresponding Preset. In both cases (overwriting
+        or creation) an optional PresetName can be specified. The operation fails
+        if the PTZ device is moving during the SetPreset operation. The device MAY
+        internally save additional states such as imaging properties in the PTZ Preset
+        which then should be recalled in the GotoPreset operation.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetPreset
@@ -7123,10 +8709,13 @@ paths:
             schema:
               example:
                 SetPreset:
-                  ProfileToken: '{{MEDIA_PROFILE}}'
+                  PresetName: Preset1
+                  ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
               properties:
                 SetPreset:
                   properties:
+                    PresetName:
+                      type: string
                     ProfileToken:
                       type: string
                   type: object
@@ -7134,8 +8723,35 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 18:27:55 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 92a2b03e-65ed-4551-bd2d-64bc97f6c83c
+                type: string
       summary: SetPreset
       tags:
       - PTZ - Preset
@@ -7202,8 +8818,115 @@ paths:
       summary: SetSystemFactoryDefault
       tags:
       - System Function
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Snapshot:
+    get:
+      description: 'This request returns a snapshot of the video stream at the time
+        the command is given.
+
+
+        It is returned in a binary format.'
+      parameters:
+      - example: Camera001
+        in: path
+        name: EDGEX_DEVICE_NAME
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                apiVersion: v2
+                event:
+                  apiVersion: v2
+                  deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
+                  id: 5fdf593f-2a92-4a71-b08c-791d7a27fdff
+                  origin: 1665415500727830500
+                  profileName: onvif-camera
+                  readings:
+                  - binaryValue: /9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCACAAKADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzGwiBtoGx/wAs1/kK0BGPSotPH+g23/XFP5CreKxOyOwxVqTYuOlAWn7eKQFd1VQDtH3hUgtoz1QUsq/u2PoM1PikBCLWL+4KelkhOQSAOp3dKoX+sQWalVO+X0HasB9bumOfMP0oDmR2T6c/klt/4d/5VRvNOkhxvQrkcblH4/rmsaz8TT25bzP3qMCNp7Z9K3IvGcU0C211F5kROTnG4dOh7dKYXTMPysXeMV0MKgDpVC4+xTXiy2QkMXPDNuI4rRgGcUBYsqgFSgUiLUoFMmwzbU8a0wLzVmMAimMlij713+h2a2lhEpX52G5vxrj9Nthc3kUJGQx5HtXoUaYFBUELIgYZ2ivLviHKJ47tAoxDAyj8ia9TkkWGF5HOFUc15H4oJm03UZW5LQyH9DTiKo9DmdPQ/YbbH/PFP5CrgWoNNP8AxLbX/rin8hVwVIR2GBacFp4UU8LSAryL8hqrqF4LTTTICN54XNaEi/Ka5LXpi8kcfZF6e5oAxXcscmoy1KetMaqSMGLuGacGqIU8A02gNK0vWhTAJByDXX6bMLiFXXvXBxiur8NSMZBGx+X0rKRvTd3Y6VBUyjirM1uoCOg4bP5j/IqMJirTHKNhgFSxjmgJTo1IamSdL4Xh3X5fH3Vrs8Yrl/Csf7yZ/Yf1rqyKGaIyddlMemOF43naa8419c6HqJx/y7Sf+gmvQPExItIVHQuc/lXB6+MeH9SP/TtJ/wCgmtYGFU5jTVH9mWn/AFxT+Qq2FqjppP8AZ1qP+mKfyFaS9KxNI7ABTgKUCngDFICMjiuG1cEXsoPrXdtiuP8AEUW25V/7wNBMjnj1ptPbrTcc1Zix8MZedR2zzVuWEKpUDBBp1lDj5z+FWbiA7t46GspT1OmnT0uVbOHfLg9K9G0Lw8xtYLuAr5chYZZuflxk1wtpFtkz2r03w5K7aBdRXczrHbyRNGuBwH3A4+vH6UblU9GdHe2sP2Nx5iBtxK57np/9euaxTjfSSjBOBTQaqBdRp7CgU9Rg01aeOtUYnV+FjzN9BXUiuS8Ln/SWX1WuvUc0MtGJ4nQ/Z7Y44yf6VwfiEY8P6l/17Sf+gmvR/ESb9MiOORJ/MH/CvP8AxGn/ABT2pHt9lk/9BNbwOeocPp0MzWFqwdR+5T+Qq4ILr+8lJpqj+zbP/rhH/wCg1eVaxNY7FURXX95Kf9nu/wC+lWwKkAqWhmU7XKnBWsvWIxJYuzD5lwRXTyRFkIUZasPVrO5Ns6LBISeOmR+lAmjidhJp6QMx6VrLpk0Ry8R/KmPHtbGMVnKdg5CONdiYFWuGhwagqzEm5BWL1N4qxNZoN4wK9C1R/M0jSQEVWNth2A5faxVc/QAVwtpGVbPpXpviH+zrTR9Ks1niFxDHlgvcNz/P+daxYmjnIweKsqKbGqkDBzU6rWyMhB0p69aAlSpHVNEm1oD7L+L3OK7pBXnunnyriJ/Rga9CRuhpFplTWofM05sdVIavPfEq48Nap/16S/8AoBr064QTwPGf4gRXm/iZMeGtVyOlpLn/AL5NaQdkY1Fc4fTR/wASyz/64R/+gitFU4qrpUQ/sqyZ8qot48+v3RVpbiVFkiixhxg5QE/gSMj8KzNI7DguFLZGB1yRU9ncWRLLc7xgfK688+mPSs1oHbr+tK6i3i3NwPWpGaUVxam4wqMAOjMe/wBKW8vbSGM+dIq56AnrXPPeSSf8e2UTvIR/IUiwRiOS6nbeQPvSck0mxsklubedW8mVW9s1nOFOeBVS65BuYE8tg33R3FSRP5ihgeDUNDI3t1ZvkGCe1WLa3YcEVNboplBIq/GirIDjjvUuJdN62Io4SozViOEzq4X74rUisEnjPkgucZwAc04RQ2MrJEfMZ12yHHAPfFZ6nZaJjQve2hyrnGehGQa7BrcMsUsQIiliWQE+pHI/A5H4VkSxqyHI6dvSum0TbqPh2W3zmeyJdB3MZ64+h5/GtoHNWguhnhcdadkZ4pWpoHNanMWYeor0G1ffBG2eqivPYuldxob79PXnOKBo0+1cL42h8rQ9ZHrZyn/xw13ijNcj4/hx4c1WT1sZh+SGriRI820qEyaZp/p9mj/9BFX/ALKELEjHyk1Z0qK3g8M6bPMQo+yQkk+6CqNzJc3zYhR0i6Db94/X0qTSOxBcXKR/u41MkvoOg+pqolpNeEGYb8fgo/DvWpDpSR7TIM8Z254/+vV4g8jtxxQBhLZbPv8AJxj2rO1k+UkcC/Vh/KukkT94KwdcXzbmCJRl8HP41IGBGXkcKo9eKfYj9y6n7ytW9Y6X9nUtImZT+lZWwWepTQkYWTFS0ImgilyCBVxGYfeHNWEgCqAKUw07DLNrfvAwaGRo3HQqcVNJ4j1JeWuBKAc/vYlfH0yKzfLxUU/EJpWK5mbNv4kt7ydY9StIgrHDS267Hx/ujg/lWnaXn/CO67b3sJM9jJkpIoIEsZ4I+o9PUVwg4OeldZ4d1GC7h/si+ZVhIzDKesT+v0PQ/wD1qaQc76nS3doslst/asj28nQK2Sh9D+uKoVZ0OO7sdSksJ4d0E64kiZlyfQqSeTyDx1pLu0ksrh4ZR8ynGexHqKohjI+ldd4ZkzbyR+hBrkYq6Xw04W4ZP7woBHVKOK5vx9Hu8Fas392zm/8AQDXTAVheN03+BtcA6ixmP/jhoTJkeZeHLO717TtOjJKWsFtEq8dwgGa6+TSI7WFYoo8d/c1ifDS8M1ra2RXIS3VgfbA6/mK7u5T94D6AD880zWOxxU0Oxm44BqnIPmf6VuXsWC59WNY7rjf+FANFJxjrWNEq3XiBuMiPp9f8mtq6bylZj0GKo+H7cOs923LSNwfYf/XzQKxcljwM4rkNfQpepMBkcV2tyMRmuU1yJpIjjtzQFjT2DaCPTNMJpdOzLpcUjctt5PrSN1pNA0Rmqs/3TVo1Vn+6akCi9EZ/eDmnPUaffBpCO80u7l1fTWtnAluI1zbydHXH8Oe4PTnuRWvaX8eu2yQ3Mu27hG1JG4Dj0Y/ng/nWH4UMQdAW2kNuVj0Hrn/Pb61P4gtRo2us8OPKb54+OxP9Dx+FaDZfMTRMVdSpBxg1q6LKIr6LJwCcU2yceIbMTmBI5EGxpI3ySccbl9Kr2hMcqHuDQQeg1i+M/wDkR9e/7B8//otq2QQyhhyCMg1jeMv+RH1//sHT/wDotqhEyPK/BVzNptnZ6pAhkighjS6XuFIHP0+6fqK9ZiCXUMkqOGVgpUjuMZz+teWeE3XTH0l35tru0ijnB6cxjr7cg13VnIfDepCwlY/2bdHNu78+W3dCfx4qzaOwavCqwu4HaudnGE3Y9K7PVYF+zyrjI25FchIM24GOQcH8KCjn9dfZa3PbGz9RV7TrT7JYRRbcYHP1qjrdu1zfQQJ/y3Khh64P+Ga2ieKDMqXY+Suc1FC6sAOororr7hrHukySfagaZR0K7zpzI3WJsEexq64RvmQ9e1ZGiyiLUrq2b+Mfyz/jWq8TQZK8x9vagZC/ANUZjk1cnOY2+lZrNkVBJHIeaYpwaefmBpi9aQjc0q+e2ZSDxmuo1S5i1rTkjRv9Ig+aMqOq/wAQ/kR9CPSuDSUoKtW+rzWjAxvg1SYzsfD815YKZIbqAQvjzY2BLcfh/UVsEICrxNlHG9T/AD/XIrz2PV5RNuAVAeyjArqfD9691DJGzjMeHUH0PDY/Hb+tO4HpumS+bpsDbs8YNUPGX/Ij6/8A9g6f/wBFtS+HHLWTgn7r8UnjL/kR9f8A+wdP/wCi2oM5H//Z
+                    deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
+                    id: d04a9dad-feb9-4099-a524-8a4b4cf2cc37
+                    mediaType: image/jpeg
+                    origin: 1665415500727830500
+                    profileName: onvif-camera
+                    resourceName: Snapshot
+                    value: ''
+                    valueType: Binary
+                  sourceName: Snapshot
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            binaryValue:
+                              type: string
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            mediaType:
+                              type: string
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Mon, 10 Oct 2022 15:25:00 GMT
+                type: string
+            Transfer-Encoding:
+              schema:
+                example: chunked
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: e1116b67-69cd-4ed8-9b70-f543c9cf4a17
+                type: string
+      summary: Snapshot
+      tags:
+      - Video Streaming
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Stop:
     put:
+      description: Operation to stop ongoing pan, tilt and zoom movements of absolute
+        relative and continuous type. If no stop argument for pan, tilt or zoom is
+        set, the device will stop all ongoing pan, tilt and zoom movements.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.Stop
@@ -7234,13 +8957,65 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 18:27:51 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 72df6d5f-6c13-4e26-9e66-a0578604035d
+                type: string
       summary: Stop
       tags:
       - PTZ - Actuation
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/StreamUri:
     get:
+      description: 'This operation requests a URI that can be used to initiate a live
+        media stream using RTSP as the control protocol. The returned URI shall remain
+        valid indefinitely even if the profile is changed. The ValidUntilConnect,
+        ValidUntilReboot and Timeout Parameter shall be set accordingly (ValidUntilConnect=false,
+        ValidUntilReboot=false, timeout=PT0S).
+
+
+        The correct syntax for the StreamSetup element for these media stream setups
+        defined in 5.1.1 of the streaming specification are as follows:
+
+        RTP unicast over UDP: StreamType = "RTP_unicast", TransportProtocol = "UDP"
+
+        RTP over RTSP over HTTP over TCP: StreamType = "RTP_unicast", TransportProtocol
+        = "HTTP"
+
+        RTP over RTSP over TCP: StreamType = "RTP_unicast", TransportProtocol = "RTSP"
+
+
+        If a multicast stream is requested at least one of VideoEncoderConfiguration,
+        AudioEncoderConfiguration and MetadataConfiguration shall have a valid multicast
+        setting.
+
+
+        For full compatibility with other ONVIF services a device should not generate
+        Uris longer than 128 octets.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetStreamUri
@@ -7630,8 +9405,6 @@ paths:
       - System Function
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/SystemReboot:
     put:
-      description: Indicates whether or not a reboot is required after configuration
-        updates.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot
@@ -7656,13 +9429,46 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 21:55:59 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 0b194034-4975-4f5b-8141-63ec88666987
+                type: string
       summary: SystemReboot
       tags:
       - System Function
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/UnsubscribeCameraEvent:
     put:
+      description: 'The device shall provide the following Unsubscribe command for
+        all SubscriptionManager endpoints returned by the CreatePullPointSubscription
+        command.
+
+
+        This command shall terminate the lifetime of a pull point.'
       parameters:
       - example: Camera001
         in: path
@@ -7684,8 +9490,35 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Fri, 07 Oct 2022 21:56:20 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: eaf40875-3176-4457-8c4b-de3282175733
+                type: string
       summary: UnsubscribeCameraEvent
       tags:
       - Event Handling
@@ -7707,20 +9540,114 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                event:
+                  apiVersion: v2
+                  deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
+                  id: 8e524ecd-674d-4dd8-b728-de78b8245189
+                  origin: 1664077238993899500
+                  profileName: onvif-camera
+                  readings:
+                  - deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
+                    id: f5086b88-9876-4627-91d5-7ce39431652e
+                    objectValue:
+                      User:
+                      - UserLevel: Administrator
+                        Username: admin
+                      - UserLevel: User
+                        Username: user
+                    origin: 1664077238993899500
+                    profileName: onvif-camera
+                    resourceName: Users
+                    value: ''
+                    valueType: Object
+                  sourceName: Users
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  event:
+                    properties:
+                      apiVersion:
+                        type: string
+                      deviceName:
+                        type: string
+                      id:
+                        type: string
+                      origin:
+                        type: number
+                      profileName:
+                        type: string
+                      readings:
+                        items:
+                          properties:
+                            deviceName:
+                              type: string
+                            id:
+                              type: string
+                            objectValue:
+                              properties:
+                                User:
+                                  items:
+                                    properties:
+                                      UserLevel:
+                                        type: string
+                                      Username:
+                                        type: string
+                                    required:
+                                    - UserLevel
+                                    - Username
+                                    type: object
+                                  type: array
+                              type: object
+                            origin:
+                              type: number
+                            profileName:
+                              type: string
+                            resourceName:
+                              type: string
+                            value:
+                              type: string
+                            valueType:
+                              type: string
+                          type: object
+                        type: array
+                      sourceName:
+                        type: string
+                    type: object
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '609'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Sun, 25 Sep 2022 03:40:38 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: 16c7a0fe-a3fc-4b4f-a8e3-110ba2f0325a
+                type: string
       summary: Get users
       tags:
       - User Handling
     put:
-      description: 'StartFragment
-
-
-        This operation creates new device users and corresponding credentials on a
-        device for authentication purposes. The device shall support creation of device
-        users and their credentials through the CreateUsers command. Either all users
-        are created successfully or a fault message shall be returned without creating
-        any user.
+      description: 'This operation creates new device users and corresponding credentials
+        on a device for authentication purposes. The device shall support creation
+        of device users and their credentials through the CreateUsers command. Either
+        all users are created successfully or a fault message shall be returned without
+        creating any user.
 
 
         ONVIF compliant devices are recommended to support password length of at least
@@ -7773,13 +9700,43 @@ paths:
       responses:
         '200':
           content:
-            application/json: {}
-          description: Successful response
+            application/json:
+              example:
+                apiVersion: v2
+                statusCode: 200
+              schema:
+                properties:
+                  apiVersion:
+                    type: string
+                  statusCode:
+                    type: number
+                type: object
+          description: OK
+          headers:
+            Content-Length:
+              schema:
+                example: '37'
+                type: integer
+            Content-Type:
+              schema:
+                example: application/json
+                type: string
+            Date:
+              schema:
+                example: Sun, 25 Sep 2022 03:40:53 GMT
+                type: string
+            X-Correlation-Id:
+              schema:
+                example: bc42d5ca-4132-47e5-b159-98ca2aa1cdb8
+                type: string
       summary: Set users
       tags:
       - User Handling
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfiguration:
     get:
+      description: If the video encoder configuration token is already known, the
+        encoder configuration can be fetched through the GetVideoEncoderConfiguration
+        command.
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfiguration
@@ -7962,6 +9919,19 @@ paths:
       tags:
       - Video Encoder Configuration
     put:
+      description: 'This operation modifies a video encoder configuration. The ForcePersistence
+        flag indicates if the changes shall remain after reboot of the device. Changes
+        in the Multicast settings shall always be persistent. Running streams using
+        this configuration may be immediately updated according to the new settings.
+        The changes are not guaranteed to take effect unless the client requests a
+        new stream URI and restarts any affected stream. NVC methods for changing
+        a running stream are out of scope for this specification.
+
+
+        SessionTimeout is provided as a hint for keeping rtsp session by a device.
+        If necessary the device may adapt parameter values for SessionTimeout elements
+        without returning an error. For the time between keep alive calls the client
+        shall adhere to the timeout value signaled via RTSP.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetVideoEncoderConfiguration
@@ -8077,6 +10047,22 @@ paths:
       - Video Encoder Configuration
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfigurationOptions:
     get:
+      description: 'This operation returns the available options (supported values
+        and ranges for video encoder configuration parameters) when the video encoder
+        parameters are reconfigured.
+
+
+        For JPEG, MPEG4 and H264 extension elements have been defined that provide
+        additional information. A device must provide the XxxOption information for
+        all encodings supported and should additionally provide the corresponding
+        XxxOption2 information.
+
+
+        This response contains the available video encoder configuration options.
+        If a video encoder configuration is specified, the options shall concern that
+        particular configuration. If a media profile is specified, the options shall
+        be compatible with that media profile. If no tokens are specified, the options
+        shall be considered generic for the device.'
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions
@@ -8329,8 +10315,7 @@ paths:
 servers:
 - url: http://0.0.0.0:59882
 tags:
-- description: Onvif Protocol Specification [https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl)
-  name: Network Configuration
+- name: Network Configuration
 - name: System Function
 - name: Metadata Configuration
 - name: Video Streaming

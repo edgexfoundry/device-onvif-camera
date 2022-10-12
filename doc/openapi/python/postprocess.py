@@ -2,7 +2,6 @@
 
 import dataclasses
 import sys
-# from xml.etree import ElementTree
 
 import yaml
 
@@ -36,8 +35,6 @@ class YamlProcessor:
     sidecar = None
     profile = None
     resources = {}
-    # tree = None
-    # root = None
 
     """Read input yaml file and sidecar yaml files"""
     def _load(self):
@@ -57,8 +54,6 @@ class YamlProcessor:
     def _parse(self):
         for resource in self.profile['deviceResources']:
             self.resources[resource['name']] = resource
-        # self.tree = ElementTree.parse('devicemgmt.wsdl')
-        # self.root = self.tree.getroot()
 
     """Output modified yaml file"""
     def _write(self):
@@ -86,10 +81,6 @@ class YamlProcessor:
                             'description': 'Onvif Specification',
                             'url': f'{SERVICE_WSDL[service]}#op.{fn}'
                         }
-
-                        # if service == 'Device':
-                        #     x = self.root.find(".//{http://schemas.xmlsoap.org/wsdl/}operation[@name='%s']/{http://schemas.xmlsoap.org/wsdl/}documentation" % fn)
-                        #     print(x.text)
 
     def _verify_complete(self):
         for cmd, cmd_obj in self.resources.items():
@@ -121,16 +112,9 @@ class YamlProcessor:
         self._load()
         self._parse()
         self._sideload_external_docs()
-        # self._sideload_desc()
         self._add_example_vars()
         self._verify_complete()
         self._write()
-
-    # def _sideload_desc(self):
-    #     root = self.tree.getroot()
-    #     xx = root.findall(".//{http://schemas.xmlsoap.org/wsdl/}operation[@name='GetDiscoveryMode']/{http://schemas.xmlsoap.org/wsdl/}documentation")
-    #     for x in xx:
-    #         print(x.text)
 
 
 def main():
@@ -139,7 +123,6 @@ def main():
         sys.exit(1)
 
     proc = YamlProcessor(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-    # todo: try-catch ProcessingError and dump trace
     proc.process()
 
 
