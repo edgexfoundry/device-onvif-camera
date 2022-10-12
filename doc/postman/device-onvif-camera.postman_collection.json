@@ -1334,10 +1334,29 @@
 									]
 								}
 							},
-							"_postman_previewlanguage": "Text",
-							"header": [],
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "fb9339bb-b588-49f8-82b1-d0da167897c0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:27:07 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
 							"cookie": [],
-							"body": ""
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
 						}
 					]
 				},
