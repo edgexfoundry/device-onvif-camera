@@ -133,10 +133,10 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
 		device.Protocols[OnvifProtocol][FriendlyName] = devInfo.Manufacturer + " " + devInfo.Model
 
-		// Spaces are not allowed in the device name
+		// Spaces and slashes are not allowed in the device name
 		deviceName := fmt.Sprintf("%s-%s-%s",
 			strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
-			strings.ReplaceAll(devInfo.Model, " ", "-"),
+			strings.ReplaceAll(strings.ReplaceAll(devInfo.Model, "/", "-"), " ", "-"),
 			endpointRefAddr)
 
 		netInfo, err := d.getNetworkInterfaces(device)
@@ -189,9 +189,9 @@ func executeRawProbe(conn net.Conn, params netscan.Params) ([]onvif.Device, erro
 
 	var responses []string
 	buf := make([]byte, bufSize)
-	// keep reading from the PacketConn until the read deadline expires or an error occurs
+	// keep reading responses from the connection until the read deadline expires or an error occurs
 	for {
-		n, _, err := (conn.(net.PacketConn)).ReadFrom(buf)
+		n, err := conn.Read(buf)
 		if err != nil {
 			// ErrDeadlineExceeded is expected once the read timeout is expired
 			if !stdErrors.Is(err, os.ErrDeadlineExceeded) {
