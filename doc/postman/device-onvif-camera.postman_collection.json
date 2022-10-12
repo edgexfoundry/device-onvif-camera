@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "a211ead6-39f1-48ba-a3a2-20d191a660c4",
-		"name": "device-onvif-camera",
+		"_postman_id": "117aa9ba-01bf-421f-bf59-fb109888c2d4",
+		"name": "device-onvif-camera Copy 4",
+		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "7889146"
+		"_exporter_id": "19151794"
 	},
 	"item": [
 		{
@@ -32,7 +33,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Hostname"
 							]
-						}
+						},
+						"description": "This operation is used by an endpoint to get the hostname from a device. The device shall return its hostname configurations through the GetHostname command."
 					},
 					"response": [
 						{
@@ -118,9 +120,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Hostname"
 							]
-						}
+						},
+						"description": "This operation sets the hostname on a device. It shall be possible to set the device hostname configurations through the SetHostname command.  \nA device shall accept string formatted according to RFC 1123 section 2.1 or alternatively to RFC 952, other string shall be considered as invalid strings."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetHostname",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Hostname\": {\n        \"Name\": \"localhost555\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Hostname"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "8ff7406a-6544-4c19-9205-9c81e24cb090"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:18:17 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "DNS",
@@ -157,7 +219,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DNS"
 							]
-						}
+						},
+						"description": "This operation gets the DNS settings from a device. The device shall return its DNS configurations through the GetDNS command."
 					},
 					"response": [
 						{
@@ -165,15 +228,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
 									"protocol": "http",
@@ -252,9 +306,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DNS"
 							]
-						}
+						},
+						"description": "This operation sets the DNS settings on a device. It shall be possible to set the device DNS configurations through the SetDNS command."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetDNS",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"DNS\": {\n        \"FromDHCP\": true,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DNS"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "f596f4f6-812f-4124-a502-f427f3a8ac7b"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:19:16 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "NetworkInterfaces",
@@ -279,7 +393,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkInterfaces"
 							]
-						}
+						},
+						"description": "This operation gets the network interface configuration from a device. The device shall support return of network interface configuration settings as defined by the NetworkInterface type through the GetNetworkInterfaces command."
 					},
 					"response": [
 						{
@@ -365,9 +480,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkInterfaces"
 							]
-						}
+						},
+						"description": "This operation sets the network interface configuration on a device. The device shall support network configuration of supported network interfaces through the SetNetworkInterfaces command.\n\nFor interoperability with a client unaware of the IEEE 802.11 extension a device shall retain its IEEE 802.11 configuration if the IEEE 802.11 configuration element isn’t present in the request."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetNetworkInterfaces",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": true\n            }\n        }\n        \n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"NetworkInterfaces"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "1ccf5e8a-352b-4a85-8ea7-71f9333a5bf4"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:19:43 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "NetworkProtocols",
@@ -392,7 +567,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkProtocols"
 							]
-						}
+						},
+						"description": "This operation gets defined network protocols from a device. The device shall support the GetNetworkProtocols command returning configured network protocols."
 					},
 					"response": [
 						{
@@ -453,7 +629,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": {{ONVIF_PORT}}\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    } \n}",
+							"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 2020\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    } \n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -478,9 +654,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkProtocols"
 							]
-						}
+						},
+						"description": "This operation configures defined network protocols on a device. The device shall support configuration of defined network protocols through the SetNetworkProtocols command."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetNetworkProtocols",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 2020\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    } \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"NetworkProtocols"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "a7f75e35-bb5c-46b2-a502-c269c574a7b0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:26:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "NetworkDefaultGateway",
@@ -517,7 +753,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkDefaultGateway"
 							]
-						}
+						},
+						"description": "This operation gets the default gateway settings from a device. The device shall support the GetNetworkDefaultGateway command returning configured default gateway address(es)."
 					},
 					"response": [
 						{
@@ -525,15 +762,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
 									"protocol": "http",
@@ -612,9 +840,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkDefaultGateway"
 							]
-						}
+						},
+						"description": "This operation sets the default gateway settings on a device. The device shall support configuration of default gateway through the SetNetworkDefaultGateway command."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetNetworkDefaultGateway",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    } \n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"NetworkDefaultGateway"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "84ab80db-4334-49e7-a956-e2ce4aab9b99"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:26:55 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "NetworkConfiguration",
@@ -651,7 +939,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkConfiguration"
 							]
-						}
+						},
+						"description": "Used to retrieve network resources for a device such as Hostname, DNS, NetworkInterfaces, NetworkProtocols and NetworkDefaultGateway."
 					},
 					"response": [
 						{
@@ -659,15 +948,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
 									"protocol": "http",
@@ -746,9 +1026,70 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkConfiguration"
 							]
-						}
+						},
+						"description": "Used to configure network resources for a device such as Hostname, DNS, NetworkInterfaces, NetworkProtocols and NetworkDefaultGateway."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetNetworkConfiguration",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Hostname\": {\n        \"Name\": \"localhost\"\n    },\n    \"DNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    },\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": false\n            }\n        }\n        \n    },\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [ \n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 80\n            }\n        ]\n    },\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"NetworkConfiguration"
+									]
+								},
+								"description": "Onvif Protocol Specification [https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl](https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl)"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "2955d163-0007-4fa3-9a2c-267510c01e44"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:10:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				}
 			]
 		},
@@ -778,7 +1119,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeviceInformation"
 							]
-						}
+						},
+						"description": "This operation gets basic device information from the device."
 					},
 					"response": [
 						{
@@ -867,7 +1209,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemDateAndTime"
 							]
-						}
+						},
+						"description": "This operation gets the device system date and time. The device shall support the return of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the GetSystemDateAndTime command.\n\nA device shall provide the UTCDateTime information."
 					},
 					"response": [
 						{
@@ -875,15 +1218,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
 									"protocol": "http",
@@ -962,9 +1296,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemDateAndTime"
 							]
-						}
+						},
+						"description": "This operation sets the device system date and time. The device shall support the configuration of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the SetSystemDateAndTime command.\n\nIf system time and date are set manually, the client shall include UTCDateTime in the request.\n\nA TimeZone token which is not formed according to the rules of IEEE 1003.1 section 8.3 is considered as invalid timezone.\n\nThe DayLightSavings flag should be set to true to activate any DST settings of the TimeZone string. Clear the DayLightSavings flag if the DST portion of the TimeZone settings should be ignored."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetSystemDateAndTime",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"SystemDateAndTime\": {\n        \"DateTimeType\":\"Manual\",\n        \"DaylightSavings\": false,\n        \"UTCDateTime\": {\n            \"Date\": {\n                \"Month\": 12,\n                \"Year\": 2021,\n                \"Day\": 11\n\n            },\n            \"Time\": {\n                \"Hour\": 5,\n                \"Minute\": 48,\n                \"Second\": 20\n            }\n        }\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"SystemDateAndTime"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "fb9339bb-b588-49f8-82b1-d0da167897c0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:27:07 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "SetSystemFactoryDefault",
@@ -998,9 +1392,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SetSystemFactoryDefault"
 							]
-						}
+						},
+						"description": "This operation reloads the parameters on the device to their factory default values."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetSystemFactoryDefault",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"SetSystemFactoryDefault\": {\n        \"FactoryDefault\":\"Soft\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SetSystemFactoryDefault",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"SetSystemFactoryDefault"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "fb9339bb-b588-49f8-82b1-d0da167897c0"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 16:27:07 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "RebootNeeded",
@@ -1025,7 +1479,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"RebootNeeded"
 							]
-						}
+						},
+						"description": "Indicates whether or not a reboot is required after configuration updates."
 					},
 					"response": [
 						{
@@ -1113,7 +1568,67 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SystemReboot",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"SystemReboot\": {}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SystemReboot",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"SystemReboot"
+									]
+								},
+								"description": "Indicates whether or not a reboot is required after configuration updates."
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "0b194034-4975-4f5b-8141-63ec88666987"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Oct 2022 21:55:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				}
 			]
 		},
@@ -1143,7 +1658,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MetadataConfigurations"
 							]
-						}
+						},
+						"description": "This operation lists all existing metadata configurations. The client need not know anything apriori about the metadata in order to use the command."
 					},
 					"response": [
 						{
@@ -1226,9 +1742,66 @@
 									"value": "{{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}"
 								}
 							]
-						}
+						},
+						"description": "The GetMetadataConfiguration command fetches the metadata configuration if the metadata token is known."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "MetadataConfiguration",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration?jsonObject={{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"MetadataConfiguration"
+									],
+									"query": [
+										{
+											"key": "jsonObject",
+											"value": "{{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "96f2ec58-26af-410c-8264-5c62c45425eb"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:11:29 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "557"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"53480499-ece4-4437-b795-0ff4f57a564a\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfiguration\",\n        \"origin\": 1663974689815368367,\n        \"readings\": [\n            {\n                \"id\": \"b6cda316-6a50-4990-8279-e2777be95c79\",\n                \"origin\": 1663974689815368367,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n                \"resourceName\": \"MetadataConfiguration\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configuration\": {}\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "SetMetadataConfiguration",
@@ -1262,9 +1835,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MetadataConfiguration"
 							]
-						}
+						},
+						"description": "This operation modifies a metadata configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be updated immediately according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected streams. NVC methods for changing a running stream are out of scope for this specification."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "SetMetadataConfiguration",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"MetadataConfiguration\": {\n        \"ForcePersistence\": true,\n        \"Configuration\":{\n            \"token\": \"{{MEDIA_CONFIG_TOKEN}}\",\n            \"Analytics\": true\n        }\n        \n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"MetadataConfiguration"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "f9b22e19-bfba-4bb3-84bf-48ed200b9cf1"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:13:37 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "CompatibleMetadataConfigurations",
@@ -1295,7 +1928,8 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
 								}
 							]
-						}
+						},
+						"description": "This operation requests all the metadata configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddMetadataConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device."
 					},
 					"response": [
 						{
@@ -1384,7 +2018,8 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_AND_CONFIG_TOKEN_BASE64}}"
 								}
 							]
-						}
+						},
+						"description": "This operation returns the available options (supported values and ranges for metadata configuration parameters) for changing the metadata configuration."
 					},
 					"response": [
 						{
@@ -1476,9 +2111,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"AddMetadataConfiguration"
 							]
-						}
+						},
+						"description": "This operation adds a Metadata configuration to an existing media profile. If a configuration exists in the media profile, it will be replaced. The change shall be persistent. Adding a MetadataConfiguration to a Profile means that streams using that profile contain metadata. Metadata can consist of events, PTZ status, and/or video analytics data."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "AddMetadataConfiguration",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"AddMetadataConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"ConfigurationToken\": \"{{MEDIA_CONFIG_TOKEN}}\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddMetadataConfiguration",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"AddMetadataConfiguration"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "9aaf8833-760d-4e7b-ac10-123c36fa71fb"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:13:44 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "RemoveMetadataConfiguration",
@@ -1512,9 +2207,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"RemoveMetadataConfiguration"
 							]
-						}
+						},
+						"description": "This operation removes a MetadataConfiguration from an existing media profile. If the media profile does not contain a MetadataConfiguration, the operation has no effect. The removal shall be persistent."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "RemoveMetadataConfiguration",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"RemoveMetadataConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveMetadataConfiguration",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"RemoveMetadataConfiguration"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "f591166b-b0ae-4c3e-8d87-3fa2fb0f180c"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:13:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				}
 			]
 		},
@@ -1556,7 +2311,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Profiles"
 							]
-						}
+						},
+						"description": "Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command."
 					},
 					"response": [
 						{
@@ -1564,15 +2320,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Profiles",
 									"protocol": "http",
@@ -1648,7 +2395,8 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
 								}
 							]
-						}
+						},
+						"description": "This operation requests a URI that can be used to initiate a live media stream using RTSP as the control protocol. The returned URI shall remain valid indefinitely even if the profile is changed. The ValidUntilConnect, ValidUntilReboot and Timeout Parameter shall be set accordingly (ValidUntilConnect=false, ValidUntilReboot=false, timeout=PT0S).\n\nThe correct syntax for the StreamSetup element for these media stream setups defined in 5.1.1 of the streaming specification are as follows:  \nRTP unicast over UDP: StreamType = \"RTP_unicast\", TransportProtocol = \"UDP\"  \nRTP over RTSP over HTTP over TCP: StreamType = \"RTP_unicast\", TransportProtocol = \"HTTP\"  \nRTP over RTSP over TCP: StreamType = \"RTP_unicast\", TransportProtocol = \"RTSP\"\n\nIf a multicast stream is requested at least one of VideoEncoderConfiguration, AudioEncoderConfiguration and MetadataConfiguration shall have a valid multicast setting.\n\nFor full compatibility with other ONVIF services a device should not generate Uris longer than 128 octets."
 					},
 					"response": [
 						{
@@ -1707,6 +2455,84 @@
 							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"0ef64d9b-ba26-49a9-9a9f-5ec6f7b47190\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"StreamUri\",\n        \"origin\": 1659656323588826999,\n        \"readings\": [\n            {\n                \"id\": \"255085ba-4399-489d-aa34-cab5e1379281\",\n                \"origin\": 1659656323588826999,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"StreamUri\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"MediaUri\": {\n                        \"InvalidAfterConnect\": false,\n                        \"InvalidAfterReboot\": false,\n                        \"Timeout\": \"PT0H0M2S\",\n                        \"Uri\": \"rtsp://10.0.0.188:554/stream1\"\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
+				},
+				{
+					"name": "Snapshot",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Snapshot"
+							]
+						},
+						"description": "This request returns a snapshot of the video stream at the time the command is given.\n\nIt is returned in a binary format."
+					},
+					"response": [
+						{
+							"name": "Snapshot",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Snapshot"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "e1116b67-69cd-4ed8-9b70-f543c9cf4a17"
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 10 Oct 2022 15:25:00 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"5fdf593f-2a92-4a71-b08c-791d7a27fdff\",\n        \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Snapshot\",\n        \"origin\": 1665415500727830418,\n        \"readings\": [\n            {\n                \"id\": \"d04a9dad-feb9-4099-a524-8a4b4cf2cc37\",\n                \"origin\": 1665415500727830418,\n                \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n                \"resourceName\": \"Snapshot\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Binary\",\n                \"binaryValue\": \"/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCACAAKADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDzGwiBtoGx/wAs1/kK0BGPSotPH+g23/XFP5CreKxOyOwxVqTYuOlAWn7eKQFd1VQDtH3hUgtoz1QUsq/u2PoM1PikBCLWL+4KelkhOQSAOp3dKoX+sQWalVO+X0HasB9bumOfMP0oDmR2T6c/klt/4d/5VRvNOkhxvQrkcblH4/rmsaz8TT25bzP3qMCNp7Z9K3IvGcU0C211F5kROTnG4dOh7dKYXTMPysXeMV0MKgDpVC4+xTXiy2QkMXPDNuI4rRgGcUBYsqgFSgUiLUoFMmwzbU8a0wLzVmMAimMlij713+h2a2lhEpX52G5vxrj9Nthc3kUJGQx5HtXoUaYFBUELIgYZ2ivLviHKJ47tAoxDAyj8ia9TkkWGF5HOFUc15H4oJm03UZW5LQyH9DTiKo9DmdPQ/YbbH/PFP5CrgWoNNP8AxLbX/rin8hVwVIR2GBacFp4UU8LSAryL8hqrqF4LTTTICN54XNaEi/Ka5LXpi8kcfZF6e5oAxXcscmoy1KetMaqSMGLuGacGqIU8A02gNK0vWhTAJByDXX6bMLiFXXvXBxiur8NSMZBGx+X0rKRvTd3Y6VBUyjirM1uoCOg4bP5j/IqMJirTHKNhgFSxjmgJTo1IamSdL4Xh3X5fH3Vrs8Yrl/Csf7yZ/Yf1rqyKGaIyddlMemOF43naa8419c6HqJx/y7Sf+gmvQPExItIVHQuc/lXB6+MeH9SP/TtJ/wCgmtYGFU5jTVH9mWn/AFxT+Qq2FqjppP8AZ1qP+mKfyFaS9KxNI7ABTgKUCngDFICMjiuG1cEXsoPrXdtiuP8AEUW25V/7wNBMjnj1ptPbrTcc1Zix8MZedR2zzVuWEKpUDBBp1lDj5z+FWbiA7t46GspT1OmnT0uVbOHfLg9K9G0Lw8xtYLuAr5chYZZuflxk1wtpFtkz2r03w5K7aBdRXczrHbyRNGuBwH3A4+vH6UblU9GdHe2sP2Nx5iBtxK57np/9euaxTjfSSjBOBTQaqBdRp7CgU9Rg01aeOtUYnV+FjzN9BXUiuS8Ln/SWX1WuvUc0MtGJ4nQ/Z7Y44yf6VwfiEY8P6l/17Sf+gmvR/ESb9MiOORJ/MH/CvP8AxGn/ABT2pHt9lk/9BNbwOeocPp0MzWFqwdR+5T+Qq4ILr+8lJpqj+zbP/rhH/wCg1eVaxNY7FURXX95Kf9nu/wC+lWwKkAqWhmU7XKnBWsvWIxJYuzD5lwRXTyRFkIUZasPVrO5Ns6LBISeOmR+lAmjidhJp6QMx6VrLpk0Ry8R/KmPHtbGMVnKdg5CONdiYFWuGhwagqzEm5BWL1N4qxNZoN4wK9C1R/M0jSQEVWNth2A5faxVc/QAVwtpGVbPpXpviH+zrTR9Ks1niFxDHlgvcNz/P+daxYmjnIweKsqKbGqkDBzU6rWyMhB0p69aAlSpHVNEm1oD7L+L3OK7pBXnunnyriJ/Rga9CRuhpFplTWofM05sdVIavPfEq48Nap/16S/8AoBr064QTwPGf4gRXm/iZMeGtVyOlpLn/AL5NaQdkY1Fc4fTR/wASyz/64R/+gitFU4qrpUQ/sqyZ8qot48+v3RVpbiVFkiixhxg5QE/gSMj8KzNI7DguFLZGB1yRU9ncWRLLc7xgfK688+mPSs1oHbr+tK6i3i3NwPWpGaUVxam4wqMAOjMe/wBKW8vbSGM+dIq56AnrXPPeSSf8e2UTvIR/IUiwRiOS6nbeQPvSck0mxsklubedW8mVW9s1nOFOeBVS65BuYE8tg33R3FSRP5ihgeDUNDI3t1ZvkGCe1WLa3YcEVNboplBIq/GirIDjjvUuJdN62Io4SozViOEzq4X74rUisEnjPkgucZwAc04RQ2MrJEfMZ12yHHAPfFZ6nZaJjQve2hyrnGehGQa7BrcMsUsQIiliWQE+pHI/A5H4VkSxqyHI6dvSum0TbqPh2W3zmeyJdB3MZ64+h5/GtoHNWguhnhcdadkZ4pWpoHNanMWYeor0G1ffBG2eqivPYuldxob79PXnOKBo0+1cL42h8rQ9ZHrZyn/xw13ijNcj4/hx4c1WT1sZh+SGriRI820qEyaZp/p9mj/9BFX/ALKELEjHyk1Z0qK3g8M6bPMQo+yQkk+6CqNzJc3zYhR0i6Db94/X0qTSOxBcXKR/u41MkvoOg+pqolpNeEGYb8fgo/DvWpDpSR7TIM8Z254/+vV4g8jtxxQBhLZbPv8AJxj2rO1k+UkcC/Vh/KukkT94KwdcXzbmCJRl8HP41IGBGXkcKo9eKfYj9y6n7ytW9Y6X9nUtImZT+lZWwWepTQkYWTFS0ImgilyCBVxGYfeHNWEgCqAKUw07DLNrfvAwaGRo3HQqcVNJ4j1JeWuBKAc/vYlfH0yKzfLxUU/EJpWK5mbNv4kt7ydY9StIgrHDS267Hx/ujg/lWnaXn/CO67b3sJM9jJkpIoIEsZ4I+o9PUVwg4OeldZ4d1GC7h/si+ZVhIzDKesT+v0PQ/wD1qaQc76nS3doslst/asj28nQK2Sh9D+uKoVZ0OO7sdSksJ4d0E64kiZlyfQqSeTyDx1pLu0ksrh4ZR8ynGexHqKohjI+ldd4ZkzbyR+hBrkYq6Xw04W4ZP7woBHVKOK5vx9Hu8Fas392zm/8AQDXTAVheN03+BtcA6ixmP/jhoTJkeZeHLO717TtOjJKWsFtEq8dwgGa6+TSI7WFYoo8d/c1ifDS8M1ra2RXIS3VgfbA6/mK7u5T94D6AD880zWOxxU0Oxm44BqnIPmf6VuXsWC59WNY7rjf+FANFJxjrWNEq3XiBuMiPp9f8mtq6bylZj0GKo+H7cOs923LSNwfYf/XzQKxcljwM4rkNfQpepMBkcV2tyMRmuU1yJpIjjtzQFjT2DaCPTNMJpdOzLpcUjctt5PrSN1pNA0Rmqs/3TVo1Vn+6akCi9EZ/eDmnPUaffBpCO80u7l1fTWtnAluI1zbydHXH8Oe4PTnuRWvaX8eu2yQ3Mu27hG1JG4Dj0Y/ng/nWH4UMQdAW2kNuVj0Hrn/Pb61P4gtRo2us8OPKb54+OxP9Dx+FaDZfMTRMVdSpBxg1q6LKIr6LJwCcU2yceIbMTmBI5EGxpI3ySccbl9Kr2hMcqHuDQQeg1i+M/wDkR9e/7B8//otq2QQyhhyCMg1jeMv+RH1//sHT/wDotqhEyPK/BVzNptnZ6pAhkighjS6XuFIHP0+6fqK9ZiCXUMkqOGVgpUjuMZz+teWeE3XTH0l35tru0ijnB6cxjr7cg13VnIfDepCwlY/2bdHNu78+W3dCfx4qzaOwavCqwu4HaudnGE3Y9K7PVYF+zyrjI25FchIM24GOQcH8KCjn9dfZa3PbGz9RV7TrT7JYRRbcYHP1qjrdu1zfQQJ/y3Khh64P+Ga2ieKDMqXY+Suc1FC6sAOororr7hrHukySfagaZR0K7zpzI3WJsEexq64RvmQ9e1ZGiyiLUrq2b+Mfyz/jWq8TQZK8x9vagZC/ANUZjk1cnOY2+lZrNkVBJHIeaYpwaefmBpi9aQjc0q+e2ZSDxmuo1S5i1rTkjRv9Ig+aMqOq/wAQ/kR9CPSuDSUoKtW+rzWjAxvg1SYzsfD815YKZIbqAQvjzY2BLcfh/UVsEICrxNlHG9T/AD/XIrz2PV5RNuAVAeyjArqfD9691DJGzjMeHUH0PDY/Hb+tO4HpumS+bpsDbs8YNUPGX/Ij6/8A9g6f/wBFtS+HHLWTgn7r8UnjL/kR9f8A+wdP/wCi2oM5H//Z\",\n                \"mediaType\": \"image/jpeg\",\n                \"value\": \"\"\n            }\n        ]\n    }\n}"
+						}
+					]
 				}
 			]
 		},
@@ -1748,7 +2574,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"GetVideoEncoderConfigurations"
 							]
-						}
+						},
+						"description": "This operation lists all existing video encoder configurations of a device. This command lists all configured video encoder configurations in a device. The client need not know anything apriori about the video encoder configurations in order to use the command."
 					},
 					"response": [
 						{
@@ -1756,15 +2583,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetVideoEncoderConfigurations",
 									"protocol": "http",
@@ -1840,7 +2658,8 @@
 									"value": "{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN_BASE64}}"
 								}
 							]
-						}
+						},
+						"description": "If the video encoder configuration token is already known, the encoder configuration can be fetched through the GetVideoEncoderConfiguration command."
 					},
 					"response": [
 						{
@@ -1929,7 +2748,8 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_VIDEO_ENCODER_TOKEN_BASE64}}"
 								}
 							]
-						}
+						},
+						"description": "This operation returns the available options (supported values and ranges for video encoder configuration parameters) when the video encoder parameters are reconfigured.\n\nFor JPEG, MPEG4 and H264 extension elements have been defined that provide additional information. A device must provide the XxxOption information for all encodings supported and should additionally provide the corresponding XxxOption2 information.\n\nThis response contains the available video encoder configuration options. If a video encoder configuration is specified, the options shall concern that particular configuration. If a media profile is specified, the options shall be compatible with that media profile. If no tokens are specified, the options shall be considered generic for the device."
 					},
 					"response": [
 						{
@@ -2021,7 +2841,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"VideoEncoderConfiguration"
 							]
-						}
+						},
+						"description": "This operation modifies a video encoder configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be immediately updated according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected stream. NVC methods for changing a running stream are out of scope for this specification.\n\nSessionTimeout is provided as a hint for keeping rtsp session by a device. If necessary the device may adapt parameter values for SessionTimeout elements without returning an error. For the time between keep alive calls the client shall adhere to the timeout value signaled via RTSP."
 					},
 					"response": [
 						{
@@ -2112,9 +2933,60 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Users"
 							]
-						}
+						},
+						"description": "This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Get users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "16c7a0fe-a3fc-4b4f-a8e3-110ba2f0325a"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "609"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"8e524ecd-674d-4dd8-b728-de78b8245189\",\n        \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Users\",\n        \"origin\": 1664077238993899589,\n        \"readings\": [\n            {\n                \"id\": \"f5086b88-9876-4627-91d5-7ce39431652e\",\n                \"origin\": 1664077238993899589,\n                \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n                \"resourceName\": \"Users\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"User\": [\n                        {\n                            \"UserLevel\": \"Administrator\",\n                            \"Username\": \"admin\"\n                        },\n                        {\n                            \"UserLevel\": \"User\",\n                            \"Username\": \"user\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Create Users",
@@ -2148,9 +3020,53 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"CreateUsers"
 							]
-						}
+						},
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Create Users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"CreateUsers\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": ""
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "e772e887-419e-4647-ae97-59722fbc7317"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "Set users",
@@ -2184,9 +3100,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Users"
 							]
-						}
+						},
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Set users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "bc42d5ca-4132-47e5-b159-98ca2aa1cdb8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:53 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "Delete users",
@@ -2220,9 +3196,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeleteUsers"
 							]
-						}
+						},
+						"description": "This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Delete users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\"user1\",\"user2\"]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DeleteUsers"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "12780a21-c3b4-42b1-9e46-11369a5926de"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:57 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				}
 			]
 		},
@@ -2252,7 +3288,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryMode"
 							]
-						}
+						},
+						"description": "This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command."
 					},
 					"response": [
 						{
@@ -2338,7 +3375,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryMode"
 							]
-						}
+						},
+						"description": "This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command."
 					},
 					"response": [
 						{
@@ -2433,9 +3471,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"AddScopes"
 							]
-						}
+						},
+						"description": "This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Add Scopes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"AddScopes\":{\n        \"ScopeItem\":[\n            \"http//:123\"\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddScopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"AddScopes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "6c1402e7-4516-4661-9ba7-b486dc20336f"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:41:03 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "Get Scopes",
@@ -2460,7 +3558,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Scopes"
 							]
-						}
+						},
+						"description": "This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  \n\\- Fixed  \n\\- Configurable  \nFixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response."
 					},
 					"response": [
 						{
@@ -2546,9 +3645,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Scopes"
 							]
-						}
+						},
+						"description": "This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Put Scopes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Scopes\":{\n        \"Scopes\":[\n            \"http//:123\"\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Scopes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "0fa69e08-5b67-4b92-93c8-7cb642c2f43c"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:41:08 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "Remove Scopes",
@@ -2582,9 +3741,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"RemoveScopes"
 							]
-						}
+						},
+						"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "Remove Scopes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"RemoveScopes\":{\n        \"ScopeItem\":[\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveScopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"RemoveScopes"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "1585c4fb-963a-4dc2-afa1-057559aedacc"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:41:12 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "528"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error writing DeviceResourece RemoveScopes for Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'RemoveScopes' of web service 'Device'. Onvif error: fault reason: Trying to Remove scope which does not exist, fault detail: , fault code: s:Sender ter:InvalidArgVal ter:NoScope\\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
+						}
+					]
 				}
 			]
 		},
@@ -2617,7 +3836,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GetNodes"
 									]
-								}
+								},
+								"description": "Get the descriptions of the available PTZ Nodes.\n\nA PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may represent mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ drivers. PTZ Nodes are the lowest level entities in the PTZ control API and reflect the supported PTZ capabilities. The PTZ Node is referenced either by its name or by its reference token."
 							},
 							"response": [
 								{
@@ -2701,7 +3921,8 @@
 											"description": "{\"NodeToken\": \"Node0\"}"
 										}
 									]
-								}
+								},
+								"description": "Get a specific PTZ Node identified by a reference token or a name."
 							},
 							"response": [
 								{
@@ -2801,7 +4022,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GetConfigurations"
 									]
-								}
+								},
+								"description": "Get all the existing PTZConfigurations from the device.  \nThe default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.  \nThe allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly."
 							},
 							"response": [
 								{
@@ -2809,15 +4031,6 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"GetNode\":{\"NodeToken\": \"Node0\"}\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
 											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurations",
 											"protocol": "http",
@@ -2906,7 +4119,8 @@
 											"description": "{\"PTZConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
-								}
+								},
+								"description": "Get a specific PTZconfiguration from the device, identified by its reference token or name.\n\nThe default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.\n\nThe allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly."
 							},
 							"response": [
 								{
@@ -2914,15 +4128,6 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"GetNode\":{\"NodeToken\": \"Node0\"}\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
 											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Configuration?jsonObject=eyJQVFpDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
 											"protocol": "http",
@@ -3017,7 +4222,8 @@
 											"description": "{\"ConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
-								}
+								},
+								"description": "List supported coordinate systems including their range limitations. Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node."
 							},
 							"response": [
 								{
@@ -3025,15 +4231,6 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"GetNode\":{\"NodeToken\": \"Node0\"}\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
 											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
 											"protocol": "http",
@@ -3119,9 +4316,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Configuration"
 									]
-								}
+								},
+								"description": "Set/update a existing PTZConfiguration on the device."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "SetConfiguration",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"Configuration\": {\n        \"PTZConfiguration\": {\n            \"Token\": \"{{PTZ_CONFIG_TOKEN}}\",\n            \"NodeToken\": \"{{PTZ_NODE_TOKEN}}\",\n            \"PanTiltLimits\": {\n                \"Range\": {\n                    \"XRange\": {\n                        \"Max\": 170,\n                        \"Min\": -170\n                    },\n                    \"YRange\": {\n                        \"Max\": 35,\n                        \"Min\": -32\n                    }\n                }\n            }\n        }                    \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Configuration",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"Configuration"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "907ca3c4-30ed-442c-b9c6-2ba7742e073a"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 07 Oct 2022 18:05:10 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "AddPTZConfiguration",
@@ -3155,9 +4412,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AddPTZConfiguration"
 									]
-								}
+								},
+								"description": "Add a new PTZConfiguration on the device."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "AddPTZConfiguration",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"AddPTZConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"ConfigurationToken\": \"{{PTZ_CONFIG_TOKEN}}\"                \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddPTZConfiguration",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"AddPTZConfiguration"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "d264aa4d-1b3f-4788-8807-00acc18388eb"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 07 Oct 2022 18:27:21 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "RemovePTZConfiguration",
@@ -3166,7 +4483,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\"                \n    }\n}",
+									"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"                \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3191,9 +4508,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RemovePTZConfiguration"
 									]
-								}
+								},
+								"description": "Remove a PTZConfiguration on the device."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "RemovePTZConfiguration",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"                \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemovePTZConfiguration",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"RemovePTZConfiguration"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "95a3251e-41fb-45d5-9633-dc597a9f185c"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:25:56 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						}
 					]
 				},
@@ -3207,7 +4584,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": -10\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3232,9 +4609,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AbsoluteMove"
 									]
-								}
+								},
+								"description": "Operation to move pan,tilt or zoom to a absolute destination.\n\nThe speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "AbsoluteMove",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AbsoluteMove",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"AbsoluteMove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "ee6ad0a6-5f98-4d65-a1dc-a5047f1bfd38"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:24:42 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "RelativeMove",
@@ -3243,7 +4680,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 10,\n                \"y\": 10\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3268,9 +4705,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RelativeMove"
 									]
-								}
+								},
+								"description": "Operation for Relative Pan/Tilt and Zoom Move. The operation is supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space.\n\nThe speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "RelativeMove",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RelativeMove",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"RelativeMove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "700ccf33-2db1-4646-9c7b-383910df2e23"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:25:28 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "ContinuousMove",
@@ -3304,9 +4801,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"ContinuousMove"
 									]
-								}
+								},
+								"description": "Operation for continuous Pan/Tilt and Zoom movements. The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "ContinuousMove",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"ContinuousMove\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Velocity\": {\n            \"PanTilt\": {\n                \"x\": -1,\n                \"y\": -1\n            }\n        }               \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/ContinuousMove",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"ContinuousMove"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "a09ac058-3809-47a7-b90e-cfdb6d6a7231"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 07 Oct 2022 18:27:42 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "GetStatus",
@@ -3350,7 +4907,8 @@
 											"description": "{\"ProfileToken\":\"profile_1\"}"
 										}
 									]
-								}
+								},
+								"description": "Operation to request PTZ status for the Node in the selected profile."
 							},
 							"response": [
 								{
@@ -3358,15 +4916,6 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
 										"url": {
 											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetStatus?jsonObject=eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==",
 											"protocol": "http",
@@ -3451,9 +5000,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Stop"
 									]
-								}
+								},
+								"description": "Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type. If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "Stop",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"Stop\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"PanTilt\": true              \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Stop",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"Stop"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "72df6d5f-6c13-4e26-9e66-a0578604035d"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 07 Oct 2022 18:27:51 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						}
 					]
 				},
@@ -3467,7 +5076,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"SetPreset\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\"           \n    }\n}",
+									"raw": "{\n    \"SetPreset\": {\n        \"PresetName\":\"Preset1\",\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"           \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3492,9 +5101,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"SetPreset"
 									]
-								}
+								},
+								"description": "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "SetPreset",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"SetPreset\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\"           \n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SetPreset",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"SetPreset"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "92a2b03e-65ed-4551-bd2d-64bc97f6c83c"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 07 Oct 2022 18:27:55 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "GetPresets",
@@ -3502,7 +5171,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetPresets?jsonObject=eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==",
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetPresets?jsonObject={{PTZ_CONFIG_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -3522,11 +5191,12 @@
 									"query": [
 										{
 											"key": "jsonObject",
-											"value": "eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==",
+											"value": "{{PTZ_CONFIG_TOKEN_BASE64}}",
 											"description": "{\"ProfileToken\":\"profile_1\"}"
 										}
 									]
-								}
+								},
+								"description": "Operation to request all PTZ presets for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode."
 							},
 							"response": [
 								{
@@ -3593,7 +5263,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"GotoPreset\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"PresetToken\": \"Preset1\"      \n    }\n}",
+									"raw": "{\n    \"GotoPreset\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"PresetToken\": \"Preset1\"      \n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -3618,7 +5288,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GotoPreset"
 									]
-								}
+								},
+								"description": "Operation to go to a saved preset position for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode."
 							},
 							"response": []
 						},
@@ -3654,7 +5325,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RemovePreset"
 									]
-								}
+								},
+								"description": "Operation to remove a PTZ preset for the Node in the selected profile. The operation is supported if the PresetPosition capability exists for teh Node in the selected profile."
 							},
 							"response": []
 						}
@@ -3695,7 +5367,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GotoHomePosition"
 									]
-								}
+								},
+								"description": "Operation to move the PTZ device to it's \"home\" position. The operation is supported if the HomeSupported element in the PTZNode is true."
 							},
 							"response": [
 								{
@@ -3790,7 +5463,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"SetHomePosition"
 									]
-								}
+								},
+								"description": "Operation to save current position as the home position. The SetHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the SetHomePosition is successful, it is possible to recall the Home Position with the GotoHomePosition command."
 							},
 							"response": [
 								{
@@ -3890,9 +5564,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"SendAuxiliaryCommand"
 									]
-								}
+								},
+								"description": "Manage auxiliary commands supported by a device, such as controlling an Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected to the device.\n\nThe supported commands can be retrieved via the AuxiliaryCommands capability.\n\nAlthough the name of the auxiliary commands can be freely defined, commands starting with the prefix tt: are reserved to define frequently used commands and these reserved commands shall all share the \"tt:command|parameter\" syntax.  \ntt:Wiper|On – Request to start the wiper.  \ntt:Wiper|Off – Request to stop the wiper.  \ntt:Washer|On – Request to start the washer.  \ntt:Washer|Off – Request to stop the washer.  \ntt:WashingProcedure|On – Request to start the washing procedure.  \ntt: WashingProcedure |Off – Request to stop the washing procedure.  \ntt:IRLamp|On – Request to turn ON an IR illuminator attached to the unit.  \ntt:IRLamp|Off – Request to turn OFF an IR illuminator attached to the unit.  \ntt:IRLamp|Auto – Request to configure an IR illuminator attached to the unit so that it automatically turns ON and OFF.  \nA device that indicates auxiliary service capability shall support this command."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "SendAuxiliaryCommand",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"SendAuxiliaryCommand\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"AuxiliaryData\": \"123\"\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SendAuxiliaryCommand",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"SendAuxiliaryCommand"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "417c8635-cb74-47de-bbdc-4d96df27fcb5"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 07 Oct 2022 18:27:09 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						}
 					]
 				}
@@ -3924,7 +5658,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"GetEventProperties"
 							]
-						}
+						},
+						"description": "The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProperties. This specification does not require the implementation of the WS-ResourceProperty interface. Instead, the subsequent direct interface shall be implemented by an ONVIF compliant device in order to provide information about the FilterDialects, Schema files and topics supported by the device."
 					},
 					"response": [
 						{
@@ -4010,9 +5745,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"BaseNotificationSubscription"
 							]
-						}
+						},
+						"description": "Create a subscription to subscribe the event from the camera"
 					},
-					"response": []
+					"response": [
+						{
+							"name": "BaseNotificationSubscription",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"BaseNotificationSubscription\": {\n        \"TopicFilter\": \"tns1:RuleEngine/TamperDetector/Tamper\",\n        \"InitialTerminationTime\": \"PT180S\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/BaseNotificationSubscription",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"BaseNotificationSubscription"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "9ad845c6-441e-42fb-bb3c-f2399aa22e34"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Oct 2022 21:56:11 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "PullPointSubscription",
@@ -4046,9 +5841,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"PullPointSubscription"
 							]
-						}
+						},
+						"description": "This method returns a PullPointSubscription that can be polled using PullMessages. This message contains the same elements as the SubscriptionRequest of the WS-BaseNotification without the ConsumerReference.\n\nIf no Filter is specified the pullpoint notifies all occurring events to the client.\n\nThis method is mandatory."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "PullPointSubscription",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"PullPointSubscription\": {\n        \"MessageContentFilter\": \"boolean(//tt:SimpleItem[@Name=\\\"Rule\\\"])\",\n        \"InitialTerminationTime\": \"PT120S\",\n        \"MessageTimeout\": \"PT20S\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/PullPointSubscription",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"PullPointSubscription"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "d7f2c6d0-443f-4958-b224-d840c59eb3c3"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Oct 2022 21:56:15 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				},
 				{
 					"name": "UnsubscribeCameraEvent",
@@ -4082,9 +5937,69 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"UnsubscribeCameraEvent"
 							]
-						}
+						},
+						"description": "The device shall provide the following Unsubscribe command for all SubscriptionManager endpoints returned by the CreatePullPointSubscription command.\n\nThis command shall terminate the lifetime of a pull point."
 					},
-					"response": []
+					"response": [
+						{
+							"name": "UnsubscribeCameraEvent",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"UnsubscribeCameraEvent\": {\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/UnsubscribeCameraEvent",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"UnsubscribeCameraEvent"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "eaf40875-3176-4457-8c4b-de3282175733"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Oct 2022 21:56:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				}
 			]
 		},
@@ -4117,7 +6032,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2Profiles"
 									]
-								}
+								},
+								"description": "Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command."
 							},
 							"response": [
 								{
@@ -4194,7 +6110,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GetAnalyticsConfigurations"
 									]
-								}
+								},
+								"description": "By default this operation lists all existing video analytics configurations for a device. Provide a profile token to list only configurations that are compatible with the profile. If a configuration token is provided only a single configuration will be returned."
 							},
 							"response": [
 								{
@@ -4255,7 +6172,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AddConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Configuration\": [\n            {\n                \"Type\": \"Analytics\",\n                \"Token\": \"{{ANALYTIC_CONFIG_TOKEN}}\"\n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"AddConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Configuration\": [\n            {\n                \"Type\": \"Analytics\",\n                \"Token\": \"{{ANALYTIC_CONFIG_TOKEN}}\"\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4280,7 +6197,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AddConfiguration"
 									]
-								}
+								},
+								"description": "This operation adds one or more Configurations to an existing media profile. If a configuration exists in the media profile, it will be replaced. A device shall support adding a compatible Configuration to a Profile containing a VideoSourceConfiguration and shall support streaming video data of such a profile.\n\nNote that OSD elements must be added via the CreateOSD command."
 							},
 							"response": []
 						},
@@ -4291,7 +6209,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RemoveConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Configuration\": [\n            {\n                \"Type\": \"Analytics\",\n                \"Token\": \"{{ANALYTIC_CONFIG_TOKEN}}\"\n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"RemoveConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Configuration\": [\n            {\n                \"Type\": \"Analytics\",\n                \"Token\": \"{{ANALYTIC_CONFIG_TOKEN}}\"\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4316,7 +6234,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RemoveConfiguration"
 									]
-								}
+								},
+								"description": "This operation removes the listed configurations from an existing media profile. If the media profile does not contain one of the listed configurations that item shall be ignored."
 							},
 							"response": []
 						}
@@ -4348,7 +6267,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"GetSupportedAnalyticsModules"
 									]
-								}
+								},
+								"description": "List all analytics modules that are supported by the given VideoAnalyticsConfiguration."
 							},
 							"response": []
 						},
@@ -4381,9 +6301,66 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetAnalyticsModules",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"AnalyticsModules"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "e1799801-2c54-4816-b766-2d93caee89c9"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:49:35 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "678"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"76f908cd-6b34-477f-9a03-5eea4021b416\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"AnalyticsModules\",\n        \"origin\": 1665460175164293870,\n        \"readings\": [\n            {\n                \"id\": \"c5f01e17-9b31-43eb-bc55-2417617ef530\",\n                \"origin\": 1665460175164293870,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"AnalyticsModules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"AnalyticsModule\": [\n                        {\n                            \"Name\": \"MyCellMotionModule\",\n                            \"Parameters\": {\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"6\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:CellMotionEngine\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "CreateAnalyticsModules",
@@ -4417,9 +6394,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"CreateAnalyticsModules"
 									]
-								}
+								},
+								"description": "Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the analytics module must match those of the corresponding AnalyticsModuleDescription.\n\nAlthough this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and GetAnalyticsConfigurations.\n\nThe device shall ensure that a corresponding analytics engine starts operation when a client subscribes directly or indirectly for events produced by the analytics or rule engine or when a client requests the corresponding scene description stream. An analytics module must be attached to a Video source using the media profiles before it can be used. In case differing analytics configurations are attached to the same profile it is undefined which of the analytics module configuration becomes active if no stream is activated or multiple streams with different profiles are activated at the same time."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "CreateAnalyticsModules",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"CreateAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"TestAnalyticsModule\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"{{ANALYTIC_MODULE_OPTION_NAME}}\", \n                            \"Value\":\"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CreateAnalyticsModules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"CreateAnalyticsModules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "fe3cf678-d914-4729-805c-1e08d930a1b2"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 07 Oct 2022 22:08:45 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "DeleteAnalyticsModules",
@@ -4453,9 +6490,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"DeleteAnalyticsModules"
 									]
-								}
+								},
+								"description": "Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "DeleteAnalyticsModules",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"DeleteAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModuleName\": [\"TestAnalyticsModule\"]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteAnalyticsModules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"DeleteAnalyticsModules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "ffb1e371-1a66-4f14-94e1-e24b440f2cb3"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 10 Oct 2022 16:01:37 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "GetAnalyticsModuleOptions",
@@ -4486,9 +6583,66 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "Return the options for the supported analytics modules that specify an Option attribute."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetAnalyticsModuleOptions",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetAnalyticsModuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"GetAnalyticsModuleOptions"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "52340a61-2358-4d2b-be02-25cbe079baa6"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:48:52 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "639"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"460b6e4f-88d7-476d-ab9c-d46c5f656124\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetAnalyticsModuleOptions\",\n        \"origin\": 1665460132225687940,\n        \"readings\": [\n            {\n                \"id\": \"42a9e19c-82f6-4552-9f1d-459bfc55600a\",\n                \"origin\": 1665460132225687940,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"GetAnalyticsModuleOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Options\": [\n                        {\n                            \"IntRange\": {\n                                \"Max\": 100,\n                                \"Min\": 0\n                            },\n                            \"Name\": \"Sensitivity\",\n                            \"Type\": \"tt:IntRange\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "ModifyAnalyticsModules",
@@ -4522,7 +6676,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AnalyticsModules"
 									]
-								}
+								},
+								"description": "Modify the settings of one or more analytics modules of a VideoAnalyticsConfiguration. The modules are referenced by their names. It is allowed to pass only a subset to be modified."
 							},
 							"response": []
 						}
@@ -4560,9 +6715,66 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "List all rules that are supported by the given VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetSupportedRules",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetSupportedRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"GetSupportedRules"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "9c7bcb9a-4316-4905-a08d-abfe644ce0fb"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:48:18 GMT"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"4694424b-74bb-45ee-a014-ebb6d09855f9\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetSupportedRules\",\n        \"origin\": 1665460098832568388,\n        \"readings\": [\n            {\n                \"id\": \"155dc49e-caa7-492c-be74-0cf150ca2302\",\n                \"origin\": 1665460098832568388,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"GetSupportedRules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"SupportedRules\": {\n                        \"RuleContentSchemaLocation\": \"http://www.w3.org/2001/XMLSchema\",\n                        \"RuleDescription\": [\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 10,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"IsMotion\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/CellMotionDetector/Motion\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:CellMotionDetector\",\n                                \"Parameters\": {\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"MinCount\",\n                                            \"Type\": \"xs:integer\"\n                                        },\n                                        {\n                                            \"Name\": \"AlarmOnDelay\",\n                                            \"Type\": \"xs:integer\"\n                                        },\n                                        {\n                                            \"Name\": \"AlarmOffDelay\",\n                                            \"Type\": \"xs:integer\"\n                                        },\n                                        {\n                                            \"Name\": \"ActiveCells\",\n                                            \"Type\": \"xs:base64Binary\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 10,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"State\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/MotionRegionDetector/Motion\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSource\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"RuleName\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:MotionRegionDetector\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"MotionRegion\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"ElementItemDescription\": [\n                                            {\n                                                \"Name\": \"Image\"\n                                            },\n                                            {\n                                                \"Name\": \"BoundingBox\"\n                                            }\n                                        ],\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"Likelihood\",\n                                                \"Type\": \"xs:float\"\n                                            },\n                                            {\n                                                \"Name\": \"Label\",\n                                                \"Type\": \"xs:string\"\n                                            },\n                                            {\n                                                \"Name\": \"ImageUri\",\n                                                \"Type\": \"xs:anyURI\"\n                                            },\n                                            {\n                                                \"Name\": \"EnrollmentID\",\n                                                \"Type\": \"xs:string\"\n                                            },\n                                            {\n                                                \"Name\": \"RefImageUri\",\n                                                \"Type\": \"xs:anyURI\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/Recognition/Face\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSource\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"AnalyticsConfiguration\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:FaceRecognition\",\n                                \"Parameters\": {\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"IncludeImage\",\n                                            \"Type\": \"xs:string\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"ElementItemDescription\": [\n                                            {\n                                                \"Name\": \"BoundingBox\"\n                                            },\n                                            {\n                                                \"Name\": \"Image\"\n                                            },\n                                            {\n                                                \"Name\": \"LicensePlateInfo\"\n                                            },\n                                            {\n                                                \"Name\": \"VehicleInfo\"\n                                            },\n                                            {\n                                                \"Name\": \"VehicleImage\"\n                                            }\n                                        ],\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"Likelihood\",\n                                                \"Type\": \"xs:float\"\n                                            },\n                                            {\n                                                \"Name\": \"Label\",\n                                                \"Type\": \"xs:string\"\n                                            },\n                                            {\n                                                \"Name\": \"ImageUri\",\n                                                \"Type\": \"xs:anyURI\"\n                                            },\n                                            {\n                                                \"Name\": \"VehicleImageURI\",\n                                                \"Type\": \"xs:anyURI\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/Recognition/LicensePlate\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSource\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"AnalyticsConfiguration\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:LicensePlateRecognition\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Region\"\n                                        },\n                                        {\n                                            \"Name\": \"SnapLine\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"IncludeImage\",\n                                            \"Type\": \"xs:string\"\n                                        },\n                                        {\n                                            \"Name\": \"PlateLocation\",\n                                            \"Type\": \"xs:string\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"Count\",\n                                                \"Type\": \"xs:int\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/CountAggregation/Counter\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSource\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"AnalyticsConfiguration\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:LineCounting\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Segments\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"ReportTimeInterval\",\n                                            \"Type\": \"xs:duration\"\n                                        },\n                                        {\n                                            \"Name\": \"ResetTime\",\n                                            \"Type\": \"xs:time\"\n                                        },\n                                        {\n                                            \"Name\": \"Direction\",\n                                            \"Type\": \"tt:Direction\"\n                                        },\n                                        {\n                                            \"Name\": \"PassAllPolylines\",\n                                            \"Type\": \"xs:boolean\"\n                                        }\n                                    ]\n                                }\n                            }\n                        ]\n                    }\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "GetRules",
@@ -4593,9 +6805,66 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "List the currently assigned set of rules of a VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetRules",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Rules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"Rules"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "1f4cb445-5625-41f0-abc3-a2a243f0b82b"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:48:09 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "763"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"16f84c82-ee09-41bb-a012-27b46cff27fe\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Rules\",\n        \"origin\": 1665460089922943960,\n        \"readings\": [\n            {\n                \"id\": \"2f46e1f1-6f39-449a-bd68-6387db6a1008\",\n                \"origin\": 1665460089922943960,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"Rules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Rule\": [\n                        {\n                            \"Name\": \"MyMotionDetectorRule\",\n                            \"Parameters\": {\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"MinCount\",\n                                        \"Value\": \"5\"\n                                    },\n                                    {\n                                        \"Name\": \"AlarmOnDelay\",\n                                        \"Value\": \"1000\"\n                                    },\n                                    {\n                                        \"Name\": \"AlarmOffDelay\",\n                                        \"Value\": \"1000\"\n                                    },\n                                    {\n                                        \"Name\": \"ActiveCells\",\n                                        \"Value\": \"zwA=\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:CellMotionDetector\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "GetRuleOptions",
@@ -4626,9 +6895,66 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}
+								},
+								"description": "Return the options for the supported rules that specify an Option attribute."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetRuleOptions",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetRuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"GetRuleOptions"
+											],
+											"query": [
+												{
+													"key": "jsonObject",
+													"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "463ddd87-95fc-46f3-bdd7-d05ed5a94fd8"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:48:46 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "718"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"bf7a5fc7-7523-4690-87b7-273b2a373ed3\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetRuleOptions\",\n        \"origin\": 1665460126357157536,\n        \"readings\": [\n            {\n                \"id\": \"2bdd1ff4-7d2a-441b-bbc3-dfa50c27b096\",\n                \"origin\": 1665460126357157536,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"GetRuleOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"RuleOptions\": [\n                        {\n                            \"MotionRegionConfigOptions\": {\n                                \"DisarmSupport\": false,\n                                \"PolygonLimits\": {\n                                    \"Max\": 0,\n                                    \"Min\": 0\n                                },\n                                \"PolygonSupport\": false\n                            },\n                            \"Name\": \"MotionRegion\",\n                            \"Type\": \"axt:MotionRegionConfigOptions\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "CreateRules",
@@ -4662,9 +6988,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"CreateRules"
 									]
-								}
+								},
+								"description": "Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the rules must match those of the corresponding description.\n\nAlthough this method is mandatory a device implementation must not support adding rules. Instead it can provide a fixed set of predefined configurations via the media service function GetCompatibleVideoAnalyticsConfigurations."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "CreateRules",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"CreateRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"Object Counting\",\n                \"Type\": \"tt:LineCounting\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"Armed\", \n                            \"Value\":\"true\"\n                        }\n                    ],\n                    \"ElementItem\": [\n                        {\n                            \"Name\":\"Segments\", \n                            \"Polyline\": {\n                                \"Point\": [\n                                    {\n                                        \"x\":\"0.16\",\n                                        \"y\": \"0.5\"\n                                    },\n                                    {\n                                        \"x\":\"0.16\",\n                                        \"y\": \"-0.5\"\n                                    }\n                                ]\n                            }\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CreateRules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"CreateRules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "f4fb4b14-0de5-4a00-9646-1fc10b772b61"
+										},
+										{
+											"key": "Date",
+											"value": "Fri, 07 Oct 2022 22:19:30 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "DeleteRules",
@@ -4673,7 +7059,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"DeleteRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"RuleName\": [\n            \"TestRule2\"\n        ]\n    }\n}",
+									"raw": "{\n    \"DeleteRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"RuleName\": [\n            \"Object Counting\"\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4698,9 +7084,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"DeleteRules"
 									]
-								}
+								},
+								"description": "Remove one or more rules from a VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "DeleteRules",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"DeleteRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"RuleName\": [\n            \"Object Counting\"\n        ]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteRules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"DeleteRules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "96730551-cf42-4d2c-8918-aa0c694cbe9c"
+										},
+										{
+											"key": "Date",
+											"value": "Mon, 10 Oct 2022 16:01:21 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						},
 						{
 							"name": "ModifyRules",
@@ -4709,7 +7155,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"TestRule2\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4734,9 +7180,69 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Rules"
 									]
-								}
+								},
+								"description": "Modify one or more rules of a VideoAnalyticsConfiguration. The rules are referenced by their names."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "ModifyRules",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Rules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"Rules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "ea1d0040-3a30-4fbb-a0ac-50a1b90f3e36"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:50:16 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+								}
+							]
 						}
 					]
 				}
@@ -4768,7 +7274,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MACAddress"
 							]
-						}
+						},
+						"description": "This command returns the MAC address associated with a device."
 					},
 					"response": [
 						{
@@ -4854,7 +7361,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MACAddress"
 							]
-						}
+						},
+						"description": "This command sets the MAC address associated with a device."
 					},
 					"response": [
 						{
@@ -4940,7 +7448,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"FriendlyName"
 							]
-						}
+						},
+						"description": "This operation is used by an endpoint to get the FriendlyName from a device. This is a name given to a device by a user to make the device more identifiable."
 					},
 					"response": [
 						{
@@ -5026,7 +7535,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"FriendlyName"
 							]
-						}
+						},
+						"description": "This operation is used by an endpoint to set the FriendlyName of a device. This is a name given to a device by a user to make the device more identifiable."
 					},
 					"response": [
 						{
@@ -5088,9 +7598,390 @@
 							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
 						}
 					]
+				},
+				{
+					"name": "Get CustomMetadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"CustomMetadata"
+							]
+						},
+						"description": "This command returns the user specified custom metadata associated with a device."
+					},
+					"response": [
+						{
+							"name": "Get CustomMetadata",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"CustomMetadata"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "286e0f26-f708-457d-ba3e-af6203e85c72"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:35:47 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "610"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"6905a513-3aff-454b-981d-ea8e0c79f195\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"CustomMetadata\",\n        \"origin\": 1663976147356099321,\n        \"readings\": [\n            {\n                \"id\": \"c90f88b6-7e2f-4e37-8fa7-b173a4d6ffec\",\n                \"origin\": 1663976147356099321,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n                \"resourceName\": \"CustomMetadata\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Business\": \"John's Grocery Store\",\n                    \"Install Date\": \"01/01/1970\",\n                    \"Location\": \"Front door\"\n                }\n            }\n        ]\n    }\n}"
+						},
+						{
+							"name": "GetSpecificCustomMetadata-multipleFields Copy",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata?jsonObject={{ptz_enc}}",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"CustomMetadata"
+									],
+									"query": [
+										{
+											"key": "jsonObject",
+											"value": "{{ptz_enc}}",
+											"description": "Base64 encoded json string"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "d03c3b7a-77f0-4c5a-8470-1d36996e352f"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:36:17 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "582"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"0749ab9c-05b4-4515-a2b0-5d253aeb8be9\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"CustomMetadata\",\n        \"origin\": 1663976177486171795,\n        \"readings\": [\n            {\n                \"id\": \"295d2e23-ffae-4c7e-9440-6be14fc1c93e\",\n                \"origin\": 1663976177486171795,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n                \"resourceName\": \"CustomMetadata\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Business\": \"John's Grocery Store\",\n                    \"Location\": \"Front door\"\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Set CustomMetadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CustomMetadata\": {\n        \"Location\":\"Front door\",\n        \"Business\":\"John's Grocery Store\",\n        \"Install Date\":\"01/01/1970\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"CustomMetadata"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Set CustomMetadata",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"CustomMetadata\": {\n        \"Location\":\"Front door\",\n        \"Business\":\"John's Grocery Store\",\n        \"Install Date\":\"01/01/1970\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"CustomMetadata"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "65511822-66bc-48e5-94fc-71d393be11a4"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 23 Sep 2022 23:35:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete CustomMetadata",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"  pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DeleteCustomMetadata\": [\"Location\", \"Color\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteCustomMetadata",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"DeleteCustomMetadata"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Delete CustomMetadata",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"DeleteCustomMetadata\": [\"Location\", \"Color\"]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteCustomMetadata",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DeleteCustomMetadata"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "a0fd5620-29fa-4588-8bf3-e97e9aabec80"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 07 Oct 2022 21:57:55 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
 				}
 			],
 			"description": "Custom commands outside of the ONVIF spec handled by the device service directly."
+		}
+	],
+	"variable": [
+		{
+			"key": "ptz_enc",
+			"value": ""
 		}
 	]
 }
