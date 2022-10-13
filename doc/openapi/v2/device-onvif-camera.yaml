@@ -9176,6 +9176,7 @@ paths:
                           Extension: ''
                           LocalDateTime:
                             Date:
+                              Day: '11'
                               Month: '8'
                               Year: '2022'
                             Time:
@@ -9188,6 +9189,7 @@ paths:
                             '
                           UTCDateTime:
                             Date:
+                              Day: '11'
                               Month: '8'
                               Year: '2022'
                             Time:
@@ -9238,6 +9240,8 @@ paths:
                                       properties:
                                         Date:
                                           properties:
+                                            Day:
+                                              type: string
                                             Month:
                                               type: string
                                             Year:
@@ -9262,6 +9266,8 @@ paths:
                                       properties:
                                         Date:
                                           properties:
+                                            Day:
+                                              type: string
                                             Month:
                                               type: string
                                             Year:
