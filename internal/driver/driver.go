@@ -147,6 +147,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		}
 		d.clientsMu.Lock()
 		d.onvifClients[device.Name] = onvifClient
+		d.checkStatusOfDevice(device)
 		d.clientsMu.Unlock()
 	}
 
@@ -459,7 +460,6 @@ func (d *Driver) AddDevice(deviceName string, protocols map[string]models.Protoc
 		return nil
 	}
 
-	d.publishControlPlaneEvent(deviceName, cameraAdded)
 	err := d.createOnvifClient(deviceName)
 	if err != nil {
 		return errors.NewCommonEdgeXWrapper(err)
