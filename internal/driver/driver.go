@@ -455,11 +455,6 @@ func (d *Driver) Stop(force bool) error {
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (d *Driver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	// only execute if this was not called for the control-plane device
-	if deviceName == d.sdkService.Name() {
-		return nil
-	}
-
 	err := d.createOnvifClient(deviceName)
 	if err != nil {
 		return errors.NewCommonEdgeXWrapper(err)
