@@ -255,7 +255,7 @@ The following table shows the Onvif functions tested for various Onvif cameras:
 |-------------------|-------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
 | **Device**        | GetDeviceInformation    | ✔                   | ✔         | ✔                                 | ✔                   |                     |
 |                   | GetSystemDateAndTime    | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | SetSystemDateAndTime    | ✔                   | ✔[ⓘ](onvif-footnotes.md#tapo---setsystemdateandtime)         | ✔                                 | ✔                   |                     |
+|                   | SetSystemDateAndTime    | ✔                   | ✔ [ⓘ](onvif-footnotes.md#tapo-c200---setsystemdateandtime)         | ✔                                 | ✔                   |                     |
 |                   | SetSystemFactoryDefault | ✔                   | ✔         | ✔                                 | ✔                   |                     |
 |                   | Reboot                  | ✔                   | ✔         | ✔                                 | ✔                   |                     |
 
