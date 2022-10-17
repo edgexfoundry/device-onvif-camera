@@ -46,6 +46,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -182,6 +186,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': &id006
           description: OK
@@ -218,6 +226,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -295,6 +307,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -322,6 +338,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -419,6 +439,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -445,6 +469,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -535,6 +563,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -561,6 +593,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -636,6 +672,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -661,6 +701,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -788,6 +832,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -814,6 +862,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -885,6 +937,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -1006,6 +1062,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -1044,6 +1104,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -1069,6 +1133,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -1126,6 +1194,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -1153,6 +1225,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -1205,32 +1281,42 @@ paths:
       tags:
       - Metadata Configuration
       summary: MetadataConfiguration
-      description: |-
-        The GetMetadataConfiguration command fetches the metadata configuration if the metadata token is known.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [media_GetMetadataConfiguration](#media_GetMetadataConfiguration)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>"
-        }
-        ```
+      description: >-
+        The GetMetadataConfiguration command fetches the metadata configuration
+        if the metadata token is known.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Token of the requested metadata configuration.
+
+
+          **Schema Reference:** [media_GetMetadataConfiguration](#media_GetMetadataConfiguration)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -1314,6 +1400,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -1329,32 +1419,46 @@ paths:
       tags:
       - Metadata Configuration
       summary: CompatibleMetadataConfigurations
-      description: |-
-        This operation requests all the metadata configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddMetadataConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [media_GetCompatibleMetadataConfigurations](#media_GetCompatibleMetadataConfigurations)_
-
-        ```yaml
-        {
-          "ProfileToken": "<ProfileToken>"
-        }
-        ```
+      description: >-
+        This operation requests all the metadata configurations of the device
+        that are compatible with a certain media profile. Each of the returned
+        configurations shall be a valid input parameter for the
+        AddMetadataConfiguration command on the media profile. The result varies
+        depending on the capabilities, configurations and settings in the
+        device.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{EDGEX_MEDIA_PROFILE_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ProfileToken": "<ProfileToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ProfileToken** _[string]_
+          <br/>    Contains the token of an existing media profile the configurations shall be compatible with.
+
+
+          **Schema Reference:** [media_GetCompatibleMetadataConfigurations](#media_GetCompatibleMetadataConfigurations)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -1407,33 +1511,46 @@ paths:
       tags:
       - Metadata Configuration
       summary: MetadataConfigurationOptions
-      description: |-
-        This operation returns the available options (supported values and ranges for metadata configuration parameters) for changing the metadata configuration.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [media_GetMetadataConfigurationOptions](#media_GetMetadataConfigurationOptions)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>",
-          "ProfileToken": "<ProfileToken>"
-        }
-        ```
+      description: >-
+        This operation returns the available options (supported values and
+        ranges for metadata configuration parameters) for changing the metadata
+        configuration.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{EDGEX_MEDIA_PROFILE_AND_CONFIG_TOKEN_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>",
+            "ProfileToken": "<ProfileToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Optional metadata configuration token that specifies an existing configuration that the options are intended for.
+            - **ProfileToken** _[string]_
+          <br/>    Optional ProfileToken that specifies an existing media profile that the options shall be compatible with.
+
+
+          **Schema Reference:** [media_GetMetadataConfigurationOptions](#media_GetMetadataConfigurationOptions)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -1513,6 +1630,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -1552,6 +1673,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -1580,6 +1705,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -1864,41 +1993,80 @@ paths:
       tags:
       - Video Streaming
       summary: StreamUri
-      description: |-
-        This operation requests a URI that can be used to initiate a live media stream using RTSP as the control protocol. The returned URI shall remain valid indefinitely even if the profile is changed. The ValidUntilConnect, ValidUntilReboot and Timeout Parameter shall be set accordingly (ValidUntilConnect=false, ValidUntilReboot=false, timeout=PT0S).
+      description: >-
+        This operation requests a URI that can be used to initiate a live media
+        stream using RTSP as the control protocol. The returned URI shall remain
+        valid indefinitely even if the profile is changed. The
+        ValidUntilConnect, ValidUntilReboot and Timeout Parameter shall be set
+        accordingly (ValidUntilConnect=false, ValidUntilReboot=false,
+        timeout=PT0S).
 
-        The correct syntax for the StreamSetup element for these media stream setups defined in 5.1.1 of the streaming specification are as follows:  
-        RTP unicast over UDP: StreamType = "RTP_unicast", TransportProtocol = "UDP"  
-        RTP over RTSP over HTTP over TCP: StreamType = "RTP_unicast", TransportProtocol = "HTTP"  
-        RTP over RTSP over TCP: StreamType = "RTP_unicast", TransportProtocol = "RTSP"
 
-        If a multicast stream is requested at least one of VideoEncoderConfiguration, AudioEncoderConfiguration and MetadataConfiguration shall have a valid multicast setting.
+        The correct syntax for the StreamSetup element for these media stream
+        setups defined in 5.1.1 of the streaming specification are as follows:  
 
-        For full compatibility with other ONVIF services a device should not generate Uris longer than 128 octets.
+        RTP unicast over UDP: StreamType = "RTP_unicast", TransportProtocol =
+        "UDP"  
 
-        <hr/>
+        RTP over RTSP over HTTP over TCP: StreamType = "RTP_unicast",
+        TransportProtocol = "HTTP"  
 
-        **`jsonObject` Schema:** 
+        RTP over RTSP over TCP: StreamType = "RTP_unicast", TransportProtocol =
+        "RTSP"
 
-        _See: [media_GetStreamUri](#media_GetStreamUri)_
 
-        ```yaml
-        {
-          "ProfileToken": "<ProfileToken>",
-          "StreamSetup": {
-            "Stream": "<Stream>",
-            "Transport": {
-              "Protocol": "<Protocol>",
-              "Tunnel": { $ref: onvif_Transport }
-            }
-          }
-        }
-        ```
+        If a multicast stream is requested at least one of
+        VideoEncoderConfiguration, AudioEncoderConfiguration and
+        MetadataConfiguration shall have a valid multicast setting.
+
+
+        For full compatibility with other ONVIF services a device should not
+        generate Uris longer than 128 octets.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ProfileToken": "<ProfileToken>",
+            "StreamSetup": {
+              "Stream": "RTP-Unicast|RTP-Multicast",
+              "Transport": {
+                "Protocol": "UDP|TCP|RTSP|HTTP",
+                "Tunnel": { $ref: onvif_Transport }
+              }
+            }
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ProfileToken** _[string]_
+          <br/>    The ProfileToken element indicates the media profile to use and will define the configuration of the content of the stream.
+            - **StreamSetup** _[object]_
+          <br/>    Stream Setup that should be used with the uri
+              - **Stream** _[string]_
+          <br/>      Defines if a multicast or unicast stream is requested
+          <br/>      _Enum: ['RTP-Unicast', 'RTP-Multicast']_
+              - **Transport** _[object]_
+                - **Protocol** _[string]_
+          <br/>        Defines the network protocol for streaming, either UDP=RTP/UDP, RTSP=RTP/RTSP/TCP or HTTP=RTP/RTSP/HTTP/TCP
+          <br/>        _Enum: ['UDP', 'TCP', 'RTSP', 'HTTP']_
+                - **Tunnel** _[Recursive object of type [onvif_Transport](#onvif_Transport)]_
+          <br/>        Optional element to describe further tunnel options. This element is normally not needed
+
+
+          **Schema Reference:** [media_GetStreamUri](#media_GetStreamUri)
+
+          **Example:**<br/>
+          ```json
+          {"ProfileToken":"profile_1"}
+          ```
         example: '{{EDGEX_MEDIA_PROFILE_BASE64}}'
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -1906,6 +2074,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -1975,6 +2147,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -2028,6 +2204,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -2103,32 +2283,43 @@ paths:
       tags:
       - Video Encoder Configuration
       summary: VideoEncoderConfiguration
-      description: |-
-        If the video encoder configuration token is already known, the encoder configuration can be fetched through the GetVideoEncoderConfiguration command.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [media_GetVideoEncoderConfiguration](#media_GetVideoEncoderConfiguration)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>"
-        }
-        ```
+      description: >-
+        If the video encoder configuration token is already known, the encoder
+        configuration can be fetched through the GetVideoEncoderConfiguration
+        command.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Token of the requested video encoder configuration.
+
+
+          **Schema Reference:** [media_GetVideoEncoderConfiguration](#media_GetVideoEncoderConfiguration)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -2253,6 +2444,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '500':
           description: Internal Server Error
@@ -2289,37 +2484,60 @@ paths:
       tags:
       - Video Encoder Configuration
       summary: VideoEncoderConfigurationOptions
-      description: |-
-        This operation returns the available options (supported values and ranges for video encoder configuration parameters) when the video encoder parameters are reconfigured.
+      description: >-
+        This operation returns the available options (supported values and
+        ranges for video encoder configuration parameters) when the video
+        encoder parameters are reconfigured.
 
-        For JPEG, MPEG4 and H264 extension elements have been defined that provide additional information. A device must provide the XxxOption information for all encodings supported and should additionally provide the corresponding XxxOption2 information.
 
-        This response contains the available video encoder configuration options. If a video encoder configuration is specified, the options shall concern that particular configuration. If a media profile is specified, the options shall be compatible with that media profile. If no tokens are specified, the options shall be considered generic for the device.
+        For JPEG, MPEG4 and H264 extension elements have been defined that
+        provide additional information. A device must provide the XxxOption
+        information for all encodings supported and should additionally provide
+        the corresponding XxxOption2 information.
 
-        <hr/>
 
-        **`jsonObject` Schema:** 
-
-        _See: [media_GetVideoEncoderConfigurationOptions](#media_GetVideoEncoderConfigurationOptions)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>",
-          "ProfileToken": "<ProfileToken>"
-        }
-        ```
+        This response contains the available video encoder configuration
+        options. If a video encoder configuration is specified, the options
+        shall concern that particular configuration. If a media profile is
+        specified, the options shall be compatible with that media profile. If
+        no tokens are specified, the options shall be considered generic for the
+        device.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{EDGEX_MEDIA_PROFILE_VIDEO_ENCODER_TOKEN_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>",
+            "ProfileToken": "<ProfileToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Optional video encoder configuration token that specifies an existing configuration that the options are intended for.
+            - **ProfileToken** _[string]_
+          <br/>    Optional ProfileToken that specifies an existing media profile that the options shall be compatible with.
+
+
+          **Schema Reference:** [media_GetVideoEncoderConfigurationOptions](#media_GetVideoEncoderConfigurationOptions)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -2429,6 +2647,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -2522,6 +2744,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -2575,6 +2801,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -2619,6 +2849,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -2646,6 +2880,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -2722,6 +2960,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -2763,6 +3005,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -2800,6 +3046,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -2888,6 +3138,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -2929,6 +3183,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '500':
           description: Internal Server Error
@@ -2981,6 +3239,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -3091,26 +3353,34 @@ paths:
       tags:
       - PTZ - Capabilities
       summary: GetNode
-      description: |-
-        Get a specific PTZ Node identified by a reference token or a name.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [ptz_GetNode](#ptz_GetNode)_
-
-        ```yaml
-        {
-          "NodeToken": "<NodeToken>"
-        }
-        ```
+      description: Get a specific PTZ Node identified by a reference token or a name.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
-        description: '{"NodeToken": "Node0"}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "NodeToken": "<NodeToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **NodeToken** _[string]_
+          <br/>    Token of the requested PTZNode.
+
+
+          **Schema Reference:** [ptz_GetNode](#ptz_GetNode)
+
+          **Example:**<br/>
+          ```json
+          {"NodeToken": "Node0"}
+          ```
         example: eyJOb2RlVG9rZW4iOiAiTm9kZTAifQ==
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -3118,6 +3388,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -3257,6 +3531,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -3327,30 +3605,58 @@ paths:
       tags:
       - PTZ - Configuration
       summary: GetConfiguration
-      description: |-
-        Get a specific PTZconfiguration from the device, identified by its reference token or name.
+      description: >-
+        Get a specific PTZconfiguration from the device, identified by its
+        reference token or name.
 
-        The default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.
 
-        The allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly.
+        The default Position/Translation/Velocity Spaces are introduced to allow
+        NVCs sending move requests without the need to specify a certain
+        coordinate system. The default Speeds are introduced to control the
+        speed of move requests (absolute, relative, preset), where no explicit
+        speed has been set.
 
-        <hr/>
 
-        **`jsonObject` Schema:** 
-
-        _See: [ptz_GetConfiguration](#ptz_GetConfiguration)_
-
-        ```yaml
-        {
-          "PTZConfigurationToken": "<PTZConfigurationToken>"
-        }
-        ```
+        The allowed pan and tilt range for Pan/Tilt Limits is defined by a
+        two-dimensional space range that is mapped to a specific Absolute
+        Pan/Tilt Position Space. At least one Pan/Tilt Position Space is
+        required by the PTZNode to support Pan/Tilt limits. The limits apply to
+        all supported absolute, relative and continuous Pan/Tilt movements. The
+        limits shall be checked within the coordinate system for which the
+        limits have been specified. That means that even if movements are
+        specified in a different coordinate system, the requested movements
+        shall be transformed to the coordinate system of the limits where the
+        limits can be checked. When a relative or continuous movements is
+        specified, which would leave the specified limits, the PTZ unit has to
+        move along the specified limits. The Zoom Limits have to be interpreted
+        accordingly.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
-        description: '{"PTZConfigurationToken": "PTZConfiguration0"}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "PTZConfigurationToken": "<PTZConfigurationToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **PTZConfigurationToken** _[string]_
+          <br/>    Token of the requested PTZConfiguration.
+
+
+          **Schema Reference:** [ptz_GetConfiguration](#ptz_GetConfiguration)
+
+          **Example:**<br/>
+          ```json
+          {"PTZConfigurationToken": "PTZConfiguration0"}
+          ```
         example: eyJQVFpDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -3358,6 +3664,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -3458,6 +3768,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -3473,26 +3787,42 @@ paths:
       tags:
       - PTZ - Configuration
       summary: GetConfigurationOptions
-      description: |-
-        List supported coordinate systems including their range limitations. Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [ptz_GetConfigurationOptions](#ptz_GetConfigurationOptions)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>"
-        }
-        ```
+      description: >-
+        List supported coordinate systems including their range limitations.
+        Therefore, the options MAY differ depending on whether the PTZ
+        Configuration is assigned to a Profile containing a Video Source
+        Configuration. In that case, the options may additionally contain
+        coordinate systems referring to the image coordinate system described by
+        the Video Source Configuration. If the PTZ Node supports continuous
+        movements, it shall return a Timeout Range within which Timeouts are
+        accepted by the PTZ Node.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
-        description: '{"ConfigurationToken": "PTZConfiguration0"}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Token of an existing configuration that the options are intended for.
+
+
+          **Schema Reference:** [ptz_GetConfigurationOptions](#ptz_GetConfigurationOptions)
+
+          **Example:**<br/>
+          ```json
+          {"ConfigurationToken": "PTZConfiguration0"}
+          ```
         example: eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -3500,6 +3830,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -3632,6 +3966,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -3668,6 +4006,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -3715,6 +4057,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -3764,6 +4110,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -3808,6 +4158,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -3823,26 +4177,34 @@ paths:
       tags:
       - PTZ - Actuation
       summary: GetStatus
-      description: |-
-        Operation to request PTZ status for the Node in the selected profile.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [ptz_GetStatus](#ptz_GetStatus)_
-
-        ```yaml
-        {
-          "ProfileToken": "<ProfileToken>"
-        }
-        ```
+      description: Operation to request PTZ status for the Node in the selected profile.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
-        description: '{"ProfileToken":"profile_1"}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ProfileToken": "<ProfileToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ProfileToken** _[string]_
+          <br/>    A reference to the MediaProfile where the PTZStatus should be requested.
+
+
+          **Schema Reference:** [ptz_GetStatus](#ptz_GetStatus)
+
+          **Example:**<br/>
+          ```json
+          {"ProfileToken":"profile_1"}
+          ```
         example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -3850,6 +4212,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -3936,6 +4302,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -3984,6 +4354,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -3999,26 +4373,45 @@ paths:
       tags:
       - PTZ - Preset
       summary: GetPresets
-      description: |-
-        Operation to request all PTZ presets for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [ptz_GetPresets](#ptz_GetPresets)_
-
-        ```yaml
-        {
-          "ProfileToken": "<ProfileToken>"
-        }
-        ```
+      description: >-
+        Operation to request all PTZ presets for the PTZNode in the selected
+        profile. The operation is supported if there is support for at least on
+        PTZ preset by the PTZNode.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
-        description: '{"ProfileToken":"profile_1"}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ProfileToken": "<ProfileToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ProfileToken** _[string]_
+          <br/>    A reference to the MediaProfile where the operation should take place.
+
+
+          **Schema Reference:** [ptz_GetPresets](#ptz_GetPresets)
+
+          **Example:**<br/>
+          ```json
+          Json: 
+          ```json
+          {"ProfileToken":"PROFILE_3305967797"}
+          ```
+
+          Base64:
+          ```
+          eyJQcm9maWxlVG9rZW4iOiJQUk9GSUxFXzMzMDU5Njc3OTcifQ==
+          ```
+          ```
         example: '{{PTZ_CONFIG_TOKEN_BASE64}}'
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -4026,6 +4419,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -4127,6 +4524,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4167,6 +4568,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4205,6 +4610,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4246,6 +4655,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4320,6 +4733,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4349,6 +4766,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -4541,6 +4962,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4594,6 +5019,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4632,6 +5061,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4644,28 +5077,47 @@ paths:
       tags:
       - Analytics - Profile Configuration
       summary: GetProfiles
-      description: |-
-        Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [media2_GetProfiles](#media2_GetProfiles)_
-
-        ```yaml
-        {
-          "Token": "<Token>",
-          "Type": []
-        }
-        ```
+      description: >-
+        Any endpoint can ask for the existing media profiles of a device using
+        the GetProfiles command. Pre-configured or dynamically configured
+        profiles can be retrieved using this command. This command lists all
+        configured profiles in a device. The client does not need to know the
+        media profile in order to use the command.
       parameters:
+      - name: jsonObject
+        in: query
+        schema:
+          type: string
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "Token": "<Token>",
+            "Type": []
+          }
+          ```
+
+          **Field Descriptions:**
+            - **Token** _[string]_
+          <br/>    Optional token of the requested profile.
+            - **Type** _[array]_
+          <br/>    The types shall be provided as defined by tr2:ConfigurationEnumeration.
+
+
+          **Schema Reference:** [media2_GetProfiles](#media2_GetProfiles)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '500':
           description: Internal Server Error
@@ -4734,6 +5186,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '500':
           description: Internal Server Error
@@ -4823,6 +5279,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4865,6 +5325,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -4880,27 +5344,41 @@ paths:
       tags:
       - Analytics - Modules
       summary: GetSupportedAnalyticsModules
-      description: |-
-        List all analytics modules that are supported by the given VideoAnalyticsConfiguration.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [analytics_GetSupportedAnalyticsModules](#analytics_GetSupportedAnalyticsModules)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>"
-        }
-        ```
+      description: >-
+        List all analytics modules that are supported by the given
+        VideoAnalyticsConfiguration.
       parameters:
+      - name: jsonObject
+        in: query
+        schema:
+          type: string
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Reference to an existing VideoAnalyticsConfiguration.
+
+
+          **Schema Reference:** [analytics_GetSupportedAnalyticsModules](#analytics_GetSupportedAnalyticsModules)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -4936,32 +5414,42 @@ paths:
       tags:
       - Analytics - Modules
       summary: GetAnalyticsModules
-      description: |-
-        List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [analytics_GetAnalyticsModules](#analytics_GetAnalyticsModules)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>"
-        }
-        ```
+      description: >-
+        List the currently assigned set of analytics modules of a
+        VideoAnalyticsConfiguration.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Reference to an existing VideoAnalyticsConfiguration.
+
+
+          **Schema Reference:** [analytics_GetAnalyticsModules](#analytics_GetAnalyticsModules)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -5050,6 +5538,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -5121,6 +5613,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -5161,6 +5657,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -5176,33 +5676,45 @@ paths:
       tags:
       - Analytics - Modules
       summary: GetAnalyticsModuleOptions
-      description: |-
-        Return the options for the supported analytics modules that specify an Option attribute.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [analytics_GetAnalyticsModuleOptions](#analytics_GetAnalyticsModuleOptions)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>",
-          "Type": "<Type>"
-        }
-        ```
+      description: >-
+        Return the options for the supported analytics modules that specify an
+        Option attribute.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>",
+            "Type": "<Type>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Reference to an existing AnalyticsConfiguration.
+            - **Type** _[string]_
+          <br/>    Reference to an SupportedAnalyticsModule Type returned from GetSupportedAnalyticsModules.
+
+
+          **Schema Reference:** [analytics_GetAnalyticsModuleOptions](#analytics_GetAnalyticsModuleOptions)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -5260,32 +5772,43 @@ paths:
       tags:
       - Analytics - Rules
       summary: GetSupportedRules
-      description: |-
-        List all rules that are supported by the given VideoAnalyticsConfiguration.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [analytics_GetSupportedRules](#analytics_GetSupportedRules)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>"
-        }
-        ```
+      description: >-
+        List all rules that are supported by the given
+        VideoAnalyticsConfiguration.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    References an existing Video Analytics configuration. The list of available tokens can be obtained
+          									via the Media service GetVideoAnalyticsConfigurations method.
+
+
+          **Schema Reference:** [analytics_GetSupportedRules](#analytics_GetSupportedRules)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -5489,32 +6012,42 @@ paths:
       tags:
       - Analytics - Rules
       summary: GetRules
-      description: |-
-        List the currently assigned set of rules of a VideoAnalyticsConfiguration.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [analytics_GetRules](#analytics_GetRules)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>"
-        }
-        ```
+      description: >-
+        List the currently assigned set of rules of a
+        VideoAnalyticsConfiguration.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Reference to an existing VideoAnalyticsConfiguration.
+
+
+          **Schema Reference:** [analytics_GetRules](#analytics_GetRules)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -5608,6 +6141,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -5623,33 +6160,45 @@ paths:
       tags:
       - Analytics - Rules
       summary: GetRuleOptions
-      description: |-
-        Return the options for the supported rules that specify an Option attribute.
-
-        <hr/>
-
-        **`jsonObject` Schema:** 
-
-        _See: [analytics_GetRuleOptions](#analytics_GetRuleOptions)_
-
-        ```yaml
-        {
-          "ConfigurationToken": "<ConfigurationToken>",
-          "RuleType": "<RuleType>"
-        }
-        ```
+      description: >-
+        Return the options for the supported rules that specify an Option
+        attribute.
       parameters:
       - name: jsonObject
         in: query
         schema:
           type: string
         example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ConfigurationToken": "<ConfigurationToken>",
+            "RuleType": "<RuleType>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ConfigurationToken** _[string]_
+          <br/>    Reference to an existing analytics configuration.
+            - **RuleType** _[string]_
+          <br/>    Reference to an SupportedRule Type returned from GetSupportedRules.
+
+
+          **Schema Reference:** [analytics_GetRuleOptions](#analytics_GetRuleOptions)
       - name: EDGEX_DEVICE_NAME
         in: path
         schema:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -5761,6 +6310,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -5799,6 +6352,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -5822,6 +6379,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -5859,7 +6420,21 @@ paths:
       tags:
       - Custom
       summary: Set MACAddress
-      description: This command sets the MAC address associated with a device.
+      description: >-
+        MACAddress can also be set via Edgex device command. This is useful for
+        setting the MAC Address for devices which do not contain 
+
+        the MAC Address in the Endpoint Reference Address, or have been added
+        manually without a MAC Address. 
+
+        Since the MAC is used to map credentials for cameras, it is important to
+        have this field filled out.
+
+
+        > Note: When a camera successfully becomes `UpWithAuth`, the MAC Address
+        is automatically queried and overridden by the system if available.
+
+        Device resource MACAddress is used to set `MACAddress` of a camera.
       requestBody:
         content:
           application/json:
@@ -5879,6 +6454,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -5902,6 +6481,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -5963,6 +6546,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -5976,8 +6563,61 @@ paths:
       - Custom
       summary: Get CustomMetadata
       description: >-
-        This command returns the user specified custom metadata associated with
-        a device.
+        **Get Custom Metadata**
+
+        Use this command to return all of the data in the CustomMetadata field.
+
+
+        **Get Specific Custom Metadata**
+
+
+        Pass the `CustomMetadata` resource a query to get specific field(s) in
+        CustomMetadata. The query must be a base64 encoded json object with an
+        array of fields you want to access.
+
+
+        1. Json object holding an array of fields you want to query.
+
+        ```json
+
+        '[
+            "Color",
+            "Location"
+        ]'
+
+        ```
+
+
+        2. Use this command to convert the json object to base64.
+
+        ```shell
+
+        echo '[
+            "Color",
+            "Location"
+        ]' | base64
+
+        ```
+
+
+        3. The response converted to base64.
+
+        ```
+
+        WwogICAgIkNvbG9yIiwKICAgICJMb2NhdGlvbiIKXQo=
+
+        ```
+
+
+        4. Use this command to query the fields you provided in the json object.
+
+        ```shell
+
+        curl http://localhost:59882/api/v2/device/name/<device
+        name>/CustomMetadata?jsonObject=WwogICAgIkNvbG9yIiwKICAgICJMb2NhdGlvbiIKXQo=
+        | jq .
+
+        ```
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -5985,6 +6625,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200':
           description: OK
@@ -6052,6 +6696,9 @@ paths:
       tags:
       - Custom
       summary: Set CustomMetadata
+      description: >-
+        Use the CustomMetadata resource to set the fields of `CustomMetadata`.
+        Choose the key/value pairs to represent your custom fields.
       requestBody:
         content:
           application/json:
@@ -6074,6 +6721,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001
@@ -6086,6 +6737,9 @@ paths:
       tags:
       - Custom
       summary: Delete CustomMetadata
+      description: >-
+        Use the `DeleteCustomMetadata` resource to delete entries in custom
+        metadata
       requestBody:
         content:
           application/json:
@@ -6109,6 +6763,10 @@ paths:
           type: string
         required: true
         example: Camera001
+        description: |
+          This is the device name associated with the camera. It was 
+          either assigned via the auto-discovery function, or manually 
+          defined when you created the device.
       responses:
         '200': *id006
         '400': *id001

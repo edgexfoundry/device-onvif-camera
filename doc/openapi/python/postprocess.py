@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
 import dataclasses
-import io
 import sys
 import copy
 import textwrap
 
 from ruamel.yaml import YAML
 from ruamel.yaml.scalarstring import LiteralScalarString
+
 yaml = YAML()
 
 EDGEX = 'EdgeX'
@@ -40,6 +40,10 @@ class ProcessingError(RuntimeError):
 
 def make_scalar(val):
     return LiteralScalarString(textwrap.dedent(val))
+
+
+def single_quote(s):
+    return f"'{s}'"
 
 
 @dataclasses.dataclass
@@ -102,7 +106,8 @@ class YamlProcessor:
                             content = method_obj['responses']['200']['content']
                             if 'application/json' not in content or \
                                     len(content['application/json']) == 0 or \
-                                    ('example' in content['application/json'] and len(content['application/json']['example']) == 2):
+                                    ('example' in content['application/json'] and len(
+                                        content['application/json']['example']) == 2):
                                 print(f'Overriding empty 200 response for {service}_{fn}')
                                 method_obj['responses'][code] = resp_obj
 
@@ -113,11 +118,13 @@ class YamlProcessor:
                                 # clone the 200 response to avoid mangling pointer references
                                 resp_200 = copy.deepcopy(method_obj['responses']['200'])
                                 # apply the defined schema
-                                resp_200['content']['application/json']['schema'] = self.sidecar['responses']['edgex'][cmd]
+                                resp_200['content']['application/json']['schema'] = self.sidecar['responses']['edgex'][
+                                    cmd]
                                 # override with cloned one
                                 method_obj['responses']['200'] = resp_200
                             else:
-                                print(f'\033[33m[WARNING] \t -- Missing schema response definition for EdgeX command {method.upper()} {cmd}\033[0m')
+                                print(
+                                    f'\033[33m[WARNING] \t -- Missing schema response definition for EdgeX command {method.upper()} {cmd}\033[0m')
                         elif method == 'put':
                             if cmd in self.sidecar['requests']['edgex']:
                                 # look for the json response object, so we can modify it
@@ -136,7 +143,8 @@ class YamlProcessor:
                                     'type': 'object'
                                 }
                             else:
-                                print(f'\033[33m[WARNING] \t -- Missing schema request definition for EdgeX command {method.upper()} {cmd}\033[0m')
+                                print(
+                                    f'\033[33m[WARNING] \t -- Missing schema request definition for EdgeX command {method.upper()} {cmd}\033[0m')
 
                             # override the response schema with default 200 response
                             method_obj['responses']['200'] = self.sidecar['responses']['canned']['200']
@@ -216,23 +224,49 @@ class YamlProcessor:
                             if 'type' in schema and schema['type'] == 'object' and len(schema) == 1:
                                 print(f'Skipping empty request schema for {service}_{fn}')
                             else:
-                                buf = io.BytesIO()
-                                yaml.dump({
-                                    f'{service.lower()}_{fn}':
-                                        self.yml['components']['schemas'][f'{service.lower()}_{fn}']},
-                                    buf)
-                                method_obj['description'] = make_scalar(method_obj['description'] + f'''
+                                found = False
+                                for param in method_obj['parameters']:
+                                    if param['name'] == 'jsonObject':
+                                        found = True
+                                        self._set_json_object(param, service, fn)
+                                        break
+                                if not found:
+                                    print(f'\033[33m[WARNING] \t -- Expected jsonObject parameter for command {cmd}! Creating one.\033[0m')
+                                    param = {
+                                        'name': 'jsonObject',
+                                        'in': 'query',
+                                        'schema': {
+                                            'type': 'string'
+                                        }
+                                    }
+                                    self._set_json_object(param, service, fn)
+                                    method_obj['parameters'].insert(0, param)
 
-<hr/>
+    def _set_json_object(self, param, service, fn):
+        desc = f'''**Format:**<br/>
+This field is a Base64 encoded json string.
 
-**`jsonObject` Schema:** 
-
-_See: [{service.lower()}_{fn}](#{service.lower()}_{fn})_
-
+**JSON Schema:**
 ```yaml
-{self._gen_pretty_schema(None, self.yml['components']['schemas'][f'{service.lower()}_{fn}'], 
-                         indent=0, all_types=set(f'{service.lower()}_{fn}'))}
-```''')
+{self._gen_pretty_schema_for(f'{service.lower()}_{fn}')}
+```
+
+**Field Descriptions:**
+{self._gen_field_desc_for(f'{service.lower()}_{fn}')}
+
+**Schema Reference:** [{service.lower()}_{fn}](#{service.lower()}_{fn})
+'''
+        if 'description' in param:
+            desc += f'''
+**Example:**<br/>
+```json
+{param['description']}
+```
+'''
+        param['description'] = make_scalar(desc)
+        # todo: setting the format to Base64 messes with the Swagger UI, and makes it
+        #       choose file box, which does not end up working
+        # param['schema']['format'] = 'base64'
 
     def _combine_schemas(self):
         """
@@ -255,7 +289,7 @@ _See: [{service.lower()}_{fn}](#{service.lower()}_{fn})_
         self.yml['components'] = {
             'schemas': schemas,
             'headers': {},
-            'examples': {},
+            'examples': {}
         }
 
         # note: sidecar should always be added last to override the onvif schemas
@@ -266,39 +300,102 @@ _See: [{service.lower()}_{fn}](#{service.lower()}_{fn})_
                     for k, v in self.sidecar['components'][component].items():
                         self.yml['components'][component][k] = v
 
+    def _gen_field_desc_for(self, typ):
+        """
+        Generate a pretty field description in markdown for a specific onvif type
+        :param typ: the onvif type
+        :return: string
+        """
+        return self._gen_field_desc(None, '', self.yml['components']['schemas'][typ], indent=0, all_types=set(typ))
+
+    def _gen_field_desc(self, name, desc, val, indent, all_types):
+        if 'allOf' in val:
+            desc2 = ''
+            if len(val['allOf']) > 1 and 'description' in val['allOf'][1]:
+                desc2 = val['allOf'][1]['description']
+            return self._gen_field_desc(name, desc2, val['allOf'][0], indent, all_types)
+        if '$ref' in val:
+            typ = val['$ref'].split('/')[-1]
+            if typ in all_types:
+                output = " " * indent + f'- **{name}** _[Recursive object of type [{typ}](#{typ})]_\n'
+                if desc.strip() != '':
+                    output += f'<br/>{" " * indent}  {desc}\n'
+                return output
+            all_types.add(typ)
+            return self._gen_field_desc(name, desc, self.yml['components']['schemas'][typ], indent, all_types)
+
+        desc2 = desc if 'description' not in val else val['description']
+
+        if val['type'] == 'object':
+            output = ''
+            if name is not None:
+                output = " " * indent + f'- **{name}** _[object]_\n'
+                if desc2.strip() != '':
+                    output += f'<br/>{" " * indent}  {desc2}\n'
+            for prop, prop_val in val['properties'].items():
+                output += self._gen_field_desc(prop, '', prop_val, indent + 2, all_types)
+            return output
+        else:
+            output = f'{" " * indent}- **{name}** _[{val["type"]}]_\n'
+            if desc2.strip() != '':  # add description if present
+                output += f'<br/>{" " * indent}  {desc2}\n'
+            if 'enum' in val:  # add enum values
+                output += f'<br/>{" " * indent}  _Enum: [{", ".join([single_quote(e) for e in val["enum"]])}]_\n'
+            return output
+
+    def _gen_pretty_schema_for(self, typ):
+        """
+        Return the pretty json formatted schema for a specific onvif type
+        :param typ: the onvif type
+        :return: string
+        """
+        return self._gen_pretty_schema(None, self.yml['components']['schemas'][typ], indent=0, all_types=set(typ))
+
     def _gen_pretty_schema(self, name, val, indent, all_types):
+        """
+        Recursively generates a pretty json schema
+        :param name:
+        :param val:
+        :param indent:
+        :param all_types:
+        :return:
+        """
         if 'allOf' in val:
             return self._gen_pretty_schema(name, val['allOf'][0], indent, all_types)
         if '$ref' in val:
             typ = val['$ref'].split('/')[-1]
             if typ in all_types:
-                return " "*indent + '"%s": { $ref: %s }' % (name, typ)
+                return " " * indent + '"%s": { $ref: %s }' % (name, typ)
             all_types.add(typ)
             return self._gen_pretty_schema(name, self.yml['components']['schemas'][typ], indent, all_types)
 
         if val['type'] == 'object':
             if name is None:
-                output = " "*indent + '{\n'
+                output = " " * indent + '{\n'
             else:
-                output = " "*indent + '"%s": {\n' % name
+                output = " " * indent + '"%s": {\n' % name
             inners = []
             for prop, prop_val in val['properties'].items():
-                inners.append(self._gen_pretty_schema(prop, prop_val, indent+2, all_types))
-            output += ',\n'.join(inners) + '\n' + " "*indent + '}'
+                inners.append(self._gen_pretty_schema(prop, prop_val, indent + 2, all_types))
+            output += ',\n'.join(inners) + '\n' + " " * indent + '}'
             return output
 
         elif val['type'] == 'array':
-            return f'{" "*indent}"{name}": []'
+            return f'{" " * indent}"{name}": []'
 
         elif val['type'] == 'string':
-            return f'{" "*indent}"{name}": "<{name}>"'
+            example = f'<{name}>'
+            if 'enum' in val:
+                # example = f"Enum: <{', '.join([single_quote(e) for e in val['enum']])}>"
+                example = '|'.join(val['enum'])
+            return f'{" " * indent}"{name}": "{example}"'
 
         elif val['type'] == 'integer' or val['type'] == 'number':
-            return f'{" "*indent}"{name}": <{name}>'
+            return f'{" " * indent}"{name}": <{name}>'
 
         elif val['type'] == 'boolean':
-            return f'{" "*indent}"{name}": true|false'
-        
+            return f'{" " * indent}"{name}": true|false'
+
         raise ProcessingError('unsupported data type')
 
     def _verify_complete(self):
@@ -330,12 +427,14 @@ _See: [{service.lower()}_{fn}](#{service.lower()}_{fn})_
         for _, path_obj in self.yml['paths'].items():
             for _, method_obj in path_obj.items():
                 for param_obj in method_obj['parameters']:
-                    if param_obj['name'] == 'EDGEX_DEVICE_NAME':
-                        param_obj['example'] = EDGEX_DEVICE_NAME
+                    if param_obj['name'] in self.sidecar['parameters']:
+                        param_obj['example'] = self.sidecar['parameters'][param_obj['name']]['example']
+                        param_obj['description'] = self.sidecar['parameters'][param_obj['name']]['description']
 
     def _clean_response_headers(self):
         """
-        Remove superfluous headers from response objects
+        - Remove superfluous headers from response objects
+        - Patches X-Correlation-Id header
         """
         for _, path_obj in self.yml['paths'].items():
             for _, method_obj in path_obj.items():

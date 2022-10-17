@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "74f237f6-a599-4413-8a00-83b908e0d9a8",
-		"name": "device-onvif-camera",
+		"_postman_id": "41b06358-d096-4b9b-8735-a0905762330f",
+		"name": "device-onvif-camera Copy 2",
 		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19151794"
+		"_exporter_id": "7889146"
 	},
 	"item": [
 		{
@@ -762,15 +762,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
 									"protocol": "http",
@@ -957,15 +948,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
 									"protocol": "http",
@@ -1236,15 +1218,6 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"SetDNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
 								"url": {
 									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
 									"protocol": "http",
@@ -2407,7 +2380,8 @@
 							"query": [
 								{
 									"key": "jsonObject",
-									"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
+									"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}",
+									"description": "{\"ProfileToken\":\"profile_1\"}"
 								}
 							]
 						},
@@ -5207,7 +5181,7 @@
 										{
 											"key": "jsonObject",
 											"value": "{{PTZ_CONFIG_TOKEN_BASE64}}",
-											"description": "{\"ProfileToken\":\"profile_1\"}"
+											"description": "Json: \n```json\n{\"ProfileToken\":\"PROFILE_3305967797\"}\n```\n\nBase64:\n```\neyJQcm9maWxlVG9rZW4iOiJQUk9GSUxFXzMzMDU5Njc3OTcifQ==\n```"
 										}
 									]
 								},
@@ -7377,7 +7351,7 @@
 								"MACAddress"
 							]
 						},
-						"description": "This command sets the MAC address associated with a device."
+						"description": "MACAddress can also be set via Edgex device command. This is useful for setting the MAC Address for devices which do not contain \nthe MAC Address in the Endpoint Reference Address, or have been added manually without a MAC Address. \nSince the MAC is used to map credentials for cameras, it is important to have this field filled out.\n\n> Note: When a camera successfully becomes `UpWithAuth`, the MAC Address is automatically queried and overridden by the system if available.\nDevice resource MACAddress is used to set `MACAddress` of a camera."
 					},
 					"response": [
 						{
@@ -7663,7 +7637,7 @@
 								"CustomMetadata"
 							]
 						},
-						"description": "This command returns the user specified custom metadata associated with a device."
+						"description": "**Get Custom Metadata**\nUse this command to return all of the data in the CustomMetadata field.\n\n**Get Specific Custom Metadata**\n\nPass the `CustomMetadata` resource a query to get specific field(s) in CustomMetadata. The query must be a base64 encoded json object with an array of fields you want to access.\n\n1. Json object holding an array of fields you want to query.\n```json\n'[\n    \"Color\",\n    \"Location\"\n]'\n```\n\n2. Use this command to convert the json object to base64.\n```shell\necho '[\n    \"Color\",\n    \"Location\"\n]' | base64\n```\n\n3. The response converted to base64.\n```\nWwogICAgIkNvbG9yIiwKICAgICJMb2NhdGlvbiIKXQo=\n```\n\n4. Use this command to query the fields you provided in the json object.\n```shell\ncurl http://localhost:59882/api/v2/device/name/<device name>/CustomMetadata?jsonObject=WwogICAgIkNvbG9yIiwKICAgICJMb2NhdGlvbiIKXQo= | jq .\n```"
 					},
 					"response": [
 						{
@@ -7818,7 +7792,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"CustomMetadata"
 							]
-						}
+						},
+						"description": "Use the CustomMetadata resource to set the fields of `CustomMetadata`. Choose the key/value pairs to represent your custom fields."
 					},
 					"response": [
 						{
@@ -7926,7 +7901,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeleteCustomMetadata"
 							]
-						}
+						},
+						"description": "Use the `DeleteCustomMetadata` resource to delete entries in custom metadata"
 					},
 					"response": [
 						{
