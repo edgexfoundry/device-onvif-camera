@@ -17,6 +17,11 @@ slots:
       write: [$SNAP_DATA/device-onvif-camera]
 
 plugs:
+  device-onvif-camera-config:
+    interface: content
+    target: $SNAP_DATA/config/device-onvif-camera
+
+  # deprecated
   device-config:
     interface: content
     target: $SNAP_DATA/config/device-onvif-camera
