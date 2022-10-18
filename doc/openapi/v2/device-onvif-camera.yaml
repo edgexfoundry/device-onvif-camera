@@ -1079,6 +1079,7 @@ paths:
                           Date:
                             Month: '8'
                             Year: '2022'
+                            Day: '11'
                           Time:
                             Hour: '21'
                             Minute: '14'
@@ -1090,6 +1091,7 @@ paths:
                           Date:
                             Month: '8'
                             Year: '2022'
+                            Day: '11'
                           Time:
                             Hour: '4'
                             Minute: '14'
@@ -1118,7 +1120,7 @@ paths:
         | Camera | Supported? |
         |-------|-------|
         | Hikvision DFI6256TE | ✔ |
-        | Tapo C200 | ❌ |
+        | Tapo C200 | ✔ Tapo does not support setting the `DaylightSavings` field to `false`. Regardless of the setting, the camera will always use daylight savings time. |
         | BOSCH DINION IP starlight 6000 HD | ✔ |
         | GeoVision GV-BX8700 | ✔ |
       requestBody:
