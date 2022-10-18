@@ -32,7 +32,7 @@ def main():
 
     service = sys.argv[1]
     with open(sys.argv[3], 'w') as w:
-        # todo: this can be optimized better using streams. Right now it Dumps the yaml to a string
+        # todo: this can be optimized better using streams. Right now it dumps the yaml to a string
         #       and then processes each raw line before actually writing it to the output file.
         lines = yaml.dump(yml).split('\n')
         for line in lines:

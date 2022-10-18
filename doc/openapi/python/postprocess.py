@@ -2,7 +2,6 @@
 
 # Copyright (C) 2022 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
-
 from dataclasses import dataclass, field
 import sys
 import copy
@@ -10,9 +9,10 @@ import textwrap
 
 from ruamel.yaml import YAML
 from ruamel.yaml.scalarstring import LiteralScalarString
-yaml = YAML()
 
 from matrix import MarkdownMatrix
+
+yaml = YAML()
 
 EDGEX = 'EdgeX'
 EDGEX_DEVICE_NAME = 'Camera001'
@@ -111,6 +111,7 @@ class YamlProcessor:
                     attrs = self.resources[cmd]['attributes']
                     fn = attrs[f'{prefix}Function']
                     service = attrs['service']
+                    service_fn = f'{service}_{fn}'
 
                     # add all responses
                     for code, resp_obj in self.sidecar['responses']['canned'].items():
@@ -122,7 +123,7 @@ class YamlProcessor:
                                     len(content['application/json']) == 0 or \
                                     ('example' in content['application/json'] and len(
                                         content['application/json']['example']) == 2):
-                                print(f'Overriding empty 200 response for {service}_{fn}')
+                                print(f'Overriding empty 200 response for {service_fn}')
                                 method_obj['responses'][code] = resp_obj
 
                     if service == EDGEX:
@@ -136,7 +137,7 @@ class YamlProcessor:
                                 # override with cloned one
                                 method_obj['responses']['200'] = resp_200
                             else:
-                                print(f'\033[33m[WARNING] \t -- Missing schema response definition for EdgeX command {method.upper()} {cmd}\033[0m')
+                                print(f'\033[33m[WARNING] *** Missing schema response definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
                         elif method == 'put':
                             if cmd in self.sidecar['requests']['edgex']:
                                 # look for the json response object, so we can modify it
@@ -155,38 +156,53 @@ class YamlProcessor:
                                     'type': 'object'
                                 }
                             else:
-                                print(f'\033[33m[WARNING] \t -- Missing schema request definition for EdgeX command {method.upper()} {cmd}\033[0m')
+                                print(f'\033[33m[WARNING] *** Missing schema request definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
 
                             # override the response schema with default 200 response
                             method_obj['responses']['200'] = self.sidecar['responses']['canned']['200']
 
+                    else:
+                        # --- ONVIF function patching ---
+                        method_obj = path_obj[method]
+                        method_obj['externalDocs'] = {
+                            'description': 'Onvif Specification',
+                            'url': f'{SERVICE_WSDL[service]}#op.{fn}'
+                        }
+
+                        # patch description for endpoints missing it
+                        paths = self.wsdl_files[service]['paths']
+                        if f'/{fn}' in paths:
+                            # note: all SOAP calls are POST
+                            api = paths[f'/{fn}']['post']
+                            if 'description' in api and \
+                                    ('description' not in method_obj or method_obj['description'].strip() == ''):
+                                print(f'Copying description for {service_fn}')
+                                method_obj['description'] = api['description']
+
+                    if service_fn in self.matrix.validated:
+                        print(f'Adding validated camera list in description for {service_fn}')
+                        val_desc = f'''
+
+<details>
+<summary><strong>Tested Camera Models</strong></summary>
+
+Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+| Camera | Supported? &nbsp;&nbsp; | Notes |
+|--------|:------------|-------|
+'''
+                        for camera, support in self.matrix.validated[service_fn].cameras.items():
+                            val_desc += f'| **{camera}** | {support.support} | {support.notes} |\n'
+                        method_obj['description'] = multiline_string(method_obj['description'] + val_desc + '</details>')
+                    elif service != EDGEX:
+                        # only print warning for non-EdgeX functions
+                        print(f'\033[33m[WARNING] *** Missing camera validation entry for command {service_fn} ***\033[0m')
+
+                    if service == EDGEX:
                         # nothing left to patch for custom edgex functions, as they do not exist in onvif spec
                         continue
 
-                    # --- ONVIF function patching ---
-
-                    method_obj = path_obj[method]
-                    method_obj['externalDocs'] = {
-                        'description': 'Onvif Specification',
-                        'url': f'{SERVICE_WSDL[service]}#op.{fn}'
-                    }
-
-                    # patch description for endpoints missing it
-                    paths = self.wsdl_files[service]['paths']
-                    if f'/{fn}' in paths:
-                        # note: all SOAP calls are POST
-                        api = paths[f'/{fn}']['post']
-                        if 'description' in api and \
-                                ('description' not in method_obj or method_obj['description'].strip() == ''):
-                            print(f'Copying description for {service}_{fn}')
-                            method_obj['description'] = api['description']
-
-                    if fn in self.matrix.validated:
-                        print(f'Patching validated camera list for {fn}')
-                        val_desc = f'<br/>\n\n| Camera | Supported? |\n|-------|-------|\n'
-                        for camera, result in self.matrix.validated[fn].cameras.items():
-                            val_desc += f'| {camera} | {result} |\n'
-                        method_obj['description'] = multiline_string(method_obj['description'] + val_desc)
+                    # --- More ONVIF function patching ---
 
                     # Special handling for PUT calls:
                     # - Move example out of schema into json object itself
@@ -240,7 +256,7 @@ class YamlProcessor:
                         if req_schema in self.yml['components']['schemas']:
                             schema = self.yml['components']['schemas'][req_schema]
                             if 'type' in schema and schema['type'] == 'object' and len(schema) == 1:
-                                print(f'Skipping empty request schema for {service}_{fn}')
+                                print(f'Skipping empty request schema for {service_fn}')
                             else:
                                 found = False
                                 for param in method_obj['parameters']:
@@ -249,7 +265,7 @@ class YamlProcessor:
                                         self._set_json_object(param, service, fn)
                                         break
                                 if not found:
-                                    print(f'\033[33m[WARNING] \t -- Expected jsonObject parameter for command {cmd}! Creating one.\033[0m')
+                                    print(f'\033[33m[WARNING] *** Expected jsonObject parameter for command {cmd}! Creating one. ***\033[0m')
                                     param = {
                                         'name': 'jsonObject',
                                         'in': 'query',
@@ -423,14 +439,14 @@ This field is a Base64 encoded json string.
             api = f'{API_PREFIX}/{cmd}'
             path_obj = None
             if api not in self.yml['paths']:
-                print(f'\033[33m[WARNING] API "{api}" is missing from input collection!\033[0m')
+                print(f'\033[33m[WARNING] API "{api}" is missing from input collection! ***\033[0m')
             else:
                 path_obj = self.yml['paths'][api]
 
             if 'getFunction' in cmd_obj['attributes'] and (path_obj is None or 'get' not in path_obj):
-                print(f'\033[33m[WARNING] \t -- Expected call GET "{cmd}" was not found in input yaml!\033[0m')
+                print(f'\033[33m[WARNING] *** Expected call GET "{cmd}" was not found in input yaml! ***\033[0m')
             if 'setFunction' in cmd_obj['attributes'] and (path_obj is None or 'put' not in path_obj):
-                print(f'\033[33m[WARNING] \t -- Expected call PUT "{cmd}" was not found in input yaml!\033[0m')
+                print(f'\033[33m[WARNING] *** Expected call PUT "{cmd}" was not found in input yaml! ***\033[0m')
 
     def _add_example_vars(self):
         """

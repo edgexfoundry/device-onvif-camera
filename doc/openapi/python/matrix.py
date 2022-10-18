@@ -23,13 +23,19 @@ class State(Enum):
 class CameraSupport:
     camera: str
     support: str
+    notes: str = ''
 
 
 @dataclass
 class Command:
     section: str
+    service: str
     func: str
     cameras: dict = field(default_factory=dict)
+
+    @property
+    def qualified_name(self):
+        return f'{self.service}_{self.func}'
 
 
 @dataclass
@@ -43,6 +49,7 @@ class MarkdownMatrix:
     tested_file: str
     footnotes_file: str
     section: Section = None
+    service: str = ''
     state: State = State.NotStarted
     validated: dict = field(default_factory=dict)
     footnotes: dict = field(default_factory=dict)
@@ -95,16 +102,27 @@ class MarkdownMatrix:
                         continue
                     fields = [x.strip() for x in line.split('|')][1:]
                     if fields[0].startswith('----'):
-                        continue
-                    command = Command(self.section.name, fields[1])
+                        continue  # skip post-header line
+
+                    if fields[0].startswith('**'):
+                        # the service name is only placed on lines where it changes. cache the
+                        # service name and only change it when a new one is found. Format: **ServiceName**
+                        self.service = fields[0].strip('*')
+
+                    command = Command(self.section.name, self.service, fields[1])
                     for i in range(len(self.section.cameras)):
                         camera = self.section.cameras[i]
                         data = fields[i+2].strip()
+                        notes = ''
                         if data == '':
                             continue  # skip empty results
+
+                        # replace footnotes link with actual footnotes data
                         if '[ⓘ](' in data:
                             key = data[data.rfind('[ⓘ](')+4:-1]
                             if key in self.footnotes:
-                                data = data[:data.rfind('[ⓘ]')] + self.footnotes[key]
-                        command.cameras[camera] = data.strip()
-                    self.validated[command.func] = command
+                                data = data[:data.rfind('[ⓘ]')]
+                                notes = self.footnotes[key]
+
+                        command.cameras[camera] = CameraSupport(camera, data.replace('✔', '✔️').strip(), notes)
+                    self.validated[command.qualified_name] = command
