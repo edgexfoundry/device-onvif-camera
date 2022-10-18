@@ -1,14 +1,18 @@
 #!/usr/bin/env python3
 
-import dataclasses
+# Copyright (C) 2022 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+from dataclasses import dataclass, field
 import sys
 import copy
 import textwrap
 
 from ruamel.yaml import YAML
 from ruamel.yaml.scalarstring import LiteralScalarString
-
 yaml = YAML()
+
+from matrix import MarkdownMatrix
 
 EDGEX = 'EdgeX'
 EDGEX_DEVICE_NAME = 'Camera001'
@@ -28,9 +32,8 @@ SERVICE_WSDL = {
 # list of superfluous headers to remove from response objects
 HEADERS_TO_REMOVE = [
     'Content-Length',
-    'Content-Type',
     'Date',
-    'Transfer-Encoding',
+    'Transfer-Encoding'
 ]
 
 
@@ -38,25 +41,28 @@ class ProcessingError(RuntimeError):
     pass
 
 
-def make_scalar(val):
+def multiline_string(val: str):
+    """Takes a string value and wraps it so that ruamel.yaml will format it as a raw multi-line string"""
     return LiteralScalarString(textwrap.dedent(val))
 
 
-def single_quote(s):
+def single_quote(s: str):
+    """Returns the input value wrapped in single quote marks"""
     return f"'{s}'"
 
 
-@dataclasses.dataclass
+@dataclass
 class YamlProcessor:
     input_file: str
     sidecar_file: str
     profile_file: str
     output_file: str
+    matrix: MarkdownMatrix
     yml = None
     sidecar = None
     profile = None
-    resources = {}
-    wsdl_files = {}
+    resources: dict = field(default_factory=dict)
+    wsdl_files: dict = field(default_factory=dict)
 
     def _load(self):
         """Read input yaml file and sidecar yaml files"""
@@ -72,6 +78,10 @@ class YamlProcessor:
         with open(self.profile_file) as f:
             self.profile = yaml.load(f)
 
+        print(f'Loading validation matrix file: {self.matrix.tested_file}')
+        print(f'Loading footnotes file: {self.matrix.footnotes_file}')
+        self.matrix.parse()
+
     def _parse(self):
         """Parse the device resources into a lookup table"""
         for resource in self.profile['deviceResources']:
@@ -85,7 +95,11 @@ class YamlProcessor:
 
     def _process_apis(self):
         """
-        Sideload externalDocs using EdgeX profile file, update descriptions, and set schemas
+        - Side-load externalDocs using EdgeX profile file
+        - update descriptions
+        - set schemas
+        - add response codes
+        etc...
         """
 
         for path, path_obj in self.yml['paths'].items():
@@ -118,13 +132,11 @@ class YamlProcessor:
                                 # clone the 200 response to avoid mangling pointer references
                                 resp_200 = copy.deepcopy(method_obj['responses']['200'])
                                 # apply the defined schema
-                                resp_200['content']['application/json']['schema'] = self.sidecar['responses']['edgex'][
-                                    cmd]
+                                resp_200['content']['application/json']['schema'] = self.sidecar['responses']['edgex'][cmd]
                                 # override with cloned one
                                 method_obj['responses']['200'] = resp_200
                             else:
-                                print(
-                                    f'\033[33m[WARNING] \t -- Missing schema response definition for EdgeX command {method.upper()} {cmd}\033[0m')
+                                print(f'\033[33m[WARNING] \t -- Missing schema response definition for EdgeX command {method.upper()} {cmd}\033[0m')
                         elif method == 'put':
                             if cmd in self.sidecar['requests']['edgex']:
                                 # look for the json response object, so we can modify it
@@ -143,8 +155,7 @@ class YamlProcessor:
                                     'type': 'object'
                                 }
                             else:
-                                print(
-                                    f'\033[33m[WARNING] \t -- Missing schema request definition for EdgeX command {method.upper()} {cmd}\033[0m')
+                                print(f'\033[33m[WARNING] \t -- Missing schema request definition for EdgeX command {method.upper()} {cmd}\033[0m')
 
                             # override the response schema with default 200 response
                             method_obj['responses']['200'] = self.sidecar['responses']['canned']['200']
@@ -169,6 +180,13 @@ class YamlProcessor:
                                 ('description' not in method_obj or method_obj['description'].strip() == ''):
                             print(f'Copying description for {service}_{fn}')
                             method_obj['description'] = api['description']
+
+                    if fn in self.matrix.validated:
+                        print(f'Patching validated camera list for {fn}')
+                        val_desc = f'<br/>\n\n| Camera | Supported? |\n|-------|-------|\n'
+                        for camera, result in self.matrix.validated[fn].cameras.items():
+                            val_desc += f'| {camera} | {result} |\n'
+                        method_obj['description'] = multiline_string(method_obj['description'] + val_desc)
 
                     # Special handling for PUT calls:
                     # - Move example out of schema into json object itself
@@ -243,6 +261,9 @@ class YamlProcessor:
                                     method_obj['parameters'].insert(0, param)
 
     def _set_json_object(self, param, service, fn):
+        """
+        This sets the param (which is a jsonObject param) description field to include auto-generated docs
+        """
         desc = f'''**Format:**<br/>
 This field is a Base64 encoded json string.
 
@@ -256,6 +277,7 @@ This field is a Base64 encoded json string.
 
 **Schema Reference:** [{service.lower()}_{fn}](#{service.lower()}_{fn})
 '''
+        # if there is a description in the original data, append it here before it gets overridden
         if 'description' in param:
             desc += f'''
 **Example:**<br/>
@@ -263,7 +285,7 @@ This field is a Base64 encoded json string.
 {param['description']}
 ```
 '''
-        param['description'] = make_scalar(desc)
+        param['description'] = multiline_string(desc)
         # todo: setting the format to Base64 messes with the Swagger UI, and makes it
         #       choose file box, which does not end up working
         # param['schema']['format'] = 'base64'
@@ -309,6 +331,7 @@ This field is a Base64 encoded json string.
         return self._gen_field_desc(None, '', self.yml['components']['schemas'][typ], indent=0, all_types=set(typ))
 
     def _gen_field_desc(self, name, desc, val, indent, all_types):
+        """Internal recursive field description generator"""
         if 'allOf' in val:
             desc2 = ''
             if len(val['allOf']) > 1 and 'description' in val['allOf'][1]:
@@ -352,14 +375,7 @@ This field is a Base64 encoded json string.
         return self._gen_pretty_schema(None, self.yml['components']['schemas'][typ], indent=0, all_types=set(typ))
 
     def _gen_pretty_schema(self, name, val, indent, all_types):
-        """
-        Recursively generates a pretty json schema
-        :param name:
-        :param val:
-        :param indent:
-        :param all_types:
-        :return:
-        """
+        """Internal recursive pretty json schema generator"""
         if 'allOf' in val:
             return self._gen_pretty_schema(name, val['allOf'][0], indent, all_types)
         if '$ref' in val:
@@ -399,9 +415,7 @@ This field is a Base64 encoded json string.
         raise ProcessingError('unsupported data type')
 
     def _verify_complete(self):
-        """
-        _verify_complete checks that all functions from the device profile exist in the openapi file
-        """
+        """Checks that all functions from the device profile exist in the openapi file"""
         for cmd, cmd_obj in self.resources.items():
             if cmd_obj['isHidden'] is True:
                 continue  # skip hidden commands (not callable by the core-command service)
@@ -434,7 +448,7 @@ This field is a Base64 encoded json string.
     def _clean_response_headers(self):
         """
         - Remove superfluous headers from response objects
-        - Patches X-Correlation-Id header
+        - Patches X-Correlation-Id header to be a $ref
         """
         for _, path_obj in self.yml['paths'].items():
             for _, method_obj in path_obj.items():
@@ -462,11 +476,11 @@ This field is a Base64 encoded json string.
 
 
 def main():
-    if len(sys.argv) != 5:
-        print(f'Usage: {sys.argv[0]} <input_file> <sidecar_file> <profile_file> <output_file>')
+    if len(sys.argv) != 7:
+        print(f'Usage: {sys.argv[0]} <input_file> <sidecar_file> <profile_file> <output_file> <onvif_tested_file> <onvif_footnotes_file>')
         sys.exit(1)
 
-    proc = YamlProcessor(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    proc = YamlProcessor(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], MarkdownMatrix(sys.argv[5], sys.argv[6]))
     proc.process()
 
 

@@ -35,10 +35,15 @@ paths:
       tags:
       - Network Configuration
       summary: Hostname
-      description: >-
-        This operation is used by an endpoint to get the hostname from a device.
-        The device shall return its hostname configurations through the
-        GetHostname command.
+      description: |
+        This operation is used by an endpoint to get the hostname from a device. The device shall return its hostname configurations through the GetHostname command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -54,6 +59,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -158,14 +167,16 @@ paths:
       tags:
       - Network Configuration
       summary: SetHostname
-      description: >-
-        This operation sets the hostname on a device. It shall be possible to
-        set the device hostname configurations through the SetHostname
-        command.  
+      description: |
+        This operation sets the hostname on a device. It shall be possible to set the device hostname configurations through the SetHostname command.  
+        A device shall accept string formatted according to RFC 1123 section 2.1 or alternatively to RFC 952, other string shall be considered as invalid strings.<br/>
 
-        A device shall accept string formatted according to RFC 1123 section 2.1
-        or alternatively to RFC 952, other string shall be considered as invalid
-        strings.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -216,9 +227,15 @@ paths:
       tags:
       - Network Configuration
       summary: DNS
-      description: >-
-        This operation gets the DNS settings from a device. The device shall
-        return its DNS configurations through the GetDNS command.
+      description: |
+        This operation gets the DNS settings from a device. The device shall return its DNS configurations through the GetDNS command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -234,6 +251,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -281,9 +302,15 @@ paths:
       tags:
       - Network Configuration
       summary: SetDNS
-      description: >-
-        This operation sets the DNS settings on a device. It shall be possible
-        to set the device DNS configurations through the SetDNS command.
+      description: |
+        This operation sets the DNS settings on a device. It shall be possible to set the device DNS configurations through the SetDNS command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -326,11 +353,15 @@ paths:
       tags:
       - Network Configuration
       summary: NetworkInterfaces
-      description: >-
-        This operation gets the network interface configuration from a device.
-        The device shall support return of network interface configuration
-        settings as defined by the NetworkInterface type through the
-        GetNetworkInterfaces command.
+      description: |
+        This operation gets the network interface configuration from a device. The device shall support return of network interface configuration settings as defined by the NetworkInterface type through the GetNetworkInterfaces command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -346,6 +377,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -406,15 +441,17 @@ paths:
       tags:
       - Network Configuration
       summary: SetNetworkInterfaces
-      description: >-
-        This operation sets the network interface configuration on a device. The
-        device shall support network configuration of supported network
-        interfaces through the SetNetworkInterfaces command.
+      description: |
+        This operation sets the network interface configuration on a device. The device shall support network configuration of supported network interfaces through the SetNetworkInterfaces command.
 
+        For interoperability with a client unaware of the IEEE 802.11 extension a device shall retain its IEEE 802.11 configuration if the IEEE 802.11 configuration element isn’t present in the request.<br/>
 
-        For interoperability with a client unaware of the IEEE 802.11 extension
-        a device shall retain its IEEE 802.11 configuration if the IEEE 802.11
-        configuration element isn’t present in the request.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -458,10 +495,15 @@ paths:
       tags:
       - Network Configuration
       summary: NetworkProtocols
-      description: >-
-        This operation gets defined network protocols from a device. The device
-        shall support the GetNetworkProtocols command returning configured
-        network protocols.
+      description: |
+        This operation gets defined network protocols from a device. The device shall support the GetNetworkProtocols command returning configured network protocols.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -477,6 +519,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -530,10 +576,15 @@ paths:
       tags:
       - Network Configuration
       summary: SetNetworkProtocols
-      description: >-
-        This operation configures defined network protocols on a device. The
-        device shall support configuration of defined network protocols through
-        the SetNetworkProtocols command.
+      description: |
+        This operation configures defined network protocols on a device. The device shall support configuration of defined network protocols through the SetNetworkProtocols command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -582,10 +633,15 @@ paths:
       tags:
       - Network Configuration
       summary: NetworkDefaultGateway
-      description: >-
-        This operation gets the default gateway settings from a device. The
-        device shall support the GetNetworkDefaultGateway command returning
-        configured default gateway address(es).
+      description: |
+        This operation gets the default gateway settings from a device. The device shall support the GetNetworkDefaultGateway command returning configured default gateway address(es).<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -601,6 +657,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -648,10 +708,15 @@ paths:
       tags:
       - Network Configuration
       summary: SetNetworkDefaultGateway
-      description: >-
-        This operation sets the default gateway settings on a device. The device
-        shall support configuration of default gateway through the
-        SetNetworkDefaultGateway command.
+      description: |
+        This operation sets the default gateway settings on a device. The device shall support configuration of default gateway through the SetNetworkDefaultGateway command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -709,6 +774,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -840,6 +909,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -854,7 +927,15 @@ paths:
       tags:
       - System Function
       summary: DeviceInformation
-      description: This operation gets basic device information from the device.
+      description: |
+        This operation gets basic device information from the device.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -870,6 +951,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -922,14 +1007,17 @@ paths:
       tags:
       - System Function
       summary: SystemDateAndTime
-      description: >-
-        This operation gets the device system date and time. The device shall
-        support the return of the daylight saving setting and of the manual
-        system date and time (if applicable) or indication of NTP time (if
-        applicable) through the GetSystemDateAndTime command.
+      description: |
+        This operation gets the device system date and time. The device shall support the return of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the GetSystemDateAndTime command.
 
+        A device shall provide the UTCDateTime information.<br/>
 
-        A device shall provide the UTCDateTime information.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -945,6 +1033,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -1014,24 +1106,21 @@ paths:
       tags:
       - System Function
       summary: SetSystemDateAndTime
-      description: >-
-        This operation sets the device system date and time. The device shall
-        support the configuration of the daylight saving setting and of the
-        manual system date and time (if applicable) or indication of NTP time
-        (if applicable) through the SetSystemDateAndTime command.
+      description: |
+        This operation sets the device system date and time. The device shall support the configuration of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the SetSystemDateAndTime command.
 
+        If system time and date are set manually, the client shall include UTCDateTime in the request.
 
-        If system time and date are set manually, the client shall include
-        UTCDateTime in the request.
+        A TimeZone token which is not formed according to the rules of IEEE 1003.1 section 8.3 is considered as invalid timezone.
 
+        The DayLightSavings flag should be set to true to activate any DST settings of the TimeZone string. Clear the DayLightSavings flag if the DST portion of the TimeZone settings should be ignored.<br/>
 
-        A TimeZone token which is not formed according to the rules of IEEE
-        1003.1 section 8.3 is considered as invalid timezone.
-
-
-        The DayLightSavings flag should be set to true to activate any DST
-        settings of the TimeZone string. Clear the DayLightSavings flag if the
-        DST portion of the TimeZone settings should be ignored.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -1081,9 +1170,15 @@ paths:
       tags:
       - System Function
       summary: SetSystemFactoryDefault
-      description: >-
-        This operation reloads the parameters on the device to their factory
-        default values.
+      description: |
+        This operation reloads the parameters on the device to their factory default values.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -1141,6 +1236,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -1214,10 +1313,15 @@ paths:
       tags:
       - Metadata Configuration
       summary: MetadataConfigurations
-      description: >-
-        This operation lists all existing metadata configurations. The client
-        need not know anything apriori about the metadata in order to use the
-        command.
+      description: |
+        This operation lists all existing metadata configurations. The client need not know anything apriori about the metadata in order to use the command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -1233,6 +1337,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -1281,9 +1389,15 @@ paths:
       tags:
       - Metadata Configuration
       summary: MetadataConfiguration
-      description: >-
-        The GetMetadataConfiguration command fetches the metadata configuration
-        if the metadata token is known.
+      description: |
+        The GetMetadataConfiguration command fetches the metadata configuration if the metadata token is known.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: jsonObject
         in: query
@@ -1321,6 +1435,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -1368,15 +1486,15 @@ paths:
       tags:
       - Metadata Configuration
       summary: SetMetadataConfiguration
-      description: >-
-        This operation modifies a metadata configuration. The ForcePersistence
-        flag indicates if the changes shall remain after reboot of the device.
-        Changes in the Multicast settings shall always be persistent. Running
-        streams using this configuration may be updated immediately according to
-        the new settings. The changes are not guaranteed to take effect unless
-        the client requests a new stream URI and restarts any affected streams.
-        NVC methods for changing a running stream are out of scope for this
-        specification.
+      description: |
+        This operation modifies a metadata configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be updated immediately according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected streams. NVC methods for changing a running stream are out of scope for this specification.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -1419,13 +1537,15 @@ paths:
       tags:
       - Metadata Configuration
       summary: CompatibleMetadataConfigurations
-      description: >-
-        This operation requests all the metadata configurations of the device
-        that are compatible with a certain media profile. Each of the returned
-        configurations shall be a valid input parameter for the
-        AddMetadataConfiguration command on the media profile. The result varies
-        depending on the capabilities, configurations and settings in the
-        device.
+      description: |
+        This operation requests all the metadata configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddMetadataConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: jsonObject
         in: query
@@ -1463,6 +1583,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -1511,10 +1635,15 @@ paths:
       tags:
       - Metadata Configuration
       summary: MetadataConfigurationOptions
-      description: >-
-        This operation returns the available options (supported values and
-        ranges for metadata configuration parameters) for changing the metadata
-        configuration.
+      description: |
+        This operation returns the available options (supported values and ranges for metadata configuration parameters) for changing the metadata configuration.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: jsonObject
         in: query
@@ -1555,6 +1684,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -1603,12 +1736,15 @@ paths:
       tags:
       - Metadata Configuration
       summary: AddMetadataConfiguration
-      description: >-
-        This operation adds a Metadata configuration to an existing media
-        profile. If a configuration exists in the media profile, it will be
-        replaced. The change shall be persistent. Adding a MetadataConfiguration
-        to a Profile means that streams using that profile contain metadata.
-        Metadata can consist of events, PTZ status, and/or video analytics data.
+      description: |
+        This operation adds a Metadata configuration to an existing media profile. If a configuration exists in the media profile, it will be replaced. The change shall be persistent. Adding a MetadataConfiguration to a Profile means that streams using that profile contain metadata. Metadata can consist of events, PTZ status, and/or video analytics data.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -1649,10 +1785,15 @@ paths:
       tags:
       - Metadata Configuration
       summary: RemoveMetadataConfiguration
-      description: >-
-        This operation removes a MetadataConfiguration from an existing media
-        profile. If the media profile does not contain a MetadataConfiguration,
-        the operation has no effect. The removal shall be persistent.
+      description: |
+        This operation removes a MetadataConfiguration from an existing media profile. If the media profile does not contain a MetadataConfiguration, the operation has no effect. The removal shall be persistent.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -1692,12 +1833,15 @@ paths:
       tags:
       - Video Streaming
       summary: Profiles
-      description: >-
-        Any endpoint can ask for the existing media profiles of a device using
-        the GetProfiles command. Pre-configured or dynamically configured
-        profiles can be retrieved using this command. This command lists all
-        configured profiles in a device. The client does not need to know the
-        media profile in order to use the command.
+      description: |
+        Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -1713,6 +1857,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -1993,35 +2141,24 @@ paths:
       tags:
       - Video Streaming
       summary: StreamUri
-      description: >-
-        This operation requests a URI that can be used to initiate a live media
-        stream using RTSP as the control protocol. The returned URI shall remain
-        valid indefinitely even if the profile is changed. The
-        ValidUntilConnect, ValidUntilReboot and Timeout Parameter shall be set
-        accordingly (ValidUntilConnect=false, ValidUntilReboot=false,
-        timeout=PT0S).
+      description: |
+        This operation requests a URI that can be used to initiate a live media stream using RTSP as the control protocol. The returned URI shall remain valid indefinitely even if the profile is changed. The ValidUntilConnect, ValidUntilReboot and Timeout Parameter shall be set accordingly (ValidUntilConnect=false, ValidUntilReboot=false, timeout=PT0S).
 
+        The correct syntax for the StreamSetup element for these media stream setups defined in 5.1.1 of the streaming specification are as follows:  
+        RTP unicast over UDP: StreamType = "RTP_unicast", TransportProtocol = "UDP"  
+        RTP over RTSP over HTTP over TCP: StreamType = "RTP_unicast", TransportProtocol = "HTTP"  
+        RTP over RTSP over TCP: StreamType = "RTP_unicast", TransportProtocol = "RTSP"
 
-        The correct syntax for the StreamSetup element for these media stream
-        setups defined in 5.1.1 of the streaming specification are as follows:  
+        If a multicast stream is requested at least one of VideoEncoderConfiguration, AudioEncoderConfiguration and MetadataConfiguration shall have a valid multicast setting.
 
-        RTP unicast over UDP: StreamType = "RTP_unicast", TransportProtocol =
-        "UDP"  
+        For full compatibility with other ONVIF services a device should not generate Uris longer than 128 octets.<br/>
 
-        RTP over RTSP over HTTP over TCP: StreamType = "RTP_unicast",
-        TransportProtocol = "HTTP"  
-
-        RTP over RTSP over TCP: StreamType = "RTP_unicast", TransportProtocol =
-        "RTSP"
-
-
-        If a multicast stream is requested at least one of
-        VideoEncoderConfiguration, AudioEncoderConfiguration and
-        MetadataConfiguration shall have a valid multicast setting.
-
-
-        For full compatibility with other ONVIF services a device should not
-        generate Uris longer than 128 octets.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: jsonObject
         in: query
@@ -2082,6 +2219,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -2155,6 +2296,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -2212,6 +2357,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -2283,10 +2432,15 @@ paths:
       tags:
       - Video Encoder Configuration
       summary: VideoEncoderConfiguration
-      description: >-
-        If the video encoder configuration token is already known, the encoder
-        configuration can be fetched through the GetVideoEncoderConfiguration
-        command.
+      description: |
+        If the video encoder configuration token is already known, the encoder configuration can be fetched through the GetVideoEncoderConfiguration command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: jsonObject
         in: query
@@ -2324,6 +2478,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -2394,22 +2552,17 @@ paths:
       tags:
       - Video Encoder Configuration
       summary: SetVideoEncoderConfiguration
-      description: >-
-        This operation modifies a video encoder configuration. The
-        ForcePersistence flag indicates if the changes shall remain after reboot
-        of the device. Changes in the Multicast settings shall always be
-        persistent. Running streams using this configuration may be immediately
-        updated according to the new settings. The changes are not guaranteed to
-        take effect unless the client requests a new stream URI and restarts any
-        affected stream. NVC methods for changing a running stream are out of
-        scope for this specification.
+      description: |
+        This operation modifies a video encoder configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be immediately updated according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected stream. NVC methods for changing a running stream are out of scope for this specification.
 
+        SessionTimeout is provided as a hint for keeping rtsp session by a device. If necessary the device may adapt parameter values for SessionTimeout elements without returning an error. For the time between keep alive calls the client shall adhere to the timeout value signaled via RTSP.<br/>
 
-        SessionTimeout is provided as a hint for keeping rtsp session by a
-        device. If necessary the device may adapt parameter values for
-        SessionTimeout elements without returning an error. For the time between
-        keep alive calls the client shall adhere to the timeout value signaled
-        via RTSP.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -2452,6 +2605,10 @@ paths:
         '500':
           description: Internal Server Error
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -2484,24 +2641,19 @@ paths:
       tags:
       - Video Encoder Configuration
       summary: VideoEncoderConfigurationOptions
-      description: >-
-        This operation returns the available options (supported values and
-        ranges for video encoder configuration parameters) when the video
-        encoder parameters are reconfigured.
+      description: |
+        This operation returns the available options (supported values and ranges for video encoder configuration parameters) when the video encoder parameters are reconfigured.
 
+        For JPEG, MPEG4 and H264 extension elements have been defined that provide additional information. A device must provide the XxxOption information for all encodings supported and should additionally provide the corresponding XxxOption2 information.
 
-        For JPEG, MPEG4 and H264 extension elements have been defined that
-        provide additional information. A device must provide the XxxOption
-        information for all encodings supported and should additionally provide
-        the corresponding XxxOption2 information.
+        This response contains the available video encoder configuration options. If a video encoder configuration is specified, the options shall concern that particular configuration. If a media profile is specified, the options shall be compatible with that media profile. If no tokens are specified, the options shall be considered generic for the device.<br/>
 
-
-        This response contains the available video encoder configuration
-        options. If a video encoder configuration is specified, the options
-        shall concern that particular configuration. If a media profile is
-        specified, the options shall be compatible with that media profile. If
-        no tokens are specified, the options shall be considered generic for the
-        device.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: jsonObject
         in: query
@@ -2542,6 +2694,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -2635,11 +2791,15 @@ paths:
       tags:
       - User Handling
       summary: Get users
-      description: >-
-        This operation lists the registered users and corresponding credentials
-        on a device. The device shall support retrieval of registered device
-        users and their credentials for the user token through the GetUsers
-        command.
+      description: |
+        This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -2655,6 +2815,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -2706,18 +2870,17 @@ paths:
       tags:
       - User Handling
       summary: Set users
-      description: >-
-        This operation creates new device users and corresponding credentials on
-        a device for authentication purposes. The device shall support creation
-        of device users and their credentials through the CreateUsers command.
-        Either all users are created successfully or a fault message shall be
-        returned without creating any user.
+      description: |
+        This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.
 
+        ONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper.<br/>
 
-        ONVIF compliant devices are recommended to support password length of at
-        least 28 bytes, as clients may follow the password derivation mechanism
-        which results in 'password equivalent' of length 28 bytes, as described
-        in section 3.1.2 of the ONVIF security white paper.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -2763,18 +2926,17 @@ paths:
       tags:
       - User Handling
       summary: Create Users
-      description: >-
-        This operation creates new device users and corresponding credentials on
-        a device for authentication purposes. The device shall support creation
-        of device users and their credentials through the CreateUsers command.
-        Either all users are created successfully or a fault message shall be
-        returned without creating any user.
+      description: |
+        This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.
 
+        ONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper.<br/>
 
-        ONVIF compliant devices are recommended to support password length of at
-        least 28 bytes, as clients may follow the password derivation mechanism
-        which results in 'password equivalent' of length 28 bytes, as described
-        in section 3.1.2 of the ONVIF security white paper.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -2820,13 +2982,15 @@ paths:
       tags:
       - User Handling
       summary: Delete users
-      description: >-
-        This operation deletes users on a device. The device shall support
-        deletion of device users and their credentials through the DeleteUsers
-        command. A device may have one or more fixed users that cannot be
-        deleted to ensure access to the unit. Either all users are deleted
-        successfully or a fault message shall be returned and no users be
-        deleted.
+      description: |
+        This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -2868,11 +3032,15 @@ paths:
       tags:
       - Auto Discovery
       summary: GetDiscoveryMode
-      description: >-
-        This operation gets the discovery mode of a device. See Section 7.2 for
-        the definition of the different device discovery modes. The device shall
-        support retrieval of the discovery mode setting through the
-        GetDiscoveryMode command.
+      description: |
+        This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -2888,6 +3056,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -2935,11 +3107,15 @@ paths:
       tags:
       - Auto Discovery
       summary: Set DiscoveryMode
-      description: >-
-        This operation sets the discovery mode operation of a device. See
-        Section 7.2 for the definition of the different device discovery modes.
-        The device shall support configuration of the discovery mode setting
-        through the SetDiscoveryMode command.
+      description: |
+        This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -2979,11 +3155,15 @@ paths:
       tags:
       - Auto Discovery
       summary: Add Scopes
-      description: >-
-        This operation adds new configurable scope parameters to a device. The
-        scope parameters are used in the device discovery to match a probe
-        message. The device shall support addition of discovery scope parameters
-        through the AddScopes command.
+      description: |
+        This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -3024,21 +3204,18 @@ paths:
       tags:
       - Auto Discovery
       summary: Get Scopes
-      description: >-
-        This operation requests the scope parameters of a device. The scope
-        parameters are used in the device discovery to match a probe message,
-        see Section 7. The Scope parameters are of two different types:  
-
+      description: |
+        This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  
         \- Fixed  
-
         \- Configurable  
+        Fixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response.<br/>
 
-        Fixed scope parameters are permanent device characteristics and cannot
-        be removed through the device management interface. The scope type is
-        indicated in the scope list returned in the get scope parameters
-        response. A device shall support retrieval of discovery scope parameters
-        through the GetScopes command. As some scope parameters are mandatory,
-        the device shall return a non-empty scope list in the response.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -3054,6 +3231,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -3111,12 +3292,15 @@ paths:
       tags:
       - Auto Discovery
       summary: Put Scopes
-      description: >-
-        This operation sets the scope parameters of a device. The scope
-        parameters are used in the device discovery to match a probe message.
-        This operation replaces all existing configurable scope parameters (not
-        fixed parameters). If this shall be avoided, one should use the scope
-        add command instead.
+      description: |
+        This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -3157,11 +3341,15 @@ paths:
       tags:
       - Auto Discovery
       summary: Remove Scopes
-      description: >-
-        This operation deletes scope-configurable scope parameters from a
-        device. The scope parameters are used in the device discovery to match a
-        probe message, see Section 7. The device shall support deletion of
-        discovery scope parameters through the RemoveScopes command
+      description: |
+        This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ✔ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ✔ |
       requestBody:
         content:
           application/json:
@@ -3191,6 +3379,10 @@ paths:
         '500':
           description: Internal Server Error
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -3223,15 +3415,17 @@ paths:
       tags:
       - PTZ - Capabilities
       summary: GetNodes
-      description: >-
+      description: |
         Get the descriptions of the available PTZ Nodes.
 
+        A PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may represent mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ drivers. PTZ Nodes are the lowest level entities in the PTZ control API and reflect the supported PTZ capabilities. The PTZ Node is referenced either by its name or by its reference token.<br/>
 
-        A PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may
-        represent mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ
-        drivers. PTZ Nodes are the lowest level entities in the PTZ control API
-        and reflect the supported PTZ capabilities. The PTZ Node is referenced
-        either by its name or by its reference token.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -3247,6 +3441,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -3353,7 +3551,15 @@ paths:
       tags:
       - PTZ - Capabilities
       summary: GetNode
-      description: Get a specific PTZ Node identified by a reference token or a name.
+      description: |
+        Get a specific PTZ Node identified by a reference token or a name.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -3396,6 +3602,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -3502,28 +3712,17 @@ paths:
       tags:
       - PTZ - Configuration
       summary: GetConfigurations
-      description: >-
+      description: |
         Get all the existing PTZConfigurations from the device.  
+        The default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.  
+        The allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly.<br/>
 
-        The default Position/Translation/Velocity Spaces are introduced to allow
-        NVCs sending move requests without the need to specify a certain
-        coordinate system. The default Speeds are introduced to control the
-        speed of move requests (absolute, relative, preset), where no explicit
-        speed has been set.  
-
-        The allowed pan and tilt range for Pan/Tilt Limits is defined by a
-        two-dimensional space range that is mapped to a specific Absolute
-        Pan/Tilt Position Space. At least one Pan/Tilt Position Space is
-        required by the PTZNode to support Pan/Tilt limits. The limits apply to
-        all supported absolute, relative and continuous Pan/Tilt movements. The
-        limits shall be checked within the coordinate system for which the
-        limits have been specified. That means that even if movements are
-        specified in a different coordinate system, the requested movements
-        shall be transformed to the coordinate system of the limits where the
-        limits can be checked. When a relative or continuous movements is
-        specified, which would leave the specified limits, the PTZ unit has to
-        move along the specified limits. The Zoom Limits have to be interpreted
-        accordingly.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -3539,6 +3738,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -3605,31 +3808,19 @@ paths:
       tags:
       - PTZ - Configuration
       summary: GetConfiguration
-      description: >-
-        Get a specific PTZconfiguration from the device, identified by its
-        reference token or name.
+      description: |
+        Get a specific PTZconfiguration from the device, identified by its reference token or name.
 
+        The default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.
 
-        The default Position/Translation/Velocity Spaces are introduced to allow
-        NVCs sending move requests without the need to specify a certain
-        coordinate system. The default Speeds are introduced to control the
-        speed of move requests (absolute, relative, preset), where no explicit
-        speed has been set.
+        The allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly.<br/>
 
-
-        The allowed pan and tilt range for Pan/Tilt Limits is defined by a
-        two-dimensional space range that is mapped to a specific Absolute
-        Pan/Tilt Position Space. At least one Pan/Tilt Position Space is
-        required by the PTZNode to support Pan/Tilt limits. The limits apply to
-        all supported absolute, relative and continuous Pan/Tilt movements. The
-        limits shall be checked within the coordinate system for which the
-        limits have been specified. That means that even if movements are
-        specified in a different coordinate system, the requested movements
-        shall be transformed to the coordinate system of the limits where the
-        limits can be checked. When a relative or continuous movements is
-        specified, which would leave the specified limits, the PTZ unit has to
-        move along the specified limits. The Zoom Limits have to be interpreted
-        accordingly.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -3672,6 +3863,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -3737,7 +3932,15 @@ paths:
       tags:
       - PTZ - Configuration
       summary: SetConfiguration
-      description: Set/update a existing PTZConfiguration on the device.
+      description: |
+        Set/update a existing PTZConfiguration on the device.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -3787,15 +3990,15 @@ paths:
       tags:
       - PTZ - Configuration
       summary: GetConfigurationOptions
-      description: >-
-        List supported coordinate systems including their range limitations.
-        Therefore, the options MAY differ depending on whether the PTZ
-        Configuration is assigned to a Profile containing a Video Source
-        Configuration. In that case, the options may additionally contain
-        coordinate systems referring to the image coordinate system described by
-        the Video Source Configuration. If the PTZ Node supports continuous
-        movements, it shall return a Timeout Range within which Timeouts are
-        accepted by the PTZ Node.
+      description: |
+        List supported coordinate systems including their range limitations. Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -3838,6 +4041,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -3944,7 +4151,15 @@ paths:
       tags:
       - PTZ - Configuration
       summary: AddPTZConfiguration
-      description: Add a new PTZConfiguration on the device.
+      description: |
+        Add a new PTZConfiguration on the device.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -3985,7 +4200,15 @@ paths:
       tags:
       - PTZ - Configuration
       summary: RemovePTZConfiguration
-      description: Remove a PTZConfiguration on the device.
+      description: |
+        Remove a PTZConfiguration on the device.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4025,14 +4248,17 @@ paths:
       tags:
       - PTZ - Actuation
       summary: AbsoluteMove
-      description: >-
+      description: |
         Operation to move pan,tilt or zoom to a absolute destination.
 
+        The speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used.<br/>
 
-        The speed argument is optional. If an x/y speed value is given it is up
-        to the device to either use the x value as absolute resoluting speed
-        vector or to map x and y to the component speed. If the speed argument
-        is omitted, the default speed set by the PTZConfiguration will be used.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4076,16 +4302,17 @@ paths:
       tags:
       - PTZ - Actuation
       summary: RelativeMove
-      description: >-
-        Operation for Relative Pan/Tilt and Zoom Move. The operation is
-        supported if the PTZNode supports at least one relative Pan/Tilt or Zoom
-        space.
+      description: |
+        Operation for Relative Pan/Tilt and Zoom Move. The operation is supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space.
 
+        The speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used.<br/>
 
-        The speed argument is optional. If an x/y speed value is given it is up
-        to the device to either use the x value as absolute resoluting speed
-        vector or to map x and y to the component speed. If the speed argument
-        is omitted, the default speed set by the PTZConfiguration will be used.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4129,11 +4356,15 @@ paths:
       tags:
       - PTZ - Actuation
       summary: ContinuousMove
-      description: >-
-        Operation for continuous Pan/Tilt and Zoom movements. The operation is
-        supported if the PTZNode supports at least one continuous Pan/Tilt or
-        Zoom space. If the space argument is omitted, the default space set by
-        the PTZConfiguration will be used.
+      description: |
+        Operation for continuous Pan/Tilt and Zoom movements. The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4177,7 +4408,15 @@ paths:
       tags:
       - PTZ - Actuation
       summary: GetStatus
-      description: Operation to request PTZ status for the Node in the selected profile.
+      description: |
+        Operation to request PTZ status for the Node in the selected profile.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -4220,6 +4459,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -4277,10 +4520,15 @@ paths:
       tags:
       - PTZ - Actuation
       summary: Stop
-      description: >-
-        Operation to stop ongoing pan, tilt and zoom movements of absolute
-        relative and continuous type. If no stop argument for pan, tilt or zoom
-        is set, the device will stop all ongoing pan, tilt and zoom movements.
+      description: |
+        Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type. If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4321,18 +4569,15 @@ paths:
       tags:
       - PTZ - Preset
       summary: SetPreset
-      description: >-
-        The SetPreset command saves the current device position parameters so
-        that the device can move to the saved preset position through the
-        GotoPreset operation. In order to create a new preset, the
-        SetPresetRequest contains no PresetToken. If creation is successful, the
-        Response contains the PresetToken which uniquely identifies the Preset.
-        An existing Preset can be overwritten by specifying the PresetToken of
-        the corresponding Preset. In both cases (overwriting or creation) an
-        optional PresetName can be specified. The operation fails if the PTZ
-        device is moving during the SetPreset operation. The device MAY
-        internally save additional states such as imaging properties in the PTZ
-        Preset which then should be recalled in the GotoPreset operation.
+      description: |
+        The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4373,10 +4618,15 @@ paths:
       tags:
       - PTZ - Preset
       summary: GetPresets
-      description: >-
-        Operation to request all PTZ presets for the PTZNode in the selected
-        profile. The operation is supported if there is support for at least on
-        PTZ preset by the PTZNode.
+      description: |
+        Operation to request all PTZ presets for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -4427,6 +4677,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -4499,10 +4753,15 @@ paths:
       tags:
       - PTZ - Preset
       summary: GotoPreset
-      description: >-
-        Operation to go to a saved preset position for the PTZNode in the
-        selected profile. The operation is supported if there is support for at
-        least on PTZ preset by the PTZNode.
+      description: |
+        Operation to go to a saved preset position for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4543,10 +4802,15 @@ paths:
       tags:
       - PTZ - Preset
       summary: RemovePreset
-      description: >-
-        Operation to remove a PTZ preset for the Node in the selected profile.
-        The operation is supported if the PresetPosition capability exists for
-        teh Node in the selected profile.
+      description: |
+        Operation to remove a PTZ preset for the Node in the selected profile. The operation is supported if the PresetPosition capability exists for teh Node in the selected profile.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ✔ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4587,9 +4851,15 @@ paths:
       tags:
       - PTZ - Home Position
       summary: GotoHomePosition
-      description: >-
-        Operation to move the PTZ device to it's "home" position. The operation
-        is supported if the HomeSupported element in the PTZNode is true.
+      description: |
+        Operation to move the PTZ device to it's "home" position. The operation is supported if the HomeSupported element in the PTZNode is true.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4629,12 +4899,15 @@ paths:
       tags:
       - PTZ - Home Position
       summary: SetHomePosition
-      description: >-
-        Operation to save current position as the home position. The
-        SetHomePosition command returns with a failure if the “home” position is
-        fixed and cannot be overwritten. If the SetHomePosition is successful,
-        it is possible to recall the Home Position with the GotoHomePosition
-        command.
+      description: |
+        Operation to save current position as the home position. The SetHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the SetHomePosition is successful, it is possible to recall the Home Position with the GotoHomePosition command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4674,44 +4947,29 @@ paths:
       tags:
       - PTZ - Auxiliary
       summary: SendAuxiliaryCommand
-      description: >-
-        Manage auxiliary commands supported by a device, such as controlling an
-        Infrared (IR) lamp, a heater or a wiper or a thermometer that is
-        connected to the device.
+      description: |
+        Manage auxiliary commands supported by a device, such as controlling an Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected to the device.
 
+        The supported commands can be retrieved via the AuxiliaryCommands capability.
 
-        The supported commands can be retrieved via the AuxiliaryCommands
-        capability.
-
-
-        Although the name of the auxiliary commands can be freely defined,
-        commands starting with the prefix tt: are reserved to define frequently
-        used commands and these reserved commands shall all share the
-        "tt:command|parameter" syntax.  
-
+        Although the name of the auxiliary commands can be freely defined, commands starting with the prefix tt: are reserved to define frequently used commands and these reserved commands shall all share the "tt:command|parameter" syntax.  
         tt:Wiper|On – Request to start the wiper.  
-
         tt:Wiper|Off – Request to stop the wiper.  
-
         tt:Washer|On – Request to start the washer.  
-
         tt:Washer|Off – Request to stop the washer.  
-
         tt:WashingProcedure|On – Request to start the washing procedure.  
-
         tt: WashingProcedure |Off – Request to stop the washing procedure.  
+        tt:IRLamp|On – Request to turn ON an IR illuminator attached to the unit.  
+        tt:IRLamp|Off – Request to turn OFF an IR illuminator attached to the unit.  
+        tt:IRLamp|Auto – Request to configure an IR illuminator attached to the unit so that it automatically turns ON and OFF.  
+        A device that indicates auxiliary service capability shall support this command.<br/>
 
-        tt:IRLamp|On – Request to turn ON an IR illuminator attached to the
-        unit.  
-
-        tt:IRLamp|Off – Request to turn OFF an IR illuminator attached to the
-        unit.  
-
-        tt:IRLamp|Auto – Request to configure an IR illuminator attached to the
-        unit so that it automatically turns ON and OFF.  
-
-        A device that indicates auxiliary service capability shall support this
-        command.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -4774,6 +5032,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -5077,12 +5339,15 @@ paths:
       tags:
       - Analytics - Profile Configuration
       summary: GetProfiles
-      description: >-
-        Any endpoint can ask for the existing media profiles of a device using
-        the GetProfiles command. Pre-configured or dynamically configured
-        profiles can be retrieved using this command. This command lists all
-        configured profiles in a device. The client does not need to know the
-        media profile in order to use the command.
+      description: |
+        Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -5122,6 +5387,10 @@ paths:
         '500':
           description: Internal Server Error
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -5174,11 +5443,15 @@ paths:
       tags:
       - Analytics - Profile Configuration
       summary: GetAnalyticsConfigurations
-      description: >-
-        By default this operation lists all existing video analytics
-        configurations for a device. Provide a profile token to list only
-        configurations that are compatible with the profile. If a configuration
-        token is provided only a single configuration will be returned.
+      description: |
+        By default this operation lists all existing video analytics configurations for a device. Provide a profile token to list only configurations that are compatible with the profile. If a configuration token is provided only a single configuration will be returned.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: EDGEX_DEVICE_NAME
         in: path
@@ -5194,6 +5467,10 @@ paths:
         '500':
           description: Internal Server Error
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -5247,15 +5524,17 @@ paths:
       tags:
       - Analytics - Profile Configuration
       summary: AddConfiguration
-      description: >-
-        This operation adds one or more Configurations to an existing media
-        profile. If a configuration exists in the media profile, it will be
-        replaced. A device shall support adding a compatible Configuration to a
-        Profile containing a VideoSourceConfiguration and shall support
-        streaming video data of such a profile.
+      description: |
+        This operation adds one or more Configurations to an existing media profile. If a configuration exists in the media profile, it will be replaced. A device shall support adding a compatible Configuration to a Profile containing a VideoSourceConfiguration and shall support streaming video data of such a profile.
 
+        Note that OSD elements must be added via the CreateOSD command.<br/>
 
-        Note that OSD elements must be added via the CreateOSD command.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -5298,10 +5577,15 @@ paths:
       tags:
       - Analytics - Profile Configuration
       summary: RemoveConfiguration
-      description: >-
-        This operation removes the listed configurations from an existing media
-        profile. If the media profile does not contain one of the listed
-        configurations that item shall be ignored.
+      description: |
+        This operation removes the listed configurations from an existing media profile. If the media profile does not contain one of the listed configurations that item shall be ignored.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -5344,9 +5628,15 @@ paths:
       tags:
       - Analytics - Modules
       summary: GetSupportedAnalyticsModules
-      description: >-
-        List all analytics modules that are supported by the given
-        VideoAnalyticsConfiguration.
+      description: |
+        List all analytics modules that are supported by the given VideoAnalyticsConfiguration.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -5414,9 +5704,15 @@ paths:
       tags:
       - Analytics - Modules
       summary: GetAnalyticsModules
-      description: >-
-        List the currently assigned set of analytics modules of a
-        VideoAnalyticsConfiguration.
+      description: |
+        List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -5454,6 +5750,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -5507,10 +5807,15 @@ paths:
       tags:
       - Analytics - Modules
       summary: ModifyAnalyticsModules
-      description: >-
-        Modify the settings of one or more analytics modules of a
-        VideoAnalyticsConfiguration. The modules are referenced by their names.
-        It is allowed to pass only a subset to be modified.
+      description: |
+        Modify the settings of one or more analytics modules of a VideoAnalyticsConfiguration. The modules are referenced by their names. It is allowed to pass only a subset to be modified.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -5557,35 +5862,21 @@ paths:
       tags:
       - Analytics - Modules
       summary: CreateAnalyticsModules
-      description: >-
-        Add one or more analytics modules to an existing
-        VideoAnalyticsConfiguration. The available supported types can be
-        retrieved via GetSupportedAnalyticsModules, where the Name of the
-        supported AnalyticsModules correspond to the type of an AnalyticsModule
-        instance.
+      description: |
+        Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.
 
+        Pass unique module names which can be later used as reference. The Parameters of the analytics module must match those of the corresponding AnalyticsModuleDescription.
 
-        Pass unique module names which can be later used as reference. The
-        Parameters of the analytics module must match those of the corresponding
-        AnalyticsModuleDescription.
+        Although this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and GetAnalyticsConfigurations.
 
+        The device shall ensure that a corresponding analytics engine starts operation when a client subscribes directly or indirectly for events produced by the analytics or rule engine or when a client requests the corresponding scene description stream. An analytics module must be attached to a Video source using the media profiles before it can be used. In case differing analytics configurations are attached to the same profile it is undefined which of the analytics module configuration becomes active if no stream is activated or multiple streams with different profiles are activated at the same time.<br/>
 
-        Although this method is mandatory a device implementation may not
-        support adding modules. Instead it can provide a fixed set of predefined
-        configurations via the media service functions
-        GetCompatibleVideoAnalyticsConfigurations and
-        GetAnalyticsConfigurations.
-
-
-        The device shall ensure that a corresponding analytics engine starts
-        operation when a client subscribes directly or indirectly for events
-        produced by the analytics or rule engine or when a client requests the
-        corresponding scene description stream. An analytics module must be
-        attached to a Video source using the media profiles before it can be
-        used. In case differing analytics configurations are attached to the
-        same profile it is undefined which of the analytics module configuration
-        becomes active if no stream is activated or multiple streams with
-        different profiles are activated at the same time.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -5632,9 +5923,15 @@ paths:
       tags:
       - Analytics - Modules
       summary: DeleteAnalyticsModules
-      description: >-
-        Remove one or more analytics modules from a VideoAnalyticsConfiguration
-        referenced by their names.
+      description: |
+        Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ❌ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -5676,9 +5973,15 @@ paths:
       tags:
       - Analytics - Modules
       summary: GetAnalyticsModuleOptions
-      description: >-
-        Return the options for the supported analytics modules that specify an
-        Option attribute.
+      description: |
+        Return the options for the supported analytics modules that specify an Option attribute.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -5719,6 +6022,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -5772,9 +6079,15 @@ paths:
       tags:
       - Analytics - Rules
       summary: GetSupportedRules
-      description: >-
-        List all rules that are supported by the given
-        VideoAnalyticsConfiguration.
+      description: |
+        List all rules that are supported by the given VideoAnalyticsConfiguration.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -5813,6 +6126,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -6012,9 +6329,15 @@ paths:
       tags:
       - Analytics - Rules
       summary: GetRules
-      description: >-
-        List the currently assigned set of rules of a
-        VideoAnalyticsConfiguration.
+      description: |
+        List the currently assigned set of rules of a VideoAnalyticsConfiguration.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -6052,6 +6375,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -6111,9 +6438,15 @@ paths:
       tags:
       - Analytics - Rules
       summary: ModifyRules
-      description: >-
-        Modify one or more rules of a VideoAnalyticsConfiguration. The rules are
-        referenced by their names.
+      description: |
+        Modify one or more rules of a VideoAnalyticsConfiguration. The rules are referenced by their names.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -6160,9 +6493,15 @@ paths:
       tags:
       - Analytics - Rules
       summary: GetRuleOptions
-      description: >-
-        Return the options for the supported rules that specify an Option
-        attribute.
+      description: |
+        Return the options for the supported rules that specify an Option attribute.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       parameters:
       - name: jsonObject
         in: query
@@ -6203,6 +6542,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -6259,22 +6602,19 @@ paths:
       tags:
       - Analytics - Rules
       summary: CreateRules
-      description: >-
-        Add one or more rules to an existing VideoAnalyticsConfiguration. The
-        available supported types can be retrieved via GetSupportedRules, where
-        the Name of the supported rule correspond to the type of an rule
-        instance.
+      description: |
+        Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.
 
+        Pass unique module names which can be later used as reference. The Parameters of the rules must match those of the corresponding description.
 
-        Pass unique module names which can be later used as reference. The
-        Parameters of the rules must match those of the corresponding
-        description.
+        Although this method is mandatory a device implementation must not support adding rules. Instead it can provide a fixed set of predefined configurations via the media service function GetCompatibleVideoAnalyticsConfigurations.<br/>
 
-
-        Although this method is mandatory a device implementation must not
-        support adding rules. Instead it can provide a fixed set of predefined
-        configurations via the media service function
-        GetCompatibleVideoAnalyticsConfigurations.
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -6329,7 +6669,15 @@ paths:
       tags:
       - Analytics - Rules
       summary: DeleteRules
-      description: Remove one or more rules from a VideoAnalyticsConfiguration.
+      description: |
+        Remove one or more rules from a VideoAnalyticsConfiguration.<br/>
+
+        | Camera | Supported? |
+        |-------|-------|
+        | Hikvision DFI6256TE | ❌ |
+        | Tapo C200 | ❌ |
+        | BOSCH DINION IP starlight 6000 HD | ✔ |
+        | GeoVision GV-BX8700 | ❌ |
       requestBody:
         content:
           application/json:
@@ -6387,6 +6735,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -6489,6 +6841,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -6633,6 +6989,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -6706,6 +7066,8 @@ paths:
               properties:
                 CustomMetadata:
                   type: object
+                  additionalProperties:
+                    type: string
               required:
               - CustomMetadata
               type: object
