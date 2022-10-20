@@ -1,12 +1,557 @@
 {
 	"info": {
-		"_postman_id": "41b06358-d096-4b9b-8735-a0905762330f",
+		"_postman_id": "b7a70229-560c-41c2-9958-4994c7bd93fc",
 		"name": "device-onvif-camera",
 		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "7889146"
 	},
 	"item": [
+		{
+			"name": "Auto Discovery",
+			"item": [
+				{
+					"name": "GetDiscoveryMode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"DiscoveryMode"
+							]
+						},
+						"description": "This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command."
+					},
+					"response": [
+						{
+							"name": "GetDiscoveryMode",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DiscoveryMode"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "e81b8fb3-4bc4-4aab-a56f-5ff1ed41c123"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Aug 2022 23:38:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "553"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"8155efce-41b5-412f-a25d-b63bed015d63\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"DiscoveryMode\",\n        \"origin\": 1659656339306907742,\n        \"readings\": [\n            {\n                \"id\": \"099efd6b-d5fa-44a3-98f2-67eb72a1659f\",\n                \"origin\": 1659656339306907742,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"DiscoveryMode\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"DiscoveryMode\": \"Discoverable\"\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Set DiscoveryMode",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DiscoveryMode\": {\n        \"DiscoveryMode\": \"Discoverable\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"DiscoveryMode"
+							]
+						},
+						"description": "This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command."
+					},
+					"response": [
+						{
+							"name": "Set DiscoveryMode",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"DiscoveryMode\": {\n        \"DiscoveryMode\": \"Discoverable\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DiscoveryMode"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "99ed7b8d-81cc-4046-8ac9-ea8dd9013fb2"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Aug 2022 23:39:15 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Scopes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"AddScopes\":{\n        \"ScopeItem\":[\n            \"http//:123\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddScopes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"AddScopes"
+							]
+						},
+						"description": "This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command."
+					},
+					"response": [
+						{
+							"name": "Add Scopes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"AddScopes\":{\n        \"ScopeItem\":[\n            \"http//:123\"\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddScopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"AddScopes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "6c1402e7-4516-4661-9ba7-b486dc20336f"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:41:03 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Scopes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Scopes"
+							]
+						},
+						"description": "This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  \n\\- Fixed  \n\\- Configurable  \nFixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response."
+					},
+					"response": [
+						{
+							"name": "Get Scopes",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Scopes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "966fc4b2-a648-4bef-91fc-2aaf9f9310a7"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Aug 2022 00:27:08 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "896"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"05f573f4-0836-45ad-b9ba-c393f9927586\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Scopes\",\n        \"origin\": 1659659228090509033,\n        \"readings\": [\n            {\n                \"id\": \"ea858652-cb16-432c-bf45-f9785cd00d85\",\n                \"origin\": 1659659228090509033,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"Scopes\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Scopes\": [\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/name/TP-IPC\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/hardware/MODEL\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/Profile/Streaming\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/location/ShenZhen\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/type/NetworkVideoTransmitter\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Put Scopes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Scopes\":{\n        \"Scopes\":[\n            \"http//:123\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Scopes"
+							]
+						},
+						"description": "This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead."
+					},
+					"response": [
+						{
+							"name": "Put Scopes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Scopes\":{\n        \"Scopes\":[\n            \"http//:123\"\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Scopes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "0fa69e08-5b67-4b92-93c8-7cb642c2f43c"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:41:08 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove Scopes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RemoveScopes\":{\n        \"ScopeItem\":[\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveScopes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"RemoveScopes"
+							]
+						},
+						"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
+					},
+					"response": [
+						{
+							"name": "Remove Scopes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"RemoveScopes\":{\n        \"ScopeItem\":[\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveScopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"RemoveScopes"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "1585c4fb-963a-4dc2-afa1-057559aedacc"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:41:12 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "528"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error writing DeviceResourece RemoveScopes for Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'RemoveScopes' of web service 'Device'. Onvif error: fault reason: Trying to Remove scope which does not exist, fault detail: , fault code: s:Sender ter:InvalidArgVal ter:NoScope\\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
+						}
+					]
+				}
+			]
+		},
 		{
 			"name": "Network Configuration",
 			"item": [
@@ -1621,6 +2166,361 @@
 			]
 		},
 		{
+			"name": "User Handling",
+			"item": [
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Users"
+							]
+						},
+						"description": "This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command."
+					},
+					"response": [
+						{
+							"name": "Get users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "16c7a0fe-a3fc-4b4f-a8e3-110ba2f0325a"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "609"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"8e524ecd-674d-4dd8-b728-de78b8245189\",\n        \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Users\",\n        \"origin\": 1664077238993899589,\n        \"readings\": [\n            {\n                \"id\": \"f5086b88-9876-4627-91d5-7ce39431652e\",\n                \"origin\": 1664077238993899589,\n                \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n                \"resourceName\": \"Users\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"User\": [\n                        {\n                            \"UserLevel\": \"Administrator\",\n                            \"Username\": \"admin\"\n                        },\n                        {\n                            \"UserLevel\": \"User\",\n                            \"Username\": \"user\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Users",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CreateUsers\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CreateUsers",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"CreateUsers"
+							]
+						},
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
+					},
+					"response": [
+						{
+							"name": "Create Users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"CreateUsers\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": ""
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "e772e887-419e-4647-ae97-59722fbc7317"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Set users",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Users"
+							]
+						},
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
+					},
+					"response": [
+						{
+							"name": "Set users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "bc42d5ca-4132-47e5-b159-98ca2aa1cdb8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:53 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete users",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\"user1\",\"user2\"]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"DeleteUsers"
+							]
+						},
+						"description": "This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted."
+					},
+					"response": [
+						{
+							"name": "Delete users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\"user1\",\"user2\"]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DeleteUsers"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "12780a21-c3b4-42b1-9e46-11369a5926de"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:57 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Metadata Configuration",
 			"item": [
 				{
@@ -2890,906 +3790,6 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error writing DeviceResourece VideoEncoderConfiguration for TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'SetVideoEncoderConfiguration' of web service 'Media'. Onvif error: fault reason: , fault detail: , fault code: SOAP-ENV:Sender  \\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "User Handling",
-			"item": [
-				{
-					"name": "Get users",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"Users"
-							]
-						},
-						"description": "This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command."
-					},
-					"response": [
-						{
-							"name": "Get users",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"Users"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "16c7a0fe-a3fc-4b4f-a8e3-110ba2f0325a"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:40:38 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "609"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"8e524ecd-674d-4dd8-b728-de78b8245189\",\n        \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Users\",\n        \"origin\": 1664077238993899589,\n        \"readings\": [\n            {\n                \"id\": \"f5086b88-9876-4627-91d5-7ce39431652e\",\n                \"origin\": 1664077238993899589,\n                \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n                \"resourceName\": \"Users\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"User\": [\n                        {\n                            \"UserLevel\": \"Administrator\",\n                            \"Username\": \"admin\"\n                        },\n                        {\n                            \"UserLevel\": \"User\",\n                            \"Username\": \"user\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Create Users",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"CreateUsers\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            }\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CreateUsers",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"CreateUsers"
-							]
-						},
-						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
-					},
-					"response": [
-						{
-							"name": "Create Users",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"CreateUsers\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            }\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": ""
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "e772e887-419e-4647-ae97-59722fbc7317"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:40:48 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Set users",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"Users"
-							]
-						},
-						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
-					},
-					"response": [
-						{
-							"name": "Set users",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"Users"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "bc42d5ca-4132-47e5-b159-98ca2aa1cdb8"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:40:53 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Delete users",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\"user1\",\"user2\"]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"DeleteUsers"
-							]
-						},
-						"description": "This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted."
-					},
-					"response": [
-						{
-							"name": "Delete users",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\"user1\",\"user2\"]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"DeleteUsers"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "12780a21-c3b4-42b1-9e46-11369a5926de"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:40:57 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Auto Discovery",
-			"item": [
-				{
-					"name": "GetDiscoveryMode",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"DiscoveryMode"
-							]
-						},
-						"description": "This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command."
-					},
-					"response": [
-						{
-							"name": "GetDiscoveryMode",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"DiscoveryMode"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "e81b8fb3-4bc4-4aab-a56f-5ff1ed41c123"
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 04 Aug 2022 23:38:59 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "553"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"8155efce-41b5-412f-a25d-b63bed015d63\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"DiscoveryMode\",\n        \"origin\": 1659656339306907742,\n        \"readings\": [\n            {\n                \"id\": \"099efd6b-d5fa-44a3-98f2-67eb72a1659f\",\n                \"origin\": 1659656339306907742,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"DiscoveryMode\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"DiscoveryMode\": \"Discoverable\"\n                }\n            }\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Set DiscoveryMode",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"DiscoveryMode\": {\n        \"DiscoveryMode\": \"Discoverable\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"DiscoveryMode"
-							]
-						},
-						"description": "This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command."
-					},
-					"response": [
-						{
-							"name": "Set DiscoveryMode",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"DiscoveryMode\": {\n        \"DiscoveryMode\": \"Discoverable\"\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"DiscoveryMode"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "99ed7b8d-81cc-4046-8ac9-ea8dd9013fb2"
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 04 Aug 2022 23:39:15 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Add Scopes",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"AddScopes\":{\n        \"ScopeItem\":[\n            \"http//:123\"\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddScopes",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"AddScopes"
-							]
-						},
-						"description": "This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command."
-					},
-					"response": [
-						{
-							"name": "Add Scopes",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"AddScopes\":{\n        \"ScopeItem\":[\n            \"http//:123\"\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddScopes",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"AddScopes"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "6c1402e7-4516-4661-9ba7-b486dc20336f"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:41:03 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Get Scopes",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"Scopes"
-							]
-						},
-						"description": "This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  \n\\- Fixed  \n\\- Configurable  \nFixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response."
-					},
-					"response": [
-						{
-							"name": "Get Scopes",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"Scopes"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "966fc4b2-a648-4bef-91fc-2aaf9f9310a7"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 05 Aug 2022 00:27:08 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "896"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"05f573f4-0836-45ad-b9ba-c393f9927586\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Scopes\",\n        \"origin\": 1659659228090509033,\n        \"readings\": [\n            {\n                \"id\": \"ea858652-cb16-432c-bf45-f9785cd00d85\",\n                \"origin\": 1659659228090509033,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"Scopes\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Scopes\": [\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/name/TP-IPC\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/hardware/MODEL\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/Profile/Streaming\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/location/ShenZhen\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/type/NetworkVideoTransmitter\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Put Scopes",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Scopes\":{\n        \"Scopes\":[\n            \"http//:123\"\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"Scopes"
-							]
-						},
-						"description": "This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead."
-					},
-					"response": [
-						{
-							"name": "Put Scopes",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"Scopes\":{\n        \"Scopes\":[\n            \"http//:123\"\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"Scopes"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "0fa69e08-5b67-4b92-93c8-7cb642c2f43c"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:41:08 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Remove Scopes",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"RemoveScopes\":{\n        \"ScopeItem\":[\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveScopes",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"RemoveScopes"
-							]
-						},
-						"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
-					},
-					"response": [
-						{
-							"name": "Remove Scopes",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"RemoveScopes\":{\n        \"ScopeItem\":[\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveScopes",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"RemoveScopes"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "1585c4fb-963a-4dc2-afa1-057559aedacc"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:41:12 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "528"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error writing DeviceResourece RemoveScopes for Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'RemoveScopes' of web service 'Device'. Onvif error: fault reason: Trying to Remove scope which does not exist, fault detail: , fault code: s:Sender ter:InvalidArgVal ter:NoScope\\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
 						}
 					]
 				}

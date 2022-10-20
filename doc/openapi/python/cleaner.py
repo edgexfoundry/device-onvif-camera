@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-
+#
 # Copyright (C) 2022 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
+#
+
 from collections import defaultdict
 from dataclasses import dataclass, field
 from ruamel.yaml import YAML

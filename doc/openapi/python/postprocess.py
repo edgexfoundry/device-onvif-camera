@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-import base64
-import json
+#
 # Copyright (C) 2022 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
+#
+
+import base64
+import json
 from dataclasses import dataclass, field
 import sys
 import copy
@@ -213,6 +216,8 @@ Below is a list of camera models that this command has been tested against, and 
                         continue
 
                     # --- More ONVIF function patching ---
+
+                    method_obj['summary'] = f'{service}: {fn}'
 
                     # Special handling for PUT calls:
                     # - Move example out of schema into json object itself

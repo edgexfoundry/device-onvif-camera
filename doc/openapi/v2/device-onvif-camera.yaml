@@ -6,13 +6,13 @@ info:
 servers:
 - url: http://0.0.0.0:59882
 tags:
+- name: Auto Discovery
 - name: Network Configuration
 - name: System Function
+- name: User Handling
 - name: Metadata Configuration
 - name: Video Streaming
 - name: Video Encoder Configuration
-- name: User Handling
-- name: Auto Discovery
 - name: PTZ
 - name: PTZ - Capabilities
 - name: PTZ - Configuration
@@ -30,13 +30,13 @@ tags:
     Custom commands outside of the ONVIF spec handled by the device service
     directly.
 paths:
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Hostname:
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DiscoveryMode:
     get:
       tags:
-      - Network Configuration
-      summary: Hostname
+      - Auto Discovery
+      summary: 'Device: GetDiscoveryMode'
       description: |-
-        This operation is used by an endpoint to get the hostname from a device. The device shall return its hostname configurations through the GetHostname command.
+        This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -74,29 +74,27 @@ paths:
                           items:
                             properties:
                               objectValue:
-                                $ref: '#/components/schemas/device_GetHostnameResponse'
+                                $ref: '#/components/schemas/device_GetDiscoveryModeResponse'
               example:
                 apiVersion: v2
                 statusCode: 200
                 event:
                   apiVersion: v2
-                  id: 6ad6d2d6-51af-4084-8a6a-952928942732
+                  id: 8155efce-41b5-412f-a25d-b63bed015d63
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: Hostname
-                  origin: 1659655574277981200
+                  sourceName: DiscoveryMode
+                  origin: 1659656339306907600
                   readings:
-                  - id: b8e4ba90-2aeb-4336-a5ca-923456cff383
-                    origin: 1659655574277981200
+                  - id: 099efd6b-d5fa-44a3-98f2-67eb72a1659f
+                    origin: 1659656339306907600
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Hostname
+                    resourceName: DiscoveryMode
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
                     objectValue:
-                      HostnameInformation:
-                        FromDHCP: false
-                        Name: hostname
+                      DiscoveryMode: Discoverable
         '400': &id001
           description: Request is in an invalid state
           headers:
@@ -159,11 +157,389 @@ paths:
                   $ref: '#/components/examples/503Example'
       externalDocs:
         description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
+    put:
+      tags:
+      - Auto Discovery
+      summary: 'Device: SetDiscoveryMode'
+      description: |-
+        This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ✔️ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                DiscoveryMode:
+                  $ref: '#/components/schemas/device_SetDiscoveryMode'
+              required:
+              - DiscoveryMode
+              type: object
+            example:
+              DiscoveryMode:
+                DiscoveryMode: Discoverable
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200': &id006
+          description: OK
+          headers:
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+              examples:
+                200Example:
+                  $ref: '#/components/examples/200Example'
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddScopes:
+    put:
+      tags:
+      - Auto Discovery
+      summary: 'Device: AddScopes'
+      description: |-
+        This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                AddScopes:
+                  $ref: '#/components/schemas/device_AddScopes'
+              required:
+              - AddScopes
+              type: object
+            example:
+              AddScopes:
+                ScopeItem:
+                - http//:123
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200': *id006
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Scopes:
+    get:
+      tags:
+      - Auto Discovery
+      summary: 'Device: GetScopes'
+      description: |-
+        This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  
+        \- Fixed  
+        \- Configurable  
+        Fixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ✔️ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/device_GetScopesResponse'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: 05f573f4-0836-45ad-b9ba-c393f9927586
+                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  profileName: onvif-camera
+                  sourceName: Scopes
+                  origin: 1659659228090509000
+                  readings:
+                  - id: ea858652-cb16-432c-bf45-f9785cd00d85
+                    origin: 1659659228090509000
+                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                    resourceName: Scopes
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      Scopes:
+                      - ScopeDef: Fixed
+                        ScopeItem: onvif://www.onvif.org/name/TP-IPC
+                      - ScopeDef: Fixed
+                        ScopeItem: onvif://www.onvif.org/hardware/MODEL
+                      - ScopeDef: Fixed
+                        ScopeItem: onvif://www.onvif.org/Profile/Streaming
+                      - ScopeDef: Fixed
+                        ScopeItem: onvif://www.onvif.org/location/ShenZhen
+                      - ScopeDef: Fixed
+                        ScopeItem: onvif://www.onvif.org/type/NetworkVideoTransmitter
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
+    put:
+      tags:
+      - Auto Discovery
+      summary: 'Device: SetScopes'
+      description: |-
+        This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ✔️ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Scopes:
+                  $ref: '#/components/schemas/device_SetScopes'
+              required:
+              - Scopes
+              type: object
+            example:
+              Scopes:
+                Scopes:
+                - http//:123
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200': *id006
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemoveScopes:
+    put:
+      tags:
+      - Auto Discovery
+      summary: 'Device: RemoveScopes'
+      description: |-
+        This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                RemoveScopes:
+                  $ref: '#/components/schemas/device_RemoveScopes'
+              required:
+              - RemoveScopes
+              type: object
+            example:
+              RemoveScopes:
+                ScopeItem:
+                - onvif://www.onvif.org/name/Geovision
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '500':
+          description: Internal Server Error
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                apiVersion: v2
+                message: >-
+                  request failed, status code: 500, err:
+                  {"apiVersion":"v2","message":"error writing DeviceResourece
+                  RemoveScopes for
+                  Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\u003e
+                  failed to execute write command, \u003cnil\u003e -\u003e
+                  invalid request for the function 'RemoveScopes' of web service
+                  'Device'. Onvif error: fault reason: Trying to Remove scope
+                  which does not exist, fault detail: , fault code: s:Sender
+                  ter:InvalidArgVal ter:NoScope","statusCode":500}
+                statusCode: 500
+        '200': *id006
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Hostname:
+    get:
+      tags:
+      - Network Configuration
+      summary: 'Device: GetHostname'
+      description: |-
+        This operation is used by an endpoint to get the hostname from a device. The device shall return its hostname configurations through the GetHostname command.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ✔️ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/device_GetHostnameResponse'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: 6ad6d2d6-51af-4084-8a6a-952928942732
+                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  profileName: onvif-camera
+                  sourceName: Hostname
+                  origin: 1659655574277981200
+                  readings:
+                  - id: b8e4ba90-2aeb-4336-a5ca-923456cff383
+                    origin: 1659655574277981200
+                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                    resourceName: Hostname
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      HostnameInformation:
+                        FromDHCP: false
+                        Name: hostname
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
     put:
       tags:
       - Network Configuration
-      summary: SetHostname
+      summary: 'Device: SetHostname'
       description: |-
         This operation sets the hostname on a device. It shall be possible to set the device hostname configurations through the SetHostname command.  
         A device shall accept string formatted according to RFC 1123 section 2.1 or alternatively to RFC 952, other string shall be considered as invalid strings.
@@ -196,18 +572,7 @@ paths:
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
-        '200': &id006
-          description: OK
-          headers:
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BaseResponse'
-              examples:
-                200Example:
-                  $ref: '#/components/examples/200Example'
+        '200': *id006
         '400': *id001
         '404': *id002
         '423': *id003
@@ -220,7 +585,7 @@ paths:
     get:
       tags:
       - Network Configuration
-      summary: DNS
+      summary: 'Device: GetDNS'
       description: |-
         This operation gets the DNS settings from a device. The device shall return its DNS configurations through the GetDNS command.
 
@@ -292,7 +657,7 @@ paths:
     put:
       tags:
       - Network Configuration
-      summary: SetDNS
+      summary: 'Device: SetDNS'
       description: |-
         This operation sets the DNS settings on a device. It shall be possible to set the device DNS configurations through the SetDNS command.
 
@@ -340,7 +705,7 @@ paths:
     get:
       tags:
       - Network Configuration
-      summary: NetworkInterfaces
+      summary: 'Device: GetNetworkInterfaces'
       description: |-
         This operation gets the network interface configuration from a device. The device shall support return of network interface configuration settings as defined by the NetworkInterface type through the GetNetworkInterfaces command.
 
@@ -425,7 +790,7 @@ paths:
     put:
       tags:
       - Network Configuration
-      summary: SetNetworkInterfaces
+      summary: 'Device: SetNetworkInterfaces'
       description: |-
         This operation sets the network interface configuration on a device. The device shall support network configuration of supported network interfaces through the SetNetworkInterfaces command.
 
@@ -476,7 +841,7 @@ paths:
     get:
       tags:
       - Network Configuration
-      summary: NetworkProtocols
+      summary: 'Device: GetNetworkProtocols'
       description: |-
         This operation gets defined network protocols from a device. The device shall support the GetNetworkProtocols command returning configured network protocols.
 
@@ -554,7 +919,7 @@ paths:
     put:
       tags:
       - Network Configuration
-      summary: SetNetworkProtocols
+      summary: 'Device: SetNetworkProtocols'
       description: |-
         This operation configures defined network protocols on a device. The device shall support configuration of defined network protocols through the SetNetworkProtocols command.
 
@@ -608,7 +973,7 @@ paths:
     get:
       tags:
       - Network Configuration
-      summary: NetworkDefaultGateway
+      summary: 'Device: GetNetworkDefaultGateway'
       description: |-
         This operation gets the default gateway settings from a device. The device shall support the GetNetworkDefaultGateway command returning configured default gateway address(es).
 
@@ -680,7 +1045,7 @@ paths:
     put:
       tags:
       - Network Configuration
-      summary: SetNetworkDefaultGateway
+      summary: 'Device: SetNetworkDefaultGateway'
       description: |-
         This operation sets the default gateway settings on a device. The device shall support configuration of default gateway through the SetNetworkDefaultGateway command.
 
@@ -878,7 +1243,7 @@ paths:
     get:
       tags:
       - System Function
-      summary: DeviceInformation
+      summary: 'Device: GetDeviceInformation'
       description: |-
         This operation gets basic device information from the device.
 
@@ -955,7 +1320,7 @@ paths:
     get:
       tags:
       - System Function
-      summary: SystemDateAndTime
+      summary: 'Device: GetSystemDateAndTime'
       description: |-
         This operation gets the device system date and time. The device shall support the return of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the GetSystemDateAndTime command.
 
@@ -1053,7 +1418,7 @@ paths:
     put:
       tags:
       - System Function
-      summary: SetSystemDateAndTime
+      summary: 'Device: SetSystemDateAndTime'
       description: |-
         This operation sets the device system date and time. The device shall support the configuration of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the SetSystemDateAndTime command.
 
@@ -1114,7 +1479,7 @@ paths:
     put:
       tags:
       - System Function
-      summary: SetSystemFactoryDefault
+      summary: 'Device: SetSystemFactoryDefault'
       description: |-
         This operation reloads the parameters on the device to their factory default values.
 
@@ -1206,7 +1571,7 @@ paths:
     put:
       tags:
       - System Function
-      summary: SystemReboot
+      summary: 'Device: SystemReboot'
       requestBody:
         content:
           application/json:
@@ -1232,11 +1597,240 @@ paths:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot
       description: This operation reboots the device.
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Users:
+    get:
+      tags:
+      - User Handling
+      summary: 'Device: GetUsers'
+      description: |-
+        This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/device_GetUsersResponse'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: 8e524ecd-674d-4dd8-b728-de78b8245189
+                  deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
+                  profileName: onvif-camera
+                  sourceName: Users
+                  origin: 1664077238993899500
+                  readings:
+                  - id: f5086b88-9876-4627-91d5-7ce39431652e
+                    origin: 1664077238993899500
+                    deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
+                    resourceName: Users
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      User:
+                      - UserLevel: Administrator
+                        Username: admin
+                      - UserLevel: User
+                        Username: user
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers
+    put:
+      tags:
+      - User Handling
+      summary: 'Device: SetUser'
+      description: |-
+        This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.
+
+        ONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                Users:
+                  $ref: '#/components/schemas/device_SetUser'
+              required:
+              - Users
+              type: object
+            example:
+              Users:
+                User:
+                - Username: user1
+                  Password: Password1!
+                  UserLevel: Administrator
+                - Username: user2
+                  Password: Password1!
+                  UserLevel: Operator
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200': *id006
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/CreateUsers:
+    put:
+      tags:
+      - User Handling
+      summary: 'Device: CreateUsers'
+      description: |-
+        This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.
+
+        ONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                CreateUsers:
+                  $ref: '#/components/schemas/device_CreateUsers'
+              required:
+              - CreateUsers
+              type: object
+            example:
+              CreateUsers:
+                User:
+                - Username: user1
+                  Password: Password1!
+                  UserLevel: User
+                - Username: user2
+                  Password: Password1!
+                  UserLevel: User
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200': *id006
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteUsers:
+    put:
+      tags:
+      - User Handling
+      summary: 'Device: DeleteUsers'
+      description: |-
+        This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                DeleteUsers:
+                  $ref: '#/components/schemas/device_DeleteUsers'
+              required:
+              - DeleteUsers
+              type: object
+            example:
+              DeleteUsers:
+                Username:
+                - user1
+                - user2
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200': *id006
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurations:
     get:
       tags:
       - Metadata Configuration
-      summary: MetadataConfigurations
+      summary: 'Media: GetMetadataConfigurations'
       description: |-
         This operation lists all existing metadata configurations. The client need not know anything apriori about the metadata in order to use the command.
 
@@ -1309,7 +1903,7 @@ paths:
     get:
       tags:
       - Metadata Configuration
-      summary: MetadataConfiguration
+      summary: 'Media: GetMetadataConfiguration'
       description: |-
         The GetMetadataConfiguration command fetches the metadata configuration if the metadata token is known.
 
@@ -1330,7 +1924,7 @@ paths:
         in: query
         schema:
           type: string
-        example: ''
+        example: eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiMSJ9
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -1348,6 +1942,15 @@ paths:
 
 
           **Schema Reference:** [media_GetMetadataConfiguration](#media_GetMetadataConfiguration)
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "ConfigurationToken": "1"
+          }
+          ```
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
@@ -1403,7 +2006,7 @@ paths:
     put:
       tags:
       - Metadata Configuration
-      summary: SetMetadataConfiguration
+      summary: 'Media: SetMetadataConfiguration'
       description: |-
         This operation modifies a metadata configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be updated immediately according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected streams. NVC methods for changing a running stream are out of scope for this specification.
 
@@ -1433,7 +2036,7 @@ paths:
               MetadataConfiguration:
                 ForcePersistence: true
                 Configuration:
-                  token: '{{MEDIA_CONFIG_TOKEN}}'
+                  token: '1'
                   Analytics: true
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -1451,7 +2054,7 @@ paths:
     get:
       tags:
       - Metadata Configuration
-      summary: CompatibleMetadataConfigurations
+      summary: 'Media: GetCompatibleMetadataConfigurations'
       description: |-
         This operation requests all the metadata configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddMetadataConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.
 
@@ -1555,7 +2158,7 @@ paths:
     get:
       tags:
       - Metadata Configuration
-      summary: MetadataConfigurationOptions
+      summary: 'Media: GetMetadataConfigurationOptions'
       description: |-
         This operation returns the available options (supported values and ranges for metadata configuration parameters) for changing the metadata configuration.
 
@@ -1662,7 +2265,7 @@ paths:
     put:
       tags:
       - Metadata Configuration
-      summary: AddMetadataConfiguration
+      summary: 'Media: AddMetadataConfiguration'
       description: |-
         This operation adds a Metadata configuration to an existing media profile. If a configuration exists in the media profile, it will be replaced. The change shall be persistent. Adding a MetadataConfiguration to a Profile means that streams using that profile contain metadata. Metadata can consist of events, PTZ status, and/or video analytics data.
 
@@ -1691,7 +2294,7 @@ paths:
             example:
               AddMetadataConfiguration:
                 ProfileToken: profile_1
-                ConfigurationToken: '{{MEDIA_CONFIG_TOKEN}}'
+                ConfigurationToken: '1'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -1708,7 +2311,7 @@ paths:
     put:
       tags:
       - Metadata Configuration
-      summary: RemoveMetadataConfiguration
+      summary: 'Media: RemoveMetadataConfiguration'
       description: |-
         This operation removes a MetadataConfiguration from an existing media profile. If the media profile does not contain a MetadataConfiguration, the operation has no effect. The removal shall be persistent.
 
@@ -1753,7 +2356,7 @@ paths:
     get:
       tags:
       - Video Streaming
-      summary: Profiles
+      summary: 'Media: GetProfiles'
       description: |-
         Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command.
 
@@ -2058,7 +2661,7 @@ paths:
     get:
       tags:
       - Video Streaming
-      summary: StreamUri
+      summary: 'Media: GetStreamUri'
       description: |-
         This operation requests a URI that can be used to initiate a live media stream using RTSP as the control protocol. The returned URI shall remain valid indefinitely even if the profile is changed. The ValidUntilConnect, ValidUntilReboot and Timeout Parameter shall be set accordingly (ValidUntilConnect=false, ValidUntilReboot=false, timeout=PT0S).
 
@@ -2263,7 +2866,7 @@ paths:
     get:
       tags:
       - Video Encoder Configuration
-      summary: VideoEncoderConfigurations
+      summary: 'Media: GetVideoEncoderConfigurations'
       description: >-
         This operation lists all existing video encoder configurations of a
         device. This command lists all configured video encoder configurations
@@ -2349,7 +2952,7 @@ paths:
     get:
       tags:
       - Video Encoder Configuration
-      summary: VideoEncoderConfiguration
+      summary: 'Media: GetVideoEncoderConfiguration'
       description: |-
         If the video encoder configuration token is already known, the encoder configuration can be fetched through the GetVideoEncoderConfiguration command.
 
@@ -2475,7 +3078,7 @@ paths:
     put:
       tags:
       - Video Encoder Configuration
-      summary: SetVideoEncoderConfiguration
+      summary: 'Media: SetVideoEncoderConfiguration'
       description: |-
         This operation modifies a video encoder configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be immediately updated according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected stream. NVC methods for changing a running stream are out of scope for this specification.
 
@@ -2561,7 +3164,7 @@ paths:
     get:
       tags:
       - Video Encoder Configuration
-      summary: VideoEncoderConfigurationOptions
+      summary: 'Media: GetVideoEncoderConfigurationOptions'
       description: |-
         This operation returns the available options (supported values and ranges for video encoder configuration parameters) when the video encoder parameters are reconfigured.
 
@@ -2714,605 +3317,11 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Users:
-    get:
-      tags:
-      - User Handling
-      summary: Get users
-      description: |-
-        This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '200':
-          description: OK
-          headers:
-            Content-Type:
-              schema:
-                type: string
-                example: application/json
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                allOf:
-                - $ref: '#/components/schemas/ObjectEventResponse'
-                - properties:
-                    event:
-                      properties:
-                        readings:
-                          items:
-                            properties:
-                              objectValue:
-                                $ref: '#/components/schemas/device_GetUsersResponse'
-              example:
-                apiVersion: v2
-                statusCode: 200
-                event:
-                  apiVersion: v2
-                  id: 8e524ecd-674d-4dd8-b728-de78b8245189
-                  deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
-                  profileName: onvif-camera
-                  sourceName: Users
-                  origin: 1664077238993899500
-                  readings:
-                  - id: f5086b88-9876-4627-91d5-7ce39431652e
-                    origin: 1664077238993899500
-                    deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
-                    resourceName: Users
-                    profileName: onvif-camera
-                    valueType: Object
-                    value: ''
-                    objectValue:
-                      User:
-                      - UserLevel: Administrator
-                        Username: admin
-                      - UserLevel: User
-                        Username: user
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '500': *id004
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers
-    put:
-      tags:
-      - User Handling
-      summary: Set users
-      description: |-
-        This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.
-
-        ONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                Users:
-                  $ref: '#/components/schemas/device_SetUser'
-              required:
-              - Users
-              type: object
-            example:
-              Users:
-                User:
-                - Username: user1
-                  Password: Password1!
-                  UserLevel: Administrator
-                - Username: user2
-                  Password: Password1!
-                  UserLevel: Operator
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '200': *id006
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '500': *id004
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/CreateUsers:
-    put:
-      tags:
-      - User Handling
-      summary: Create Users
-      description: |-
-        This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.
-
-        ONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                CreateUsers:
-                  $ref: '#/components/schemas/device_CreateUsers'
-              required:
-              - CreateUsers
-              type: object
-            example:
-              CreateUsers:
-                User:
-                - Username: user1
-                  Password: Password1!
-                  UserLevel: User
-                - Username: user2
-                  Password: Password1!
-                  UserLevel: User
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '200': *id006
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '500': *id004
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteUsers:
-    put:
-      tags:
-      - User Handling
-      summary: Delete users
-      description: |-
-        This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                DeleteUsers:
-                  $ref: '#/components/schemas/device_DeleteUsers'
-              required:
-              - DeleteUsers
-              type: object
-            example:
-              DeleteUsers:
-                Username:
-                - user1
-                - user2
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '200': *id006
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '500': *id004
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DiscoveryMode:
-    get:
-      tags:
-      - Auto Discovery
-      summary: GetDiscoveryMode
-      description: |-
-        This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '200':
-          description: OK
-          headers:
-            Content-Type:
-              schema:
-                type: string
-                example: application/json
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                allOf:
-                - $ref: '#/components/schemas/ObjectEventResponse'
-                - properties:
-                    event:
-                      properties:
-                        readings:
-                          items:
-                            properties:
-                              objectValue:
-                                $ref: '#/components/schemas/device_GetDiscoveryModeResponse'
-              example:
-                apiVersion: v2
-                statusCode: 200
-                event:
-                  apiVersion: v2
-                  id: 8155efce-41b5-412f-a25d-b63bed015d63
-                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                  profileName: onvif-camera
-                  sourceName: DiscoveryMode
-                  origin: 1659656339306907600
-                  readings:
-                  - id: 099efd6b-d5fa-44a3-98f2-67eb72a1659f
-                    origin: 1659656339306907600
-                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: DiscoveryMode
-                    profileName: onvif-camera
-                    valueType: Object
-                    value: ''
-                    objectValue:
-                      DiscoveryMode: Discoverable
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '500': *id004
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
-    put:
-      tags:
-      - Auto Discovery
-      summary: Set DiscoveryMode
-      description: |-
-        This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                DiscoveryMode:
-                  $ref: '#/components/schemas/device_SetDiscoveryMode'
-              required:
-              - DiscoveryMode
-              type: object
-            example:
-              DiscoveryMode:
-                DiscoveryMode: Discoverable
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '200': *id006
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '500': *id004
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddScopes:
-    put:
-      tags:
-      - Auto Discovery
-      summary: Add Scopes
-      description: |-
-        This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                AddScopes:
-                  $ref: '#/components/schemas/device_AddScopes'
-              required:
-              - AddScopes
-              type: object
-            example:
-              AddScopes:
-                ScopeItem:
-                - http//:123
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '200': *id006
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '500': *id004
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Scopes:
-    get:
-      tags:
-      - Auto Discovery
-      summary: Get Scopes
-      description: |-
-        This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  
-        \- Fixed  
-        \- Configurable  
-        Fixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '200':
-          description: OK
-          headers:
-            Content-Type:
-              schema:
-                type: string
-                example: application/json
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                allOf:
-                - $ref: '#/components/schemas/ObjectEventResponse'
-                - properties:
-                    event:
-                      properties:
-                        readings:
-                          items:
-                            properties:
-                              objectValue:
-                                $ref: '#/components/schemas/device_GetScopesResponse'
-              example:
-                apiVersion: v2
-                statusCode: 200
-                event:
-                  apiVersion: v2
-                  id: 05f573f4-0836-45ad-b9ba-c393f9927586
-                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                  profileName: onvif-camera
-                  sourceName: Scopes
-                  origin: 1659659228090509000
-                  readings:
-                  - id: ea858652-cb16-432c-bf45-f9785cd00d85
-                    origin: 1659659228090509000
-                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Scopes
-                    profileName: onvif-camera
-                    valueType: Object
-                    value: ''
-                    objectValue:
-                      Scopes:
-                      - ScopeDef: Fixed
-                        ScopeItem: onvif://www.onvif.org/name/TP-IPC
-                      - ScopeDef: Fixed
-                        ScopeItem: onvif://www.onvif.org/hardware/MODEL
-                      - ScopeDef: Fixed
-                        ScopeItem: onvif://www.onvif.org/Profile/Streaming
-                      - ScopeDef: Fixed
-                        ScopeItem: onvif://www.onvif.org/location/ShenZhen
-                      - ScopeDef: Fixed
-                        ScopeItem: onvif://www.onvif.org/type/NetworkVideoTransmitter
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '500': *id004
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
-    put:
-      tags:
-      - Auto Discovery
-      summary: Put Scopes
-      description: |-
-        This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                Scopes:
-                  $ref: '#/components/schemas/device_SetScopes'
-              required:
-              - Scopes
-              type: object
-            example:
-              Scopes:
-                Scopes:
-                - http//:123
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '200': *id006
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '500': *id004
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemoveScopes:
-    put:
-      tags:
-      - Auto Discovery
-      summary: Remove Scopes
-      description: |-
-        This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        </details>
-      requestBody:
-        content:
-          application/json:
-            schema:
-              properties:
-                RemoveScopes:
-                  $ref: '#/components/schemas/device_RemoveScopes'
-              required:
-              - RemoveScopes
-              type: object
-            example:
-              RemoveScopes:
-                ScopeItem:
-                - onvif://www.onvif.org/name/Geovision
-      parameters:
-      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
-      responses:
-        '500':
-          description: Internal Server Error
-          headers:
-            Content-Type:
-              schema:
-                type: string
-                example: application/json
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                apiVersion: v2
-                message: >-
-                  request failed, status code: 500, err:
-                  {"apiVersion":"v2","message":"error writing DeviceResourece
-                  RemoveScopes for
-                  Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\u003e
-                  failed to execute write command, \u003cnil\u003e -\u003e
-                  invalid request for the function 'RemoveScopes' of web service
-                  'Device'. Onvif error: fault reason: Trying to Remove scope
-                  which does not exist, fault detail: , fault code: s:Sender
-                  ter:InvalidArgVal ter:NoScope","statusCode":500}
-                statusCode: 500
-        '200': *id006
-        '400': *id001
-        '404': *id002
-        '423': *id003
-        '503': *id005
-      externalDocs:
-        description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetNodes:
     get:
       tags:
       - PTZ - Capabilities
-      summary: GetNodes
+      summary: 'PTZ: GetNodes'
       description: |-
         Get the descriptions of the available PTZ Nodes.
 
@@ -3445,7 +3454,7 @@ paths:
     get:
       tags:
       - PTZ - Capabilities
-      summary: GetNode
+      summary: 'PTZ: GetNode'
       description: |-
         Get a specific PTZ Node identified by a reference token or a name.
 
@@ -3607,7 +3616,7 @@ paths:
     get:
       tags:
       - PTZ - Configuration
-      summary: GetConfigurations
+      summary: 'PTZ: GetConfigurations'
       description: |-
         Get all the existing PTZConfigurations from the device.  
         The default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.  
@@ -3700,7 +3709,7 @@ paths:
     get:
       tags:
       - PTZ - Configuration
-      summary: GetConfiguration
+      summary: 'PTZ: GetConfiguration'
       description: |-
         Get a specific PTZconfiguration from the device, identified by its reference token or name.
 
@@ -3825,7 +3834,7 @@ paths:
     put:
       tags:
       - PTZ - Configuration
-      summary: SetConfiguration
+      summary: 'PTZ: SetConfiguration'
       description: |-
         Set/update a existing PTZConfiguration on the device.
 
@@ -3880,7 +3889,7 @@ paths:
     get:
       tags:
       - PTZ - Configuration
-      summary: GetConfigurationOptions
+      summary: 'PTZ: GetConfigurationOptions'
       description: |-
         List supported coordinate systems including their range limitations. Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node.
 
@@ -4042,7 +4051,7 @@ paths:
     put:
       tags:
       - PTZ - Configuration
-      summary: AddPTZConfiguration
+      summary: 'Media: AddPTZConfiguration'
       description: |-
         Add a new PTZConfiguration on the device.
 
@@ -4088,7 +4097,7 @@ paths:
     put:
       tags:
       - PTZ - Configuration
-      summary: RemovePTZConfiguration
+      summary: 'Media: RemovePTZConfiguration'
       description: |-
         Remove a PTZConfiguration on the device.
 
@@ -4133,7 +4142,7 @@ paths:
     put:
       tags:
       - PTZ - Actuation
-      summary: AbsoluteMove
+      summary: 'PTZ: AbsoluteMove'
       description: |-
         Operation to move pan,tilt or zoom to a absolute destination.
 
@@ -4184,7 +4193,7 @@ paths:
     put:
       tags:
       - PTZ - Actuation
-      summary: RelativeMove
+      summary: 'PTZ: RelativeMove'
       description: |-
         Operation for Relative Pan/Tilt and Zoom Move. The operation is supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space.
 
@@ -4235,7 +4244,7 @@ paths:
     put:
       tags:
       - PTZ - Actuation
-      summary: ContinuousMove
+      summary: 'PTZ: ContinuousMove'
       description: |-
         Operation for continuous Pan/Tilt and Zoom movements. The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used.
 
@@ -4284,7 +4293,7 @@ paths:
     get:
       tags:
       - PTZ - Actuation
-      summary: GetStatus
+      summary: 'PTZ: GetStatus'
       description: |-
         Operation to request PTZ status for the Node in the selected profile.
 
@@ -4397,7 +4406,7 @@ paths:
     put:
       tags:
       - PTZ - Actuation
-      summary: Stop
+      summary: 'PTZ: Stop'
       description: |-
         Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type. If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements.
 
@@ -4443,7 +4452,7 @@ paths:
     put:
       tags:
       - PTZ - Preset
-      summary: SetPreset
+      summary: 'PTZ: SetPreset'
       description: |-
         The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation.
 
@@ -4489,7 +4498,7 @@ paths:
     get:
       tags:
       - PTZ - Preset
-      summary: GetPresets
+      summary: 'PTZ: GetPresets'
       description: |-
         Operation to request all PTZ presets for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode.
 
@@ -4617,7 +4626,7 @@ paths:
     put:
       tags:
       - PTZ - Preset
-      summary: GotoPreset
+      summary: 'PTZ: GotoPreset'
       description: |-
         Operation to go to a saved preset position for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode.
 
@@ -4663,7 +4672,7 @@ paths:
     put:
       tags:
       - PTZ - Preset
-      summary: RemovePreset
+      summary: 'PTZ: RemovePreset'
       description: |-
         Operation to remove a PTZ preset for the Node in the selected profile. The operation is supported if the PresetPosition capability exists for teh Node in the selected profile.
 
@@ -4709,7 +4718,7 @@ paths:
     put:
       tags:
       - PTZ - Home Position
-      summary: GotoHomePosition
+      summary: 'PTZ: GotoHomePosition'
       description: |-
         Operation to move the PTZ device to it's "home" position. The operation is supported if the HomeSupported element in the PTZNode is true.
 
@@ -4754,7 +4763,7 @@ paths:
     put:
       tags:
       - PTZ - Home Position
-      summary: SetHomePosition
+      summary: 'PTZ: SetHomePosition'
       description: |-
         Operation to save current position as the home position. The SetHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the SetHomePosition is successful, it is possible to recall the Home Position with the GotoHomePosition command.
 
@@ -4799,7 +4808,7 @@ paths:
     put:
       tags:
       - PTZ - Auxiliary
-      summary: SendAuxiliaryCommand
+      summary: 'PTZ: SendAuxiliaryCommand'
       description: |-
         Manage auxiliary commands supported by a device, such as controlling an Infrared (IR) lamp, a heater or a wiper or a thermometer that is connected to the device.
 
@@ -4859,14 +4868,19 @@ paths:
     get:
       tags:
       - Event Handling
-      summary: GetEventProperties
-      description: >-
-        The WS-BaseNotification specification defines a set of OPTIONAL
-        WS-ResouceProperties. This specification does not require the
-        implementation of the WS-ResourceProperty interface. Instead, the
-        subsequent direct interface shall be implemented by an ONVIF compliant
-        device in order to provide information about the FilterDialects, Schema
-        files and topics supported by the device.
+      summary: 'Event: GetEventProperties'
+      description: |-
+        The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProperties. This specification does not require the implementation of the WS-ResourceProperty interface. Instead, the subsequent direct interface shall be implemented by an ONVIF compliant device in order to provide information about the FilterDialects, Schema files and topics supported by the device.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Tapo C200** | ✔️ |  |
+        </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -5152,7 +5166,7 @@ paths:
     get:
       tags:
       - Analytics - Profile Configuration
-      summary: GetProfiles
+      summary: 'Media2: GetProfiles'
       description: |-
         Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command.
 
@@ -5254,7 +5268,7 @@ paths:
     get:
       tags:
       - Analytics - Profile Configuration
-      summary: GetAnalyticsConfigurations
+      summary: 'Media2: GetAnalyticsConfigurations'
       description: |-
         By default this operation lists all existing video analytics configurations for a device. Provide a profile token to list only configurations that are compatible with the profile. If a configuration token is provided only a single configuration will be returned.
 
@@ -5332,7 +5346,7 @@ paths:
     put:
       tags:
       - Analytics - Profile Configuration
-      summary: AddConfiguration
+      summary: 'Media2: AddConfiguration'
       description: |-
         This operation adds one or more Configurations to an existing media profile. If a configuration exists in the media profile, it will be replaced. A device shall support adding a compatible Configuration to a Profile containing a VideoSourceConfiguration and shall support streaming video data of such a profile.
 
@@ -5382,7 +5396,7 @@ paths:
     put:
       tags:
       - Analytics - Profile Configuration
-      summary: RemoveConfiguration
+      summary: 'Media2: RemoveConfiguration'
       description: |-
         This operation removes the listed configurations from an existing media profile. If the media profile does not contain one of the listed configurations that item shall be ignored.
 
@@ -5430,7 +5444,7 @@ paths:
     get:
       tags:
       - Analytics - Modules
-      summary: GetSupportedAnalyticsModules
+      summary: 'Analytics: GetSupportedAnalyticsModules'
       description: |-
         List all analytics modules that are supported by the given VideoAnalyticsConfiguration.
 
@@ -5504,7 +5518,7 @@ paths:
     get:
       tags:
       - Analytics - Modules
-      summary: GetAnalyticsModules
+      summary: 'Analytics: GetAnalyticsModules'
       description: |-
         List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration.
 
@@ -5613,7 +5627,7 @@ paths:
     put:
       tags:
       - Analytics - Modules
-      summary: ModifyAnalyticsModules
+      summary: 'Analytics: ModifyAnalyticsModules'
       description: |-
         Modify the settings of one or more analytics modules of a VideoAnalyticsConfiguration. The modules are referenced by their names. It is allowed to pass only a subset to be modified.
 
@@ -5665,7 +5679,7 @@ paths:
     put:
       tags:
       - Analytics - Modules
-      summary: CreateAnalyticsModules
+      summary: 'Analytics: CreateAnalyticsModules'
       description: |-
         Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.
 
@@ -5723,7 +5737,7 @@ paths:
     put:
       tags:
       - Analytics - Modules
-      summary: DeleteAnalyticsModules
+      summary: 'Analytics: DeleteAnalyticsModules'
       description: |-
         Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names.
 
@@ -5770,7 +5784,7 @@ paths:
     get:
       tags:
       - Analytics - Modules
-      summary: GetAnalyticsModuleOptions
+      summary: 'Analytics: GetAnalyticsModuleOptions'
       description: |-
         Return the options for the supported analytics modules that specify an Option attribute.
 
@@ -5882,7 +5896,7 @@ paths:
     get:
       tags:
       - Analytics - Rules
-      summary: GetSupportedRules
+      summary: 'Analytics: GetSupportedRules'
       description: |-
         List all rules that are supported by the given VideoAnalyticsConfiguration.
 
@@ -6138,7 +6152,7 @@ paths:
     get:
       tags:
       - Analytics - Rules
-      summary: GetRules
+      summary: 'Analytics: GetRules'
       description: |-
         List the currently assigned set of rules of a VideoAnalyticsConfiguration.
 
@@ -6253,7 +6267,7 @@ paths:
     put:
       tags:
       - Analytics - Rules
-      summary: ModifyRules
+      summary: 'Analytics: ModifyRules'
       description: |-
         Modify one or more rules of a VideoAnalyticsConfiguration. The rules are referenced by their names.
 
@@ -6305,7 +6319,7 @@ paths:
     get:
       tags:
       - Analytics - Rules
-      summary: GetRuleOptions
+      summary: 'Analytics: GetRuleOptions'
       description: |-
         Return the options for the supported rules that specify an Option attribute.
 
@@ -6420,7 +6434,7 @@ paths:
     put:
       tags:
       - Analytics - Rules
-      summary: CreateRules
+      summary: 'Analytics: CreateRules'
       description: |-
         Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.
 
@@ -6484,7 +6498,7 @@ paths:
     put:
       tags:
       - Analytics - Rules
-      summary: DeleteRules
+      summary: 'Analytics: DeleteRules'
       description: |-
         Remove one or more rules from a VideoAnalyticsConfiguration.
 
