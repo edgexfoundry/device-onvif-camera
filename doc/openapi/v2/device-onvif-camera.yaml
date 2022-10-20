@@ -51,16 +51,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -203,16 +194,7 @@ paths:
               Hostname:
                 Name: localhost555
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': &id006
           description: OK
@@ -255,16 +237,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -352,16 +325,7 @@ paths:
                   Type: IPv4
                   IPv4Address: 192.168.12.1
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -393,16 +357,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -506,16 +461,7 @@ paths:
                   IPv4:
                     DHCP: true
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -547,16 +493,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -656,16 +593,7 @@ paths:
                   Enabled: true
                   Port: 554
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -697,16 +625,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -791,16 +710,7 @@ paths:
               NetworkDefaultGateway:
                 IPv4Address: 192.168.12.1
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -820,16 +730,7 @@ paths:
         Used to retrieve network resources for a device such as Hostname, DNS,
         NetworkInterfaces, NetworkProtocols and NetworkDefaultGateway.
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -955,16 +856,7 @@ paths:
                 NetworkDefaultGateway:
                   IPv4Address: 192.168.12.1
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -1003,16 +895,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -1091,16 +974,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -1225,16 +1099,7 @@ paths:
                     Minute: 48
                     Second: 20
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -1279,16 +1144,7 @@ paths:
               SetSystemFactoryDefault:
                 FactoryDefault: Soft
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -1308,16 +1164,7 @@ paths:
         Indicates whether or not a reboot is required after configuration
         updates.
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -1373,16 +1220,7 @@ paths:
             example:
               SystemReboot: {}
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -1415,16 +1253,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -1501,7 +1330,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}'
+        example: ''
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -1519,16 +1348,7 @@ paths:
 
 
           **Schema Reference:** [media_GetMetadataConfiguration](#media_GetMetadataConfiguration)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -1616,16 +1436,7 @@ paths:
                   token: '{{MEDIA_CONFIG_TOKEN}}'
                   Analytics: true
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -1661,7 +1472,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{EDGEX_MEDIA_PROFILE_BASE64}}'
+        example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -1679,16 +1490,16 @@ paths:
 
 
           **Schema Reference:** [media_GetCompatibleMetadataConfigurations](#media_GetCompatibleMetadataConfigurations)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "ProfileToken": "profile_1"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -1765,7 +1576,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{EDGEX_MEDIA_PROFILE_AND_CONFIG_TOKEN_BASE64}}'
+        example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -1786,16 +1597,16 @@ paths:
 
 
           **Schema Reference:** [media_GetMetadataConfigurationOptions](#media_GetMetadataConfigurationOptions)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "ProfileToken": "profile_1"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -1879,19 +1690,10 @@ paths:
               type: object
             example:
               AddMetadataConfiguration:
-                ProfileToken: '{{MEDIA_PROFILE}}'
+                ProfileToken: profile_1
                 ConfigurationToken: '{{MEDIA_CONFIG_TOKEN}}'
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -1934,18 +1736,9 @@ paths:
               type: object
             example:
               RemoveMetadataConfiguration:
-                ProfileToken: '{{MEDIA_PROFILE}}'
+                ProfileToken: profile_1
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -1977,16 +1770,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -2304,6 +2088,7 @@ paths:
         in: query
         schema:
           type: string
+        example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEiLCJTdHJlYW1TZXR1cCI6eyJTdHJlYW0iOiJSVFAtVW5pY2FzdCIsIlRyYW5zcG9ydCI6eyJQcm90b2NvbCI6IlJUU1AifX19
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -2340,21 +2125,21 @@ paths:
 
           **Schema Reference:** [media_GetStreamUri](#media_GetStreamUri)
 
-          **Example:**<br/>
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
           ```json
-          {"ProfileToken":"profile_1"}
+          {
+            "ProfileToken": "profile_1",
+            "StreamSetup": {
+              "Stream": "RTP-Unicast",
+              "Transport": {
+                "Protocol": "RTSP"
+              }
+            }
+          }
           ```
-        example: '{{EDGEX_MEDIA_PROFILE_BASE64}}'
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -2433,16 +2218,7 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -2494,16 +2270,7 @@ paths:
         in a device. The client need not know anything apriori about the video
         encoder configurations in order to use the command.
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -2603,7 +2370,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN_BASE64}}'
+        example: eyJDb25maWd1cmF0aW9uVG9rZW4iOiJtYWluIn0=
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -2621,16 +2388,16 @@ paths:
 
 
           **Schema Reference:** [media_GetVideoEncoderConfiguration](#media_GetVideoEncoderConfiguration)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "ConfigurationToken": "main"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -2740,7 +2507,7 @@ paths:
               VideoEncoderConfiguration:
                 ForcePersistence: false
                 Configuration:
-                  token: '{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}'
+                  token: main
                   Encoding: H264
                   Quality: 3
                   Resolution:
@@ -2754,16 +2521,7 @@ paths:
                     TTL: 1
                     AutoStart: false
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '500':
           description: Internal Server Error
@@ -2828,7 +2586,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{EDGEX_MEDIA_PROFILE_VIDEO_ENCODER_TOKEN_BASE64}}'
+        example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEiLCJDb25maWd1cmF0aW9uVG9rZW4iOiJtYWluIn0=
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -2849,16 +2607,17 @@ paths:
 
 
           **Schema Reference:** [media_GetVideoEncoderConfigurationOptions](#media_GetVideoEncoderConfigurationOptions)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "ProfileToken": "profile_1",
+            "ConfigurationToken": "main"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -2976,16 +2735,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -3082,16 +2832,7 @@ paths:
                   Password: Password1!
                   UserLevel: Operator
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -3144,16 +2885,7 @@ paths:
                   Password: Password1!
                   UserLevel: User
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -3200,16 +2932,7 @@ paths:
                 - user1
                 - user2
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -3241,16 +2964,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -3335,16 +3049,7 @@ paths:
               DiscoveryMode:
                 DiscoveryMode: Discoverable
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -3390,16 +3095,7 @@ paths:
                 ScopeItem:
                 - http//:123
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -3434,16 +3130,7 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -3539,16 +3226,7 @@ paths:
                 Scopes:
                 - http//:123
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -3594,16 +3272,7 @@ paths:
                 ScopeItem:
                 - onvif://www.onvif.org/name/Geovision
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '500':
           description: Internal Server Error
@@ -3662,16 +3331,7 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -3824,21 +3484,16 @@ paths:
 
           **Schema Reference:** [ptz_GetNode](#ptz_GetNode)
 
-          **Example:**<br/>
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
           ```json
-          {"NodeToken": "Node0"}
+          {
+            "NodeToken": "Node0"
+          }
           ```
         example: eyJOb2RlVG9rZW4iOiAiTm9kZTAifQ==
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -3971,16 +3626,7 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -4097,21 +3743,16 @@ paths:
 
           **Schema Reference:** [ptz_GetConfiguration](#ptz_GetConfiguration)
 
-          **Example:**<br/>
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
           ```json
-          {"PTZConfigurationToken": "PTZConfiguration0"}
+          {
+            "PTZConfigurationToken": "PTZConfiguration0"
+          }
           ```
         example: eyJQVFpDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -4213,8 +3854,8 @@ paths:
             example:
               Configuration:
                 PTZConfiguration:
-                  Token: '{{PTZ_CONFIG_TOKEN}}'
-                  NodeToken: '{{PTZ_NODE_TOKEN}}'
+                  Token: PROFILE_3263078452
+                  NodeToken: PTZNODE_3
                   PanTiltLimits:
                     Range:
                       XRange:
@@ -4224,16 +3865,7 @@ paths:
                         Max: 35
                         Min: -32
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -4286,22 +3918,8 @@ paths:
 
 
           **Schema Reference:** [ptz_GetConfigurationOptions](#ptz_GetConfigurationOptions)
-
-          **Example:**<br/>
-          ```json
-          {"ConfigurationToken": "PTZConfiguration0"}
-          ```
         example: eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -4443,19 +4061,10 @@ paths:
               type: object
             example:
               AddPTZConfiguration:
-                ProfileToken: '{{MEDIA_PROFILE}}'
-                ConfigurationToken: '{{PTZ_CONFIG_TOKEN}}'
+                ProfileToken: profile_1
+                ConfigurationToken: PROFILE_3263078452
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -4498,18 +4107,9 @@ paths:
               type: object
             example:
               RemovePTZConfiguration:
-                ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
+                ProfileToken: PROFILE_3263078452
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -4554,22 +4154,13 @@ paths:
               type: object
             example:
               AbsoluteMove:
-                ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
+                ProfileToken: PROFILE_3263078452
                 Position:
                   PanTilt:
                     x: 0
                     y: 0
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -4614,22 +4205,13 @@ paths:
               type: object
             example:
               RelativeMove:
-                ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
+                ProfileToken: PROFILE_3263078452
                 Translation:
                   PanTilt:
                     x: 0
                     y: 0
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -4672,22 +4254,13 @@ paths:
               type: object
             example:
               ContinuousMove:
-                ProfileToken: '{{MEDIA_PROFILE}}'
+                ProfileToken: profile_1
                 Velocity:
                   PanTilt:
                     x: -1
                     y: -1
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -4741,21 +4314,16 @@ paths:
 
           **Schema Reference:** [ptz_GetStatus](#ptz_GetStatus)
 
-          **Example:**<br/>
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
           ```json
-          {"ProfileToken":"profile_1"}
+          {
+            "ProfileToken": "profile_1"
+          }
           ```
         example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -4848,19 +4416,10 @@ paths:
               type: object
             example:
               Stop:
-                ProfileToken: '{{MEDIA_PROFILE}}'
+                ProfileToken: profile_1
                 PanTilt: true
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -4904,18 +4463,9 @@ paths:
             example:
               SetPreset:
                 PresetName: Preset1
-                ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
+                ProfileToken: PROFILE_3263078452
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -4951,6 +4501,7 @@ paths:
         in: query
         schema:
           type: string
+        example: eyJQcm9maWxlVG9rZW4iOiAiUFJPRklMRV8zMzA1OTY3Nzk3In0=
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -4969,29 +4520,15 @@ paths:
 
           **Schema Reference:** [ptz_GetPresets](#ptz_GetPresets)
 
-          **Example:**<br/>
-          ```json
-          Json: 
-          ```json
-          {"ProfileToken":"PROFILE_3305967797"}
-          ```
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
 
-          Base64:
+          ```json
+          {
+            "ProfileToken": "PROFILE_3305967797"
+          }
           ```
-          eyJQcm9maWxlVG9rZW4iOiJQUk9GSUxFXzMzMDU5Njc3OTcifQ==
-          ```
-          ```
-        example: '{{PTZ_CONFIG_TOKEN_BASE64}}'
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -5099,19 +4636,10 @@ paths:
               type: object
             example:
               GotoPreset:
-                ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
+                ProfileToken: PROFILE_3263078452
                 PresetToken: Preset1
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -5154,19 +4682,10 @@ paths:
               type: object
             example:
               RemovePreset:
-                ProfileToken: '{{MEDIA_PROFILE}}'
+                ProfileToken: profile_1
                 PresetToken: Preset1
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -5209,18 +4728,9 @@ paths:
               type: object
             example:
               GotoHomePosition:
-                ProfileToken: '{{MEDIA_PROFILE}}'
+                ProfileToken: profile_1
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -5263,18 +4773,9 @@ paths:
               type: object
             example:
               SetHomePosition:
-                ProfileToken: '{{MEDIA_PROFILE}}'
+                ProfileToken: profile_1
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -5331,19 +4832,10 @@ paths:
               type: object
             example:
               SendAuxiliaryCommand:
-                ProfileToken: '{{MEDIA_PROFILE}}'
+                ProfileToken: profile_1
                 AuxiliaryData: '123'
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -5367,16 +4859,7 @@ paths:
         device in order to provide information about the FilterDialects, Schema
         files and topics supported by the device.
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -5567,16 +5050,7 @@ paths:
                 TopicFilter: tns1:RuleEngine/TamperDetector/Tamper
                 InitialTerminationTime: PT180S
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -5624,16 +5098,7 @@ paths:
                 InitialTerminationTime: PT120S
                 MessageTimeout: PT20S
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -5666,16 +5131,7 @@ paths:
             example:
               UnsubscribeCameraEvent: {}
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -5708,6 +5164,7 @@ paths:
         in: query
         schema:
           type: string
+        example: ''
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -5728,16 +5185,7 @@ paths:
 
 
           **Schema Reference:** [media2_GetProfiles](#media2_GetProfiles)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '500':
           description: Internal Server Error
@@ -5814,16 +5262,7 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         </details>
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '500':
           description: Internal Server Error
@@ -5914,21 +5353,12 @@ paths:
               type: object
             example:
               AddConfiguration:
-                ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
+                ProfileToken: PROFILE_3263078452
                 Configuration:
                 - Type: Analytics
-                  Token: '{{ANALYTIC_CONFIG_TOKEN}}'
+                  Token: VideoAnalyticsToken_3263078450
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -5971,21 +5401,12 @@ paths:
               type: object
             example:
               RemoveConfiguration:
-                ProfileToken: '{{PTZ_CONFIG_TOKEN}}'
+                ProfileToken: PROFILE_3263078452
                 Configuration:
                 - Type: Analytics
-                  Token: '{{ANALYTIC_CONFIG_TOKEN}}'
+                  Token: VideoAnalyticsToken_3263078450
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -6021,6 +5442,7 @@ paths:
         in: query
         schema:
           type: string
+        example: ''
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -6038,16 +5460,7 @@ paths:
 
 
           **Schema Reference:** [analytics_GetSupportedAnalyticsModules](#analytics_GetSupportedAnalyticsModules)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -6103,7 +5516,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        example: eyJWaWRlb0FuYWx5dGljc1Rva2VuIjoiVmlkZW9BbmFseXRpY3NUb2tlbl8zMDEyNTA4MDYwIn0=
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -6121,16 +5534,16 @@ paths:
 
 
           **Schema Reference:** [analytics_GetAnalyticsModules](#analytics_GetAnalyticsModules)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "VideoAnalyticsToken": "VideoAnalyticsToken_3012508060"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -6219,7 +5632,7 @@ paths:
               type: object
             example:
               AnalyticsModules:
-                ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
+                ConfigurationToken: VideoAnalyticsToken_3263078450
                 AnalyticsModule:
                 - Name: Viproc
                   Type: '{{ANALYTIC_MODULE_TYPE}}'
@@ -6228,16 +5641,7 @@ paths:
                     - Name: '{{ANALYTIC_MODULE_OPTION_NAME}}'
                       Value: '{{ANALYTIC_MODULE_OPTION_VALUE}}'
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -6286,7 +5690,7 @@ paths:
               type: object
             example:
               CreateAnalyticsModules:
-                ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
+                ConfigurationToken: VideoAnalyticsToken_3263078450
                 AnalyticsModule:
                 - Name: TestAnalyticsModule
                   Type: '{{ANALYTIC_MODULE_TYPE}}'
@@ -6295,16 +5699,7 @@ paths:
                     - Name: '{{ANALYTIC_MODULE_OPTION_NAME}}'
                       Value: '{{ANALYTIC_MODULE_OPTION_VALUE}}'
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -6347,20 +5742,11 @@ paths:
               type: object
             example:
               DeleteAnalyticsModules:
-                ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
+                ConfigurationToken: VideoAnalyticsToken_3263078450
                 AnalyticsModuleName:
                 - TestAnalyticsModule
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -6396,7 +5782,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        example: eyJWaWRlb0FuYWx5dGljc1Rva2VuIjoiVmlkZW9BbmFseXRpY3NUb2tlbl8zMDEyNTA4MDYwIn0=
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -6417,16 +5803,16 @@ paths:
 
 
           **Schema Reference:** [analytics_GetAnalyticsModuleOptions](#analytics_GetAnalyticsModuleOptions)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "VideoAnalyticsToken": "VideoAnalyticsToken_3012508060"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -6508,7 +5894,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        example: eyJWaWRlb0FuYWx5dGljc1Rva2VuIjoiVmlkZW9BbmFseXRpY3NUb2tlbl8zMDEyNTA4MDYwIn0=
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -6527,16 +5913,16 @@ paths:
 
 
           **Schema Reference:** [analytics_GetSupportedRules](#analytics_GetSupportedRules)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "VideoAnalyticsToken": "VideoAnalyticsToken_3012508060"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -6764,7 +6150,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        example: eyJWaWRlb0FuYWx5dGljc1Rva2VuIjoiVmlkZW9BbmFseXRpY3NUb2tlbl8zMDEyNTA4MDYwIn0=
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -6782,16 +6168,16 @@ paths:
 
 
           **Schema Reference:** [analytics_GetRules](#analytics_GetRules)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "VideoAnalyticsToken": "VideoAnalyticsToken_3012508060"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -6886,7 +6272,7 @@ paths:
               type: object
             example:
               Rules:
-                ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
+                ConfigurationToken: VideoAnalyticsToken_3263078450
                 Rule:
                 - Name: MyMotionDetectorRule
                   Type: tt:ObjectInField
@@ -6895,16 +6281,7 @@ paths:
                     - Name: ClassFilter
                       Value: ' Bike Car Truck'
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -6940,7 +6317,7 @@ paths:
         in: query
         schema:
           type: string
-        example: '{{ANALYTIC_CONFIG_TOKEN_BASE64}}'
+        example: eyJWaWRlb0FuYWx5dGljc1Rva2VuIjoiVmlkZW9BbmFseXRpY3NUb2tlbl8zMDEyNTA4MDYwIn0=
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -6961,16 +6338,16 @@ paths:
 
 
           **Schema Reference:** [analytics_GetRuleOptions](#analytics_GetRuleOptions)
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "VideoAnalyticsToken": "VideoAnalyticsToken_3012508060"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -7066,7 +6443,7 @@ paths:
               type: object
             example:
               CreateRules:
-                ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
+                ConfigurationToken: VideoAnalyticsToken_3263078450
                 Rule:
                 - Name: Object Counting
                   Type: tt:LineCounting
@@ -7083,16 +6460,7 @@ paths:
                         - x: '0.16'
                           y: '-0.5'
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -7135,20 +6503,11 @@ paths:
               type: object
             example:
               DeleteRules:
-                ConfigurationToken: '{{ANALYTIC_CONFIG_TOKEN}}'
+                ConfigurationToken: VideoAnalyticsToken_3263078450
                 RuleName:
                 - Object Counting
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -7166,16 +6525,7 @@ paths:
       summary: Get MACAddress
       description: This command returns the MAC address associated with a device.
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -7245,16 +6595,7 @@ paths:
             example:
               MACAddress: 10-27-f5-ea-88-f4
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -7272,16 +6613,7 @@ paths:
         device. This is a name given to a device by a user to make the device
         more identifiable.
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -7341,16 +6673,7 @@ paths:
               FriendlyName:
                 FriendlyName: My Camera
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -7420,16 +6743,7 @@ paths:
 
         ```
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
           description: OK
@@ -7522,16 +6836,7 @@ paths:
                 Business: John's Grocery Store
                 Install Date: 01/01/1970
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -7564,16 +6869,7 @@ paths:
               - Location
               - Color
       parameters:
-      - name: EDGEX_DEVICE_NAME
-        in: path
-        schema:
-          type: string
-        required: true
-        example: Camera001
-        description: |
-          This is the device name associated with the camera. It was 
-          either assigned via the auto-discovery function, or manually 
-          defined when you created the device.
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200': *id006
         '400': *id001
@@ -11467,3 +10763,15 @@ components:
         apiVersion: v2
         statusCode: 503
         message: HTTP request timeout
+  parameters:
+    EDGEX_DEVICE_NAME:
+      name: EDGEX_DEVICE_NAME
+      in: path
+      schema:
+        type: string
+      required: true
+      example: Camera001
+      description: |
+        This is the device name associated with the camera. It was 
+        either assigned via the auto-discovery function, or manually 
+        defined when you created the device.

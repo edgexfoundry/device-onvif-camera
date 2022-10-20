@@ -6,6 +6,7 @@
 SHELL := /bin/bash
 
 POSTMAN_COLLECTION = ../postman/device-onvif-camera.postman_collection.json
+POSTMAN_ENV = ../postman/device-onvif-camera.postman_environment.json
 OPENAPI_FILE = v2/device-onvif-camera.yaml
 OPENAPI_TEMP_FILE = tmp/device-onvif-camera.yaml
 POSTMAN_2_OPENAPI_OPTIONS = p2o-options.json
@@ -19,10 +20,10 @@ SERVICES = analytics device event imaging media media2 ptz
 
 # todo: replace the API version number based on the actual source code version
 
-$(OPENAPI_FILE) gen: $(SIDECAR_FILE) $(OPENAPI_TEMP_FILE) $(PROFILE_FILE) $(SERVICES:%=ref/out/%.yaml) $(ONVIF_TESTED_FILE) $(ONVIF_FOOTNOTES_FILE) python/postprocess.py python/matrix.py python/cleaner.py Makefile
-	python3 python/postprocess.py $(OPENAPI_TEMP_FILE) $(SIDECAR_FILE) $(PROFILE_FILE) $(OPENAPI_FILE) $(ONVIF_TESTED_FILE) $(ONVIF_FOOTNOTES_FILE)
+$(OPENAPI_FILE) gen: $(SIDECAR_FILE) $(OPENAPI_TEMP_FILE) $(PROFILE_FILE) $(SERVICES:%=ref/out/%.yaml) $(ONVIF_TESTED_FILE) $(ONVIF_FOOTNOTES_FILE) $(POSTMAN_ENV) python/postprocess.py python/matrix.py python/cleaner.py Makefile
+	python3 python/postprocess.py $(OPENAPI_TEMP_FILE) $(SIDECAR_FILE) $(PROFILE_FILE) $(OPENAPI_FILE) $(ONVIF_TESTED_FILE) $(ONVIF_FOOTNOTES_FILE) $(POSTMAN_ENV)
 
-$(OPENAPI_TEMP_FILE): $(POSTMAN_COLLECTION) $(POSTMAN_2_OPENAPI_OPTIONS) | ./tmp
+$(OPENAPI_TEMP_FILE): $(POSTMAN_COLLECTION) $(POSTMAN_ENV) $(POSTMAN_2_OPENAPI_OPTIONS) | ./tmp
 	p2o $(POSTMAN_COLLECTION) -f $(OPENAPI_TEMP_FILE) -o $(POSTMAN_2_OPENAPI_OPTIONS) > /dev/null
 
 ./tmp ./ref/out:

@@ -148,13 +148,6 @@ responses:
           examples:
             503Example:
               $ref: '#/components/examples/503Example'
-parameters:
-  EDGEX_DEVICE_NAME:
-    example: Camera001
-    description: |
-      This is the device name associated with the camera. It was 
-      either assigned via the auto-discovery function, or manually 
-      defined when you created the device.
 components:
   headers:
     correlatedResponseHeader:
@@ -163,6 +156,18 @@ components:
         type: string
         format: uuid
       example: "14a42ea6-c394-41c3-8bcd-a29b9f5e6835"
+  parameters:
+    EDGEX_DEVICE_NAME:
+      name: EDGEX_DEVICE_NAME
+      in: path
+      schema:
+        type: string
+      required: true
+      example: Camera001
+      description: |
+        This is the device name associated with the camera. It was 
+        either assigned via the auto-discovery function, or manually 
+        defined when you created the device.
   examples:
     200Example:
       value:

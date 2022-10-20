@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-
+import base64
+import json
 # Copyright (C) 2022 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 from dataclasses import dataclass, field
@@ -59,11 +60,13 @@ class YamlProcessor:
     profile_file: str
     output_file: str
     matrix: MarkdownMatrix
-    yml = None
-    sidecar = None
-    profile = None
-    resources: dict = field(default_factory=dict)
-    wsdl_files: dict = field(default_factory=dict)
+    postman_env_file: str
+    yml: any = None
+    sidecar: any = None
+    profile: any = None
+    postman_env: dict[str, str] = field(default_factory=dict)
+    resources: dict[str, any] = field(default_factory=dict)
+    wsdl_files: dict[str, any] = field(default_factory=dict)
 
     def _load(self):
         """Read input yaml file and sidecar yaml files"""
@@ -82,6 +85,12 @@ class YamlProcessor:
         print(f'Loading validation matrix file: {self.matrix.tested_file}')
         print(f'Loading footnotes file: {self.matrix.footnotes_file}')
         self.matrix.parse()
+
+        print(f'Loading postman env file: {self.postman_env_file}')
+        with open(self.postman_env_file) as f:
+            env = json.load(f)
+            for item in env['values']:
+                self.postman_env[item['key']] = item['value']
 
     def _parse(self):
         """Parse the device resources into a lookup table"""
@@ -215,6 +224,7 @@ Below is a list of camera models that this command has been tested against, and 
                         # move the example outside the schema to preserve it (and it belongs better up there)
                         if 'example' in jscontent['schema']:
                             jscontent['example'] = jscontent['schema']['example']
+                            self._insert_postman_env(jscontent['example'])
 
                         # patch PUT call schema by using service name and onvif function name
                         jscontent['schema'] = {
@@ -272,7 +282,8 @@ Below is a list of camera models that this command has been tested against, and 
                                         'in': 'query',
                                         'schema': {
                                             'type': 'string'
-                                        }
+                                        },
+                                        'example': ''
                                     }
                                     self._set_json_object(param, service, fn)
                                     method_obj['parameters'].insert(0, param)
@@ -294,12 +305,19 @@ This field is a Base64 encoded json string.
 
 **Schema Reference:** [{service.lower()}_{fn}](#{service.lower()}_{fn})
 '''
-        # if there is a description in the original data, append it here before it gets overridden
-        if 'description' in param:
-            desc += f'''
-**Example:**<br/>
+        if param['example'].startswith('{{'):
+            key = param['example'].lstrip('{{').rstrip('}}')
+            if key in self.postman_env:
+                param['example'] = self.postman_env[key]
+                if self.postman_env[key].startswith('eyJ'):
+                    # if the value is base64, lets insert it
+                    js = json.loads(base64.b64decode(self.postman_env[key]))
+                    desc += f'''
+**Example JSON:**<br/>
+> _Note: This value must be encoded to base64!_
+
 ```json
-{param['description']}
+{json.dumps(js, indent=2)}
 ```
 '''
         param['description'] = multiline_string(desc)
@@ -328,12 +346,13 @@ This field is a Base64 encoded json string.
         self.yml['components'] = {
             'schemas': schemas,
             'headers': {},
-            'examples': {}
+            'examples': {},
+            'parameters': {}
         }
 
         # note: sidecar should always be added last to override the onvif schemas
         if 'components' in self.sidecar:
-            for component in ['schemas', 'headers', 'examples']:
+            for component in ['schemas', 'headers', 'examples', 'parameters']:
                 # for each of the component types, copy the items to the output file
                 if component in self.sidecar['components']:
                     for k, v in self.sidecar['components'][component].items():
@@ -449,18 +468,19 @@ This field is a Base64 encoded json string.
             if 'setFunction' in cmd_obj['attributes'] and (path_obj is None or 'put' not in path_obj):
                 print(f'\033[33m[WARNING] *** Expected call PUT "{cmd}" was not found in input yaml! ***\033[0m')
 
-    def _add_example_vars(self):
+    def _patch_parameters(self):
         """
-        Goes through the paths and adds example values to all missing fields
+        Goes through the paths and links parameters to pre-defined ones
 
         paths/[path]/[method]/parameters/[name=EDGEX_DEVICE_NAME]
         """
         for _, path_obj in self.yml['paths'].items():
             for _, method_obj in path_obj.items():
-                for param_obj in method_obj['parameters']:
-                    if param_obj['name'] in self.sidecar['parameters']:
-                        param_obj['example'] = self.sidecar['parameters'][param_obj['name']]['example']
-                        param_obj['description'] = self.sidecar['parameters'][param_obj['name']]['description']
+                for i in range(len(method_obj['parameters'])):
+                    name = method_obj['parameters'][i]['name']
+                    if name in self.yml['components']['parameters']:
+                        # patch the parameter to just be a reference
+                        method_obj['parameters'][i] = {'$ref': f'#/components/parameters/{name}'}
 
     def _clean_response_headers(self):
         """
@@ -490,19 +510,36 @@ This field is a Base64 encoded json string.
         self._parse()
         self._combine_schemas()
         self._process_apis()
-        self._add_example_vars()
+        self._patch_parameters()
         self._clean_response_headers()
         self._verify_complete()
         self._clean_schemas()
         self._write()
 
+    def _insert_postman_env(self, obj):
+        if isinstance(obj, dict):
+            for k, v in obj.items():
+                if isinstance(v, str):
+                    if v.startswith('{{'):
+                        key = v.lstrip('{{').rstrip('}}')
+                        if key in self.postman_env:
+                            print(f'Patching postman env: {key}')
+                            obj[k] = self.postman_env[key]
+                        else:
+                            print(f'\033[33m[WARNING] *** Reference to postman env {key} was not found in environment ***\033[0m')
+                else:
+                    self._insert_postman_env(v)
+        elif isinstance(obj, list):
+            for item in obj:
+                self._insert_postman_env(item)
+
 
 def main():
-    if len(sys.argv) != 7:
-        print(f'Usage: {sys.argv[0]} <input_file> <sidecar_file> <profile_file> <output_file> <onvif_tested_file> <onvif_footnotes_file>')
+    if len(sys.argv) != 8:
+        print(f'Usage: {sys.argv[0]} <input_file> <sidecar_file> <profile_file> <output_file> <onvif_tested_file> <onvif_footnotes_file> <postman_env_file>')
         sys.exit(1)
 
-    proc = YamlProcessor(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], MarkdownMatrix(sys.argv[5], sys.argv[6]))
+    proc = YamlProcessor(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], MarkdownMatrix(sys.argv[5], sys.argv[6]), sys.argv[7])
     proc.process()
 
 

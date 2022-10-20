@@ -1,13 +1,11 @@
 # OpenAPI / Swagger Spec Files
-This code generates OpenAPI 3.0 spec based on the Postman Collection 
-[device-onvif-camera.postman_collection.json](../postman/device-onvif-camera.postman_collection.json). 
-It also does some automated find and replace to insert some missing example values.
-
-> **TODO:** update usage
+This code generates OpenAPI 3.0 spec based on the [Postman Collection](../postman/device-onvif-camera.postman_collection.json), 
+Onvif WSDL Schema Files, and [sidecar.yaml](sidecar.yaml).
 
 Usage:
-- Install `postman-to-openapi` by running `make install` from this directory.
+- Install `postman-to-openapi` and python3 dependencies by running `make install` from this directory.
 - Update the latest postman collection [device-onvif-camera.postman_collection.json](../postman/device-onvif-camera.postman_collection.json)
+- Update the latest postman environment [device-onvif-camera.postman_environment.json](../postman/device-onvif-camera.postman_environment.json)
 - Run `make gen` to re-generate the OpenAPI files.
 
 ## [python](python) folder
@@ -17,12 +15,22 @@ generating the OpenAPI spec file.
 ### [xmlstrip.py](python/xmlstrip.py)
 This script cleans up the yaml files in the [ref](ref) folder by removing all the xml 
 references in the schema, and tweaking the schema values to clean them up for use in 
-the [postprocess.py](#postprocesspypythonpostprocesspy) script.
+the [postprocess.py](python/postprocess.py) script.
 
 ### [postprocess.py](python/postprocess.py)
 This script takes in the preliminary OpenAPI file that was generated from the Postman collection
 and adds additional metadata to it, as well as cleaning up the data and format.
 
+### [xmlstrip.py](python/xmlstrip.py)
+This script cleans up the yaml files in the [ref](ref) folder by removing all the xml
+references in the schema, and tweaking the schema values to clean them up for use in
+the [postprocess.py](python/postprocess.py) script.
+
+### [matrix.py](python/matrix.py)
+This script adds the compatibility matrix to each endpoint
+
+### [cleaner.py](python/cleaner.py)
+This script removes all unused schema definition files
 
 ## [ref](ref) folder
 This folder contains files generated from the official Onvif wsdl

@@ -6,8 +6,5 @@
     },
     "folders": {
         "separator": " - "
-    },
-    "additionalVars": {
-        "EDGEX_DEVICE_NAME": "Camera001"
     }
 }
