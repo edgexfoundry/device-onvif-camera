@@ -4186,7 +4186,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -4206,7 +4206,7 @@
 									"query": [
 										{
 											"key": "jsonObject",
-											"value": "eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+											"value": "{{GET_CONFIGURATION_OPTIONS_BASE64}}",
 											"description": "{\"ConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
@@ -4220,7 +4220,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
 											"protocol": "http",
 											"host": [
 												"0",
@@ -4240,7 +4240,7 @@
 											"query": [
 												{
 													"key": "jsonObject",
-													"value": "eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+													"value": "{{GET_CONFIGURATION_OPTIONS_BASE64}}",
 													"description": "{\"ConfigurationToken\": \"PTZConfiguration0\"}"
 												}
 											]

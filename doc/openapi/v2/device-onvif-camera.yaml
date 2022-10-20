@@ -3918,6 +3918,15 @@ paths:
 
 
           **Schema Reference:** [ptz_GetConfigurationOptions](#ptz_GetConfigurationOptions)
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "ConfigurationToken": "PTZConfiguration0"
+          }
+          ```
         example: eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
