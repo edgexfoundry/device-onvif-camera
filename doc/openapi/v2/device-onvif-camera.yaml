@@ -4,7 +4,12 @@ info:
   description: EdgeX Onvif Device Service REST APIs
   version: 2.2.0
 servers:
+- url: http://localhost:59882
+  description: Local running instance of EdgeX
+- url: http://127.0.0.1:59882
+  description: Local running instance of EdgeX
 - url: http://0.0.0.0:59882
+  description: Local running instance of EdgeX
 tags:
 - name: Auto Discovery
 - name: Network Configuration
@@ -6693,8 +6698,7 @@ paths:
               - FriendlyName
               type: object
             example:
-              FriendlyName:
-                FriendlyName: My Camera
+              FriendlyName: My Camera
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -6858,6 +6862,7 @@ paths:
                 Location: Front door
                 Business: John's Grocery Store
                 Install Date: 01/01/1970
+                Color: White
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:

@@ -191,7 +191,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"AddScopes\":{\n        \"ScopeItem\":[\n            \"http//:123\"\n        ]\n    }\n}",
+							"raw": "{\n    \"AddScopes\": {\n        \"ScopeItem\": [\n            \"http//:123\"\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -365,7 +365,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Scopes\":{\n        \"Scopes\":[\n            \"http//:123\"\n        ]\n    }\n}",
+							"raw": "{\n    \"Scopes\": {\n        \"Scopes\": [\n            \"http//:123\"\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -461,7 +461,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"RemoveScopes\":{\n        \"ScopeItem\":[\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
+							"raw": "{\n    \"RemoveScopes\": {\n        \"ScopeItem\": [\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1000,7 +1000,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": true\n            }\n        }\n        \n    }\n}",
+							"raw": "{\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": true\n            }\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1174,7 +1174,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 2020\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    } \n}",
+							"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 2020\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1360,7 +1360,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    } \n}",
+							"raw": "{\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1546,7 +1546,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Hostname\": {\n        \"Name\": \"localhost\"\n    },\n    \"DNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    },\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": false\n            }\n        }\n        \n    },\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [ \n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 80\n            }\n        ]\n    },\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    }\n}",
+							"raw": "{\n    \"Hostname\": {\n        \"Name\": \"localhost\"\n    },\n    \"DNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    },\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": false\n            }\n        }\n    },\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 80\n            }\n        ]\n    },\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1816,7 +1816,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"SystemDateAndTime\": {\n        \"DateTimeType\":\"Manual\",\n        \"DaylightSavings\": false,\n        \"UTCDateTime\": {\n            \"Date\": {\n                \"Month\": 12,\n                \"Year\": 2021,\n                \"Day\": 11\n\n            },\n            \"Time\": {\n                \"Hour\": 5,\n                \"Minute\": 48,\n                \"Second\": 20\n            }\n        }\n    }\n}",
+							"raw": "{\n    \"SystemDateAndTime\": {\n        \"DateTimeType\": \"Manual\",\n        \"DaylightSavings\": false,\n        \"UTCDateTime\": {\n            \"Date\": {\n                \"Month\": 12,\n                \"Year\": 2021,\n                \"Day\": 11\n            },\n            \"Time\": {\n                \"Hour\": 5,\n                \"Minute\": 48,\n                \"Second\": 20\n            }\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1900,7 +1900,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"SetSystemFactoryDefault\": {\n        \"FactoryDefault\":\"Soft\"\n    }\n}",
+							"raw": "{\n    \"SetSystemFactoryDefault\": {\n        \"FactoryDefault\": \"Soft\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2429,7 +2429,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\"user1\",\"user2\"]\n    }\n}",
+							"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\n            \"user1\",\n            \"user2\"\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2698,7 +2698,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"MetadataConfiguration\": {\n        \"ForcePersistence\": true,\n        \"Configuration\":{\n            \"token\": \"{{MEDIA_CONFIG_TOKEN}}\",\n            \"Analytics\": true\n        }\n        \n    }\n}",
+							"raw": "{\n    \"MetadataConfiguration\": {\n        \"ForcePersistence\": true,\n        \"Configuration\": {\n            \"token\": \"{{MEDIA_CONFIG_TOKEN}}\",\n            \"Analytics\": true\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -3704,7 +3704,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"VideoEncoderConfiguration\": {\n        \"ForcePersistence\": false,\n        \"Configuration\":{\n            \"token\": \"{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}\",\n            \"Encoding\": \"H264\",\n            \"Quality\": 3.000000,\n            \"Resolution\": {\n                \"Width\": 1920,\n                \"Height\": 1080\n            },\n            \"Multicast\": {\n                \"Address\": {\n                    \"Type\": \"IPv4\",\n                    \"IPv4Address\": \"0.0.0.0\"\n                },\n                \"Port\": 8860,\n                \"TTL\": 1,\n                \"AutoStart\": false\n            }\n        }\n        \n    }\n}",
+							"raw": "{\n    \"VideoEncoderConfiguration\": {\n        \"ForcePersistence\": false,\n        \"Configuration\": {\n            \"token\": \"{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}\",\n            \"Encoding\": \"H264\",\n            \"Quality\": 3.000000,\n            \"Resolution\": {\n                \"Width\": 1920,\n                \"Height\": 1080\n            },\n            \"Multicast\": {\n                \"Address\": {\n                    \"Type\": \"IPv4\",\n                    \"IPv4Address\": \"0.0.0.0\"\n                },\n                \"Port\": 8860,\n                \"TTL\": 1,\n                \"AutoStart\": false\n            }\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -4279,7 +4279,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Configuration\": {\n        \"PTZConfiguration\": {\n            \"Token\": \"{{PTZ_CONFIG_TOKEN}}\",\n            \"NodeToken\": \"{{PTZ_NODE_TOKEN}}\",\n            \"PanTiltLimits\": {\n                \"Range\": {\n                    \"XRange\": {\n                        \"Max\": 170,\n                        \"Min\": -170\n                    },\n                    \"YRange\": {\n                        \"Max\": 35,\n                        \"Min\": -32\n                    }\n                }\n            }\n        }                    \n    }\n}",
+									"raw": "{\n    \"Configuration\": {\n        \"PTZConfiguration\": {\n            \"Token\": \"{{PTZ_CONFIG_TOKEN}}\",\n            \"NodeToken\": \"{{PTZ_NODE_TOKEN}}\",\n            \"PanTiltLimits\": {\n                \"Range\": {\n                    \"XRange\": {\n                        \"Max\": 170,\n                        \"Min\": -170\n                    },\n                    \"YRange\": {\n                        \"Max\": 35,\n                        \"Min\": -32\n                    }\n                }\n            }\n        }\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4375,7 +4375,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AddPTZConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"ConfigurationToken\": \"{{PTZ_CONFIG_TOKEN}}\"                \n    }\n}",
+									"raw": "{\n    \"AddPTZConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"ConfigurationToken\": \"{{PTZ_CONFIG_TOKEN}}\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4471,7 +4471,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"                \n    }\n}",
+									"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4572,7 +4572,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4668,7 +4668,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4764,7 +4764,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"ContinuousMove\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Velocity\": {\n            \"PanTilt\": {\n                \"x\": -1,\n                \"y\": -1\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"ContinuousMove\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Velocity\": {\n            \"PanTilt\": {\n                \"x\": -1,\n                \"y\": -1\n            }\n        }\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4963,7 +4963,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Stop\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"PanTilt\": true              \n    }\n}",
+									"raw": "{\n    \"Stop\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"PanTilt\": true\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5064,7 +5064,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"SetPreset\": {\n        \"PresetName\":\"Preset1\",\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"           \n    }\n}",
+									"raw": "{\n    \"SetPreset\": {\n        \"PresetName\": \"Preset1\",\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5250,7 +5250,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"GotoPreset\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"PresetToken\": \"Preset1\"      \n    }\n}",
+									"raw": "{\n    \"GotoPreset\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"PresetToken\": \"Preset1\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5899,7 +5899,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"UnsubscribeCameraEvent\": {\n    }\n}",
+							"raw": "{\n    \"UnsubscribeCameraEvent\": {}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -6356,7 +6356,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"CreateAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"TestAnalyticsModule\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"{{ANALYTIC_MODULE_OPTION_NAME}}\", \n                            \"Value\":\"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"CreateAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"TestAnalyticsModule\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"{{ANALYTIC_MODULE_OPTION_NAME}}\",\n                            \"Value\": \"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6452,7 +6452,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"DeleteAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModuleName\": [\"TestAnalyticsModule\"]\n    }\n}",
+									"raw": "{\n    \"DeleteAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModuleName\": [\n            \"TestAnalyticsModule\"\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6638,7 +6638,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"Viproc\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"{{ANALYTIC_MODULE_OPTION_NAME}}\", \n                            \"Value\":\"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"AnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"Viproc\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"{{ANALYTIC_MODULE_OPTION_NAME}}\",\n                            \"Value\": \"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6950,7 +6950,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"CreateRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"Object Counting\",\n                \"Type\": \"tt:LineCounting\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"Armed\", \n                            \"Value\":\"true\"\n                        }\n                    ],\n                    \"ElementItem\": [\n                        {\n                            \"Name\":\"Segments\", \n                            \"Polyline\": {\n                                \"Point\": [\n                                    {\n                                        \"x\":\"0.16\",\n                                        \"y\": \"0.5\"\n                                    },\n                                    {\n                                        \"x\":\"0.16\",\n                                        \"y\": \"-0.5\"\n                                    }\n                                ]\n                            }\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"CreateRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"Object Counting\",\n                \"Type\": \"tt:LineCounting\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"Armed\",\n                            \"Value\": \"true\"\n                        }\n                    ],\n                    \"ElementItem\": [\n                        {\n                            \"Name\": \"Segments\",\n                            \"Polyline\": {\n                                \"Point\": [\n                                    {\n                                        \"x\": \"0.16\",\n                                        \"y\": \"0.5\"\n                                    },\n                                    {\n                                        \"x\": \"0.16\",\n                                        \"y\": \"-0.5\"\n                                    }\n                                ]\n                            }\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -7142,7 +7142,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"ClassFilter\",\n                            \"Value\": \" Bike Car Truck\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -7323,7 +7323,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"MACAddress\": \"10-27-f5-ea-88-f4\" }",
+							"raw": "{\n    \"MACAddress\": \"10-27-f5-ea-88-f4\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7497,7 +7497,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"FriendlyName\": {\n        \"FriendlyName\": \"My Camera\"\n    }\n}",
+							"raw": "{\n    \"FriendlyName\": \"My Camera\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7765,7 +7765,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"CustomMetadata\": {\n        \"Location\":\"Front door\",\n        \"Business\":\"John's Grocery Store\",\n        \"Install Date\":\"01/01/1970\"\n    }\n}",
+							"raw": "{\n    \"CustomMetadata\": {\n        \"Location\": \"Front door\",\n        \"Business\": \"John's Grocery Store\",\n        \"Install Date\": \"01/01/1970\",\n        \"Color\": \"White\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7874,7 +7874,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"DeleteCustomMetadata\": [\"Location\", \"Color\"]\n}",
+							"raw": "{\n    \"DeleteCustomMetadata\": [\n        \"Location\",\n        \"Color\"\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7967,10 +7967,24 @@
 			"description": "Custom commands outside of the ONVIF spec handled by the device service directly."
 		}
 	],
-	"variable": [
+	"event": [
 		{
-			"key": "ptz_enc",
-			"value": ""
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
