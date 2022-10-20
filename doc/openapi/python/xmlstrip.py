@@ -80,7 +80,7 @@ def fix_refs(name, obj):
         PullMessagesFaultResponse:
           $ref: '#/components/schemas/event_PullMessagesFaultResponse'
     """
-    if type(obj) is dict:
+    if isinstance(obj, dict):
         if 'allOf' in obj and len(obj) == 1:
             if len(obj['allOf']) == 1 and '$ref' in obj['allOf'][0]:
                 print(f'fixing schema ref for {name}')
@@ -90,7 +90,7 @@ def fix_refs(name, obj):
             for n2, o2 in obj.items():
                 fix_refs(f'{name}.{n2}', o2)
 
-    elif type(obj) is list:
+    elif isinstance(obj, list):
         for o2 in obj:
             fix_refs(f'{name}[]', o2)
 
@@ -102,7 +102,7 @@ def strip_xml(name, obj):
     - Redefine application/xml mime types to application/json
     - Remove empty values from arrays
     """
-    if type(obj) is dict:
+    if isinstance(obj, dict):
         if 'xml' in obj:
             print(f'Stripping xml field from {name}')
             del obj['xml']
@@ -118,7 +118,7 @@ def strip_xml(name, obj):
         for n2, o2 in obj.items():
             strip_xml(f'{name}.{n2}', o2)
 
-    elif type(obj) is list:
+    elif isinstance(obj, list):
         for o2 in obj:
             strip_xml(f'{name}[]', o2)
         if len(obj) == 2 and obj[1] == {}:

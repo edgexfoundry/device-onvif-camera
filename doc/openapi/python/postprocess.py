@@ -10,6 +10,7 @@ import textwrap
 from ruamel.yaml import YAML
 from ruamel.yaml.scalarstring import LiteralScalarString
 
+from cleaner import SchemaCleaner
 from matrix import MarkdownMatrix
 
 yaml = YAML()
@@ -479,6 +480,10 @@ This field is a Base64 encoded json string.
                                 '$ref': '#/components/headers/correlatedResponseHeader'
                             }
 
+    def _clean_schemas(self):
+        cleaner = SchemaCleaner(self.yml)
+        cleaner.remove_unused_schemas()
+
     def process(self):
         """Process the input yaml files, and create the final output yaml file"""
         self._load()
@@ -488,6 +493,7 @@ This field is a Base64 encoded json string.
         self._add_example_vars()
         self._clean_response_headers()
         self._verify_complete()
+        self._clean_schemas()
         self._write()
 
 
