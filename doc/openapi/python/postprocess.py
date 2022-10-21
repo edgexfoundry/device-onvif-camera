@@ -64,12 +64,13 @@ class YamlProcessor:
     output_file: str
     matrix: MarkdownMatrix
     postman_env_file: str
+
     yml: any = None
     sidecar: any = None
     profile: any = None
-    postman_env: dict[str, str] = field(default_factory=dict)
-    resources: dict[str, any] = field(default_factory=dict)
-    wsdl_files: dict[str, any] = field(default_factory=dict)
+    postman_env: 'dict[str, str]' = field(default_factory=dict)
+    resources: 'dict[str, any]' = field(default_factory=dict)
+    wsdl_files: 'dict[str, any]' = field(default_factory=dict)
 
     def _load(self):
         """Read input yaml file and sidecar yaml files"""

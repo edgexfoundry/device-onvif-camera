@@ -25,8 +25,8 @@ class SchemaCleaner:
     Note: This is a one time use object, do not re-use it!
     """
     yml: any
-    schemas: dict[str, Schema] = field(default_factory=lambda: defaultdict(Schema))
-    unused: set[str] = field(default_factory=set)
+    schemas: 'dict[str, Schema]' = field(default_factory=lambda: defaultdict(Schema))
+    unused: set = field(default_factory=set)
 
     def _inner_parse(self, current, obj):
         """Inner recursive portion of _parse_schemas"""
