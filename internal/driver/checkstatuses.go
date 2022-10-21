@@ -115,7 +115,6 @@ func (d *Driver) tcpProbe(device models.Device) bool {
 		return false
 	}
 	host := addr + ":" + port
-
 	conn, err := net.DialTimeout("tcp", host, time.Duration(d.config.AppCustom.ProbeTimeoutMillis)*time.Millisecond)
 	if err != nil {
 		d.lc.Debugf("Connection to %s failed when using simple tcp dial, Error: %s ", device.Name, err.Error())
