@@ -10,6 +10,7 @@ from dataclasses import dataclass, field
 import sys
 import copy
 import textwrap
+from typing import Dict
 
 from ruamel.yaml import YAML
 from ruamel.yaml.scalarstring import LiteralScalarString
@@ -68,9 +69,9 @@ class YamlProcessor:
     yml: any = None
     sidecar: any = None
     profile: any = None
-    postman_env: 'dict[str, str]' = field(default_factory=dict)
-    resources: 'dict[str, any]' = field(default_factory=dict)
-    wsdl_files: 'dict[str, any]' = field(default_factory=dict)
+    postman_env: Dict[str, str] = field(default_factory=dict)
+    resources: Dict[str, any] = field(default_factory=dict)
+    wsdl_files: Dict[str, any] = field(default_factory=dict)
 
     def _load(self):
         """Read input yaml file and sidecar yaml files"""
