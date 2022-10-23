@@ -73,8 +73,6 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 
 // testConnectionMethods will try to determine the state using different device calls
 // and return the most accurate status
-// Higher degrees of connection are tested first, because if they
-// succeed, the lower levels of connection will too
 func (d *Driver) testConnectionMethods(device models.Device) (status string) {
 
 	// sends get capabilities command to device (does not require credentials)
