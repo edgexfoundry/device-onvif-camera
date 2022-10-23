@@ -8,6 +8,7 @@ package driver
 
 import (
 	"fmt"
+
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
 )
@@ -65,7 +66,6 @@ func (c *ServiceConfig) UpdateFromRaw(rawConfig interface{}) bool {
 }
 
 // GetCameraXAddr returns the Address:Port of the camera from the Onvif protocol properties
-// todo: unit test!
 func GetCameraXAddr(protocols map[string]models.ProtocolProperties) (string, errors.EdgeX) {
 	protocol, ok := protocols[OnvifProtocol]
 	if !ok {
