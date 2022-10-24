@@ -3,10 +3,13 @@
 # Copyright (C) 2022 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 #
-
+import os
 import re
 import sys
 import yaml
+import logging
+
+log = logging.getLogger('xmlstrip')
 
 # schemas to not include in the exported file
 EXCLUDED_SCHEMAS = ['wstop_Topic', 'wstop_TopicNamespaceType', 'wstop_TopicType']
@@ -19,6 +22,9 @@ TT_REGEX = re.compile(r'([ /])tt_')
 def main():
     if len(sys.argv) != 4:
         print(f'Usage: {sys.argv[0]} <service> <input_file> <output_file>')
+
+    logging.basicConfig(level=(logging.DEBUG if os.getenv('DEBUG_LOGGING') == '1' else logging.INFO),
+                        format='%(asctime)-15s %(levelname)-8s %(name)-8s %(message)s')
 
     with open(sys.argv[2]) as f:
         yml = yaml.safe_load(f.read())
@@ -59,7 +65,7 @@ def fix_schemas(schemas):
         # this has the benefit of printing out the transformations.
         if k.startswith('tt_') | k.startswith('tns_'):
             k2 = k.replace('tt_', f'onvif_').replace('tns_', f'{service}_')
-            print(f'{k} -> {k2}')
+            log.debug(f'{k} -> {k2}')
             out[k2] = v
 
         # only add schemas which are namespaced (ie. contain an underscore)
@@ -84,7 +90,7 @@ def fix_refs(name, obj):
     if isinstance(obj, dict):
         if 'allOf' in obj and len(obj) == 1:
             if len(obj['allOf']) == 1 and '$ref' in obj['allOf'][0]:
-                print(f'fixing schema ref for {name}')
+                log.debug(f'fixing schema ref for {name}')
                 obj['$ref'] = obj['allOf'][0]['$ref']
                 del obj['allOf']
         else:
@@ -105,14 +111,14 @@ def strip_xml(name, obj):
     """
     if isinstance(obj, dict):
         if 'xml' in obj:
-            print(f'Stripping xml field from {name}')
+            log.debug(f'Stripping xml field from {name}')
             del obj['xml']
 
         if 'description' in obj and obj['description'].strip() == '':
             del obj['description']
 
         if 'application/xml' in obj:
-            print('Redefining mime type to application/json')
+            log.debug('Redefining mime type to application/json')
             obj['application/json'] = obj['application/xml']
             del obj['application/xml']
 
@@ -123,7 +129,7 @@ def strip_xml(name, obj):
         for o2 in obj:
             strip_xml(f'{name}[]', o2)
         if len(obj) == 2 and obj[1] == {}:
-            print('Removing empty value from array')
+            log.debug('Removing empty value from array')
             del obj[1]
 
 

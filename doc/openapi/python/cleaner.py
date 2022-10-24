@@ -8,8 +8,10 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from ruamel.yaml import YAML
 from typing import Dict
+import logging
 
 yaml = YAML()
+log = logging.getLogger('cleaner')
 
 
 @dataclass
@@ -88,11 +90,11 @@ class SchemaCleaner:
         Recursively parses the schemas to determine which ones are used and which ones are not. The unused
         ones are subsequently deleted from the input yaml data.
         """
-        print('Removing unused schemas')
+        log.debug('Removing unused schemas')
         total = len(self.yml["components"]["schemas"])  # cache the total number as it will be modified by the end
         self._parse_schemas()
         self._find_unused()
         self._remove_unused()
-        print(f'Removed {len(self.unused)} unused schemas of {total} total schemas!')
-        print(f'{len(self.yml["components"]["schemas"])} total schemas remain')
+        log.info(f'Removed {len(self.unused)} unused schemas of {total} total schemas!')
+        log.debug(f'{len(self.yml["components"]["schemas"])} total schemas remain')
 

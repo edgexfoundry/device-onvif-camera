@@ -11,6 +11,8 @@ import sys
 import copy
 import textwrap
 from typing import Dict
+import logging
+import os
 
 from ruamel.yaml import YAML
 from ruamel.yaml.scalarstring import LiteralScalarString
@@ -19,6 +21,7 @@ from cleaner import SchemaCleaner
 from matrix import MarkdownMatrix
 
 yaml = YAML()
+log = logging.getLogger('postprocess')
 
 EDGEX = 'EdgeX'
 EDGEX_DEVICE_NAME = 'Camera001'
@@ -75,23 +78,23 @@ class YamlProcessor:
 
     def _load(self):
         """Read input yaml file and sidecar yaml files"""
-        print(f'Reading input OpenAPI file: {self.input_file}')
+        log.info(f'Reading input OpenAPI file: {self.input_file}')
         with open(self.input_file) as f:
             self.yml = yaml.load(f)
 
-        print(f'Reading sidecar file: {self.sidecar_file}')
+        log.info(f'Reading sidecar file: {self.sidecar_file}')
         with open(self.sidecar_file) as f:
             self.sidecar = yaml.load(f)
 
-        print(f'Reading profile file: {self.profile_file}')
+        log.info(f'Reading profile file: {self.profile_file}')
         with open(self.profile_file) as f:
             self.profile = yaml.load(f)
 
-        print(f'Loading validation matrix file: {self.matrix.tested_file}')
-        print(f'Loading footnotes file: {self.matrix.footnotes_file}')
+        log.info(f'Loading validation matrix file: {self.matrix.tested_file}')
+        log.info(f'Loading footnotes file: {self.matrix.footnotes_file}')
         self.matrix.parse()
 
-        print(f'Loading postman env file: {self.postman_env_file}')
+        log.info(f'Loading postman env file: {self.postman_env_file}')
         with open(self.postman_env_file) as f:
             env = json.load(f)
             for item in env['values']:
@@ -104,7 +107,7 @@ class YamlProcessor:
 
     def _write(self):
         """Output modified yaml file"""
-        print(f'Writing output OpenAPI file: {self.output_file}')
+        log.info(f'Writing output OpenAPI file: {self.output_file}')
         with open(self.output_file, 'w') as w:
             yaml.dump(self.yml, w)
 
@@ -138,7 +141,7 @@ class YamlProcessor:
                                     len(content['application/json']) == 0 or \
                                     ('example' in content['application/json'] and len(
                                         content['application/json']['example']) == 2):
-                                print(f'Overriding empty 200 response for {service_fn}')
+                                log.debug(f'Overriding empty 200 response for {service_fn}')
                                 method_obj['responses'][code] = resp_obj
 
                     if service == EDGEX:
@@ -152,7 +155,7 @@ class YamlProcessor:
                                 # override with cloned one
                                 method_obj['responses']['200'] = resp_200
                             else:
-                                print(f'\033[33m[WARNING] *** Missing schema response definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
+                                log.warning(f'\033[33m*** Missing schema response definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
                         elif method == 'put':
                             if cmd in self.sidecar['requests']['edgex']:
                                 # look for the json response object, so we can modify it
@@ -171,7 +174,7 @@ class YamlProcessor:
                                     'type': 'object'
                                 }
                             else:
-                                print(f'\033[33m[WARNING] *** Missing schema request definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
+                                log.warning(f'\033[33m*** Missing schema request definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
 
                             # override the response schema with default 200 response
                             method_obj['responses']['200'] = self.sidecar['responses']['canned']['200']
@@ -191,11 +194,11 @@ class YamlProcessor:
                             api = paths[f'/{fn}']['post']
                             if 'description' in api and \
                                     ('description' not in method_obj or method_obj['description'].strip() == ''):
-                                print(f'Copying description for {service_fn}')
+                                log.debug(f'Copying description for {service_fn}')
                                 method_obj['description'] = api['description']
 
                     if service_fn in self.matrix.validated:
-                        print(f'Adding validated camera list in description for {service_fn}')
+                        log.debug(f'Adding validated camera list in description for {service_fn}')
                         val_desc = f'''
 
 <details>
@@ -211,7 +214,7 @@ Below is a list of camera models that this command has been tested against, and 
                         method_obj['description'] = multiline_string(method_obj['description'] + val_desc + '</details>')
                     elif service != EDGEX:
                         # only print warning for non-EdgeX functions
-                        print(f'\033[33m[WARNING] *** Missing camera validation entry for command {service_fn} ***\033[0m')
+                        log.warning(f'\033[33m*** Missing camera validation entry for command {service_fn} ***\033[0m')
 
                     if service == EDGEX:
                         # nothing left to patch for custom edgex functions, as they do not exist in onvif spec
@@ -274,7 +277,7 @@ Below is a list of camera models that this command has been tested against, and 
                         if req_schema in self.yml['components']['schemas']:
                             schema = self.yml['components']['schemas'][req_schema]
                             if 'type' in schema and schema['type'] == 'object' and len(schema) == 1:
-                                print(f'Skipping empty request schema for {service_fn}')
+                                log.debug(f'Skipping empty request schema for {service_fn}')
                             else:
                                 found = False
                                 for param in method_obj['parameters']:
@@ -283,7 +286,7 @@ Below is a list of camera models that this command has been tested against, and 
                                         self._set_json_object(param, service, fn)
                                         break
                                 if not found:
-                                    print(f'\033[33m[WARNING] *** Expected jsonObject parameter for command {cmd}! Creating one. ***\033[0m')
+                                    log.warning(f'\033[33m*** Expected jsonObject parameter for command {cmd}! Creating one. ***\033[0m')
                                     param = {
                                         'name': 'jsonObject',
                                         'in': 'query',
@@ -340,11 +343,11 @@ This field is a Base64 encoded json string.
         self.wsdl_files = {}
         for service in SERVICE_WSDL.keys():
             fname = f'ref/out/{service.lower()}.yaml'
-            print(f'Loading schema file: {fname}')
+            log.info(f'Loading schema file: {fname}')
             with open(fname) as f:
                 self.wsdl_files[service] = yaml.load(f)
 
-        print('Combining schema files')
+        log.info('Combining schema files')
         schemas = {}
         for schema_file in self.wsdl_files.values():
             for k, v in schema_file['components']['schemas'].items():
@@ -466,14 +469,14 @@ This field is a Base64 encoded json string.
             api = f'{API_PREFIX}/{cmd}'
             path_obj = None
             if api not in self.yml['paths']:
-                print(f'\033[33m[WARNING] API "{api}" is missing from input collection! ***\033[0m')
+                log.warning(f'\033[33m*** API "{api}" is missing from input collection! ***\033[0m')
             else:
                 path_obj = self.yml['paths'][api]
 
             if 'getFunction' in cmd_obj['attributes'] and (path_obj is None or 'get' not in path_obj):
-                print(f'\033[33m[WARNING] *** Expected call GET "{cmd}" was not found in input yaml! ***\033[0m')
+                log.warning(f'\033[33m*** Expected call GET "{cmd}" was not found in input yaml! ***\033[0m')
             if 'setFunction' in cmd_obj['attributes'] and (path_obj is None or 'put' not in path_obj):
-                print(f'\033[33m[WARNING] *** Expected call PUT "{cmd}" was not found in input yaml! ***\033[0m')
+                log.warning(f'\033[33m*** Expected call PUT "{cmd}" was not found in input yaml! ***\033[0m')
 
     def _patch_parameters(self):
         """
@@ -530,10 +533,10 @@ This field is a Base64 encoded json string.
                     if v.startswith('{{'):
                         key = v.lstrip('{{').rstrip('}}')
                         if key in self.postman_env:
-                            print(f'Patching postman env: {key}')
+                            log.debug(f'Patching postman env: {key}')
                             obj[k] = self.postman_env[key]
                         else:
-                            print(f'\033[33m[WARNING] *** Reference to postman env {key} was not found in environment ***\033[0m')
+                            log.warning(f'\033[33m*** Reference to postman env {key} was not found in environment ***\033[0m')
                 else:
                     self._insert_postman_env(v)
         elif isinstance(obj, list):
@@ -546,7 +549,15 @@ def main():
         print(f'Usage: {sys.argv[0]} <input_file> <sidecar_file> <profile_file> <output_file> <onvif_tested_file> <onvif_footnotes_file> <postman_env_file>')
         sys.exit(1)
 
-    proc = YamlProcessor(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], MarkdownMatrix(sys.argv[5], sys.argv[6]), sys.argv[7])
+    logging.basicConfig(level=(logging.DEBUG if os.getenv('DEBUG_LOGGING') == '1' else logging.INFO),
+                        format='%(asctime)-15s %(levelname)-8s %(name)-8s %(message)s')
+
+    proc = YamlProcessor(sys.argv[1],  # input_file
+                         sys.argv[2],  # sidecar_file
+                         sys.argv[3],  # profile_file
+                         sys.argv[4],  # output_file
+                         MarkdownMatrix(sys.argv[5], sys.argv[6]),  # onvif_tested_file, onvif_footnotes_file
+                         sys.argv[7])  # postman_env_file
     proc.process()
 
 
