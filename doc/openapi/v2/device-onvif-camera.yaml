@@ -5663,11 +5663,11 @@ paths:
                 ConfigurationToken: VideoAnalyticsToken_3263078450
                 AnalyticsModule:
                 - Name: Viproc
-                  Type: '{{ANALYTIC_MODULE_TYPE}}'
+                  Type: tt:CellMotionEngine
                   Parameters:
                     SimpleItem:
-                    - Name: '{{ANALYTIC_MODULE_OPTION_NAME}}'
-                      Value: '{{ANALYTIC_MODULE_OPTION_VALUE}}'
+                    - Name: Sensitivity
+                      Value: '40'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -5721,11 +5721,11 @@ paths:
                 ConfigurationToken: VideoAnalyticsToken_3263078450
                 AnalyticsModule:
                 - Name: TestAnalyticsModule
-                  Type: '{{ANALYTIC_MODULE_TYPE}}'
+                  Type: tt:CellMotionEngine
                   Parameters:
                     SimpleItem:
-                    - Name: '{{ANALYTIC_MODULE_OPTION_NAME}}'
-                      Value: '{{ANALYTIC_MODULE_OPTION_VALUE}}'
+                    - Name: Sensitivity
+                      Value: '40'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
