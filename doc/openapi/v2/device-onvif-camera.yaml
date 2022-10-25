@@ -636,21 +636,27 @@ paths:
                 statusCode: 200
                 event:
                   apiVersion: v2
-                  id: d2d2541f-2feb-490f-bf89-b7407d3078d3
-                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  id: b45c64e4-1e1b-49c5-a1b9-d83f15e280b2
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
                   sourceName: DNS
-                  origin: 1659671999397808400
+                  origin: 1664265880674763500
                   readings:
-                  - id: 3ad48fbe-1e98-4c90-a26e-f83a391c4d8c
-                    origin: 1659671999397808400
-                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  - id: 548e6841-0914-4e9c-935e-c58320a998a8
+                    origin: 1664265880674763500
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                     resourceName: DNS
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
                     objectValue:
-                      DNSInformation: {}
+                      DNSInformation:
+                        DNSManual:
+                          IPv4Address: 223.5.5.5
+                          Type: IPv4
+                        FromDHCP: false
         '400': *id001
         '404': *id002
         '423': *id003
@@ -1024,21 +1030,25 @@ paths:
                 statusCode: 200
                 event:
                   apiVersion: v2
-                  id: 78915210-fab0-4018-a8ed-72f793c2cbc7
-                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  id: 66991bcb-ff04-4680-af91-aefe449d517c
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
                   sourceName: NetworkDefaultGateway
-                  origin: 1659671987813255200
+                  origin: 1664269765488074200
                   readings:
-                  - id: c348128d-0c51-4470-a978-b431302906a0
-                    origin: 1659671987813255200
-                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  - id: 4c8c2ca4-2c0c-49eb-8c8d-e21209813445
+                    origin: 1664269765488074200
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                     resourceName: NetworkDefaultGateway
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
                     objectValue:
-                      NetworkGateway: {}
+                      NetworkGateway:
+                        IPv4Address: 10.0.20.1
+                        IPv6Address: '::'
         '400': *id001
         '404': *id002
         '423': *id003
@@ -1881,21 +1891,38 @@ paths:
                 statusCode: 200
                 event:
                   apiVersion: v2
-                  id: 1acba723-b1b1-4790-8e80-9d554cacaedc
-                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  id: 95eae089-a594-4af6-b827-c0cd689034e1
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
                   sourceName: MetadataConfigurations
-                  origin: 1659659180814799600
+                  origin: 1664272201400116500
                   readings:
-                  - id: 8c59a3a8-401b-4e18-8af5-9a98efe7f410
-                    origin: 1659659180814799600
-                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  - id: 147f3297-6d21-4c9d-b0f9-241f1ca0528c
+                    origin: 1664272201400116500
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                     resourceName: MetadataConfigurations
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
                     objectValue:
-                      Configurations: {}
+                      Configurations:
+                        Analytics: false
+                        AnalyticsEngineConfiguration: {}
+                        Multicast:
+                          Address:
+                            IPv4Address: 0.0.0.0
+                            Type: IPv4
+                          AutoStart: false
+                          Port: 8864
+                          TTL: 128
+                        Name: metaData
+                        PTZStatus:
+                          Position: false
+                          Status: false
+                        SessionTimeout: PT5S
+                        Token: MetaDataToken
         '400': *id001
         '404': *id002
         '423': *id003
@@ -1985,21 +2012,39 @@ paths:
                 statusCode: 200
                 event:
                   apiVersion: v2
-                  id: 53480499-ece4-4437-b795-0ff4f57a564a
-                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688
+                  id: 239e1b98-d000-4bc5-8bd8-8287817b756f
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
                   sourceName: MetadataConfiguration
-                  origin: 1663974689815368400
+                  origin: 1664272513018240800
                   readings:
-                  - id: b6cda316-6a50-4990-8279-e2777be95c79
-                    origin: 1663974689815368400
-                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688
+                  - id: ab630702-05d5-4c97-98d0-fa23b16e72cc
+                    origin: 1664272513018240800
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                     resourceName: MetadataConfiguration
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
                     objectValue:
-                      Configuration: {}
+                      Configuration:
+                        Analytics: false
+                        AnalyticsEngineConfiguration: {}
+                        Multicast:
+                          Address:
+                            IPv4Address: 0.0.0.0
+                            Type: IPv4
+                          AutoStart: false
+                          Port: 8864
+                          TTL: 128
+                        Name: metaData
+                        PTZStatus:
+                          Position: false
+                          Status: false
+                        SessionTimeout: PT5S
+                        Token: MetaDataToken
+                        UseCount: 1
         '400': *id001
         '404': *id002
         '423': *id003
@@ -2136,21 +2181,39 @@ paths:
                 statusCode: 200
                 event:
                   apiVersion: v2
-                  id: 410b5658-82d9-488c-a5c4-c69f0ff6d273
-                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  id: 37a0130d-d555-44f2-ab9c-6214617eca32
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
                   sourceName: CompatibleMetadataConfigurations
-                  origin: 1659659188300470500
+                  origin: 1664272369409217800
                   readings:
-                  - id: 86aa4298-c8ee-4c74-afc9-73104bb3cd11
-                    origin: 1659659188300470500
-                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  - id: 86fb41fc-48e7-455f-bb66-78c8f556a21e
+                    origin: 1664272369409217800
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                     resourceName: CompatibleMetadataConfigurations
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
                     objectValue:
-                      Configurations: {}
+                      Configurations:
+                        Analytics: false
+                        AnalyticsEngineConfiguration: {}
+                        Multicast:
+                          Address:
+                            IPv4Address: 0.0.0.0
+                            Type: IPv4
+                          AutoStart: false
+                          Port: 8864
+                          TTL: 128
+                        Name: metaData
+                        PTZStatus:
+                          Position: false
+                          Status: false
+                        SessionTimeout: PT5S
+                        Token: MetaDataToken
+                        UseCount: 1
         '400': *id001
         '404': *id002
         '423': *id003
@@ -2243,21 +2306,28 @@ paths:
                 statusCode: 200
                 event:
                   apiVersion: v2
-                  id: f296e8b5-707f-4e66-9388-918821b83a19
-                  deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  id: e694b7a9-8a40-49c8-a5ed-a655b4342bb7
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
                   sourceName: MetadataConfigurationOptions
-                  origin: 1659659194429862100
+                  origin: 1664272709504749800
                   readings:
-                  - id: f8efa15a-612d-4532-b40b-4e895cecb3bd
-                    origin: 1659659194429862100
-                    deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  - id: 9951b817-1f15-4dde-98fc-7fe7b5727008
+                    origin: 1664272709504749800
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                     resourceName: MetadataConfigurationOptions
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
                     objectValue:
-                      Options: {}
+                      Options:
+                        PTZStatusFilterOptions:
+                          PanTiltPositionSupported: false
+                          PanTiltStatusSupported: false
+                          ZoomPositionSupported: false
+                          ZoomStatusSupported: false
         '400': *id001
         '404': *id002
         '423': *id003
@@ -5215,35 +5285,13 @@ paths:
           **Schema Reference:** [media2_GetProfiles](#media2_GetProfiles)
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
-        '500':
-          description: Internal Server Error
+        '200':
+          description: OK
           headers:
             Content-Type:
               schema:
                 type: string
                 example: application/json
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                apiVersion: v2
-                message: >-
-                  request failed, status code: 500, err:
-                  {"apiVersion":"v2","message":"error reading DeviceResourece
-                  Media2Profiles for
-                  TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\u003e
-                  failed to execute read command -\u003e invalid request for the
-                  function 'GetProfiles' of web service 'Media2'. Onvif error:
-                  fault reason: Method 'tr2:GetProfiles' not implemented: method
-                  name or namespace not recognized, fault detail: , fault code:
-                  SOAP-ENV:Sender  ","statusCode":500}
-                statusCode: 500
-        '200':
-          description: OK
-          headers:
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -5259,12 +5307,41 @@ paths:
                             properties:
                               objectValue:
                                 $ref: '#/components/schemas/media2_GetProfilesResponse'
-              examples:
-                200Example:
-                  $ref: '#/components/examples/200Example'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: 100ae377-e811-4b88-bd81-f6f67c86cf61
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
+                  profileName: onvif-camera
+                  sourceName: Media2Profiles
+                  origin: 1664440520205892000
+                  readings:
+                  - id: e6bf94fd-ebde-4b0a-a503-8b23f7a8aebb
+                    origin: 1664440520205892000
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
+                    resourceName: Media2Profiles
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      Profiles:
+                      - Fixed: true
+                        Name: mainStream
+                        Token: Profile_1
+                      - Fixed: true
+                        Name: subStream
+                        Token: Profile_2
+                      - Fixed: true
+                        Name: thirdStream
+                        Token: Profile_3
         '400': *id001
         '404': *id002
         '423': *id003
+        '500': *id004
         '503': *id005
       externalDocs:
         description: Onvif Specification
@@ -5292,36 +5369,13 @@ paths:
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
-        '500':
-          description: Internal Server Error
+        '200':
+          description: OK
           headers:
             Content-Type:
               schema:
                 type: string
                 example: application/json
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                apiVersion: v2
-                message: >-
-                  request failed, status code: 500, err:
-                  {"apiVersion":"v2","message":"error reading DeviceResourece
-                  GetAnalyticsConfigurations for
-                  TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\u003e
-                  failed to execute read command -\u003e invalid request for the
-                  function 'GetAnalyticsConfigurations' of web service 'Media2'.
-                  Onvif error: fault reason: Method
-                  'tr2:GetAnalyticsConfigurations' not implemented: method name
-                  or namespace not recognized, fault detail: , fault code:
-                  SOAP-ENV:Sender  ","statusCode":500}
-                statusCode: 500
-        '200':
-          description: OK
-          headers:
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -5337,12 +5391,91 @@ paths:
                             properties:
                               objectValue:
                                 $ref: '#/components/schemas/media2_GetAnalyticsConfigurationsResponse'
-              examples:
-                200Example:
-                  $ref: '#/components/examples/200Example'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: 08db4d59-0991-4ace-bb6a-9103c54d38ea
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
+                  profileName: onvif-camera
+                  sourceName: GetAnalyticsConfigurations
+                  origin: 1664440527648299300
+                  readings:
+                  - id: 6e768a1a-a521-47c6-9d13-2337386768d1
+                    origin: 1664440527648299300
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
+                    resourceName: GetAnalyticsConfigurations
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      Configurations:
+                      - AnalyticsEngineConfiguration:
+                          AnalyticsModule:
+                          - Name: MyCellMotionModule
+                            Parameters:
+                              ElementItem:
+                              - Name: Layout
+                              SimpleItem:
+                              - Name: Sensitivity
+                                Value: '0'
+                            Type: tt:CellMotionEngine
+                          - Name: MyLineDetectorModule
+                            Parameters:
+                              ElementItem:
+                              - Name: Layout
+                              - Name: Field
+                              SimpleItem:
+                              - Name: Sensitivity
+                                Value: '50'
+                            Type: tt:LineDetectorEngine
+                          - Name: MyFieldDetectorModule
+                            Parameters:
+                              ElementItem:
+                              - Name: Layout
+                              - Name: Field
+                              SimpleItem:
+                              - Name: Sensitivity
+                                Value: '50'
+                            Type: tt:FieldDetectorEngine
+                          - Name: MyTamperDetecModule
+                            Parameters:
+                              ElementItem:
+                              - Name: Transformation
+                              - Name: Field
+                              SimpleItem:
+                              - Name: Sensitivity
+                                Value: '0'
+                            Type: hikxsd:TamperEngine
+                        Name: VideoAnalyticsName
+                        RuleEngineConfiguration:
+                          Rule:
+                          - Name: MyMotionDetectorRule
+                            Parameters:
+                              SimpleItem:
+                              - Name: MinCount
+                                Value: '5'
+                              - Name: AlarmOnDelay
+                                Value: '1000'
+                              - Name: AlarmOffDelay
+                                Value: '1000'
+                              - Name: ActiveCells
+                                Value: zwA=
+                            Type: tt:CellMotionDetector
+                          - Name: MyTamperDetectorRule
+                            Parameters:
+                              ElementItem:
+                              - Name: Field
+                            Type: hikxsd:TamperDetector
+                        Token: VideoAnalyticsToken
+                        UseCount: 3
         '400': *id001
         '404': *id002
         '423': *id003
+        '500': *id004
         '503': *id005
       externalDocs:
         description: Onvif Specification
@@ -5493,6 +5626,10 @@ paths:
         '200':
           description: OK
           headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
             X-Correlation-Id:
               $ref: '#/components/headers/correlatedResponseHeader'
           content:
@@ -5508,9 +5645,132 @@ paths:
                             properties:
                               objectValue:
                                 $ref: '#/components/schemas/analytics_GetSupportedAnalyticsModulesResponse'
-              examples:
-                200Example:
-                  $ref: '#/components/examples/200Example'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: 1caa5b4c-a2d1-403e-90a0-fc7d63a9538c
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
+                  profileName: onvif-camera
+                  sourceName: GetSupportedAnalyticsModules
+                  origin: 1664440535746008300
+                  readings:
+                  - id: f9f5ddc4-10df-41a1-b50e-c12683683093
+                    origin: 1664440535746008300
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
+                    resourceName: GetSupportedAnalyticsModules
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      SupportedAnalyticsModules:
+                        AnalyticsModuleContentSchemaLocation: http://www.w3.org/2001/XMLSchema
+                        AnalyticsModuleDescription:
+                        - Fixed: false
+                          MaxInstances: 1
+                          Messages:
+                            Data:
+                              SimpleItemDescription:
+                              - Name: IsMotion
+                                Type: xs:boolean
+                            IsProperty: true
+                            ParentTopic: tns1:RuleEngine/CellMotionDetector/Motion
+                            Source:
+                              SimpleItemDescription:
+                              - Name: VideoSourceConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: VideoAnalyticsConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: Rule
+                                Type: xs:string
+                          Name: tt:CellMotionEngine
+                          Parameters:
+                            ElementItemDescription:
+                            - Name: Layout
+                            SimpleItemDescription:
+                            - Name: Sensitivity
+                              Type: xs:integer
+                        - Fixed: false
+                          MaxInstances: 4
+                          Messages:
+                            Data:
+                              SimpleItemDescription:
+                              - Name: ObjectId
+                                Type: xs:integer
+                            ParentTopic: tns1:RuleEngine/LineDetector/Crossed
+                            Source:
+                              SimpleItemDescription:
+                              - Name: VideoSourceConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: VideoAnalyticsConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: Rule
+                                Type: xs:string
+                          Name: tt:LineDetectorEngine
+                          Parameters:
+                            ElementItemDescription:
+                            - Name: Transformation
+                            - Name: Field
+                            SimpleItemDescription:
+                            - Name: Sensitivity
+                              Type: xs:integer
+                        - Fixed: false
+                          MaxInstances: 4
+                          Messages:
+                            Data:
+                              SimpleItemDescription:
+                              - Name: IsInside
+                                Type: xs:boolean
+                            IsProperty: true
+                            Key:
+                              SimpleItemDescription:
+                              - Name: ObjectId
+                                Type: xs:integer
+                            ParentTopic: tns1:RuleEngine/FieldDetector/ObjectsInside
+                            Source:
+                              SimpleItemDescription:
+                              - Name: VideoSourceConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: VideoAnalyticsConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: Rule
+                                Type: xs:string
+                          Name: tt:FieldDetectorEngine
+                          Parameters:
+                            ElementItemDescription:
+                            - Name: Transformation
+                            - Name: Field
+                            SimpleItemDescription:
+                            - Name: Sensitivity
+                              Type: xs:integer
+                        - Fixed: false
+                          MaxInstances: 1
+                          Messages:
+                            Data:
+                              SimpleItemDescription:
+                              - Name: IsTamper
+                                Type: xs:boolean
+                            IsProperty: true
+                            ParentTopic: tns1:RuleEngine/TamperDetector/Tamper
+                            Source:
+                              SimpleItemDescription:
+                              - Name: VideoSourceConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: VideoAnalyticsConfigurationToken
+                                Type: tt:ReferenceToken
+                              - Name: Rule
+                                Type: xs:string
+                          Name: hikxsd:TamperEngine
+                          Parameters:
+                            ElementItemDescription:
+                            - Name: Transformation
+                            - Name: Field
+                            SimpleItemDescription:
+                            - Name: Sensitivity
+                              Type: xs:integer
         '400': *id001
         '404': *id002
         '423': *id003
@@ -5600,15 +5860,17 @@ paths:
                 statusCode: 200
                 event:
                   apiVersion: v2
-                  id: 76f908cd-6b34-477f-9a03-5eea4021b416
-                  deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                  id: 09e8fab7-e43d-4ba3-adeb-6ca2d3a3b255
+                  deviceName: >-
+                    HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
                   sourceName: AnalyticsModules
-                  origin: 1665460175164294000
+                  origin: 1664440545266300000
                   readings:
-                  - id: c5f01e17-9b31-43eb-bc55-2417617ef530
-                    origin: 1665460175164294000
-                    deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
+                  - id: c2bf2bfe-915f-48e5-bb4b-5cfdf5d9241a
+                    origin: 1664440545266300000
+                    deviceName: >-
+                      HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                     resourceName: AnalyticsModules
                     profileName: onvif-camera
                     valueType: Object
@@ -5617,10 +5879,39 @@ paths:
                       AnalyticsModule:
                       - Name: MyCellMotionModule
                         Parameters:
+                          ElementItem:
+                          - Name: Layout
                           SimpleItem:
                           - Name: Sensitivity
-                            Value: '6'
+                            Value: '0'
                         Type: tt:CellMotionEngine
+                      - Name: MyLineDetectorModule
+                        Parameters:
+                          ElementItem:
+                          - Name: Layout
+                          - Name: Field
+                          SimpleItem:
+                          - Name: Sensitivity
+                            Value: '50'
+                        Type: tt:LineDetectorEngine
+                      - Name: MyFieldDetectorModule
+                        Parameters:
+                          ElementItem:
+                          - Name: Layout
+                          - Name: Field
+                          SimpleItem:
+                          - Name: Sensitivity
+                            Value: '50'
+                        Type: tt:FieldDetectorEngine
+                      - Name: MyTamperDetecModule
+                        Parameters:
+                          ElementItem:
+                          - Name: Transformation
+                          - Name: Field
+                          SimpleItem:
+                          - Name: Sensitivity
+                            Value: '0'
+                        Type: hikxsd:TamperEngine
         '400': *id001
         '404': *id002
         '423': *id003

@@ -19,40 +19,6 @@ TNS_REGEX = re.compile(r'([ /])tns_')
 TT_REGEX = re.compile(r'([ /])tt_')
 
 
-def main():
-    if len(sys.argv) != 4:
-        print(f'Usage: {sys.argv[0]} <service> <input_file> <output_file>')
-
-    logging.basicConfig(level=(logging.DEBUG if os.getenv('DEBUG_LOGGING') == '1' else logging.INFO),
-                        format='%(asctime)-15s %(levelname)-8s %(name)-8s %(message)s')
-
-    with open(sys.argv[2]) as f:
-        yml = yaml.safe_load(f.read())
-
-    for name, obj in yml.items():
-        strip_xml(name, obj)
-
-    for name, obj in yml.items():
-        fix_refs(name, obj)
-
-    yml['components']['schemas'] = fix_schemas(yml['components']['schemas'])
-
-    service = sys.argv[1]
-    with open(sys.argv[3], 'w') as w:
-        # todo: this can be optimized better using streams. Right now it dumps the yaml to a string
-        #       and then processes each raw line before actually writing it to the output file.
-        lines = yaml.dump(yml).split('\n')
-        for line in lines:
-            if TITLE_REGEX.match(line):
-                continue  # skip the title elements as they are all just superfluous
-            # namespace all tns schemas to this specific service
-            line = TNS_REGEX.sub(fr'\1{service}_', line)
-            # namespace all tt schemas as common onvif
-            line = TT_REGEX.sub(r'\1onvif_', line)
-            w.write(line)
-            w.write('\n')
-
-
 def fix_schemas(schemas):
     """
     Namespace all schemas by service name
@@ -131,6 +97,40 @@ def strip_xml(name, obj):
         if len(obj) == 2 and obj[1] == {}:
             log.debug('Removing empty value from array')
             del obj[1]
+
+
+def main():
+    if len(sys.argv) != 4:
+        print(f'Usage: {sys.argv[0]} <service> <input_file> <output_file>')
+
+    logging.basicConfig(level=(logging.DEBUG if os.getenv('DEBUG_LOGGING') == '1' else logging.INFO),
+                        format='%(asctime)-15s %(levelname)-12s %(name)-8s %(message)s')
+
+    with open(sys.argv[2]) as f:
+        yml = yaml.safe_load(f.read())
+
+    for name, obj in yml.items():
+        strip_xml(name, obj)
+
+    for name, obj in yml.items():
+        fix_refs(name, obj)
+
+    yml['components']['schemas'] = fix_schemas(yml['components']['schemas'])
+
+    service = sys.argv[1]
+    with open(sys.argv[3], 'w') as w:
+        # todo: this can be optimized better using streams. Right now it dumps the yaml to a string
+        #       and then processes each raw line before actually writing it to the output file.
+        lines = yaml.dump(yml).split('\n')
+        for line in lines:
+            if TITLE_REGEX.match(line):
+                continue  # skip the title elements as they are all just superfluous
+            # namespace all tns schemas to this specific service
+            line = TNS_REGEX.sub(fr'\1{service}_', line)
+            # namespace all tt schemas as common onvif
+            line = TT_REGEX.sub(r'\1onvif_', line)
+            w.write(line)
+            w.write('\n')
 
 
 if __name__ == '__main__':

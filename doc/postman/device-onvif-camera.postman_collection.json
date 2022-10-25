@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "b7a70229-560c-41c2-9958-4994c7bd93fc",
+		"_postman_id": "c665bdf3-cb76-4f60-8043-825441d7d5df",
 		"name": "device-onvif-camera",
 		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -803,19 +803,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "d1eccd37-33c0-4c5d-bbb3-434b384399d2"
+									"value": "2ea12175-ffa2-4db7-a917-737d849c0865"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 03:59:59 GMT"
+									"value": "Tue, 27 Sep 2022 08:04:40 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "522"
+									"value": "618"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"d2d2541f-2feb-490f-bf89-b7407d3078d3\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"DNS\",\n        \"origin\": 1659671999397808427,\n        \"readings\": [\n            {\n                \"id\": \"3ad48fbe-1e98-4c90-a26e-f83a391c4d8c\",\n                \"origin\": 1659671999397808427,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"DNS\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"DNSInformation\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"b45c64e4-1e1b-49c5-a1b9-d83f15e280b2\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"DNS\",\n        \"origin\": 1664265880674763475,\n        \"readings\": [\n            {\n                \"id\": \"548e6841-0914-4e9c-935e-c58320a998a8\",\n                \"origin\": 1664265880674763475,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"DNS\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"DNSInformation\": {\n                        \"DNSManual\": {\n                            \"IPv4Address\": \"223.5.5.5\",\n                            \"Type\": \"IPv4\"\n                        },\n                        \"FromDHCP\": false\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -1337,19 +1337,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "e24e3e01-1680-40c6-ae25-3151ff5aafef"
+									"value": "b71da6d5-4e6b-4557-b6ed-707bb0bd3426"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 03:59:47 GMT"
+									"value": "Tue, 27 Sep 2022 09:09:25 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "558"
+									"value": "628"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"78915210-fab0-4018-a8ed-72f793c2cbc7\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"NetworkDefaultGateway\",\n        \"origin\": 1659671987813255281,\n        \"readings\": [\n            {\n                \"id\": \"c348128d-0c51-4470-a978-b431302906a0\",\n                \"origin\": 1659671987813255281,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"NetworkDefaultGateway\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"NetworkGateway\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"66991bcb-ff04-4680-af91-aefe449d517c\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"NetworkDefaultGateway\",\n        \"origin\": 1664269765488074339,\n        \"readings\": [\n            {\n                \"id\": \"4c8c2ca4-2c0c-49eb-8c8d-e21209813445\",\n                \"origin\": 1664269765488074339,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"NetworkDefaultGateway\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"NetworkGateway\": {\n                        \"IPv4Address\": \"10.0.20.1\",\n                        \"IPv6Address\": \"::\"\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -2585,19 +2585,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "7358d440-ed28-4f52-ab63-d28fb53d7c51"
+									"value": "d7a8609b-2810-4069-8d57-4700397af545"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 00:26:20 GMT"
+									"value": "Tue, 27 Sep 2022 09:50:01 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "560"
+									"value": "853"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"1acba723-b1b1-4790-8e80-9d554cacaedc\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfigurations\",\n        \"origin\": 1659659180814799513,\n        \"readings\": [\n            {\n                \"id\": \"8c59a3a8-401b-4e18-8af5-9a98efe7f410\",\n                \"origin\": 1659659180814799513,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"MetadataConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"95eae089-a594-4af6-b827-c0cd689034e1\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfigurations\",\n        \"origin\": 1664272201400116525,\n        \"readings\": [\n            {\n                \"id\": \"147f3297-6d21-4c9d-b0f9-241f1ca0528c\",\n                \"origin\": 1664272201400116525,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"MetadataConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": {\n                        \"Analytics\": false,\n                        \"AnalyticsEngineConfiguration\": {},\n                        \"Multicast\": {\n                            \"Address\": {\n                                \"IPv4Address\": \"0.0.0.0\",\n                                \"Type\": \"IPv4\"\n                            },\n                            \"AutoStart\": false,\n                            \"Port\": 8864,\n                            \"TTL\": 128\n                        },\n                        \"Name\": \"metaData\",\n                        \"PTZStatus\": {\n                            \"Position\": false,\n                            \"Status\": false\n                        },\n                        \"SessionTimeout\": \"PT5S\",\n                        \"Token\": \"MetaDataToken\"\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -2635,7 +2635,7 @@
 					},
 					"response": [
 						{
-							"name": "MetadataConfiguration",
+							"name": "GetMetadataConfiguration",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -2675,19 +2675,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "96f2ec58-26af-410c-8264-5c62c45425eb"
+									"value": "b8d0916b-d340-40e4-a034-219f6c19ed03"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 23 Sep 2022 23:11:29 GMT"
+									"value": "Tue, 27 Sep 2022 09:55:13 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "557"
+									"value": "863"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"53480499-ece4-4437-b795-0ff4f57a564a\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfiguration\",\n        \"origin\": 1663974689815368367,\n        \"readings\": [\n            {\n                \"id\": \"b6cda316-6a50-4990-8279-e2777be95c79\",\n                \"origin\": 1663974689815368367,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n                \"resourceName\": \"MetadataConfiguration\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configuration\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"239e1b98-d000-4bc5-8bd8-8287817b756f\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfiguration\",\n        \"origin\": 1664272513018240840,\n        \"readings\": [\n            {\n                \"id\": \"ab630702-05d5-4c97-98d0-fa23b16e72cc\",\n                \"origin\": 1664272513018240840,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"MetadataConfiguration\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configuration\": {\n                        \"Analytics\": false,\n                        \"AnalyticsEngineConfiguration\": {},\n                        \"Multicast\": {\n                            \"Address\": {\n                                \"IPv4Address\": \"0.0.0.0\",\n                                \"Type\": \"IPv4\"\n                            },\n                            \"AutoStart\": false,\n                            \"Port\": 8864,\n                            \"TTL\": 128\n                        },\n                        \"Name\": \"metaData\",\n                        \"PTZStatus\": {\n                            \"Position\": false,\n                            \"Status\": false\n                        },\n                        \"SessionTimeout\": \"PT5S\",\n                        \"Token\": \"MetaDataToken\",\n                        \"UseCount\": 1\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -2821,7 +2821,7 @@
 					},
 					"response": [
 						{
-							"name": "CompatibleMetadataConfigurations",
+							"name": "GetCompatibleMetadataConfigurations",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -2861,19 +2861,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "362fa295-c750-49a8-a457-a5b5d1486cc6"
+									"value": "d538b93f-8ae7-4275-922a-f81977817b64"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 00:26:28 GMT"
+									"value": "Tue, 27 Sep 2022 09:52:49 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "580"
+									"value": "886"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"410b5658-82d9-488c-a5c4-c69f0ff6d273\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"CompatibleMetadataConfigurations\",\n        \"origin\": 1659659188300470539,\n        \"readings\": [\n            {\n                \"id\": \"86aa4298-c8ee-4c74-afc9-73104bb3cd11\",\n                \"origin\": 1659659188300470539,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"CompatibleMetadataConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"37a0130d-d555-44f2-ab9c-6214617eca32\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"CompatibleMetadataConfigurations\",\n        \"origin\": 1664272369409217715,\n        \"readings\": [\n            {\n                \"id\": \"86fb41fc-48e7-455f-bb66-78c8f556a21e\",\n                \"origin\": 1664272369409217715,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"CompatibleMetadataConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": {\n                        \"Analytics\": false,\n                        \"AnalyticsEngineConfiguration\": {},\n                        \"Multicast\": {\n                            \"Address\": {\n                                \"IPv4Address\": \"0.0.0.0\",\n                                \"Type\": \"IPv4\"\n                            },\n                            \"AutoStart\": false,\n                            \"Port\": 8864,\n                            \"TTL\": 128\n                        },\n                        \"Name\": \"metaData\",\n                        \"PTZStatus\": {\n                            \"Position\": false,\n                            \"Status\": false\n                        },\n                        \"SessionTimeout\": \"PT5S\",\n                        \"Token\": \"MetaDataToken\",\n                        \"UseCount\": 1\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -2911,7 +2911,7 @@
 					},
 					"response": [
 						{
-							"name": "MetadataConfigurationOptions",
+							"name": "GetMetadataConfigurationOptions",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -2951,19 +2951,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "fcbe3f78-3851-44ac-a75f-238527b90ea7"
+									"value": "e64dd74a-1a59-44a4-8fe0-f761ef70c663"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 00:26:34 GMT"
+									"value": "Tue, 27 Sep 2022 09:58:29 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "565"
+									"value": "739"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"f296e8b5-707f-4e66-9388-918821b83a19\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfigurationOptions\",\n        \"origin\": 1659659194429862266,\n        \"readings\": [\n            {\n                \"id\": \"f8efa15a-612d-4532-b40b-4e895cecb3bd\",\n                \"origin\": 1659659194429862266,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"MetadataConfigurationOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Options\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"e694b7a9-8a40-49c8-a5ed-a655b4342bb7\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfigurationOptions\",\n        \"origin\": 1664272709504749791,\n        \"readings\": [\n            {\n                \"id\": \"9951b817-1f15-4dde-98fc-7fe7b5727008\",\n                \"origin\": 1664272709504749791,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"MetadataConfigurationOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Options\": {\n                        \"PTZStatusFilterOptions\": {\n                            \"PanTiltPositionSupported\": false,\n                            \"PanTiltStatusSupported\": false,\n                            \"ZoomPositionSupported\": false,\n                            \"ZoomStatusSupported\": false\n                        }\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -6024,7 +6024,7 @@
 							},
 							"response": [
 								{
-									"name": "GetProfiles - Tapo C200",
+									"name": "GetMedia2Profiles",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -6048,8 +6048,8 @@
 											]
 										}
 									},
-									"status": "Internal Server Error",
-									"code": 500,
+									"status": "OK",
+									"code": 200,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -6058,19 +6058,19 @@
 										},
 										{
 											"key": "X-Correlation-Id",
-											"value": "5508bc60-f875-4895-86ae-2ed70fe8b7f0"
+											"value": "0b6aa429-e24c-4dda-9368-7daa71aee8d0"
 										},
 										{
 											"key": "Date",
-											"value": "Fri, 05 Aug 2022 03:58:10 GMT"
+											"value": "Thu, 29 Sep 2022 08:35:20 GMT"
 										},
 										{
 											"key": "Content-Length",
-											"value": "523"
+											"value": "728"
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error reading DeviceResourece Media2Profiles for TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\\\\u003e failed to execute read command -\\\\u003e invalid request for the function 'GetProfiles' of web service 'Media2'. Onvif error: fault reason: Method 'tr2:GetProfiles' not implemented: method name or namespace not recognized, fault detail: , fault code: SOAP-ENV:Sender  \\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"100ae377-e811-4b88-bd81-f6f67c86cf61\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Media2Profiles\",\n        \"origin\": 1664440520205892135,\n        \"readings\": [\n            {\n                \"id\": \"e6bf94fd-ebde-4b0a-a503-8b23f7a8aebb\",\n                \"origin\": 1664440520205892135,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"Media2Profiles\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Profiles\": [\n                        {\n                            \"Fixed\": true,\n                            \"Name\": \"mainStream\",\n                            \"Token\": \"Profile_1\"\n                        },\n                        {\n                            \"Fixed\": true,\n                            \"Name\": \"subStream\",\n                            \"Token\": \"Profile_2\"\n                        },\n                        {\n                            \"Fixed\": true,\n                            \"Name\": \"thirdStream\",\n                            \"Token\": \"Profile_3\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
 								}
 							]
 						},
@@ -6102,7 +6102,7 @@
 							},
 							"response": [
 								{
-									"name": "GetAnalyticsConfigurations - Tapo C200",
+									"name": "GetAnalyticsConfigurations",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -6126,8 +6126,8 @@
 											]
 										}
 									},
-									"status": "Internal Server Error",
-									"code": 500,
+									"status": "OK",
+									"code": 200,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -6136,19 +6136,19 @@
 										},
 										{
 											"key": "X-Correlation-Id",
-											"value": "dc78312b-f01c-49f3-9a48-8ceb07b07a15"
+											"value": "931912b9-e285-43ec-9d83-764117bfb8f3"
 										},
 										{
 											"key": "Date",
-											"value": "Fri, 05 Aug 2022 03:58:29 GMT"
+											"value": "Thu, 29 Sep 2022 08:35:27 GMT"
 										},
 										{
 											"key": "Content-Length",
-											"value": "565"
+											"value": "1813"
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error reading DeviceResourece GetAnalyticsConfigurations for TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\\\\u003e failed to execute read command -\\\\u003e invalid request for the function 'GetAnalyticsConfigurations' of web service 'Media2'. Onvif error: fault reason: Method 'tr2:GetAnalyticsConfigurations' not implemented: method name or namespace not recognized, fault detail: , fault code: SOAP-ENV:Sender  \\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"08db4d59-0991-4ace-bb6a-9103c54d38ea\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetAnalyticsConfigurations\",\n        \"origin\": 1664440527648299236,\n        \"readings\": [\n            {\n                \"id\": \"6e768a1a-a521-47c6-9d13-2337386768d1\",\n                \"origin\": 1664440527648299236,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"GetAnalyticsConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": [\n                        {\n                            \"AnalyticsEngineConfiguration\": {\n                                \"AnalyticsModule\": [\n                                    {\n                                        \"Name\": \"MyCellMotionModule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Layout\"\n                                                }\n                                            ],\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"Sensitivity\",\n                                                    \"Value\": \"0\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"tt:CellMotionEngine\"\n                                    },\n                                    {\n                                        \"Name\": \"MyLineDetectorModule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Layout\"\n                                                },\n                                                {\n                                                    \"Name\": \"Field\"\n                                                }\n                                            ],\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"Sensitivity\",\n                                                    \"Value\": \"50\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"tt:LineDetectorEngine\"\n                                    },\n                                    {\n                                        \"Name\": \"MyFieldDetectorModule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Layout\"\n                                                },\n                                                {\n                                                    \"Name\": \"Field\"\n                                                }\n                                            ],\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"Sensitivity\",\n                                                    \"Value\": \"50\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"tt:FieldDetectorEngine\"\n                                    },\n                                    {\n                                        \"Name\": \"MyTamperDetecModule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Transformation\"\n                                                },\n                                                {\n                                                    \"Name\": \"Field\"\n                                                }\n                                            ],\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"Sensitivity\",\n                                                    \"Value\": \"0\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"hikxsd:TamperEngine\"\n                                    }\n                                ]\n                            },\n                            \"Name\": \"VideoAnalyticsName\",\n                            \"RuleEngineConfiguration\": {\n                                \"Rule\": [\n                                    {\n                                        \"Name\": \"MyMotionDetectorRule\",\n                                        \"Parameters\": {\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"MinCount\",\n                                                    \"Value\": \"5\"\n                                                },\n                                                {\n                                                    \"Name\": \"AlarmOnDelay\",\n                                                    \"Value\": \"1000\"\n                                                },\n                                                {\n                                                    \"Name\": \"AlarmOffDelay\",\n                                                    \"Value\": \"1000\"\n                                                },\n                                                {\n                                                    \"Name\": \"ActiveCells\",\n                                                    \"Value\": \"zwA=\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"tt:CellMotionDetector\"\n                                    },\n                                    {\n                                        \"Name\": \"MyTamperDetectorRule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Field\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"hikxsd:TamperDetector\"\n                                    }\n                                ]\n                            },\n                            \"Token\": \"VideoAnalyticsToken\",\n                            \"UseCount\": 3\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
 								}
 							]
 						},
@@ -6257,7 +6257,57 @@
 								},
 								"description": "List all analytics modules that are supported by the given VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetSupportedAnalyticsModules",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetSupportedAnalyticsModules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"GetSupportedAnalyticsModules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "b73f490a-11fe-4b8c-9a8b-7d6cf8fc30da"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 29 Sep 2022 08:35:35 GMT"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"1caa5b4c-a2d1-403e-90a0-fc7d63a9538c\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetSupportedAnalyticsModules\",\n        \"origin\": 1664440535746008222,\n        \"readings\": [\n            {\n                \"id\": \"f9f5ddc4-10df-41a1-b50e-c12683683093\",\n                \"origin\": 1664440535746008222,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"GetSupportedAnalyticsModules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"SupportedAnalyticsModules\": {\n                        \"AnalyticsModuleContentSchemaLocation\": \"http://www.w3.org/2001/XMLSchema\",\n                        \"AnalyticsModuleDescription\": [\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"IsMotion\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/CellMotionDetector/Motion\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:CellMotionEngine\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Layout\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"Sensitivity\",\n                                            \"Type\": \"xs:integer\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 4,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"ObjectId\",\n                                                \"Type\": \"xs:integer\"\n                                            }\n                                        ]\n                                    },\n                                    \"ParentTopic\": \"tns1:RuleEngine/LineDetector/Crossed\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:LineDetectorEngine\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Transformation\"\n                                        },\n                                        {\n                                            \"Name\": \"Field\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"Sensitivity\",\n                                            \"Type\": \"xs:integer\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 4,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"IsInside\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"Key\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"ObjectId\",\n                                                \"Type\": \"xs:integer\"\n                                            }\n                                        ]\n                                    },\n                                    \"ParentTopic\": \"tns1:RuleEngine/FieldDetector/ObjectsInside\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:FieldDetectorEngine\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Transformation\"\n                                        },\n                                        {\n                                            \"Name\": \"Field\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"Sensitivity\",\n                                            \"Type\": \"xs:integer\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"IsTamper\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/TamperDetector/Tamper\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"hikxsd:TamperEngine\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Transformation\"\n                                        },\n                                        {\n                                            \"Name\": \"Field\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"Sensitivity\",\n                                            \"Type\": \"xs:integer\"\n                                        }\n                                    ]\n                                }\n                            }\n                        ]\n                    }\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "GetAnalyticsModules",
@@ -6333,19 +6383,19 @@
 										},
 										{
 											"key": "X-Correlation-Id",
-											"value": "e1799801-2c54-4816-b766-2d93caee89c9"
+											"value": "dce2b5db-eac1-48f8-a3ca-4f296585cd39"
 										},
 										{
 											"key": "Date",
-											"value": "Tue, 11 Oct 2022 03:49:35 GMT"
+											"value": "Thu, 29 Sep 2022 08:35:45 GMT"
 										},
 										{
 											"key": "Content-Length",
-											"value": "678"
+											"value": "1278"
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"76f908cd-6b34-477f-9a03-5eea4021b416\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"AnalyticsModules\",\n        \"origin\": 1665460175164293870,\n        \"readings\": [\n            {\n                \"id\": \"c5f01e17-9b31-43eb-bc55-2417617ef530\",\n                \"origin\": 1665460175164293870,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"AnalyticsModules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"AnalyticsModule\": [\n                        {\n                            \"Name\": \"MyCellMotionModule\",\n                            \"Parameters\": {\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"6\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:CellMotionEngine\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"09e8fab7-e43d-4ba3-adeb-6ca2d3a3b255\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"AnalyticsModules\",\n        \"origin\": 1664440545266300009,\n        \"readings\": [\n            {\n                \"id\": \"c2bf2bfe-915f-48e5-bb4b-5cfdf5d9241a\",\n                \"origin\": 1664440545266300009,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"AnalyticsModules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"AnalyticsModule\": [\n                        {\n                            \"Name\": \"MyCellMotionModule\",\n                            \"Parameters\": {\n                                \"ElementItem\": [\n                                    {\n                                        \"Name\": \"Layout\"\n                                    }\n                                ],\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"0\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:CellMotionEngine\"\n                        },\n                        {\n                            \"Name\": \"MyLineDetectorModule\",\n                            \"Parameters\": {\n                                \"ElementItem\": [\n                                    {\n                                        \"Name\": \"Layout\"\n                                    },\n                                    {\n                                        \"Name\": \"Field\"\n                                    }\n                                ],\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"50\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:LineDetectorEngine\"\n                        },\n                        {\n                            \"Name\": \"MyFieldDetectorModule\",\n                            \"Parameters\": {\n                                \"ElementItem\": [\n                                    {\n                                        \"Name\": \"Layout\"\n                                    },\n                                    {\n                                        \"Name\": \"Field\"\n                                    }\n                                ],\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"50\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:FieldDetectorEngine\"\n                        },\n                        {\n                            \"Name\": \"MyTamperDetecModule\",\n                            \"Parameters\": {\n                                \"ElementItem\": [\n                                    {\n                                        \"Name\": \"Transformation\"\n                                    },\n                                    {\n                                        \"Name\": \"Field\"\n                                    }\n                                ],\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"0\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"hikxsd:TamperEngine\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
 								}
 							]
 						},

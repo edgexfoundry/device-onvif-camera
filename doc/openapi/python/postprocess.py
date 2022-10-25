@@ -550,7 +550,7 @@ def main():
         sys.exit(1)
 
     logging.basicConfig(level=(logging.DEBUG if os.getenv('DEBUG_LOGGING') == '1' else logging.INFO),
-                        format='%(asctime)-15s %(levelname)-8s %(name)-8s %(message)s')
+                        format='%(asctime)-15s %(levelname)-8s %(name)-12s %(message)s')
 
     proc = YamlProcessor(sys.argv[1],  # input_file
                          sys.argv[2],  # sidecar_file
