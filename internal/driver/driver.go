@@ -139,7 +139,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 
 	for _, device := range d.sdkService.Devices() {
 		d.lc.Infof("Initializing onvif client for '%s' camera", device.Name)
-
+		d.checkStatusOfDevice(device)
 		onvifClient, err := d.newOnvifClient(device)
 		if err != nil {
 			d.lc.Errorf("failed to initialize onvif client for '%s' camera, skipping this device.", device.Name)
@@ -147,7 +147,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		}
 		d.clientsMu.Lock()
 		d.onvifClients[device.Name] = onvifClient
-		d.checkStatusOfDevice(device)
+
 		d.clientsMu.Unlock()
 	}
 
@@ -455,16 +455,17 @@ func (d *Driver) Stop(force bool) error {
 // AddDevice is a callback function that is invoked
 // when a new Device associated with this Device Service is added
 func (d *Driver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	err := d.createOnvifClient(deviceName)
-	if err != nil {
-		return errors.NewCommonEdgeXWrapper(err)
-	}
-
 	device, err := d.sdkService.GetDeviceByName(deviceName)
 	if err != nil {
 		return errors.NewCommonEdgeXWrapper(err)
 	}
 	d.checkStatusOfDevice(device) // check the status of the newly added device
+
+	err = d.createOnvifClient(deviceName)
+	if err != nil {
+		return errors.NewCommonEdgeXWrapper(err)
+	}
+
 	return nil
 }
 
