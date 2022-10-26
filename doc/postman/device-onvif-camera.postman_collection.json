@@ -1,12 +1,557 @@
 {
 	"info": {
-		"_postman_id": "117aa9ba-01bf-421f-bf59-fb109888c2d4",
-		"name": "device-onvif-camera Copy 4",
+		"_postman_id": "c665bdf3-cb76-4f60-8043-825441d7d5df",
+		"name": "device-onvif-camera",
 		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "19151794"
+		"_exporter_id": "7889146"
 	},
 	"item": [
+		{
+			"name": "Auto Discovery",
+			"item": [
+				{
+					"name": "GetDiscoveryMode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"DiscoveryMode"
+							]
+						},
+						"description": "This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command."
+					},
+					"response": [
+						{
+							"name": "GetDiscoveryMode",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DiscoveryMode"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "e81b8fb3-4bc4-4aab-a56f-5ff1ed41c123"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Aug 2022 23:38:59 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "553"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"8155efce-41b5-412f-a25d-b63bed015d63\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"DiscoveryMode\",\n        \"origin\": 1659656339306907742,\n        \"readings\": [\n            {\n                \"id\": \"099efd6b-d5fa-44a3-98f2-67eb72a1659f\",\n                \"origin\": 1659656339306907742,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"DiscoveryMode\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"DiscoveryMode\": \"Discoverable\"\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Set DiscoveryMode",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DiscoveryMode\": {\n        \"DiscoveryMode\": \"Discoverable\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"DiscoveryMode"
+							]
+						},
+						"description": "This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command."
+					},
+					"response": [
+						{
+							"name": "Set DiscoveryMode",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"DiscoveryMode\": {\n        \"DiscoveryMode\": \"Discoverable\"\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DiscoveryMode"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "99ed7b8d-81cc-4046-8ac9-ea8dd9013fb2"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 04 Aug 2022 23:39:15 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Add Scopes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"AddScopes\": {\n        \"ScopeItem\": [\n            \"http//:123\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddScopes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"AddScopes"
+							]
+						},
+						"description": "This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command."
+					},
+					"response": [
+						{
+							"name": "Add Scopes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"AddScopes\":{\n        \"ScopeItem\":[\n            \"http//:123\"\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddScopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"AddScopes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "6c1402e7-4516-4661-9ba7-b486dc20336f"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:41:03 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Scopes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Scopes"
+							]
+						},
+						"description": "This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  \n\\- Fixed  \n\\- Configurable  \nFixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response."
+					},
+					"response": [
+						{
+							"name": "Get Scopes",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Scopes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "966fc4b2-a648-4bef-91fc-2aaf9f9310a7"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Aug 2022 00:27:08 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "896"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"05f573f4-0836-45ad-b9ba-c393f9927586\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Scopes\",\n        \"origin\": 1659659228090509033,\n        \"readings\": [\n            {\n                \"id\": \"ea858652-cb16-432c-bf45-f9785cd00d85\",\n                \"origin\": 1659659228090509033,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"Scopes\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Scopes\": [\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/name/TP-IPC\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/hardware/MODEL\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/Profile/Streaming\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/location/ShenZhen\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/type/NetworkVideoTransmitter\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Put Scopes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Scopes\": {\n        \"Scopes\": [\n            \"http//:123\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Scopes"
+							]
+						},
+						"description": "This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead."
+					},
+					"response": [
+						{
+							"name": "Put Scopes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Scopes\":{\n        \"Scopes\":[\n            \"http//:123\"\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Scopes"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "0fa69e08-5b67-4b92-93c8-7cb642c2f43c"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:41:08 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove Scopes",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"RemoveScopes\": {\n        \"ScopeItem\": [\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveScopes",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"RemoveScopes"
+							]
+						},
+						"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
+					},
+					"response": [
+						{
+							"name": "Remove Scopes",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"RemoveScopes\":{\n        \"ScopeItem\":[\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveScopes",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"RemoveScopes"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "1585c4fb-963a-4dc2-afa1-057559aedacc"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:41:12 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "528"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error writing DeviceResourece RemoveScopes for Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'RemoveScopes' of web service 'Device'. Onvif error: fault reason: Trying to Remove scope which does not exist, fault detail: , fault code: s:Sender ter:InvalidArgVal ter:NoScope\\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
+						}
+					]
+				}
+			]
+		},
 		{
 			"name": "Network Configuration",
 			"item": [
@@ -258,19 +803,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "d1eccd37-33c0-4c5d-bbb3-434b384399d2"
+									"value": "2ea12175-ffa2-4db7-a917-737d849c0865"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 03:59:59 GMT"
+									"value": "Tue, 27 Sep 2022 08:04:40 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "522"
+									"value": "618"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"d2d2541f-2feb-490f-bf89-b7407d3078d3\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"DNS\",\n        \"origin\": 1659671999397808427,\n        \"readings\": [\n            {\n                \"id\": \"3ad48fbe-1e98-4c90-a26e-f83a391c4d8c\",\n                \"origin\": 1659671999397808427,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"DNS\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"DNSInformation\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"b45c64e4-1e1b-49c5-a1b9-d83f15e280b2\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"DNS\",\n        \"origin\": 1664265880674763475,\n        \"readings\": [\n            {\n                \"id\": \"548e6841-0914-4e9c-935e-c58320a998a8\",\n                \"origin\": 1664265880674763475,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"DNS\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"DNSInformation\": {\n                        \"DNSManual\": {\n                            \"IPv4Address\": \"223.5.5.5\",\n                            \"Type\": \"IPv4\"\n                        },\n                        \"FromDHCP\": false\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -455,7 +1000,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": true\n            }\n        }\n        \n    }\n}",
+							"raw": "{\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": true\n            }\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -629,7 +1174,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 2020\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    } \n}",
+							"raw": "{\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 2020\n            },\n            {\n                \"Name\": \"HTTPS\",\n                \"Enabled\": false,\n                \"Port\": 443\n            },\n            {\n                \"Name\": \"RTSP\",\n                \"Enabled\": true,\n                \"Port\": 554\n            }\n        ]\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -792,19 +1337,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "e24e3e01-1680-40c6-ae25-3151ff5aafef"
+									"value": "b71da6d5-4e6b-4557-b6ed-707bb0bd3426"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 03:59:47 GMT"
+									"value": "Tue, 27 Sep 2022 09:09:25 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "558"
+									"value": "628"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"78915210-fab0-4018-a8ed-72f793c2cbc7\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"NetworkDefaultGateway\",\n        \"origin\": 1659671987813255281,\n        \"readings\": [\n            {\n                \"id\": \"c348128d-0c51-4470-a978-b431302906a0\",\n                \"origin\": 1659671987813255281,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"NetworkDefaultGateway\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"NetworkGateway\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"66991bcb-ff04-4680-af91-aefe449d517c\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"NetworkDefaultGateway\",\n        \"origin\": 1664269765488074339,\n        \"readings\": [\n            {\n                \"id\": \"4c8c2ca4-2c0c-49eb-8c8d-e21209813445\",\n                \"origin\": 1664269765488074339,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"NetworkDefaultGateway\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"NetworkGateway\": {\n                        \"IPv4Address\": \"10.0.20.1\",\n                        \"IPv6Address\": \"::\"\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -815,7 +1360,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    } \n}",
+							"raw": "{\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1001,7 +1546,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Hostname\": {\n        \"Name\": \"localhost\"\n    },\n    \"DNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    },\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": false\n            }\n        }\n        \n    },\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [ \n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 80\n            }\n        ]\n    },\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    }\n}",
+							"raw": "{\n    \"Hostname\": {\n        \"Name\": \"localhost\"\n    },\n    \"DNS\": {\n        \"FromDHCP\": false,\n        \"DNSManual\": {\n            \"Type\": \"IPv4\",\n            \"IPv4Address\": \"192.168.12.1\"\n        }\n    },\n    \"NetworkInterfaces\": {\n        \"InterfaceToken\": \"eth0\",\n        \"NetworkInterface\": {\n            \"Enabled\": true,\n            \"IPv4\": {\n                \"DHCP\": false\n            }\n        }\n    },\n    \"NetworkProtocols\": {\n        \"NetworkProtocols\": [\n            {\n                \"Name\": \"HTTP\",\n                \"Enabled\": true,\n                \"Port\": 80\n            }\n        ]\n    },\n    \"NetworkDefaultGateway\": {\n        \"IPv4Address\": \"192.168.12.1\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1271,7 +1816,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"SystemDateAndTime\": {\n        \"DateTimeType\":\"Manual\",\n        \"DaylightSavings\": false,\n        \"UTCDateTime\": {\n            \"Date\": {\n                \"Month\": 12,\n                \"Year\": 2021,\n                \"Day\": 11\n\n            },\n            \"Time\": {\n                \"Hour\": 5,\n                \"Minute\": 48,\n                \"Second\": 20\n            }\n        }\n    }\n}",
+							"raw": "{\n    \"SystemDateAndTime\": {\n        \"DateTimeType\": \"Manual\",\n        \"DaylightSavings\": false,\n        \"UTCDateTime\": {\n            \"Date\": {\n                \"Month\": 12,\n                \"Year\": 2021,\n                \"Day\": 11\n            },\n            \"Time\": {\n                \"Hour\": 5,\n                \"Minute\": 48,\n                \"Second\": 20\n            }\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1339,20 +1884,8 @@
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
 									"key": "X-Correlation-Id",
 									"value": "fb9339bb-b588-49f8-82b1-d0da167897c0"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 23 Sep 2022 16:27:07 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
 								}
 							],
 							"cookie": [],
@@ -1367,7 +1900,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"SetSystemFactoryDefault\": {\n        \"FactoryDefault\":\"Soft\"\n    }\n}",
+							"raw": "{\n    \"SetSystemFactoryDefault\": {\n        \"FactoryDefault\": \"Soft\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1633,6 +2166,361 @@
 			]
 		},
 		{
+			"name": "User Handling",
+			"item": [
+				{
+					"name": "Get users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Users"
+							]
+						},
+						"description": "This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command."
+					},
+					"response": [
+						{
+							"name": "Get users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "16c7a0fe-a3fc-4b4f-a8e3-110ba2f0325a"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:38 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "609"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"8e524ecd-674d-4dd8-b728-de78b8245189\",\n        \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Users\",\n        \"origin\": 1664077238993899589,\n        \"readings\": [\n            {\n                \"id\": \"f5086b88-9876-4627-91d5-7ce39431652e\",\n                \"origin\": 1664077238993899589,\n                \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n                \"resourceName\": \"Users\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"User\": [\n                        {\n                            \"UserLevel\": \"Administrator\",\n                            \"Username\": \"admin\"\n                        },\n                        {\n                            \"UserLevel\": \"User\",\n                            \"Username\": \"user\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Users",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"CreateUsers\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CreateUsers",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"CreateUsers"
+							]
+						},
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
+					},
+					"response": [
+						{
+							"name": "Create Users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"CreateUsers\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": ""
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "e772e887-419e-4647-ae97-59722fbc7317"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Set users",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Users"
+							]
+						},
+						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
+					},
+					"response": [
+						{
+							"name": "Set users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "bc42d5ca-4132-47e5-b159-98ca2aa1cdb8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:53 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete users",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\n            \"user1\",\n            \"user2\"\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"DeleteUsers"
+							]
+						},
+						"description": "This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted."
+					},
+					"response": [
+						{
+							"name": "Delete users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\"user1\",\"user2\"]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DeleteUsers"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "12780a21-c3b4-42b1-9e46-11369a5926de"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:57 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				}
+			]
+		},
+		{
 			"name": "Metadata Configuration",
 			"item": [
 				{
@@ -1697,19 +2585,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "7358d440-ed28-4f52-ab63-d28fb53d7c51"
+									"value": "d7a8609b-2810-4069-8d57-4700397af545"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 00:26:20 GMT"
+									"value": "Tue, 27 Sep 2022 09:50:01 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "560"
+									"value": "853"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"1acba723-b1b1-4790-8e80-9d554cacaedc\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfigurations\",\n        \"origin\": 1659659180814799513,\n        \"readings\": [\n            {\n                \"id\": \"8c59a3a8-401b-4e18-8af5-9a98efe7f410\",\n                \"origin\": 1659659180814799513,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"MetadataConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"95eae089-a594-4af6-b827-c0cd689034e1\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfigurations\",\n        \"origin\": 1664272201400116525,\n        \"readings\": [\n            {\n                \"id\": \"147f3297-6d21-4c9d-b0f9-241f1ca0528c\",\n                \"origin\": 1664272201400116525,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"MetadataConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": {\n                        \"Analytics\": false,\n                        \"AnalyticsEngineConfiguration\": {},\n                        \"Multicast\": {\n                            \"Address\": {\n                                \"IPv4Address\": \"0.0.0.0\",\n                                \"Type\": \"IPv4\"\n                            },\n                            \"AutoStart\": false,\n                            \"Port\": 8864,\n                            \"TTL\": 128\n                        },\n                        \"Name\": \"metaData\",\n                        \"PTZStatus\": {\n                            \"Position\": false,\n                            \"Status\": false\n                        },\n                        \"SessionTimeout\": \"PT5S\",\n                        \"Token\": \"MetaDataToken\"\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -1747,7 +2635,7 @@
 					},
 					"response": [
 						{
-							"name": "MetadataConfiguration",
+							"name": "GetMetadataConfiguration",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -1787,19 +2675,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "96f2ec58-26af-410c-8264-5c62c45425eb"
+									"value": "b8d0916b-d340-40e4-a034-219f6c19ed03"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 23 Sep 2022 23:11:29 GMT"
+									"value": "Tue, 27 Sep 2022 09:55:13 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "557"
+									"value": "863"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"53480499-ece4-4437-b795-0ff4f57a564a\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfiguration\",\n        \"origin\": 1663974689815368367,\n        \"readings\": [\n            {\n                \"id\": \"b6cda316-6a50-4990-8279-e2777be95c79\",\n                \"origin\": 1663974689815368367,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688\",\n                \"resourceName\": \"MetadataConfiguration\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configuration\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"239e1b98-d000-4bc5-8bd8-8287817b756f\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfiguration\",\n        \"origin\": 1664272513018240840,\n        \"readings\": [\n            {\n                \"id\": \"ab630702-05d5-4c97-98d0-fa23b16e72cc\",\n                \"origin\": 1664272513018240840,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"MetadataConfiguration\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configuration\": {\n                        \"Analytics\": false,\n                        \"AnalyticsEngineConfiguration\": {},\n                        \"Multicast\": {\n                            \"Address\": {\n                                \"IPv4Address\": \"0.0.0.0\",\n                                \"Type\": \"IPv4\"\n                            },\n                            \"AutoStart\": false,\n                            \"Port\": 8864,\n                            \"TTL\": 128\n                        },\n                        \"Name\": \"metaData\",\n                        \"PTZStatus\": {\n                            \"Position\": false,\n                            \"Status\": false\n                        },\n                        \"SessionTimeout\": \"PT5S\",\n                        \"Token\": \"MetaDataToken\",\n                        \"UseCount\": 1\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -1810,7 +2698,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"MetadataConfiguration\": {\n        \"ForcePersistence\": true,\n        \"Configuration\":{\n            \"token\": \"{{MEDIA_CONFIG_TOKEN}}\",\n            \"Analytics\": true\n        }\n        \n    }\n}",
+							"raw": "{\n    \"MetadataConfiguration\": {\n        \"ForcePersistence\": true,\n        \"Configuration\": {\n            \"token\": \"{{MEDIA_CONFIG_TOKEN}}\",\n            \"Analytics\": true\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1933,7 +2821,7 @@
 					},
 					"response": [
 						{
-							"name": "CompatibleMetadataConfigurations",
+							"name": "GetCompatibleMetadataConfigurations",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -1973,19 +2861,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "362fa295-c750-49a8-a457-a5b5d1486cc6"
+									"value": "d538b93f-8ae7-4275-922a-f81977817b64"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 00:26:28 GMT"
+									"value": "Tue, 27 Sep 2022 09:52:49 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "580"
+									"value": "886"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"410b5658-82d9-488c-a5c4-c69f0ff6d273\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"CompatibleMetadataConfigurations\",\n        \"origin\": 1659659188300470539,\n        \"readings\": [\n            {\n                \"id\": \"86aa4298-c8ee-4c74-afc9-73104bb3cd11\",\n                \"origin\": 1659659188300470539,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"CompatibleMetadataConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"37a0130d-d555-44f2-ab9c-6214617eca32\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"CompatibleMetadataConfigurations\",\n        \"origin\": 1664272369409217715,\n        \"readings\": [\n            {\n                \"id\": \"86fb41fc-48e7-455f-bb66-78c8f556a21e\",\n                \"origin\": 1664272369409217715,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"CompatibleMetadataConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": {\n                        \"Analytics\": false,\n                        \"AnalyticsEngineConfiguration\": {},\n                        \"Multicast\": {\n                            \"Address\": {\n                                \"IPv4Address\": \"0.0.0.0\",\n                                \"Type\": \"IPv4\"\n                            },\n                            \"AutoStart\": false,\n                            \"Port\": 8864,\n                            \"TTL\": 128\n                        },\n                        \"Name\": \"metaData\",\n                        \"PTZStatus\": {\n                            \"Position\": false,\n                            \"Status\": false\n                        },\n                        \"SessionTimeout\": \"PT5S\",\n                        \"Token\": \"MetaDataToken\",\n                        \"UseCount\": 1\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -2023,7 +2911,7 @@
 					},
 					"response": [
 						{
-							"name": "MetadataConfigurationOptions",
+							"name": "GetMetadataConfigurationOptions",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -2063,19 +2951,19 @@
 								},
 								{
 									"key": "X-Correlation-Id",
-									"value": "fcbe3f78-3851-44ac-a75f-238527b90ea7"
+									"value": "e64dd74a-1a59-44a4-8fe0-f761ef70c663"
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 05 Aug 2022 00:26:34 GMT"
+									"value": "Tue, 27 Sep 2022 09:58:29 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "565"
+									"value": "739"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"f296e8b5-707f-4e66-9388-918821b83a19\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfigurationOptions\",\n        \"origin\": 1659659194429862266,\n        \"readings\": [\n            {\n                \"id\": \"f8efa15a-612d-4532-b40b-4e895cecb3bd\",\n                \"origin\": 1659659194429862266,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"MetadataConfigurationOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Options\": {}\n                }\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"e694b7a9-8a40-49c8-a5ed-a655b4342bb7\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MetadataConfigurationOptions\",\n        \"origin\": 1664272709504749791,\n        \"readings\": [\n            {\n                \"id\": \"9951b817-1f15-4dde-98fc-7fe7b5727008\",\n                \"origin\": 1664272709504749791,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"MetadataConfigurationOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Options\": {\n                        \"PTZStatusFilterOptions\": {\n                            \"PanTiltPositionSupported\": false,\n                            \"PanTiltStatusSupported\": false,\n                            \"ZoomPositionSupported\": false,\n                            \"ZoomStatusSupported\": false\n                        }\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
@@ -2372,7 +3260,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/StreamUri?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/StreamUri?jsonObject={{EDGEX_MEDIA_PROFILE_STREAM_SETUP_BASE64}}",
 							"protocol": "http",
 							"host": [
 								"0",
@@ -2392,7 +3280,7 @@
 							"query": [
 								{
 									"key": "jsonObject",
-									"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
+									"value": "{{EDGEX_MEDIA_PROFILE_STREAM_SETUP_BASE64}}"
 								}
 							]
 						},
@@ -2405,7 +3293,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/StreamUri?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/StreamUri?jsonObject={{EDGEX_MEDIA_PROFILE_STREAM_SETUP_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -2425,7 +3313,7 @@
 									"query": [
 										{
 											"key": "jsonObject",
-											"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
+											"value": "{{EDGEX_MEDIA_PROFILE_STREAM_SETUP_BASE64}}"
 										}
 									]
 								}
@@ -2816,7 +3704,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"VideoEncoderConfiguration\": {\n        \"ForcePersistence\": false,\n        \"Configuration\":{\n            \"token\": \"{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}\",\n            \"Encoding\": \"H264\",\n            \"Quality\": 3.000000,\n            \"Resolution\": {\n                \"Width\": 1920,\n                \"Height\": 1080\n            },\n            \"Multicast\": {\n                \"Address\": {\n                    \"Type\": \"IPv4\",\n                    \"IPv4Address\": \"0.0.0.0\"\n                },\n                \"Port\": 8860,\n                \"TTL\": 1,\n                \"AutoStart\": false\n            }\n        }\n        \n    }\n}",
+							"raw": "{\n    \"VideoEncoderConfiguration\": {\n        \"ForcePersistence\": false,\n        \"Configuration\": {\n            \"token\": \"{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}\",\n            \"Encoding\": \"H264\",\n            \"Quality\": 3.000000,\n            \"Resolution\": {\n                \"Width\": 1920,\n                \"Height\": 1080\n            },\n            \"Multicast\": {\n                \"Address\": {\n                    \"Type\": \"IPv4\",\n                    \"IPv4Address\": \"0.0.0.0\"\n                },\n                \"Port\": 8860,\n                \"TTL\": 1,\n                \"AutoStart\": false\n            }\n        }\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2902,906 +3790,6 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error writing DeviceResourece VideoEncoderConfiguration for TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'SetVideoEncoderConfiguration' of web service 'Media'. Onvif error: fault reason: , fault detail: , fault code: SOAP-ENV:Sender  \\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "User Handling",
-			"item": [
-				{
-					"name": "Get users",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"Users"
-							]
-						},
-						"description": "This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command."
-					},
-					"response": [
-						{
-							"name": "Get users",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"Users"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "16c7a0fe-a3fc-4b4f-a8e3-110ba2f0325a"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:40:38 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "609"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"8e524ecd-674d-4dd8-b728-de78b8245189\",\n        \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Users\",\n        \"origin\": 1664077238993899589,\n        \"readings\": [\n            {\n                \"id\": \"f5086b88-9876-4627-91d5-7ce39431652e\",\n                \"origin\": 1664077238993899589,\n                \"deviceName\": \"Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1\",\n                \"resourceName\": \"Users\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"User\": [\n                        {\n                            \"UserLevel\": \"Administrator\",\n                            \"Username\": \"admin\"\n                        },\n                        {\n                            \"UserLevel\": \"User\",\n                            \"Username\": \"user\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Create Users",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"CreateUsers\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            }\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/CreateUsers",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"CreateUsers"
-							]
-						},
-						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
-					},
-					"response": [
-						{
-							"name": "Create Users",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"CreateUsers\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"User\"\n            }\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": ""
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "e772e887-419e-4647-ae97-59722fbc7317"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:40:48 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Set users",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"Users"
-							]
-						},
-						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
-					},
-					"response": [
-						{
-							"name": "Set users",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"Users"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "bc42d5ca-4132-47e5-b159-98ca2aa1cdb8"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:40:53 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Delete users",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\"user1\",\"user2\"]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"DeleteUsers"
-							]
-						},
-						"description": "This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted."
-					},
-					"response": [
-						{
-							"name": "Delete users",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"DeleteUsers\": {\n        \"Username\": [\"user1\",\"user2\"]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"DeleteUsers"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "12780a21-c3b4-42b1-9e46-11369a5926de"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:40:57 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				}
-			]
-		},
-		{
-			"name": "Auto Discovery",
-			"item": [
-				{
-					"name": "GetDiscoveryMode",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"DiscoveryMode"
-							]
-						},
-						"description": "This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command."
-					},
-					"response": [
-						{
-							"name": "GetDiscoveryMode",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"DiscoveryMode"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "e81b8fb3-4bc4-4aab-a56f-5ff1ed41c123"
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 04 Aug 2022 23:38:59 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "553"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"8155efce-41b5-412f-a25d-b63bed015d63\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"DiscoveryMode\",\n        \"origin\": 1659656339306907742,\n        \"readings\": [\n            {\n                \"id\": \"099efd6b-d5fa-44a3-98f2-67eb72a1659f\",\n                \"origin\": 1659656339306907742,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"DiscoveryMode\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"DiscoveryMode\": \"Discoverable\"\n                }\n            }\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Set DiscoveryMode",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"DiscoveryMode\": {\n        \"DiscoveryMode\": \"Discoverable\"\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"DiscoveryMode"
-							]
-						},
-						"description": "This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command."
-					},
-					"response": [
-						{
-							"name": "Set DiscoveryMode",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"DiscoveryMode\": {\n        \"DiscoveryMode\": \"Discoverable\"\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"DiscoveryMode"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "99ed7b8d-81cc-4046-8ac9-ea8dd9013fb2"
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 04 Aug 2022 23:39:15 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Add Scopes",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"AddScopes\":{\n        \"ScopeItem\":[\n            \"http//:123\"\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddScopes",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"AddScopes"
-							]
-						},
-						"description": "This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command."
-					},
-					"response": [
-						{
-							"name": "Add Scopes",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"AddScopes\":{\n        \"ScopeItem\":[\n            \"http//:123\"\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/AddScopes",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"AddScopes"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "6c1402e7-4516-4661-9ba7-b486dc20336f"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:41:03 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Get Scopes",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"Scopes"
-							]
-						},
-						"description": "This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  \n\\- Fixed  \n\\- Configurable  \nFixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response."
-					},
-					"response": [
-						{
-							"name": "Get Scopes",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"Scopes"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "966fc4b2-a648-4bef-91fc-2aaf9f9310a7"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 05 Aug 2022 00:27:08 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "896"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"05f573f4-0836-45ad-b9ba-c393f9927586\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Scopes\",\n        \"origin\": 1659659228090509033,\n        \"readings\": [\n            {\n                \"id\": \"ea858652-cb16-432c-bf45-f9785cd00d85\",\n                \"origin\": 1659659228090509033,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"Scopes\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Scopes\": [\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/name/TP-IPC\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/hardware/MODEL\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/Profile/Streaming\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/location/ShenZhen\"\n                        },\n                        {\n                            \"ScopeDef\": \"Fixed\",\n                            \"ScopeItem\": \"onvif://www.onvif.org/type/NetworkVideoTransmitter\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Put Scopes",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Scopes\":{\n        \"Scopes\":[\n            \"http//:123\"\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"Scopes"
-							]
-						},
-						"description": "This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead."
-					},
-					"response": [
-						{
-							"name": "Put Scopes",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"Scopes\":{\n        \"Scopes\":[\n            \"http//:123\"\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Scopes",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"Scopes"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "0fa69e08-5b67-4b92-93c8-7cb642c2f43c"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:41:08 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Remove Scopes",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"RemoveScopes\":{\n        \"ScopeItem\":[\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveScopes",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v2",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"RemoveScopes"
-							]
-						},
-						"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
-					},
-					"response": [
-						{
-							"name": "Remove Scopes",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"RemoveScopes\":{\n        \"ScopeItem\":[\n            \"onvif://www.onvif.org/name/Geovision\"\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/RemoveScopes",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v2",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"RemoveScopes"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "1585c4fb-963a-4dc2-afa1-057559aedacc"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:41:12 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "528"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error writing DeviceResourece RemoveScopes for Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'RemoveScopes' of web service 'Device'. Onvif error: fault reason: Trying to Remove scope which does not exist, fault detail: , fault code: s:Sender ter:InvalidArgVal ter:NoScope\\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
 						}
 					]
 				}
@@ -3897,7 +3885,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetNode?jsonObject=eyJOb2RlVG9rZW4iOiAiTm9kZTAifQ==",
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetNode?jsonObject={{NODE_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -3917,7 +3905,7 @@
 									"query": [
 										{
 											"key": "jsonObject",
-											"value": "eyJOb2RlVG9rZW4iOiAiTm9kZTAifQ==",
+											"value": "{{NODE_TOKEN_BASE64}}",
 											"description": "{\"NodeToken\": \"Node0\"}"
 										}
 									]
@@ -3931,7 +3919,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetNode?jsonObject=eyJOb2RlVG9rZW4iOiAiTm9kZTAifQ==",
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetNode?jsonObject={{NODE_TOKEN_BASE64}}",
 											"protocol": "http",
 											"host": [
 												"0",
@@ -3951,7 +3939,7 @@
 											"query": [
 												{
 													"key": "jsonObject",
-													"value": "eyJOb2RlVG9rZW4iOiAiTm9kZTAifQ=="
+													"value": "{{NODE_TOKEN_BASE64}}"
 												}
 											]
 										}
@@ -4095,7 +4083,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Configuration?jsonObject=eyJQVFpDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Configuration?jsonObject={{PTZ_CONFIGURATION_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -4115,7 +4103,7 @@
 									"query": [
 										{
 											"key": "jsonObject",
-											"value": "eyJQVFpDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+											"value": "{{PTZ_CONFIGURATION_TOKEN_BASE64}}",
 											"description": "{\"PTZConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
@@ -4129,7 +4117,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Configuration?jsonObject=eyJQVFpDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Configuration?jsonObject={{PTZ_CONFIGURATION_TOKEN_BASE64}}",
 											"protocol": "http",
 											"host": [
 												"0",
@@ -4149,7 +4137,7 @@
 											"query": [
 												{
 													"key": "jsonObject",
-													"value": "eyJQVFpDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ=="
+													"value": "{{PTZ_CONFIGURATION_TOKEN_BASE64}}"
 												}
 											]
 										}
@@ -4198,7 +4186,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -4218,7 +4206,7 @@
 									"query": [
 										{
 											"key": "jsonObject",
-											"value": "eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+											"value": "{{GET_CONFIGURATION_OPTIONS_BASE64}}",
 											"description": "{\"ConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
@@ -4232,7 +4220,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject=eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
 											"protocol": "http",
 											"host": [
 												"0",
@@ -4252,7 +4240,7 @@
 											"query": [
 												{
 													"key": "jsonObject",
-													"value": "eyJDb25maWd1cmF0aW9uVG9rZW4iOiAiUFRaQ29uZmlndXJhdGlvbjAifQ==",
+													"value": "{{GET_CONFIGURATION_OPTIONS_BASE64}}",
 													"description": "{\"ConfigurationToken\": \"PTZConfiguration0\"}"
 												}
 											]
@@ -4291,7 +4279,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Configuration\": {\n        \"PTZConfiguration\": {\n            \"Token\": \"{{PTZ_CONFIG_TOKEN}}\",\n            \"NodeToken\": \"{{PTZ_NODE_TOKEN}}\",\n            \"PanTiltLimits\": {\n                \"Range\": {\n                    \"XRange\": {\n                        \"Max\": 170,\n                        \"Min\": -170\n                    },\n                    \"YRange\": {\n                        \"Max\": 35,\n                        \"Min\": -32\n                    }\n                }\n            }\n        }                    \n    }\n}",
+									"raw": "{\n    \"Configuration\": {\n        \"PTZConfiguration\": {\n            \"Token\": \"{{PTZ_CONFIG_TOKEN}}\",\n            \"NodeToken\": \"{{PTZ_NODE_TOKEN}}\",\n            \"PanTiltLimits\": {\n                \"Range\": {\n                    \"XRange\": {\n                        \"Max\": 170,\n                        \"Min\": -170\n                    },\n                    \"YRange\": {\n                        \"Max\": 35,\n                        \"Min\": -32\n                    }\n                }\n            }\n        }\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4387,7 +4375,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AddPTZConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"ConfigurationToken\": \"{{PTZ_CONFIG_TOKEN}}\"                \n    }\n}",
+									"raw": "{\n    \"AddPTZConfiguration\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"ConfigurationToken\": \"{{PTZ_CONFIG_TOKEN}}\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4483,7 +4471,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"                \n    }\n}",
+									"raw": "{\n    \"RemovePTZConfiguration\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4584,7 +4572,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"AbsoluteMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Position\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4680,7 +4668,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"RelativeMove\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"Translation\": {\n            \"PanTilt\": {\n                \"x\": 0,\n                \"y\": 0\n            }\n        }\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4776,7 +4764,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"ContinuousMove\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Velocity\": {\n            \"PanTilt\": {\n                \"x\": -1,\n                \"y\": -1\n            }\n        }               \n    }\n}",
+									"raw": "{\n    \"ContinuousMove\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"Velocity\": {\n            \"PanTilt\": {\n                \"x\": -1,\n                \"y\": -1\n            }\n        }\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -4883,7 +4871,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetStatus?jsonObject=eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==",
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetStatus?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -4903,7 +4891,7 @@
 									"query": [
 										{
 											"key": "jsonObject",
-											"value": "eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==",
+											"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}",
 											"description": "{\"ProfileToken\":\"profile_1\"}"
 										}
 									]
@@ -4917,7 +4905,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetStatus?jsonObject=eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==",
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetStatus?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 											"protocol": "http",
 											"host": [
 												"0",
@@ -4937,7 +4925,7 @@
 											"query": [
 												{
 													"key": "jsonObject",
-													"value": "eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ=="
+													"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
 												}
 											]
 										}
@@ -4975,7 +4963,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Stop\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"PanTilt\": true              \n    }\n}",
+									"raw": "{\n    \"Stop\": {\n        \"ProfileToken\": \"{{MEDIA_PROFILE}}\",\n        \"PanTilt\": true\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5076,7 +5064,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"SetPreset\": {\n        \"PresetName\":\"Preset1\",\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"           \n    }\n}",
+									"raw": "{\n    \"SetPreset\": {\n        \"PresetName\": \"Preset1\",\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5171,7 +5159,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetPresets?jsonObject={{PTZ_CONFIG_TOKEN_BASE64}}",
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetPresets?jsonObject={{PTZ_MEDIA_PROFILE_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -5191,8 +5179,7 @@
 									"query": [
 										{
 											"key": "jsonObject",
-											"value": "{{PTZ_CONFIG_TOKEN_BASE64}}",
-											"description": "{\"ProfileToken\":\"profile_1\"}"
+											"value": "{{PTZ_MEDIA_PROFILE_TOKEN_BASE64}}"
 										}
 									]
 								},
@@ -5205,7 +5192,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetPresets?jsonObject=eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==",
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetPresets?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 											"protocol": "http",
 											"host": [
 												"0",
@@ -5225,7 +5212,7 @@
 											"query": [
 												{
 													"key": "jsonObject",
-													"value": "eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ=="
+													"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
 												}
 											]
 										}
@@ -5263,7 +5250,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"GotoPreset\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"PresetToken\": \"Preset1\"      \n    }\n}",
+									"raw": "{\n    \"GotoPreset\": {\n        \"ProfileToken\": \"{{PTZ_CONFIG_TOKEN}}\",\n        \"PresetToken\": \"Preset1\"\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -5912,7 +5899,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"UnsubscribeCameraEvent\": {\n    }\n}",
+							"raw": "{\n    \"UnsubscribeCameraEvent\": {}\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -6037,7 +6024,7 @@
 							},
 							"response": [
 								{
-									"name": "GetProfiles - Tapo C200",
+									"name": "GetMedia2Profiles",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -6061,8 +6048,8 @@
 											]
 										}
 									},
-									"status": "Internal Server Error",
-									"code": 500,
+									"status": "OK",
+									"code": 200,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -6071,19 +6058,19 @@
 										},
 										{
 											"key": "X-Correlation-Id",
-											"value": "5508bc60-f875-4895-86ae-2ed70fe8b7f0"
+											"value": "0b6aa429-e24c-4dda-9368-7daa71aee8d0"
 										},
 										{
 											"key": "Date",
-											"value": "Fri, 05 Aug 2022 03:58:10 GMT"
+											"value": "Thu, 29 Sep 2022 08:35:20 GMT"
 										},
 										{
 											"key": "Content-Length",
-											"value": "523"
+											"value": "728"
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error reading DeviceResourece Media2Profiles for TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\\\\u003e failed to execute read command -\\\\u003e invalid request for the function 'GetProfiles' of web service 'Media2'. Onvif error: fault reason: Method 'tr2:GetProfiles' not implemented: method name or namespace not recognized, fault detail: , fault code: SOAP-ENV:Sender  \\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"100ae377-e811-4b88-bd81-f6f67c86cf61\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Media2Profiles\",\n        \"origin\": 1664440520205892135,\n        \"readings\": [\n            {\n                \"id\": \"e6bf94fd-ebde-4b0a-a503-8b23f7a8aebb\",\n                \"origin\": 1664440520205892135,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"Media2Profiles\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Profiles\": [\n                        {\n                            \"Fixed\": true,\n                            \"Name\": \"mainStream\",\n                            \"Token\": \"Profile_1\"\n                        },\n                        {\n                            \"Fixed\": true,\n                            \"Name\": \"subStream\",\n                            \"Token\": \"Profile_2\"\n                        },\n                        {\n                            \"Fixed\": true,\n                            \"Name\": \"thirdStream\",\n                            \"Token\": \"Profile_3\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
 								}
 							]
 						},
@@ -6115,7 +6102,7 @@
 							},
 							"response": [
 								{
-									"name": "GetAnalyticsConfigurations - Tapo C200",
+									"name": "GetAnalyticsConfigurations",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -6139,8 +6126,8 @@
 											]
 										}
 									},
-									"status": "Internal Server Error",
-									"code": 500,
+									"status": "OK",
+									"code": 200,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -6149,19 +6136,19 @@
 										},
 										{
 											"key": "X-Correlation-Id",
-											"value": "dc78312b-f01c-49f3-9a48-8ceb07b07a15"
+											"value": "931912b9-e285-43ec-9d83-764117bfb8f3"
 										},
 										{
 											"key": "Date",
-											"value": "Fri, 05 Aug 2022 03:58:29 GMT"
+											"value": "Thu, 29 Sep 2022 08:35:27 GMT"
 										},
 										{
 											"key": "Content-Length",
-											"value": "565"
+											"value": "1813"
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error reading DeviceResourece GetAnalyticsConfigurations for TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\\\\u003e failed to execute read command -\\\\u003e invalid request for the function 'GetAnalyticsConfigurations' of web service 'Media2'. Onvif error: fault reason: Method 'tr2:GetAnalyticsConfigurations' not implemented: method name or namespace not recognized, fault detail: , fault code: SOAP-ENV:Sender  \\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"08db4d59-0991-4ace-bb6a-9103c54d38ea\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetAnalyticsConfigurations\",\n        \"origin\": 1664440527648299236,\n        \"readings\": [\n            {\n                \"id\": \"6e768a1a-a521-47c6-9d13-2337386768d1\",\n                \"origin\": 1664440527648299236,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"GetAnalyticsConfigurations\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Configurations\": [\n                        {\n                            \"AnalyticsEngineConfiguration\": {\n                                \"AnalyticsModule\": [\n                                    {\n                                        \"Name\": \"MyCellMotionModule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Layout\"\n                                                }\n                                            ],\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"Sensitivity\",\n                                                    \"Value\": \"0\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"tt:CellMotionEngine\"\n                                    },\n                                    {\n                                        \"Name\": \"MyLineDetectorModule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Layout\"\n                                                },\n                                                {\n                                                    \"Name\": \"Field\"\n                                                }\n                                            ],\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"Sensitivity\",\n                                                    \"Value\": \"50\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"tt:LineDetectorEngine\"\n                                    },\n                                    {\n                                        \"Name\": \"MyFieldDetectorModule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Layout\"\n                                                },\n                                                {\n                                                    \"Name\": \"Field\"\n                                                }\n                                            ],\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"Sensitivity\",\n                                                    \"Value\": \"50\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"tt:FieldDetectorEngine\"\n                                    },\n                                    {\n                                        \"Name\": \"MyTamperDetecModule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Transformation\"\n                                                },\n                                                {\n                                                    \"Name\": \"Field\"\n                                                }\n                                            ],\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"Sensitivity\",\n                                                    \"Value\": \"0\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"hikxsd:TamperEngine\"\n                                    }\n                                ]\n                            },\n                            \"Name\": \"VideoAnalyticsName\",\n                            \"RuleEngineConfiguration\": {\n                                \"Rule\": [\n                                    {\n                                        \"Name\": \"MyMotionDetectorRule\",\n                                        \"Parameters\": {\n                                            \"SimpleItem\": [\n                                                {\n                                                    \"Name\": \"MinCount\",\n                                                    \"Value\": \"5\"\n                                                },\n                                                {\n                                                    \"Name\": \"AlarmOnDelay\",\n                                                    \"Value\": \"1000\"\n                                                },\n                                                {\n                                                    \"Name\": \"AlarmOffDelay\",\n                                                    \"Value\": \"1000\"\n                                                },\n                                                {\n                                                    \"Name\": \"ActiveCells\",\n                                                    \"Value\": \"zwA=\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"tt:CellMotionDetector\"\n                                    },\n                                    {\n                                        \"Name\": \"MyTamperDetectorRule\",\n                                        \"Parameters\": {\n                                            \"ElementItem\": [\n                                                {\n                                                    \"Name\": \"Field\"\n                                                }\n                                            ]\n                                        },\n                                        \"Type\": \"hikxsd:TamperDetector\"\n                                    }\n                                ]\n                            },\n                            \"Token\": \"VideoAnalyticsToken\",\n                            \"UseCount\": 3\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
 								}
 							]
 						},
@@ -6270,7 +6257,57 @@
 								},
 								"description": "List all analytics modules that are supported by the given VideoAnalyticsConfiguration."
 							},
-							"response": []
+							"response": [
+								{
+									"name": "GetSupportedAnalyticsModules",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/GetSupportedAnalyticsModules",
+											"protocol": "http",
+											"host": [
+												"0",
+												"0",
+												"0",
+												"0"
+											],
+											"port": "59882",
+											"path": [
+												"api",
+												"v2",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"GetSupportedAnalyticsModules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "b73f490a-11fe-4b8c-9a8b-7d6cf8fc30da"
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 29 Sep 2022 08:35:35 GMT"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"1caa5b4c-a2d1-403e-90a0-fc7d63a9538c\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"GetSupportedAnalyticsModules\",\n        \"origin\": 1664440535746008222,\n        \"readings\": [\n            {\n                \"id\": \"f9f5ddc4-10df-41a1-b50e-c12683683093\",\n                \"origin\": 1664440535746008222,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"GetSupportedAnalyticsModules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"SupportedAnalyticsModules\": {\n                        \"AnalyticsModuleContentSchemaLocation\": \"http://www.w3.org/2001/XMLSchema\",\n                        \"AnalyticsModuleDescription\": [\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"IsMotion\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/CellMotionDetector/Motion\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:CellMotionEngine\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Layout\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"Sensitivity\",\n                                            \"Type\": \"xs:integer\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 4,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"ObjectId\",\n                                                \"Type\": \"xs:integer\"\n                                            }\n                                        ]\n                                    },\n                                    \"ParentTopic\": \"tns1:RuleEngine/LineDetector/Crossed\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:LineDetectorEngine\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Transformation\"\n                                        },\n                                        {\n                                            \"Name\": \"Field\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"Sensitivity\",\n                                            \"Type\": \"xs:integer\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 4,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"IsInside\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"Key\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"ObjectId\",\n                                                \"Type\": \"xs:integer\"\n                                            }\n                                        ]\n                                    },\n                                    \"ParentTopic\": \"tns1:RuleEngine/FieldDetector/ObjectsInside\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"tt:FieldDetectorEngine\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Transformation\"\n                                        },\n                                        {\n                                            \"Name\": \"Field\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"Sensitivity\",\n                                            \"Type\": \"xs:integer\"\n                                        }\n                                    ]\n                                }\n                            },\n                            {\n                                \"Fixed\": false,\n                                \"MaxInstances\": 1,\n                                \"Messages\": {\n                                    \"Data\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"IsTamper\",\n                                                \"Type\": \"xs:boolean\"\n                                            }\n                                        ]\n                                    },\n                                    \"IsProperty\": true,\n                                    \"ParentTopic\": \"tns1:RuleEngine/TamperDetector/Tamper\",\n                                    \"Source\": {\n                                        \"SimpleItemDescription\": [\n                                            {\n                                                \"Name\": \"VideoSourceConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"VideoAnalyticsConfigurationToken\",\n                                                \"Type\": \"tt:ReferenceToken\"\n                                            },\n                                            {\n                                                \"Name\": \"Rule\",\n                                                \"Type\": \"xs:string\"\n                                            }\n                                        ]\n                                    }\n                                },\n                                \"Name\": \"hikxsd:TamperEngine\",\n                                \"Parameters\": {\n                                    \"ElementItemDescription\": [\n                                        {\n                                            \"Name\": \"Transformation\"\n                                        },\n                                        {\n                                            \"Name\": \"Field\"\n                                        }\n                                    ],\n                                    \"SimpleItemDescription\": [\n                                        {\n                                            \"Name\": \"Sensitivity\",\n                                            \"Type\": \"xs:integer\"\n                                        }\n                                    ]\n                                }\n                            }\n                        ]\n                    }\n                }\n            }\n        ]\n    }\n}"
+								}
+							]
 						},
 						{
 							"name": "GetAnalyticsModules",
@@ -6346,19 +6383,19 @@
 										},
 										{
 											"key": "X-Correlation-Id",
-											"value": "e1799801-2c54-4816-b766-2d93caee89c9"
+											"value": "dce2b5db-eac1-48f8-a3ca-4f296585cd39"
 										},
 										{
 											"key": "Date",
-											"value": "Tue, 11 Oct 2022 03:49:35 GMT"
+											"value": "Thu, 29 Sep 2022 08:35:45 GMT"
 										},
 										{
 											"key": "Content-Length",
-											"value": "678"
+											"value": "1278"
 										}
 									],
 									"cookie": [],
-									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"76f908cd-6b34-477f-9a03-5eea4021b416\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"AnalyticsModules\",\n        \"origin\": 1665460175164293870,\n        \"readings\": [\n            {\n                \"id\": \"c5f01e17-9b31-43eb-bc55-2417617ef530\",\n                \"origin\": 1665460175164293870,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"AnalyticsModules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"AnalyticsModule\": [\n                        {\n                            \"Name\": \"MyCellMotionModule\",\n                            \"Parameters\": {\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"6\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:CellMotionEngine\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
+									"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"09e8fab7-e43d-4ba3-adeb-6ca2d3a3b255\",\n        \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"AnalyticsModules\",\n        \"origin\": 1664440545266300009,\n        \"readings\": [\n            {\n                \"id\": \"c2bf2bfe-915f-48e5-bb4b-5cfdf5d9241a\",\n                \"origin\": 1664440545266300009,\n                \"deviceName\": \"HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c\",\n                \"resourceName\": \"AnalyticsModules\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"AnalyticsModule\": [\n                        {\n                            \"Name\": \"MyCellMotionModule\",\n                            \"Parameters\": {\n                                \"ElementItem\": [\n                                    {\n                                        \"Name\": \"Layout\"\n                                    }\n                                ],\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"0\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:CellMotionEngine\"\n                        },\n                        {\n                            \"Name\": \"MyLineDetectorModule\",\n                            \"Parameters\": {\n                                \"ElementItem\": [\n                                    {\n                                        \"Name\": \"Layout\"\n                                    },\n                                    {\n                                        \"Name\": \"Field\"\n                                    }\n                                ],\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"50\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:LineDetectorEngine\"\n                        },\n                        {\n                            \"Name\": \"MyFieldDetectorModule\",\n                            \"Parameters\": {\n                                \"ElementItem\": [\n                                    {\n                                        \"Name\": \"Layout\"\n                                    },\n                                    {\n                                        \"Name\": \"Field\"\n                                    }\n                                ],\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"50\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"tt:FieldDetectorEngine\"\n                        },\n                        {\n                            \"Name\": \"MyTamperDetecModule\",\n                            \"Parameters\": {\n                                \"ElementItem\": [\n                                    {\n                                        \"Name\": \"Transformation\"\n                                    },\n                                    {\n                                        \"Name\": \"Field\"\n                                    }\n                                ],\n                                \"SimpleItem\": [\n                                    {\n                                        \"Name\": \"Sensitivity\",\n                                        \"Value\": \"0\"\n                                    }\n                                ]\n                            },\n                            \"Type\": \"hikxsd:TamperEngine\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
 								}
 							]
 						},
@@ -6369,7 +6406,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"CreateAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"TestAnalyticsModule\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"{{ANALYTIC_MODULE_OPTION_NAME}}\", \n                            \"Value\":\"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"CreateAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"TestAnalyticsModule\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"{{ANALYTIC_MODULE_OPTION_NAME}}\",\n                            \"Value\": \"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6465,7 +6502,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"DeleteAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModuleName\": [\"TestAnalyticsModule\"]\n    }\n}",
+									"raw": "{\n    \"DeleteAnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModuleName\": [\n            \"TestAnalyticsModule\"\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6651,7 +6688,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"AnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"Viproc\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"{{ANALYTIC_MODULE_OPTION_NAME}}\", \n                            \"Value\":\"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"AnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"Viproc\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"{{ANALYTIC_MODULE_OPTION_NAME}}\",\n                            \"Value\": \"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -6963,7 +7000,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"CreateRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"Object Counting\",\n                \"Type\": \"tt:LineCounting\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"Armed\", \n                            \"Value\":\"true\"\n                        }\n                    ],\n                    \"ElementItem\": [\n                        {\n                            \"Name\":\"Segments\", \n                            \"Polyline\": {\n                                \"Point\": [\n                                    {\n                                        \"x\":\"0.16\",\n                                        \"y\": \"0.5\"\n                                    },\n                                    {\n                                        \"x\":\"0.16\",\n                                        \"y\": \"-0.5\"\n                                    }\n                                ]\n                            }\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"CreateRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"Object Counting\",\n                \"Type\": \"tt:LineCounting\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"Armed\",\n                            \"Value\": \"true\"\n                        }\n                    ],\n                    \"ElementItem\": [\n                        {\n                            \"Name\": \"Segments\",\n                            \"Polyline\": {\n                                \"Point\": [\n                                    {\n                                        \"x\": \"0.16\",\n                                        \"y\": \"0.5\"\n                                    },\n                                    {\n                                        \"x\": \"0.16\",\n                                        \"y\": \"-0.5\"\n                                    }\n                                ]\n                            }\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -7155,7 +7192,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+									"raw": "{\n    \"Rules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"ClassFilter\",\n                            \"Value\": \" Bike Car Truck\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -7336,7 +7373,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{ \"MACAddress\": \"10-27-f5-ea-88-f4\" }",
+							"raw": "{\n    \"MACAddress\": \"10-27-f5-ea-88-f4\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7362,7 +7399,7 @@
 								"MACAddress"
 							]
 						},
-						"description": "This command sets the MAC address associated with a device."
+						"description": "MACAddress can also be set via Edgex device command. This is useful for setting the MAC Address for devices which do not contain \nthe MAC Address in the Endpoint Reference Address, or have been added manually without a MAC Address. \nSince the MAC is used to map credentials for cameras, it is important to have this field filled out.\n\n> Note: When a camera successfully becomes `UpWithAuth`, the MAC Address is automatically queried and overridden by the system if available.\nDevice resource MACAddress is used to set `MACAddress` of a camera."
 					},
 					"response": [
 						{
@@ -7510,7 +7547,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"FriendlyName\": {\n        \"FriendlyName\": \"My Camera\"\n    }\n}",
+							"raw": "{\n    \"FriendlyName\": \"My Camera\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7648,7 +7685,7 @@
 								"CustomMetadata"
 							]
 						},
-						"description": "This command returns the user specified custom metadata associated with a device."
+						"description": "**Get Custom Metadata**\nUse this command to return all of the data in the CustomMetadata field.\n\n**Get Specific Custom Metadata**\n\nPass the `CustomMetadata` resource a query to get specific field(s) in CustomMetadata. The query must be a base64 encoded json object with an array of fields you want to access.\n\n1. Json object holding an array of fields you want to query.\n```json\n'[\n    \"Color\",\n    \"Location\"\n]'\n```\n\n2. Use this command to convert the json object to base64.\n```shell\necho '[\n    \"Color\",\n    \"Location\"\n]' | base64\n```\n\n3. The response converted to base64.\n```\nWwogICAgIkNvbG9yIiwKICAgICJMb2NhdGlvbiIKXQo=\n```\n\n4. Use this command to query the fields you provided in the json object.\n```shell\ncurl http://localhost:59882/api/v2/device/name/<device name>/CustomMetadata?jsonObject=WwogICAgIkNvbG9yIiwKICAgICJMb2NhdGlvbiIKXQo= | jq .\n```"
 					},
 					"response": [
 						{
@@ -7778,7 +7815,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"CustomMetadata\": {\n        \"Location\":\"Front door\",\n        \"Business\":\"John's Grocery Store\",\n        \"Install Date\":\"01/01/1970\"\n    }\n}",
+							"raw": "{\n    \"CustomMetadata\": {\n        \"Location\": \"Front door\",\n        \"Business\": \"John's Grocery Store\",\n        \"Install Date\": \"01/01/1970\",\n        \"Color\": \"White\"\n    }\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7803,7 +7840,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"CustomMetadata"
 							]
-						}
+						},
+						"description": "Use the CustomMetadata resource to set the fields of `CustomMetadata`. Choose the key/value pairs to represent your custom fields."
 					},
 					"response": [
 						{
@@ -7886,7 +7924,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"DeleteCustomMetadata\": [\"Location\", \"Color\"]\n}",
+							"raw": "{\n    \"DeleteCustomMetadata\": [\n        \"Location\",\n        \"Color\"\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -7911,7 +7949,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeleteCustomMetadata"
 							]
-						}
+						},
+						"description": "Use the `DeleteCustomMetadata` resource to delete entries in custom metadata"
 					},
 					"response": [
 						{
@@ -7978,10 +8017,24 @@
 			"description": "Custom commands outside of the ONVIF spec handled by the device service directly."
 		}
 	],
-	"variable": [
+	"event": [
 		{
-			"key": "ptz_enc",
-			"value": ""
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }

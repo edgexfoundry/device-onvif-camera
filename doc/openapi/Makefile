@@ -1,43 +1,41 @@
+# Copyright (C) 2022 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
 
-.PHONY: gen install schema-gen
+.PHONY: gen install clean
+
+SHELL := /bin/bash
 
 POSTMAN_COLLECTION = ../postman/device-onvif-camera.postman_collection.json
+POSTMAN_ENV = ../postman/device-onvif-camera.postman_environment.json
 OPENAPI_FILE = v2/device-onvif-camera.yaml
-OPENAPI_TEMP_FILE = ./tmp/device-onvif-camera.yaml
+OPENAPI_TEMP_FILE = tmp/device-onvif-camera.yaml
 POSTMAN_2_OPENAPI_OPTIONS = p2o-options.json
 SIDECAR_FILE = sidecar.yaml
 PROFILE_FILE = ../../cmd/res/profiles/camera.yaml
+ONVIF_TESTED_FILE = ../ONVIF-protocol.md
+ONVIF_FOOTNOTES_FILE = ../onvif-footnotes.md
 
-SCHEMA_POSTMAN = ./device-onvif-camera.postman_collection.json
-SCHEMA_TEMP = ../postman/openapi.json
-OPENAPI_SCHEMA_TEMP_FILE = ./tmp/device-onvif-camera.schema.yaml
-EXTRACTED_SCHEMA = ../postman/schemas/_extracted.json
+# list of all services in the ./ref folder
+SERVICES = analytics device event imaging media media2 ptz
 
 # todo: replace the API version number based on the actual source code version
 
-$(OPENAPI_FILE) gen: $(SIDECAR_FILE) $(OPENAPI_SCHEMA_TEMP_FILE) $(PROFILE_FILE) python/postprocess.py
-	python3 python/postprocess.py $(OPENAPI_SCHEMA_TEMP_FILE) $(SIDECAR_FILE) $(PROFILE_FILE) $(OPENAPI_FILE)
-	rm -rf ./tmp
+$(OPENAPI_FILE) gen: $(SIDECAR_FILE) $(OPENAPI_TEMP_FILE) $(PROFILE_FILE) $(SERVICES:%=ref/out/%.yaml) $(ONVIF_TESTED_FILE) $(ONVIF_FOOTNOTES_FILE) $(POSTMAN_ENV) python/postprocess.py python/matrix.py python/cleaner.py Makefile
+	python3 python/postprocess.py $(OPENAPI_TEMP_FILE) $(SIDECAR_FILE) $(PROFILE_FILE) $(OPENAPI_FILE) $(ONVIF_TESTED_FILE) $(ONVIF_FOOTNOTES_FILE) $(POSTMAN_ENV)
 
+$(OPENAPI_TEMP_FILE): $(POSTMAN_COLLECTION) $(POSTMAN_ENV) $(POSTMAN_2_OPENAPI_OPTIONS) | ./tmp
+	p2o $(POSTMAN_COLLECTION) -f $(OPENAPI_TEMP_FILE) -o $(POSTMAN_2_OPENAPI_OPTIONS) > /dev/null
 
-$(OPENAPI_TEMP_FILE): $(POSTMAN_COLLECTION) $(POSTMAN_2_OPENAPI_OPTIONS) | ./tmp
-	p2o $(POSTMAN_COLLECTION) -f $(OPENAPI_TEMP_FILE) -o $(POSTMAN_2_OPENAPI_OPTIONS)
-
-./tmp:
+./tmp ./ref/out:
 	mkdir -p $@
 
 install:
 	npm install -g postman-to-openapi
-	npm install -g postman-to-openapi-json-extended
 	pip3 install -r python/requirements.txt
-	snap install yq
 
-$(SCHEMA_TEMP) schema-gen:
-	cd ../postman && \
-	p2ojx extract $(SCHEMA_POSTMAN) && \
-	p2ojx build
-	rm -f $(EXTRACTED_SCHEMA)
+# generate the ref/out/<service>.yaml files from the ref/<service>.yaml files
+$(SERVICES:%=ref/out/%.yaml) : ref/out/%.yaml : ref/%.yaml python/xmlstrip.py | ./ref/out
+	python/xmlstrip.py "$*" "ref/$*.yaml" "ref/out/$*.yaml"
 
-$(OPENAPI_SCHEMA_TEMP_FILE): $(SCHEMA_TEMP) | ./tmp
-	yq . -o=yaml $(SCHEMA_TEMP) -P > $(OPENAPI_SCHEMA_TEMP_FILE)
-	rm -f $(SCHEMA_TEMP)
+clean:
+	rm -rf ref/out tmp $(SCHEMA_TEMP_JSON) $(EXTRACTED_SCHEMA)

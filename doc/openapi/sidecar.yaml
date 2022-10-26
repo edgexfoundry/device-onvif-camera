@@ -1,3 +1,412 @@
+# Copyright (C) 2022 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
 # This file contains additional OpenAPI metadata to be side-loaded into the final OpenAPI document
+
+# Note: Due to the use of ruamel.yaml, any blank lines or comments below will be copied as-is to the output file
+#       This may be a good thing, but also causes issues when an item is replicated/duplicated.
+
 ---
-todo:
+requests:
+  edgex:
+    BaseNotificationSubscription:
+      properties:
+        InitialTerminationTime:
+          $ref: '#/components/schemas/wsnt_AbsoluteOrRelativeTimeType'
+        TopicFilter:
+          type: string
+      type: object
+    PullPointSubscription:
+      properties:
+        MessageContentFilter:
+          type: string
+        InitialTerminationTime:
+          $ref: '#/components/schemas/wsnt_AbsoluteOrRelativeTimeType'
+        MessageTimeout:
+          $ref: '#/components/schemas/wsnt_AbsoluteOrRelativeTimeType'
+      type: object
+    UnsubscribeCameraEvent:
+      type: object
+    MACAddress:
+      type: string
+    FriendlyName:
+      type: string
+    CustomMetadata:
+      type: object
+      additionalProperties:
+        type: string
+    DeleteCustomMetadata:
+      type: array
+      items:
+        type: string
+    NetworkConfiguration:
+      type: object
+responses:
+  onvif:
+    get:
+      allOf:
+        - $ref: '#/components/schemas/ObjectEventResponse'
+        - properties:
+            event:
+              properties:
+                readings:
+                  items:
+                    properties:
+                      objectValue:
+  edgex:
+    Snapshot:
+      $ref: '#/components/schemas/BinaryEventResponse'
+    RebootNeeded:
+      $ref: '#/components/schemas/BoolEventResponse'
+    FriendlyName:
+      $ref: '#/components/schemas/StringEventResponse'
+    MACAddress:
+      $ref: '#/components/schemas/StringEventResponse'
+    CustomMetadata:
+      $ref: '#/components/schemas/ObjectEventResponse'
+    NetworkConfiguration:
+      allOf:
+        - $ref: '#/components/schemas/ObjectEventResponse'
+        - properties:
+            event:
+              properties:
+                readings:
+                  items:
+                    anyOf:
+                      - properties:
+                          objectValue:
+  canned:
+    '200':
+      description: "OK"
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/correlatedResponseHeader'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BaseResponse'
+          examples:
+            200Example:
+              $ref: '#/components/examples/200Example'
+    '400':
+      description: "Request is in an invalid state"
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/correlatedResponseHeader'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            400Example:
+              $ref: '#/components/examples/400Example'
+    '404':
+      description: "The requested resource does not exist"
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/correlatedResponseHeader'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            404Example:
+              $ref: '#/components/examples/404Example'
+    '423':
+      description: "The device is locked (AdminState)"
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/correlatedResponseHeader'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            423Example:
+              $ref: '#/components/examples/423Example'
+    '500':
+      description: "An unexpected error occurred on the server"
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/correlatedResponseHeader'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            500Example:
+              $ref: '#/components/examples/500Example'
+    '503':
+      description: "Service Unavailable"
+      headers:
+        X-Correlation-Id:
+          $ref: '#/components/headers/correlatedResponseHeader'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          examples:
+            503Example:
+              $ref: '#/components/examples/503Example'
+components:
+  headers:
+    correlatedResponseHeader:
+      description: "A response header that returns the unique correlation ID used to initiate the request."
+      schema:
+        type: string
+        format: uuid
+      example: "14a42ea6-c394-41c3-8bcd-a29b9f5e6835"
+  parameters:
+    EDGEX_DEVICE_NAME:
+      name: EDGEX_DEVICE_NAME
+      in: path
+      schema:
+        type: string
+      required: true
+      example: Camera001
+      description: |
+        This is the device name associated with the camera. It was 
+        either assigned via the auto-discovery function, or manually 
+        defined when you created the device.
+  examples:
+    200Example:
+      value:
+        apiVersion: v2
+        statusCode: 200
+    400Example:
+      value:
+        apiVersion: "v2"
+        statusCode: 400
+        message: "Bad Request"
+    404Example:
+      value:
+        apiVersion: "v2"
+        statusCode: 404
+        message: "The requested resource does not exist"
+    416Example:
+      value:
+        apiVersion: "v2"
+        statusCode: 416
+        message: "Range Not Satisfiable"
+    423Example:
+      value:
+        apiVersion: "v2"
+        statusCode: 423
+        message: "The device is locked (AdminState)"
+    500Example:
+      value:
+        apiVersion: "v2"
+        statusCode: 500
+        message: "Internal Server Error"
+    503Example:
+      value:
+        apiVersion: "v2"
+        statusCode: 503
+        message: "HTTP request timeout"
+  schemas:
+    Event:
+      description: "A discrete event containing one or more readings"
+      properties:
+        apiVersion:
+          description: "A version number shows the API version in DTOs."
+          type: string
+        id:
+          description: "The unique identifier for the event"
+          type: string
+          format: uuid
+        deviceName:
+          description: "The name of the device from which the event originated"
+          type: string
+        profileName:
+          description: "The name of the device profile from which the event originated"
+          type: string
+        sourceName:
+          description: "The name of the source device resource or command from which the event originated"
+          type: string
+        origin:
+          description: "A Unix timestamp indicating when the event was originated at the source device (can support nanoseconds)"
+          type: integer
+        readings:
+          description: "One or more readings captured at the time of the event"
+          type: array
+          items:
+            $ref: '#/components/schemas/BaseReading'
+      required:
+        - apiVersion
+        - id
+        - deviceName
+        - profileName
+        - sourceName
+        - origin
+        - readings
+    BaseEventResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - properties:
+            event:
+              $ref: '#/components/schemas/Event'
+      description: "A response type for returning an Event to the caller."
+    ObjectEventResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseEventResponse'
+        - properties:
+            event:
+              properties:
+                readings:
+                  items:
+                    $ref: '#/components/schemas/ObjectReading'
+    BinaryEventResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseEventResponse'
+      - properties:
+          event:
+            properties:
+              readings:
+                items:
+                  $ref: '#/components/schemas/BinaryReading'
+    StringEventResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseEventResponse'
+        - properties:
+            event:
+              properties:
+                readings:
+                  items:
+                    $ref: '#/components/schemas/StringReading'
+    BoolEventResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseEventResponse'
+        - properties:
+            event:
+              properties:
+                readings:
+                  items:
+                    $ref: '#/components/schemas/BoolReading'
+    BaseResponse:
+      description: "Defines basic properties which all use-case specific response DTO instances should support"
+      type: object
+      properties:
+        apiVersion:
+          description: "A version number shows the API version in DTOs."
+          type: string
+          example: v2
+        statusCode:
+          description: "A numeric code signifying the operational status of the response."
+          type: integer
+    BaseReading:
+      description: "A base reading type containing common properties from which more specific reading types inherit. This definition should not be implemented but is used elsewhere to indicate support for a mixed list of simple/binary readings in a single event."
+      type: object
+      properties:
+        id:
+          description: "The unique identifier for the reading"
+          type: string
+          format: uuid
+        origin:
+          description: "A Unix timestamp indicating when the reading was originated at the source device (can support nanoseconds)"
+          type: integer
+        deviceName:
+          description: "The name of the device from which the reading originated"
+          type: string
+        resourceName:
+          description: "The device resource name for the reading"
+          type: string
+        profileName:
+          description: "The device profile name for the reading"
+          type: string
+        valueType:
+          description: "Indicates the datatype of the value property"
+          type: string
+          enum:
+            - Bool
+            - String
+            - Object
+            - Binary
+      required:
+        - apiVersion
+        - deviceName
+        - resourceName
+        - profileName
+        - origin
+        - valueType
+    BoolReading:
+      description: "An event reading for a bool data type"
+      allOf:
+        - $ref: '#/components/schemas/BaseReading'
+        - type: object
+          properties:
+            valueType:
+              example: Bool
+            value:
+              description: "A string representation of the reading's value"
+              type: string
+              enum:
+                - "true"
+                - "false"
+          required:
+            - value
+    StringReading:
+      description: "An event reading for a string data type"
+      allOf:
+        - $ref: '#/components/schemas/BaseReading'
+        - type: object
+          properties:
+            valueType:
+              example: String
+            value:
+              description: "A string representation of the reading's value"
+              type: string
+          required:
+            - value
+    ObjectReading:
+      description: "An event reading for an object data type"
+      allOf:
+        - $ref: '#/components/schemas/BaseReading'
+        - type: object
+          properties:
+            valueType:
+              example: Object
+            value:
+              description: "Use objectValue instead."
+              type: string
+              example: ""
+            objectValue:
+              description: "Object representation of the reading's value"
+              type: object
+          required:
+            - objectValue
+    BinaryReading:
+      description: "An event reading for a binary data type"
+      allOf:
+        - $ref: '#/components/schemas/BaseReading'
+        - type: object
+          properties:
+            valueType:
+              description: "Indicates the datatype of the value property"
+              type: string
+              example: Binary
+              enum:
+                - Binary
+            binaryValue:
+              description: "If the value of the reading is binary, it will be found in this property as a base64 string"
+              type: string
+              format: base64
+            mediaType:
+              description: "E.g. MIME Type, indicates what the content type of the binaryValue property is if it's populated."
+              type: string
+              example: image/jpeg
+            value:
+              description: "Use binaryValue instead."
+              type: string
+              example: ""
+          required:
+            - binaryValue
+            - mediaType
+    ErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - properties:
+            message:
+              description: "A field that can contain a free-form message, such as an error message."
+              type: string
+      description: "A response type for returning a generic error to the caller."
+      type: object

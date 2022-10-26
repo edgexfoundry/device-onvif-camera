@@ -1,0 +1,3562 @@
+openapi: 3.0.0
+info:
+  title: WS-BaseNotification
+  contact: {}
+  version: '1.0'
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
+paths:
+  /PullMessages:
+    post:
+      tags:
+      - PullPointSubscriptionBinding
+      summary: PullMessages
+      description: >-
+        This method pulls one or more messages from a PullPoint.
+        				The device shall provide the following PullMessages command for all SubscriptionManager
+        				endpoints returned by the CreatePullPointSubscription command. This method shall not wait until
+        				the requested number of messages is available but return as soon as at least one message is available.
+      operationId: PullMessages
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/PullMessagesRequest'
+              - xml:
+                  name: PullMessagesRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/PullMessagesResponse'
+                - xml:
+                    name: PullMessagesResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/PullMessagesFaultResponse'
+                - xml:
+                    name: PullMessagesFaultResponse
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /Seek:
+    post:
+      tags:
+      - PullPointSubscriptionBinding
+      summary: Seek
+      description: >-
+        This method readjusts the pull pointer into the past.
+        				A device supporting persistent notification storage shall provide the
+        				following Seek command for all SubscriptionManager endpoints returned by
+        				the CreatePullPointSubscription command. The optional Reverse argument can
+        				be used to reverse the pull direction of the PullMessages command.
+      operationId: Seek
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/SeekRequest'
+              - xml:
+                  name: SeekRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SeekResponse'
+                - xml:
+                    name: SeekResponse
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /SetSynchronizationPoint:
+    post:
+      tags:
+      - PullPointSubscriptionBinding
+      summary: SetSynchronizationPoint
+      description: >-
+        Properties inform a client about property creation, changes and
+        				deletion in a uniform way. When a client wants to synchronize its properties with the
+        				properties of the device, it can request a synchronization point which repeats the current
+        				status of all properties to which a client has subscribed. The PropertyOperation of all
+        				produced notifications is set to “Initialized”. The Synchronization Point is
+        				requested directly from the SubscriptionManager which was returned in either the
+        				SubscriptionResponse or in the CreatePullPointSubscriptionResponse. The property update is
+        				transmitted via the notification transportation of the notification interface. This method is mandatory.
+      operationId: SetSynchronizationPoint
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/SetSynchronizationPointRequest'
+              - xml:
+                  name: SetSynchronizationPointRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SetSynchronizationPointResponse'
+                - xml:
+                    name: SetSynchronizationPointResponse
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /Unsubscribe:
+    post:
+      tags:
+      - PullPointSubscriptionBinding
+      summary: Unsubscribe
+      description: The device shall provide the following Unsubscribe command for all SubscriptionManager endpoints returned by the CreatePullPointSubscription command.
+      operationId: Unsubscribe
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/UnsubscribeRequest'
+              - xml:
+                  name: UnsubscribeRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/UnsubscribeResponse'
+                - xml:
+                    name: UnsubscribeResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourceUnknownFault'
+                - xml:
+                    name: ResourceUnknownFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /GetServiceCapabilities:
+    post:
+      tags:
+      - EventBinding
+      summary: GetServiceCapabilities
+      description: Returns the capabilities of the event service. The result is returned in a typed answer.
+      operationId: GetServiceCapabilities
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/GetServiceCapabilitiesRequest'
+              - xml:
+                  name: GetServiceCapabilitiesRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetServiceCapabilitiesResponse'
+                - xml:
+                    name: GetServiceCapabilitiesResponse
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /CreatePullPointSubscription:
+    post:
+      tags:
+      - EventBinding
+      summary: CreatePullPointSubscription
+      description: "This method returns a PullPointSubscription that can be polled using PullMessages. \n				This message contains the same elements as the SubscriptionRequest of the WS-BaseNotification without the ConsumerReference."
+      operationId: CreatePullPointSubscription
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreatePullPointSubscriptionRequest'
+              - xml:
+                  name: CreatePullPointSubscriptionRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/CreatePullPointSubscriptionResponse'
+                - xml:
+                    name: CreatePullPointSubscriptionResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourceUnknownFault'
+                - xml:
+                    name: ResourceUnknownFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /GetEventProperties:
+    post:
+      tags:
+      - EventBinding
+      summary: GetEventProperties
+      description: >-
+        The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProperties.
+        				This specification does not require the implementation of the WS-ResourceProperty interface.
+        				Instead, the subsequent direct interface shall be implemented by an ONVIF compliant device
+        				in order to provide information about the FilterDialects, Schema files and topics supported by
+        				the device.
+      operationId: GetEventProperties
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/GetEventPropertiesRequest'
+              - xml:
+                  name: GetEventPropertiesRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetEventPropertiesResponse'
+                - xml:
+                    name: GetEventPropertiesResponse
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /AddEventBroker:
+    post:
+      tags:
+      - EventBinding
+      summary: AddEventBroker
+      description: The AddEventBroker command allows an ONVIF client to add an event broker configuration to device to enable ONVIF events to be transferred to an event broker. If an existing event broker configuration already exists with the same Address, the existing configuration shall be modified.
+      operationId: AddEventBroker
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/AddEventBrokerRequest'
+              - xml:
+                  name: AddEventBrokerRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/AddEventBrokerResponse'
+                - xml:
+                    name: AddEventBrokerResponse
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /DeleteEventBroker:
+    post:
+      tags:
+      - EventBinding
+      summary: DeleteEventBroker
+      description: The DeleteEventBroker allows an ONVIF client to delete an event broker configuration from an ONVIF device.
+      operationId: DeleteEventBroker
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/DeleteEventBrokerRequest'
+              - xml:
+                  name: DeleteEventBrokerRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/DeleteEventBrokerResponse'
+                - xml:
+                    name: DeleteEventBrokerResponse
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /GetEventBrokers:
+    post:
+      tags:
+      - EventBinding
+      summary: GetEventBrokers
+      description: The GetEventBrokers command lets a client retrieve event broker configurations from the device.
+      operationId: GetEventBrokers
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/GetEventBrokersRequest'
+              - xml:
+                  name: GetEventBrokersRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetEventBrokersResponse'
+                - xml:
+                    name: GetEventBrokersResponse
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /Renew:
+    post:
+      tags:
+      - SubscriptionManagerBinding
+      summary: Renew
+      operationId: Renew
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/RenewRequest'
+              - xml:
+                  name: RenewRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/RenewResponse'
+                - xml:
+                    name: RenewResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourceUnknownFault'
+                - xml:
+                    name: ResourceUnknownFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /Subscribe:
+    post:
+      tags:
+      - NotificationProducerBinding
+      summary: Subscribe
+      operationId: Subscribe
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/SubscribeRequest'
+              - xml:
+                  name: SubscribeRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/SubscribeResponse'
+                - xml:
+                    name: SubscribeResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourceUnknownFault'
+                - xml:
+                    name: ResourceUnknownFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /GetCurrentMessage:
+    post:
+      tags:
+      - NotificationProducerBinding
+      summary: GetCurrentMessage
+      operationId: GetCurrentMessage
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/GetCurrentMessageRequest'
+              - xml:
+                  name: GetCurrentMessageRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetCurrentMessageResponse'
+                - xml:
+                    name: GetCurrentMessageResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourceUnknownFault'
+                - xml:
+                    name: ResourceUnknownFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /Notify:
+    post:
+      tags:
+      - NotificationConsumerBinding
+      summary: Notify
+      operationId: Notify
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/Notify'
+              - xml:
+                  name: Notify
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: ''
+          headers: {}
+      deprecated: false
+  /GetMessages:
+    post:
+      tags:
+      - PullPointBinding
+      summary: GetMessages
+      operationId: GetMessages
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/GetMessagesRequest'
+              - xml:
+                  name: GetMessagesRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/GetMessagesResponse'
+                - xml:
+                    name: GetMessagesResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourceUnknownFault'
+                - xml:
+                    name: ResourceUnknownFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /DestroyPullPoint:
+    post:
+      tags:
+      - PullPointBinding
+      summary: DestroyPullPoint
+      operationId: DestroyPullPoint
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/DestroyPullPointRequest'
+              - xml:
+                  name: DestroyPullPointRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/DestroyPullPointResponse'
+                - xml:
+                    name: DestroyPullPointResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourceUnknownFault'
+                - xml:
+                    name: ResourceUnknownFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /CreatePullPoint:
+    post:
+      tags:
+      - CreatePullPointBinding
+      summary: CreatePullPoint
+      operationId: CreatePullPoint
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/CreatePullPointRequest'
+              - xml:
+                  name: CreatePullPointRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/CreatePullPointResponse'
+                - xml:
+                    name: CreatePullPointResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/UnableToCreatePullPointFault'
+                - xml:
+                    name: UnableToCreatePullPointFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /PauseSubscription:
+    post:
+      tags:
+      - PausableSubscriptionManagerBinding
+      summary: PauseSubscription
+      operationId: PauseSubscription
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/PauseSubscriptionRequest'
+              - xml:
+                  name: PauseSubscriptionRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/PauseSubscriptionResponse'
+                - xml:
+                    name: PauseSubscriptionResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourceUnknownFault'
+                - xml:
+                    name: ResourceUnknownFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+  /ResumeSubscription:
+    post:
+      tags:
+      - PausableSubscriptionManagerBinding
+      summary: ResumeSubscription
+      operationId: ResumeSubscription
+      parameters: []
+      requestBody:
+        description: ''
+        content:
+          application/xml:
+            schema:
+              allOf:
+              - $ref: '#/components/schemas/ResumeSubscriptionRequest'
+              - xml:
+                  name: ResumeSubscriptionRequest
+                  attribute: false
+                  wrapped: false
+        required: true
+      responses:
+        '200':
+          description: Successfully retrieved the response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResumeSubscriptionResponse'
+                - xml:
+                    name: ResumeSubscriptionResponse
+                    attribute: false
+                    wrapped: false
+        '500':
+          description: Error in retrieving response
+          headers: {}
+          content:
+            application/xml:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ResourceUnknownFault'
+                - xml:
+                    name: ResourceUnknownFault
+                    attribute: false
+                    wrapped: false
+      deprecated: false
+components:
+  schemas:
+    tns_GetServiceCapabilities:
+      title: tns_GetServiceCapabilities
+      type: object
+      description: ''
+      xml:
+        name: GetServiceCapabilities
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_GetServiceCapabilitiesResponse:
+      title: tns_GetServiceCapabilitiesResponse
+      required:
+      - Capabilities
+      type: object
+      properties:
+        Capabilities:
+          allOf:
+          - $ref: '#/components/schemas/tns_Capabilities'
+          - description: The capabilities for the event service is returned in the Capabilities element.
+            xml:
+              name: Capabilities
+              namespace: http://www.onvif.org/ver10/events/wsdl
+              prefix: tns
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: GetServiceCapabilitiesResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_Capabilities:
+      title: tns_Capabilities
+      type: object
+      properties:
+        WSSubscriptionPolicySupport:
+          type: boolean
+          description: Indicates that the WS Subscription policy is supported.
+          xml:
+            name: WSSubscriptionPolicySupport
+            prefix: tns
+            attribute: true
+            wrapped: false
+        WSPullPointSupport:
+          type: boolean
+          description: Indicates that the WS Pull Point is supported.
+          xml:
+            name: WSPullPointSupport
+            prefix: tns
+            attribute: true
+            wrapped: false
+        WSPausableSubscriptionManagerInterfaceSupport:
+          type: boolean
+          description: Indicates that the WS Pausable Subscription Manager Interface is supported.
+          xml:
+            name: WSPausableSubscriptionManagerInterfaceSupport
+            prefix: tns
+            attribute: true
+            wrapped: false
+        MaxNotificationProducers:
+          type: integer
+          description: Maximum number of supported notification producers as defined by WS-BaseNotification.
+          format: int32
+          xml:
+            name: MaxNotificationProducers
+            prefix: tns
+            attribute: true
+            wrapped: false
+        MaxPullPoints:
+          type: integer
+          description: Maximum supported number of notification pull points.
+          format: int32
+          xml:
+            name: MaxPullPoints
+            prefix: tns
+            attribute: true
+            wrapped: false
+        PersistentNotificationStorage:
+          type: boolean
+          description: Indication if the device supports persistent notification storage.
+          xml:
+            name: PersistentNotificationStorage
+            prefix: tns
+            attribute: true
+            wrapped: false
+        EventBrokerProtocols:
+          type: string
+          description: A space separated list of supported event broker protocols as defined by the tev:EventBrokerProtocol datatype.
+          xml:
+            name: EventBrokerProtocols
+            prefix: tns
+            attribute: true
+            wrapped: false
+        MaxEventBrokers:
+          type: integer
+          description: Maxiumum number of event broker configurations that can be added to the device.
+          format: int32
+          xml:
+            name: MaxEventBrokers
+            prefix: tns
+            attribute: true
+            wrapped: false
+        MetadataOverMQTT:
+          type: boolean
+          description: Indicates that metadata streaming over MQTT is supported
+          xml:
+            name: MetadataOverMQTT
+            prefix: tns
+            attribute: true
+            wrapped: false
+      description: ''
+      xml:
+        name: Capabilities
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_CreatePullPointSubscription:
+      title: tns_CreatePullPointSubscription
+      type: object
+      properties:
+        Filter:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_FilterType'
+          - description: Optional XPATH expression to select specific topics.
+            xml:
+              name: Filter
+              namespace: http://www.onvif.org/ver10/events/wsdl
+              prefix: tns
+              attribute: false
+              wrapped: false
+        InitialTerminationTime:
+          allOf:
+          - oneOf:
+            - nullable: true
+            - $ref: '#/components/schemas/tns_AbsoluteOrRelativeTimeType'
+          - description: Initial termination time.
+            xml:
+              name: InitialTerminationTime
+              namespace: http://www.onvif.org/ver10/events/wsdl
+              prefix: tns
+              attribute: false
+              wrapped: false
+        SubscriptionPolicy:
+          allOf:
+          - $ref: '#/components/schemas/tns_SubscriptionPolicy'
+          - description: Refer to
+            xml:
+              name: SubscriptionPolicy
+              namespace: http://www.onvif.org/ver10/events/wsdl
+              prefix: tns
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: CreatePullPointSubscription
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_CreatePullPointSubscriptionResponse:
+      title: tns_CreatePullPointSubscriptionResponse
+      required:
+      - SubscriptionReference
+      - CurrentTime
+      - TerminationTime
+      type: object
+      properties:
+        SubscriptionReference:
+          allOf:
+          - $ref: '#/components/schemas/wsa_EndpointReferenceType'
+          - description: Endpoint reference of the subscription to be used for pulling the messages.
+            xml:
+              name: SubscriptionReference
+              namespace: http://www.onvif.org/ver10/events/wsdl
+              prefix: tns
+              attribute: false
+              wrapped: false
+        CurrentTime:
+          type: string
+          description: Current time of the server for synchronization purposes.
+          format: date-time
+          xml:
+            name: CurrentTime
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+        TerminationTime:
+          type: string
+          description: Date time when the PullPoint will be shut down without further pull requests.
+          format: date-time
+          xml:
+            name: TerminationTime
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: CreatePullPointSubscriptionResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_PullMessages:
+      title: tns_PullMessages
+      required:
+      - Timeout
+      - MessageLimit
+      type: object
+      properties:
+        Timeout:
+          type: string
+          description: Maximum time to block until this method returns.
+          format: date-time
+          xml:
+            name: Timeout
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        MessageLimit:
+          type: integer
+          description: Upper limit for the number of messages to return at once. A server implementation may decide to return less messages.
+          format: int32
+          xml:
+            name: MessageLimit
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: PullMessages
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_PullMessagesResponse:
+      title: tns_PullMessagesResponse
+      required:
+      - CurrentTime
+      - TerminationTime
+      type: object
+      properties:
+        CurrentTime:
+          type: string
+          description: The date and time when the messages have been delivered by the web server to the client.
+          format: date-time
+          xml:
+            name: CurrentTime
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        TerminationTime:
+          type: string
+          description: Date time when the PullPoint will be shut down without further pull requests.
+          format: date-time
+          xml:
+            name: TerminationTime
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        NotificationMessage:
+          type: array
+          items:
+            $ref: '#/components/schemas/wsnt_NotificationMessageHolderType'
+          description: List of messages. This list shall be empty in case of a timeout.
+          xml:
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: PullMessagesResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_PullMessagesFaultResponse:
+      title: tns_PullMessagesFaultResponse
+      required:
+      - MaxTimeout
+      - MaxMessageLimit
+      type: object
+      properties:
+        MaxTimeout:
+          type: string
+          description: Maximum timeout supported by the device.
+          format: date-time
+          xml:
+            name: MaxTimeout
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        MaxMessageLimit:
+          type: integer
+          description: Maximum message limit supported by the device.
+          format: int32
+          xml:
+            name: MaxMessageLimit
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: PullMessagesFaultResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_Seek:
+      title: tns_Seek
+      required:
+      - UtcTime
+      type: object
+      properties:
+        UtcTime:
+          type: string
+          description: The date and time to match against stored messages.
+          format: date-time
+          xml:
+            name: UtcTime
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        Reverse:
+          type: boolean
+          description: Reverse the pull direction of PullMessages.
+          xml:
+            name: Reverse
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: Seek
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_SeekResponse:
+      title: tns_SeekResponse
+      type: object
+      description: ''
+      xml:
+        name: SeekResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_SetSynchronizationPoint:
+      title: tns_SetSynchronizationPoint
+      type: object
+      description: ''
+      xml:
+        name: SetSynchronizationPoint
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_SetSynchronizationPointResponse:
+      title: tns_SetSynchronizationPointResponse
+      type: object
+      description: ''
+      xml:
+        name: SetSynchronizationPointResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_GetEventProperties:
+      title: tns_GetEventProperties
+      type: object
+      description: ''
+      xml:
+        name: GetEventProperties
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_GetEventPropertiesResponse:
+      title: tns_GetEventPropertiesResponse
+      required:
+      - TopicNamespaceLocation
+      - FixedTopicSet
+      - TopicSet
+      - TopicExpressionDialect
+      - MessageContentFilterDialect
+      - MessageContentSchemaLocation
+      type: object
+      properties:
+        TopicNamespaceLocation:
+          type: array
+          items:
+            type: string
+            xml:
+              name: TopicNamespaceLocation
+              attribute: false
+              wrapped: false
+          description: List of topic namespaces supported.
+          xml:
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        FixedTopicSet:
+          type: boolean
+          description: True when topicset is fixed for all times.
+          xml:
+            name: FixedTopicSet
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+        TopicSet:
+          allOf:
+          - $ref: '#/components/schemas/wstop_TopicSetType'
+          - description: Set of topics supported.
+            xml:
+              name: TopicSet
+              namespace: http://docs.oasis-open.org/wsn/t-1
+              prefix: wstop
+              attribute: false
+              wrapped: false
+        TopicExpressionDialect:
+          type: array
+          items:
+            type: string
+            xml:
+              name: TopicExpressionDialect
+              attribute: false
+              wrapped: false
+          description: Defines the XPath expression syntax supported for matching topic expressions.
+          xml:
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+        MessageContentFilterDialect:
+          type: array
+          items:
+            type: string
+            xml:
+              name: MessageContentFilterDialect
+              attribute: false
+              wrapped: false
+          description: Defines the XPath function set supported for message content filtering.
+          xml:
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        ProducerPropertiesFilterDialect:
+          type: array
+          items:
+            type: string
+            xml:
+              name: ProducerPropertiesFilterDialect
+              attribute: false
+              wrapped: false
+          description: Optional ProducerPropertiesDialects. Refer to
+          xml:
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        MessageContentSchemaLocation:
+          type: array
+          items:
+            type: string
+            xml:
+              name: MessageContentSchemaLocation
+              attribute: false
+              wrapped: false
+          description: >-
+            The Message Content Description Language allows referencing
+            							of vendor-specific types. In order to ease the integration of such types into a client application,
+            							the GetEventPropertiesResponse shall list all URI locations to schema files whose types are
+            							used in the description of notifications, with MessageContentSchemaLocation elements.
+          xml:
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: GetEventPropertiesResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_AddEventBroker:
+      title: tns_AddEventBroker
+      required:
+      - EventBroker
+      type: object
+      properties:
+        EventBroker:
+          allOf:
+          - $ref: '#/components/schemas/tns_EventBrokerConfig'
+          - xml:
+              name: EventBroker
+              namespace: http://www.onvif.org/ver10/events/wsdl
+              prefix: tns
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: AddEventBroker
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_AddEventBrokerResponse:
+      title: tns_AddEventBrokerResponse
+      type: object
+      description: ''
+      xml:
+        name: AddEventBrokerResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_DeleteEventBroker:
+      title: tns_DeleteEventBroker
+      required:
+      - Address
+      type: object
+      properties:
+        Address:
+          type: string
+          xml:
+            name: Address
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: DeleteEventBroker
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_DeleteEventBrokerResponse:
+      title: tns_DeleteEventBrokerResponse
+      type: object
+      description: ''
+      xml:
+        name: DeleteEventBrokerResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_GetEventBrokers:
+      title: tns_GetEventBrokers
+      type: object
+      properties:
+        Address:
+          type: string
+          xml:
+            name: Address
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: GetEventBrokers
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_GetEventBrokersResponse:
+      title: tns_GetEventBrokersResponse
+      type: object
+      properties:
+        EventBroker:
+          type: array
+          items:
+            $ref: '#/components/schemas/tns_EventBrokerConfig'
+          description: ''
+          xml:
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: GetEventBrokersResponse
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_EventBrokerConfig:
+      title: tns_EventBrokerConfig
+      required:
+      - Address
+      - TopicPrefix
+      type: object
+      properties:
+        Address:
+          type: string
+          description: Event broker address in the format "scheme://host:port[/resource]". The supported schemes shall be returned by the EventBrokerProtocols capability. The resource part of the URL is only valid when using websocket. The Address must be unique.
+          xml:
+            name: Address
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        TopicPrefix:
+          type: string
+          description: Prefix that will be prepended to all topics before they are published. This is used to make published topics unique for each device. TopicPrefix is not allowed to be empty.
+          xml:
+            name: TopicPrefix
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        UserName:
+          type: string
+          description: User name for the event broker.
+          xml:
+            name: UserName
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        Password:
+          type: string
+          description: Password for the event broker. Password shall not be included when returned with GetEventBrokers.
+          xml:
+            name: Password
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        CertificateID:
+          type: string
+          description: Optional certificate ID in the key store pointing to a client certificate to be used for authenticating the device at the message broker.
+          xml:
+            name: CertificateID
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        PublishFilter:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_FilterType'
+          - description: Concrete Topic Expression to select specific event topics to publish.
+            xml:
+              name: PublishFilter
+              namespace: http://www.onvif.org/ver10/events/wsdl
+              prefix: tns
+              attribute: false
+              wrapped: false
+        QoS:
+          type: integer
+          description: 'Quality of service level to use when publishing. This defines the guarantee of delivery for a specific message: 0 = At most once, 1 = At least once, 2 = Exactly once.'
+          format: int32
+          xml:
+            name: QoS
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        Status:
+          type: string
+          description: Current connection status (see tev:ConnectionStatus for possible values).
+          xml:
+            name: Status
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        CertPathValidationPolicyID:
+          type: string
+          description: The ID of the certification path validation policy used to validate the broker certificate. In case encryption is used but no validation policy is specified, the device shall not validate the broker certificate.
+          xml:
+            name: CertPathValidationPolicyID
+            namespace: http://www.onvif.org/ver10/events/wsdl
+            prefix: tns
+            attribute: false
+            wrapped: false
+        MetadataFilter:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_FilterType'
+          - description: Concrete Topic Expression to select specific metadata topics to publish.
+            xml:
+              name: MetadataFilter
+              namespace: http://www.onvif.org/ver10/events/wsdl
+              prefix: tns
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: EventBrokerConfig
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_EventBrokerProtocol:
+      title: tns_EventBrokerProtocol
+      enum:
+      - mqtt
+      - mqtts
+      - ws
+      - wss
+      type: string
+      description: ''
+      xml:
+        name: EventBrokerProtocol
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns_ConnectionStatus:
+      title: tns_ConnectionStatus
+      enum:
+      - Offline
+      - Connecting
+      - Connected
+      type: string
+      description: ''
+      xml:
+        name: ConnectionStatus
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    wsa_EndpointReferenceType:
+      title: wsa_EndpointReferenceType
+      required:
+      - Address
+      type: object
+      properties:
+        Address:
+          allOf:
+          - $ref: '#/components/schemas/wsa_AttributedURIType'
+          - xml:
+              name: Address
+              namespace: http://www.w3.org/2005/08/addressing
+              prefix: wsa
+              attribute: false
+              wrapped: false
+        ReferenceParameters:
+          allOf:
+          - $ref: '#/components/schemas/wsa_ReferenceParametersType'
+          - xml:
+              name: ReferenceParameters
+              namespace: http://www.w3.org/2005/08/addressing
+              prefix: wsa
+              attribute: false
+              wrapped: false
+        Metadata:
+          allOf:
+          - $ref: '#/components/schemas/wsa_MetadataType'
+          - xml:
+              name: Metadata
+              namespace: http://www.w3.org/2005/08/addressing
+              prefix: wsa
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: EndpointReferenceType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wsa_ReferenceParametersType:
+      title: wsa_ReferenceParametersType
+      type: object
+      description: ''
+      xml:
+        name: ReferenceParametersType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wsa_MetadataType:
+      title: wsa_MetadataType
+      type: object
+      description: ''
+      xml:
+        name: MetadataType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wsa_AttributedURIType:
+      title: wsa_AttributedURIType
+      type: object
+      description: ''
+      xml:
+        name: AttributedURIType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wsa_RelatesToType:
+      title: wsa_RelatesToType
+      type: object
+      properties:
+        RelationshipType:
+          oneOf:
+          - $ref: '#/components/schemas/wsa_RelationshipTypeOpenEnum'
+          xml:
+            name: RelationshipType
+            attribute: true
+            wrapped: false
+      description: ''
+      xml:
+        name: RelatesToType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wsa_RelationshipTypeOpenEnum:
+      title: wsa_RelationshipTypeOpenEnum
+      enum:
+      - http://www.w3.org/2005/08/addressing/reply
+      type: string
+      description: ''
+      xml:
+        name: RelationshipType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wsa_FaultCodesOpenEnumType:
+      title: wsa_FaultCodesOpenEnumType
+      enum:
+      - tns:InvalidAddressingHeader
+      - tns:InvalidAddress
+      - tns:InvalidEPR
+      - tns:InvalidCardinality
+      - tns:MissingAddressInEPR
+      - tns:DuplicateMessageID
+      - tns:ActionMismatch
+      - tns:MessageAddressingHeaderRequired
+      - tns:DestinationUnreachable
+      - tns:ActionNotSupported
+      - tns:EndpointUnavailable
+      type: string
+      description: ''
+      xml:
+        name: FaultCodesType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wsa_AttributedQNameType:
+      title: wsa_AttributedQNameType
+      type: object
+      description: ''
+      xml:
+        name: AttributedQNameType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wsa_AttributedAnyType:
+      title: wsa_AttributedAnyType
+      type: object
+      description: ''
+      xml:
+        name: AttributedAnyType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wsa_ProblemActionType:
+      title: wsa_ProblemActionType
+      type: object
+      properties:
+        Action:
+          allOf:
+          - $ref: '#/components/schemas/wsa_AttributedURIType'
+          - xml:
+              name: Action
+              namespace: http://www.w3.org/2005/08/addressing
+              prefix: wsa
+              attribute: false
+              wrapped: false
+        SoapAction:
+          type: string
+          xml:
+            name: SoapAction
+            namespace: http://www.w3.org/2005/08/addressing
+            prefix: wsa
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: ProblemActionType
+        namespace: http://www.w3.org/2005/08/addressing
+        prefix: wsa
+        attribute: false
+        wrapped: false
+    wstop_Documentation:
+      title: wstop_Documentation
+      type: object
+      description: ''
+      xml:
+        name: Documentation
+        namespace: http://docs.oasis-open.org/wsn/t-1
+        prefix: wstop
+        attribute: false
+        wrapped: false
+    wstop_ExtensibleDocumented:
+      title: wstop_ExtensibleDocumented
+      type: object
+      properties:
+        documentation:
+          allOf:
+          - $ref: '#/components/schemas/wstop_Documentation'
+          - xml:
+              name: documentation
+              namespace: http://docs.oasis-open.org/wsn/t-1
+              prefix: wstop
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: ExtensibleDocumented
+        namespace: http://docs.oasis-open.org/wsn/t-1
+        prefix: wstop
+        attribute: false
+        wrapped: false
+    wstop_QueryExpressionType:
+      title: wstop_QueryExpressionType
+      required:
+      - Dialect
+      type: object
+      properties:
+        Dialect:
+          type: string
+          xml:
+            name: Dialect
+            attribute: true
+            wrapped: false
+      description: ''
+      xml:
+        name: QueryExpressionType
+        namespace: http://docs.oasis-open.org/wsn/t-1
+        prefix: wstop
+        attribute: false
+        wrapped: false
+    wstop_TopicNamespaceType:
+      title: wstop_TopicNamespaceType
+      allOf:
+      - $ref: '#/components/schemas/wstop_ExtensibleDocumented'
+      - required:
+        - targetNamespace
+        type: object
+        properties:
+          Topic:
+            type: array
+            items:
+              $ref: '#/components/schemas/wstop_Topic'
+            description: ''
+            xml:
+              namespace: http://docs.oasis-open.org/wsn/t-1
+              prefix: wstop
+              attribute: false
+              wrapped: false
+          name:
+            type: string
+            xml:
+              name: name
+              attribute: true
+              wrapped: false
+          targetNamespace:
+            type: string
+            xml:
+              name: targetNamespace
+              attribute: true
+              wrapped: false
+          final:
+            type: boolean
+            default: false
+            xml:
+              name: final
+              attribute: true
+              wrapped: false
+        xml:
+          name: TopicNamespaceType
+          namespace: http://docs.oasis-open.org/wsn/t-1
+          prefix: wstop
+          attribute: false
+          wrapped: false
+      description: ''
+    wstop_TopicType:
+      title: wstop_TopicType
+      allOf:
+      - $ref: '#/components/schemas/wstop_ExtensibleDocumented'
+      - required:
+        - name
+        type: object
+        properties:
+          MessagePattern:
+            allOf:
+            - $ref: '#/components/schemas/wstop_QueryExpressionType'
+            - {}
+          Topic:
+            allOf:
+            - $ref: '#/components/schemas/wstop_TopicType'
+            - {}
+          name:
+            type: string
+            xml:
+              attribute: true
+              wrapped: false
+          messageTypes:
+            type: array
+            items:
+              type: string
+            description: ''
+            xml:
+              attribute: true
+              wrapped: false
+          final:
+            type: boolean
+            default: false
+            xml:
+              attribute: true
+              wrapped: false
+        xml:
+          name: TopicType
+          namespace: http://docs.oasis-open.org/wsn/t-1
+          prefix: wstop
+          attribute: false
+          wrapped: false
+      description: ''
+    wstop_TopicSetType:
+      title: wstop_TopicSetType
+      allOf:
+      - $ref: '#/components/schemas/wstop_ExtensibleDocumented'
+      - type: object
+        xml:
+          name: TopicSetType
+          namespace: http://docs.oasis-open.org/wsn/t-1
+          prefix: wstop
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_QueryExpressionType:
+      title: wsnt_QueryExpressionType
+      required:
+      - Dialect
+      type: object
+      properties:
+        Dialect:
+          type: string
+          xml:
+            name: Dialect
+            attribute: true
+            wrapped: false
+      description: ''
+      xml:
+        name: QueryExpressionType
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_TopicExpressionType:
+      title: wsnt_TopicExpressionType
+      required:
+      - Dialect
+      type: object
+      properties:
+        Dialect:
+          type: string
+          xml:
+            name: Dialect
+            attribute: true
+            wrapped: false
+      description: ''
+      xml:
+        name: TopicExpressionType
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_FilterType:
+      title: wsnt_FilterType
+      type: object
+      description: ''
+      xml:
+        name: FilterType
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_SubscriptionPolicyType:
+      title: wsnt_SubscriptionPolicyType
+      type: object
+      description: ''
+      xml:
+        name: SubscriptionPolicyType
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_NotificationProducerRP:
+      title: wsnt_NotificationProducerRP
+      type: object
+      properties:
+        TopicExpression:
+          type: array
+          items:
+            $ref: '#/components/schemas/wsnt_TopicExpressionType'
+          description: ''
+          xml:
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+        FixedTopicSet:
+          type: boolean
+          default: true
+          xml:
+            name: FixedTopicSet
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+        TopicExpressionDialect:
+          type: array
+          items:
+            type: string
+            xml:
+              name: TopicExpressionDialect
+              attribute: false
+              wrapped: false
+          description: ''
+          xml:
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+        TopicSet:
+          allOf:
+          - $ref: '#/components/schemas/wstop_TopicSetType'
+          - xml:
+              name: TopicSet
+              namespace: http://docs.oasis-open.org/wsn/t-1
+              prefix: wstop
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: NotificationProducerRP
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_SubscriptionManagerRP:
+      title: wsnt_SubscriptionManagerRP
+      required:
+      - ConsumerReference
+      type: object
+      properties:
+        ConsumerReference:
+          allOf:
+          - $ref: '#/components/schemas/wsa_EndpointReferenceType'
+          - xml:
+              name: ConsumerReference
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        Filter:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_FilterType'
+          - xml:
+              name: Filter
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        SubscriptionPolicy:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_SubscriptionPolicyType'
+          - xml:
+              name: SubscriptionPolicy
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        CreationTime:
+          type: string
+          format: date-time
+          xml:
+            name: CreationTime
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: SubscriptionManagerRP
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_NotificationMessageHolderType:
+      title: wsnt_NotificationMessageHolderType
+      required:
+      - Message
+      type: object
+      properties:
+        SubscriptionReference:
+          allOf:
+          - $ref: '#/components/schemas/wsa_EndpointReferenceType'
+          - xml:
+              name: SubscriptionReference
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        Topic:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_TopicExpressionType'
+          - xml:
+              name: Topic
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        ProducerReference:
+          allOf:
+          - $ref: '#/components/schemas/wsa_EndpointReferenceType'
+          - xml:
+              name: ProducerReference
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        Message:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_Message'
+          - xml:
+              name: Message
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: NotificationMessageHolderType
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_Notify:
+      title: wsnt_Notify
+      required:
+      - NotificationMessage
+      type: object
+      properties:
+        NotificationMessage:
+          type: array
+          items:
+            $ref: '#/components/schemas/wsnt_NotificationMessageHolderType'
+          description: ''
+          xml:
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: Notify
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_UseRaw:
+      title: wsnt_UseRaw
+      type: object
+      description: ''
+      xml:
+        name: UseRaw
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_Subscribe:
+      title: wsnt_Subscribe
+      required:
+      - ConsumerReference
+      type: object
+      properties:
+        ConsumerReference:
+          allOf:
+          - $ref: '#/components/schemas/wsa_EndpointReferenceType'
+          - xml:
+              name: ConsumerReference
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        Filter:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_FilterType'
+          - xml:
+              name: Filter
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        InitialTerminationTime:
+          allOf:
+          - oneOf:
+            - nullable: true
+            - $ref: '#/components/schemas/wsnt_AbsoluteOrRelativeTimeType'
+          - xml:
+              name: InitialTerminationTime
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        SubscriptionPolicy:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_SubscriptionPolicy'
+          - xml:
+              name: SubscriptionPolicy
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: Subscribe
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_SubscribeResponse:
+      title: wsnt_SubscribeResponse
+      required:
+      - SubscriptionReference
+      type: object
+      properties:
+        SubscriptionReference:
+          allOf:
+          - $ref: '#/components/schemas/wsa_EndpointReferenceType'
+          - xml:
+              name: SubscriptionReference
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        CurrentTime:
+          type: string
+          format: date-time
+          xml:
+            name: CurrentTime
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+        TerminationTime:
+          type: string
+          format: date-time
+          xml:
+            name: TerminationTime
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: SubscribeResponse
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_GetCurrentMessage:
+      title: wsnt_GetCurrentMessage
+      required:
+      - Topic
+      type: object
+      properties:
+        Topic:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_TopicExpressionType'
+          - xml:
+              name: Topic
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: GetCurrentMessage
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_GetCurrentMessageResponse:
+      title: wsnt_GetCurrentMessageResponse
+      type: object
+      description: ''
+      xml:
+        name: GetCurrentMessageResponse
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_SubscribeCreationFailedFaultType:
+      title: wsnt_SubscribeCreationFailedFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: SubscribeCreationFailedFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_InvalidFilterFaultType:
+      title: wsnt_InvalidFilterFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - required:
+        - UnknownFilter
+        type: object
+        properties:
+          UnknownFilter:
+            type: array
+            items:
+              type: string
+              xml:
+                name: UnknownFilter
+                attribute: false
+                wrapped: false
+            description: ''
+            xml:
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        xml:
+          name: InvalidFilterFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_TopicExpressionDialectUnknownFaultType:
+      title: wsnt_TopicExpressionDialectUnknownFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: TopicExpressionDialectUnknownFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_InvalidTopicExpressionFaultType:
+      title: wsnt_InvalidTopicExpressionFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: InvalidTopicExpressionFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_TopicNotSupportedFaultType:
+      title: wsnt_TopicNotSupportedFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: TopicNotSupportedFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_MultipleTopicsSpecifiedFaultType:
+      title: wsnt_MultipleTopicsSpecifiedFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: MultipleTopicsSpecifiedFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_InvalidProducerPropertiesExpressionFaultType:
+      title: wsnt_InvalidProducerPropertiesExpressionFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: InvalidProducerPropertiesExpressionFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_InvalidMessageContentExpressionFaultType:
+      title: wsnt_InvalidMessageContentExpressionFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: InvalidMessageContentExpressionFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_UnrecognizedPolicyRequestFaultType:
+      title: wsnt_UnrecognizedPolicyRequestFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        properties:
+          UnrecognizedPolicy:
+            type: array
+            items:
+              type: string
+              xml:
+                name: UnrecognizedPolicy
+                attribute: false
+                wrapped: false
+            description: ''
+            xml:
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        xml:
+          name: UnrecognizedPolicyRequestFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_UnsupportedPolicyRequestFaultType:
+      title: wsnt_UnsupportedPolicyRequestFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        properties:
+          UnsupportedPolicy:
+            type: array
+            items:
+              type: string
+              xml:
+                name: UnsupportedPolicy
+                attribute: false
+                wrapped: false
+            description: ''
+            xml:
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        xml:
+          name: UnsupportedPolicyRequestFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_NotifyMessageNotSupportedFaultType:
+      title: wsnt_NotifyMessageNotSupportedFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: NotifyMessageNotSupportedFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_UnacceptableInitialTerminationTimeFaultType:
+      title: wsnt_UnacceptableInitialTerminationTimeFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - required:
+        - MinimumTime
+        type: object
+        properties:
+          MinimumTime:
+            type: string
+            format: date-time
+            xml:
+              name: MinimumTime
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+          MaximumTime:
+            type: string
+            format: date-time
+            xml:
+              name: MaximumTime
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        xml:
+          name: UnacceptableInitialTerminationTimeFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_NoCurrentMessageOnTopicFaultType:
+      title: wsnt_NoCurrentMessageOnTopicFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: NoCurrentMessageOnTopicFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_GetMessages:
+      title: wsnt_GetMessages
+      type: object
+      properties:
+        MaximumNumber:
+          type: integer
+          format: int32
+          xml:
+            name: MaximumNumber
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: GetMessages
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_GetMessagesResponse:
+      title: wsnt_GetMessagesResponse
+      type: object
+      properties:
+        NotificationMessage:
+          type: array
+          items:
+            $ref: '#/components/schemas/wsnt_NotificationMessageHolderType'
+          description: ''
+          xml:
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: GetMessagesResponse
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_DestroyPullPoint:
+      title: wsnt_DestroyPullPoint
+      type: object
+      description: ''
+      xml:
+        name: DestroyPullPoint
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_DestroyPullPointResponse:
+      title: wsnt_DestroyPullPointResponse
+      type: object
+      description: ''
+      xml:
+        name: DestroyPullPointResponse
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_UnableToGetMessagesFaultType:
+      title: wsnt_UnableToGetMessagesFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: UnableToGetMessagesFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_UnableToDestroyPullPointFaultType:
+      title: wsnt_UnableToDestroyPullPointFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: UnableToDestroyPullPointFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_CreatePullPoint:
+      title: wsnt_CreatePullPoint
+      type: object
+      description: ''
+      xml:
+        name: CreatePullPoint
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_CreatePullPointResponse:
+      title: wsnt_CreatePullPointResponse
+      required:
+      - PullPoint
+      type: object
+      properties:
+        PullPoint:
+          allOf:
+          - $ref: '#/components/schemas/wsa_EndpointReferenceType'
+          - xml:
+              name: PullPoint
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: CreatePullPointResponse
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_UnableToCreatePullPointFaultType:
+      title: wsnt_UnableToCreatePullPointFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: UnableToCreatePullPointFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_Renew:
+      title: wsnt_Renew
+      required:
+      - TerminationTime
+      type: object
+      properties:
+        TerminationTime:
+          allOf:
+          - oneOf:
+            - nullable: true
+            - $ref: '#/components/schemas/wsnt_AbsoluteOrRelativeTimeType'
+          - xml:
+              name: TerminationTime
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: Renew
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_RenewResponse:
+      title: wsnt_RenewResponse
+      required:
+      - TerminationTime
+      type: object
+      properties:
+        TerminationTime:
+          type: string
+          format: date-time
+          xml:
+            name: TerminationTime
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+        CurrentTime:
+          type: string
+          format: date-time
+          xml:
+            name: CurrentTime
+            namespace: http://docs.oasis-open.org/wsn/b-2
+            prefix: wsnt
+            attribute: false
+            wrapped: false
+      description: ''
+      xml:
+        name: RenewResponse
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_UnacceptableTerminationTimeFaultType:
+      title: wsnt_UnacceptableTerminationTimeFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - required:
+        - MinimumTime
+        type: object
+        properties:
+          MinimumTime:
+            type: string
+            format: date-time
+            xml:
+              name: MinimumTime
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+          MaximumTime:
+            type: string
+            format: date-time
+            xml:
+              name: MaximumTime
+              namespace: http://docs.oasis-open.org/wsn/b-2
+              prefix: wsnt
+              attribute: false
+              wrapped: false
+        xml:
+          name: UnacceptableTerminationTimeFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_Unsubscribe:
+      title: wsnt_Unsubscribe
+      type: object
+      description: ''
+      xml:
+        name: Unsubscribe
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_UnsubscribeResponse:
+      title: wsnt_UnsubscribeResponse
+      type: object
+      description: ''
+      xml:
+        name: UnsubscribeResponse
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_UnableToDestroySubscriptionFaultType:
+      title: wsnt_UnableToDestroySubscriptionFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: UnableToDestroySubscriptionFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_PauseSubscription:
+      title: wsnt_PauseSubscription
+      type: object
+      description: ''
+      xml:
+        name: PauseSubscription
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_PauseSubscriptionResponse:
+      title: wsnt_PauseSubscriptionResponse
+      type: object
+      description: ''
+      xml:
+        name: PauseSubscriptionResponse
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_ResumeSubscription:
+      title: wsnt_ResumeSubscription
+      type: object
+      description: ''
+      xml:
+        name: ResumeSubscription
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_ResumeSubscriptionResponse:
+      title: wsnt_ResumeSubscriptionResponse
+      type: object
+      description: ''
+      xml:
+        name: ResumeSubscriptionResponse
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_PauseFailedFaultType:
+      title: wsnt_PauseFailedFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: PauseFailedFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsnt_ResumeFailedFaultType:
+      title: wsnt_ResumeFailedFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: ResumeFailedFaultType
+          namespace: http://docs.oasis-open.org/wsn/b-2
+          prefix: wsnt
+          attribute: false
+          wrapped: false
+      description: ''
+    wsrf-r_ResourceUnknownFaultType:
+      title: wsrf-r_ResourceUnknownFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: ResourceUnknownFaultType
+          namespace: http://docs.oasis-open.org/wsrf/r-2
+          prefix: wsrf-r
+          attribute: false
+          wrapped: false
+      description: ''
+    wsrf-r_ResourceUnavailableFaultType:
+      title: wsrf-r_ResourceUnavailableFaultType
+      allOf:
+      - $ref: '#/components/schemas/wsrf-bf_BaseFaultType'
+      - type: object
+        xml:
+          name: ResourceUnavailableFaultType
+          namespace: http://docs.oasis-open.org/wsrf/r-2
+          prefix: wsrf-r
+          attribute: false
+          wrapped: false
+      description: ''
+    wsrf-bf_BaseFaultType:
+      title: wsrf-bf_BaseFaultType
+      required:
+      - Timestamp
+      type: object
+      properties:
+        Timestamp:
+          type: string
+          format: date-time
+          xml:
+            name: Timestamp
+            namespace: http://docs.oasis-open.org/wsrf/bf-2
+            prefix: wsrf-bf
+            attribute: false
+            wrapped: false
+        Originator:
+          allOf:
+          - $ref: '#/components/schemas/wsa_EndpointReferenceType'
+          - xml:
+              name: Originator
+              namespace: http://docs.oasis-open.org/wsrf/bf-2
+              prefix: wsrf-bf
+              attribute: false
+              wrapped: false
+        ErrorCode:
+          allOf:
+          - $ref: '#/components/schemas/wsrf-bf_ErrorCode'
+          - xml:
+              name: ErrorCode
+              namespace: http://docs.oasis-open.org/wsrf/bf-2
+              prefix: wsrf-bf
+              attribute: false
+              wrapped: false
+        Description:
+          type: array
+          items:
+            $ref: '#/components/schemas/wsrf-bf_Description'
+          description: ''
+          xml:
+            namespace: http://docs.oasis-open.org/wsrf/bf-2
+            prefix: wsrf-bf
+            attribute: false
+            wrapped: false
+        FaultCause:
+          allOf:
+          - $ref: '#/components/schemas/wsrf-bf_FaultCause'
+          - xml:
+              name: FaultCause
+              namespace: http://docs.oasis-open.org/wsrf/bf-2
+              prefix: wsrf-bf
+              attribute: false
+              wrapped: false
+      description: ''
+      xml:
+        name: BaseFaultType
+        namespace: http://docs.oasis-open.org/wsrf/bf-2
+        prefix: wsrf-bf
+        attribute: false
+        wrapped: false
+    AddEventBrokerRequest:
+      title: AddEventBrokerRequest
+      required:
+      - AddEventBroker
+      type: object
+      properties:
+        AddEventBroker:
+          allOf:
+          - $ref: '#/components/schemas/tns_AddEventBroker'
+          - {}
+    AddEventBrokerResponse:
+      title: AddEventBrokerResponse
+      required:
+      - AddEventBrokerResponse
+      type: object
+      properties:
+        AddEventBrokerResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_AddEventBrokerResponse'
+          - xml:
+              name: AddEventBrokerResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: AddEventBrokerResponse
+        attribute: false
+        wrapped: false
+    CreatePullPointRequest:
+      title: CreatePullPointRequest
+      required:
+      - CreatePullPoint
+      type: object
+      properties:
+        CreatePullPoint:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_CreatePullPoint'
+          - {}
+    CreatePullPointResponse:
+      title: CreatePullPointResponse
+      required:
+      - CreatePullPointResponse
+      type: object
+      properties:
+        CreatePullPointResponse:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_CreatePullPointResponse'
+          - xml:
+              name: CreatePullPointResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: CreatePullPointResponse
+        attribute: false
+        wrapped: false
+    CreatePullPointSubscriptionRequest:
+      title: CreatePullPointSubscriptionRequest
+      required:
+      - CreatePullPointSubscription
+      type: object
+      properties:
+        CreatePullPointSubscription:
+          allOf:
+          - $ref: '#/components/schemas/tns_CreatePullPointSubscription'
+          - {}
+    CreatePullPointSubscriptionResponse:
+      title: CreatePullPointSubscriptionResponse
+      required:
+      - CreatePullPointSubscriptionResponse
+      type: object
+      properties:
+        CreatePullPointSubscriptionResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_CreatePullPointSubscriptionResponse'
+          - xml:
+              name: CreatePullPointSubscriptionResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: CreatePullPointSubscriptionResponse
+        attribute: false
+        wrapped: false
+    DeleteEventBrokerRequest:
+      title: DeleteEventBrokerRequest
+      required:
+      - DeleteEventBroker
+      type: object
+      properties:
+        DeleteEventBroker:
+          allOf:
+          - $ref: '#/components/schemas/tns_DeleteEventBroker'
+          - {}
+    DeleteEventBrokerResponse:
+      title: DeleteEventBrokerResponse
+      required:
+      - DeleteEventBrokerResponse
+      type: object
+      properties:
+        DeleteEventBrokerResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_DeleteEventBrokerResponse'
+          - xml:
+              name: DeleteEventBrokerResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: DeleteEventBrokerResponse
+        attribute: false
+        wrapped: false
+    DestroyPullPointRequest:
+      title: DestroyPullPointRequest
+      required:
+      - DestroyPullPoint
+      type: object
+      properties:
+        DestroyPullPoint:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_DestroyPullPoint'
+          - {}
+    DestroyPullPointResponse:
+      title: DestroyPullPointResponse
+      required:
+      - DestroyPullPointResponse
+      type: object
+      properties:
+        DestroyPullPointResponse:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_DestroyPullPointResponse'
+          - xml:
+              name: DestroyPullPointResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: DestroyPullPointResponse
+        attribute: false
+        wrapped: false
+    GetCurrentMessageRequest:
+      title: GetCurrentMessageRequest
+      required:
+      - GetCurrentMessage
+      type: object
+      properties:
+        GetCurrentMessage:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_GetCurrentMessage'
+          - {}
+    GetCurrentMessageResponse:
+      title: GetCurrentMessageResponse
+      required:
+      - GetCurrentMessageResponse
+      type: object
+      properties:
+        GetCurrentMessageResponse:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_GetCurrentMessageResponse'
+          - xml:
+              name: GetCurrentMessageResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: GetCurrentMessageResponse
+        attribute: false
+        wrapped: false
+    GetEventBrokersRequest:
+      title: GetEventBrokersRequest
+      required:
+      - GetEventBrokers
+      type: object
+      properties:
+        GetEventBrokers:
+          allOf:
+          - $ref: '#/components/schemas/tns_GetEventBrokers'
+          - {}
+    GetEventBrokersResponse:
+      title: GetEventBrokersResponse
+      required:
+      - GetEventBrokersResponse
+      type: object
+      properties:
+        GetEventBrokersResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_GetEventBrokersResponse'
+          - xml:
+              name: GetEventBrokersResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: GetEventBrokersResponse
+        attribute: false
+        wrapped: false
+    GetEventPropertiesRequest:
+      title: GetEventPropertiesRequest
+      required:
+      - GetEventProperties
+      type: object
+      properties:
+        GetEventProperties:
+          allOf:
+          - $ref: '#/components/schemas/tns_GetEventProperties'
+          - {}
+    GetEventPropertiesResponse:
+      title: GetEventPropertiesResponse
+      required:
+      - GetEventPropertiesResponse
+      type: object
+      properties:
+        GetEventPropertiesResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_GetEventPropertiesResponse'
+          - xml:
+              name: GetEventPropertiesResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: GetEventPropertiesResponse
+        attribute: false
+        wrapped: false
+    GetMessagesRequest:
+      title: GetMessagesRequest
+      required:
+      - GetMessages
+      type: object
+      properties:
+        GetMessages:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_GetMessages'
+          - {}
+    GetMessagesResponse:
+      title: GetMessagesResponse
+      required:
+      - GetMessagesResponse
+      type: object
+      properties:
+        GetMessagesResponse:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_GetMessagesResponse'
+          - xml:
+              name: GetMessagesResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: GetMessagesResponse
+        attribute: false
+        wrapped: false
+    GetServiceCapabilitiesRequest:
+      title: GetServiceCapabilitiesRequest
+      required:
+      - GetServiceCapabilities
+      type: object
+      properties:
+        GetServiceCapabilities:
+          allOf:
+          - $ref: '#/components/schemas/tns_GetServiceCapabilities'
+          - {}
+    GetServiceCapabilitiesResponse:
+      title: GetServiceCapabilitiesResponse
+      required:
+      - GetServiceCapabilitiesResponse
+      type: object
+      properties:
+        GetServiceCapabilitiesResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_GetServiceCapabilitiesResponse'
+          - xml:
+              name: GetServiceCapabilitiesResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: GetServiceCapabilitiesResponse
+        attribute: false
+        wrapped: false
+    Notify:
+      title: Notify
+      required:
+      - Notify
+      type: object
+      properties:
+        Notify:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_Notify'
+          - {}
+    PauseSubscriptionRequest:
+      title: PauseSubscriptionRequest
+      required:
+      - PauseSubscription
+      type: object
+      properties:
+        PauseSubscription:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_PauseSubscription'
+          - {}
+    PauseSubscriptionResponse:
+      title: PauseSubscriptionResponse
+      required:
+      - PauseSubscriptionResponse
+      type: object
+      properties:
+        PauseSubscriptionResponse:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_PauseSubscriptionResponse'
+          - xml:
+              name: PauseSubscriptionResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: PauseSubscriptionResponse
+        attribute: false
+        wrapped: false
+    PullMessagesFaultResponse:
+      title: PullMessagesFaultResponse
+      required:
+      - PullMessagesFaultResponse
+      type: object
+      properties:
+        PullMessagesFaultResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_PullMessagesFaultResponse'
+          - xml:
+              name: PullMessagesFaultResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: PullMessagesFaultResponse
+        attribute: false
+        wrapped: false
+    PullMessagesFaultResponse_Error:
+      title: PullMessagesFaultResponse_Error
+      required:
+      - PullMessagesFaultResponse
+      type: object
+      properties:
+        PullMessagesFaultResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_PullMessagesFaultResponse'
+          - {}
+    PullMessagesRequest:
+      title: PullMessagesRequest
+      required:
+      - PullMessages
+      type: object
+      properties:
+        PullMessages:
+          allOf:
+          - $ref: '#/components/schemas/tns_PullMessages'
+          - {}
+    PullMessagesResponse:
+      title: PullMessagesResponse
+      required:
+      - PullMessagesResponse
+      type: object
+      properties:
+        PullMessagesResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_PullMessagesResponse'
+          - xml:
+              name: PullMessagesResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: PullMessagesResponse
+        attribute: false
+        wrapped: false
+    RenewRequest:
+      title: RenewRequest
+      required:
+      - Renew
+      type: object
+      properties:
+        Renew:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_Renew'
+          - {}
+    RenewResponse:
+      title: RenewResponse
+      required:
+      - RenewResponse
+      type: object
+      properties:
+        RenewResponse:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_RenewResponse'
+          - xml:
+              name: RenewResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: RenewResponse
+        attribute: false
+        wrapped: false
+    ResourceUnknownFault:
+      title: ResourceUnknownFault
+      required:
+      - ResourceUnknownFault
+      type: object
+      properties:
+        ResourceUnknownFault:
+          allOf:
+          - $ref: '#/components/schemas/wsrf-r_ResourceUnknownFaultType'
+          - xml:
+              name: ResourceUnknownFault
+              attribute: false
+              wrapped: false
+      xml:
+        name: ResourceUnknownFault
+        attribute: false
+        wrapped: false
+    ResourceUnknownFault_Error:
+      title: ResourceUnknownFault_Error
+      required:
+      - ResourceUnknownFault
+      type: object
+      properties:
+        ResourceUnknownFault:
+          allOf:
+          - $ref: '#/components/schemas/wsrf-r_ResourceUnknownFaultType'
+          - {}
+    ResumeSubscriptionRequest:
+      title: ResumeSubscriptionRequest
+      required:
+      - ResumeSubscription
+      type: object
+      properties:
+        ResumeSubscription:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_ResumeSubscription'
+          - {}
+    ResumeSubscriptionResponse:
+      title: ResumeSubscriptionResponse
+      required:
+      - ResumeSubscriptionResponse
+      type: object
+      properties:
+        ResumeSubscriptionResponse:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_ResumeSubscriptionResponse'
+          - xml:
+              name: ResumeSubscriptionResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: ResumeSubscriptionResponse
+        attribute: false
+        wrapped: false
+    SeekRequest:
+      title: SeekRequest
+      required:
+      - Seek
+      type: object
+      properties:
+        Seek:
+          allOf:
+          - $ref: '#/components/schemas/tns_Seek'
+          - {}
+    SeekResponse:
+      title: SeekResponse
+      required:
+      - SeekResponse
+      type: object
+      properties:
+        SeekResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_SeekResponse'
+          - xml:
+              name: SeekResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: SeekResponse
+        attribute: false
+        wrapped: false
+    SetSynchronizationPointRequest:
+      title: SetSynchronizationPointRequest
+      required:
+      - SetSynchronizationPoint
+      type: object
+      properties:
+        SetSynchronizationPoint:
+          allOf:
+          - $ref: '#/components/schemas/tns_SetSynchronizationPoint'
+          - {}
+    SetSynchronizationPointResponse:
+      title: SetSynchronizationPointResponse
+      required:
+      - SetSynchronizationPointResponse
+      type: object
+      properties:
+        SetSynchronizationPointResponse:
+          allOf:
+          - $ref: '#/components/schemas/tns_SetSynchronizationPointResponse'
+          - xml:
+              name: SetSynchronizationPointResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: SetSynchronizationPointResponse
+        attribute: false
+        wrapped: false
+    SubscribeRequest:
+      title: SubscribeRequest
+      required:
+      - Subscribe
+      type: object
+      properties:
+        Subscribe:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_Subscribe'
+          - {}
+    SubscribeResponse:
+      title: SubscribeResponse
+      required:
+      - SubscribeResponse
+      type: object
+      properties:
+        SubscribeResponse:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_SubscribeResponse'
+          - xml:
+              name: SubscribeResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: SubscribeResponse
+        attribute: false
+        wrapped: false
+    tns_SubscriptionPolicy:
+      title: tns_SubscriptionPolicy
+      type: object
+      description: Refer to
+      xml:
+        name: SubscriptionPolicy
+        namespace: http://www.onvif.org/ver10/events/wsdl
+        prefix: tns
+        attribute: false
+        wrapped: false
+    tns1_space:
+      title: tns1_space
+      enum:
+      - default
+      - preserve
+      type: string
+      description: ''
+      xml:
+        name: space
+        namespace: http://www.w3.org/XML/1998/namespace
+        prefix: tns1
+        attribute: false
+        wrapped: false
+    UnableToCreatePullPointFault:
+      title: UnableToCreatePullPointFault
+      required:
+      - UnableToCreatePullPointFault
+      type: object
+      properties:
+        UnableToCreatePullPointFault:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_UnableToCreatePullPointFaultType'
+          - xml:
+              name: UnableToCreatePullPointFault
+              attribute: false
+              wrapped: false
+      xml:
+        name: UnableToCreatePullPointFault
+        attribute: false
+        wrapped: false
+    UnableToCreatePullPointFault_Error:
+      title: UnableToCreatePullPointFault_Error
+      required:
+      - UnableToCreatePullPointFault
+      type: object
+      properties:
+        UnableToCreatePullPointFault:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_UnableToCreatePullPointFaultType'
+          - {}
+    UnsubscribeRequest:
+      title: UnsubscribeRequest
+      required:
+      - Unsubscribe
+      type: object
+      properties:
+        Unsubscribe:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_Unsubscribe'
+          - {}
+    UnsubscribeResponse:
+      title: UnsubscribeResponse
+      required:
+      - UnsubscribeResponse
+      type: object
+      properties:
+        UnsubscribeResponse:
+          allOf:
+          - $ref: '#/components/schemas/wsnt_UnsubscribeResponse'
+          - xml:
+              name: UnsubscribeResponse
+              attribute: false
+              wrapped: false
+      xml:
+        name: UnsubscribeResponse
+        attribute: false
+        wrapped: false
+    wsnt_Message:
+      title: wsnt_Message
+      type: object
+      description: ''
+      xml:
+        name: Message
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsnt_SubscriptionPolicy:
+      title: wsnt_SubscriptionPolicy
+      type: object
+      description: ''
+      xml:
+        name: SubscriptionPolicy
+        namespace: http://docs.oasis-open.org/wsn/b-2
+        prefix: wsnt
+        attribute: false
+        wrapped: false
+    wsrf-bf_Description:
+      title: wsrf-bf_Description
+      type: object
+      properties:
+        lang:
+          oneOf:
+          - type: string
+          - type: string
+          description: >-
+            lang (as an attribute name)
+                   denotes an attribute whose value
+                   is a language code for the natural language of the content of
+                   any element; its value is inherited.  This name is reserved
+                   by virtue of its definition in the XML specification.
+          xml:
+            name: lang
+            prefix: tns1
+            attribute: true
+            wrapped: false
+      description: ''
+      xml:
+        name: Description
+        namespace: http://docs.oasis-open.org/wsrf/bf-2
+        prefix: wsrf-bf
+        attribute: false
+        wrapped: false
+    wsrf-bf_ErrorCode:
+      title: wsrf-bf_ErrorCode
+      required:
+      - dialect
+      type: object
+      properties:
+        dialect:
+          type: string
+          xml:
+            name: dialect
+            attribute: true
+            wrapped: false
+      description: ''
+      xml:
+        name: ErrorCode
+        namespace: http://docs.oasis-open.org/wsrf/bf-2
+        prefix: wsrf-bf
+        attribute: false
+        wrapped: false
+    wsrf-bf_FaultCause:
+      title: wsrf-bf_FaultCause
+      type: object
+      description: ''
+      xml:
+        name: FaultCause
+        namespace: http://docs.oasis-open.org/wsrf/bf-2
+        prefix: wsrf-bf
+        attribute: false
+        wrapped: false
+    wstop_Topic:
+      title: wstop_Topic
+      allOf:
+      - $ref: '#/components/schemas/wstop_TopicType'
+      - type: object
+        properties:
+          parent:
+            pattern: (([\i-[:]][\c-[:]]*:)?[\i-[:]][\c-[:]]*)(/([\i-[:]][\c-[:]]*:)?[\i-[:]][\c-[:]]*)*
+            type: string
+            xml:
+              name: parent
+              attribute: true
+              wrapped: false
+        xml:
+          name: Topic
+          namespace: http://docs.oasis-open.org/wsn/t-1
+          prefix: wstop
+          attribute: false
+          wrapped: false
+      description: ''
+    tns_AbsoluteOrRelativeTimeType:
+      oneOf:
+      - type: string
+      - type: string
+    wsa_RelationshipTypeOpenEnum1:
+      oneOf:
+      - $ref: '#/components/schemas/wsa_RelationshipTypeOpenEnum'
+    wsa_FaultCodesOpenEnumType1:
+      oneOf:
+      - type: object
+    wsnt_AbsoluteOrRelativeTimeType:
+      $ref: '#/components/schemas/tns_AbsoluteOrRelativeTimeType'
+tags:
+- name: PullPointSubscriptionBinding
+  description: ''
+- name: EventBinding
+  description: ''
+- name: SubscriptionManagerBinding
+  description: ''
+- name: NotificationProducerBinding
+  description: ''
+- name: NotificationConsumerBinding
+  description: ''
+- name: PullPointBinding
+  description: ''
+- name: CreatePullPointBinding
+  description: ''
+- name: PausableSubscriptionManagerBinding
+  description: ''

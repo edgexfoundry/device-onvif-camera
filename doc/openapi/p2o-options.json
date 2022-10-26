@@ -7,7 +7,18 @@
     "folders": {
         "separator": " - "
     },
-    "additionalVars": {
-        "EDGEX_DEVICE_NAME": "Camera001"
-    }
+    "servers": [
+        {
+            "url": "http://localhost:59882",
+            "description": "Local running instance of EdgeX"
+        },
+        {
+            "url": "http://127.0.0.1:59882",
+            "description": "Local running instance of EdgeX"
+        },
+        {
+            "url": "http://0.0.0.0:59882",
+            "description": "Local running instance of EdgeX"
+        }
+    ]
 }

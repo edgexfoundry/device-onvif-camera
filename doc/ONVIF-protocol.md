@@ -251,13 +251,13 @@ The following table shows the Onvif functions tested for various Onvif cameras:
 |                   | SetNetworkDefaultGateway | ✔                   | ❌         | ✔                                 | ✔                   |                     |
 
 ### System Function
-| Onvif Web Service | Onvif Function          | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
-|-------------------|-------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **Device**        | GetDeviceInformation    | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | GetSystemDateAndTime    | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | SetSystemDateAndTime    | ✔                   | ✔ [ⓘ](onvif-footnotes.md#tapo-c200---setsystemdateandtime)         | ✔                                 | ✔                   |                     |
-|                   | SetSystemFactoryDefault | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | Reboot                  | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+| Onvif Web Service | Onvif Function          | Hikvision DFI6256TE | Tapo C200                                                  | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+|-------------------|-------------------------|---------------------|------------------------------------------------------------|-----------------------------------|---------------------|---------------------|
+| **Device**        | GetDeviceInformation    | ✔                   | ✔                                                          | ✔                                 | ✔                   |                     |
+|                   | GetSystemDateAndTime    | ✔                   | ✔                                                          | ✔                                 | ✔                   |                     |
+|                   | SetSystemDateAndTime    | ✔                   | ✔ [ⓘ](onvif-footnotes.md#tapo-c200---setsystemdateandtime) | ✔                                 | ✔                   |                     |
+|                   | SetSystemFactoryDefault | ✔                   | ✔                                                          | ✔                                 | ✔                   |                     |
+|                   | Reboot                  | ✔                   | ✔                                                          | ✔                                 | ✔                   |                     |
 
 ### User Handling
 | Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200                                             | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
@@ -346,7 +346,9 @@ The following table shows the Onvif functions tested for various Onvif cameras:
 |                   | PullMessages                | ✔                   | ❌         | ✔                                 | ❌                   |                     |
 |                   | TopicFilter                 | ✔                   | ❌         | ✔                                 | ❌                   |                     |
 |                   | MessageContentFilter        | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+|                   | GetEventProperties          |                     | ✔         |                                   |                     |                     |
 
+GetEventProperties
 ### Analytics Profile Configuration
 | Onvif Web Service | Onvif Function             | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
 |-------------------|----------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
