@@ -1,12 +1,429 @@
 {
 	"info": {
-		"_postman_id": "c665bdf3-cb76-4f60-8043-825441d7d5df",
+		"_postman_id": "801f9ce3-7f20-4c6c-a865-5299d4b539d0",
 		"name": "device-onvif-camera",
 		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "7889146"
 	},
 	"item": [
+		{
+			"name": "Capabilities",
+			"item": [
+				{
+					"name": "Capabilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Capabilities",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Capabilities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Capabilities",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/Capabilities",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Capabilities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "fe559938-9c96-43b4-a344-502694f58b0f"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 21 Oct 2022 22:33:18 GMT"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"001f4647-f047-445f-a632-57d22417760b\",\n        \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"Capabilities\",\n        \"origin\": 1666391598771990139,\n        \"readings\": [\n            {\n                \"id\": \"577e5335-44f0-4cdf-9413-b07bb2554d3c\",\n                \"origin\": 1666391598771990139,\n                \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"Capabilities\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Capabilities\": {\n                        \"Analytics\": {\n                            \"AnalyticsModuleSupport\": true,\n                            \"RuleSupport\": true,\n                            \"XAddr\": \"http://10.0.0.127:2020/onvif/service\"\n                        },\n                        \"Device\": {\n                            \"Extension\": \"\",\n                            \"IO\": {\n                                \"Extension\": {\n                                    \"Auxiliary\": false,\n                                    \"AuxiliaryCommands\": \"\",\n                                    \"Extension\": \"\"\n                                },\n                                \"InputConnectors\": 0,\n                                \"RelayOutputs\": 0\n                            },\n                            \"Network\": {\n                                \"DynDNS\": false,\n                                \"Extension\": {\n                                    \"Dot11Configuration\": true,\n                                    \"Extension\": \"\"\n                                },\n                                \"IPFilter\": false,\n                                \"IPVersion6\": false,\n                                \"ZeroConfiguration\": false\n                            },\n                            \"Security\": {\n                                \"AccessPolicyConfig\": false,\n                                \"Extension\": {\n                                    \"Extension\": {\n                                        \"Dot1X\": false,\n                                        \"RemoteUserHandling\": false,\n                                        \"SupportedEAPMethod\": 0\n                                    },\n                                    \"TLS1_0\": false\n                                },\n                                \"KerberosToken\": false,\n                                \"OnboardKeyGeneration\": false,\n                                \"RELToken\": false,\n                                \"SAMLToken\": false,\n                                \"TLS1_1\": false,\n                                \"TLS1_2\": false,\n                                \"X_509Token\": false\n                            },\n                            \"System\": {\n                                \"DiscoveryBye\": true,\n                                \"DiscoveryResolve\": false,\n                                \"Extension\": {\n                                    \"Extension\": \"\",\n                                    \"HttpFirmwareUpgrade\": false,\n                                    \"HttpSupportInformation\": false,\n                                    \"HttpSystemBackup\": false,\n                                    \"HttpSystemLogging\": false\n                                },\n                                \"FirmwareUpgrade\": false,\n                                \"RemoteDiscovery\": false,\n                                \"SupportedVersions\": {\n                                    \"Major\": 20,\n                                    \"Minor\": 6\n                                },\n                                \"SystemBackup\": false,\n                                \"SystemLogging\": false\n                            },\n                            \"XAddr\": \"http://10.0.0.127:2020/onvif/service\"\n                        },\n                        \"Events\": {\n                            \"WSPausableSubscriptionManagerInterfaceSupport\": false,\n                            \"WSPullPointSupport\": true,\n                            \"WSSubscriptionPolicySupport\": true,\n                            \"XAddr\": \"http://10.0.0.127:2020/onvif/service\"\n                        },\n                        \"Extension\": {\n                            \"AnalyticsDevice\": {\n                                \"Extension\": \"\",\n                                \"RuleSupport\": false,\n                                \"XAddr\": \"\"\n                            },\n                            \"DeviceIO\": {\n                                \"AudioOutputs\": 0,\n                                \"AudioSources\": 1,\n                                \"RelayOutputs\": 0,\n                                \"VideoOutputs\": 0,\n                                \"VideoSources\": 0,\n                                \"XAddr\": \"\"\n                            },\n                            \"Display\": {\n                                \"FixedLayout\": false,\n                                \"XAddr\": \"\"\n                            },\n                            \"Extensions\": \"\",\n                            \"Receiver\": {\n                                \"MaximumRTSPURILength\": 0,\n                                \"RTP_Multicast\": false,\n                                \"RTP_RTSP_TCP\": false,\n                                \"RTP_TCP\": false,\n                                \"SupportedReceivers\": 0,\n                                \"XAddr\": \"\"\n                            },\n                            \"Recording\": {\n                                \"DynamicRecordings\": false,\n                                \"DynamicTracks\": false,\n                                \"MaxStringLength\": 0,\n                                \"MediaProfileSource\": false,\n                                \"ReceiverSource\": false,\n                                \"XAddr\": \"\"\n                            },\n                            \"Replay\": {\n                                \"XAddr\": \"\"\n                            },\n                            \"Search\": {\n                                \"MetadataSearch\": false,\n                                \"XAddr\": \"\"\n                            }\n                        },\n                        \"Imaging\": {\n                            \"XAddr\": \"http://10.0.0.127:2020/onvif/service\"\n                        },\n                        \"Media\": {\n                            \"Extension\": {\n                                \"ProfileCapabilities\": {\n                                    \"MaximumNumberOfProfiles\": 0\n                                }\n                            },\n                            \"StreamingCapabilities\": {\n                                \"Extension\": \"\",\n                                \"RTPMulticast\": false,\n                                \"RTP_RTSP_TCP\": true,\n                                \"RTP_TCP\": true\n                            },\n                            \"XAddr\": \"http://10.0.0.127:2020/onvif/service\"\n                        },\n                        \"PTZ\": {\n                            \"XAddr\": \"http://10.0.0.127:2020/onvif/service\"\n                        }\n                    }\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "DeviceCapabilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeviceCapabilities",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"DeviceCapabilities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "DeviceCapabilities",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/DeviceCapabilities",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"DeviceCapabilities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "89f4ab05-cda6-4adf-a094-dd5126ada900"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 21 Oct 2022 22:33:28 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1553"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"d78a2e7d-7662-4ffe-9bcb-f51774e3f4b9\",\n        \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"DeviceCapabilities\",\n        \"origin\": 1666391608703045218,\n        \"readings\": [\n            {\n                \"id\": \"7f5cf13f-385d-4eb5-a492-facf47e5b1e8\",\n                \"origin\": 1666391608703045218,\n                \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"DeviceCapabilities\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Capabilities\": {\n                        \"Misc\": {\n                            \"AuxiliaryCommands\": {\n                                \"AttrList\": null\n                            }\n                        },\n                        \"Network\": {\n                            \"DHCPv6\": false,\n                            \"Dot11Configuration\": true,\n                            \"Dot1XConfigurations\": 0,\n                            \"DynDNS\": false,\n                            \"HostnameFromDHCP\": false,\n                            \"IPFilter\": false,\n                            \"IPVersion6\": false,\n                            \"NTP\": 1,\n                            \"ZeroConfiguration\": false\n                        },\n                        \"Security\": {\n                            \"AccessPolicyConfig\": false,\n                            \"DefaultAccessPolicy\": false,\n                            \"Dot1X\": false,\n                            \"HttpDigest\": false,\n                            \"KerberosToken\": false,\n                            \"MaxPasswordLength\": 0,\n                            \"MaxUserNameLength\": 0,\n                            \"MaxUsers\": 0,\n                            \"OnboardKeyGeneration\": false,\n                            \"RELToken\": false,\n                            \"RemoteUserHandling\": false,\n                            \"SAMLToken\": false,\n                            \"SupportedEAPMethods\": {\n                                \"Types\": null\n                            },\n                            \"TLS1_0\": false,\n                            \"TLS1_1\": false,\n                            \"TLS1_2\": false,\n                            \"UsernameToken\": true,\n                            \"X_509Token\": false\n                        },\n                        \"System\": {\n                            \"AutoGeo\": {\n                                \"AttrList\": null\n                            },\n                            \"DiscoveryBye\": false,\n                            \"DiscoveryResolve\": false,\n                            \"FirmwareUpgrade\": false,\n                            \"GeoLocationEntries\": 0,\n                            \"HttpFirmwareUpgrade\": false,\n                            \"HttpSupportInformation\": false,\n                            \"HttpSystemBackup\": false,\n                            \"HttpSystemLogging\": false,\n                            \"MaxStorageConfigurations\": 0,\n                            \"RemoteDiscovery\": false,\n                            \"StorageConfiguration\": false,\n                            \"SystemBackup\": false,\n                            \"SystemLogging\": false\n                        }\n                    }\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "MediaCapabilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/MediaCapabilities",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"MediaCapabilities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "MediaCapabilities",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/MediaCapabilities",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"MediaCapabilities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "2e059569-6447-4e35-a87e-281ba9b27624"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 21 Oct 2022 22:37:34 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "861"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"6d536924-265a-4f2d-b494-ccaa550af64f\",\n        \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"MediaCapabilities\",\n        \"origin\": 1666391854866122819,\n        \"readings\": [\n            {\n                \"id\": \"7d5788b9-f0c2-4d4a-be20-3256e9bd6368\",\n                \"origin\": 1666391854866122819,\n                \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"MediaCapabilities\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Capabilities\": {\n                        \"EXICompression\": false,\n                        \"OSD\": true,\n                        \"ProfileCapabilities\": {\n                            \"MaximumNumberOfProfiles\": 10\n                        },\n                        \"Rotation\": false,\n                        \"SnapshotUri\": false,\n                        \"StreamingCapabilities\": {\n                            \"NoRTSPStreaming\": true,\n                            \"NonAggregateControl\": true,\n                            \"RTPMulticast\": false,\n                            \"RTP_RTSP_TCP\": true,\n                            \"RTP_TCP\": true\n                        },\n                        \"TemporaryOSDText\": false,\n                        \"VideoSourceMode\": true\n                    }\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "PTZCapabilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/PTZCapabilities",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"PTZCapabilities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "PTZCapabilities",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/PTZCapabilities",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"PTZCapabilities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "e184e2c9-4535-48e9-9a44-1fbf936904c9"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 21 Oct 2022 22:38:00 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "658"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"c9001dc2-902c-452f-9e9c-4822c86da942\",\n        \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"PTZCapabilities\",\n        \"origin\": 1666391880436591372,\n        \"readings\": [\n            {\n                \"id\": \"5886858d-668d-4bc3-bc1d-2aa6555c09fc\",\n                \"origin\": 1666391880436591372,\n                \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"PTZCapabilities\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Capabilities\": {\n                        \"EFlip\": true,\n                        \"GetCompatibleConfigurations\": true,\n                        \"MoveStatus\": false,\n                        \"Reverse\": true,\n                        \"StatusPosition\": false\n                    }\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "ImagingCapabilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/ImagingCapabilities",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"ImagingCapabilities"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EventCapabilities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/EventCapabilities",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"EventCapabilities"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "EventCapabilities",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/EventCapabilities",
+									"protocol": "http",
+									"host": [
+										"0",
+										"0",
+										"0",
+										"0"
+									],
+									"port": "59882",
+									"path": [
+										"api",
+										"v2",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"EventCapabilities"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "4a7b0552-ac76-42b4-afb7-12804af45aac"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 21 Oct 2022 22:38:22 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "760"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v2\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v2\",\n        \"id\": \"746f8b0c-6ef7-4dc3-b32f-bef25790d2de\",\n        \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"EventCapabilities\",\n        \"origin\": 1666391902948425069,\n        \"readings\": [\n            {\n                \"id\": \"31c20970-a595-4689-8ac0-e16d258f8dba\",\n                \"origin\": 1666391902948425069,\n                \"deviceName\": \"tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"EventCapabilities\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Capabilities\": {\n                        \"MaxNotificationProducers\": 10,\n                        \"MaxPullPoints\": 10,\n                        \"PersistentNotificationStorage\": false,\n                        \"WSPausableSubscriptionManagerInterfaceSupport\": false,\n                        \"WSPullPointSupport\": true,\n                        \"WSSubscriptionPolicySupport\": false\n                    }\n                }\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			]
+		},
 		{
 			"name": "Auto Discovery",
 			"item": [
@@ -549,6 +966,33 @@
 							"body": "{\n    \"apiVersion\": \"v2\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v2\\\",\\\"message\\\":\\\"error writing DeviceResourece RemoveScopes for Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'RemoveScopes' of web service 'Device'. Onvif error: fault reason: Trying to Remove scope which does not exist, fault detail: , fault code: s:Sender ter:InvalidArgVal ter:NoScope\\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
 						}
 					]
+				},
+				{
+					"name": "EndpointReference",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://0.0.0.0:59882/api/v2/device/name/{{EDGEX_DEVICE_NAME}}/EndpointReference",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "59882",
+							"path": [
+								"api",
+								"v2",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"EndpointReference"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
