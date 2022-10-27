@@ -19,6 +19,11 @@ import (
 // checkStatuses loops through all registered devices and tries to determine the most accurate connection state
 func (d *Driver) checkStatuses() {
 	d.lc.Debug("checkStatuses has been called")
+	start := time.Now()
+	defer func() {
+		d.lc.Debugf("checkStatuses completed in: %v", time.Since(start))
+	}()
+
 	wg := sync.WaitGroup{}
 	for _, device := range d.sdkService.Devices() {
 		device := device // save the device value within the closure
@@ -27,34 +32,43 @@ func (d *Driver) checkStatuses() {
 		go func() {
 			defer wg.Done()
 
-			// if device is unknown, and missing a MAC Address, try and determine the MAC address via the endpoint reference
-			if strings.HasPrefix(device.Name, UnknownDevicePrefix) && device.Protocols[OnvifProtocol][MACAddress] == "" {
-				if endpointRefAddr := device.Protocols[OnvifProtocol][EndpointRefAddress]; endpointRefAddr != "" {
-					if mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr); mac != "" {
-						// the mac address for the device was found, so set it here which will allow the
-						// code below to use the mac address for looking up the credentials. Because the mac mapper
-						// already contains them, the credentials will be found (whether they are valid or invalid).
-						device.Protocols[OnvifProtocol][MACAddress] = mac
-					}
-				}
-			}
-
-			status := d.testConnectionMethods(device)
-			if statusChanged, updateDeviceStatusErr := d.updateDeviceStatus(device.Name, status); updateDeviceStatusErr != nil {
-				d.lc.Warnf("Could not update device status for device %s: %s", device.Name, updateDeviceStatusErr.Error())
-
-			} else if statusChanged && status == UpWithAuth {
-				d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
-				go func() { // refresh the device information in the background
-					if refreshErr := d.refreshDevice(device); refreshErr != nil {
-						d.lc.Warnf("An error occurred while refreshing the device %s: %s",
-							device.Name, refreshErr.Error())
-					}
-				}()
-			}
+			d.checkStatusOfDevice(device)
 		}()
 	}
 	wg.Wait()
+}
+
+// checkStatusOfDevice checks the status of an individual device
+func (d *Driver) checkStatusOfDevice(device models.Device) {
+	d.lc.Debugf("checking status of device %s", device.Name)
+
+	// if device is unknown, and missing a MAC Address, try and determine the MAC address via the endpoint reference
+	if strings.HasPrefix(device.Name, UnknownDevicePrefix) && device.Protocols[OnvifProtocol][MACAddress] == "" {
+		if endpointRefAddr := device.Protocols[OnvifProtocol][EndpointRefAddress]; endpointRefAddr != "" {
+			if mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr); mac != "" {
+				// the mac address for the device was found, so set it here which will allow the
+				// code below to use the mac address for looking up the credentials. Because the mac mapper
+				// already contains them, the credentials will be found (whether they are valid or invalid).
+				device.Protocols[OnvifProtocol][MACAddress] = mac
+			}
+		}
+	}
+
+	status := d.testConnectionMethods(device)
+	if statusChanged, updateDeviceStatusErr := d.updateDeviceStatus(device.Name, status); updateDeviceStatusErr != nil {
+		d.lc.Warnf("Could not update device status for device %s: %s", device.Name, updateDeviceStatusErr.Error())
+
+	} else if statusChanged && status == UpWithAuth {
+		d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
+		go func() { // refresh the device information in the background
+			if refreshErr := d.refreshDevice(device); refreshErr != nil {
+				d.lc.Warnf("An error occurred while refreshing the device %s: %s",
+					device.Name, refreshErr.Error())
+			}
+		}()
+	}
+
+	d.lc.Debugf("device %s status is %s", device.Name, status)
 }
 
 // testConnectionMethods will try to determine the state using different device calls
@@ -101,7 +115,6 @@ func (d *Driver) tcpProbe(device models.Device) bool {
 		return false
 	}
 	host := addr + ":" + port
-
 	conn, err := net.DialTimeout("tcp", host, time.Duration(d.config.AppCustom.ProbeTimeoutMillis)*time.Millisecond)
 	if err != nil {
 		d.lc.Debugf("Connection to %s failed when using simple tcp dial, Error: %s ", device.Name, err.Error())
@@ -167,9 +180,7 @@ func (d *Driver) taskLoop() {
 		case <-d.taskCh:
 			return
 		case <-statusTicker.C:
-			start := time.Now()
 			d.checkStatuses() // checks the status of every device
-			d.lc.Debugf("checkStatuses completed in: %v", time.Since(start))
 		}
 	}
 }
