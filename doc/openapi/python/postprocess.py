@@ -135,7 +135,7 @@ class YamlProcessor:
                     for code, resp_obj in self.sidecar['responses']['canned'].items():
                         if code not in method_obj['responses']:
                             method_obj['responses'][code] = resp_obj
-                        elif code == '200':
+                        elif code == '200' and method == 'put':
                             content = method_obj['responses']['200']['content']
                             if 'application/json' not in content or \
                                     len(content['application/json']) == 0 or \

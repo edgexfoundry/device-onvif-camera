@@ -331,6 +331,15 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
+  - name: "EndpointReference"
+    isHidden: false
+    description: "Camera Endpoint Reference"
+    attributes:
+      service: "Device"
+      getFunction: "GetEndpointReference"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
 
   # PTZ Configuration
   - name: "GetNodes"
@@ -725,6 +734,63 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "R"
+
+  # Capabilities
+  - name: "Capabilities"
+    isHidden: false
+    description: "All Camera Capabilities"
+    attributes:
+      service: "Device"
+      getFunction: "GetCapabilities"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "DeviceCapabilities"
+    isHidden: false
+    description: "Camera Device Service Capabilities"
+    attributes:
+      service: "Device"
+      getFunction: "GetServiceCapabilities"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "MediaCapabilities"
+    isHidden: false
+    description: "Camera Media Service Capabilities"
+    attributes:
+      service: "Media"
+      getFunction: "GetServiceCapabilities"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "PTZCapabilities"
+    isHidden: false
+    description: "Camera PTZ Service Capabilities"
+    attributes:
+      service: "PTZ"
+      getFunction: "GetServiceCapabilities"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "EventCapabilities"
+    isHidden: false
+    description: "Camera Event Service Capabilities"
+    attributes:
+      service: "Event"
+      getFunction: "GetServiceCapabilities"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+  - name: "ImagingCapabilities"
+    isHidden: false
+    description: "Camera Imaging Service Capabilities"
+    attributes:
+      service: "Imaging"
+      getFunction: "GetServiceCapabilities"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
+
 
 deviceCommands:
   -

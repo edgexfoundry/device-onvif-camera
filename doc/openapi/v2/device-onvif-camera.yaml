@@ -11,6 +11,7 @@ servers:
 - url: http://0.0.0.0:59882
   description: Local running instance of EdgeX
 tags:
+- name: Capabilities
 - name: Auto Discovery
 - name: Network Configuration
 - name: System Function
@@ -35,6 +36,658 @@ tags:
     Custom commands outside of the ONVIF spec handled by the device service
     directly.
 paths:
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Capabilities:
+    get:
+      tags:
+      - Capabilities
+      summary: 'Device: GetCapabilities'
+      parameters:
+      - name: jsonObject
+        in: query
+        schema:
+          type: string
+        example: ''
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "Category": []
+          }
+          ```
+
+          **Field Descriptions:**
+            - **Category** _[array]_
+          <br/>    List of categories to retrieve capability information on.
+
+
+          **Schema Reference:** [device_GetCapabilities](#device_GetCapabilities)
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/device_GetCapabilitiesResponse'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: 001f4647-f047-445f-a632-57d22417760b
+                  deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  profileName: onvif-camera
+                  sourceName: Capabilities
+                  origin: 1666391598771990000
+                  readings:
+                  - id: 577e5335-44f0-4cdf-9413-b07bb2554d3c
+                    origin: 1666391598771990000
+                    deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                    resourceName: Capabilities
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      Capabilities:
+                        Analytics:
+                          AnalyticsModuleSupport: true
+                          RuleSupport: true
+                          XAddr: http://10.0.0.127:2020/onvif/service
+                        Device:
+                          Extension: ''
+                          IO:
+                            Extension:
+                              Auxiliary: false
+                              AuxiliaryCommands: ''
+                              Extension: ''
+                            InputConnectors: 0
+                            RelayOutputs: 0
+                          Network:
+                            DynDNS: false
+                            Extension:
+                              Dot11Configuration: true
+                              Extension: ''
+                            IPFilter: false
+                            IPVersion6: false
+                            ZeroConfiguration: false
+                          Security:
+                            AccessPolicyConfig: false
+                            Extension:
+                              Extension:
+                                Dot1X: false
+                                RemoteUserHandling: false
+                                SupportedEAPMethod: 0
+                              TLS1_0: false
+                            KerberosToken: false
+                            OnboardKeyGeneration: false
+                            RELToken: false
+                            SAMLToken: false
+                            TLS1_1: false
+                            TLS1_2: false
+                            X_509Token: false
+                          System:
+                            DiscoveryBye: true
+                            DiscoveryResolve: false
+                            Extension:
+                              Extension: ''
+                              HttpFirmwareUpgrade: false
+                              HttpSupportInformation: false
+                              HttpSystemBackup: false
+                              HttpSystemLogging: false
+                            FirmwareUpgrade: false
+                            RemoteDiscovery: false
+                            SupportedVersions:
+                              Major: 20
+                              Minor: 6
+                            SystemBackup: false
+                            SystemLogging: false
+                          XAddr: http://10.0.0.127:2020/onvif/service
+                        Events:
+                          WSPausableSubscriptionManagerInterfaceSupport: false
+                          WSPullPointSupport: true
+                          WSSubscriptionPolicySupport: true
+                          XAddr: http://10.0.0.127:2020/onvif/service
+                        Extension:
+                          AnalyticsDevice:
+                            Extension: ''
+                            RuleSupport: false
+                            XAddr: ''
+                          DeviceIO:
+                            AudioOutputs: 0
+                            AudioSources: 1
+                            RelayOutputs: 0
+                            VideoOutputs: 0
+                            VideoSources: 0
+                            XAddr: ''
+                          Display:
+                            FixedLayout: false
+                            XAddr: ''
+                          Extensions: ''
+                          Receiver:
+                            MaximumRTSPURILength: 0
+                            RTP_Multicast: false
+                            RTP_RTSP_TCP: false
+                            RTP_TCP: false
+                            SupportedReceivers: 0
+                            XAddr: ''
+                          Recording:
+                            DynamicRecordings: false
+                            DynamicTracks: false
+                            MaxStringLength: 0
+                            MediaProfileSource: false
+                            ReceiverSource: false
+                            XAddr: ''
+                          Replay:
+                            XAddr: ''
+                          Search:
+                            MetadataSearch: false
+                            XAddr: ''
+                        Imaging:
+                          XAddr: http://10.0.0.127:2020/onvif/service
+                        Media:
+                          Extension:
+                            ProfileCapabilities:
+                              MaximumNumberOfProfiles: 0
+                          StreamingCapabilities:
+                            Extension: ''
+                            RTPMulticast: false
+                            RTP_RTSP_TCP: true
+                            RTP_TCP: true
+                          XAddr: http://10.0.0.127:2020/onvif/service
+                        PTZ:
+                          XAddr: http://10.0.0.127:2020/onvif/service
+        '400': &id001
+          description: Request is in an invalid state
+          headers:
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                400Example:
+                  $ref: '#/components/examples/400Example'
+        '404': &id002
+          description: The requested resource does not exist
+          headers:
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                404Example:
+                  $ref: '#/components/examples/404Example'
+        '423': &id003
+          description: The device is locked (AdminState)
+          headers:
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                423Example:
+                  $ref: '#/components/examples/423Example'
+        '500': &id004
+          description: An unexpected error occurred on the server
+          headers:
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                500Example:
+                  $ref: '#/components/examples/500Example'
+        '503': &id005
+          description: Service Unavailable
+          headers:
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                503Example:
+                  $ref: '#/components/examples/503Example'
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCapabilities
+      description: |-
+        This method has been replaced by the more generic GetServices method.
+        			 For capabilities of individual services refer to the GetServiceCapabilities methods.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Tapo C200** | ✔️ |  |
+        </details>
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeviceCapabilities:
+    get:
+      tags:
+      - Capabilities
+      summary: 'Device: GetServiceCapabilities'
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/device_GetServiceCapabilitiesResponse'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: d78a2e7d-7662-4ffe-9bcb-f51774e3f4b9
+                  deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  profileName: onvif-camera
+                  sourceName: DeviceCapabilities
+                  origin: 1666391608703045000
+                  readings:
+                  - id: 7f5cf13f-385d-4eb5-a492-facf47e5b1e8
+                    origin: 1666391608703045000
+                    deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                    resourceName: DeviceCapabilities
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      Capabilities:
+                        Misc:
+                          AuxiliaryCommands:
+                            AttrList:
+                        Network:
+                          DHCPv6: false
+                          Dot11Configuration: true
+                          Dot1XConfigurations: 0
+                          DynDNS: false
+                          HostnameFromDHCP: false
+                          IPFilter: false
+                          IPVersion6: false
+                          NTP: 1
+                          ZeroConfiguration: false
+                        Security:
+                          AccessPolicyConfig: false
+                          DefaultAccessPolicy: false
+                          Dot1X: false
+                          HttpDigest: false
+                          KerberosToken: false
+                          MaxPasswordLength: 0
+                          MaxUserNameLength: 0
+                          MaxUsers: 0
+                          OnboardKeyGeneration: false
+                          RELToken: false
+                          RemoteUserHandling: false
+                          SAMLToken: false
+                          SupportedEAPMethods:
+                            Types:
+                          TLS1_0: false
+                          TLS1_1: false
+                          TLS1_2: false
+                          UsernameToken: true
+                          X_509Token: false
+                        System:
+                          AutoGeo:
+                            AttrList:
+                          DiscoveryBye: false
+                          DiscoveryResolve: false
+                          FirmwareUpgrade: false
+                          GeoLocationEntries: 0
+                          HttpFirmwareUpgrade: false
+                          HttpSupportInformation: false
+                          HttpSystemBackup: false
+                          HttpSystemLogging: false
+                          MaxStorageConfigurations: 0
+                          RemoteDiscovery: false
+                          StorageConfiguration: false
+                          SystemBackup: false
+                          SystemLogging: false
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetServiceCapabilities
+      description: |-
+        Returns the capabilities of the device service. The result is returned in a typed answer.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Tapo C200** | ✔️ |  |
+        </details>
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/MediaCapabilities:
+    get:
+      tags:
+      - Capabilities
+      summary: 'Media: GetServiceCapabilities'
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/media_GetServiceCapabilitiesResponse'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: 6d536924-265a-4f2d-b494-ccaa550af64f
+                  deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  profileName: onvif-camera
+                  sourceName: MediaCapabilities
+                  origin: 1666391854866122800
+                  readings:
+                  - id: 7d5788b9-f0c2-4d4a-be20-3256e9bd6368
+                    origin: 1666391854866122800
+                    deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                    resourceName: MediaCapabilities
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      Capabilities:
+                        EXICompression: false
+                        OSD: true
+                        ProfileCapabilities:
+                          MaximumNumberOfProfiles: 10
+                        Rotation: false
+                        SnapshotUri: false
+                        StreamingCapabilities:
+                          NoRTSPStreaming: true
+                          NonAggregateControl: true
+                          RTPMulticast: false
+                          RTP_RTSP_TCP: true
+                          RTP_TCP: true
+                        TemporaryOSDText: false
+                        VideoSourceMode: true
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetServiceCapabilities
+      description: |-
+        Returns the capabilities of the media service. The result is returned in a typed answer.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Tapo C200** | ✔️ |  |
+        </details>
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/PTZCapabilities:
+    get:
+      tags:
+      - Capabilities
+      summary: 'PTZ: GetServiceCapabilities'
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/ptz_GetServiceCapabilitiesResponse'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: c9001dc2-902c-452f-9e9c-4822c86da942
+                  deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  profileName: onvif-camera
+                  sourceName: PTZCapabilities
+                  origin: 1666391880436591400
+                  readings:
+                  - id: 5886858d-668d-4bc3-bc1d-2aa6555c09fc
+                    origin: 1666391880436591400
+                    deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                    resourceName: PTZCapabilities
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      Capabilities:
+                        EFlip: true
+                        GetCompatibleConfigurations: true
+                        MoveStatus: false
+                        Reverse: true
+                        StatusPosition: false
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetServiceCapabilities
+      description: |-
+        Returns the capabilities of the PTZ service. The result is returned in a typed answer.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Tapo C200** | ✔️ |  |
+        </details>
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/ImagingCapabilities:
+    get:
+      tags:
+      - Capabilities
+      summary: 'Imaging: GetServiceCapabilities'
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/imaging_GetServiceCapabilitiesResponse'
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl#op.GetServiceCapabilities
+      description: |-
+        Returns the capabilities of the imaging service. The result is returned in a typed answer.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Tapo C200** | ❌ |  |
+        </details>
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/EventCapabilities:
+    get:
+      tags:
+      - Capabilities
+      summary: 'Event: GetServiceCapabilities'
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/event_GetServiceCapabilitiesResponse'
+              example:
+                apiVersion: v2
+                statusCode: 200
+                event:
+                  apiVersion: v2
+                  id: 746f8b0c-6ef7-4dc3-b32f-bef25790d2de
+                  deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                  profileName: onvif-camera
+                  sourceName: EventCapabilities
+                  origin: 1666391902948425000
+                  readings:
+                  - id: 31c20970-a595-4689-8ac0-e16d258f8dba
+                    origin: 1666391902948425000
+                    deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
+                    resourceName: EventCapabilities
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      Capabilities:
+                        MaxNotificationProducers: 10
+                        MaxPullPoints: 10
+                        PersistentNotificationStorage: false
+                        WSPausableSubscriptionManagerInterfaceSupport: false
+                        WSPullPointSupport: true
+                        WSSubscriptionPolicySupport: false
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.GetServiceCapabilities
+      description: |-
+        Returns the capabilities of the event service. The result is returned in a typed answer.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Tapo C200** | ✔️ |  |
+        </details>
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/DiscoveryMode:
     get:
       tags:
@@ -100,66 +753,11 @@ paths:
                     value: ''
                     objectValue:
                       DiscoveryMode: Discoverable
-        '400': &id001
-          description: Request is in an invalid state
-          headers:
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                400Example:
-                  $ref: '#/components/examples/400Example'
-        '404': &id002
-          description: The requested resource does not exist
-          headers:
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                404Example:
-                  $ref: '#/components/examples/404Example'
-        '423': &id003
-          description: The device is locked (AdminState)
-          headers:
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                423Example:
-                  $ref: '#/components/examples/423Example'
-        '500': &id004
-          description: An unexpected error occurred on the server
-          headers:
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                500Example:
-                  $ref: '#/components/examples/500Example'
-        '503': &id005
-          description: Service Unavailable
-          headers:
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-              examples:
-                503Example:
-                  $ref: '#/components/examples/503Example'
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
@@ -206,7 +804,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BaseResponse'
+                $ref: '#/components/schemas/SuccessResponse'
               examples:
                 200Example:
                   $ref: '#/components/examples/200Example'
@@ -466,6 +1064,53 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
+  /api/v2/device/name/{EDGEX_DEVICE_NAME}/EndpointReference:
+    get:
+      tags:
+      - Auto Discovery
+      summary: 'Device: GetEndpointReference'
+      parameters:
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/device_GetEndpointReferenceResponse'
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetEndpointReference
+      description: |-
+        A client can ask for the device service endpoint reference address property that can be used
+        				to derive the password equivalent for remote user operation. The device shall support the
+        				GetEndpointReference command returning the address property of the device service
+        				endpoint reference.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Tapo C200** | ❌ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        </details>
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Hostname:
     get:
       tags:
@@ -1611,7 +2256,21 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot
-      description: This operation reboots the device.
+      description: |-
+        This operation reboots the device.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ✔️ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        </details>
   /api/v2/device/name/{EDGEX_DEVICE_NAME}/Users:
     get:
       tags:
@@ -2942,11 +3601,17 @@ paths:
       tags:
       - Video Encoder Configuration
       summary: 'Media: GetVideoEncoderConfigurations'
-      description: >-
-        This operation lists all existing video encoder configurations of a
-        device. This command lists all configured video encoder configurations
-        in a device. The client need not know anything apriori about the video
-        encoder configurations in order to use the command.
+      description: |-
+        This operation lists all existing video encoder configurations of a device. This command lists all configured video encoder configurations in a device. The client need not know anything apriori about the video encoder configurations in order to use the command.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -7363,6 +8028,36 @@ components:
       - ConfigurationToken
       - Rule
       type: object
+    onvif_AnalyticsCapabilities:
+      properties:
+        AnalyticsModuleSupport:
+          description: Indicates whether or not modules are supported.
+          type: boolean
+        RuleSupport:
+          description: Indicates whether or not rules are supported.
+          type: boolean
+        XAddr:
+          description: Analytics service URI.
+          type: string
+      required:
+      - XAddr
+      - RuleSupport
+      - AnalyticsModuleSupport
+      type: object
+    onvif_AnalyticsDeviceCapabilities:
+      properties:
+        Extension:
+          $ref: '#/components/schemas/onvif_AnalyticsDeviceExtension'
+        RuleSupport:
+          description: Obsolete property.
+          type: boolean
+        XAddr:
+          type: string
+      required:
+      - XAddr
+      type: object
+    onvif_AnalyticsDeviceExtension:
+      type: object
     onvif_AnalyticsEngineConfiguration:
       properties:
         AnalyticsModule:
@@ -7482,6 +8177,56 @@ components:
         required:
         - SourceToken
         type: object
+    onvif_Capabilities:
+      properties:
+        Analytics:
+          allOf:
+          - $ref: '#/components/schemas/onvif_AnalyticsCapabilities'
+          - description: Analytics capabilities
+        Device:
+          allOf:
+          - $ref: '#/components/schemas/onvif_DeviceCapabilities'
+          - description: Device capabilities
+        Events:
+          allOf:
+          - $ref: '#/components/schemas/onvif_EventCapabilities'
+          - description: Event capabilities
+        Extension:
+          $ref: '#/components/schemas/onvif_CapabilitiesExtension'
+        Imaging:
+          allOf:
+          - $ref: '#/components/schemas/onvif_ImagingCapabilities'
+          - description: Imaging capabilities
+        Media:
+          allOf:
+          - $ref: '#/components/schemas/onvif_MediaCapabilities'
+          - description: Media capabilities
+        PTZ:
+          allOf:
+          - $ref: '#/components/schemas/onvif_PTZCapabilities'
+          - description: PTZ capabilities
+      type: object
+    onvif_CapabilitiesExtension:
+      properties:
+        AnalyticsDevice:
+          $ref: '#/components/schemas/onvif_AnalyticsDeviceCapabilities'
+        DeviceIO:
+          $ref: '#/components/schemas/onvif_DeviceIOCapabilities'
+        Display:
+          $ref: '#/components/schemas/onvif_DisplayCapabilities'
+        Extensions:
+          $ref: '#/components/schemas/onvif_CapabilitiesExtension2'
+        Receiver:
+          $ref: '#/components/schemas/onvif_ReceiverCapabilities'
+        Recording:
+          $ref: '#/components/schemas/onvif_RecordingCapabilities'
+        Replay:
+          $ref: '#/components/schemas/onvif_ReplayCapabilities'
+        Search:
+          $ref: '#/components/schemas/onvif_SearchCapabilities'
+      type: object
+    onvif_CapabilitiesExtension2:
+      type: object
     onvif_Config:
       properties:
         Name:
@@ -7621,6 +8366,34 @@ components:
       - Time
       - Date
       type: object
+    onvif_DeviceCapabilities:
+      properties:
+        Extension:
+          $ref: '#/components/schemas/onvif_DeviceCapabilitiesExtension'
+        IO:
+          allOf:
+          - $ref: '#/components/schemas/onvif_IOCapabilities'
+          - description: I/O capabilities.
+        Network:
+          allOf:
+          - $ref: '#/components/schemas/onvif_NetworkCapabilities'
+          - description: Network capabilities.
+        Security:
+          allOf:
+          - $ref: '#/components/schemas/onvif_SecurityCapabilities'
+          - description: Security capabilities.
+        System:
+          allOf:
+          - $ref: '#/components/schemas/onvif_SystemCapabilities'
+          - description: System capabilities.
+        XAddr:
+          description: Device service URI.
+          type: string
+      required:
+      - XAddr
+      type: object
+    onvif_DeviceCapabilitiesExtension:
+      type: object
     onvif_DeviceEntity:
       description: Base class for physical entities like inputs and outputs.
       properties:
@@ -7631,11 +8404,50 @@ components:
       required:
       - token
       type: object
+    onvif_DeviceIOCapabilities:
+      properties:
+        AudioOutputs:
+          format: int32
+          type: integer
+        AudioSources:
+          format: int32
+          type: integer
+        RelayOutputs:
+          format: int32
+          type: integer
+        VideoOutputs:
+          format: int32
+          type: integer
+        VideoSources:
+          format: int32
+          type: integer
+        XAddr:
+          type: string
+      required:
+      - XAddr
+      - VideoSources
+      - VideoOutputs
+      - AudioSources
+      - AudioOutputs
+      - RelayOutputs
+      type: object
     onvif_DiscoveryMode:
       enum:
       - Discoverable
       - NonDiscoverable
       type: string
+    onvif_DisplayCapabilities:
+      properties:
+        FixedLayout:
+          description: Indication that the SetLayout command supports only predefined
+            layouts.
+          type: boolean
+        XAddr:
+          type: string
+      required:
+      - XAddr
+      - FixedLayout
+      type: object
     onvif_Dot11Cipher:
       enum:
       - CCMP
@@ -7788,6 +8600,27 @@ components:
       - Name
       - Type
       type: object
+    onvif_EventCapabilities:
+      properties:
+        WSPausableSubscriptionManagerInterfaceSupport:
+          description: Indicates whether or not WS Pausable Subscription Manager Interface
+            is supported.
+          type: boolean
+        WSPullPointSupport:
+          description: Indicates whether or not WS Pull Point is supported.
+          type: boolean
+        WSSubscriptionPolicySupport:
+          description: Indicates whether or not WS Subscription policy is supported.
+          type: boolean
+        XAddr:
+          description: Event service URI.
+          type: string
+      required:
+      - XAddr
+      - WSSubscriptionPolicySupport
+      - WSPullPointSupport
+      - WSPausableSubscriptionManagerInterfaceSupport
+      type: object
     onvif_EventSubscription:
       description: Subcription handling in the same way as base notification subscription.
       properties:
@@ -7897,6 +8730,35 @@ components:
       - FromDHCP
       type: object
     onvif_HostnameInformationExtension:
+      type: object
+    onvif_IOCapabilities:
+      properties:
+        Extension:
+          $ref: '#/components/schemas/onvif_IOCapabilitiesExtension'
+        InputConnectors:
+          description: Number of input connectors.
+          format: int32
+          type: integer
+        RelayOutputs:
+          description: Number of relay outputs.
+          format: int32
+          type: integer
+      type: object
+    onvif_IOCapabilitiesExtension:
+      properties:
+        Auxiliary:
+          type: boolean
+        AuxiliaryCommands:
+          items:
+            maxLength: 128
+            type: string
+          type: array
+        Extension:
+          $ref: '#/components/schemas/onvif_IOCapabilitiesExtension2'
+      required:
+      - Extension
+      type: object
+    onvif_IOCapabilitiesExtension2:
       type: object
     onvif_IPAddress:
       properties:
@@ -8038,6 +8900,14 @@ components:
           items:
             $ref: '#/components/schemas/onvif_PrefixedIPv6Address'
           type: array
+      type: object
+    onvif_ImagingCapabilities:
+      properties:
+        XAddr:
+          description: Imaging service URI.
+          type: string
+      required:
+      - XAddr
       type: object
     onvif_IntRange:
       description: Range of values greater equal Min value and less equal Max value.
@@ -8201,6 +9071,28 @@ components:
       required:
       - Angle
       - Radius
+      type: object
+    onvif_MediaCapabilities:
+      properties:
+        Extension:
+          $ref: '#/components/schemas/onvif_MediaCapabilitiesExtension'
+        StreamingCapabilities:
+          allOf:
+          - $ref: '#/components/schemas/onvif_RealTimeStreamingCapabilities'
+          - description: Streaming capabilities.
+        XAddr:
+          description: Media service URI.
+          type: string
+      required:
+      - XAddr
+      - StreamingCapabilities
+      type: object
+    onvif_MediaCapabilitiesExtension:
+      properties:
+        ProfileCapabilities:
+          $ref: '#/components/schemas/onvif_ProfileCapabilities'
+      required:
+      - ProfileCapabilities
       type: object
     onvif_MediaUri:
       properties:
@@ -8467,6 +9359,32 @@ components:
       - TTL
       - AutoStart
       type: object
+    onvif_NetworkCapabilities:
+      properties:
+        DynDNS:
+          description: Indicates whether or not  is supported.
+          type: boolean
+        Extension:
+          $ref: '#/components/schemas/onvif_NetworkCapabilitiesExtension'
+        IPFilter:
+          description: Indicates whether or not IP filtering is supported.
+          type: boolean
+        IPVersion6:
+          description: Indicates whether or not IPv6 is supported.
+          type: boolean
+        ZeroConfiguration:
+          description: Indicates whether or not zeroconf is supported.
+          type: boolean
+      type: object
+    onvif_NetworkCapabilitiesExtension:
+      properties:
+        Dot11Configuration:
+          type: boolean
+        Extension:
+          $ref: '#/components/schemas/onvif_NetworkCapabilitiesExtension2'
+      type: object
+    onvif_NetworkCapabilitiesExtension2:
+      type: object
     onvif_NetworkGateway:
       properties:
         IPv4Address:
@@ -8683,6 +9601,23 @@ components:
       type: object
     onvif_NetworkZeroConfigurationExtension2:
       type: object
+    onvif_OnvifVersion:
+      properties:
+        Major:
+          description: Major version number.
+          format: int32
+          type: integer
+        Minor:
+          description: "Two digit minor version number.\n\t\t\t\t\t\tIf major version\
+            \ number is less than \"16\", X.0.1 maps to \"01\" and X.2.1 maps to \"\
+            21\" where X stands for Major version number.\n\t\t\t\t\t\tOtherwise,\
+            \ minor number is month of release, such as \"06\" for June."
+          format: int32
+          type: integer
+      required:
+      - Major
+      - Minor
+      type: object
     onvif_PTControlDirection:
       properties:
         EFlip:
@@ -8713,6 +9648,14 @@ components:
           - description: Supported options for Reverse feature.
       type: object
     onvif_PTControlDirectionOptionsExtension:
+      type: object
+    onvif_PTZCapabilities:
+      properties:
+        XAddr:
+          description: PTZ service URI.
+          type: string
+      required:
+      - XAddr
       type: object
     onvif_PTZConfiguration:
       allOf:
@@ -9201,6 +10144,15 @@ components:
       - token
       - Name
       type: object
+    onvif_ProfileCapabilities:
+      properties:
+        MaximumNumberOfProfiles:
+          description: Maximum number of profiles.
+          format: int32
+          type: integer
+      required:
+      - MaximumNumberOfProfiles
+      type: object
     onvif_ProfileExtension:
       properties:
         AudioDecoderConfiguration:
@@ -9215,6 +10167,52 @@ components:
           $ref: '#/components/schemas/onvif_ProfileExtension2'
       type: object
     onvif_ProfileExtension2:
+      type: object
+    onvif_RealTimeStreamingCapabilities:
+      properties:
+        Extension:
+          $ref: '#/components/schemas/onvif_RealTimeStreamingCapabilitiesExtension'
+        RTPMulticast:
+          description: Indicates whether or not RTP multicast is supported.
+          type: boolean
+        RTP_RTSP_TCP:
+          description: Indicates whether or not RTP/RTSP/TCP is supported.
+          type: boolean
+        RTP_TCP:
+          description: Indicates whether or not RTP over TCP is supported.
+          type: boolean
+      type: object
+    onvif_RealTimeStreamingCapabilitiesExtension:
+      type: object
+    onvif_ReceiverCapabilities:
+      properties:
+        MaximumRTSPURILength:
+          description: The maximum allowed length for RTSP URIs.
+          format: int32
+          type: integer
+        RTP_Multicast:
+          description: Indicates whether the device can receive RTP multicast streams.
+          type: boolean
+        RTP_RTSP_TCP:
+          description: Indicates whether the device can receive RTP/RTSP/TCP streams.
+          type: boolean
+        RTP_TCP:
+          description: Indicates whether the device can receive RTP/TCP streams
+          type: boolean
+        SupportedReceivers:
+          description: The maximum number of receivers supported by the device.
+          format: int32
+          type: integer
+        XAddr:
+          description: The address of the receiver service.
+          type: string
+      required:
+      - XAddr
+      - RTP_Multicast
+      - RTP_TCP
+      - RTP_RTSP_TCP
+      - SupportedReceivers
+      - MaximumRTSPURILength
       type: object
     onvif_ReceiverConfiguration:
       description: Describes the configuration of a receiver.
@@ -9243,6 +10241,37 @@ components:
       - NeverConnect
       - Unknown
       type: string
+    onvif_RecordingCapabilities:
+      properties:
+        DynamicRecordings:
+          type: boolean
+        DynamicTracks:
+          type: boolean
+        MaxStringLength:
+          format: int32
+          type: integer
+        MediaProfileSource:
+          type: boolean
+        ReceiverSource:
+          type: boolean
+        XAddr:
+          type: string
+      required:
+      - XAddr
+      - ReceiverSource
+      - MediaProfileSource
+      - DynamicRecordings
+      - DynamicTracks
+      - MaxStringLength
+      type: object
+    onvif_ReplayCapabilities:
+      properties:
+        XAddr:
+          description: The address of the replay service.
+          type: string
+      required:
+      - XAddr
+      type: object
     onvif_Reverse:
       properties:
         Mode:
@@ -9347,6 +10376,80 @@ components:
       - Fixed
       - Configurable
       type: string
+    onvif_SearchCapabilities:
+      properties:
+        MetadataSearch:
+          type: boolean
+        XAddr:
+          type: string
+      required:
+      - XAddr
+      - MetadataSearch
+      type: object
+    onvif_SecurityCapabilities:
+      properties:
+        AccessPolicyConfig:
+          description: Indicates whether or not access policy configuration is supported.
+          type: boolean
+        Extension:
+          $ref: '#/components/schemas/onvif_SecurityCapabilitiesExtension'
+        KerberosToken:
+          description: Indicates whether or not WS-Security Kerberos token is supported.
+          type: boolean
+        OnboardKeyGeneration:
+          description: Indicates whether or not onboard key generation is supported.
+          type: boolean
+        RELToken:
+          description: Indicates whether or not WS-Security REL token is supported.
+          type: boolean
+        SAMLToken:
+          description: Indicates whether or not WS-Security SAML token is supported.
+          type: boolean
+        TLS1.1:
+          description: Indicates whether or not TLS 1.1 is supported.
+          type: boolean
+        TLS1.2:
+          description: Indicates whether or not TLS 1.2 is supported.
+          type: boolean
+        X.509Token:
+          description: Indicates whether or not WS-Security X.509 token is supported.
+          type: boolean
+      required:
+      - TLS1.1
+      - TLS1.2
+      - OnboardKeyGeneration
+      - AccessPolicyConfig
+      - X.509Token
+      - SAMLToken
+      - KerberosToken
+      - RELToken
+      type: object
+    onvif_SecurityCapabilitiesExtension:
+      properties:
+        Extension:
+          $ref: '#/components/schemas/onvif_SecurityCapabilitiesExtension2'
+        TLS1.0:
+          type: boolean
+      required:
+      - TLS1.0
+      type: object
+    onvif_SecurityCapabilitiesExtension2:
+      properties:
+        Dot1X:
+          type: boolean
+        RemoteUserHandling:
+          type: boolean
+        SupportedEAPMethod:
+          description: EAP Methods supported by the device. The int values refer to
+            the
+          items:
+            format: int32
+            type: integer
+          type: array
+      required:
+      - Dot1X
+      - RemoteUserHandling
+      type: object
     onvif_SetDateTimeType:
       enum:
       - Manual
@@ -9474,6 +10577,58 @@ components:
           type: array
       type: object
     onvif_SupportedRulesExtension:
+      type: object
+    onvif_SystemCapabilities:
+      properties:
+        DiscoveryBye:
+          description: Indicates whether or not WS-Discovery Bye is supported.
+          type: boolean
+        DiscoveryResolve:
+          description: Indicates whether or not WS Discovery resolve requests are
+            supported.
+          type: boolean
+        Extension:
+          $ref: '#/components/schemas/onvif_SystemCapabilitiesExtension'
+        FirmwareUpgrade:
+          description: Indicates whether or not firmware upgrade is supported.
+          type: boolean
+        RemoteDiscovery:
+          description: Indicates whether or not remote discovery is supported.
+          type: boolean
+        SupportedVersions:
+          description: Indicates supported ONVIF version(s).
+          items:
+            $ref: '#/components/schemas/onvif_OnvifVersion'
+          type: array
+        SystemBackup:
+          description: Indicates whether or not system backup is supported.
+          type: boolean
+        SystemLogging:
+          description: Indicates whether or not system logging is supported.
+          type: boolean
+      required:
+      - DiscoveryResolve
+      - DiscoveryBye
+      - RemoteDiscovery
+      - SystemBackup
+      - SystemLogging
+      - FirmwareUpgrade
+      - SupportedVersions
+      type: object
+    onvif_SystemCapabilitiesExtension:
+      properties:
+        Extension:
+          $ref: '#/components/schemas/onvif_SystemCapabilitiesExtension2'
+        HttpFirmwareUpgrade:
+          type: boolean
+        HttpSupportInformation:
+          type: boolean
+        HttpSystemBackup:
+          type: boolean
+        HttpSystemLogging:
+          type: boolean
+      type: object
+    onvif_SystemCapabilitiesExtension2:
       type: object
     onvif_SystemDateTime:
       description: General date time inforamtion returned by the GetSystemDateTime
@@ -9969,6 +11124,38 @@ components:
       required:
       - Username
       type: object
+    device_DeviceServiceCapabilities:
+      properties:
+        Misc:
+          allOf:
+          - $ref: '#/components/schemas/device_MiscCapabilities'
+          - description: Capabilities that do not fit in any of the other categories.
+        Network:
+          allOf:
+          - $ref: '#/components/schemas/device_NetworkCapabilities'
+          - description: Network capabilities.
+        Security:
+          allOf:
+          - $ref: '#/components/schemas/device_SecurityCapabilities'
+          - description: Security capabilities.
+        System:
+          allOf:
+          - $ref: '#/components/schemas/device_SystemCapabilities'
+          - description: System capabilities.
+      required:
+      - Network
+      - Security
+      - System
+      type: object
+    device_GetCapabilitiesResponse:
+      properties:
+        Capabilities:
+          allOf:
+          - $ref: '#/components/schemas/onvif_Capabilities'
+          - description: Capability information.
+      required:
+      - Capabilities
+      type: object
     device_GetDNSResponse:
       properties:
         DNSInformation:
@@ -10010,6 +11197,13 @@ components:
           - description: 'Indicator of discovery mode: Discoverable, NonDiscoverable.'
       required:
       - DiscoveryMode
+      type: object
+    device_GetEndpointReferenceResponse:
+      properties:
+        GUID:
+          type: string
+      required:
+      - GUID
       type: object
     device_GetHostnameResponse:
       properties:
@@ -10062,6 +11256,16 @@ components:
       required:
       - Scopes
       type: object
+    device_GetServiceCapabilitiesResponse:
+      properties:
+        Capabilities:
+          allOf:
+          - $ref: '#/components/schemas/device_DeviceServiceCapabilities'
+          - description: The capabilities for the device service is returned in the
+              Capabilities element.
+      required:
+      - Capabilities
+      type: object
     device_GetSystemDateAndTimeResponse:
       properties:
         SystemDateAndTime:
@@ -10083,6 +11287,46 @@ components:
             $ref: '#/components/schemas/onvif_User'
           type: array
       type: object
+    device_MiscCapabilities:
+      properties:
+        AuxiliaryCommands:
+          description: Lists of commands supported by SendAuxiliaryCommand.
+          type: string
+      type: object
+    device_NetworkCapabilities:
+      properties:
+        DHCPv6:
+          description: Indicates support for Stateful IPv6 DHCP.
+          type: boolean
+        Dot11Configuration:
+          description: Indicates support for IEEE 802.11 configuration.
+          type: boolean
+        Dot1XConfigurations:
+          description: Indicates the maximum number of Dot1X configurations supported
+            by the device
+          format: int32
+          type: integer
+        DynDNS:
+          description: Indicates support for dynamic DNS configuration.
+          type: boolean
+        HostnameFromDHCP:
+          description: Indicates support for retrieval of hostname from DHCP.
+          type: boolean
+        IPFilter:
+          description: Indicates support for IP filtering.
+          type: boolean
+        IPVersion6:
+          description: Indicates support for IPv6.
+          type: boolean
+        NTP:
+          description: Maximum number of NTP servers supported by the devices SetNTP
+            command.
+          format: int32
+          type: integer
+        ZeroConfiguration:
+          description: Indicates support for zeroconf.
+          type: boolean
+      type: object
     device_RemoveScopes:
       properties:
         ScopeItem:
@@ -10093,6 +11337,81 @@ components:
           type: array
       required:
       - ScopeItem
+      type: object
+    device_SecurityCapabilities:
+      properties:
+        AccessPolicyConfig:
+          description: Indicates support for access policy configuration.
+          type: boolean
+        DefaultAccessPolicy:
+          description: Indicates support for the ONVIF default access policy.
+          type: boolean
+        Dot1X:
+          description: Indicates support for IEEE 802.1X configuration.
+          type: boolean
+        HttpDigest:
+          description: Indicates support for WS over HTTP digest authenticated communication
+            layer.
+          type: boolean
+        KerberosToken:
+          description: Indicates support for WS-Security Kerberos token.
+          type: boolean
+        MaxPasswordHistory:
+          description: Maximum number of passwords that the device can remember for
+            each user
+          format: int32
+          type: integer
+        MaxPasswordLength:
+          description: Maximum number of characters supported for the password by
+            CreateUsers and SetUser.
+          format: int32
+          type: integer
+        MaxUserNameLength:
+          description: Maximum number of characters supported for the username by
+            CreateUsers.
+          format: int32
+          type: integer
+        MaxUsers:
+          description: The maximum number of users that the device supports.
+          format: int32
+          type: integer
+        OnboardKeyGeneration:
+          description: Indicates support for onboard key generation.
+          type: boolean
+        RELToken:
+          description: Indicates support for WS-Security REL token.
+          type: boolean
+        RemoteUserHandling:
+          description: Indicates support for remote user configuration. Used when
+            accessing another device.
+          type: boolean
+        SAMLToken:
+          description: Indicates support for WS-Security SAML token.
+          type: boolean
+        SecurityPolicies:
+          description: 'Indicates which security policies are supported. Options are:
+            ModifyPassword, PasswordComplexity, AuthFailureWarnings'
+          type: string
+        SupportedEAPMethods:
+          description: EAP Methods supported by the device. The int values refer to
+            the
+          format: int32
+          type: integer
+        TLS1.0:
+          description: Indicates support for TLS 1.0.
+          type: boolean
+        TLS1.1:
+          description: Indicates support for TLS 1.1.
+          type: boolean
+        TLS1.2:
+          description: Indicates support for TLS 1.2.
+          type: boolean
+        UsernameToken:
+          description: Indicates support for WS-Security Username token.
+          type: boolean
+        X.509Token:
+          description: Indicates support for WS-Security X.509 token.
+          type: boolean
       type: object
     device_SetDNS:
       properties:
@@ -10224,7 +11543,109 @@ components:
       required:
       - User
       type: object
+    device_SystemCapabilities:
+      properties:
+        Addons:
+          description: List of supported Addons by the device.
+          type: string
+        AutoGeo:
+          description: List of supported automatic GeoLocation adjustment supported
+            by the device. Valid items are defined by tds:AutoGeoMode.
+          type: string
+        DiscoveryBye:
+          description: Indicates support for WS-Discovery Bye.
+          type: boolean
+        DiscoveryNotSupported:
+          description: Indicates no support for network discovery.
+          type: boolean
+        DiscoveryResolve:
+          description: Indicates support for WS Discovery resolve requests.
+          type: boolean
+        FirmwareUpgrade:
+          description: Indicates support for firmware upgrade through MTOM.
+          type: boolean
+        GeoLocationEntries:
+          description: If present signals support for geo location. The value signals
+            the supported number of entries.
+          format: int32
+          type: integer
+        HttpFirmwareUpgrade:
+          description: Indicates support for firmware upgrade through HTTP.
+          type: boolean
+        HttpSupportInformation:
+          description: Indicates support for retrieving support information through
+            HTTP.
+          type: boolean
+        HttpSystemBackup:
+          description: Indicates support for system backup through HTTP.
+          type: boolean
+        HttpSystemLogging:
+          description: Indicates support for retrieval of system logging through HTTP.
+          type: boolean
+        MaxStorageConfigurations:
+          description: Indicates maximum number of storage configurations supported.
+          format: int32
+          type: integer
+        NetworkConfigNotSupported:
+          description: Indicates no support for network configuration.
+          type: boolean
+        RemoteDiscovery:
+          description: Indicates support for remote discovery.
+          type: boolean
+        StorageConfiguration:
+          description: Indicates support for storage configuration interfaces.
+          type: boolean
+        StorageTypesSupported:
+          description: Enumerates the supported StorageTypes, see tds:StorageType.
+          type: string
+        SystemBackup:
+          description: Indicates support for system backup through MTOM.
+          type: boolean
+        SystemLogging:
+          description: Indicates support for retrieval of system logging through MTOM.
+          type: boolean
+        UserConfigNotSupported:
+          description: Indicates no support for user configuration.
+          type: boolean
+      type: object
     device_SystemReboot:
+      type: object
+    event_Capabilities:
+      properties:
+        EventBrokerProtocols:
+          description: A space separated list of supported event broker protocols
+            as defined by the tev:EventBrokerProtocol datatype.
+          type: string
+        MaxEventBrokers:
+          description: Maxiumum number of event broker configurations that can be
+            added to the device.
+          format: int32
+          type: integer
+        MaxNotificationProducers:
+          description: Maximum number of supported notification producers as defined
+            by WS-BaseNotification.
+          format: int32
+          type: integer
+        MaxPullPoints:
+          description: Maximum supported number of notification pull points.
+          format: int32
+          type: integer
+        MetadataOverMQTT:
+          description: Indicates that metadata streaming over MQTT is supported
+          type: boolean
+        PersistentNotificationStorage:
+          description: Indication if the device supports persistent notification storage.
+          type: boolean
+        WSPausableSubscriptionManagerInterfaceSupport:
+          description: Indicates that the WS Pausable Subscription Manager Interface
+            is supported.
+          type: boolean
+        WSPullPointSupport:
+          description: Indicates that the WS Pull Point is supported.
+          type: boolean
+        WSSubscriptionPolicySupport:
+          description: Indicates that the WS Subscription policy is supported.
+          type: boolean
       type: object
     event_GetEventPropertiesResponse:
       properties:
@@ -10275,6 +11696,40 @@ components:
       - MessageContentFilterDialect
       - MessageContentSchemaLocation
       type: object
+    event_GetServiceCapabilitiesResponse:
+      properties:
+        Capabilities:
+          allOf:
+          - $ref: '#/components/schemas/event_Capabilities'
+          - description: The capabilities for the event service is returned in the
+              Capabilities element.
+      required:
+      - Capabilities
+      type: object
+    imaging_Capabilities:
+      properties:
+        AdaptablePreset:
+          description: Indicates whether or not imaging preset settings can be updated.
+          type: boolean
+        ImageStabilization:
+          description: "Indicates whether or not Image Stabilization feature is supported.\n\
+            \t\t\t\t\t\tThe use of this capability is deprecated, a client should\
+            \ use GetOption to find out if image stabilization is supported."
+          type: boolean
+        Presets:
+          description: Indicates whether or not Imaging Presets feature is supported.
+          type: boolean
+      type: object
+    imaging_GetServiceCapabilitiesResponse:
+      properties:
+        Capabilities:
+          allOf:
+          - $ref: '#/components/schemas/imaging_Capabilities'
+          - description: The capabilities for the imaging service is returned in the
+              Capabilities element.
+      required:
+      - Capabilities
+      type: object
     media_AddMetadataConfiguration:
       properties:
         ConfigurationToken:
@@ -10304,6 +11759,39 @@ components:
       required:
       - ProfileToken
       - ConfigurationToken
+      type: object
+    media_Capabilities:
+      properties:
+        EXICompression:
+          description: Indicates the support for the Efficient XML Interchange (EXI)
+            binary XML format.
+          type: boolean
+        OSD:
+          description: Indicates if OSD is supported.
+          type: boolean
+        ProfileCapabilities:
+          allOf:
+          - $ref: '#/components/schemas/media_ProfileCapabilities'
+          - description: Media profile capabilities.
+        Rotation:
+          description: Indicates whether or not Rotation feature is supported.
+          type: boolean
+        SnapshotUri:
+          description: Indicates if GetSnapshotUri is supported.
+          type: boolean
+        StreamingCapabilities:
+          allOf:
+          - $ref: '#/components/schemas/media_StreamingCapabilities'
+          - description: Streaming capabilities.
+        TemporaryOSDText:
+          description: Indicates the support for temporary osd text configuration.
+          type: boolean
+        VideoSourceMode:
+          description: Indicates the support for changing video source mode.
+          type: boolean
+      required:
+      - ProfileCapabilities
+      - StreamingCapabilities
       type: object
     media_GetCompatibleMetadataConfigurationsResponse:
       properties:
@@ -10352,6 +11840,16 @@ components:
             $ref: '#/components/schemas/onvif_Profile'
           type: array
       type: object
+    media_GetServiceCapabilitiesResponse:
+      properties:
+        Capabilities:
+          allOf:
+          - $ref: '#/components/schemas/media_Capabilities'
+          - description: The capabilities for the media service is returned in the
+              Capabilities element.
+      required:
+      - Capabilities
+      type: object
     media_GetStreamUriResponse:
       properties:
         MediaUri:
@@ -10382,6 +11880,13 @@ components:
           items:
             $ref: '#/components/schemas/onvif_VideoEncoderConfiguration'
           type: array
+      type: object
+    media_ProfileCapabilities:
+      properties:
+        MaximumNumberOfProfiles:
+          description: Maximum number of profiles supported.
+          format: int32
+          type: integer
       type: object
     media_RemoveMetadataConfiguration:
       properties:
@@ -10432,6 +11937,25 @@ components:
       required:
       - Configuration
       - ForcePersistence
+      type: object
+    media_StreamingCapabilities:
+      properties:
+        NoRTSPStreaming:
+          description: Indicates the device does not support live media streaming
+            via RTSP.
+          type: boolean
+        NonAggregateControl:
+          description: Indicates support for non aggregate RTSP control.
+          type: boolean
+        RTPMulticast:
+          description: Indicates support for RTP multicast.
+          type: boolean
+        RTP_RTSP_TCP:
+          description: Indicates support for RTP/RTSP/TCP.
+          type: boolean
+        RTP_TCP:
+          description: Indicates support for RTP over TCP.
+          type: boolean
       type: object
     media2_AddConfiguration:
       properties:
@@ -10604,6 +12128,29 @@ components:
       - ProfileToken
       - Position
       type: object
+    ptz_Capabilities:
+      properties:
+        EFlip:
+          description: Indicates whether or not EFlip is supported.
+          type: boolean
+        GetCompatibleConfigurations:
+          description: Indicates support for the GetCompatibleConfigurations command.
+          type: boolean
+        MoveAndTrack:
+          description: Indication of the methods of MoveAndTrack that are supported,
+            acceptable values are defined in tt:MoveAndTrackMethod.
+          type: string
+        MoveStatus:
+          description: Indicates that the PTZStatus includes MoveStatus information.
+          type: boolean
+        Reverse:
+          description: Indicates whether or not reversing of PT control direction
+            is supported.
+          type: boolean
+        StatusPosition:
+          description: Indicates that the PTZStatus includes Position information.
+          type: boolean
+      type: object
     ptz_ContinuousMove:
       properties:
         ProfileToken:
@@ -10673,6 +12220,16 @@ components:
           items:
             $ref: '#/components/schemas/onvif_PTZPreset'
           type: array
+      type: object
+    ptz_GetServiceCapabilitiesResponse:
+      properties:
+        Capabilities:
+          allOf:
+          - $ref: '#/components/schemas/ptz_Capabilities'
+          - description: The capabilities for the PTZ service is returned in the Capabilities
+              element.
+      required:
+      - Capabilities
       type: object
     ptz_GetStatusResponse:
       properties:
@@ -11039,6 +12596,12 @@ components:
             type: string
       description: A response type for returning a generic error to the caller.
       type: object
+    SuccessResponse:
+      allOf:
+      - $ref: '#/components/schemas/BaseResponse'
+      - properties:
+          statusCode:
+            example: 200
   headers:
     correlatedResponseHeader:
       description: A response header that returns the unique correlation ID used to

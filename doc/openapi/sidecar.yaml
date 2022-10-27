@@ -84,7 +84,7 @@ responses:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/BaseResponse'
+            $ref: '#/components/schemas/SuccessResponse'
           examples:
             200Example:
               $ref: '#/components/examples/200Example'
@@ -410,3 +410,9 @@ components:
               type: string
       description: "A response type for returning a generic error to the caller."
       type: object
+    SuccessResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - properties:
+            statusCode:
+              example: 200
