@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/IOTechSystems/onvif"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 )
 
 // checkStatuses loops through all registered devices and tries to determine the most accurate connection state

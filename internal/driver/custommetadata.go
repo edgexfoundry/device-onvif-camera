@@ -12,8 +12,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
-	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
+	contract "github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 )
 
 func (onvifClient *OnvifClient) initCustomMetadata(device *contract.Device) {

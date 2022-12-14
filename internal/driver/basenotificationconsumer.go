@@ -10,13 +10,13 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"time"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
 
 	"github.com/IOTechSystems/onvif"
 	"github.com/IOTechSystems/onvif/event"
@@ -123,7 +123,7 @@ func (consumer *Consumer) createRawRequest() *event.Renew {
 func renewResponse(servResp *http.Response) (*gosoap.SOAPEnvelope, errors.EdgeX) {
 	defer servResp.Body.Close()
 
-	rsp, err := ioutil.ReadAll(servResp.Body)
+	rsp, err := io.ReadAll(servResp.Body)
 	if err != nil {
 		return nil, errors.NewCommonEdgeXWrapper(err)
 	}

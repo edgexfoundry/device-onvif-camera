@@ -11,26 +11,26 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 	"path/filepath"
 	"strings"
 	"sync"
 	"time"
 
-	"github.com/edgexfoundry/device-sdk-go/v2/pkg/interfaces"
+	"github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces"
 
-	"github.com/edgexfoundry/device-sdk-go/v2/pkg/service"
+	"github.com/edgexfoundry/device-sdk-go/v3/pkg/service"
 
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
 
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 
 	"github.com/IOTechSystems/onvif"
 	onvifdevice "github.com/IOTechSystems/onvif/device"
@@ -250,7 +250,7 @@ func (d *Driver) addProvisionWatchers() error {
 	}
 	d.lc.Infof("Adding provision watchers from %s", provisionWatcherFolder)
 
-	files, err := ioutil.ReadDir(provisionWatcherFolder)
+	files, err := os.ReadDir(provisionWatcherFolder)
 	if err != nil {
 		return err
 	}
@@ -267,7 +267,7 @@ func (d *Driver) addProvisionWatchers() error {
 		filename := filepath.Join(provisionWatcherFolder, file.Name())
 		d.lc.Debugf("processing %s", filename)
 		var watcher dtos.ProvisionWatcher
-		data, err := ioutil.ReadFile(filename)
+		data, err := os.ReadFile(filename)
 		if err != nil {
 			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "error reading file "+filename, err))
 			continue

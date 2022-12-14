@@ -10,17 +10,17 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 	"time"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
 
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 
 	"github.com/IOTechSystems/onvif"
 	onvifdevice "github.com/IOTechSystems/onvif/device"
@@ -358,7 +358,7 @@ func (onvifClient *OnvifClient) callGetSnapshotFunction() ([]byte, errors.EdgeX)
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to retrieve the snapshot from the url %s", url), err)
 	}
 	defer resp.Body.Close()
-	buf, err := ioutil.ReadAll(resp.Body)
+	buf, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, "error reading http request", err)
 	}
@@ -407,7 +407,7 @@ func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName stri
 	}
 	defer servResp.Body.Close()
 
-	rsp, err := ioutil.ReadAll(servResp.Body)
+	rsp, err := io.ReadAll(servResp.Body)
 	if err != nil {
 		return nil, errors.NewCommonEdgeXWrapper(err)
 	}

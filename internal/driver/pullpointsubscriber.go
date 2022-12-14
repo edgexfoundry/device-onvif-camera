@@ -10,12 +10,12 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/common"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
 
 	"github.com/IOTechSystems/onvif"
 	"github.com/IOTechSystems/onvif/event"
@@ -87,7 +87,7 @@ func (sub *Subscriber) pullMessage() errors.EdgeX {
 		return nil
 	}
 
-	rsp, err := ioutil.ReadAll(servResp.Body)
+	rsp, err := io.ReadAll(servResp.Body)
 	if err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to read the PullMessage response for '%s', %v", sub.Name, err), err)
 	}

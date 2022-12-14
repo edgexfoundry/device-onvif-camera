@@ -21,13 +21,13 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/IOTechSystems/onvif/device"
-	sdkMocks "github.com/edgexfoundry/device-sdk-go/v2/pkg/interfaces/mocks"
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v2/pkg/models"
+	sdkMocks "github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces/mocks"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
-	contract "github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
+	contract "github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
