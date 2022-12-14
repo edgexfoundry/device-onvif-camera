@@ -13,7 +13,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
 )
 
 // MinimumInitialTerminationTime indicates the minimum InitialTerminationTime because device service sends Renew request every ten second before termination time

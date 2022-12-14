@@ -9,8 +9,8 @@ package driver
 import (
 	"fmt"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/errors"
-	"github.com/edgexfoundry/go-mod-core-contracts/v2/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 )
 
 // CustomConfig holds the values for the driver configuration

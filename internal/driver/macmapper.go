@@ -7,7 +7,7 @@
 package driver
 
 import (
-	"github.com/edgexfoundry/device-sdk-go/v2/pkg/interfaces"
+	"github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces"
 	"net"
 	"strings"
 	"sync"
