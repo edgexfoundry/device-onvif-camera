@@ -34,7 +34,7 @@ apps:
       - bin/source-env-file.sh
     environment:
       CONFIG_PRO_ARG: "--cp=consul.http://localhost:8500"
-      CONF_ARG: "--confdir=$SNAP_DATA/config/device-onvif-camera/res"
+      CONF_ARG: "--configDir=$SNAP_DATA/config/device-onvif-camera/res"
       REGISTRY_ARG: "--registry"
       APPCUSTOM_PROVISIONWATCHERDIR: $SNAP_DATA/config/device-onvif-camera/res/provision_watchers
       DEVICE_PROFILESDIR: $SNAP_DATA/config/device-onvif-camera/res/profiles
