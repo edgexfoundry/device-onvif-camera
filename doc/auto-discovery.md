@@ -126,7 +126,7 @@ services:
         security_opt:
         - no-new-privileges:true
         user: "${EDGEX_USER}:${EDGEX_GROUP}"
-        command: --cp=consul.http://localhost:8500 --confdir=/res
+        command: --cp=consul.http://localhost:8500
 ```
 
 #### both
