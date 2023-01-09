@@ -603,45 +603,45 @@ Device discovery is triggered by the device service. Once the device service sta
    ```bash 
    Dependencies Check: Success
          Consul Check: ...
-                     curl -X GET http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera?keys=true
+                     curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera?keys=true
    Response [200]      Success
-   curl -X GET http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap?keys=true
+   curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap?keys=true
    Response [200] 
    Secret Path: a
-   curl -X GET http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
+   curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
    Response [404] 
    Failed! curl returned a status code of '404'
    Setting InsecureSecret: a/Path
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/a/Path
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Path
    Response [200] true
 
 
    Setting InsecureSecret: a/Secrets/username
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/username
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/username
    Response [200] true
 
 
    Setting InsecureSecret: a/Secrets/password
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/password
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/password
    Response [200] true
 
 
    Setting InsecureSecret: a/Secrets/mode
-   curl --data "usern<redacted>metoken" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/mode
+   curl --data "usern<redacted>metoken" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/mode
    Response [200] true
 
 
    Setting Credentials Map: a = ''
-   curl -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a
+   curl -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a
    Response [200] true
 
 
 
    Secret Path: a
-   curl -X GET http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
+   curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
    Response [200] 
    Setting Credentials Map: a = '11:22:33:44:55:66'
-   curl --data "11:22:33:44:55:66" -X PUT http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/AppCustom/CredentialsMap/a
+   curl --data "11:22:33:44:55:66" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a
    Response [200] true
    ``` 
 
