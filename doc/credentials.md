@@ -62,25 +62,25 @@ See [here](./utility-scripts.md) for the full guide.
 Set Path to `<device-name>`
 ```shell
 curl -X PUT --data "<secret-path>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Path"
+    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Path"
 ```
 
 Set username to `<username>`
 ```shell
 curl -X PUT --data "<username>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/username"
+    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/username"
 ```
 
 Set password to `<password>`
 ```shell
 curl -X PUT --data "<password>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/password"
+    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/password"
 ```
 
 Set auth mode to `<auth-mode>`
 ```shell
 curl -X PUT --data "<auth-mode>" \
-    "http://localhost:8500/v1/kv/edgex/devices/2.0/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/mode"
+    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-path>/Secrets/mode"
 ```
 </details>
 
