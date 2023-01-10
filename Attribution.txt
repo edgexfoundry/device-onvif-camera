@@ -146,9 +146,6 @@ https://github.com/gorilla/websocket/blob/master/LICENSE
 eclipse/paho.mqtt.golang (Eclipse Public License 1.0) https://github.com/eclipse/paho.mqtt.golang
 https://github.com/eclipse/paho.mqtt.golang/blob/master/LICENSE
 
-pebbe/zmq4 (BSD-2) https://github.com/pebbe/zmq4
-https://github.com/pebbe/zmq4/blob/master/LICENSE.txt
-
 iotechsystems/onvif 0.0.2 (MIT) https://github.com/IOTechSystems/onvif
 https://github.com/IOTechSystems/onvif/blob/master/LICENSE
 
