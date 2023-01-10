@@ -18,7 +18,7 @@ VERSION=$(shell cat ./VERSION 2>/dev/null || echo 0.0.0)
 SDKVERSION=$(shell cat ./go.mod | grep 'github.com/edgexfoundry/device-sdk-go/v3 v' | awk '{print $$2}')
 
 GIT_SHA=$(shell git rev-parse HEAD)
-GOFLAGS=-ldflags "-X github.com/edgexfoundry/device-virtual-go.Version=$(VERSION)" -trimpath -mod=readonly
+GOFLAGS=-ldflags "-X github.com/edgexfoundry/device-onvif-camera.Version=$(VERSION)" -trimpath -mod=readonly
 
 build: $(MICROSERVICES)
 
