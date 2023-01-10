@@ -1,9 +1,5 @@
 .PHONY: build docker test clean prepare update openapi
 
-#GOOS=linux
-
-GO=CGO_ENABLED=0 go
-
 # see https://shibumi.dev/posts/hardening-executables
 CGO_CPPFLAGS="-D_FORTIFY_SOURCE=2"
 CGO_CFLAGS="-O2 -pipe -fno-plt"
@@ -36,7 +32,7 @@ run: build
 
 
 cmd/device-onvif-camera:
-	$(GO) build -tags "$(ADD_BUILD_TAGS)" $(GOFLAGS) -o $@ ./cmd
+	CGO_ENABLED=0 go build -tags "$(ADD_BUILD_TAGS)" $(GOFLAGS) -o $@ ./cmd
 
 docker:
 	docker build . \
@@ -54,14 +50,14 @@ tidy:
 	go mod tidy
 
 unittest:
-	$(GO) test ./... -coverprofile=coverage.out ./...
+	go test ./... -coverprofile=coverage.out ./...
 
 lint:
 	@which golangci-lint >/dev/null || echo "WARNING: go linter not installed. To install, run\n  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b \$$(go env GOPATH)/bin v1.46.2"
 	@if [ "z${ARCH}" = "zx86_64" ] && which golangci-lint >/dev/null ; then golangci-lint run --config .golangci.yml ; else echo "WARNING: Linting skipped (not on x86_64 or linter not installed)"; fi
 
 test: unittest lint
-	$(GO) vet ./...
+	go vet ./...
 	gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")
 	[ "`gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")`" = "" ]
 	./bin/test-attribution-txt.sh
@@ -74,13 +70,13 @@ format:
 	[ "`gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")`" = "" ]
 
 update:
-	$(GO) mod download
+	go mod download
 
 clean:
 	rm -f $(MICROSERVICES)
 
 vendor:
-	$(GO) mod vendor
+	go mod vendor
 
 openapi:
 	$(MAKE) -C doc/openapi gen
