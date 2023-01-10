@@ -2,8 +2,7 @@
 
 #GOOS=linux
 
-GO=CGO_ENABLED=0 GO111MODULE=on go
-GOCGO=CGO_ENABLED=1 GO111MODULE=on go
+GO=CGO_ENABLED=0 go
 
 # see https://shibumi.dev/posts/hardening-executables
 CGO_CPPFLAGS="-D_FORTIFY_SOURCE=2"
@@ -23,10 +22,7 @@ VERSION=$(shell cat ./VERSION 2>/dev/null || echo 0.0.0)
 SDKVERSION=$(shell cat ./go.mod | grep 'github.com/edgexfoundry/device-sdk-go/v3 v' | awk '{print $$2}')
 
 GIT_SHA=$(shell git rev-parse HEAD)
-CGOFLAGS=-ldflags "-linkmode=external \
-                   -X github.com/edgexfoundry/device-onvif-camera.Version=$(VERSION) \
-                   -X github.com/edgexfoundry/device-sdk-go/v3/internal/common.SDKVersion=$(SDKVERSION)" \
-                   -trimpath -mod=readonly -buildmode=pie
+GOFLAGS=-ldflags "-X github.com/edgexfoundry/device-virtual-go.Version=$(VERSION)" -trimpath -mod=readonly
 
 build: $(MICROSERVICES)
 
@@ -40,7 +36,7 @@ run: build
 
 
 cmd/device-onvif-camera:
-	$(GOCGO) build -tags "$(ADD_BUILD_TAGS)" $(CGOFLAGS) -o $@ ./cmd
+	$(GO) build -tags "$(ADD_BUILD_TAGS)" $(GOFLAGS) -o $@ ./cmd
 
 docker:
 	docker build . \
@@ -58,14 +54,14 @@ tidy:
 	go mod tidy
 
 unittest:
-	$(GOCGO) test ./... -coverprofile=coverage.out ./...
+	$(GO) test ./... -coverprofile=coverage.out ./...
 
 lint:
 	@which golangci-lint >/dev/null || echo "WARNING: go linter not installed. To install, run\n  curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b \$$(go env GOPATH)/bin v1.46.2"
 	@if [ "z${ARCH}" = "zx86_64" ] && which golangci-lint >/dev/null ; then golangci-lint run --config .golangci.yml ; else echo "WARNING: Linting skipped (not on x86_64 or linter not installed)"; fi
 
 test: unittest lint
-	$(GOCGO) vet ./...
+	$(GO) vet ./...
 	gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")
 	[ "`gofmt -l $$(find . -type f -name '*.go'| grep -v "/vendor/")`" = "" ]
 	./bin/test-attribution-txt.sh
