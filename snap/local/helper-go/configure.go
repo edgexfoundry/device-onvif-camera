@@ -17,32 +17,18 @@
 package main
 
 import (
-	"github.com/canonical/edgex-snap-hooks/v2/log"
-	"github.com/canonical/edgex-snap-hooks/v2/options"
-	"github.com/canonical/edgex-snap-hooks/v2/snapctl"
+	"github.com/canonical/edgex-snap-hooks/v3/log"
+	"github.com/canonical/edgex-snap-hooks/v3/options"
 )
 
-// configure is called by the main function
 func configure() {
-	const service = "device-onvif-camera"
-
 	log.SetComponentName("configure")
 
-	log.Info("Enabling config options")
-	err := snapctl.Set("app-options", "true").Run()
-	if err != nil {
-		log.Fatalf("could not enable config options: %v", err)
+	if err := options.ProcessConfig(app); err != nil {
+		log.Fatalf("Error processing config options: %v", err)
 	}
 
-	log.Info("Processing config options")
-	err = options.ProcessConfig(service)
-	if err != nil {
-		log.Fatalf("could not process config options: %v", err)
-	}
-
-	log.Info("Processing autostart options")
-	err = options.ProcessAutostart(service)
-	if err != nil {
-		log.Fatalf("could not process autostart options: %v", err)
+	if err := options.ProcessAutostart(app); err != nil {
+		log.Fatalf("Error processing autostart options: %v", err)
 	}
 }
