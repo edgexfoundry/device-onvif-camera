@@ -17,91 +17,22 @@
 package main
 
 import (
-	"os"
-
-	hooks "github.com/canonical/edgex-snap-hooks/v2"
-	"github.com/canonical/edgex-snap-hooks/v2/env"
-	"github.com/canonical/edgex-snap-hooks/v2/log"
+	hooks "github.com/canonical/edgex-snap-hooks/v3"
+	"github.com/canonical/edgex-snap-hooks/v3/env"
+	"github.com/canonical/edgex-snap-hooks/v3/log"
 )
 
+// installConfig copies all config files from $SNAP to $SNAP_DATA
 func installConfig() error {
-	resPath := "/config/device-onvif-camera/res"
-	err := os.MkdirAll(env.SnapData+resPath, 0755)
-	if err != nil {
-		return err
-	}
+	path := "/config/" + app + "/res"
 
-	path := resPath + "/configuration.toml"
-	err = hooks.CopyFile(
-		env.Snap+path,
-		env.SnapData+path)
-	if err != nil {
-		return err
-	}
-
-	return nil
+	return hooks.CopyDir(env.Snap+path, env.SnapData+path)
 }
 
-func installDevices() error {
-	path := "/config/device-onvif-camera/res/devices"
-
-	err := hooks.CopyDir(
-		hooks.Snap+path,
-		hooks.SnapData+path)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func installDevProfiles() error {
-	path := "/config/device-onvif-camera/res/profiles"
-
-	err := hooks.CopyDir(
-		hooks.Snap+path,
-		hooks.SnapData+path)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-func installProvisionWatchers() error {
-	path := "/config/device-onvif-camera/res/provision_watchers"
-
-	err := hooks.CopyDir(
-		hooks.Snap+path,
-		hooks.SnapData+path)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-
-// install is called by the main function
 func install() {
 	log.SetComponentName("install")
 
-	err := installConfig()
-	if err != nil {
-		log.Fatalf("error installing config file: %s", err)
-	}
-
-	err = installDevices()
-	if err != nil {
-		log.Fatalf("error installing devices config: %s", err)
-	}
-
-	err = installDevProfiles()
-	if err != nil {
-		log.Fatalf("error installing device profiles config: %s", err)
-	}
-
-	err = installProvisionWatchers()
-	if err != nil {
-		log.Fatalf("error installing provision watchers: %s", err)
+	if err := installConfig(); err != nil {
+		log.Fatalf("Error installing config files: %s", err)
 	}
 }
