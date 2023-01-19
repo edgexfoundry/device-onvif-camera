@@ -220,135 +220,135 @@ The following table shows the Onvif functions tested for various Onvif cameras:
 * Empty cells means the function has not yet been tested.
 
 ### User Authentication
-| Onvif Web Service | Onvif Function   | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function   | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3|
 |-------------------|------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
 | **Core**          | WS-UsernameToken | ✔                   | ✔         | ✔                                 | ✔                   | ✔                   |
-|                   | HTTP Digest      | ✔                   | ❌         | ✔                                 | ❌                   |                     |
+|                   | HTTP Digest      | ✔                   | ❌         | ✔                                 | ❌                   |       ❌              | 
 
 ### Capabilities
-| Onvif Web Service | Onvif Function         | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function         | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **Device**        | GetCapabilities        |                     | ✔         |                                   |                     |                     |
-|                   | GetServiceCapabilities |                     | ✔         |                                   |                     |                     |
-| **Media**         | GetServiceCapabilities |                     | ✔         |                                   |                     |                     |
-| **PTZ**           | GetServiceCapabilities |                     | ✔         |                                   |                     |                     |
-| **Imaging**       | GetServiceCapabilities |                     | ❌         |                                   |                     |                     |
-| **Event**         | GetServiceCapabilities |                     | ✔         |                                   |                     |                     |
+| **Device**        | GetCapabilities        |                     | ✔         |                                   |                     |    ❌                   |
+|                   | GetServiceCapabilities |                     | ✔         |                                   |                     |      ❌                 |
+| **Media**         | GetServiceCapabilities |                     | ✔         |                                   |                     |  ✔                    |
+| **PTZ**           | GetServiceCapabilities |                     | ✔         |                                   |                     |  ✔                    |
+| **Imaging**       | GetServiceCapabilities |                     | ❌         |                                   |                     |   ✔                   |
+| **Event**         | GetServiceCapabilities |                     | ✔         |                                   |                     |    ✔                  |
 
 ### Auto Discovery
-| Onvif Web Service | Onvif Function       | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function       | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|----------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
 | **Core**          | WS-Discovery         | ✔                   | ✔         | ✔                                 | ✔                   | ✔                   |
-| **Device**        | GetDiscoveryMode     | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | SetDiscoveryMode     | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | GetScopes            | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | SetScopes            | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | AddScopes            | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | RemoveScopes         | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | GetEndpointReference |                     | ❌         | ✔                                 |                     |                     |
+| **Device**        | GetDiscoveryMode     | ✔                   | ✔         | ✔                                 | ✔                   |     ✔                |
+|                   | SetDiscoveryMode     | ✔                   | ✔         | ✔                                 | ✔                   |  ✔                   |
+|                   | GetScopes            | ✔                   | ✔         | ✔                                 | ✔                   | ✔                    |
+|                   | SetScopes            | ✔                   | ✔         | ✔                                 | ✔                   |  ❌                   |
+|                   | AddScopes            | ✔                   | ❌         | ✔                                 | ✔                   |  ✔                    |
+|                   | RemoveScopes         | ✔                   | ❌         | ✔                                 | ✔                   |   ✔                   |
+|                   | GetEndpointReference |                     | ❌         | ✔                                 |                     |        ❌             |
 
 ### Network Configuration
-| Onvif Web Service | Onvif Function           | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function           | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|--------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **Device**        | GetHostname              | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | SetHostname              | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | GetDNS                   | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | SetDNS                   | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | GetNetworkInterfaces     | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | SetNetworkInterfaces     | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | GetNetworkProtocols      | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | SetNetworkProtocols      | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | GetNetworkDefaultGateway | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | SetNetworkDefaultGateway | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+| **Device**        | GetHostname              | ✔                   | ✔         | ✔                                 | ✔                   |  ✔                   |
+|                   | SetHostname              | ✔                   | ❌         | ✔                                 | ✔                   |    ✔                 |
+|                   | GetDNS                   | ✔                   | ❌         | ✔                                 | ✔                   |   ✔                  |
+|                   | SetDNS                   | ✔                   | ❌         | ✔                                 | ✔                   |     ✔               |
+|                   | GetNetworkInterfaces     | ✔                   | ✔         | ✔                                 | ✔                   |   ✔                   |
+|                   | SetNetworkInterfaces     | ✔                   | ❌         | ✔                                 | ✔                   |    ❌                  |
+|                   | GetNetworkProtocols      | ✔                   | ✔         | ✔                                 | ✔                   |    ✔                  |
+|                   | SetNetworkProtocols      | ✔                   | ❌         | ✔                                 | ✔                   |     ✔                 |
+|                   | GetNetworkDefaultGateway | ✔                   | ❌         | ✔                                 | ✔                   |   ✔                   |
+|                   | SetNetworkDefaultGateway | ✔                   | ❌         | ✔                                 | ✔                   |      ✔                |
 
 ### System Function
-| Onvif Web Service | Onvif Function          | Hikvision DFI6256TE | Tapo C200                                                  | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function          | Hikvision DFI6256TE | Tapo C200                                                  | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|-------------------------|---------------------|------------------------------------------------------------|-----------------------------------|---------------------|---------------------|
-| **Device**        | GetDeviceInformation    | ✔                   | ✔                                                          | ✔                                 | ✔                   |                     |
-|                   | GetSystemDateAndTime    | ✔                   | ✔                                                          | ✔                                 | ✔                   |                     |
-|                   | SetSystemDateAndTime    | ✔                   | ✔ [ⓘ](onvif-footnotes.md#tapo-c200---setsystemdateandtime) | ✔                                 | ✔                   |                     |
-|                   | SetSystemFactoryDefault | ✔                   | ✔                                                          | ✔                                 | ✔                   |                     |
-|                   | SystemReboot            | ✔                   | ✔                                                          | ✔                                 | ✔                   |                     |
+| **Device**        | GetDeviceInformation    | ✔                   | ✔                                                          | ✔                                 | ✔                   |    ✔                  |
+|                   | GetSystemDateAndTime    | ✔                   | ✔                                                          | ✔                                 | ✔                   |    ✔                  |
+|                   | SetSystemDateAndTime    | ✔                   | ✔ [ⓘ](onvif-footnotes.md#tapo-c200---setsystemdateandtime) | ✔                                 | ✔                   |        ✔             |
+|                   | SetSystemFactoryDefault | ✔                   | ✔                                                          | ✔                                 | ✔                   |              ✔        |
+|                   | SystemReboot            | ✔                   | ✔                                                          | ✔                                 | ✔                   |           ✔           |
 
 ### User Handling
-| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200                                             | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200                                             | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|----------------|---------------------|-------------------------------------------------------|-----------------------------------|---------------------|---------------------|
-| **Device**        | GetUsers       | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |                     |
-|                   | CreateUsers    | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |                     |
-|                   | DeleteUsers    | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |                     |
-|                   | SetUser        | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |                     |
+| **Device**        | GetUsers       | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |    ✔                  |
+|                   | CreateUsers    | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |      ✔                |
+|                   | DeleteUsers    | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |       ✔               |
+|                   | SetUser        | ✔                   | ❌ [ⓘ](onvif-footnotes.md#tapo-c200---user-management) | ✔                                 | ✔                   |    ✔                  |
 
 ### Metadata Configuration
-| Onvif Web Service | Onvif Function                      | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function                      | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|-------------------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **Media**         | GetMetadataConfigurations           | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | GetMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | GetCompatibleMetadataConfigurations | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | GetMetadataConfigurationOptions     | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | AddMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | RemoveMetadataConfiguration         | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | SetMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |                     |
+| **Media**         | GetMetadataConfigurations           | ✔                   | ❌         | ✔                                 | ✔                   |   ✔                   |
+|                   | GetMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |  ✔                    |
+|                   | GetCompatibleMetadataConfigurations | ✔                   | ❌         | ✔                                 | ✔                   |      ✔               |
+|                   | GetMetadataConfigurationOptions     | ✔                   | ❌         | ✔                                 | ✔                   |     ✔                 |
+|                   | AddMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |      ✔              |
+|                   | RemoveMetadataConfiguration         | ✔                   | ❌         | ✔                                 | ✔                   |     ✔                |
+|                   | SetMetadataConfiguration            | ✔                   | ❌         | ✔                                 | ✔                   |     ✔               |
 
 ### Video Streaming
-| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|----------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **Media**         | GetProfiles    | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | GetStreamUri   | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+| **Media**         | GetProfiles    | ✔                   | ✔         | ✔                                 | ✔                   |   ✔                   |
+|                   | GetStreamUri   | ✔                   | ✔         | ✔                                 | ✔                   |  ✔                    |
 
 ### VideoEncoder Config
-| Onvif Web Service | Onvif Function                      | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function                      | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|-------------------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
 | **Media**         | GetVideoEncoderConfigurations       |                     |           |                                   |                     |                     |
-|                   | GetVideoEncoderConfiguration        | ✔                   | ✔         | ✔                                 | ✔                   |                     |
-|                   | SetVideoEncoderConfiguration        | ✔                   | ❌         | ✔                                 | ✔                   |                     |
-|                   | GetVideoEncoderConfigurationOptions | ✔                   | ✔         | ✔                                 | ✔                   |                     |
+|                   | GetVideoEncoderConfiguration        | ✔                   | ✔         | ✔                                 | ✔                   |    ✔                   |
+|                   | SetVideoEncoderConfiguration        | ✔                   | ❌         | ✔                                 | ✔                   |       ✔                 |
+|                   | GetVideoEncoderConfigurationOptions | ✔                   | ✔         | ✔                                 | ✔                   |    ✔                   |
 
 ### PTZ Node
-| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|----------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **PTZ**           | GetNodes       | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | GetNode        | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+| **PTZ**           | GetNodes       | ❌                   | ✔         | ❌                                 | ❌                   |    ✔                  |
+|                   | GetNode        | ❌                   | ✔         | ❌                                 | ❌                   |    ✔                  |
 
 ### PTZ Configuration
-| Onvif Web Service | Onvif Function          | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function          | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|-------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **PTZ**           | GetConfigurations       | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | GetConfiguration        | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | GetConfigurationOptions | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | SetConfiguration        | ❌                   | ❌         | ❌                                 | ❌                   |                     |
-| **Media**         | AddPTZConfiguration     | ❌                   | ❌         | ❌                                 | ❌                   |                     |
-| **Media**         | RemovePTZConfiguration  | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+| **PTZ**           | GetConfigurations       | ❌                   | ✔         | ❌                                 | ❌                   |   ✔                    |
+|                   | GetConfiguration        | ❌                   | ✔         | ❌                                 | ❌                   |    ✔                   |
+|                   | GetConfigurationOptions | ❌                   | ✔         | ❌                                 | ❌                   |   ✔                    |
+|                   | SetConfiguration        | ❌                   | ❌         | ❌                                 | ❌                   |     ✔                 |
+| **Media**         | AddPTZConfiguration     | ❌                   | ❌         | ❌                                 | ❌                   |     ✔                |
+| **Media**         | RemovePTZConfiguration  | ❌                   | ❌         | ❌                                 | ❌                   |       ✔              |
 
 ### PTZ Actuation
-| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|----------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **PTZ**           | AbsoluteMove   | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | RelativeMove   | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | ContinuousMove | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | Stop           | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | GetStatus      | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+| **PTZ**           | AbsoluteMove   | ❌                   | ✔         | ❌                                 | ❌                   |   ✔                  |
+|                   | RelativeMove   | ❌                   | ✔         | ❌                                 | ❌                   |   ✔                  |
+|                   | ContinuousMove | ❌                   | ✔         | ❌                                 | ❌                   |   ✔                  |
+|                   | Stop           | ❌                   | ✔         | ❌                                 | ❌                   |   ✔                  |
+|                   | GetStatus      | ❌                   | ✔         | ❌                                 | ❌                   |    ✔                 |
 
 ### PTZ Preset
-| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|----------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **PTZ**           | SetPreset      | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | GetPresets     | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | GotoPreset     | ❌                   | ✔         | ❌                                 | ❌                   |                     |
-|                   | RemovePreset   | ❌                   | ✔         | ❌                                 | ❌                   |                     |
+| **PTZ**           | SetPreset      | ❌                   | ✔         | ❌                                 | ❌                   |  ✔                   |
+|                   | GetPresets     | ❌                   | ✔         | ❌                                 | ❌                   |  ✔                   |
+|                   | GotoPreset     | ❌                   | ✔         | ❌                                 | ❌                   |   ✔                  |
+|                   | RemovePreset   | ❌                   | ✔         | ❌                                 | ❌                   |   ✔                  |
 
 ### PTZ Home Position
-| Onvif Web Service | Onvif Function   | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function   | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **PTZ**           | GotoHomePosition | ❌                   | ❌         | ❌                                 | ❌                   |                     |
-|                   | SetHomePosition  | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+| **PTZ**           | GotoHomePosition | ❌                   | ❌         | ❌                                 | ❌                   |         ✔            |
+|                   | SetHomePosition  | ❌                   | ❌         | ❌                                 | ❌                   |      ✔               |
 
 ### PTZ Auxiliary Operations
-| Onvif Web Service | Onvif Function       | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function       | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|----------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **PTZ**           | SendAuxiliaryCommand | ❌                   | ❌         | ❌                                 | ❌                   |                     |
+| **PTZ**           | SendAuxiliaryCommand | ❌                   | ❌         | ❌                                 | ❌                   |    ❌                 |
 
 ### Event Handling
-| Onvif Web Service | Onvif Function              | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function              | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|-----------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
 | **Event**         | Notify                      | ✔                   | ❌         | ✔                                 | ❌                   |                     |
 |                   | Subscribe                   | ✔                   | ❌         | ✔                                 | ❌                   |                     |
@@ -361,34 +361,34 @@ The following table shows the Onvif functions tested for various Onvif cameras:
 |                   | GetEventProperties          |                     | ✔         |                                   |                     |                     |
 
 ### Analytics Profile Configuration
-| Onvif Web Service | Onvif Function             | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function             | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|----------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **Media2**        | GetProfiles                | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | GetAnalyticsConfigurations | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | AddConfiguration           | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | RemoveConfiguration        | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+| **Media2**        | GetProfiles                | ❌                   | ❌         | ✔                                 | ❌                   |    ✔                  |
+|                   | GetAnalyticsConfigurations | ❌                   | ❌         | ✔                                 | ❌                   |    ✔                  |
+|                   | AddConfiguration           | ❌                   | ❌         | ✔                                 | ❌                   |     ❌                |
+|                   | RemoveConfiguration        | ❌                   | ❌         | ✔                                 | ❌                   |     ❌                |
 
 ### Analytics Module Configuration
-| Onvif Web Service | Onvif Function               | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function               | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|------------------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **Analytics**     | GetSupportedAnalyticsModules | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | GetAnalyticsModules          | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | CreateAnalyticsModules       | ❌                   | ❌         | ❌                                 | ❌                   |                     |
-|                   | DeleteAnalyticsModules       | ❌                   | ❌         | ❌                                 | ❌                   |                     |
-|                   | GetAnalyticsModuleOptions    | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | ModifyAnalyticsModules       | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+| **Analytics**     | GetSupportedAnalyticsModules | ❌                   | ❌         | ✔                                 | ❌                   |    ❌                  |
+|                   | GetAnalyticsModules          | ❌                   | ❌         | ✔                                 | ❌                   |  ❌                    |
+|                   | CreateAnalyticsModules       | ❌                   | ❌         | ❌                                 | ❌                   |  ❌                    |
+|                   | DeleteAnalyticsModules       | ❌                   | ❌         | ❌                                 | ❌                   |   ❌                   |
+|                   | GetAnalyticsModuleOptions    | ❌                   | ❌         | ✔                                 | ❌                   |    ❌                  |
+|                   | ModifyAnalyticsModules       | ❌                   | ❌         | ✔                                 | ❌                   |     ❌                 |
 
 ### Rule Configuration
-| Onvif Web Service | Onvif Function    | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function    | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD | GeoVision GV-BX8700 | Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|-------------------|---------------------|-----------|-----------------------------------|---------------------|---------------------|
-| **Analytics**     | GetSupportedRules | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | GetRules          | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | CreateRules       | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | DeleteRules       | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | GetRuleOptions    | ❌                   | ❌         | ✔                                 | ❌                   |                     |
-|                   | ModifyRules       | ❌                   | ❌         | ✔                                 | ❌                   |                     |
+| **Analytics**     | GetSupportedRules | ❌                   | ❌         | ✔                                 | ❌                   |     ❌                |
+|                   | GetRules          | ❌                   | ❌         | ✔                                 | ❌                   |  ❌                   |
+|                   | CreateRules       | ❌                   | ❌         | ✔                                 | ❌                   |   ❌                  |
+|                   | DeleteRules       | ❌                   | ❌         | ✔                                 | ❌                   |  ❌                   |
+|                   | GetRuleOptions    | ❌                   | ❌         | ✔                                 | ❌                   |     ❌                |
+|                   | ModifyRules       | ❌                   | ❌         | ✔                                 | ❌                   |    ❌                 |
 
 ### Custom EdgeX
-| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD             | GeoVision GV-BX8700 | Happytime Simulator |
+| Onvif Web Service | Onvif Function | Hikvision DFI6256TE | Tapo C200 | BOSCH DINION IP starlight 6000 HD             | GeoVision GV-BX8700 |Hikvision DS-2DE2A404IW-DE3 |
 |-------------------|----------------|---------------------|-----------|-----------------------------------------------|---------------------|---------------------|
-| **EdgeX**         | GetSnapshot    | ✔                   | ❌         | ✔ [ⓘ](onvif-footnotes.md#bosch---getsnapshot) | ❌                   |                     |
+| **EdgeX**         | GetSnapshot    | ✔                   | ❌         | ✔ [ⓘ](onvif-footnotes.md#bosch---getsnapshot) | ❌                   |       ✔               |
