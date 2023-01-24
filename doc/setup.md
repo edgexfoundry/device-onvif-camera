@@ -87,13 +87,13 @@ To enable running Docker commands without the preface of sudo, add the user to t
    ```
 
 ### Install Docker Compose
-Install Docker from the official repository as documented on the [Docker Compose](https://docs.docker.com/compose/install/#install-compose) site. See the Linux tab. 
+Install Docker Compose from the official repository as documented on the [Docker Compose](https://docs.docker.com/compose/install/#install-compose) site. See the Linux tab. 
 
 1. Download current stable Docker Compose:
    ```bash
-   sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+   sudo curl -L "https://github.com/docker/compose/releases/download/2.15.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
    ```
-   >NOTE: When this guide was created, version 1.29.2 was current.
+   >NOTE: When this guide was created, version 2.15.1 was current.
 
 2. Set permissions:
    ```bash
