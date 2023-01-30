@@ -9,7 +9,7 @@ make docker
 ```
 
 ## 2. Prepare edgex-compose/compose-builder
-1. Download the [edgex-compose](https://github.com/edgexfoundry/edgex-compose) and prepare **docker-compose file** and **scripts** according to the [docker-compose setup guide](./docker-compose/README.md)
+1. Download the [edgex-compose](https://github.com/edgexfoundry/edgex-compose)
 2. Change directory to the `edgex-compose/compose-builder`
 
 ## 3. Deploy services with the following command:
