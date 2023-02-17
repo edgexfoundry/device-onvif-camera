@@ -391,7 +391,7 @@ For optional configurations, see [here.](#additional-configuration)
 
 <br/>
 
->**NOTE:** Go version 1.18+ is required to run natively.
+>**NOTE:** Go version 1.18+ is required to run natively. See [here](https://go.dev/doc/install) for more information.
 
 <br/>
 
