@@ -104,6 +104,12 @@ For optional configurations, see [here.](#additional-configuration)
    ```bash
    make docker
    ```
+   1. [Optional] Build with NATS Messaging.  
+      Currently, the NATS Messaging capability (NATS MessageBus) is opt-in at build time. This means that the published Docker image and Snaps do not include the NATS messaging capability. To build the docker image using NATS, run make docker-nats:
+      ```bash
+      make docker-nats
+      ```
+      See [Compose Builder](https://github.com/edgexfoundry/edgex-compose/tree/main/compose-builder#gen) `nat-bus` option to generate compose file for NATS and local dev images.
 
 1. Verify the ONVIF Device Service Docker image was successfully created:
 

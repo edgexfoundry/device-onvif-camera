@@ -55,11 +55,15 @@
       cd device-onvif-camera
       ```
 
-   1. Run the service:
-
+   1. Run the service
       ```bash
-      make run 
+      make run
       ```
+      
+      1. [Optional] Run with NATS
+         ```bash
+         make run-nats
+         ```
 
 </details>
 
