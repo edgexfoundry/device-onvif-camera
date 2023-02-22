@@ -62,10 +62,14 @@
       make run
       ```
       
-      1. [Optional] Run with NATS
+      <details>
+      <summary>[Optional] Run with NATS</summary>
+
          ```bash
          make run-nats
          ```
+
+      </details>
 
 </details>
 
