@@ -39,7 +39,7 @@ This app uses [EdgeX Core Services][edgex-core-services], [EdgeX ONVIF device se
     make install-edge-video-analytics
     ```
 
-1. Run Edge Video Analytics in a dedicated terminal.
+1. Run Edge Video Analytics in a dedicated terminal. (Docker Compose command in the yaml file may need to be changed from docker-compose to docker compose)
     ```bash
     make run-edge-video-analytics
     ```
@@ -66,7 +66,7 @@ This app uses [EdgeX Core Services][edgex-core-services], [EdgeX ONVIF device se
         export WRITABLE_INSECURESECRETS_CAMERACREDENTIALS_SECRETS_PASSWORD=<passowrd>
         ```
 
-1. Build the app
+1. Build the app (Make sure Go is installed first)
     ```bash
     make build-app
     ```
