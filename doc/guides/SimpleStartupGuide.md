@@ -67,9 +67,9 @@ To enable running Docker commands without the preface of sudo, add the user to t
    sudo usermod -aG docker $USER
    ```
 
-3. Refresh the group:
+3. Restart your computer:
    ```bash
-   newgrp docker 
+   reboot
    ```
 
 4. To verify the Docker installation, run `hello-world`:
