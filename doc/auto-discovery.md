@@ -39,7 +39,7 @@ Define the following configurations in [cmd/res/configuration.toml](../cmd/res/c
 [AppCustom]
 # The target ethernet interface for multicast discovering
 DiscoveryEthernetInterface = "eth0"
-# The Secret Path of the default credentials to use for devices
+# The Secret Name of the default credentials to use for devices
 DefaultSecretName = "credentials001"
 # Select which discovery mechanism(s) to use
 DiscoveryMode = "both" # netscan, multicast, or both
@@ -61,7 +61,7 @@ device-onvif-camera:
 
     # The target ethernet interface for multicast discovering
     APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
-    # The Secret Path of the default credentials to use for devices
+    # The Secret Name of the default credentials to use for devices
     APPCUSTOM_DEFAULTSECRETNAME: "credentials001"
     # Select which discovery mechanism(s) to use
     APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both

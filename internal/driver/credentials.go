@@ -94,16 +94,16 @@ func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, 
 	if mac := device.Protocols[OnvifProtocol][MACAddress]; mac != "" {
 		secretName = d.macAddressMapper.TryGetSecretNameForMACAddress(mac, defaultSecretName)
 	} else {
-		d.lc.Warnf("Device %s is missing MAC Address, using default secret path", device.Name)
+		d.lc.Warnf("Device %s is missing MAC Address, using default secret name", device.Name)
 	}
 
 	credentials, edgexErr := d.tryGetCredentials(secretName)
 	if edgexErr != nil {
-		d.lc.Errorf("Failed to retrieve credentials for the secret path %s: %s", secretName, edgexErr.Error())
+		d.lc.Errorf("Failed to retrieve credentials for the secret name %s: %s", secretName, edgexErr.Error())
 		return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get credentials", edgexErr)
 	}
 
-	d.lc.Debugf("Found credentials from secret path %s for device %s", secretName, device.Name)
+	d.lc.Debugf("Found credentials from secret name %s for device %s", secretName, device.Name)
 
 	return credentials, nil
 }
