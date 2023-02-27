@@ -41,7 +41,7 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 	for secretName, macs := range raw {
 		if strings.ToLower(secretName) != noAuthSecretName { // do not check for noAuth
 			if _, err := m.sdkService.GetSecretProvider().GetSecret(secretName, UsernameKey, PasswordKey, AuthModeKey); err != nil {
-				m.sdkService.GetLoggingClient().Warnf("One or more MAC address mappings exist for the secret path '%s' which does not exist in the Secret Store!", secretName)
+				m.sdkService.GetLoggingClient().Warnf("One or more MAC address mappings exist for the secret name '%s' which does not exist in the Secret Store!", secretName)
 			}
 		}
 
@@ -63,7 +63,7 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 	m.credsMap = credsMap
 }
 
-// TryGetSecretNameForMACAddress will return the secret path associated with the mac address passed if a mapping exists,
+// TryGetSecretNameForMACAddress will return the secret name associated with the mac address passed if a mapping exists,
 // the default secret path if the mapping is not found, or no auth if the mac address is invalid.
 func (m *MACAddressMapper) TryGetSecretNameForMACAddress(mac string, defaultSecretName string) string {
 	// sanitize the mac address before looking up to ensure they all match the same format
@@ -78,7 +78,7 @@ func (m *MACAddressMapper) TryGetSecretNameForMACAddress(mac string, defaultSecr
 
 	secretName, found := m.credsMap[sanitized]
 	if !found {
-		m.sdkService.GetLoggingClient().Debugf("No credential mapping exists for mac address '%s', will use default secret path.", mac)
+		m.sdkService.GetLoggingClient().Debugf("No credential mapping exists for mac address '%s', will use default secret name.", mac)
 		return defaultSecretName
 	}
 

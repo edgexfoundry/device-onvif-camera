@@ -68,22 +68,22 @@ Configuring pre-defined devices will allow the service to automatically provisio
 ### Configure the Device Service
 1. Open the [configuration.toml](./cmd/res/configuration.toml) file using your preferred text editor
 
-1. Make sure `path` is set to match `SecretName` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret paths match.
+1. Make sure `secret name` is set to match `SecretName` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret names match.
 
-1. Under `path`, set `username` and `password` to your camera credentials. If you have multiple cameras copy the `Writable.InsecureSecrets` section and edit to include the new information.
+1. Under `secretName`, set `username` and `password` to your camera credentials. If you have multiple cameras copy the `Writable.InsecureSecrets` section and edit to include the new information.
 
 ```toml
 [Writable]
     [Writable.InsecureSecrets.credentials001]
-    path = "credentials001"
-      [Writable.InsecureSecrets.credentials001.Secrets]
+    secretName = "credentials001"
+      [Writable.InsecureSecrets.credentials001.SecretData]
       username = "<Credentials 1 username>"
       password = "<Credentials 1 password>"
       mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
 
     [Writable.InsecureSecrets.credentials002]
-    path = "credentials002"
-      [Writable.InsecureSecrets.credentials002.Secrets]
+    secretName = "credentials002"
+      [Writable.InsecureSecrets.credentials002.SecretData]
       username = "<Credentials 1 password>"
       password = "<Credentials 2 password>"
       mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"

@@ -60,7 +60,7 @@ func TestIsAuthModeValid(t *testing.T) {
 func TestTryGetCredentials(t *testing.T) {
 
 	tests := []struct {
-		path          string
+		secretName    string
 		expected      Credentials
 		errorExpected bool
 		mockUsername  string
@@ -68,7 +68,7 @@ func TestTryGetCredentials(t *testing.T) {
 		mockAuthMode  string
 	}{
 		{
-			path:         noAuthSecretName,
+			secretName:   noAuthSecretName,
 			mockUsername: "username",
 			mockPassword: "password",
 			mockAuthMode: onvif.DigestAuth,
@@ -77,7 +77,7 @@ func TestTryGetCredentials(t *testing.T) {
 			},
 		},
 		{
-			path:         "validPath",
+			secretName:   "validSecretName",
 			mockUsername: "username",
 			mockPassword: "password",
 			mockAuthMode: onvif.DigestAuth,
@@ -88,14 +88,14 @@ func TestTryGetCredentials(t *testing.T) {
 			},
 		},
 		{
-			path:          "invalidPath",
+			secretName:    "invalidSecretName",
 			mockUsername:  "username",
 			mockPassword:  "password",
 			mockAuthMode:  onvif.DigestAuth,
 			errorExpected: true,
 		},
 		{
-			path:         "validPathInvalidAuthMode",
+			secretName:   "validSecretNameInvalidAuthMode",
 			mockUsername: "username",
 			mockPassword: "password",
 			mockAuthMode: "invalidAuthMode",
@@ -114,13 +114,13 @@ func TestTryGetCredentials(t *testing.T) {
 
 	for _, test := range tests {
 		test := test
-		t.Run(test.path, func(t *testing.T) {
+		t.Run(test.secretName, func(t *testing.T) {
 			if test.errorExpected {
-				mockSecretProvider.On("GetSecret", test.path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
+				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
 			} else {
-				mockSecretProvider.On("GetSecret", test.path, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": test.mockUsername, "password": test.mockPassword, "mode": test.mockAuthMode}, nil).Once()
+				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": test.mockUsername, "password": test.mockPassword, "mode": test.mockAuthMode}, nil).Once()
 			}
-			actual, err := driver.tryGetCredentials(test.path)
+			actual, err := driver.tryGetCredentials(test.secretName)
 
 			if test.errorExpected {
 				require.Error(t, err)
@@ -141,7 +141,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 		existingProtocols map[string]models.ProtocolProperties
 		device            models.Device
 		expected          Credentials
-		name              string
+		secretName        string
 
 		errorExpected bool
 		username      string
@@ -155,7 +155,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 				},
 			},
 
-			name:          "default_secret_name",
+			secretName:    "default_secret_name",
 			username:      "username",
 			password:      "password",
 			authMode:      onvif.DigestAuth,
@@ -168,10 +168,10 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 				},
 			},
 
-			name:     "secret_name",
-			username: "username",
-			password: "password",
-			authMode: onvif.UsernameTokenAuth,
+			secretName: "secret_name",
+			username:   "username",
+			password:   "password",
+			authMode:   onvif.UsernameTokenAuth,
 			expected: Credentials{
 				AuthMode: AuthModeUsernameToken,
 				Username: "username",
@@ -197,9 +197,9 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 
 	for i := range tests {
 		if tests[i].errorExpected {
-			mockSecretProvider.On("GetSecret", tests[i].name, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
+			mockSecretProvider.On("GetSecret", tests[i].secretName, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
 		} else {
-			mockSecretProvider.On("GetSecret", tests[i].name, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": tests[i].username, "password": tests[i].password, "mode": tests[i].authMode}, nil).Once()
+			mockSecretProvider.On("GetSecret", tests[i].secretName, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": tests[i].username, "password": tests[i].password, "mode": tests[i].authMode}, nil).Once()
 		}
 	}
 
@@ -207,7 +207,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 
 	for _, test := range tests {
 		test := test
-		t.Run(test.name, func(t *testing.T) {
+		t.Run(test.secretName, func(t *testing.T) {
 
 			actual, err := driver.tryGetCredentialsForDevice(createTestDeviceWithProtocols(test.existingProtocols))
 

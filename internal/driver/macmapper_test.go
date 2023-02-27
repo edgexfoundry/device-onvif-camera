@@ -283,7 +283,7 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 	}
 }
 
-// TestTryGetSecretNameForMACAddress verifies the correct secret path is returned for a given mac address.
+// TestTryGetSecretNameForMACAddress verifies the correct secret name is returned for a given mac address.
 func TestTryGetSecretNameForMACAddress(t *testing.T) {
 
 	mappedMac := "aa:bb:cc:dd:ee:ff"
@@ -295,12 +295,12 @@ func TestTryGetSecretNameForMACAddress(t *testing.T) {
 		expected string
 	}{
 		{
-			name:     "mac address for valid secret path",
+			name:     "mac address for valid secret name",
 			mac:      mappedMac,
 			expected: "valid_secret_name",
 		},
 		{
-			name:     "mac address for default secret path",
+			name:     "mac address for default secret name",
 			mac:      "bb:bb:cc:dd:ee:ff",
 			expected: defaultSecretName,
 		},
