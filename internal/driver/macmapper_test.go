@@ -111,7 +111,7 @@ func TestMACAddressBytewiseReverse(t *testing.T) {
 // convertMACMappings takes the place of macMapper.UpdateMappings, which is unable to be mocked currently.
 func convertMACMappings(t *testing.T, raw map[string]string) map[string]string {
 	credsMap := make(map[string]string)
-	for secretPath, macs := range raw {
+	for secretName, macs := range raw {
 		for _, mac := range strings.Split(macs, ",") {
 			sanitized, err := SanitizeMACAddress(mac)
 			if err != nil {
@@ -120,9 +120,9 @@ func convertMACMappings(t *testing.T, raw map[string]string) map[string]string {
 			}
 			// note: if the mac address already has a mapping, we do not overwrite it
 			if existing, found := credsMap[sanitized]; found {
-				t.Logf("Unable to set credential group to %s. MAC address '%s' already belongs to credential group %s.", secretPath, mac, existing)
+				t.Logf("Unable to set credential group to %s. MAC address '%s' already belongs to credential group %s.", secretName, mac, existing)
 			} else {
-				credsMap[sanitized] = secretPath
+				credsMap[sanitized] = secretName
 			}
 		}
 	}
@@ -260,9 +260,9 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 
 			require.NotEmpty(t, test.currentMap)
 
-			for secretPath := range test.currentMap {
-				if strings.ToLower(secretPath) != noAuthSecretPath {
-					mockSecretProvider.On("GetSecret", secretPath, UsernameKey, PasswordKey, AuthModeKey).
+			for secretName := range test.currentMap {
+				if strings.ToLower(secretName) != noAuthSecretName {
+					mockSecretProvider.On("GetSecret", secretName, UsernameKey, PasswordKey, AuthModeKey).
 						Return(nil, nil)
 				}
 			}
@@ -283,11 +283,11 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 	}
 }
 
-// TestTryGetSecretPathForMACAddress verifies the correct secret path is returned for a given mac address.
-func TestTryGetSecretPathForMACAddress(t *testing.T) {
+// TestTryGetSecretNameForMACAddress verifies the correct secret path is returned for a given mac address.
+func TestTryGetSecretNameForMACAddress(t *testing.T) {
 
 	mappedMac := "aa:bb:cc:dd:ee:ff"
-	defaultSecretPath := "default_secret_path"
+	defaultSecretName := "default_secret_name"
 
 	tests := []struct {
 		name     string
@@ -297,17 +297,17 @@ func TestTryGetSecretPathForMACAddress(t *testing.T) {
 		{
 			name:     "mac address for valid secret path",
 			mac:      mappedMac,
-			expected: "valid_secret_path",
+			expected: "valid_secret_name",
 		},
 		{
 			name:     "mac address for default secret path",
 			mac:      "bb:bb:cc:dd:ee:ff",
-			expected: defaultSecretPath,
+			expected: defaultSecretName,
 		},
 		{
 			name:     "invalid mac address",
 			mac:      "invalid_mac",
-			expected: noAuthSecretPath,
+			expected: noAuthSecretName,
 		},
 	}
 
@@ -317,19 +317,19 @@ func TestTryGetSecretPathForMACAddress(t *testing.T) {
 
 	driver.macAddressMapper = NewMACAddressMapper(mockService)
 	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{
-		"valid_secret_path": mappedMac,
+		"valid_secret_name": mappedMac,
 	})
 	driver.configMu = new(sync.RWMutex)
 	driver.config = &ServiceConfig{
 		AppCustom: CustomConfig{
-			DefaultSecretPath: defaultSecretPath,
+			DefaultSecretName: defaultSecretName,
 		},
 	}
 
 	for _, test := range tests {
 		test := test
 		t.Run(test.name, func(t *testing.T) {
-			actual := driver.macAddressMapper.TryGetSecretPathForMACAddress(test.mac, driver.config.AppCustom.DefaultSecretPath)
+			actual := driver.macAddressMapper.TryGetSecretNameForMACAddress(test.mac, driver.config.AppCustom.DefaultSecretName)
 			assert.Equal(t, test.expected, actual)
 		})
 	}

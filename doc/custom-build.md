@@ -50,7 +50,7 @@ Configuring pre-defined devices will allow the service to automatically provisio
          [DeviceList.Protocols.Onvif]
          Address = "191.168.86.34"              # Set to your camera IP address
          Port = "2020"                          # Set to the port your camera uses
-         SecretPath = "credentials001"
+         SecretName = "credentials001"
          [DeviceList.Protocols.CustomMetadata]
          CommonName = "Outdoor camera"
    ```
@@ -68,7 +68,7 @@ Configuring pre-defined devices will allow the service to automatically provisio
 ### Configure the Device Service
 1. Open the [configuration.toml](./cmd/res/configuration.toml) file using your preferred text editor
 
-1. Make sure `path` is set to match `SecretPath` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret paths match.
+1. Make sure `path` is set to match `SecretName` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret paths match.
 
 1. Under `path`, set `username` and `password` to your camera credentials. If you have multiple cameras copy the `Writable.InsecureSecrets` section and edit to include the new information.
 

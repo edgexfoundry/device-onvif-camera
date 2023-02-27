@@ -40,7 +40,7 @@ Define the following configurations in [cmd/res/configuration.toml](../cmd/res/c
 # The target ethernet interface for multicast discovering
 DiscoveryEthernetInterface = "eth0"
 # The Secret Path of the default credentials to use for devices
-DefaultSecretPath = "credentials001"
+DefaultSecretName = "credentials001"
 # Select which discovery mechanism(s) to use
 DiscoveryMode = "both" # netscan, multicast, or both
 # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
@@ -62,7 +62,7 @@ device-onvif-camera:
     # The target ethernet interface for multicast discovering
     APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
     # The Secret Path of the default credentials to use for devices
-    APPCUSTOM_DEFAULTSECRETPATH: "credentials001"
+    APPCUSTOM_DEFAULTSECRETNAME: "credentials001"
     # Select which discovery mechanism(s) to use
     APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
     # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)

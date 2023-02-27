@@ -171,7 +171,7 @@ Configuring pre-defined devices will allow the service to automatically provisio
          [DeviceList.Protocols.Onvif]
          Address = "191.168.86.34"              # Set to your camera IP address
          Port = "2020"                          # Set to the port your camera uses
-         SecretPath = "credentials001"
+         SecretName = "credentials001"
          [DeviceList.Protocols.CustomMetadata]
          CommonName = "Outdoor camera"
    ```
@@ -224,7 +224,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
    # The target ethernet interface for multicast discovering
    DiscoveryEthernetInterface = "eth0"
    # The Secret Path of the default credentials to use for devices
-   DefaultSecretPath = "credentials001"
+   DefaultSecretName = "credentials001"
    # Select which discovery mechanism(s) to use
    DiscoveryMode = "both" # netscan, multicast, or both
    # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
@@ -253,7 +253,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
       # The target ethernet interface for multicast discovering
       APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
       # The Secret Path of the default credentials to use for devices
-      APPCUSTOM_DEFAULTSECRETPATH: "credentials001"
+      APPCUSTOM_DEFAULTSECRETNAME: "credentials001"
       # Select which discovery mechanism(s) to use
       APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
       # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
@@ -276,7 +276,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 
 2. Open the [configuration.toml](../../cmd/res/configuration.toml) file using your preferred text editor.
 
-3. Make sure `path` is set to match `SecretPath` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret paths match.
+3. Make sure `path` is set to match `SecretName` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret paths match.
 
 4. Under `path`, set `username` and `password` to your camera credentials. If you have multiple cameras copy the `Writable.InsecureSecrets` section and edit to include the new information.
 
@@ -583,7 +583,7 @@ Device discovery is triggered by the device service. Once the device service sta
    h. Assign one or more MAC Addresses to the credential group  
       ![](../images/assign_mac.png)  
 
-   >**NOTE:** The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).  
+   >**NOTE:** The MAC address field can be left blank if the SecretName from the "Enter Secret Name ..." step above, is set to the DefaultSecretName (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).
 
    i. Learn more about updating credentials [here](../utility-scripts.md)  
 

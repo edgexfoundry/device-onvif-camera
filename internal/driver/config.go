@@ -17,8 +17,8 @@ import (
 type CustomConfig struct {
 	// RequestTimeout is the number of seconds to wait when making an Onvif request before timing out.
 	RequestTimeout int
-	// DefaultSecretPath indicates the secret path to retrieve username and password from secret store.
-	DefaultSecretPath string
+	// DefaultSecretName indicates the secret path to retrieve username and password from secret store.
+	DefaultSecretName string
 	// DiscoveryEthernetInterface indicates the target EthernetInterface for multicast discovering.
 	DiscoveryEthernetInterface string
 	// BaseNotificationURL indicates the device service network location
@@ -43,7 +43,7 @@ type CustomConfig struct {
 	// ProvisionWatcherDir is the location of Provision Watchers
 	ProvisionWatcherDir string
 
-	// CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses
+	// CredentialsMap is a map of SecretName -> Comma separated list of mac addresses
 	CredentialsMap map[string]string
 }
 

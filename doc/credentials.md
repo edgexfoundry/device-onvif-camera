@@ -1,6 +1,6 @@
 # Credentials
 Camera credentials are stored in the EdgeX Secret Store and referenced by MAC Address. All 
-devices by default are configured with credentials from `DefaultSecretPath` unless configured
+devices by default are configured with credentials from `DefaultSecretName` unless configured
 as part of a group within `AppCustom.CredentialsMap`.
 
 Three things must be done in order to add an authenticated camera to EdgeX:
@@ -10,7 +10,7 @@ Three things must be done in order to add an authenticated camera to EdgeX:
   - Manually or via utility scripts
 - Map `Credentials` to devices
   - Manually or via utility scripts
-  - Configure as `DefaultSecretPath`
+  - Configure as `DefaultSecretName`
 
 ## Terminology / Definitions
 - **Secret**: A generic map/object which is stored as multiple key/value pairs in the `Secret Store` under a specific `Secret Path` key.
@@ -23,14 +23,14 @@ Three things must be done in order to add an authenticated camera to EdgeX:
 - **CredentialsMap**: (aka `AppCustom.CredentialsMap`) this contains the mappings between `Secret Path` and
     `MAC Address`. Each key in the map is a `Secret Path` which points to `Credentials` in the `Secret Store`. The value
     for each key is a comma separated list of `MAC Addresses` which should use those `Credentials`.
-- **DefaultSecretPath**: The `Secret Path` which points to the `Credentials` to use as the default for all devices
+- **DefaultSecretName**: The `Secret Path` which points to the `Credentials` to use as the default for all devices
     which are not configured in the `CredentialsMap`.
 - **NoAuth**: A special `Secret Path` that does not exist in the `Secret Store`. It is pre-configured as `Credentials`
     with `Authentication Mode` of `none`. `NoAuth` can be used most places where a `Secret Path` is expected.
 
 Camera credentials are stored in the EdgeX Secret Store, which is Vault in secure mode, and Consul in non-secure mode.
 The term `Secret Path` is often used to refer to the name of the credentials as they are stored in the Secret Store.
-Credentials are then mapped to devices either using the `DefaultSecretPath` which applies to all devices by default,
+Credentials are then mapped to devices either using the `DefaultSecretName` which applies to all devices by default,
 or by configuring the `AppCustom.CredentialsMap` which maps one or more MAC Addresses to the desired credentials.
 
 ## Credentials Structure
@@ -130,17 +130,17 @@ curl --location --request POST 'http://localhost:59984/api/v2/secret' \
 The device service supports three types of credential mapping. All three types can be used
 in conjunction with each other.
 
-- `1 to All` - All devices are given the default credentials based on `DefaultSecretPath`
+- `1 to All` - All devices are given the default credentials based on `DefaultSecretName`
 - `1 to Many` - In the `CredentialsMap`, one secret path can be assigned multiple MAC addresses
 - `1 to 1` - In the `CredentialsMap`, assign each secret path 1 MAC Address
 
 ### Manual Configuration
 > **Note:** Any key present in `AppCustom.CredentialsMap` must also exist in the secret store!
 ```toml
-  # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses.
-# Every SecretPath used here must also exist as a valid secret in the Secret Store.
+  # AppCustom.CredentialsMap is a map of SecretName -> Comma separated list of mac addresses.
+# Every SecretName used here must also exist as a valid secret in the Secret Store.
 #
-# Note: Anything not defined here will be assigned the default credentials configured via `DefaultSecretPath`.
+# Note: Anything not defined here will be assigned the default credentials configured via `DefaultSecretName`.
 #
 # Example: (Single mapping for 1 mac address to 1 credential)
 #   credentials001 = "aa:bb:cc:dd:ee:ff"

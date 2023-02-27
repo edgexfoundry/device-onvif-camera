@@ -68,7 +68,7 @@ func TestTryGetCredentials(t *testing.T) {
 		mockAuthMode  string
 	}{
 		{
-			path:         noAuthSecretPath,
+			path:         noAuthSecretName,
 			mockUsername: "username",
 			mockPassword: "password",
 			mockAuthMode: onvif.DigestAuth,
@@ -141,7 +141,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 		existingProtocols map[string]models.ProtocolProperties
 		device            models.Device
 		expected          Credentials
-		path              string
+		name              string
 
 		errorExpected bool
 		username      string
@@ -155,7 +155,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 				},
 			},
 
-			path:          "default_secret_path",
+			name:          "default_secret_name",
 			username:      "username",
 			password:      "password",
 			authMode:      onvif.DigestAuth,
@@ -168,7 +168,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 				},
 			},
 
-			path:     "secret_path",
+			name:     "secret_name",
 			username: "username",
 			password: "password",
 			authMode: onvif.UsernameTokenAuth,
@@ -184,12 +184,12 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 
 	driver.macAddressMapper = NewMACAddressMapper(mockService)
 	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{
-		"secret_path": "aa:bb:cc:dd:ee:ff",
+		"secret_name": "aa:bb:cc:dd:ee:ff",
 	})
 	driver.configMu = new(sync.RWMutex)
 	driver.config = &ServiceConfig{
 		AppCustom: CustomConfig{
-			DefaultSecretPath: "default_secret_path",
+			DefaultSecretName: "default_secret_name",
 		},
 	}
 
@@ -197,9 +197,9 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 
 	for i := range tests {
 		if tests[i].errorExpected {
-			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
+			mockSecretProvider.On("GetSecret", tests[i].name, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
 		} else {
-			mockSecretProvider.On("GetSecret", tests[i].path, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": tests[i].username, "password": tests[i].password, "mode": tests[i].authMode}, nil).Once()
+			mockSecretProvider.On("GetSecret", tests[i].name, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": tests[i].username, "password": tests[i].password, "mode": tests[i].authMode}, nil).Once()
 		}
 	}
 
@@ -207,7 +207,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 
 	for _, test := range tests {
 		test := test
-		t.Run(test.path, func(t *testing.T) {
+		t.Run(test.name, func(t *testing.T) {
 
 			actual, err := driver.tryGetCredentialsForDevice(createTestDeviceWithProtocols(test.existingProtocols))
 
