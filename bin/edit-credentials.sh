@@ -24,8 +24,8 @@ main() {
     dependencies_check
     consul_check
 
-    pick_secret_path 0 0
-    if [ "${SECRET_PATH}" == "NoAuth" ]; then
+    pick_secret_name 0 0
+    if [ "${SECRET_NAME}" == "NoAuth" ]; then
         log_error "NoAuth is a built-in value and cannot be modified by the user. It contains no actual credentials!"
         return 1
     fi

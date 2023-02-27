@@ -25,10 +25,10 @@ main() {
     dependencies_check
     consul_check
 
-    if [ -z "${SECRET_PATH}" ]; then
-        pick_secret_path 1 1
+    if [ -z "${SECRET_NAME}" ]; then
+        pick_secret_name 1 1
     fi
-    log_info "Secret Path: ${SECRET_PATH}"
+    log_info "Secret Name: ${SECRET_NAME}"
 
     # if the user manually passed credentials in via the command line, create or update the secret
     if [ "$USER_SET_CREDENTIALS" -eq 1 ]; then
@@ -37,7 +37,7 @@ main() {
 
     query_mac_address
 
-    put_credentials_map_field "${SECRET_PATH}" "${MAC_ADDRESSES}"
+    put_credentials_map_field "${SECRET_NAME}" "${MAC_ADDRESSES}"
 
     echo -e "${green}${bold}Success${clear}"
 }
