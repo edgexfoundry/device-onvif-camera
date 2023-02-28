@@ -31,8 +31,8 @@ func NewMACAddressMapper(sdkService interfaces.DeviceServiceSDK) *MACAddressMapp
 	}
 }
 
-// UpdateMappings takes the raw map of secret path to csv list of mac addresses and
-// inverts it into a quick lookup map of mac address to secret path.
+// UpdateMappings takes the raw map of secret name to csv list of mac addresses and
+// inverts it into a quick lookup map of mac address to secret name.
 func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 	m.credsMu.Lock()
 	defer m.credsMu.Unlock()
@@ -64,7 +64,7 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 }
 
 // TryGetSecretNameForMACAddress will return the secret name associated with the mac address passed if a mapping exists,
-// the default secret path if the mapping is not found, or no auth if the mac address is invalid.
+// the default secret name if the mapping is not found, or no auth if the mac address is invalid.
 func (m *MACAddressMapper) TryGetSecretNameForMACAddress(mac string, defaultSecretName string) string {
 	// sanitize the mac address before looking up to ensure they all match the same format
 	sanitized, err := SanitizeMACAddress(mac)

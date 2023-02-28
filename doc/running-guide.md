@@ -201,8 +201,8 @@ Follow these instructions to update devices.
    a. Run `bin/map-credentials.sh`    
    b. Select `(Create New)`
       ![](../images/create_new.png)
-   c. Enter the Secret Path to associate with these credentials  
-      ![](../images/secret_path.png)
+   c. Enter the Secret Name to associate with these credentials  
+      ![](../images/secret_name.png)
    d. Enter the username  
       ![](../images/set_username.png)
    e. Enter the password  
@@ -222,7 +222,7 @@ Follow these instructions to update devices.
    Response [200]      Success
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap?keys=true
    Response [200] 
-   Secret Path: a
+   Secret Name: a
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
    Response [404] 
    Failed! curl returned a status code of '404'
@@ -252,7 +252,7 @@ Follow these instructions to update devices.
 
 
 
-   Secret Path: a
+   Secret Name: a
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
    Response [200] 
    Setting Credentials Map: a = '11:22:33:44:55:66'

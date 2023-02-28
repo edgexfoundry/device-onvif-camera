@@ -328,8 +328,8 @@ Device discovery is triggered by the device service. Once the device service sta
    b. Run `bin/map-credentials.sh`    
    c. Select `(Create New)`
       ![](../images/create_new.png)
-   d. Enter the Secret Path to associate with these credentials  
-      ![](../images/secret_path.png)
+   d. Enter the Secret Name to associate with these credentials  
+      ![](../images/secret_name.png)
    e. Enter the username  
       ![](../images/set_username.png)
    f. Enter the password  
@@ -352,7 +352,7 @@ Device discovery is triggered by the device service. Once the device service sta
    Response [200]      Success
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap?keys=true
    Response [200] 
-   Secret Path: a
+   Secret Name: a
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
    Response [404] 
    Failed! curl returned a status code of '404'
@@ -382,7 +382,7 @@ Device discovery is triggered by the device service. Once the device service sta
 
 
 
-   Secret Path: a
+   Secret Name: a
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
    Response [200] 
    Setting Credentials Map: a = '11:22:33:44:55:66'

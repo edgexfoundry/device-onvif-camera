@@ -17,7 +17,7 @@ import (
 type CustomConfig struct {
 	// RequestTimeout is the number of seconds to wait when making an Onvif request before timing out.
 	RequestTimeout int
-	// DefaultSecretName indicates the secret path to retrieve username and password from secret store.
+	// DefaultSecretName indicates the secret name to retrieve username and password from secret store.
 	DefaultSecretName string
 	// DiscoveryEthernetInterface indicates the target EthernetInterface for multicast discovering.
 	DiscoveryEthernetInterface string

@@ -573,7 +573,7 @@ Device discovery is triggered by the device service. Once the device service sta
    c. Select `(Create New)`
       ![](../images/create_new.png)
    d. Enter the Secret Name to associate with these credentials  
-      ![](../images/secret_path.png)
+      ![](../images/secret_name.png)
    e. Enter the username  
       ![](../images/set_username.png)
    f. Enter the password  
