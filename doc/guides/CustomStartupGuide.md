@@ -98,11 +98,30 @@ To enable running Docker commands without the preface of sudo, add the user to t
 Install Docker Compose from the official repository as documented on the [Docker Compose](https://docs.docker.com/compose/install/linux/#install-using-the-repository) site.
 
 ###  Download EdgeX Compose
-Clone the EdgeX compose repository
+   1. Clone the EdgeX compose repository:
 
-   ```bash
-   git clone https://github.com/edgexfoundry/edgex-compose.git
-   ```
+      ```bash
+      git clone https://github.com/edgexfoundry/edgex-compose.git
+      ```
+   1. Navigate to the `edgex-compose` directory:
+
+      ```bash
+      cd edgex-compose
+      ```
+
+   1. Checkout the Levski release:
+
+      ```bash
+      git checkout levski
+      ```
+
+      Note: The `levski` branch is the latest stable branch at the time of this update. 
+
+   1. Navigate back to your home directory:
+
+      ```bash
+      cd ~
+      ```
 
 ### Install Tools
 Install the build, media streaming, and parsing tools:
