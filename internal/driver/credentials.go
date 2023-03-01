@@ -57,7 +57,7 @@ func IsAuthModeValid(mode string) bool {
 // tryGetCredentials will attempt one time to get the credentials located at secretName from
 // secret provider and return them, otherwise return an error.
 func (d *Driver) tryGetCredentials(secretName string) (Credentials, errors.EdgeX) {
-	// if the secret path is the special NoAuth magic key, do not look it up, instead return the noAuthCredentials
+	// if the secret name is the special NoAuth magic key, do not look it up, instead return the noAuthCredentials
 	if strings.ToLower(secretName) == noAuthSecretName {
 		return noAuthCredentials, nil
 	}
@@ -83,7 +83,7 @@ func (d *Driver) tryGetCredentials(secretName string) (Credentials, errors.EdgeX
 
 // tryGetCredentialsForDevice will attempt to use the device's MAC address to look up the credentials
 // from the Secret Store. If a mapping does not exist, or the device's MAC address is missing or invalid,
-// the default secret path will be used to look up the credentials. An error is returned if the secret path
+// the default secret name will be used to look up the credentials. An error is returned if the secret name
 // does not exist in the Secret Store.
 func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, errors.EdgeX) {
 	d.configMu.RLock()
