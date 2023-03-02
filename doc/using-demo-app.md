@@ -54,8 +54,8 @@ This app uses [EdgeX Core Services][edgex-core-services], [EdgeX ONVIF device se
             [Writable.InsecureSecrets]
             ...
                 [Writable.InsecureSecrets.CameraCredentials]
-                path = "CameraCredentials"
-                    [Writable.InsecureSecrets.CameraCredentials.Secrets]
+                secretName = "CameraCredentials"
+                    [Writable.InsecureSecrets.CameraCredentials.SecretData]
                     username = ""
                     password = ""   
         ```

@@ -41,14 +41,14 @@ For development purpose, we can define the secrets in the configuration.toml
 ...
   [Writable.InsecureSecrets]
     [Writable.InsecureSecrets.Camera001]
-    path = "credentials001"
-      [Writable.InsecureSecrets.Camera001.Secrets]
+    secretName = "credentials001"
+      [Writable.InsecureSecrets.Camera001.SecretData]
       username = "administrator"
       password = "Password1"
     # If having more than one camera, uncomment the following config settings
     [Writable.InsecureSecrets.Camera002]
-    path = "credentials002"
-      [Writable.InsecureSecrets.Camera002.Secrets]
+    secretName = "credentials002"
+      [Writable.InsecureSecrets.Camera002.SecretData]
       username = "administrator"
       password = "Password1"
 ```

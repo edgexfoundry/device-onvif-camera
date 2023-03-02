@@ -34,7 +34,7 @@ Credentials are then mapped to devices either using the `DefaultSecretName` whic
 or by configuring the `AppCustom.CredentialsMap` which maps one or more MAC Addresses to the desired credentials.
 
 ## Credentials Structure
-`Credentials` are `Secrets` comprised of three fields:
+`Credentials` are `SecretData` comprised of three fields:
 - `username`: the admin username for the camera
 - `password`: the admin password
 - `mode`: the type of Authentication to use
@@ -68,19 +68,19 @@ curl -X PUT --data "<secret-name>" \
 Set username to `<username>`
 ```shell
 curl -X PUT --data "<username>" \
-    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-name>/Secrets/username"
+    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-name>/SecretData/username"
 ```
 
 Set password to `<password>`
 ```shell
 curl -X PUT --data "<password>" \
-    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-name>/Secrets/password"
+    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-name>/SecretData/password"
 ```
 
 Set auth mode to `<auth-mode>`
 ```shell
 curl -X PUT --data "<auth-mode>" \
-    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-name>/Secrets/mode"
+    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-name>/SecretData/mode"
 ```
 </details>
 

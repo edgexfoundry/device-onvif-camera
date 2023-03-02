@@ -493,9 +493,9 @@ parse_args() {
 # create or update the insecure secrets by setting the 3 required fields in Consul
 set_insecure_secret() {
     put_insecure_secrets_field "${SECRET_NAME}/SecretName"                "${SECRET_NAME}"
-    put_insecure_secrets_field "${SECRET_NAME}/Secrets/username"    "${SECRET_USERNAME}"
-    put_insecure_secrets_field "${SECRET_NAME}/Secrets/password"    "${SECRET_PASSWORD}"
-    put_insecure_secrets_field "${SECRET_NAME}/Secrets/mode"        "${AUTH_MODE}"
+    put_insecure_secrets_field "${SECRET_NAME}/SecretData/username"    "${SECRET_USERNAME}"
+    put_insecure_secrets_field "${SECRET_NAME}/SecretData/password"    "${SECRET_PASSWORD}"
+    put_insecure_secrets_field "${SECRET_NAME}/SecretData/mode"        "${AUTH_MODE}"
 }
 
 # set the secure secrets by posting to the device service's secret endpoint

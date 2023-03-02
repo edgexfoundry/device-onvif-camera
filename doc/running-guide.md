@@ -231,18 +231,18 @@ Follow these instructions to update devices.
    Response [200] true
 
 
-   Setting InsecureSecret: a/Secrets/username
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/username
+   Setting InsecureSecret: a/SecretData/username
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/SecretData/username
    Response [200] true
 
 
-   Setting InsecureSecret: a/Secrets/password
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/password
+   Setting InsecureSecret: a/SecretData/password
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/SecretData/password
    Response [200] true
 
 
-   Setting InsecureSecret: a/Secrets/mode
-   curl --data "usern<redacted>metoken" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/mode
+   Setting InsecureSecret: a/SecretData/mode
+   curl --data "usern<redacted>metoken" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/SecretData/mode
    Response [200] true
 
 
