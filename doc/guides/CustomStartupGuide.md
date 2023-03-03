@@ -73,10 +73,7 @@ To enable running Docker commands without the preface of sudo, add the user to t
    sudo usermod -aG docker $USER
    ```
 
-3. Refresh the group:
-   ```bash
-   newgrp docker 
-   ```
+3. Restart your computer for the changes to take effect.
 
 4. To verify the Docker installation, run `hello-world`:
 
@@ -101,11 +98,30 @@ To enable running Docker commands without the preface of sudo, add the user to t
 Install Docker Compose from the official repository as documented on the [Docker Compose](https://docs.docker.com/compose/install/linux/#install-using-the-repository) site.
 
 ###  Download EdgeX Compose
-Clone the EdgeX compose repository
+   1. Clone the EdgeX compose repository:
 
-   ```bash
-   git clone https://github.com/edgexfoundry/edgex-compose.git
-   ```
+      ```bash
+      git clone https://github.com/edgexfoundry/edgex-compose.git
+      ```
+   1. Navigate to the `edgex-compose` directory:
+
+      ```bash
+      cd edgex-compose
+      ```
+
+   1. Checkout the Levski release:
+
+      ```bash
+      git checkout levski
+      ```
+
+      Note: The `levski` branch is the latest stable branch at the time of this update. 
+
+   1. Navigate back to your home directory:
+
+      ```bash
+      cd ~
+      ```
 
 ### Install Tools
 Install the build, media streaming, and parsing tools:
@@ -313,6 +329,18 @@ For optional configurations, see [here.](#additional-configuration)
    ```bash
    make docker
    ```
+   <details>
+   <summary>[Optional] Build with NATS Messaging</summary>
+   
+      Currently, the NATS Messaging capability (NATS MessageBus) is opt-in at build time. This means that the published Docker image and Snaps do not include the NATS messaging capability. To build the docker image using NATS, run make docker-nats:
+
+      ```bash
+      make docker-nats
+      ```
+         
+      See [Compose Builder](https://github.com/edgexfoundry/edgex-compose/tree/main/compose-builder#gen) `nat-bus` option to generate compose file for NATS and local dev images.
+      
+   </details>
 
 2. Verify the ONVIF Device Service Docker image was successfully created:
 
@@ -374,7 +402,7 @@ For optional configurations, see [here.](#additional-configuration)
 
 <br/>
 
->**NOTE:** Go version 1.18+ is required to run natively.
+>**NOTE:** Go version 1.18+ is required to run natively. See [here](https://go.dev/doc/install) for more information.
 
 <br/>
 
@@ -395,12 +423,19 @@ For optional configurations, see [here.](#additional-configuration)
       ```bash
       cd device-onvif-camera
       ```
-
-   1. Run the service:
-
+   1. Run the service
       ```bash
-      make run 
+      make run
       ```
+      
+      <details>
+      <summary>[Optional] Run with NATS</summary>
+
+         ```bash
+         make run-nats
+         ```
+
+      </details>
 
 </details>
 
