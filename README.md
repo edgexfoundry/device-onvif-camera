@@ -9,20 +9,6 @@ The Open Network Video Interface Forum (ONVIF) Device Service is a microservice 
 
 Use the ONVIF Device Service to streamline and scale your edge camera device deployment. 
 
-## Build with NATS Messaging
-Currently, the NATS Messaging capability (NATS MessageBus) is opt-in at build time.
-This means that the published Docker image and Snaps do not include the NATS messaging capability.
-
-The following make commands will build the local binary or local Docker image with NATS messaging
-capability included.
-```makefile
-make build-nats
-make docker-nats
-```
-
-The locally built Docker image can then be used in place of the published Docker image in your compose file.
-See [Compose Builder](https://github.com/edgexfoundry/edgex-compose/tree/main/compose-builder#gen) `nat-bus` option to generate compose file for NATS and local dev images.
-
 ## How It Works
 The figure below illustrates the software flow through the architecture components.
 
@@ -45,7 +31,7 @@ Learn how to configure and run the service by following these [instructions](./d
 
 For a full walkthrough of using the default images, use this [guide.](./doc/guides/SimpleStartupGuide.md)  
 
-For a full walktrhough of building custom images, use this [guide.](./doc/guides/CustomStartupGuide.md)  
+For a full walkthrough of building custom images, use this [guide.](./doc/guides/CustomStartupGuide.md)  
 
 A brief video demonstration of building and using the device service can be found [here.](https://www.youtube.com/watch?v=vZqd3j2Zn2Y)
 

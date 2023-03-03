@@ -62,10 +62,7 @@ To enable running Docker commands without the preface of sudo, add the user to t
    sudo usermod -aG docker $USER
    ```
 
-3. Refresh the group:
-   ```bash
-   newgrp docker 
-   ```
+3. Restart your computer for the changes to take effect.
 
 4. To verify the Docker installation, run `hello-world`:
 
@@ -119,11 +116,30 @@ The table below lists command line tools this guide uses to help with EdgeX conf
 >Table 1: Command Line Tools
 
 ## Download EdgeX Compose
-1. Clone the EdgeX compose repository
+   1. Clone the EdgeX compose repository:
 
-   ```bash
-   git clone https://github.com/edgexfoundry/edgex-compose.git
-   ```
+      ```bash
+      git clone https://github.com/edgexfoundry/edgex-compose.git
+      ```
+   1. Navigate to the `edgex-compose` directory:
+
+      ```bash
+      cd edgex-compose
+      ```
+
+   1. Checkout the Levski release:
+
+      ```bash
+      git checkout levski
+      ```
+
+      Note: The `levski` branch is the latest stable branch at the time of this update. 
+
+   1. Navigate back to your home directory:
+
+      ```bash
+      cd ~
+      ```
 
 ## Next Steps
    [Running and using the default image and configurations](./running-guide.md)  
