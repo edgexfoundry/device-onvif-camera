@@ -24,7 +24,8 @@ StartupMsg = "Camera device service started"
   ClientId = "device-onvif-camera"
 
 [Device]
-ProvisionWatchersDir = "./res/provision_watchers"
+# The location of Provision Watcher json files to import when using auto-discovery
+ProvisionWatchersDir = "./res/provisionwatchers"
 [Device.Discovery]
   Enabled = true
   Interval = "1h"
@@ -71,9 +72,6 @@ EnableStatusCheck = true
 # A longer interval will mean the service will detect changes in status less quickly
 # Maximum 300s (5 minutes)
 CheckStatusInterval = 30
-
-# The location of Provision Watcher json files to import when using auto-discovery
-ProvisionWatcherDir = "res/provision_watchers"
 
   # AppCustom.CredentialsMap is a map of SecretName -> Comma separated list of mac addresses.
   # Every SecretName used here must also exist as a valid secret in the Secret Store.

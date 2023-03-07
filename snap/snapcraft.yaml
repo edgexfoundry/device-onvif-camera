@@ -36,7 +36,7 @@ apps:
       CONFIG_PRO_ARG: "--cp=consul.http://localhost:8500"
       CONF_ARG: "--configDir=$SNAP_DATA/config/device-onvif-camera/res"
       REGISTRY_ARG: "--registry"
-      APPCUSTOM_PROVISIONWATCHERDIR: $SNAP_DATA/config/device-onvif-camera/res/provision_watchers
+      APPCUSTOM_PROVISIONWATCHERDIR: $SNAP_DATA/config/device-onvif-camera/res/provisionwatchers
       DEVICE_PROFILESDIR: $SNAP_DATA/config/device-onvif-camera/res/profiles
       DEVICE_DEVICESDIR: $SNAP_DATA/config/device-onvif-camera/res/devices
       SECRETSTORE_TOKENFILE: $SNAP_DATA/device-onvif-camera/secrets-token.json
@@ -78,7 +78,7 @@ parts:
       cp    cmd/res/configuration.toml $RES
       cp -r cmd/res/devices $RES
       cp -r cmd/res/profiles $RES
-      cp -r cmd/res/provision_watchers $RES
+      cp -r cmd/res/provisionwatchers $RES
 
       DOC=$SNAPCRAFT_PART_INSTALL/usr/share/doc/device-onvif-camera
       mkdir -p $DOC
