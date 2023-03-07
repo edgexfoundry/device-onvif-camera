@@ -59,10 +59,10 @@ See [here](./utility-scripts.md) for the full guide.
 > **Note:** Replace `<secret-name>` with the name of the secret, `<username>` with the username,
 > `<password>` with the password, and `<mode>` with the auth mode.
 
-Set Path to `<device-name>`
+Set SecretName to `<device-name>`
 ```shell
 curl -X PUT --data "<secret-name>" \
-    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-name>/Path"
+    "http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/<secret-name>/SecretName"
 ```
 
 Set username to `<username>`
