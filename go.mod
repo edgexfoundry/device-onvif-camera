@@ -9,7 +9,7 @@ require (
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.0.0-dev.22
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.2
 )
 
 require (
