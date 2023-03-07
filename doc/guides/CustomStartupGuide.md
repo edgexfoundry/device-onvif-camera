@@ -187,7 +187,7 @@ Configuring pre-defined devices will allow the service to automatically provisio
          [DeviceList.Protocols.Onvif]
          Address = "191.168.86.34"              # Set to your camera IP address
          Port = "2020"                          # Set to the port your camera uses
-         SecretPath = "credentials001"
+         SecretName = "credentials001"
          [DeviceList.Protocols.CustomMetadata]
          CommonName = "Outdoor camera"
    ```
@@ -239,8 +239,8 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
    [AppCustom]
    # The target ethernet interface for multicast discovering
    DiscoveryEthernetInterface = "eth0"
-   # The Secret Path of the default credentials to use for devices
-   DefaultSecretPath = "credentials001"
+   # The Secret Name of the default credentials to use for devices
+   DefaultSecretName = "credentials001"
    # Select which discovery mechanism(s) to use
    DiscoveryMode = "both" # netscan, multicast, or both
    # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
@@ -268,8 +268,8 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 
       # The target ethernet interface for multicast discovering
       APPCUSTOM_DISCOVERYETHERNETINTERFACE: "eth0"
-      # The Secret Path of the default credentials to use for devices
-      APPCUSTOM_DEFAULTSECRETPATH: "credentials001"
+      # The Secret Name of the default credentials to use for devices
+      APPCUSTOM_DEFAULTSECRETNAME: "credentials001"
       # Select which discovery mechanism(s) to use
       APPCUSTOM_DISCOVERYMODE: "both" # netscan, multicast, or both
       # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
@@ -292,22 +292,22 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 
 2. Open the [configuration.toml](../../cmd/res/configuration.toml) file using your preferred text editor.
 
-3. Make sure `path` is set to match `SecretPath` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret paths match.
+3. Make sure `SecretName` is set to match `SecretName` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret names match.
 
-4. Under `path`, set `username` and `password` to your camera credentials. If you have multiple cameras copy the `Writable.InsecureSecrets` section and edit to include the new information.
+4. Under `SecretName`, set `username` and `password` to your camera credentials. If you have multiple cameras copy the `Writable.InsecureSecrets` section and edit to include the new information.
 
    ```toml
    [Writable]
       [Writable.InsecureSecrets.credentials001]
-      path = "credentials001"
-         [Writable.InsecureSecrets.credentials001.Secrets]
+      secretName = "credentials001"
+         [Writable.InsecureSecrets.credentials001.SecretData]
          username = "<Credentials 1 username>"
          password = "<Credentials 1 password>"
          mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
 
       [Writable.InsecureSecrets.credentials002]
-      path = "credentials002"
-         [Writable.InsecureSecrets.credentials002.Secrets]
+      secretName = "credentials002"
+         [Writable.InsecureSecrets.credentials002.SecretData]
          username = "<Credentials 1 password>"
          password = "<Credentials 2 password>"
          mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
@@ -607,8 +607,8 @@ Device discovery is triggered by the device service. Once the device service sta
    b. Run `bin/map-credentials.sh`    
    c. Select `(Create New)`
       ![](../images/create_new.png)
-   d. Enter the Secret Path to associate with these credentials  
-      ![](../images/secret_path.png)
+   d. Enter the Secret Name to associate with these credentials  
+      ![](../images/secret_name.png)
    e. Enter the username  
       ![](../images/set_username.png)
    f. Enter the password  
@@ -618,7 +618,7 @@ Device discovery is triggered by the device service. Once the device service sta
    h. Assign one or more MAC Addresses to the credential group  
       ![](../images/assign_mac.png)  
 
-   >**NOTE:** The MAC address field can be left blank if the SecretPath from the "Enter Secret Path ..." step above, is set to the DefaultSecretPath (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).  
+   >**NOTE:** The MAC address field can be left blank if the SecretName from the "Enter Secret Name ..." step above, is set to the DefaultSecretName (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).
 
    i. Learn more about updating credentials [here](../utility-scripts.md)  
 
@@ -631,27 +631,27 @@ Device discovery is triggered by the device service. Once the device service sta
    Response [200]      Success
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap?keys=true
    Response [200] 
-   Secret Path: a
+   Secret Name: a
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
    Response [404] 
    Failed! curl returned a status code of '404'
-   Setting InsecureSecret: a/Path
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Path
+   Setting InsecureSecret: a/SecretName
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/SecretName
    Response [200] true
 
 
-   Setting InsecureSecret: a/Secrets/username
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/username
+   Setting InsecureSecret: a/SecretData/username
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/SecretData/username
    Response [200] true
 
 
-   Setting InsecureSecret: a/Secrets/password
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/password
+   Setting InsecureSecret: a/SecretData/password
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/SecretData/password
    Response [200] true
 
 
-   Setting InsecureSecret: a/Secrets/mode
-   curl --data "usern<redacted>metoken" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Secrets/mode
+   Setting InsecureSecret: a/SecretData/mode
+   curl --data "usern<redacted>metoken" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/SecretData/mode
    Response [200] true
 
 
@@ -661,7 +661,7 @@ Device discovery is triggered by the device service. Once the device service sta
 
 
 
-   Secret Path: a
+   Secret Name: a
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
    Response [200] 
    Setting Credentials Map: a = '11:22:33:44:55:66'

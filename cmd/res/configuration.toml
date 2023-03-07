@@ -2,14 +2,14 @@
 LogLevel = "INFO"
   [Writable.InsecureSecrets]
     [Writable.InsecureSecrets.credentials001]
-    path = "credentials001"
-      [Writable.InsecureSecrets.credentials001.Secrets]
+    SecretName = "credentials001"
+      [Writable.InsecureSecrets.credentials001.SecretData]
       username = ""
       password = ""
       mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
     [Writable.InsecureSecrets.credentials002]
-    path = "credentials002"
-      [Writable.InsecureSecrets.credentials002.Secrets]
+    SecretName = "credentials002"
+      [Writable.InsecureSecrets.credentials002.SecretData]
       username = ""
       password = ""
       mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
@@ -34,10 +34,10 @@ ProvisionWatchersDir = "./res/provision_watchers"
 # The number of seconds to wait when making an Onvif request before timing out
 RequestTimeout = 5 # Seconds
 
-# The Secret Path of the default credentials to use for devices which do not have MAC Addresses defined, or do not
+# The Secret Name of the default credentials to use for devices which do not have MAC Addresses defined, or do not
 # have credentials defined in the CredentialsMap. The magic value of 'NoAuth' here will cause the devices to default
 # to not using any authentication. If authentication is required, it would then need to be manually configured.
-DefaultSecretPath = "credentials001"
+DefaultSecretName = "credentials001"
 
 # BaseNotificationURL indicates the device service network location (which should be accessible from onvif devices on the network), when
 # configuring an Onvif Event subscription.
@@ -75,10 +75,10 @@ CheckStatusInterval = 30
 # The location of Provision Watcher json files to import when using auto-discovery
 ProvisionWatcherDir = "res/provision_watchers"
 
-  # AppCustom.CredentialsMap is a map of SecretPath -> Comma separated list of mac addresses.
-  # Every SecretPath used here must also exist as a valid secret in the Secret Store.
+  # AppCustom.CredentialsMap is a map of SecretName -> Comma separated list of mac addresses.
+  # Every SecretName used here must also exist as a valid secret in the Secret Store.
   #
-  # Note: Anything not defined here will be assigned the default credentials configured via `DefaultSecretPath`.
+  # Note: Anything not defined here will be assigned the default credentials configured via `DefaultSecretName`.
   #
   # Example: (Single mapping for 1 mac address to 1 credential)
   #   credentials001 = "aa:bb:cc:dd:ee:ff"

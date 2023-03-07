@@ -8,8 +8,8 @@
 1. Run `bin/map-credentials.sh`
 2. Select `(Create New)`
    ![](images/create_new.png)
-3. Enter the Secret Path to associate with these credentials
-   ![](images/secret_path.png)
+3. Enter the Secret Name to associate with these credentials
+   ![](images/secret_name.png)
 4. Enter the username
    ![](images/set_username.png)
 5. Enter the password
@@ -82,7 +82,7 @@ which are physical (non-virtual) and online (up). It uses this information to au
 ## edit-credentials.sh
 ### Usage
 ```shell
-bin/edit-credentials.sh [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-path] [-M mac-addresses] [-t <consul token>]
+bin/edit-credentials.sh [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-name] [-M mac-addresses] [-t <consul token>]
 ```
 ### About
 The purpose of this script is to allow end-users to modify credentials either through
@@ -91,7 +91,7 @@ EdgeX InsecureSecrets via Consul, or EdgeX Secrets via the device service.
 ## map-credentials.sh
 ### Usage
 ```shell
-bin/map-credentials.sh [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-path] [-M mac-addresses] [-t <consul token>]
+bin/map-credentials.sh [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-name] [-M mac-addresses] [-t <consul token>]
 ```
 ### About
 The purpose of this script is to allow end-users to add credentials either through
@@ -101,7 +101,7 @@ end-user to add a list of MAC Addresses to map to those credentials via Consul.
 ## query-mappings.sh
 ### Usage
 ```shell
-bin/query-mappings.sh [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-path] [-M mac-addresses] [-t <consul token>]
+bin/query-mappings.sh [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-name] [-M mac-addresses] [-t <consul token>]
 ```
 ### About
 The purpose of this script is to allow end-users to see what MAC Addresses are

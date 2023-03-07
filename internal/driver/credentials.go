@@ -30,9 +30,9 @@ const (
 )
 
 const (
-	// noAuthSecretPath is the magic string used to define a group which does not use credentials
+	// noAuthSecretName is the magic string used to define a group which does not use credentials
 	// this is defined in lowercase and compared in lowercase
-	noAuthSecretPath = "noauth"
+	noAuthSecretName = "noauth"
 )
 
 const (
@@ -54,15 +54,15 @@ func IsAuthModeValid(mode string) bool {
 		mode == AuthModeNone
 }
 
-// tryGetCredentials will attempt one time to get the credentials located at secretPath from
+// tryGetCredentials will attempt one time to get the credentials located at secretName from
 // secret provider and return them, otherwise return an error.
-func (d *Driver) tryGetCredentials(secretPath string) (Credentials, errors.EdgeX) {
-	// if the secret path is the special NoAuth magic key, do not look it up, instead return the noAuthCredentials
-	if strings.ToLower(secretPath) == noAuthSecretPath {
+func (d *Driver) tryGetCredentials(secretName string) (Credentials, errors.EdgeX) {
+	// if the secret name is the special NoAuth magic key, do not look it up, instead return the noAuthCredentials
+	if strings.ToLower(secretName) == noAuthSecretName {
 		return noAuthCredentials, nil
 	}
 
-	secretData, err := d.sdkService.GetSecretProvider().GetSecret(secretPath, UsernameKey, PasswordKey, AuthModeKey)
+	secretData, err := d.sdkService.GetSecretProvider().GetSecret(secretName, UsernameKey, PasswordKey, AuthModeKey)
 	if err != nil {
 		return Credentials{}, errors.NewCommonEdgeXWrapper(err)
 	}
@@ -83,27 +83,27 @@ func (d *Driver) tryGetCredentials(secretPath string) (Credentials, errors.EdgeX
 
 // tryGetCredentialsForDevice will attempt to use the device's MAC address to look up the credentials
 // from the Secret Store. If a mapping does not exist, or the device's MAC address is missing or invalid,
-// the default secret path will be used to look up the credentials. An error is returned if the secret path
+// the default secret name will be used to look up the credentials. An error is returned if the secret name
 // does not exist in the Secret Store.
 func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, errors.EdgeX) {
 	d.configMu.RLock()
-	defaultSecretPath := d.config.AppCustom.DefaultSecretPath
+	defaultSecretName := d.config.AppCustom.DefaultSecretName
 	d.configMu.RUnlock()
 
-	secretPath := defaultSecretPath
+	secretName := defaultSecretName
 	if mac := device.Protocols[OnvifProtocol][MACAddress]; mac != "" {
-		secretPath = d.macAddressMapper.TryGetSecretPathForMACAddress(mac, defaultSecretPath)
+		secretName = d.macAddressMapper.TryGetSecretNameForMACAddress(mac, defaultSecretName)
 	} else {
-		d.lc.Warnf("Device %s is missing MAC Address, using default secret path", device.Name)
+		d.lc.Warnf("Device %s is missing MAC Address, using default secret name", device.Name)
 	}
 
-	credentials, edgexErr := d.tryGetCredentials(secretPath)
+	credentials, edgexErr := d.tryGetCredentials(secretName)
 	if edgexErr != nil {
-		d.lc.Errorf("Failed to retrieve credentials for the secret path %s: %s", secretPath, edgexErr.Error())
+		d.lc.Errorf("Failed to retrieve credentials for the secret name %s: %s", secretName, edgexErr.Error())
 		return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get credentials", edgexErr)
 	}
 
-	d.lc.Debugf("Found credentials from secret path %s for device %s", secretPath, device.Name)
+	d.lc.Debugf("Found credentials from secret name %s for device %s", secretName, device.Name)
 
 	return credentials, nil
 }

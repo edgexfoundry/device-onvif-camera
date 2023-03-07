@@ -79,7 +79,7 @@ curl -X POST -H 'Content-Type: application/json'  \
                         "Address": "192.168.12.148",
                         "Port": "80",
                         "AuthMode": "digest",
-                        "SecretPath": "bosch"
+                        "SecretName": "bosch"
                     }
                 }
             }

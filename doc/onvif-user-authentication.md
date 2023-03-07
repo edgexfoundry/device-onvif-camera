@@ -9,7 +9,7 @@ The spec can refer to https://www.onvif.org/specs/core/ONVIF-Core-Specification.
 ![onvif-user-authentication](images/onvif-user-authentication.jpg)
 
 ## Usage
-The user need to define the **AuthMode** and **SecretPath**, and device service will send SOAP action with **WS-Usernametoken** or **Digest header**.
+The user need to define the **AuthMode** and **SecretName**, and device service will send SOAP action with **WS-Usernametoken** or **Digest header**.
 
 For example:
 ```yaml
@@ -22,7 +22,7 @@ Description = "HIKVISION camera"
     Address = "192.168.12.123"
     Port = 80
     AuthMode = "usernametoken"
-    SecretPath = "credentials001"
+    SecretName = "credentials001"
 ```
 
 The AuthMode can be:
@@ -31,7 +31,7 @@ The AuthMode can be:
 * both
 * none
 
-SecretPath should contain:
+SecretName should contain:
 * username
 * password
 
@@ -41,14 +41,14 @@ For development purpose, we can define the secrets in the configuration.toml
 ...
   [Writable.InsecureSecrets]
     [Writable.InsecureSecrets.Camera001]
-    path = "credentials001"
-      [Writable.InsecureSecrets.Camera001.Secrets]
+    secretName = "credentials001"
+      [Writable.InsecureSecrets.Camera001.SecretData]
       username = "administrator"
       password = "Password1"
     # If having more than one camera, uncomment the following config settings
     [Writable.InsecureSecrets.Camera002]
-    path = "credentials002"
-      [Writable.InsecureSecrets.Camera002.Secrets]
+    secretName = "credentials002"
+      [Writable.InsecureSecrets.Camera002.SecretData]
       username = "administrator"
       password = "Password1"
 ```

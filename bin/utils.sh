@@ -15,7 +15,7 @@ CONSUL_URL="${CONSUL_URL:-http://localhost:8500}"
 DEVICE_SERVICE="${DEVICE_SERVICE:-device-onvif-camera}"
 DEVICE_SERVICE_URL="${DEVICE_SERVICE_URL:-http://localhost:59984}"
 
-SECRET_PATH="${SECRET_PATH:-}"
+SECRET_NAME="${SECRET_NAME:-}"
 SECRET_USERNAME="${SECRET_USERNAME:-}"
 SECRET_PASSWORD="${SECRET_PASSWORD:-}"
 AUTH_MODE="${AUTH_MODE:-}"
@@ -194,19 +194,19 @@ put_insecure_secrets_field() {
     put_consul_kv "${INSECURE_SECRETS_KEY}/$1" "$2"
 }
 
-# usage: put_credentials_map_field <secret-path> <value>
+# usage: put_credentials_map_field <secret-name> <value>
 put_credentials_map_field() {
     log_info "Setting Credentials Map: $1 = '$2'"
     put_consul_kv "${CREDENTIALS_MAP_KEY}/$1" "$2"
 }
 
 create_or_update_credentials() {
-    if [ -z "${SECRET_PATH}" ]; then
-        query_secret_path
+    if [ -z "${SECRET_NAME}" ]; then
+        query_secret_name
     fi
-    log_info "Secret Path: ${SECRET_PATH}"
-    # we need to inject the secret path into the map to avoid key not found errors later on
-    CREDENTIALS_MAP[$SECRET_PATH]=$(get_credentials_map_field "$SECRET_PATH" 2>/dev/null || printf '')
+    log_info "Secret Name: ${SECRET_NAME}"
+    # we need to inject the secret name into the map to avoid key not found errors later on
+    CREDENTIALS_MAP[$SECRET_NAME]=$(get_credentials_map_field "$SECRET_NAME" 2>/dev/null || printf '')
 
     query_username_password
 
@@ -217,14 +217,14 @@ create_or_update_credentials() {
     # store the credentials
     set_secret
 
-    put_credentials_map_field "${SECRET_PATH}" "${CREDENTIALS_MAP[$SECRET_PATH]}"
+    put_credentials_map_field "${SECRET_NAME}" "${CREDENTIALS_MAP[$SECRET_NAME]}"
 }
 
-# prompt the user to pick a secret path mapping
-# usage: pick_secret_path <Include NoAuth 0/1> <Include Add New 0/1>
-# examples: pick_secret_path 0 0
-# examples: pick_secret_path 1 1
-pick_secret_path() {
+# prompt the user to pick a secret name mapping
+# usage: pick_secret_name <Include NoAuth 0/1> <Include Add New 0/1>
+# examples: pick_secret_name 0 0
+# examples: pick_secret_name 1 1
+pick_secret_name() {
     get_credentials_map_keys
 
     local OPTIONS_COUNT=$CREDENTIALS_COUNT
@@ -250,17 +250,17 @@ pick_secret_path() {
         return 1
     fi
 
-    SECRET_PATH=$(whiptail --menu "Please pick credentials" --notags \
+    SECRET_NAME=$(whiptail --menu "Please pick credentials" --notags \
         0 0 "${OPTIONS_COUNT}" \
         "${options[@]}" 3>&1 1>&2 2>&3)
 
-    if [ "${SECRET_PATH}" == "${ADD_NEW_SECRET_KEY}" ]; then
-        SECRET_PATH=""
+    if [ "${SECRET_NAME}" == "${ADD_NEW_SECRET_KEY}" ]; then
+        SECRET_NAME=""
         create_or_update_credentials
     fi
 
-    if [ -z "${SECRET_PATH}" ]; then
-        log_error "No secret path selected, exiting..."
+    if [ -z "${SECRET_NAME}" ]; then
+        log_error "No secret name selected, exiting..."
         return 1
     fi
     echo
@@ -281,19 +281,19 @@ get_credentials_map() {
     done
 }
 
-# usage: get_credentials_map_field <secret-path>
+# usage: get_credentials_map_field <secret-name>
 get_credentials_map_field() {
     get_consul_kv_raw "${CREDENTIALS_MAP_KEY}/$1"
 }
 
-# prompt the user for a name for the secret path
-query_secret_path() {
-    if [ -z "${SECRET_PATH}" ]; then
-        SECRET_PATH=$(whiptail --inputbox "Enter a name for the credentials (aka Secret Path)" \
+# prompt the user for a name for the secret name
+query_secret_name() {
+    if [ -z "${SECRET_NAME}" ]; then
+        SECRET_NAME=$(whiptail --inputbox "Enter a name for the credentials (aka Secret Name)" \
             10 0 3>&1 1>&2 2>&3)
 
-        if [ -z "${SECRET_PATH}" ]; then
-            log_error "No secret path entered, exiting..."
+        if [ -z "${SECRET_NAME}" ]; then
+            log_error "No secret name entered, exiting..."
             return 1
         fi
     fi
@@ -303,9 +303,9 @@ query_secret_path() {
 # todo: mac address and csv field validation
 query_mac_address() {
     if [ -z "${MAC_ADDRESSES}" ]; then
-        CREDENTIALS_MAP[$SECRET_PATH]=$(get_credentials_map_field "$SECRET_PATH")
-        MAC_ADDRESSES=$(whiptail --inputbox "Enter one or more mac addresses to associate with credentials: '${SECRET_PATH}'" \
-            10 0 "${CREDENTIALS_MAP[$SECRET_PATH]}" 3>&1 1>&2 2>&3)
+        CREDENTIALS_MAP[$SECRET_NAME]=$(get_credentials_map_field "$SECRET_NAME")
+        MAC_ADDRESSES=$(whiptail --inputbox "Enter one or more mac addresses to associate with credentials: '${SECRET_NAME}'" \
+            10 0 "${CREDENTIALS_MAP[$SECRET_NAME]}" 3>&1 1>&2 2>&3)
     fi
 }
 
@@ -313,7 +313,7 @@ query_mac_address() {
 # and exit if not provided
 query_username_password() {
     if [ -z "${SECRET_USERNAME}" ]; then
-        SECRET_USERNAME=$(whiptail --inputbox "Enter username for ${SECRET_PATH}" \
+        SECRET_USERNAME=$(whiptail --inputbox "Enter username for ${SECRET_NAME}" \
             10 0 3>&1 1>&2 2>&3)
 
         if [ -z "${SECRET_USERNAME}" ]; then
@@ -323,7 +323,7 @@ query_username_password() {
     fi
 
     if [ -z "${SECRET_PASSWORD}" ]; then
-        SECRET_PASSWORD=$(whiptail --passwordbox "Enter password for ${SECRET_PATH}" \
+        SECRET_PASSWORD=$(whiptail --passwordbox "Enter password for ${SECRET_NAME}" \
             10 0 3>&1 1>&2 2>&3)
 
         if [ -z "${SECRET_PASSWORD}" ]; then
@@ -411,7 +411,7 @@ try_set_argument() {
 }
 
 print_usage() {
-    log_info "Usage: ${SELF_CMD} [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-path] [-M mac-addresses] [-t <consul token>]"
+    log_info "Usage: ${SELF_CMD} [-s/--secure-mode] [-u <username>] [-p <password>] [--auth-mode {usernametoken|digest|both}] [-P secret-name] [-M mac-addresses] [-t <consul token>]"
 }
 
 parse_args() {
@@ -449,8 +449,8 @@ parse_args() {
             shift
             ;;
 
-        -P | --path | --secret-path)
-            try_set_argument "SECRET_PATH" "$@"
+        -P | --name | --secret-name)
+            try_set_argument "SECRET_NAME" "$@"
             shift
             ;;
 
@@ -492,17 +492,17 @@ parse_args() {
 
 # create or update the insecure secrets by setting the 3 required fields in Consul
 set_insecure_secret() {
-    put_insecure_secrets_field "${SECRET_PATH}/Path"                "${SECRET_PATH}"
-    put_insecure_secrets_field "${SECRET_PATH}/Secrets/username"    "${SECRET_USERNAME}"
-    put_insecure_secrets_field "${SECRET_PATH}/Secrets/password"    "${SECRET_PASSWORD}"
-    put_insecure_secrets_field "${SECRET_PATH}/Secrets/mode"        "${AUTH_MODE}"
+    put_insecure_secrets_field "${SECRET_NAME}/SecretName"                "${SECRET_NAME}"
+    put_insecure_secrets_field "${SECRET_NAME}/SecretData/username"    "${SECRET_USERNAME}"
+    put_insecure_secrets_field "${SECRET_NAME}/SecretData/password"    "${SECRET_PASSWORD}"
+    put_insecure_secrets_field "${SECRET_NAME}/SecretData/mode"        "${AUTH_MODE}"
 }
 
 # set the secure secrets by posting to the device service's secret endpoint
 set_secure_secret() {
     local payload="{
     \"apiVersion\":\"v2\",
-    \"path\": \"${SECRET_PATH}\",
+    \"path\": \"${SECRET_NAME}\",
     \"secretData\":[
         {
             \"key\":\"username\",

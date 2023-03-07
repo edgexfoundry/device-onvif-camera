@@ -12,7 +12,7 @@ func TestUpdateFromRaw(t *testing.T) {
 	expectedConfig := &ServiceConfig{
 		AppCustom: CustomConfig{
 			RequestTimeout:             5,
-			DefaultSecretPath:          "default_secret",
+			DefaultSecretName:          "default_secret",
 			DiscoveryEthernetInterface: "eth0",
 			BaseNotificationURL:        "http://localhost:59984",
 			DiscoveryMode:              "netscan",
