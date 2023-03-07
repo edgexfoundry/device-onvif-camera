@@ -20,7 +20,6 @@ func TestUpdateFromRaw(t *testing.T) {
 			ProbeAsyncLimit:            50,
 			ProbeTimeoutMillis:         1000,
 			MaxDiscoverDurationSeconds: 5,
-			ProvisionWatcherDir:        "res/provision_watchers",
 		},
 	}
 	testCases := []struct {
