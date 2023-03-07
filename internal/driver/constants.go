@@ -66,8 +66,6 @@ const (
 	DefaultMessageTimeout = "defaultMessageTimeout"
 	// DefaultMessageLimit specify the MessageLimit for PullMessage. Upper limit for the number of messages to return at once, For example, 10
 	DefaultMessageLimit = "defaultMessageLimit"
-	// DefaultConsumerURL point to the consumer's network location
-	DefaultConsumerURL = "defaultConsumerURL"
 
 	Manufacturer    = "Manufacturer"
 	Model           = "Model"

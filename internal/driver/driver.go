@@ -13,8 +13,6 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"os"
-	"path/filepath"
 	"strings"
 	"sync"
 	"time"
@@ -24,8 +22,6 @@ import (
 	"github.com/edgexfoundry/device-sdk-go/v3/pkg/service"
 
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
-
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v3/common"
@@ -42,14 +38,6 @@ const (
 	jsonObject  = "jsonObject"
 
 	wsDiscoveryPort = "3702"
-
-	// enable this by default, otherwise discovery will not work.
-	registerProvisionWatchers = true
-	// maximum amount of tries to register provision watchers
-	maxProvisionWatcherTries = 3
-	// how long to sleep in-between retries
-	provisionWatcherRetrySleep = 200 * time.Millisecond
-
 	// discoverDebounceDuration is the amount of time to wait for additional changes to discover
 	// configuration before auto-triggering a discovery
 	discoverDebounceDuration = 10 * time.Second
@@ -69,9 +57,6 @@ type Driver struct {
 
 	config   *ServiceConfig
 	configMu *sync.RWMutex
-
-	addedWatchers bool
-	watchersMu    sync.Mutex
 
 	macAddressMapper *MACAddressMapper
 
@@ -235,84 +220,6 @@ func (d *Driver) debouncedDiscover() {
 			d.Discover()
 		}()
 	}
-}
-
-// todo: remove this method once the Device SDK has been updated as per https://github.com/edgexfoundry/device-sdk-go/issues/1100
-func (d *Driver) addProvisionWatchers() error {
-
-	// this setting is a workaround for the fact that there is no standard way to define this directory using the SDK
-	// the snap needs to be able to change the location of the provision watchers
-	d.configMu.RLock()
-	provisionWatcherFolder := d.config.AppCustom.ProvisionWatcherDir
-	d.configMu.RUnlock()
-	if provisionWatcherFolder == "" {
-		provisionWatcherFolder = "res/provision_watchers"
-	}
-	d.lc.Infof("Adding provision watchers from %s", provisionWatcherFolder)
-
-	files, err := os.ReadDir(provisionWatcherFolder)
-	if err != nil {
-		return err
-	}
-
-	d.lc.Debugf("%d provision watcher files found", len(files))
-
-	var errs []error
-	for _, file := range files {
-		// skip all directories, and files that do not end with .json
-		if file.IsDir() || !strings.HasSuffix(file.Name(), ".json") {
-			continue
-		}
-
-		filename := filepath.Join(provisionWatcherFolder, file.Name())
-		d.lc.Debugf("processing %s", filename)
-		var watcher dtos.ProvisionWatcher
-		data, err := os.ReadFile(filename)
-		if err != nil {
-			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "error reading file "+filename, err))
-			continue
-		}
-
-		if err := json.Unmarshal(data, &watcher); err != nil {
-			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "error unmarshalling provision watcher "+filename, err))
-			continue
-		}
-
-		err = common.Validate(watcher)
-		if err != nil {
-			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError, "provision watcher validation failed "+filename, err))
-			continue
-		}
-
-		if _, err := d.sdkService.GetProvisionWatcherByName(watcher.Name); err == nil {
-			d.lc.Debugf("skip existing provision watcher %s", watcher.Name)
-			continue // provision watcher already exists
-		}
-
-		watcherModel := dtos.ToProvisionWatcherModel(watcher)
-
-		d.lc.Infof("Adding provision watcher: %s", watcherModel.Name)
-
-		id, err := d.sdkService.AddProvisionWatcher(watcherModel)
-		for i := 1; err != nil && i < maxProvisionWatcherTries; i++ {
-			d.lc.Errorf("Error adding provision watcher %s, retrying in %v...", watcherModel.Name, provisionWatcherRetrySleep)
-			time.Sleep(provisionWatcherRetrySleep)
-			d.lc.Infof("Retry adding provision watcher: %s", watcherModel.Name)
-			id, err = d.sdkService.AddProvisionWatcher(watcherModel)
-		}
-
-		if err != nil {
-			errs = append(errs, errors.NewCommonEdgeX(errors.KindServerError,
-				fmt.Sprintf("error adding provision watcher %s after %d tries", watcherModel.Name, maxProvisionWatcherTries), err))
-			continue
-		}
-		d.lc.Infof("Successfully added provision watcher: %s,  ID: %s", watcherModel.Name, id)
-	}
-
-	if errs != nil {
-		return MultiErr(errs)
-	}
-	return nil
 }
 
 func (d *Driver) getOnvifClient(deviceName string) (*OnvifClient, errors.EdgeX) {
@@ -516,22 +423,6 @@ func (d *Driver) Discover() {
 	if !discoveryMode.IsValid() {
 		d.lc.Errorf("DiscoveryMode is set to an invalid value: %s. Refusing to do discovery.", discoveryMode)
 		return
-	}
-
-	if registerProvisionWatchers {
-		d.watchersMu.Lock()
-		if !d.addedWatchers {
-			if err := d.addProvisionWatchers(); err != nil {
-				d.lc.Errorf("Error adding provision watchers. Newly discovered devices may fail to register with EdgeX: %s",
-					err.Error())
-				// Do not return on failure, as it is possible there are alternative watchers registered.
-				// And if not, the discovered devices will just not be registered with EdgeX, but will
-				// still be available for discovery again.
-			} else {
-				d.addedWatchers = true
-			}
-		}
-		d.watchersMu.Unlock()
 	}
 
 	var discoveredDevices []sdkModel.DiscoveredDevice
