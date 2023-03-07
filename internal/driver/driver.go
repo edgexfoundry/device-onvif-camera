@@ -58,9 +58,6 @@ type Driver struct {
 	config   *ServiceConfig
 	configMu *sync.RWMutex
 
-	addedWatchers bool
-	watchersMu    sync.Mutex
-
 	macAddressMapper *MACAddressMapper
 
 	// debounceTimer and debounceMu keep track of when to fire a debounced discovery call
