@@ -4,12 +4,12 @@ go 1.18
 
 require (
 	github.com/IOTechSystems/onvif v0.1.5
-	github.com/edgexfoundry/device-sdk-go/v3 v3.0.0-dev.38
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.0.0-dev.32
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.0.0-dev.22
+	github.com/edgexfoundry/device-sdk-go/v3 v3.0.0-dev.45
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.0.0-dev.39
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.0.0-dev.24
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
-	github.com/stretchr/testify v1.8.1
+	github.com/stretchr/testify v1.8.2
 )
 
 require (
@@ -21,9 +21,9 @@ require (
 	github.com/clbanning/mxj/v2 v2.3.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.4.2 // indirect
-	github.com/edgexfoundry/go-mod-configuration/v3 v3.0.0-dev.3 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v3 v3.0.0-dev.11 // indirect
-	github.com/edgexfoundry/go-mod-registry/v3 v3.0.0-dev.3 // indirect
+	github.com/edgexfoundry/go-mod-configuration/v3 v3.0.0-dev.6 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v3 v3.0.0-dev.16 // indirect
+	github.com/edgexfoundry/go-mod-registry/v3 v3.0.0-dev.5 // indirect
 	github.com/edgexfoundry/go-mod-secrets/v3 v3.0.0-dev.8 // indirect
 	github.com/elgs/gostrgen v0.0.0-20161222160715-9d61ae07eeae // indirect
 	github.com/fatih/color v1.9.0 // indirect
@@ -36,7 +36,7 @@ require (
 	github.com/go-redis/redis/v7 v7.3.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
-	github.com/hashicorp/consul/api v1.18.0 // indirect
+	github.com/hashicorp/consul/api v1.19.1 // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.1 // indirect
 	github.com/hashicorp/go-hclog v0.14.1 // indirect
@@ -53,7 +53,7 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
-	github.com/nats-io/nats.go v1.23.0 // indirect
+	github.com/nats-io/nats.go v1.24.0 // indirect
 	github.com/nats-io/nkeys v0.3.0 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
@@ -63,7 +63,7 @@ require (
 	github.com/stretchr/objx v0.5.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/zeebo/errs v1.3.0 // indirect
-	golang.org/x/crypto v0.5.0 // indirect
+	golang.org/x/crypto v0.6.0 // indirect
 	golang.org/x/mod v0.7.0 // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sync v0.1.0 // indirect
