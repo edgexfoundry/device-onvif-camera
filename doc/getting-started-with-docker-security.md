@@ -33,7 +33,7 @@ curl --location --request POST 'http://0.0.0.0:59984/api/v2/secret' \
 --header 'Content-Type: application/json' \
 --data-raw '{
     "apiVersion":"v2",
-    "path": "bosch",
+    "secretName": "bosch",
     "secretData":[
         {
             "key":"username",

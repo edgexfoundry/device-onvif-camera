@@ -236,8 +236,8 @@ Follow these instructions to update devices.
    curl -X GET http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/AppCustom/CredentialsMap/a?raw=true
    Response [404] 
    Failed! curl returned a status code of '404'
-   Setting InsecureSecret: a/Path
-   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/Path
+   Setting InsecureSecret: a/SecretName
+   curl --data "<redacted>" -X PUT http://localhost:8500/v1/kv/edgex/v3/device-onvif-camera/Writable/InsecureSecrets/a/SecretName
    Response [200] true
 
 

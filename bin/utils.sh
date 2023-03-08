@@ -502,7 +502,7 @@ set_insecure_secret() {
 set_secure_secret() {
     local payload="{
     \"apiVersion\":\"v2\",
-    \"path\": \"${SECRET_NAME}\",
+    \"secretName\": \"${SECRET_NAME}\",
     \"secretData\":[
         {
             \"key\":\"username\",
