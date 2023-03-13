@@ -4,9 +4,9 @@ go 1.18
 
 require (
 	github.com/IOTechSystems/onvif v0.1.6
-	github.com/edgexfoundry/device-sdk-go/v3 v3.0.0-dev.45
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.0.0-dev.39
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.0.0-dev.24
+	github.com/edgexfoundry/device-sdk-go/v3 v3.0.0-dev.50
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.0.0-dev.44
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.0.0-dev.26
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/stretchr/testify v1.8.2
@@ -21,7 +21,7 @@ require (
 	github.com/clbanning/mxj/v2 v2.3.2 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.4.2 // indirect
-	github.com/edgexfoundry/go-mod-configuration/v3 v3.0.0-dev.6 // indirect
+	github.com/edgexfoundry/go-mod-configuration/v3 v3.0.0-dev.7 // indirect
 	github.com/edgexfoundry/go-mod-messaging/v3 v3.0.0-dev.16 // indirect
 	github.com/edgexfoundry/go-mod-registry/v3 v3.0.0-dev.5 // indirect
 	github.com/edgexfoundry/go-mod-secrets/v3 v3.0.0-dev.8 // indirect
