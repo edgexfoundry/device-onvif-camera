@@ -1,6 +1,6 @@
 module github.com/edgexfoundry/device-onvif-camera
 
-go 1.18
+go 1.20
 
 require (
 	github.com/IOTechSystems/onvif v0.1.6
