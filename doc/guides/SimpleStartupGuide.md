@@ -174,7 +174,7 @@ Clone the device-onvif-camera repository:
 
 <br/>
 
->**NOTE:** Go version 1.18+ is required to run natively.
+>**NOTE:** Go version 1.20+ is required to run natively.
 
 <br/>
 

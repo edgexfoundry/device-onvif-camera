@@ -37,7 +37,7 @@
 <details>
 <summary><strong>Run the Service natively</summary><strong>  
 
-   >**NOTE:** Go version 1.18+ is required to run natively. See [here](https://go.dev/doc/install) for more information.
+   >**NOTE:** Go version 1.20+ is required to run natively. See [here](https://go.dev/doc/install) for more information.
 
    1. Navigate to the EdgeX `compose-builder` directory:
 
