@@ -256,8 +256,11 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, functionName st
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
 		}
-
-		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeString, device.Protocols[OnvifProtocol][FriendlyName])
+		friendlyName := ""
+		if v, ok := device.Protocols[OnvifProtocol][FriendlyName]; ok {
+			friendlyName = fmt.Sprintf("%v", v)
+		}
+		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeString, friendlyName)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", EdgeXWebService, functionName), err)
 		}
@@ -289,8 +292,11 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, functionName st
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to get device '%s'", deviceName), err)
 		}
-
-		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeString, device.Protocols[OnvifProtocol][MACAddress])
+		macAddress := ""
+		if v, ok := device.Protocols[OnvifProtocol][MACAddress]; ok {
+			macAddress = fmt.Sprintf("%v", v)
+		}
+		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeString, macAddress)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create commandValue for the web service '%s' function '%s'", EdgeXWebService, functionName), err)
 		}

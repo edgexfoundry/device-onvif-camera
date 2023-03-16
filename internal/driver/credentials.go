@@ -7,6 +7,7 @@
 package driver
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/IOTechSystems/onvif"
@@ -62,7 +63,7 @@ func (d *Driver) tryGetCredentials(secretName string) (Credentials, errors.EdgeX
 		return noAuthCredentials, nil
 	}
 
-	secretData, err := d.sdkService.GetSecretProvider().GetSecret(secretName, UsernameKey, PasswordKey, AuthModeKey)
+	secretData, err := d.sdkService.SecretProvider().GetSecret(secretName, UsernameKey, PasswordKey, AuthModeKey)
 	if err != nil {
 		return Credentials{}, errors.NewCommonEdgeXWrapper(err)
 	}
@@ -91,8 +92,12 @@ func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, 
 	d.configMu.RUnlock()
 
 	secretName := defaultSecretName
-	if mac := device.Protocols[OnvifProtocol][MACAddress]; mac != "" {
-		secretName = d.macAddressMapper.TryGetSecretNameForMACAddress(mac, defaultSecretName)
+	macAddress := ""
+	if v, ok := device.Protocols[OnvifProtocol][MACAddress]; ok {
+		macAddress = fmt.Sprintf("%v", v)
+	}
+	if macAddress != "" {
+		secretName = d.macAddressMapper.TryGetSecretNameForMACAddress(macAddress, defaultSecretName)
 	} else {
 		d.lc.Warnf("Device %s is missing MAC Address, using default secret name", device.Name)
 	}

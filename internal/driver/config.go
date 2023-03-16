@@ -69,10 +69,18 @@ func GetCameraXAddr(protocols map[string]models.ProtocolProperties) (string, err
 		return "", errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("unable to load config, Protocol '%s' not exist", OnvifProtocol), nil)
 	}
 
-	address, port := protocol[Address], protocol[Port]
+	address := ""
+	if v, ok := protocol[Address]; ok {
+		address = fmt.Sprintf("%v", v)
+	}
 	if address == "" {
 		return "", errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("unable to load XAddr, %s Address does not exist", OnvifProtocol), nil)
 	}
+	port := ""
+	if v, ok := protocol[Port]; ok {
+		port = fmt.Sprintf("%v", v)
+	}
+
 	xAddr := address
 	if port != "" {
 		xAddr += ":" + port

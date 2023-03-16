@@ -110,7 +110,7 @@ func TestTryGetCredentials(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
 
 	mockSecretProvider := &mocks.SecretProvider{}
-	mockService.On("GetSecretProvider").Return(mockSecretProvider)
+	mockService.On("SecretProvider").Return(mockSecretProvider)
 
 	for _, test := range tests {
 		test := test
@@ -203,7 +203,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 		}
 	}
 
-	mockService.On("GetSecretProvider").Return(mockSecretProvider)
+	mockService.On("SecretProvider").Return(mockSecretProvider)
 
 	for _, test := range tests {
 		test := test

@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -18,8 +19,6 @@ import (
 	"time"
 
 	"github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces"
-
-	"github.com/edgexfoundry/device-sdk-go/v3/pkg/service"
 
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
@@ -86,20 +85,19 @@ func (me MultiErr) Error() string {
 // at which point it will abruptly exit without a panic.
 // This restores type-safety by making it so that we can't compile
 // unless we meet the runtime-required interface.
-var _ sdkModel.ProtocolDriver = (*Driver)(nil)
+var _ interfaces.ProtocolDriver = (*Driver)(nil)
 
 // Initialize performs protocol-specific initialization for the device
 // service.
-func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.AsyncValues,
-	deviceCh chan<- []sdkModel.DiscoveredDevice) error {
-	d.lc = lc
-	d.asynchCh = asyncCh
-	d.deviceCh = deviceCh
+func (d *Driver) Initialize(sdk interfaces.DeviceServiceSDK) error {
+	d.lc = sdk.LoggingClient()
+	d.asynchCh = sdk.AsyncValuesChannel()
+	d.deviceCh = sdk.DiscoveredDeviceChannel()
 	d.taskCh = make(chan struct{})
 	d.clientsMu = new(sync.RWMutex)
 	d.configMu = new(sync.RWMutex)
 	d.onvifClients = make(map[string]*OnvifClient)
-	d.sdkService = service.RunningService()
+	d.sdkService = sdk
 	d.macAddressMapper = NewMACAddressMapper(d.sdkService)
 	d.config = &ServiceConfig{}
 
@@ -108,7 +106,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		return errors.NewCommonEdgeX(errors.KindServerError, "custom driver configuration failed to load", err)
 	}
 
-	lc.Debugf("Custom config is : %+v", d.config)
+	d.lc.Debugf("Custom config is : %+v", d.config)
 
 	if !d.config.AppCustom.DiscoveryMode.IsValid() {
 		d.lc.Errorf("DiscoveryMode is set to an invalid value: %q. Discovery will be unable to be performed.",
@@ -136,7 +134,7 @@ func (d *Driver) Initialize(lc logger.LoggingClient, asyncCh chan<- *sdkModel.As
 		d.clientsMu.Unlock()
 	}
 
-	handler := NewRestNotificationHandler(d.sdkService, lc, asyncCh)
+	handler := NewRestNotificationHandler(d.sdkService, d.lc, d.asynchCh)
 	edgexErr := handler.AddRoute()
 	if edgexErr != nil {
 		return errors.NewCommonEdgeXWrapper(edgexErr)

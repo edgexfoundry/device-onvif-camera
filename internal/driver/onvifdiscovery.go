@@ -236,7 +236,7 @@ func (d *Driver) makeDeviceMacMap() map[string]contract.Device {
 			continue
 		}
 
-		macAddress := onvifInfo[MACAddress]
+		macAddress := fmt.Sprintf("%v", onvifInfo[MACAddress])
 		if macAddress == "" {
 			d.lc.Warnf("Registered device %s is missing required %s protocol information: %s.",
 				dev.Name, OnvifProtocol, MACAddress)
@@ -267,7 +267,7 @@ func (d *Driver) makeDeviceRefMap() map[string]contract.Device {
 			continue
 		}
 
-		endpointRef := onvifInfo[EndpointRefAddress]
+		endpointRef := fmt.Sprintf("%v", onvifInfo[EndpointRefAddress])
 		if endpointRef == "" {
 			d.lc.Infof("Registered device %s is missing optional %s protocol information: %s.",
 				dev.Name, OnvifProtocol, EndpointRefAddress)
@@ -293,7 +293,7 @@ func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) [
 	// filter out newly discovered devices with the same EndpointRefAddress. This is common when using a DiscoveryMode
 	// of 'both', and the device being discovered from both modes
 	for _, device := range discoveredDevices {
-		endpointRefAddress := device.Protocols[OnvifProtocol][EndpointRefAddress]
+		endpointRefAddress := fmt.Sprintf("%v", device.Protocols[OnvifProtocol][EndpointRefAddress])
 		if _, found := discoveredMap[endpointRefAddress]; !found {
 			discoveredMap[endpointRefAddress] = device
 			discovered = append(discovered, device)
@@ -303,14 +303,21 @@ func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) [
 	// loop through discovered devices and see if they already exist in the system
 	filtered := make([]sdkModel.DiscoveredDevice, 0, len(discovered))
 	for _, device := range discovered {
-		macAddress := device.Protocols[OnvifProtocol][MACAddress]
+		macAddress := ""
+		if v, ok := device.Protocols[OnvifProtocol][MACAddress]; ok {
+			macAddress = fmt.Sprintf("%v", v)
+		}
+		endpointRefAddress := ""
+		if v, ok := device.Protocols[OnvifProtocol][EndpointRefAddress]; ok {
+			endpointRefAddress = fmt.Sprintf("%v", v)
+		}
 		sanitizedMAC, macErr := SanitizeMACAddress(macAddress)
 		if existingDevice, found := existingMacDevices[sanitizedMAC]; found && macErr == nil {
 			if err := d.updateExistingDevice(existingDevice, device); err != nil {
 				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
 			}
 			continue // skip registering existing device
-		} else if existingDevice, found := existingRefDevices[device.Protocols[OnvifProtocol][EndpointRefAddress]]; found {
+		} else if existingDevice, found := existingRefDevices[endpointRefAddress]; found {
 			if err := d.updateExistingDevice(existingDevice, device); err != nil {
 				d.lc.Errorf("error occurred while updating existing device %s: %s", existingDevice.Name, err.Error())
 			}
@@ -334,10 +341,10 @@ func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.D
 
 	device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
 
-	existAddr := device.Protocols[OnvifProtocol][Address]
-	existPort := device.Protocols[OnvifProtocol][Port]
-	discAddr := discDev.Protocols[OnvifProtocol][Address]
-	discPort := discDev.Protocols[OnvifProtocol][Port]
+	existAddr := fmt.Sprintf("%v", device.Protocols[OnvifProtocol][Address])
+	existPort := fmt.Sprintf("%v", device.Protocols[OnvifProtocol][Port])
+	discAddr := fmt.Sprintf("%v", discDev.Protocols[OnvifProtocol][Address])
+	discPort := fmt.Sprintf("%v", discDev.Protocols[OnvifProtocol][Port])
 	if existAddr != discAddr ||
 		existPort != discPort {
 		d.lc.Infof("Existing device %s has been discovered with a different network address. Old: %s, Discovered: %s",
@@ -353,7 +360,7 @@ func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.D
 		shouldUpdate = true
 	}
 
-	discoveredMAC := discDev.Protocols[OnvifProtocol][MACAddress]
+	discoveredMAC := fmt.Sprintf("%v", discDev.Protocols[OnvifProtocol][MACAddress])
 	sanitizedMAC, macErr := SanitizeMACAddress(discoveredMAC)
 	if macErr == nil && device.Protocols[OnvifProtocol][MACAddress] != sanitizedMAC {
 		device.Protocols[OnvifProtocol][MACAddress] = sanitizedMAC
