@@ -32,7 +32,7 @@ This app uses [EdgeX Core Services][edgex-core-services], [EdgeX ONVIF device se
     cd application-services/custom/camera-management
     ```
 
-## Run the Edge Video Analystics Microservice
+## Run the Edge Video Analytics Microservice
 
 1. Install Edge Video Analytics
     ```shell
