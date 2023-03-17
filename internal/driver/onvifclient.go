@@ -414,6 +414,8 @@ func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName stri
 
 	responseEnvelope, edgexErr := createResponse(function, rsp)
 	if edgexErr != nil {
+		// log the raw response from the camera since it will not be logged further down
+		onvifClient.lc.Debugf("Raw SOAP Response: %v", string(rsp))
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create '%s' response for the web service '%s'", functionName, serviceName), edgexErr)
 	}
 	res, _ := xml.Marshal(responseEnvelope)
