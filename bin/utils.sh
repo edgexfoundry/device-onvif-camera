@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Copyright (C) 2022 Intel Corporation
+# Copyright (C) 2022-2023 Intel Corporation
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -29,6 +29,7 @@ WRITABLE_BASE_KEY="${CONSUL_BASE_KEY}/Writable"
 INSECURE_SECRETS_KEY="${WRITABLE_BASE_KEY}/InsecureSecrets"
 
 CONSUL_TOKEN="${CONSUL_TOKEN:-}"
+REST_API_JWT="${REST_API_JWT:-}"
 
 CREDENTIALS_MAP_KEYS=
 CREDENTIALS_COUNT=
@@ -100,8 +101,9 @@ do_curl() {
 
     # log the curl command so the user has insight into what the script is doing
     # redact the consul token and password in case of sensitive data
-    local redacted_args="${*//${CONSUL_TOKEN}/<redacted>}"
-    redacted_args="${redacted_args//-H X-Consul-Token: /}"
+    local redacted_args="$*"
+    redacted_args="${redacted_args//${CONSUL_TOKEN}/<redacted>}"
+    redacted_args="${redacted_args//${REST_API_JWT}/<redacted>}"
     local redacted_data=""
     if [ -n "${payload}" ]; then
         redacted_data="--data '${payload//${SECRET_PASSWORD}/<redacted>}' "
@@ -149,6 +151,16 @@ query_consul_token() {
 
     if [ -z "${CONSUL_TOKEN}" ]; then
         log_error "No Consul token entered, exiting..."
+        return 1
+    fi
+}
+
+query_rest_api_jwt() {
+    REST_API_JWT=$(whiptail --inputbox "Enter REST API JWT (make get-token)" \
+        10 0 3>&1 1>&2 2>&3)
+
+    if [ -z "${REST_API_JWT}" ]; then
+        log_error "No REST API JWT entered, exiting..."
         return 1
     fi
 }
@@ -492,7 +504,7 @@ parse_args() {
 
 # create or update the insecure secrets by setting the 3 required fields in Consul
 set_insecure_secret() {
-    put_insecure_secrets_field "${SECRET_NAME}/SecretName"                "${SECRET_NAME}"
+    put_insecure_secrets_field "${SECRET_NAME}/SecretName"             "${SECRET_NAME}"
     put_insecure_secrets_field "${SECRET_NAME}/SecretData/username"    "${SECRET_USERNAME}"
     put_insecure_secrets_field "${SECRET_NAME}/SecretData/password"    "${SECRET_PASSWORD}"
     put_insecure_secrets_field "${SECRET_NAME}/SecretData/mode"        "${AUTH_MODE}"
@@ -500,6 +512,10 @@ set_insecure_secret() {
 
 # set the secure secrets by posting to the device service's secret endpoint
 set_secure_secret() {
+    if [ -z "${REST_API_JWT}" ]; then
+        query_rest_api_jwt
+    fi
+
     local payload="{
     \"apiVersion\":\"v2\",
     \"secretName\": \"${SECRET_NAME}\",
@@ -518,7 +534,9 @@ set_secure_secret() {
         }
     ]
 }"
-    do_curl "${payload}" -X POST "${DEVICE_SERVICE_URL}/api/v2/secret"
+    do_curl "${payload}" \
+        -H "Authorization:Bearer ${REST_API_JWT}" \
+        -X POST "${DEVICE_SERVICE_URL}/api/v2/secret"
 }
 
 # helper function to set the secrets using either secure or insecure mode

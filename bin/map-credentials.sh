@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Copyright (C) 2022 Intel Corporation
+# Copyright (C) 2022-2023 Intel Corporation
 #
 # SPDX-License-Identifier: Apache-2.0
 #
@@ -24,6 +24,10 @@ main() {
 
     dependencies_check
     consul_check
+
+    if [ "${SECURE_MODE}" -eq 1 ] && [ -z "${REST_API_JWT}" ]; then
+        query_rest_api_jwt
+    fi
 
     if [ -z "${SECRET_NAME}" ]; then
         pick_secret_name 1 1
