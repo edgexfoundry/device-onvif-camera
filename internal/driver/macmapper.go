@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -40,20 +41,20 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 	credsMap := make(map[string]string)
 	for secretName, macs := range raw {
 		if strings.ToLower(secretName) != noAuthSecretName { // do not check for noAuth
-			if _, err := m.sdkService.GetSecretProvider().GetSecret(secretName, UsernameKey, PasswordKey, AuthModeKey); err != nil {
-				m.sdkService.GetLoggingClient().Warnf("One or more MAC address mappings exist for the secret name '%s' which does not exist in the Secret Store!", secretName)
+			if _, err := m.sdkService.SecretProvider().GetSecret(secretName, UsernameKey, PasswordKey, AuthModeKey); err != nil {
+				m.sdkService.LoggingClient().Warnf("One or more MAC address mappings exist for the secret name '%s' which does not exist in the Secret Store!", secretName)
 			}
 		}
 
 		for _, mac := range strings.Split(macs, ",") {
 			sanitized, err := SanitizeMACAddress(mac)
 			if err != nil {
-				m.sdkService.GetLoggingClient().Warnf("Skipping invalid mac address %s: %s", mac, err.Error())
+				m.sdkService.LoggingClient().Warnf("Skipping invalid mac address %s: %s", mac, err.Error())
 				continue
 			}
 			// note: if the mac address already has a mapping, we do not overwrite it
 			if existing, found := credsMap[sanitized]; found {
-				m.sdkService.GetLoggingClient().Warnf("Unable to set credential group to %s. MAC address '%s' already belongs to credential group %s.", secretName, mac, existing)
+				m.sdkService.LoggingClient().Warnf("Unable to set credential group to %s. MAC address '%s' already belongs to credential group %s.", secretName, mac, existing)
 			} else {
 				credsMap[sanitized] = secretName
 			}
@@ -69,7 +70,7 @@ func (m *MACAddressMapper) TryGetSecretNameForMACAddress(mac string, defaultSecr
 	// sanitize the mac address before looking up to ensure they all match the same format
 	sanitized, err := SanitizeMACAddress(mac)
 	if err != nil {
-		m.sdkService.GetLoggingClient().Warnf("Unable to sanitize mac address: %s. Using no authentication.", err.Error())
+		m.sdkService.LoggingClient().Warnf("Unable to sanitize mac address: %s. Using no authentication.", err.Error())
 		return noAuthSecretName
 	}
 
@@ -78,7 +79,7 @@ func (m *MACAddressMapper) TryGetSecretNameForMACAddress(mac string, defaultSecr
 
 	secretName, found := m.credsMap[sanitized]
 	if !found {
-		m.sdkService.GetLoggingClient().Debugf("No credential mapping exists for mac address '%s', will use default secret name.", mac)
+		m.sdkService.LoggingClient().Debugf("No credential mapping exists for mac address '%s', will use default secret name.", mac)
 		return defaultSecretName
 	}
 
@@ -134,7 +135,7 @@ func (m *MACAddressMapper) MatchEndpointRefAddressToMAC(endpointRef string) stri
 
 		reversedMAC, err := macAddressBytewiseReverse(mac)
 		if err != nil {
-			m.sdkService.GetLoggingClient().Warnf("issue computing byte-wise reverse of MAC address %s: %s", mac, err.Error())
+			m.sdkService.LoggingClient().Warnf("issue computing byte-wise reverse of MAC address %s: %s", mac, err.Error())
 			continue
 		}
 		if strings.Contains(endpointRef, reversedMAC) {

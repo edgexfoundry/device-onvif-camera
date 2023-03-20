@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -36,7 +37,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 	}
 	saveDevice := device
 	for key, value := range dataObj {
-		value = strings.TrimSpace(value)
+		value = strings.TrimSpace(fmt.Sprintf("%v", value))
 		key = strings.TrimSpace(key)
 		if len(key) == 0 {
 			inputErr := error.New("tried to add an empty key")
@@ -68,7 +69,7 @@ func (onvifClient *OnvifClient) getCustomMetadata(device contract.Device, data [
 // getSpecificCustomMetadata will return a map of the key/value pairs corresponding to the array of keys provided in the resource call
 func (onvifClient *OnvifClient) getSpecificCustomMetadata(device contract.Device, data []byte) (obj contract.ProtocolProperties, error errors.EdgeX) {
 	var input []string
-	response := make(map[string]string)
+	response := make(map[string]interface{})
 
 	err := json.Unmarshal(data, &input)
 	if err != nil {

@@ -1,12 +1,14 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
 package driver
 
 import (
+	"fmt"
 	"net"
 	"strings"
 	"sync"
@@ -44,7 +46,11 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 
 	// if device is unknown, and missing a MAC Address, try and determine the MAC address via the endpoint reference
 	if strings.HasPrefix(device.Name, UnknownDevicePrefix) && device.Protocols[OnvifProtocol][MACAddress] == "" {
-		if endpointRefAddr := device.Protocols[OnvifProtocol][EndpointRefAddress]; endpointRefAddr != "" {
+		endpointRefAddr := ""
+		if v, ok := device.Protocols[OnvifProtocol][EndpointRefAddress]; ok {
+			endpointRefAddr = fmt.Sprintf("%v", v)
+		}
+		if endpointRefAddr != "" {
 			if mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr); mac != "" {
 				// the mac address for the device was found, so set it here which will allow the
 				// code below to use the mac address for looking up the credentials. Because the mac mapper
@@ -107,8 +113,14 @@ func (d *Driver) tcpProbe(device models.Device) bool {
 		d.lc.Warnf("Device %s is missing required %s protocol info, cannot send probe.", device.Name, OnvifProtocol)
 		return false
 	}
-	addr := proto[Address]
-	port := proto[Port]
+	addr := ""
+	if v, ok := proto[Address]; ok {
+		addr = fmt.Sprintf("%v", v)
+	}
+	port := ""
+	if v, ok := proto[Port]; ok {
+		port = fmt.Sprintf("%v", v)
+	}
 
 	if addr == "" || port == "" {
 		d.lc.Warnf("Device %s has no network address, cannot send probe.", device.Name)
