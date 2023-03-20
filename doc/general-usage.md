@@ -305,7 +305,7 @@ In this example, the GetStreamURI will be used as the example command. Some comm
 [Explore the Swagger documentation (not implemented)]()  
 [Explore auto discovery](./auto-discovery.md)
 
-Refer to the main [README](../../README.md) to find links to the rest of the documents.
+Refer to the main [README](../README.md) to find links to the rest of the documents.
 
 # License
 
