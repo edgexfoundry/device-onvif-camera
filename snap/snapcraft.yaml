@@ -1,7 +1,9 @@
 name: edgex-device-onvif-camera
 base: core20
 license: Apache-2.0
-adopt-info: metadata
+summary: EdgeX ONVIF Camera Device Service
+description: Refer to https://snapcraft.io/edgex-device-onvif-camera
+adopt-info: device-onvif-camera
 
 architectures:
   - build-on: amd64
@@ -29,13 +31,10 @@ plugs:
 apps:
   device-onvif-camera:
     adapter: full
-    command: bin/device-onvif-camera $CONFIG_PRO_ARG $CONF_ARG $REGISTRY_ARG
+    command: bin/device-onvif-camera --configDir $SNAP_DATA/config/device-onvif-camera/res --configProvider --registry
     command-chain:
       - bin/source-env-file.sh
     environment:
-      CONFIG_PRO_ARG: "--cp=consul.http://localhost:8500"
-      CONF_ARG: "--configDir=$SNAP_DATA/config/device-onvif-camera/res"
-      REGISTRY_ARG: "--registry"
       DEVICE_PROVISIONWATCHERSDIR: $SNAP_DATA/config/device-onvif-camera/res/provisionwatchers
       DEVICE_PROFILESDIR: $SNAP_DATA/config/device-onvif-camera/res/profiles
       DEVICE_DEVICESDIR: $SNAP_DATA/config/device-onvif-camera/res/devices
@@ -56,19 +55,26 @@ parts:
       install -DT ./helper-go $SNAPCRAFT_PART_INSTALL/bin/helper-go
 
   device-onvif-camera:
-    after: [metadata]
     source: .
     plugin: make
-    build-packages: [pkg-config]
+    build-packages: [git]
     build-snaps:
       - go/1.20/stable
     override-build: |
       cd $SNAPCRAFT_PART_SRC
 
-      # the version is needed for the build
-      cat ./VERSION
+      if git describe ; then
+        VERSION=$(git describe --tags --abbrev=0 | sed 's/v//')
+      else
+        VERSION="0.0.0"
+      fi
 
-      make tidy
+      # set the version of the snap
+      snapcraftctl set-version $VERSION
+      
+      # write version to file for the build
+      echo $VERSION > VERSION
+
       make build
 
       install -DT cmd/device-onvif-camera $SNAPCRAFT_PART_INSTALL/bin/device-onvif-camera
@@ -90,30 +96,4 @@ parts:
     source: snap/local/bin
     organize:
       source-env-file.sh: bin/source-env-file.sh
-
-  metadata:
-    plugin: nil
-    source: https://github.com/canonical/edgex-snap-metadata.git
-    source-branch: appstream
-    source-depth: 1
-    override-build: |
-      # install the icon at the default internal path
-      install -DT edgex-snap-icon.png \
-        $SNAPCRAFT_PART_INSTALL/meta/gui/icon.png
-
-      # change to this project's repo to get the version
-      cd $SNAPCRAFT_PROJECT_DIR
-
-      if git describe ; then
-        VERSION=$(git describe --tags --abbrev=0 | sed 's/v//')
-      else
-        VERSION="0.0.0"
-      fi
-      
-      # write version to file for the build
-      echo $VERSION > ./VERSION
-
-      # set the version of this snap
-      snapcraftctl set-version $VERSION
-    parse-info: [edgex-device-onvif-camera.metainfo.xml]
 

@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -267,9 +268,9 @@ func TestMACAddressMapper_UpdateMappings(t *testing.T) {
 				}
 			}
 
-			mockService.On("GetSecretProvider").
+			mockService.On("SecretProvider").
 				Return(mockSecretProvider)
-			mockService.On("GetLoggingClient").Return(mockLoggingClient)
+			mockService.On("LoggingClient").Return(mockLoggingClient)
 			driver.macAddressMapper.UpdateMappings(test.currentMap)
 
 			if test.alternateExpected != nil {
@@ -313,7 +314,7 @@ func TestTryGetSecretNameForMACAddress(t *testing.T) {
 
 	driver, mockService := createDriverWithMockService()
 	mockLogger := logger.NewMockClient()
-	mockService.On("GetLoggingClient").Return(mockLogger)
+	mockService.On("LoggingClient").Return(mockLogger)
 
 	driver.macAddressMapper = NewMACAddressMapper(mockService)
 	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{

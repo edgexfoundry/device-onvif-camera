@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -110,7 +111,7 @@ func TestTryGetCredentials(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
 
 	mockSecretProvider := &mocks.SecretProvider{}
-	mockService.On("GetSecretProvider").Return(mockSecretProvider)
+	mockService.On("SecretProvider").Return(mockSecretProvider)
 
 	for _, test := range tests {
 		test := test
@@ -203,7 +204,7 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 		}
 	}
 
-	mockService.On("GetSecretProvider").Return(mockSecretProvider)
+	mockService.On("SecretProvider").Return(mockSecretProvider)
 
 	for _, test := range tests {
 		test := test

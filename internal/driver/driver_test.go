@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -55,7 +56,7 @@ func createDriverWithMockService() (*Driver, *sdkMocks.DeviceServiceSDK) {
 
 func createTestDevice() models.Device {
 	return models.Device{Name: testDeviceName, Protocols: map[string]models.ProtocolProperties{
-		OnvifProtocol: map[string]string{
+		OnvifProtocol: map[string]interface{}{
 			DeviceStatus: Unreachable,
 		},
 	}}
@@ -319,7 +320,7 @@ func TestUpdateDevice(t *testing.T) {
 			device: contract.Device{
 				Name: "unknown_unknown_device",
 				Protocols: map[string]models.ProtocolProperties{
-					OnvifProtocol: map[string]string{
+					OnvifProtocol: map[string]interface{}{
 						EndpointRefAddress: "793dfb2-28b0-11ed-a261-0242ac120002",
 					},
 				}},
@@ -333,7 +334,7 @@ func TestUpdateDevice(t *testing.T) {
 			expectedDevice: contract.Device{
 				Name: "Intel-SimCamera-793dfb2-28b0-11ed-a261-0242ac120002",
 				Protocols: map[string]models.ProtocolProperties{
-					OnvifProtocol: map[string]string{
+					OnvifProtocol: map[string]interface{}{
 						EndpointRefAddress: "793dfb2-28b0-11ed-a261-0242ac120002",
 					},
 				},
