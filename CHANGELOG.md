@@ -12,6 +12,12 @@
 - [go-mod-secrets](https://github.com/edgexfoundry/go-mod-secrets/blob/main/CHANGELOG.md) (indirect dependency)
 - [go-mod-configuration](https://github.com/edgexfoundry/go-mod-configuration/blob/main/CHANGELOG.md) (indirect dependency)
 
+## [v2.3.1] Levski - 2023-03-21 (Only compatible with the 2.x releases)
+
+### Bug Fixes 🐛
+
+- Upgrade device sdk to fix device cache issue ([#a19c49b](https://github.com/edgexfoundry/device-onvif-camera/commits/a19c49b))
+
 ## [v2.3.0] Levski - 2022-11-09 (Not Compatible with 1.x releases)
 
 ### Features ✨
