@@ -18,7 +18,7 @@ Three things must be done in order to add an authenticated camera to EdgeX:
 - **Secret Store**: The place EdgeX stores all `Secrets`
   - In secure mode this is `Vault`
   - In non-secure mode this is the configuration provider (typically `Consul`). 
-    They can be pre-configured via `configuration.toml`'s  `Writable.InsecureSecrets` section.
+    They can be pre-configured via `configuration.yaml`'s  `Writable.InsecureSecrets` section.
 - **Secret Name**: The name/key of the `Secret` as they are stored in the `Secret Store`.
 - **CredentialsMap**: (aka `AppCustom.CredentialsMap`) this contains the mappings between `Secret Name` and
     `MAC Address`. Each key in the map is a `Secret Name` which points to `Credentials` in the `Secret Store`. The value

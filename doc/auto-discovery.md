@@ -25,9 +25,9 @@ Device discovery is triggered by the device SDK. Once the device service starts,
 > Example Output: `192.168.1.0/24`
 
 <details>
-<summary><strong>via configuration.toml</strong></summary>
+<summary><strong>via configuration.yaml</strong></summary>
 
-Define the following configurations in [cmd/res/configuration.toml](../cmd/res/configuration.toml) for auto-discovery mechanism:
+Define the following configurations in [cmd/res/configuration.yaml](../cmd/res/configuration.yaml) for auto-discovery mechanism:
 
 ```toml
 [Device]

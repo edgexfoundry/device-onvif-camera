@@ -84,7 +84,7 @@ Before receiving the event data from the camera, we must define a device resourc
 
 * Define a driver config BaseNotificationURL to indicate the device service network location
     ```
-    # configuration.toml
+    # configuration.yaml
     [Driver]
     # BaseNotificationURL indicates the device service network location, the user must replace the host to match their machine
     BaseNotificationURL = "http://192.168.12.112:59984"

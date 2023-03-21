@@ -355,7 +355,7 @@ Device discovery is triggered by the device service. Once the device service sta
    h. Assign one or more MAC Addresses to the credential group  
       ![](../images/assign_mac.png)
 
-      >**NOTE:** The MAC address field can be left blank if the SecretName from the "Enter Secret Name ..." step above, is set to the DefaultSecretName (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).
+      >**NOTE:** The MAC address field can be left blank if the SecretName from the "Enter Secret Name ..." step above, is set to the DefaultSecretName (credentials001) from the [cmd/res/configuration.yaml](../../cmd/res/configuration.yaml).
 
    i. Learn more about updating credentials [here](../utility-scripts.md)  
 

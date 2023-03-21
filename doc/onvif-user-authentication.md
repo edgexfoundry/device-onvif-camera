@@ -35,7 +35,7 @@ SecretName should contain:
 * username
 * password
 
-For development purpose, we can define the secrets in the configuration.toml
+For development purpose, we can define the secrets in the configuration.yaml
 ```
 [Writable]
 ...

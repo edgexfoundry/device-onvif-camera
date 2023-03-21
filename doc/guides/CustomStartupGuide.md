@@ -227,7 +227,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
    cd device-onvif-camera
    ```
 
-2. Define the following configurations in [cmd/res/configuration.toml](../../cmd/res/configuration.toml) for auto-discovery mechanism:
+2. Define the following configurations in [cmd/res/configuration.yaml](../../cmd/res/configuration.yaml) for auto-discovery mechanism:
 
    ```toml
    [Device]
@@ -290,7 +290,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
    cd device-onvif-camera
    ```
 
-2. Open the [configuration.toml](../../cmd/res/configuration.toml) file using your preferred text editor.
+2. Open the [configuration.yaml](../../cmd/res/configuration.yaml) file using your preferred text editor.
 
 3. Make sure `SecretName` is set to match `SecretName` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret names match.
 
@@ -315,7 +315,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
    ```
 
    <p align="left">
-      <i>Sample: Snippet from configuration.toml</i>
+      <i>Sample: Snippet from configuration.yaml</i>
    </p>
 
 
@@ -618,7 +618,7 @@ Device discovery is triggered by the device service. Once the device service sta
    h. Assign one or more MAC Addresses to the credential group  
       ![](../images/assign_mac.png)  
 
-   >**NOTE:** The MAC address field can be left blank if the SecretName from the "Enter Secret Name ..." step above, is set to the DefaultSecretName (credentials001) from the [cmd/res/configuration.toml](../../cmd/res/configuration.toml).
+   >**NOTE:** The MAC address field can be left blank if the SecretName from the "Enter Secret Name ..." step above, is set to the DefaultSecretName (credentials001) from the [cmd/res/configuration.yaml](../../cmd/res/configuration.yaml).
 
    i. Learn more about updating credentials [here](../utility-scripts.md)  
 

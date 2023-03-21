@@ -66,7 +66,7 @@ Configuring pre-defined devices will allow the service to automatically provisio
 
 
 ### Configure the Device Service
-1. Open the [configuration.toml](./cmd/res/configuration.toml) file using your preferred text editor
+1. Open the [configuration.yaml](./cmd/res/configuration.yaml) file using your preferred text editor
 
 1. Make sure `secret name` is set to match `SecretName` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret names match.
 
@@ -91,7 +91,7 @@ Configuring pre-defined devices will allow the service to automatically provisio
 ```
 
 <p align="left">
-   <i>Sample: Snippet from configuration.toml</i>
+   <i>Sample: Snippet from configuration.yaml</i>
 </p>
 
 ### Additional Configuration Options
