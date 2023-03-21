@@ -120,7 +120,7 @@ Install Docker from the official repository as documented on the [Docker Compose
       git checkout levski
       ```
    
-      Note: The `levski` branch is the latest stable branch at the time of this update. 
+      **NOTE:** The `levski` branch is the latest stable branch at the time of this update. 
 
    1. Navigate back to your home directory:
 
@@ -148,11 +148,25 @@ The table below lists command line tools this guide uses to help with EdgeX conf
 
 ## Get the Source Code
 
-Clone the device-onvif-camera repository:
+1. Clone the device-onvif-camera repository:
 
    ```bash
    git clone https://github.com/edgexfoundry/device-onvif-camera.git
    ```
+
+2. Navigate to the `device-onvif-camera` directory:
+
+     ```bash
+     cd device-onvif-camera
+     ```
+
+3. Checkout the Levski release:
+
+   ```bash
+   git checkout levski
+   ```
+
+   **NOTE:** The `levski` branch is the latest stable branch at the time of this update. This should always match with the release version of the edgex-compose set up earlier.
 
 ## Deploy EdgeX and ONVIF Device Camera Microservice
 
@@ -344,7 +358,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 2. Set the DiscoverySubnets by running `bin/configure-subnets.sh`.
 
 Device discovery is triggered by the device service. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
-> **Note:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
+> **NOTE:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
 
 </details>
 
