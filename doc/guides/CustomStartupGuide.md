@@ -126,7 +126,7 @@ Install Docker from the official repository as documented on the [Docker Compose
       git checkout levski
       ```
 
-      **NOTE:** The `levski` branch is the latest stable branch at the time of this update. 
+      >**NOTE:** The `levski` branch is the latest stable branch at the time of this update. 
 
    1. Navigate back to your home directory:
 
@@ -172,7 +172,7 @@ The table below lists command line tools this guide uses to help with EdgeX conf
    git checkout levski
    ```
 
-   **NOTE:** The `levski` branch is the latest stable branch at the time of this update. This should always match with the release version of the edgex-compose set up earlier.
+   >**NOTE:** The `levski` branch is the latest stable branch at the time of this update. This should always match with the release version of the edgex-compose set up earlier.
 
 
 ## Configuration
