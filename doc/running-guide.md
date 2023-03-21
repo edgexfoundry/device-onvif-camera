@@ -37,6 +37,8 @@
 <details>
 <summary><strong>Run the Service natively</summary><strong>  
 
+   >**NOTE:** Go version 1.18+ is required to run natively. See [here](https://go.dev/doc/install) for more information.
+
    1. Navigate to the EdgeX `compose-builder` directory:
 
       ```bash
@@ -55,11 +57,19 @@
       cd device-onvif-camera
       ```
 
-   1. Run the service:
-
+   1. Run the service
       ```bash
-      make run 
+      make run
       ```
+      
+      <details>
+      <summary>[Optional] Run with NATS</summary>
+
+         ```bash
+         make run-nats
+         ```
+
+      </details>
 
 </details>
 

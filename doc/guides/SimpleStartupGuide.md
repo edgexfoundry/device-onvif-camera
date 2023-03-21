@@ -67,10 +67,7 @@ To enable running Docker commands without the preface of sudo, add the user to t
    sudo usermod -aG docker $USER
    ```
 
-3. Refresh the group:
-   ```bash
-   newgrp docker 
-   ```
+3. Restart your computer for the changes to take effect.
 
 4. To verify the Docker installation, run `hello-world`:
 
@@ -106,11 +103,30 @@ Install Docker from the official repository as documented on the [Docker Compose
    ```
 
 ###  Download EdgeX Compose
-Clone the EdgeX compose repository
+   1. Clone the EdgeX compose repository:
 
-   ```bash
-   git clone https://github.com/edgexfoundry/edgex-compose.git
-   ```
+      ```bash
+      git clone https://github.com/edgexfoundry/edgex-compose.git
+      ```
+   1. Navigate to the `edgex-compose` directory:
+
+      ```bash
+      cd edgex-compose
+      ```
+
+   1. Checkout the Levski release:
+
+      ```bash
+      git checkout levski
+      ```
+   
+      >**NOTE:** The `levski` branch is the latest stable branch at the time of this update. 
+
+   1. Navigate back to your home directory:
+
+      ```bash
+      cd ~
+      ```
 
 ### Install Tools
 Install the build, media streaming, and parsing tools:
@@ -132,11 +148,25 @@ The table below lists command line tools this guide uses to help with EdgeX conf
 
 ## Get the Source Code
 
-Clone the device-onvif-camera repository:
+1. Clone the device-onvif-camera repository:
 
    ```bash
    git clone https://github.com/edgexfoundry/device-onvif-camera.git
    ```
+
+2. Navigate to the `device-onvif-camera` directory:
+
+     ```bash
+     cd device-onvif-camera
+     ```
+
+3. Checkout the Levski release:
+
+   ```bash
+   git checkout levski
+   ```
+
+   >**NOTE:** The `levski` branch is the latest stable branch at the time of this update. This should always match with the release version of the edgex-compose set up earlier.
 
 ## Deploy EdgeX and ONVIF Device Camera Microservice
 
@@ -151,13 +181,13 @@ Clone the device-onvif-camera repository:
       cd edgex-compose/compose-builder/
       ```
 
-   1. Run EdgeX with the microservice in non-secure mode:
+   2. Run EdgeX with the microservice in non-secure mode:
 
       ```bash
       make run no-secty ds-onvif-camera
       ```
    
-   1. Run EdgeX with the microservice in secure mode:
+   3. Run EdgeX with the microservice in secure mode:
 
       ```bash
       make run ds-onvif-camera
@@ -321,14 +351,14 @@ Follow these instructions to update devices.
 
 ONVIF devices support WS-Discovery, which is a mechanism that supports probing a network to find ONVIF capable devices.  Refer to [How does WS-Discovery work?](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/ws-discovery.md) and [Auto Discovery](https://github.com/EdgeX-Camera-Management/device-onvif-camera/blob/main/doc/auto-discovery.md) for more information auto-discovery mechanism.  The following steps will enable auto discovery using the `netscan` method _after_ the service has been deployed.
 
-> **NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.  
+>**NOTE:** Ensure that the cameras are all installed and configured before attempting discovery.  
 
 1. Navigate to the `device-onvif-camera` directory.
    
 2. Set the DiscoverySubnets by running `bin/configure-subnets.sh`.
 
 Device discovery is triggered by the device service. Once the device service starts, it will discover the Onvif camera(s) at the specified interval.
-> **Note:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
+>**NOTE:** You can also manually trigger discovery using this command: `curl -X POST http://<service-host>:59984/api/v2/discovery`
 
 </details>
 

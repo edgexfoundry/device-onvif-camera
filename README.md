@@ -1,25 +1,13 @@
 # Onvif Camera Device Service
 [![Build Status](https://jenkins.edgexfoundry.org/view/EdgeX%20Foundry%20Project/job/edgexfoundry/job/device-onvif-camera/job/main/badge/icon)](https://jenkins.edgexfoundry.org/view/EdgeX%20Foundry%20Project/job/edgexfoundry/job/device-onvif-camera/job/main/) [![Code Coverage](https://codecov.io/gh/edgexfoundry/device-onvif-camera/branch/main/graph/badge.svg?token=9AIEBTKLCC)](https://codecov.io/gh/edgexfoundry/device-onvif-camera) [![Go Report Card](https://goreportcard.com/badge/github.com/edgexfoundry/device-onvif-camera)](https://goreportcard.com/report/github.com/edgexfoundry/device-onvif-camera) [![GitHub Latest Dev Tag)](https://img.shields.io/github/v/tag/edgexfoundry/device-onvif-camera?include_prereleases&sort=semver&label=latest-dev)](https://github.com/edgexfoundry/device-onvif-camera/tags) ![GitHub Latest Stable Tag)](https://img.shields.io/github/v/tag/edgexfoundry/device-onvif-camera?sort=semver&label=latest-stable) [![GitHub License](https://img.shields.io/github/license/edgexfoundry/device-onvif-camera)](https://choosealicense.com/licenses/apache-2.0/) ![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/edgexfoundry/device-onvif-camera) [![GitHub Pull Requests](https://img.shields.io/github/issues-pr-raw/edgexfoundry/device-onvif-camera)](https://github.com/edgexfoundry/device-onvif-camera/pulls) [![GitHub Contributors](https://img.shields.io/github/contributors/edgexfoundry/device-onvif-camera)](https://github.com/edgexfoundry/device-onvif-camera/contributors) [![GitHub Committers](https://img.shields.io/badge/team-committers-green)](https://github.com/orgs/edgexfoundry/teams/device-onvif-camera-committers/members) [![GitHub Commit Activity](https://img.shields.io/github/commit-activity/m/edgexfoundry/device-onvif-camera)](https://github.com/edgexfoundry/device-onvif-camera/commits)
 
+> **Note**: This is the stable release branch compatible with **EdgeX Levski (2.3.x)**. It is only compatible with the [levski branch of edgex-compose](https://github.com/edgexfoundry/edgex-compose/tree/levski).
+
 ## Overview
 The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices. 
 
 
 Use the ONVIF Device Service to streamline and scale your edge camera device deployment. 
-
-## Build with NATS Messaging
-Currently, the NATS Messaging capability (NATS MessageBus) is opt-in at build time.
-This means that the published Docker image and Snaps do not include the NATS messaging capability.
-
-The following make commands will build the local binary or local Docker image with NATS messaging
-capability included.
-```makefile
-make build-nats
-make docker-nats
-```
-
-The locally built Docker image can then be used in place of the published Docker image in your compose file.
-See [Compose Builder](https://github.com/edgexfoundry/edgex-compose/tree/main/compose-builder#gen) `nat-bus` option to generate compose file for NATS and local dev images.
 
 ## How It Works
 The figure below illustrates the software flow through the architecture components.
@@ -41,7 +29,7 @@ The figure below illustrates the software flow through the architecture componen
 
 For a full walkthrough of using the default images, use this [guide.](./doc/guides/SimpleStartupGuide.md)  
 
-For a full walktrhough of building custom images, use this [guide.](./doc/guides/CustomStartupGuide.md)  
+For a full walkthrough of building custom images, use this [guide.](./doc/guides/CustomStartupGuide.md)  
 
 A brief video demonstration of building and using the device service can be found [here.](https://www.youtube.com/watch?v=vZqd3j2Zn2Y)
 
