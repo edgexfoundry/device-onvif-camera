@@ -170,29 +170,31 @@ Configuring pre-defined devices will allow the service to automatically provisio
    cd device-onvif-camera
    ```
 
-2. Make a copy of the `camera.toml.example`:  
+2. Make a copy of the `camera.yaml.example`:  
 
    ```bash
-   cp ./cmd/res/devices/camera.toml.example ./cmd/res/devices/camera.toml
+   cp ./cmd/res/devices/camera.yaml.example ./cmd/res/devices/camera.yaml
    ```
 
-3. Open the `cmd/res/devices/camera.toml` file using your preferred text editor and update the `Address` and `Port` fields to match the IP address of the Camera and port used for ONVIF services:
+3. Open the `cmd/res/devices/camera.yaml` file using your preferred text editor and update the `Address` and `Port` fields to match the IP address of the Camera and port used for ONVIF services:
 
-   ```toml
-   [[DeviceList]]
-   Name = "Camera001"                         # Modify as desired
-   ProfileName = "onvif-camera"               # Default profile
-   Description = "onvif conformant camera"    # Modify as desired
-      [DeviceList.Protocols]
-         [DeviceList.Protocols.Onvif]
-         Address = "191.168.86.34"              # Set to your camera IP address
-         Port = "2020"                          # Set to the port your camera uses
-         SecretName = "credentials001"
-         [DeviceList.Protocols.CustomMetadata]
-         CommonName = "Outdoor camera"
+   ```yaml
+   DeviceList:
+   - Name: Camera001                         # Modify as desired
+      ProfileName: onvif-camera              # Default profile
+      Description: onvif conformant camera   # Modify as desired
+      Protocols:
+         Onvif:
+         Address: 192.168.12.123              # Set to your camera IP address
+         Port: '80'                           # Set to the port your camera uses
+         FriendlyName: Home camera
+         MACAddress: 'aa:bb:cc:dd:ee:ff'
+         CustomMetadata:
+         Location: Front door
+         Color: Black and white
    ```
    <p align="left">
-      <i>Sample: Snippet from camera.toml</i>
+      <i>Sample: Snippet from camera.yaml</i>
    </p>
 
 3. Optionally, modify the `Name` and `Description` fields to more easily identify the camera. The `Name` is the camera name used when using ONVIF Device Service Rest APIs. The `Description` is simply a more detailed explanation of the camera.
@@ -228,24 +230,27 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
    ```
 
 2. Define the following configurations in [cmd/res/configuration.yaml](../../cmd/res/configuration.yaml) for auto-discovery mechanism:
+   ```yaml
+      Device:
+      # The location of Provision Watcher json files to import when using auto-discovery
+      ProvisionWatchersDir: ./res/provisionwatchers
+      Discovery:
+         Enabled: true     # enable device discovery
+         Interval: 1h      # set to desired interval
 
-   ```toml
-   [Device]
-      [Device.Discovery]
-      Enabled = true    # enable device discovery
-      Interval = "1h"   # set to desired interval
-
-   # Custom configs
-   [AppCustom]
-   # The target ethernet interface for multicast discovering
-   DiscoveryEthernetInterface = "eth0"
-   # The Secret Name of the default credentials to use for devices
-   DefaultSecretName = "credentials001"
-   # Select which discovery mechanism(s) to use
-   DiscoveryMode = "both" # netscan, multicast, or both
-   # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
-   # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-   DiscoverySubnets = "192.168.1.0/24" # Fill in with your actual subnet(s)
+      # Custom configs
+      AppCustom:
+      # The Secret Name of the default credentials to use for devices which do not have MAC Addresses defined, or do not
+      # have credentials defined in the CredentialsMap. The magic value of 'NoAuth' here will cause the devices to default
+      # to not using any authentication. If authentication is required, it would then need to be manually configured.
+      DefaultSecretName: credentials001
+      # Select which discovery mechanism(s) to use
+      DiscoveryMode: both # netscan, multicast, or both
+      # The target ethernet interface for multicast discovering
+      DiscoveryEthernetInterface: eth0
+      # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+      # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+      DiscoverySubnets: "192.168.1.0/24" # Fill in with your actual subnet(s)
    ```
 </details>
 
@@ -292,26 +297,27 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 
 2. Open the [configuration.yaml](../../cmd/res/configuration.yaml) file using your preferred text editor.
 
-3. Make sure `SecretName` is set to match `SecretName` in `camera.toml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret names match.
+3. Make sure `SecretName` is set to match `SecretName` in `camera.yaml`. In the sample below, it is `"credentials001"`. If you have multiple cameras, make sure the secret names match.
 
 4. Under `SecretName`, set `username` and `password` to your camera credentials. If you have multiple cameras copy the `Writable.InsecureSecrets` section and edit to include the new information.
 
-   ```toml
-   [Writable]
-      [Writable.InsecureSecrets.credentials001]
-      secretName = "credentials001"
-         [Writable.InsecureSecrets.credentials001.SecretData]
-         username = "<Credentials 1 username>"
-         password = "<Credentials 1 password>"
-         mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
-
-      [Writable.InsecureSecrets.credentials002]
-      secretName = "credentials002"
-         [Writable.InsecureSecrets.credentials002.SecretData]
-         username = "<Credentials 1 password>"
-         password = "<Credentials 2 password>"
-         mode = "usernametoken" # assign "digest" | "usernametoken" | "both" | "none"
-
+   ```yaml
+      Writable:
+      LogLevel: INFO
+      InsecureSecrets:
+         credentials001:
+            SecretName: credentials001
+            SecretData:
+            username: ""
+            password: ""
+            mode: usernametoken   # assign "digest" | "usernametoken" | "both" | "none"
+         # If having more than one camera, uncomment the following config settings
+         # credentials002:
+         #   SecretName: credentials002
+         #   SecretData:
+         #     username: ""
+         #     password: ""
+         #     mode: usernametoken    # assign "digest" | "usernametoken" | "both" | "none"
    ```
 
    <p align="left">

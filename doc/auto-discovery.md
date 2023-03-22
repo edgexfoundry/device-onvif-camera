@@ -29,23 +29,24 @@ Device discovery is triggered by the device SDK. Once the device service starts,
 
 Define the following configurations in [cmd/res/configuration.yaml](../cmd/res/configuration.yaml) for auto-discovery mechanism:
 
-```toml
-[Device]
-    [Device.Discovery]
-    Enabled = true    # enable device discovery
-    Interval = "1h"   # set to desired interval
+```yaml
+Device:
+  # The location of Provision Watcher json files to import when using auto-discovery
+  ProvisionWatchersDir: ./res/provisionwatchers
+  Discovery:
+    Enabled: true
+    Interval: 1h
 
 # Custom configs
-[AppCustom]
-# The target ethernet interface for multicast discovering
-DiscoveryEthernetInterface = "eth0"
-# The Secret Name of the default credentials to use for devices
-DefaultSecretName = "credentials001"
-# Select which discovery mechanism(s) to use
-DiscoveryMode = "both" # netscan, multicast, or both
-# List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
-# separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-DiscoverySubnets = "192.168.1.0/24" # Fill in with your actual subnet(s)
+AppCustom:
+  DefaultSecretName: credentials001
+  # Select which discovery mechanism(s) to use
+  DiscoveryMode: both # netscan, multicast, or both
+  # The target ethernet interface for multicast discovering
+  DiscoveryEthernetInterface: eth0
+  # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
+  # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
+  DiscoverySubnets: ''
 ```
 </details>
 
