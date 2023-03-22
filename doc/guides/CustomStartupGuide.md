@@ -185,11 +185,11 @@ Configuring pre-defined devices will allow the service to automatically provisio
       Description: onvif conformant camera   # Modify as desired
       Protocols:
          Onvif:
-         Address: 191.168.86.34              # Set to your camera IP address
-         Port: '2020'                        # Set to the port your camera uses
-         SecretName: credentials001
+            Address: 191.168.86.34              # Set to your camera IP address
+            Port: '2020'                        # Set to the port your camera uses
+            SecretName: credentials001
          CustomMetadata:
-         CommonName: Outdoor camera
+            CommonName: Outdoor camera
    ```
    <p align="left">
       <i>Sample: Snippet from camera.yaml</i>
