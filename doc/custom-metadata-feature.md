@@ -16,11 +16,7 @@ DeviceList:
     ProfileName: onvif-camera
     Description: onvif conformant camera
     Protocols:
-      Onvif:
-        Address: 192.168.12.123
-        Port: '80'
-        FriendlyName: Home camera
-        MACAddress: 'aa:bb:cc:dd:ee:ff'
+      ...
       CustomMetadata:
         Location: Front door
         Color: Black and white

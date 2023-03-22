@@ -33,7 +33,7 @@ MessageBus:
     ClientId: device-onvif-camera
 
 Device:
-  # The location of Provision Watcher json files to import when using auto-discovery
+  # The location of Provision Watcher yaml files to import when using auto-discovery
   ProvisionWatchersDir: ./res/provisionwatchers
   Discovery:
     Enabled: true

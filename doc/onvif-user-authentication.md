@@ -14,18 +14,15 @@ The user need to define the **AuthMode** and **SecretName**, and device service 
 For example:
 ```yaml
 DeviceList:
-  - Name: Camera001
-    ProfileName: onvif-camera
-    Description: onvif conformant camera
+  - Name: test-camera
+    ProfileName: camera
+    Description: HIKVISION camera
     Protocols:
       Onvif:
         Address: 192.168.12.123
         Port: '80'
-        FriendlyName: Home camera
-        MACAddress: 'aa:bb:cc:dd:ee:ff'
-      CustomMetadata:
-        Location: Front door
-        Color: Black and white
+        AuthMode: usernametoken
+        SecretName: credentials001
 ```
 
 The AuthMode can be:
@@ -41,21 +38,18 @@ SecretName should contain:
 For development purpose, we can define the secrets in the configuration.yaml
 ```yaml
 Writable:
-  LogLevel: INFO
+...
   InsecureSecrets:
-    credentials001:
+    Camera001:
       SecretName: credentials001
       SecretData:
-        username: ""
-        password: ""
-        mode: usernametoken
-    # If having more than one camera, uncomment the following config settings
-    # credentials002:
-    #   SecretName: credentials002
-    #   SecretData:
-    #     username: ""
-    #     password: ""
-    #     mode: usernametoken
+        username: administrator
+        password: Password1
+    Camera002:
+      SecretName: credentials002
+      SecretData:
+        username: administrator
+        password: Password1
 ```
 
 ## WS-Usernametoken

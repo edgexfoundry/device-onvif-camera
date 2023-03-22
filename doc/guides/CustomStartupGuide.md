@@ -185,13 +185,11 @@ Configuring pre-defined devices will allow the service to automatically provisio
       Description: onvif conformant camera   # Modify as desired
       Protocols:
          Onvif:
-         Address: 192.168.12.123              # Set to your camera IP address
-         Port: '80'                           # Set to the port your camera uses
-         FriendlyName: Home camera
-         MACAddress: 'aa:bb:cc:dd:ee:ff'
+         Address: 191.168.86.34              # Set to your camera IP address
+         Port: '2020'                        # Set to the port your camera uses
+         SecretName: credentials001
          CustomMetadata:
-         Location: Front door
-         Color: Black and white
+         CommonName: Outdoor camera
    ```
    <p align="left">
       <i>Sample: Snippet from camera.yaml</i>
@@ -232,7 +230,7 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 2. Define the following configurations in [cmd/res/configuration.yaml](../../cmd/res/configuration.yaml) for auto-discovery mechanism:
    ```yaml
       Device:
-      # The location of Provision Watcher json files to import when using auto-discovery
+      # The location of Provision Watcher yaml files to import when using auto-discovery
       ProvisionWatchersDir: ./res/provisionwatchers
       Discovery:
          Enabled: true     # enable device discovery
@@ -303,21 +301,19 @@ ONVIF devices support WS-Discovery, which is a mechanism that supports probing a
 
    ```yaml
       Writable:
-      LogLevel: INFO
       InsecureSecrets:
          credentials001:
             SecretName: credentials001
             SecretData:
-            username: ""
-            password: ""
+            username: <Credentials 1 username>
+            password: <Credentials 1 password>
             mode: usernametoken   # assign "digest" | "usernametoken" | "both" | "none"
-         # If having more than one camera, uncomment the following config settings
-         # credentials002:
-         #   SecretName: credentials002
-         #   SecretData:
-         #     username: ""
-         #     password: ""
-         #     mode: usernametoken    # assign "digest" | "usernametoken" | "both" | "none"
+         credentials002:
+           SecretName: credentials002
+           SecretData:
+             username: <Credentials 2 username>
+             password: <Credentials 2 password>
+             mode: usernametoken    # assign "digest" | "usernametoken" | "both" | "none"
    ```
 
    <p align="left">
@@ -820,7 +816,7 @@ The provision watcher sets up parameters for EdgeX to automatically add devices 
 }
 ```
 <p align="left">
-   <i>Sample: Snippet from generic.provision.watcher.json</i>
+   <i>Sample: Snippet from generic.provision.watcher.yaml</i>
 </p>
 
 ## Summary and Next Steps

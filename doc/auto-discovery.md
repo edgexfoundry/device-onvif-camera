@@ -31,7 +31,7 @@ Define the following configurations in [cmd/res/configuration.yaml](../cmd/res/c
 
 ```yaml
 Device:
-  # The location of Provision Watcher json files to import when using auto-discovery
+  # The location of Provision Watcher yaml files to import when using auto-discovery
   ProvisionWatchersDir: ./res/provisionwatchers
   Discovery:
     Enabled: true
@@ -46,7 +46,7 @@ AppCustom:
   DiscoveryEthernetInterface: eth0
   # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
   # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-  DiscoverySubnets: ""
+  DiscoverySubnets: "192.168.1.0/24" # Fill in with your actual subnet(s)
 ```
 </details>
 

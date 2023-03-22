@@ -81,16 +81,15 @@ Writable:
     credentials001:
       SecretName: credentials001
       SecretData:
-        username: ""
-        password: ""
+        username: <Credentials 1 username>
+        password: <Credentials 1 password>
         mode: usernametoken   # assign "digest" | "usernametoken" | "both" | "none"
-    # If having more than one camera, uncomment the following config settings
-    # credentials002:
-    #   SecretName: credentials002
-    #   SecretData:
-    #     username: ""
-    #     password: ""
-    #     mode: usernametoken    # assign "digest" | "usernametoken" | "both" | "none"
+    credentials002:
+      SecretName: credentials002
+      SecretData:
+        username: <Credentials 2 username>
+        password: <Credentials 2 password>
+        mode: usernametoken    # assign "digest" | "usernametoken" | "both" | "none"
 ```
 
 <p align="left">
@@ -205,7 +204,7 @@ The provision watcher sets up parameters for EdgeX to automatically add devices 
 }
 ```
 <p align="left">
-   <i>Sample: Snippet from generic.provision.watcher.json</i>
+   <i>Sample: Snippet from generic.provision.watcher.yaml</i>
 </p>
 
 ## Next Steps
