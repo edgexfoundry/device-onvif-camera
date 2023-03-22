@@ -46,7 +46,7 @@ AppCustom:
   DiscoveryEthernetInterface: eth0
   # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
   # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
-  DiscoverySubnets: ''
+  DiscoverySubnets: ""
 ```
 </details>
 
