@@ -59,9 +59,6 @@ https://github.com/mitchellh/copystructure/blob/master/LICENSE
 mitchellh/reflectwalk 1.0.0 (MIT) https://github.com/mitchellh/reflectwalk
 https://github.com/mitchellh/reflectwalk/blob/master/LICENSE
 
-pelletier/go-toml 1.2.0 (MIT) https://github.com/pelletier/go-toml
-https://github.com/pelletier/go-toml/blob/master/LICENSE
-
 edgexfoundry/device-sdk-go (Apache 2.0) https://github.com/edgexfoundry/device-sdk-go/v3
 https://github.com/edgexfoundry/device-sdk-go/blob/master/LICENSE
 
