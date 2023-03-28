@@ -13,15 +13,15 @@ DeviceList:
         Location: Front door
         Color: Black and white
 
-  # If having more than one camera, uncomment the following config settings
-  - Name: Camera002
-    ProfileName: onvif-camera
-    Description: onvif conformant camera
-    Protocols:
-      Onvif:
-        Address: 192.168.12.135
-        Port: '2020'
-        MACAddress: '11:22:33:44:55:66'
-        FriendlyName: Back Camera
-      CustomMetadata:
-        Location: Back Exit
+ # # If having more than one camera, uncomment the following config settings
+ # - Name: Camera002
+ #   ProfileName: onvif-camera
+ #   Description: onvif conformant camera
+ #   Protocols:
+ #     Onvif:
+ #       Address: 192.168.12.135
+ #       Port: '2020'
+ #       MACAddress: '11:22:33:44:55:66'
+ #       FriendlyName: Back Camera
+ #     CustomMetadata:
+ #       Location: Back Exit
