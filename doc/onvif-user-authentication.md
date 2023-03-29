@@ -13,16 +13,16 @@ The user need to define the **AuthMode** and **SecretName**, and device service 
 
 For example:
 ```yaml
-[[DeviceList]]
-Name = "test-camera"
-ProfileName = "camera"
-Description = "HIKVISION camera"
-  [DeviceList.Protocols]
-    [DeviceList.Protocols.Onvif]
-    Address = "192.168.12.123"
-    Port = 80
-    AuthMode = "usernametoken"
-    SecretName = "credentials001"
+deviceList:
+  - name: test-camera
+    profileName: camera
+    description: HIKVISION camera
+    protocols:
+      Onvif:
+        Address: 192.168.12.123
+        Port: '80'
+        AuthMode: usernametoken
+        SecretName: credentials001
 ```
 
 The AuthMode can be:
@@ -35,22 +35,21 @@ SecretName should contain:
 * username
 * password
 
-For development purpose, we can define the secrets in the configuration.toml
-```
-[Writable]
+For development purpose, we can define the secrets in the configuration.yaml
+```yaml
+Writable:
 ...
-  [Writable.InsecureSecrets]
-    [Writable.InsecureSecrets.Camera001]
-    secretName = "credentials001"
-      [Writable.InsecureSecrets.Camera001.SecretData]
-      username = "administrator"
-      password = "Password1"
-    # If having more than one camera, uncomment the following config settings
-    [Writable.InsecureSecrets.Camera002]
-    secretName = "credentials002"
-      [Writable.InsecureSecrets.Camera002.SecretData]
-      username = "administrator"
-      password = "Password1"
+  InsecureSecrets:
+    Camera001:
+      SecretName: credentials001
+      SecretData:
+        username: administrator
+        password: Password1
+    Camera002:
+      SecretName: credentials002
+      SecretData:
+        username: administrator
+        password: Password1
 ```
 
 ## WS-Usernametoken
