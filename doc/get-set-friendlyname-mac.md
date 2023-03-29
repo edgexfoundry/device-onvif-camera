@@ -12,11 +12,11 @@ If you add pre-defined devices, set up the `FriendlyName` field as shown in the
 
 ```yaml
 # Pre-defined Devices
-DeviceList:
-  - Name: Camera001
-    ProfileName: onvif-camera
-    Description: onvif conformant camera
-    Protocols:
+deviceList:
+  - name: Camera001
+    profileName: onvif-camera
+    description: onvif conformant camera
+    protocols:
       Onvif:
         Address: 192.168.12.123
         Port: '80'

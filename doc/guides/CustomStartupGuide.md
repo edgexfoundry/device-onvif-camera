@@ -179,11 +179,11 @@ Configuring pre-defined devices will allow the service to automatically provisio
 3. Open the `cmd/res/devices/camera.yaml` file using your preferred text editor and update the `Address` and `Port` fields to match the IP address of the Camera and port used for ONVIF services:
 
    ```yaml
-   DeviceList:
-   - Name: Camera001                         # Modify as desired
-      ProfileName: onvif-camera              # Default profile
-      Description: onvif conformant camera   # Modify as desired
-      Protocols:
+   deviceList:
+   - name: Camera001                         # Modify as desired
+      profileName: onvif-camera              # Default profile
+      description: onvif conformant camera   # Modify as desired
+      protocols:
          Onvif:
             Address: 191.168.86.34              # Set to your camera IP address
             Port: '2020'                        # Set to the port your camera uses

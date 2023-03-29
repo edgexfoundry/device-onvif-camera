@@ -11,11 +11,11 @@ Custom metadata can be applied and retrieved for each camera added to the servic
 If you add pre-defined devices, set up the `CustomMetadata` object as shown in the [camera.yaml.example file](../cmd/res/devices/camera.yaml.example).
 
 ```yaml
-DeviceList:
-  - Name: Camera001
-    ProfileName: onvif-camera
-    Description: onvif conformant camera
-    Protocols:
+deviceList:
+  - name: Camera001
+    profileName: onvif-camera
+    description: onvif conformant camera
+    protocols:
       ...
       CustomMetadata:
         Location: Front door

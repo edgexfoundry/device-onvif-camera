@@ -13,11 +13,11 @@ The user need to define the **AuthMode** and **SecretName**, and device service 
 
 For example:
 ```yaml
-DeviceList:
-  - Name: test-camera
-    ProfileName: camera
-    Description: HIKVISION camera
-    Protocols:
+deviceList:
+  - name: test-camera
+    profileName: camera
+    description: HIKVISION camera
+    protocols:
       Onvif:
         Address: 192.168.12.123
         Port: '80'
