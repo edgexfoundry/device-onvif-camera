@@ -80,13 +80,6 @@ func (me MultiErr) Error() string {
 	return strings.Join(strs, "; ")
 }
 
-// EdgeX's Device SDK takes an interface{}
-// and uses a runtime-check to determine that it implements ProtocolDriver,
-// at which point it will abruptly exit without a panic.
-// This restores type-safety by making it so that we can't compile
-// unless we meet the runtime-required interface.
-var _ interfaces.ProtocolDriver = (*Driver)(nil)
-
 // Initialize performs protocol-specific initialization for the device
 // service.
 func (d *Driver) Initialize(sdk interfaces.DeviceServiceSDK) error {
