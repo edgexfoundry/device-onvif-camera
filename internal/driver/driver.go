@@ -208,7 +208,10 @@ func (d *Driver) debouncedDiscover() {
 			d.debounceTimer = nil
 			d.debounceMu.Unlock()
 
-			d.Discover()
+			err := d.Discover()
+			if err != nil {
+				d.lc.Errorf("failed to run device discovery, %v", err)
+			}
 		}()
 	}
 }
@@ -403,7 +406,7 @@ func (d *Driver) createOnvifClient(deviceName string) error {
 }
 
 // Discover performs a discovery on the network and passes them to EdgeX to get provisioned
-func (d *Driver) Discover() {
+func (d *Driver) Discover() error {
 	d.lc.Info("Discover was called.")
 
 	d.configMu.RLock()
@@ -412,8 +415,7 @@ func (d *Driver) Discover() {
 	d.configMu.RUnlock()
 
 	if !discoveryMode.IsValid() {
-		d.lc.Errorf("DiscoveryMode is set to an invalid value: %s. Refusing to do discovery.", discoveryMode)
-		return
+		return fmt.Errorf("DiscoveryMode is set to an invalid value: %s. Refusing to do discovery", discoveryMode)
 	}
 
 	var discoveredDevices []sdkModel.DiscoveredDevice
@@ -436,6 +438,7 @@ func (d *Driver) Discover() {
 	// pass the discovered devices to the EdgeX SDK to be passed through to the provision watchers
 	filtered := d.discoverFilter(discoveredDevices)
 	d.deviceCh <- filtered
+	return nil
 }
 
 // multicast enable/disable via config option
@@ -684,4 +687,12 @@ func (d *Driver) updateDevice(device models.Device, deviceInfo *onvifdevice.GetD
 	}
 
 	return d.sdkService.UpdateDevice(device)
+}
+
+func (d *Driver) ValidateDevice(device models.Device) error {
+	_, err := GetCameraXAddr(device.Protocols)
+	if err != nil {
+		return fmt.Errorf("invalid protocol properties, %v", err)
+	}
+	return nil
 }
