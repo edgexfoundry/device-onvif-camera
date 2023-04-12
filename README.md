@@ -40,30 +40,7 @@ A brief video demonstration of building and using the device service can be foun
 # Learn More 
 
 ### General
-[Supported ONVIF features](./doc/ONVIF-protocol.md)  
-[Auto discovery](./doc/auto-discovery.md)  
-[Control-plane events](./doc/control-plane-events.md)  
-[Utility Scripts](./doc/utility-scripts.md)
-
-
-### Custom Features
-[Custom Metadata](./doc/custom-metadata-feature.md)  
-[Reboot Needed](./doc/custom-feature-rebootneeded.md)  
-[Friendly Name and Mac Address](./doc/get-set-friendlyname-mac.md)  
-
-### API Support
-[API Analytic Handling](./doc/api-analytic-support.md)  
-[API Event Handling](./doc/api-event-handling.md)  
-[API User Handling](./doc/api-usage-user-handling.md)  
-
-### Miscellaneous
-[Postman](./doc/test-with-postman.md)  
-[User Authentication](./doc/onvif-user-authentication.md)  
-
-## Resources
-[Learn more about EdgeX Core Metadata](https://app.swaggerhub.com/apis-docs/EdgeXFoundry1/core-metadata/2.1.0)  
-[Learn more about EdgeX Core Command](https://app.swaggerhub.com/apis-docs/EdgeXFoundry1/core-command/2.1.0)
-
+Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/latest/microservices/supported/device-onvif-camera/general) to learn more.
 
 ## References
 
