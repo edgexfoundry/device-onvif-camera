@@ -40,7 +40,7 @@ A brief video demonstration of building and using the device service can be foun
 # Learn More 
 
 ### General
-Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/latest/microservices/supported/device-onvif-camera/general) to learn more.
+Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/latest/microservices/device/supported/device-onvif-camera/general) to learn more.
 
 ## References
 
