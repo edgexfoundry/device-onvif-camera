@@ -20,19 +20,22 @@ Service:
   StartupMsg: Camera device service started
 
 # uncomment when running from command-line in hybrid mode with -cp -o flags
-# Registry:
-#   Host: localhost
-
-# Clients:
-#   core-metadata:
-#     Host: localhost # uncomment when running from command-line in hybrid mode
+#Registry:
+# Host: localhost
+#
+#Clients:
+# core-metadata:
+#   Host: localhost # uncomment when running from command-line in hybrid mode
 
 MessageBus:
-  # Host: localhost # uncomment when running from command-line in hybrid mode
+#  Host: localhost # uncomment when running from command-line in hybrid mode
   Optional:
     ClientId: device-onvif-camera
 
 Device:
+  # These have common values (currently), but must be here for service local env overrides to apply when customized
+  ProfilesDir: "./res/profiles"
+  DevicesDir: "./res/devices"
   # The location of Provision Watcher yaml files to import when using auto-discovery
   ProvisionWatchersDir: ./res/provisionwatchers
   Discovery:
