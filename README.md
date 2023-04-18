@@ -24,15 +24,6 @@ The figure below illustrates the software flow through the architecture componen
 5. **Publish Inference Events/Data:** Analytics inferences are formatted and passed to the destination message bus specified in the request.
 6.  **Export Data:** Publish prepared (transformed, enriched, filtered, etc.) and groomed (formatted, compressed, encrypted, etc.) data to external systems (be it analytics package, enterprise or on-premises application, cloud systems like Azure IoT, AWS IoT, or Google IoT Core, etc.
 
-
-# Getting Started
-
-For a full walkthrough of using the default images, use this [guide.](./doc/guides/SimpleStartupGuide.md)  
-
-For a full walkthrough of building custom images, use this [guide.](./doc/guides/CustomStartupGuide.md)  
-
-A brief video demonstration of building and using the device service can be found [here.](https://www.youtube.com/watch?v=vZqd3j2Zn2Y)
-
 # Learn More 
 Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/2.3/microservices/device/supported/device-onvif-camera/general) for more details.
 
