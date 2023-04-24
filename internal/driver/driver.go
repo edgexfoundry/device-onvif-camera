@@ -696,3 +696,7 @@ func (d *Driver) ValidateDevice(device models.Device) error {
 	}
 	return nil
 }
+
+func (d *Driver) Start() error {
+	return nil
+}
