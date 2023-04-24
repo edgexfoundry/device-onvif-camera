@@ -45,7 +45,7 @@ Device:
 # Custom configs
 AppCustom:
   # The number of seconds to wait when making an Onvif request before timing out
-  RequestTimeout: 5
+  RequestTimeout: 4
   # The Secret Name of the default credentials to use for devices which do not have MAC Addresses defined, or do not
   # have credentials defined in the CredentialsMap. The magic value of 'NoAuth' here will cause the devices to default
   # to not using any authentication. If authentication is required, it would then need to be manually configured.
