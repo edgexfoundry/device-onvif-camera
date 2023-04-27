@@ -517,7 +517,7 @@ set_secure_secret() {
     fi
 
     local payload="{
-    \"apiVersion\":\"v2\",
+    \"apiVersion\":\"v3\",
     \"secretName\": \"${SECRET_NAME}\",
     \"secretData\":[
         {
@@ -536,7 +536,7 @@ set_secure_secret() {
 }"
     do_curl "${payload}" \
         -H "Authorization:Bearer ${REST_API_JWT}" \
-        -X POST "${DEVICE_SERVICE_URL}/api/v2/secret"
+        -X POST "${DEVICE_SERVICE_URL}/api/v3/secret"
 }
 
 # helper function to set the secrets using either secure or insecure mode
