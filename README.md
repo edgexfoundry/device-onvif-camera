@@ -8,7 +8,7 @@
 > **The current stable branch of device-onvif-camera is [Levski](https://github.com/edgexfoundry/device-onvif-camera/tree/levski).**
 
 ### General
-Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/latest/microservices/device/supported/device-onvif-camera/general) to learn more.
+Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/3.0/microservices/device/supported/device-onvif-camera/General/) to learn more about release 3.0.
 
 ## License
 
