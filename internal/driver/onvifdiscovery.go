@@ -87,8 +87,8 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 	timestamp := time.Now().Format(time.UnixDate)
 
 	device := contract.Device{
-		// Using Xaddr as the temporary name
-		Name: xaddr,
+		// Using endpointRefAddr as the temporary name, since this is unique
+		Name: endpointRefAddr,
 		Protocols: map[string]contract.ProtocolProperties{
 			OnvifProtocol: {
 				Address:            address,
@@ -111,9 +111,14 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		d.lc.Debugf("No MAC Address match was found for EndpointRefAddress %s", endpointRefAddr)
 	}
 
-	devInfo, edgexErr := d.getDeviceInformation(device)
+	onvifClient, edgexErr := d.newOnvifClient(device, true)
+	if edgexErr != nil {
+		d.lc.Warnf("failed to create onvif client for the camera %s, %v", endpointRefAddr, edgexErr)
+		return sdkModel.DiscoveredDevice{}, fmt.Errorf("ailed to create onvif client for the camera %s", endpointRefAddr)
+	}
 
 	var discovered sdkModel.DiscoveredDevice
+	devInfo, edgexErr := onvifClient.getDeviceInformation(device)
 	if edgexErr != nil {
 		d.lc.Warnf("failed to get the device information for the camera %s, %v", endpointRefAddr, edgexErr)
 		device.Protocols[OnvifProtocol][DeviceStatus] = Reachable // update device status in this error case
@@ -140,7 +145,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 			strings.ReplaceAll(strings.ReplaceAll(devInfo.Model, "/", "-"), " ", "-"),
 			endpointRefAddr)
 
-		netInfo, err := d.getNetworkInterfaces(device)
+		netInfo, err := onvifClient.getNetworkInterfaces(device)
 		if err != nil {
 			d.lc.Warnf("failed to get the network information for device %s, %v", deviceName, edgexErr)
 		} else {

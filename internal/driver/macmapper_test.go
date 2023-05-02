@@ -10,7 +10,6 @@ package driver
 import (
 	"reflect"
 	"strings"
-	"sync"
 	"testing"
 
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/interfaces/mocks"
@@ -320,7 +319,6 @@ func TestTryGetSecretNameForMACAddress(t *testing.T) {
 	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{
 		"valid_secret_name": mappedMac,
 	})
-	driver.configMu = new(sync.RWMutex)
 	driver.config = &ServiceConfig{
 		AppCustom: CustomConfig{
 			DefaultSecretName: defaultSecretName,

@@ -13,7 +13,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strings"
-	"sync"
 	"testing"
 
 	"github.com/IOTechSystems/onvif"
@@ -50,7 +49,9 @@ func boolPointer(val bool) *xsd.Boolean {
 
 func createDriverWithMockService() (*Driver, *sdkMocks.DeviceServiceSDK) {
 	mockService := &sdkMocks.DeviceServiceSDK{}
-	driver := &Driver{sdkService: mockService, lc: logger.MockLogger{}}
+	driver := NewDriver()
+	driver.lc = logger.MockLogger{}
+	driver.sdkService = mockService
 	return driver, mockService
 }
 
@@ -111,7 +112,6 @@ func TestAddressAndPort(t *testing.T) {
 
 func TestDriver_HandleReadCommands(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
-	driver.clientsMu = new(sync.RWMutex)
 
 	tests := []struct {
 		name          string
@@ -376,7 +376,6 @@ func TestUpdateDevice(t *testing.T) {
 
 func TestDriver_RemoveDevice(t *testing.T) {
 	driver, _ := createDriverWithMockService()
-	driver.clientsMu = new(sync.RWMutex)
 	driver.onvifClients = map[string]*OnvifClient{
 		testDeviceName: {},
 	}

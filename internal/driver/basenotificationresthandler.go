@@ -32,19 +32,16 @@ const (
 
 // RestNotificationHandler handle the notification from the camera and send to async value channel
 type RestNotificationHandler struct {
-	sdkService  interfaces.DeviceServiceSDK
-	lc          logger.LoggingClient
-	asyncValues chan<- *models.AsyncValues
+	sdkService interfaces.DeviceServiceSDK
+	lc         logger.LoggingClient
 }
 
 // NewRestNotificationHandler create a new RestNotificationHandler entity
-func NewRestNotificationHandler(service interfaces.DeviceServiceSDK, logger logger.LoggingClient, asyncValues chan<- *models.AsyncValues) *RestNotificationHandler {
+func NewRestNotificationHandler(service interfaces.DeviceServiceSDK) *RestNotificationHandler {
 	handler := RestNotificationHandler{
-		sdkService:  service,
-		lc:          logger,
-		asyncValues: asyncValues,
+		sdkService: service,
+		lc:         service.LoggingClient(),
 	}
-
 	return &handler
 }
 
@@ -109,7 +106,7 @@ func (handler RestNotificationHandler) processAsyncRequest(writer http.ResponseW
 
 	handler.lc.Debugf("Incoming reading received: Device=%s Resource=%s", deviceName, resourceName)
 
-	handler.asyncValues <- asyncValues
+	handler.sdkService.AsyncValuesChannel() <- asyncValues
 }
 
 func (handler RestNotificationHandler) readBody(request *http.Request) ([]byte, error) {

@@ -8,7 +8,6 @@
 package driver
 
 import (
-	"sync"
 	"testing"
 
 	"github.com/IOTechSystems/onvif"
@@ -70,9 +69,9 @@ func TestTryGetCredentials(t *testing.T) {
 	}{
 		{
 			secretName:   noAuthSecretName,
-			mockUsername: "username",
-			mockPassword: "password",
-			mockAuthMode: onvif.DigestAuth,
+			mockUsername: "",
+			mockPassword: "",
+			mockAuthMode: onvif.NoAuth,
 			expected: Credentials{
 				AuthMode: AuthModeNone,
 			},
@@ -109,28 +108,37 @@ func TestTryGetCredentials(t *testing.T) {
 	}
 
 	driver, mockService := createDriverWithMockService()
-
 	mockSecretProvider := &mocks.SecretProvider{}
 	mockService.On("SecretProvider").Return(mockSecretProvider)
+	lookups := 3
 
 	for _, test := range tests {
 		test := test
 		t.Run(test.secretName, func(t *testing.T) {
-			if test.errorExpected {
-				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
-			} else {
-				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": test.mockUsername, "password": test.mockPassword, "mode": test.mockAuthMode}, nil).Once()
-			}
-			actual, err := driver.tryGetCredentials(test.secretName)
+			// reset the secret provider
+			*mockSecretProvider = mocks.SecretProvider{}
 
 			if test.errorExpected {
-				require.Error(t, err)
-				return
+				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).
+					Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).
+					Times(lookups) // expect to be called for every lookup
+			} else if test.secretName != noAuthSecretName { // expect not to be called for noAuth
+				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).
+					Return(map[string]string{"username": test.mockUsername, "password": test.mockPassword, "mode": test.mockAuthMode}, nil).
+					Once() // expect to only be called once (cached lookups afterward)
 			}
-			require.NoError(t, err)
-			assert.Equal(t, test.expected.Username, actual.Username)
-			assert.Equal(t, test.expected.Password, actual.Password)
-			assert.Equal(t, test.expected.AuthMode, actual.AuthMode)
+
+			// perform the lookup multiple times to check caching
+			for i := 0; i < lookups; i++ {
+				actual, err := driver.getCredentials(test.secretName)
+				if test.errorExpected {
+					require.Error(t, err)
+					return
+				}
+				require.NoError(t, err)
+				assert.Equal(t, test.expected, actual)
+			}
+			mockSecretProvider.AssertExpectations(t)
 		})
 	}
 }
@@ -187,7 +195,6 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{
 		"secret_name": "aa:bb:cc:dd:ee:ff",
 	})
-	driver.configMu = new(sync.RWMutex)
 	driver.config = &ServiceConfig{
 		AppCustom: CustomConfig{
 			DefaultSecretName: "default_secret_name",
@@ -195,23 +202,23 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 	}
 
 	mockSecretProvider := &mocks.SecretProvider{}
-
-	for i := range tests {
-		if tests[i].errorExpected {
-			mockSecretProvider.On("GetSecret", tests[i].secretName, UsernameKey, PasswordKey, AuthModeKey).Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil)).Once()
-		} else {
-			mockSecretProvider.On("GetSecret", tests[i].secretName, UsernameKey, PasswordKey, AuthModeKey).Return(map[string]string{"username": tests[i].username, "password": tests[i].password, "mode": tests[i].authMode}, nil).Once()
-		}
-	}
-
 	mockService.On("SecretProvider").Return(mockSecretProvider)
 
 	for _, test := range tests {
 		test := test
 		t.Run(test.secretName, func(t *testing.T) {
+			// reset the secret provider
+			*mockSecretProvider = mocks.SecretProvider{}
+
+			if test.errorExpected {
+				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).
+					Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil))
+			} else {
+				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).
+					Return(map[string]string{"username": test.username, "password": test.password, "mode": test.authMode}, nil)
+			}
 
 			actual, err := driver.tryGetCredentialsForDevice(createTestDeviceWithProtocols(test.existingProtocols))
-
 			if test.errorExpected {
 				require.Error(t, err)
 				return

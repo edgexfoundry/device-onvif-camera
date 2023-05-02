@@ -53,8 +53,9 @@ type OnvifClient struct {
 	baseNotificationManager *BaseNotificationManager
 }
 
-// newOnvifClient returns an OnvifClient for a single camera
-func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
+// newOnvifClient returns an OnvifClient for a single camera. If temporary is true, a temporary client for
+// auto-discovery is created without the extra managers and resources of a normal client.
+func (d *Driver) newOnvifClient(device models.Device, temporary bool) (*OnvifClient, errors.EdgeX) {
 	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
@@ -62,6 +63,8 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 
 	credential, edgexErr := d.tryGetCredentialsForDevice(device)
 	if edgexErr != nil {
+		// if credentials are not found, instead of returning an error, set the AuthMode to NoAuth
+		// and allow the user to call unauthenticated endpoints
 		d.lc.Warnf("Unable to find credentials for Device %s, reverting to no auth", device.Name)
 		credential = noAuthCredentials
 	}
@@ -83,18 +86,22 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 		return nil, errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to initialize Onvif device client", err)
 	}
 
-	resource, err := d.getCameraEventResourceByDeviceName(device.Name)
+	client := &OnvifClient{
+		driver:      d,
+		lc:          d.lc,
+		DeviceName:  device.Name,
+		onvifDevice: onvifDevice,
+	}
+
+	if temporary {
+		return client, nil
+	}
+
+	client.CameraEventResource, err = d.getCameraEventResourceByDeviceName(device.Name)
 	if err != nil {
 		return nil, errors.NewCommonEdgeXWrapper(err)
 	}
 
-	client := &OnvifClient{
-		driver:              d,
-		lc:                  d.lc,
-		DeviceName:          device.Name,
-		onvifDevice:         onvifDevice,
-		CameraEventResource: resource,
-	}
 	// Create PullPointManager to control multiple pull points
 	pullPointManager := newPullPointManager(d.lc)
 	client.pullPointManager = pullPointManager
@@ -103,6 +110,58 @@ func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.Edge
 	baseNotificationManager := NewBaseNotificationManager(d.lc)
 	client.baseNotificationManager = baseNotificationManager
 	return client, nil
+}
+
+// updateOnvifClient updates the internal onvifDevice of an onvif client
+func (d *Driver) updateOnvifClient(device models.Device) errors.EdgeX {
+	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
+	if edgexErr != nil {
+		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
+	}
+
+	credential, edgexErr := d.tryGetCredentialsForDevice(device)
+	if edgexErr != nil {
+		d.lc.Warnf("Unable to find credentials for Device %s, reverting to no auth", device.Name)
+		credential = noAuthCredentials
+	}
+
+	onvifClient, edgexErr := d.getOnvifClient(device)
+	if edgexErr == nil {
+		existingParams := onvifClient.onvifDevice.GetDeviceParams()
+		if xAddr == existingParams.Xaddr && credential.Username == existingParams.Username &&
+			credential.Password == existingParams.Password && credential.AuthMode == existingParams.AuthMode {
+			// XAddr and credentials are the same, skip creating new connection
+			d.lc.Tracef("Skip creating new connection for un-modified device %s", device.Name)
+			return nil
+		}
+	}
+
+	d.lc.Debugf("Updating connection for modified device %s", device.Name)
+
+	d.configMu.Lock()
+	requestTimeout := d.config.AppCustom.RequestTimeout
+	d.configMu.Unlock()
+
+	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
+		Xaddr:    xAddr,
+		Username: credential.Username,
+		Password: credential.Password,
+		AuthMode: credential.AuthMode,
+		HttpClient: &http.Client{
+			Timeout: time.Duration(requestTimeout) * time.Second,
+		},
+	})
+	if err != nil {
+		return errors.NewCommonEdgeX(errors.KindServiceUnavailable, "failed to update Onvif device client", err)
+	}
+
+	// lock the clients to prevent access while the update occurs
+	d.clientsMu.Lock()
+	onvifClient.onvifDevice = onvifDevice
+	d.clientsMu.Unlock()
+
+	d.checkStatusOfDevice(device)
+	return nil
 }
 
 func (d *Driver) getCameraEventResourceByDeviceName(deviceName string) (r models.DeviceResource, edgexErr errors.EdgeX) {
@@ -471,4 +530,40 @@ func (onvifClient *OnvifClient) checkRebootNeeded(responseContent interface{}) {
 		onvifClient.RebootNeeded = bool(setNetworkInterfacesResponse.RebootNeeded)
 		return
 	}
+}
+
+func (onvifClient *OnvifClient) getNetworkInterfaces(device models.Device) (netInfo *onvifdevice.GetNetworkInterfacesResponse, edgexErr errors.EdgeX) {
+	devInfoResponse, edgexErr := onvifClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetNetworkInterfaces, []byte{})
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	devInfo, ok := devInfoResponse.(*onvifdevice.GetNetworkInterfacesResponse)
+	if !ok {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetNetworkInterfacesResponse of type %T for the camera %s", devInfoResponse, device.Name), nil)
+	}
+	return devInfo, nil
+}
+
+func (onvifClient *OnvifClient) getDeviceInformation(device models.Device) (devInfo *onvifdevice.GetDeviceInformationResponse, edgexErr errors.EdgeX) {
+	devInfoResponse, edgexErr := onvifClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetDeviceInformation, []byte{})
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	devInfo, ok := devInfoResponse.(*onvifdevice.GetDeviceInformationResponse)
+	if !ok {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetDeviceInformationResponse of type %T for the camera %s", devInfoResponse, device.Name), nil)
+	}
+	return devInfo, nil
+}
+
+func (onvifClient *OnvifClient) getEndpointReference(device models.Device) (devInfo *onvifdevice.GetEndpointReferenceResponse, edgexErr errors.EdgeX) {
+	endpointRefResponse, edgexErr := onvifClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetEndpointReference, []byte{})
+	if edgexErr != nil {
+		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+	devEndpointRef, ok := endpointRefResponse.(*onvifdevice.GetEndpointReferenceResponse)
+	if !ok {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetEndpointReferenceResponse of type %T for the camera %s", endpointRefResponse, device.Name), nil)
+	}
+	return devEndpointRef, nil
 }

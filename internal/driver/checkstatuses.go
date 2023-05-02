@@ -68,7 +68,7 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 		d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
 		go func() { // refresh the device information in the background
 			if refreshErr := d.refreshDevice(device); refreshErr != nil {
-				d.lc.Warnf("An error occurred while refreshing the device %s: %s",
+				d.lc.Errorf("An error occurred while refreshing the device %s: %s",
 					device.Name, refreshErr.Error())
 			}
 		}()
@@ -82,27 +82,35 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 // Higher degrees of connection are tested first, because if they
 // succeed, the lower levels of connection will too
 func (d *Driver) testConnectionMethods(device models.Device) (status string) {
-
-	// sends get capabilities command to device (does not require credentials)
-	devClient, edgexErr := d.newTemporaryOnvifClient(device)
-	if edgexErr != nil {
-		d.lc.Debugf("Connection to %s failed when creating client: %s", device.Name, edgexErr.Message())
-		// onvif connection failed, so lets probe it
+	devClient, err := d.getOnvifClient(device)
+	if err != nil {
+		d.lc.Warnf("Error getting onvif client for device %s", device.Name)
+		// if we do not have a valid onvif client, lets just tcp probe it
 		if d.tcpProbe(device) {
 			return Reachable
 		}
 		return Unreachable
-
 	}
 
-	// sends get device information command to device (requires credentials)
-	_, edgexErr = devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetDeviceInformation, []byte{})
-	if edgexErr != nil {
-		d.lc.Debugf("%s command failed for device %s when using authentication: %s", onvif.GetDeviceInformation, device.Name, edgexErr.Message())
-		return UpWithoutAuth
+	// sends GetDeviceInformation command to device (requires authentication)
+	_, edgexErr := devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetDeviceInformation, []byte{})
+	if edgexErr == nil {
+		return UpWithAuth // we are authenticated
 	}
+	d.lc.Debugf("%s command failed for device %s when using authentication: %s", onvif.GetDeviceInformation, device.Name, edgexErr.Message())
 
-	return UpWithAuth
+	// sends GetSystemDateAndTime command to device (does not require authentication)
+	_, edgexErr = devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetSystemDateAndTime, []byte{})
+	if edgexErr == nil {
+		return UpWithoutAuth // non-authenticated onvif command is working
+	}
+	d.lc.Debugf("%s command failed for device %s without using authentication: %s", onvif.GetSystemDateAndTime, device.Name, edgexErr.Message())
+
+	// onvif commands are not working, so let us probe it
+	if d.tcpProbe(device) {
+		return Reachable
+	}
+	return Unreachable
 }
 
 // tcpProbe attempts to make a connection to a specific ip and port list to determine

@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"strings"
-	"sync"
 	"testing"
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
@@ -56,7 +55,6 @@ func TestUpdateDeviceStatus_noUpdate(t *testing.T) {
 
 func TestDriver_TCPProbe(t *testing.T) {
 	driver, _ := createDriverWithMockService()
-	driver.clientsMu = new(sync.RWMutex)
 	driver.config = &ServiceConfig{
 		AppCustom: CustomConfig{
 			ProbeTimeoutMillis: 2000,

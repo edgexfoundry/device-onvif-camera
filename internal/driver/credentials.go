@@ -56,9 +56,9 @@ func IsAuthModeValid(mode string) bool {
 		mode == AuthModeNone
 }
 
-// tryGetCredentials will attempt one time to get the credentials located at secretName from
+// tryGetCredentialsInternal will attempt one time to get the credentials located at secretName from
 // secret provider and return them, otherwise return an error.
-func (d *Driver) tryGetCredentials(secretName string) (Credentials, errors.EdgeX) {
+func (d *Driver) tryGetCredentialsInternal(secretName string) (Credentials, errors.EdgeX) {
 	// if the secret name is the special NoAuth magic key, do not look it up, instead return the noAuthCredentials
 	if strings.ToLower(secretName) == noAuthSecretName {
 		return noAuthCredentials, nil
@@ -80,6 +80,7 @@ func (d *Driver) tryGetCredentials(secretName string) (Credentials, errors.EdgeX
 		credentials.AuthMode = AuthModeUsernameToken
 	}
 
+	d.lc.Tracef("Found credentials from secret name %s", secretName)
 	return credentials, nil
 }
 
@@ -103,13 +104,56 @@ func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, 
 		d.lc.Warnf("Device %s is missing MAC Address, using default secret name", device.Name)
 	}
 
-	credentials, edgexErr := d.tryGetCredentials(secretName)
+	credentials, edgexErr := d.tryGetCredentialsInternal(secretName)
 	if edgexErr != nil {
 		d.lc.Errorf("Failed to retrieve credentials for the secret name %s: %s", secretName, edgexErr.Error())
 		return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get credentials", edgexErr)
 	}
 
-	d.lc.Debugf("Found credentials from secret name %s for device %s", secretName, device.Name)
-
 	return credentials, nil
+}
+
+func (d *Driver) secretUpdated(secretName string) {
+	d.lc.Infof("Secret updated callback called for secretName %s", secretName)
+
+	d.credsCacheMu.Lock()
+	// remove the cache entry for this secret
+	delete(d.credsCache, secretName)
+	d.credsCacheMu.Unlock()
+	_, _ = d.getCredentials(secretName) // update cached data
+
+	for _, device := range d.sdkService.Devices() {
+		d.lc.Debugf("Updating onvif client for device %s", device.Name)
+		err := d.updateOnvifClient(device)
+		if err != nil {
+			d.lc.Errorf("Unable to update onvif client for device: %s, %v", device.Name, err)
+		}
+	}
+
+	d.lc.Debug("Done updating onvif clients")
+}
+
+func (d *Driver) getCredentials(secretName string) (Credentials, errors.EdgeX) {
+	d.credsCacheMu.RLock()
+	creds, found := d.credsCache[secretName]
+	d.credsCacheMu.RUnlock()
+	if found {
+		return creds, nil
+	}
+
+	d.credsCacheMu.Lock()
+	creds, err := d.tryGetCredentialsInternal(secretName)
+	d.credsCacheMu.Unlock()
+	if err != nil {
+		return Credentials{}, err
+	}
+	// cache the credentials and return them
+	d.credsCache[secretName] = creds
+	return creds, nil
+}
+
+func (c Credentials) Equals(other Credentials) bool {
+	return c.Username == other.Username &&
+		c.Password == other.Password &&
+		c.AuthMode == other.AuthMode
 }
