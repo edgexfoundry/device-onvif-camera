@@ -46,16 +46,15 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 
 	// if device is unknown, and missing a MAC Address, try and determine the MAC address via the endpoint reference
 	if strings.HasPrefix(device.Name, UnknownDevicePrefix) && device.Protocols[OnvifProtocol][MACAddress] == "" {
-		endpointRefAddr := ""
 		if v, ok := device.Protocols[OnvifProtocol][EndpointRefAddress]; ok {
-			endpointRefAddr = fmt.Sprintf("%v", v)
-		}
-		if endpointRefAddr != "" {
-			if mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr); mac != "" {
-				// the mac address for the device was found, so set it here which will allow the
-				// code below to use the mac address for looking up the credentials. Because the mac mapper
-				// already contains them, the credentials will be found (whether they are valid or invalid).
-				device.Protocols[OnvifProtocol][MACAddress] = mac
+			endpointRefAddr := fmt.Sprintf("%v", v)
+			if endpointRefAddr != "" {
+				if mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr); mac != "" {
+					// the mac address for the device was found, so set it here which will allow the
+					// code below to use the mac address for looking up the credentials. Because the mac mapper
+					// already contains them, the credentials will be found (whether they are valid or invalid).
+					device.Protocols[OnvifProtocol][MACAddress] = mac
+				}
 			}
 		}
 	}
@@ -82,7 +81,7 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 // Higher degrees of connection are tested first, because if they
 // succeed, the lower levels of connection will too
 func (d *Driver) testConnectionMethods(device models.Device) (status string) {
-	devClient, err := d.getOnvifClient(device)
+	devClient, err := d.getOrCreateOnvifClient(device)
 	if err != nil {
 		d.lc.Warnf("Error getting onvif client for device %s", device.Name)
 		// if we do not have a valid onvif client, lets just tcp probe it
@@ -116,26 +115,13 @@ func (d *Driver) testConnectionMethods(device models.Device) (status string) {
 // tcpProbe attempts to make a connection to a specific ip and port list to determine
 // if there is a service listening at that ip+port.
 func (d *Driver) tcpProbe(device models.Device) bool {
-	proto, ok := device.Protocols[OnvifProtocol]
-	if !ok {
-		d.lc.Warnf("Device %s is missing required %s protocol info, cannot send probe.", device.Name, OnvifProtocol)
+	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
+	if edgexErr != nil {
+		d.lc.Warnf("Device %s is missing required %s protocol info, cannot send probe: %v", device.Name, OnvifProtocol, edgexErr)
 		return false
-	}
-	addr := ""
-	if v, ok := proto[Address]; ok {
-		addr = fmt.Sprintf("%v", v)
-	}
-	port := ""
-	if v, ok := proto[Port]; ok {
-		port = fmt.Sprintf("%v", v)
 	}
 
-	if addr == "" || port == "" {
-		d.lc.Warnf("Device %s has no network address, cannot send probe.", device.Name)
-		return false
-	}
-	host := addr + ":" + port
-	conn, err := net.DialTimeout("tcp", host, time.Duration(d.config.AppCustom.ProbeTimeoutMillis)*time.Millisecond)
+	conn, err := net.DialTimeout("tcp", xAddr, time.Duration(d.config.AppCustom.ProbeTimeoutMillis)*time.Millisecond)
 	if err != nil {
 		d.lc.Debugf("Connection to %s failed when using simple tcp dial, Error: %s ", device.Name, err.Error())
 		return false

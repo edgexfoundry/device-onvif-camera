@@ -111,7 +111,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		d.lc.Debugf("No MAC Address match was found for EndpointRefAddress %s", endpointRefAddr)
 	}
 
-	onvifClient, edgexErr := d.newOnvifClient(device, true)
+	onvifClient, edgexErr := d.newTemporaryOnvifClient(device)
 	if edgexErr != nil {
 		d.lc.Warnf("failed to create onvif client for the camera %s, %v", endpointRefAddr, edgexErr)
 		return sdkModel.DiscoveredDevice{}, fmt.Errorf("failed to create onvif client for the camera %s", endpointRefAddr)

@@ -53,31 +53,35 @@ type OnvifClient struct {
 	baseNotificationManager *BaseNotificationManager
 }
 
-// newOnvifClient returns an OnvifClient for a single camera. If temporary is true, a temporary client for
-// auto-discovery is created without the extra managers and resources of a normal client.
-func (d *Driver) newOnvifClient(device models.Device, temporary bool) (*OnvifClient, errors.EdgeX) {
+// newOnvifClient returns a new OnvifClient for communicating with a single camera with all of the additional
+// managers and resources needed for normal operation.
+func (d *Driver) newOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
+	return d.newOnvifClientInternal(device, false)
+}
+
+// newTemporaryOnvifClient returns a new OnvifClient for communicating with a single camera, however
+// it is created without the extra managers and resources of a normal client for use in auto-discovery.
+func (d *Driver) newTemporaryOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
+	return d.newOnvifClientInternal(device, true)
+}
+
+// newOnvifClientInternal creates either a normal or a temporary OnvifClient
+func (d *Driver) newOnvifClientInternal(device models.Device, temporary bool) (*OnvifClient, errors.EdgeX) {
 	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
-	}
-
-	credential, edgexErr := d.tryGetCredentialsForDevice(device)
-	if edgexErr != nil {
-		// if credentials are not found, instead of returning an error, set the AuthMode to NoAuth
-		// and allow the user to call unauthenticated endpoints
-		d.lc.Warnf("Unable to find credentials for Device %s, reverting to no auth", device.Name)
-		credential = noAuthCredentials
 	}
 
 	d.configMu.Lock()
 	requestTimeout := d.config.AppCustom.RequestTimeout
 	d.configMu.Unlock()
 
+	credentials := d.getCredentialsForDevice(device)
 	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr:    xAddr,
-		Username: credential.Username,
-		Password: credential.Password,
-		AuthMode: credential.AuthMode,
+		Username: credentials.Username,
+		Password: credentials.Password,
+		AuthMode: credentials.AuthMode,
 		HttpClient: &http.Client{
 			Timeout: time.Duration(requestTimeout) * time.Second,
 		},
@@ -119,21 +123,19 @@ func (d *Driver) updateOnvifClient(device models.Device) errors.EdgeX {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to create cameraInfo for camera %s", device.Name), edgexErr)
 	}
 
-	credential, edgexErr := d.tryGetCredentialsForDevice(device)
+	onvifClient, edgexErr := d.getOrCreateOnvifClient(device)
 	if edgexErr != nil {
-		d.lc.Warnf("Unable to find credentials for Device %s, reverting to no auth", device.Name)
-		credential = noAuthCredentials
+		return edgexErr
 	}
 
-	onvifClient, edgexErr := d.getOnvifClient(device)
-	if edgexErr == nil {
-		existingParams := onvifClient.onvifDevice.GetDeviceParams()
-		if xAddr == existingParams.Xaddr && credential.Username == existingParams.Username &&
-			credential.Password == existingParams.Password && credential.AuthMode == existingParams.AuthMode {
-			// XAddr and credentials are the same, skip creating new connection
-			d.lc.Tracef("Skip creating new connection for un-modified device %s", device.Name)
-			return nil
-		}
+	credentials := d.getCredentialsForDevice(device)
+	existingParams := onvifClient.onvifDevice.GetDeviceParams()
+	// check the internal parameters used when creating the onvif device vs the current ones
+	if xAddr == existingParams.Xaddr && credentials.Username == existingParams.Username &&
+		credentials.Password == existingParams.Password && credentials.AuthMode == existingParams.AuthMode {
+		// XAddr and credentials are the same, skip creating new connection
+		d.lc.Tracef("Skip creating new connection for un-modified device %s", device.Name)
+		return nil
 	}
 
 	d.lc.Debugf("Updating connection for modified device %s", device.Name)
@@ -144,9 +146,9 @@ func (d *Driver) updateOnvifClient(device models.Device) errors.EdgeX {
 
 	onvifDevice, err := onvif.NewDevice(onvif.DeviceParams{
 		Xaddr:    xAddr,
-		Username: credential.Username,
-		Password: credential.Password,
-		AuthMode: credential.AuthMode,
+		Username: credentials.Username,
+		Password: credentials.Password,
+		AuthMode: credentials.AuthMode,
 		HttpClient: &http.Client{
 			Timeout: time.Duration(requestTimeout) * time.Second,
 		},
@@ -162,6 +164,32 @@ func (d *Driver) updateOnvifClient(device models.Device) errors.EdgeX {
 
 	d.checkStatusOfDevice(device)
 	return nil
+}
+
+func (d *Driver) getOrCreateOnvifClient(device models.Device) (*OnvifClient, errors.EdgeX) {
+	d.clientsMu.RLock()
+	onvifClient, ok := d.onvifClients[device.Name]
+	d.clientsMu.RUnlock()
+	if ok {
+		return onvifClient, nil
+	}
+
+	onvifClient, err := d.newOnvifClient(device)
+	if err != nil {
+		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to initialize onvif client for '%s' camera", device.Name), err)
+	}
+
+	d.clientsMu.Lock()
+	d.onvifClients[device.Name] = onvifClient
+	d.clientsMu.Unlock()
+	return onvifClient, nil
+}
+
+func (d *Driver) removeOnvifClient(deviceName string) {
+	d.clientsMu.Lock()
+	defer d.clientsMu.Unlock()
+	// note: delete on non-existing keys is a no-op
+	delete(d.onvifClients, deviceName)
 }
 
 func (d *Driver) getCameraEventResourceByDeviceName(deviceName string) (r models.DeviceResource, edgexErr errors.EdgeX) {

@@ -8,6 +8,8 @@
 package driver
 
 import (
+	"fmt"
+	"github.com/stretchr/testify/mock"
 	"testing"
 
 	"github.com/IOTechSystems/onvif"
@@ -16,6 +18,12 @@ import (
 	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
+)
+
+const (
+	defaultSecretName = "default_secret_name"
+	secret1Name       = "secret1"
+	testMAC1          = ""
 )
 
 // TestIsAuthModeValid verifies auth mode is set correctly.
@@ -125,12 +133,12 @@ func TestTryGetCredentials(t *testing.T) {
 			} else if test.secretName != noAuthSecretName { // expect not to be called for noAuth
 				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).
 					Return(map[string]string{"username": test.mockUsername, "password": test.mockPassword, "mode": test.mockAuthMode}, nil).
-					Once() // expect to only be called once (cached lookups afterward)
+					Times(lookups) // expect to be called for every lookup
 			}
 
-			// perform the lookup multiple times to check caching
+			// perform the lookup multiple times
 			for i := 0; i < lookups; i++ {
-				actual, err := driver.getCredentials(test.secretName)
+				actual, err := driver.tryGetCredentialsInternal(test.secretName)
 				if test.errorExpected {
 					require.Error(t, err)
 					return
@@ -143,49 +151,66 @@ func TestTryGetCredentials(t *testing.T) {
 	}
 }
 
-// TestTryGetCredentialsForDevice verifies correct credentials are returned for a device based on the MAC address of the device.
-func TestTryGetCredentialsForDevice(t *testing.T) {
+// TestGetCredentialsForDevice verifies correct credentials are returned for a device based on the MAC address of the device.
+func TestGetCredentialsForDevice(t *testing.T) {
+	testMAC2 := "aa:bb:cc:11:11:11"
+	noAuthMAC := "cc:cc:dd:dd:11:22"
+	bogusMAC := "14:36:90:65:ff:ab"
+
+	existingSecrets := map[string]Credentials{
+		defaultSecretName: {
+			Username: "default",
+			Password: "password",
+			AuthMode: AuthModeBoth,
+		},
+		secret1Name: {
+			Username: "user1",
+			Password: "pass1",
+			AuthMode: AuthModeUsernameToken,
+		},
+	}
 
 	tests := []struct {
-		existingProtocols map[string]models.ProtocolProperties
-		device            models.Device
-		expected          Credentials
-		secretName        string
-
-		errorExpected bool
-		username      string
-		password      string
-		authMode      string
+		name        string
+		macAddress  string
+		secretStore map[string]Credentials
+		expected    Credentials
 	}{
 		{
-			existingProtocols: map[string]models.ProtocolProperties{
-				OnvifProtocol: {
-					MACAddress: "",
-				},
-			},
-
-			secretName:    "default_secret_name",
-			username:      "username",
-			password:      "password",
-			authMode:      onvif.DigestAuth,
-			errorExpected: true,
+			name:        "missing MAC, fallback to default credentials",
+			macAddress:  "",
+			secretStore: existingSecrets,
+			expected:    existingSecrets[defaultSecretName],
 		},
 		{
-			existingProtocols: map[string]models.ProtocolProperties{
-				OnvifProtocol: {
-					MACAddress: "aa:bb:cc:dd:ee:ff",
-				},
-			},
-
-			secretName: "secret_name",
-			username:   "username",
-			password:   "password",
-			authMode:   onvif.UsernameTokenAuth,
-			expected: Credentials{
-				AuthMode: AuthModeUsernameToken,
-				Username: "username",
-				Password: "password",
-			},
+			name:        "no mapping for MAC, fallback to default credentials",
+			macAddress:  bogusMAC,
+			secretStore: existingSecrets,
+			expected:    existingSecrets[defaultSecretName],
+		},
+		{
+			name:        "success secret1",
+			macAddress:  testMACAddress,
+			secretStore: existingSecrets,
+			expected:    existingSecrets[secret1Name],
+		},
+		{
+			name:        "mapping points to missing secret, fallback to no auth",
+			macAddress:  testMAC2,
+			secretStore: existingSecrets,
+			expected:    noAuthCredentials,
+		},
+		{
+			name:        "no MAC specified, but missing default credentials secret, fallback to no auth",
+			macAddress:  "",
+			secretStore: map[string]Credentials{},
+			expected:    noAuthCredentials,
+		},
+		{
+			name:        "success - explicitly map to no auth",
+			macAddress:  noAuthMAC,
+			secretStore: map[string]Credentials{},
+			expected:    noAuthCredentials,
 		},
 	}
 
@@ -193,40 +218,40 @@ func TestTryGetCredentialsForDevice(t *testing.T) {
 
 	driver.macAddressMapper = NewMACAddressMapper(mockService)
 	driver.macAddressMapper.credsMap = convertMACMappings(t, map[string]string{
-		"secret_name": "aa:bb:cc:dd:ee:ff",
+		secret1Name:      testMACAddress,
+		"bogus":          testMAC2,
+		noAuthSecretName: noAuthMAC,
 	})
 	driver.config = &ServiceConfig{
 		AppCustom: CustomConfig{
-			DefaultSecretName: "default_secret_name",
+			DefaultSecretName: defaultSecretName,
 		},
 	}
 
 	mockSecretProvider := &mocks.SecretProvider{}
+	getSecret := mockSecretProvider.On("GetSecret", mock.AnythingOfType("string"), UsernameKey, PasswordKey, AuthModeKey)
 	mockService.On("SecretProvider").Return(mockSecretProvider)
 
 	for _, test := range tests {
 		test := test
-		t.Run(test.secretName, func(t *testing.T) {
-			// reset the secret provider
-			*mockSecretProvider = mocks.SecretProvider{}
+		t.Run(test.name, func(t *testing.T) {
+			// each run override the response of getSecret based on the provided secret store input
+			getSecret.Run(func(args mock.Arguments) {
+				if secret, ok := test.secretStore[args.String(0)]; ok {
+					getSecret.Return(map[string]string{"username": secret.Username, "password": secret.Password, "mode": secret.AuthMode}, nil)
+				} else {
+					getSecret.Return(nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("secret %s does not exist", args.String(0)), nil))
+				}
+			})
 
-			if test.errorExpected {
-				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).
-					Return(nil, errors.NewCommonEdgeX(errors.KindServerError, "unit test error", nil))
-			} else {
-				mockSecretProvider.On("GetSecret", test.secretName, UsernameKey, PasswordKey, AuthModeKey).
-					Return(map[string]string{"username": test.username, "password": test.password, "mode": test.authMode}, nil)
-			}
+			device := createTestDeviceWithProtocols(map[string]models.ProtocolProperties{
+				OnvifProtocol: {
+					MACAddress: test.macAddress,
+				},
+			})
 
-			actual, err := driver.tryGetCredentialsForDevice(createTestDeviceWithProtocols(test.existingProtocols))
-			if test.errorExpected {
-				require.Error(t, err)
-				return
-			}
-			require.NoError(t, err)
-			assert.Equal(t, test.expected.Username, actual.Username)
-			assert.Equal(t, test.expected.Password, actual.Password)
-			assert.Equal(t, test.expected.AuthMode, actual.AuthMode)
+			actual := driver.getCredentialsForDevice(device)
+			assert.Equal(t, test.expected, actual)
 		})
 	}
 }

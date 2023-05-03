@@ -52,6 +52,7 @@ func createDriverWithMockService() (*Driver, *sdkMocks.DeviceServiceSDK) {
 	driver := NewDriver()
 	driver.lc = logger.MockLogger{}
 	driver.sdkService = mockService
+	mockService.On("LoggingClient").Return(driver.lc).Maybe()
 	return driver, mockService
 }
 

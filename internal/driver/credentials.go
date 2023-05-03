@@ -84,11 +84,12 @@ func (d *Driver) tryGetCredentialsInternal(secretName string) (Credentials, erro
 	return credentials, nil
 }
 
-// tryGetCredentialsForDevice will attempt to use the device's MAC address to look up the credentials
+// getCredentialsForDevice will attempt to use the device's MAC address to look up the credentials
 // from the Secret Store. If a mapping does not exist, or the device's MAC address is missing or invalid,
-// the default secret name will be used to look up the credentials. An error is returned if the secret name
-// does not exist in the Secret Store.
-func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, errors.EdgeX) {
+// the default secret name will be used to look up the credentials. If the resolved secret name
+// does not exist in the Secret Store, noAuthCredentials are returned, allowing the user
+// to still call unauthenticated endpoints.
+func (d *Driver) getCredentialsForDevice(device models.Device) Credentials {
 	d.configMu.RLock()
 	defaultSecretName := d.config.AppCustom.DefaultSecretName
 	d.configMu.RUnlock()
@@ -106,49 +107,25 @@ func (d *Driver) tryGetCredentialsForDevice(device models.Device) (Credentials, 
 
 	credentials, edgexErr := d.tryGetCredentialsInternal(secretName)
 	if edgexErr != nil {
-		d.lc.Errorf("Failed to retrieve credentials for the secret name %s: %s", secretName, edgexErr.Error())
-		return Credentials{}, errors.NewCommonEdgeX(errors.KindServerError, "failed to get credentials", edgexErr)
+		// if credentials are not found, instead of returning an error, set the AuthMode to NoAuth
+		// and allow the user to call unauthenticated endpoints
+		d.lc.Errorf("Failed to retrieve credentials for the secret name %s. Falling back to using NoAuth: %s", secretName, edgexErr.Error())
+		return noAuthCredentials
 	}
 
-	return credentials, nil
+	return credentials
 }
 
 func (d *Driver) secretUpdated(secretName string) {
-	d.lc.Infof("Secret updated callback called for secretName %s", secretName)
-
-	d.credsCacheMu.Lock()
-	// remove the cache entry for this secret
-	delete(d.credsCache, secretName)
-	d.credsCacheMu.Unlock()
-	_, _ = d.getCredentials(secretName) // update cached data
+	d.lc.Infof("Secret updated callback called for secretName '%s'", secretName)
 
 	for _, device := range d.sdkService.Devices() {
-		d.lc.Debugf("Updating onvif client for device %s", device.Name)
+		d.lc.Tracef("Updating onvif client for device %s", device.Name)
 		err := d.updateOnvifClient(device)
 		if err != nil {
 			d.lc.Errorf("Unable to update onvif client for device: %s, %v", device.Name, err)
 		}
 	}
 
-	d.lc.Debug("Done updating onvif clients")
-}
-
-func (d *Driver) getCredentials(secretName string) (Credentials, errors.EdgeX) {
-	d.credsCacheMu.RLock()
-	creds, found := d.credsCache[secretName]
-	d.credsCacheMu.RUnlock()
-	if found {
-		return creds, nil
-	}
-
-	creds, err := d.tryGetCredentialsInternal(secretName)
-	if err != nil {
-		return Credentials{}, err
-	}
-
-	d.credsCacheMu.Lock()
-	// cache the credentials and return them
-	d.credsCache[secretName] = creds
-	d.credsCacheMu.Unlock()
-	return creds, nil
+	d.lc.Trace("Done updating onvif clients")
 }
