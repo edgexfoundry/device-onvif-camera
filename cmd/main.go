@@ -18,6 +18,5 @@ const (
 )
 
 func main() {
-	sd := driver.Driver{}
-	startup.Bootstrap(serviceName, device_camera.Version, &sd)
+	startup.Bootstrap(serviceName, device_camera.Version, driver.NewDriver())
 }

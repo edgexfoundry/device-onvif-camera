@@ -47,9 +47,12 @@ func (m *MACAddressMapper) UpdateMappings(raw map[string]string) {
 		}
 
 		for _, mac := range strings.Split(macs, ",") {
+			if mac == "" {
+				continue // skip empty MAC addresses
+			}
 			sanitized, err := SanitizeMACAddress(mac)
 			if err != nil {
-				m.sdkService.LoggingClient().Warnf("Skipping invalid mac address %s: %s", mac, err.Error())
+				m.sdkService.LoggingClient().Warnf("Skipping invalid mac address '%s': %s", mac, err.Error())
 				continue
 			}
 			// note: if the mac address already has a mapping, we do not overwrite it
@@ -80,6 +83,8 @@ func (m *MACAddressMapper) TryGetSecretNameForMACAddress(mac string, defaultSecr
 	secretName, found := m.credsMap[sanitized]
 	if !found {
 		m.sdkService.LoggingClient().Debugf("No credential mapping exists for mac address '%s', will use default secret name.", mac)
+		// store in lookup table
+		m.credsMap[sanitized] = defaultSecretName
 		return defaultSecretName
 	}
 

@@ -46,16 +46,15 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 
 	// if device is unknown, and missing a MAC Address, try and determine the MAC address via the endpoint reference
 	if strings.HasPrefix(device.Name, UnknownDevicePrefix) && device.Protocols[OnvifProtocol][MACAddress] == "" {
-		endpointRefAddr := ""
 		if v, ok := device.Protocols[OnvifProtocol][EndpointRefAddress]; ok {
-			endpointRefAddr = fmt.Sprintf("%v", v)
-		}
-		if endpointRefAddr != "" {
-			if mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr); mac != "" {
-				// the mac address for the device was found, so set it here which will allow the
-				// code below to use the mac address for looking up the credentials. Because the mac mapper
-				// already contains them, the credentials will be found (whether they are valid or invalid).
-				device.Protocols[OnvifProtocol][MACAddress] = mac
+			endpointRefAddr := fmt.Sprintf("%v", v)
+			if endpointRefAddr != "" {
+				if mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr); mac != "" {
+					// the mac address for the device was found, so set it here which will allow the
+					// code below to use the mac address for looking up the credentials. Because the mac mapper
+					// already contains them, the credentials will be found (whether they are valid or invalid).
+					device.Protocols[OnvifProtocol][MACAddress] = mac
+				}
 			}
 		}
 	}
@@ -68,7 +67,7 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 		d.lc.Infof("Device %s is now %s, refreshing the device information.", device.Name, UpWithAuth)
 		go func() { // refresh the device information in the background
 			if refreshErr := d.refreshDevice(device); refreshErr != nil {
-				d.lc.Warnf("An error occurred while refreshing the device %s: %s",
+				d.lc.Errorf("An error occurred while refreshing the device %s: %s",
 					device.Name, refreshErr.Error())
 			}
 		}()
@@ -82,52 +81,47 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 // Higher degrees of connection are tested first, because if they
 // succeed, the lower levels of connection will too
 func (d *Driver) testConnectionMethods(device models.Device) (status string) {
-
-	// sends get capabilities command to device (does not require credentials)
-	devClient, edgexErr := d.newTemporaryOnvifClient(device)
-	if edgexErr != nil {
-		d.lc.Debugf("Connection to %s failed when creating client: %s", device.Name, edgexErr.Message())
-		// onvif connection failed, so lets probe it
+	devClient, err := d.getOrCreateOnvifClient(device)
+	if err != nil {
+		d.lc.Warnf("Error getting onvif client for device %s", device.Name)
+		// if we do not have a valid onvif client, lets just tcp probe it
 		if d.tcpProbe(device) {
 			return Reachable
 		}
 		return Unreachable
-
 	}
 
-	// sends get device information command to device (requires credentials)
-	_, edgexErr = devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetDeviceInformation, []byte{})
-	if edgexErr != nil {
-		d.lc.Debugf("%s command failed for device %s when using authentication: %s", onvif.GetDeviceInformation, device.Name, edgexErr.Message())
-		return UpWithoutAuth
+	// sends GetDeviceInformation command to device (requires authentication)
+	_, edgexErr := devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetDeviceInformation, []byte{})
+	if edgexErr == nil {
+		return UpWithAuth // we are authenticated
 	}
+	d.lc.Debugf("%s command failed for device %s when using authentication: %s", onvif.GetDeviceInformation, device.Name, edgexErr.Message())
 
-	return UpWithAuth
+	// sends GetSystemDateAndTime command to device (does not require authentication)
+	_, edgexErr = devClient.callOnvifFunction(onvif.DeviceWebService, onvif.GetSystemDateAndTime, []byte{})
+	if edgexErr == nil {
+		return UpWithoutAuth // non-authenticated onvif command is working
+	}
+	d.lc.Debugf("%s command failed for device %s without using authentication: %s", onvif.GetSystemDateAndTime, device.Name, edgexErr.Message())
+
+	// onvif commands are not working, so let us probe it
+	if d.tcpProbe(device) {
+		return Reachable
+	}
+	return Unreachable
 }
 
 // tcpProbe attempts to make a connection to a specific ip and port list to determine
 // if there is a service listening at that ip+port.
 func (d *Driver) tcpProbe(device models.Device) bool {
-	proto, ok := device.Protocols[OnvifProtocol]
-	if !ok {
-		d.lc.Warnf("Device %s is missing required %s protocol info, cannot send probe.", device.Name, OnvifProtocol)
+	xAddr, edgexErr := GetCameraXAddr(device.Protocols)
+	if edgexErr != nil {
+		d.lc.Warnf("Device %s is missing required %s protocol info, cannot send probe: %v", device.Name, OnvifProtocol, edgexErr)
 		return false
-	}
-	addr := ""
-	if v, ok := proto[Address]; ok {
-		addr = fmt.Sprintf("%v", v)
-	}
-	port := ""
-	if v, ok := proto[Port]; ok {
-		port = fmt.Sprintf("%v", v)
 	}
 
-	if addr == "" || port == "" {
-		d.lc.Warnf("Device %s has no network address, cannot send probe.", device.Name)
-		return false
-	}
-	host := addr + ":" + port
-	conn, err := net.DialTimeout("tcp", host, time.Duration(d.config.AppCustom.ProbeTimeoutMillis)*time.Millisecond)
+	conn, err := net.DialTimeout("tcp", xAddr, time.Duration(d.config.AppCustom.ProbeTimeoutMillis)*time.Millisecond)
 	if err != nil {
 		d.lc.Debugf("Connection to %s failed when using simple tcp dial, Error: %s ", device.Name, err.Error())
 		return false
