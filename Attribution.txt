@@ -226,3 +226,9 @@ https://github.com/golang/tools/blob/master/LICENSE
 
 github.com/go-jose/go-jose/v3 (Apache-2.0) https://github.com/go-jose/go-jose
 https://github.com/go-jose/go-jose/blob/v3/LICENSE
+
+github.com/google/btree (Apache-2.0) https://github.com/google/btree
+https://github.com/google/btree/blob/master/LICENSE
+
+github.com/kr/pretty (MIT) https://github.com/kr/pretty
+https://github.com/kr/pretty/blob/main/License

@@ -141,19 +141,14 @@ func (d *Driver) getCredentials(secretName string) (Credentials, errors.EdgeX) {
 		return creds, nil
 	}
 
-	d.credsCacheMu.Lock()
 	creds, err := d.tryGetCredentialsInternal(secretName)
-	d.credsCacheMu.Unlock()
 	if err != nil {
 		return Credentials{}, err
 	}
+
+	d.credsCacheMu.Lock()
 	// cache the credentials and return them
 	d.credsCache[secretName] = creds
+	d.credsCacheMu.Unlock()
 	return creds, nil
-}
-
-func (c Credentials) Equals(other Credentials) bool {
-	return c.Username == other.Username &&
-		c.Password == other.Password &&
-		c.AuthMode == other.AuthMode
 }

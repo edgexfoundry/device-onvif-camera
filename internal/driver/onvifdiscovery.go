@@ -114,7 +114,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 	onvifClient, edgexErr := d.newOnvifClient(device, true)
 	if edgexErr != nil {
 		d.lc.Warnf("failed to create onvif client for the camera %s, %v", endpointRefAddr, edgexErr)
-		return sdkModel.DiscoveredDevice{}, fmt.Errorf("ailed to create onvif client for the camera %s", endpointRefAddr)
+		return sdkModel.DiscoveredDevice{}, fmt.Errorf("failed to create onvif client for the camera %s", endpointRefAddr)
 	}
 
 	var discovered sdkModel.DiscoveredDevice
