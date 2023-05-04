@@ -4,7 +4,7 @@
 > **Note**: This is the stable release branch compatible with **EdgeX Levski (2.3.x)**. It is only compatible with the [levski branch of edgex-compose](https://github.com/edgexfoundry/edgex-compose/tree/levski).
 
 # Learn More 
-Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/2.3/microservices/device/supported/device-onvif-camera/general) for more details.
+Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/2.3/microservices/device/supported/device-onvif-camera/General) for more details.
 
 ## License
 
