@@ -1,6 +1,6 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
-// Copyright (C) 2022 Intel Corporation
+// Copyright (C) 2022-2023 Intel Corporation
 // Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -9,11 +9,9 @@ package driver
 
 import (
 	"context"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/secret"
-	"net/url"
 	"strings"
 	"sync"
 	"time"
@@ -72,18 +70,6 @@ func NewDriver() *Driver {
 	}
 }
 
-type MultiErr []error
-
-//goland:noinspection GoReceiverNames
-func (me MultiErr) Error() string {
-	strs := make([]string, len(me))
-	for i, s := range me {
-		strs[i] = s.Error()
-	}
-
-	return strings.Join(strs, "; ")
-}
-
 // Initialize performs protocol-specific initialization for the device
 // service.
 func (d *Driver) Initialize(sdk interfaces.DeviceServiceSDK) error {
@@ -115,6 +101,19 @@ func (d *Driver) Initialize(sdk interfaces.DeviceServiceSDK) error {
 		return errors.NewCommonEdgeX(errors.KindServerError, "failed to listen to custom config changes", err)
 	}
 
+	handler := NewRestNotificationHandler(d.sdkService)
+	edgexErr := handler.AddRoute()
+	if edgexErr != nil {
+		return errors.NewCommonEdgeXWrapper(edgexErr)
+	}
+
+	d.lc.Info("Driver initialized.")
+	return nil
+}
+
+// Start is called after the device sdk is fully initialized. This function creates connections to all the cameras
+// and checks their statuses. It then runs the task loop if enabled.
+func (d *Driver) Start() error {
 	for _, device := range d.sdkService.Devices() {
 		d.lc.Infof("Initializing onvif client for '%s' camera", device.Name)
 		_, err := d.getOrCreateOnvifClient(device)
@@ -123,12 +122,6 @@ func (d *Driver) Initialize(sdk interfaces.DeviceServiceSDK) error {
 			continue
 		}
 		d.checkStatusOfDevice(device)
-	}
-
-	handler := NewRestNotificationHandler(d.sdkService)
-	edgexErr := handler.AddRoute()
-	if edgexErr != nil {
-		return errors.NewCommonEdgeXWrapper(edgexErr)
 	}
 
 	d.configMu.RLock()
@@ -145,73 +138,71 @@ func (d *Driver) Initialize(sdk interfaces.DeviceServiceSDK) error {
 		}()
 	}
 
-	d.lc.Info("Driver initialized.")
+	d.lc.Info("Driver started.")
 	return nil
 }
 
-func (d *Driver) updateWritableConfig(rawWritableConfig interface{}) {
-	updated, ok := rawWritableConfig.(*CustomConfig)
-	if !ok {
-		d.lc.Errorf("Unable to update writable custom config: Cannot cast raw config of type %T into type 'CustomConfig'",
-			rawWritableConfig)
-		return
+// Stop the protocol-specific DS code to shutdown gracefully, or
+// if the force parameter is 'true', immediately. The driver is responsible
+// for closing any in-use channels, including the channel used to send async
+// readings (if supported).
+func (d *Driver) Stop(force bool) error {
+	if d.sdkService.AsyncValuesChannel() != nil {
+		close(d.sdkService.AsyncValuesChannel())
 	}
 
-	d.configMu.Lock()
-	oldSubnets := d.config.AppCustom.DiscoverySubnets
-	d.config.AppCustom = *updated
-	d.configMu.Unlock()
-
-	if updated.DiscoverySubnets != oldSubnets {
-		d.lc.Info("Discover configuration has changed! Discovery will be triggered momentarily.")
-		d.debouncedDiscover()
+	d.clientsMu.Lock()
+	for _, client := range d.onvifClients {
+		client.pullPointManager.UnsubscribeAll()
+		client.baseNotificationManager.UnsubscribeAll()
 	}
+	d.onvifClients = make(map[string]*OnvifClient)
+	d.clientsMu.Unlock()
 
-	d.macAddressMapper.UpdateMappings(d.config.AppCustom.CredentialsMap)
-	// check device statuses in case the credentials map was updated
-	d.checkStatuses()
+	close(d.taskCh) // send signal for taskLoop to finish
+	d.wg.Wait()     // wait for taskLoop goroutine to return
+
+	return nil
 }
 
-// debouncedDiscover adds or updates a future call to Discover. This function is intended to be
-// called by the config watcher in response to any configuration changes related to discovery.
-// The reason Discover calls are being debounced is to allow the user to make multiple changes to
-// their configuration, and only fire the discovery once.
-//
-// The way it works is that this code creates and starts a timer for discoverDebounceDuration.
-// Every subsequent call to this function before that timer elapses resets the timer to
-// discoverDebounceDuration. Once the timer finally elapses, the Discover function is called.
-func (d *Driver) debouncedDiscover() {
-	d.lc.Debugf("trigger debounced discovery in %v", discoverDebounceDuration)
-
-	// everything in this function is mutex-locked and is safe to access asynchronously
-	d.debounceMu.Lock()
-	defer d.debounceMu.Unlock()
-
-	if d.debounceTimer != nil {
-		// timer is already active, so reset it (debounce)
-		d.debounceTimer.Reset(discoverDebounceDuration)
-	} else {
-		// no timer is active, so create and start a new one
-		d.debounceTimer = time.NewTimer(discoverDebounceDuration)
-
-		// asynchronously listen for the timer to elapse. this go routine will only ever be run
-		// once due to mutex locking and the above if statement.
-		go func() {
-			// wait for timer to tick
-			<-d.debounceTimer.C
-
-			// remove timer. we must lock the mutex as this go routine runs separately from the
-			// outer function's locked scope
-			d.debounceMu.Lock()
-			d.debounceTimer = nil
-			d.debounceMu.Unlock()
-
-			err := d.Discover()
-			if err != nil {
-				d.lc.Errorf("failed to run device discovery, %v", err)
-			}
-		}()
+// AddDevice is a callback function that is invoked
+// when a new Device associated with this Device Service is added
+func (d *Driver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
+	_, err := d.getOrCreateOnvifClient(models.Device{Name: deviceName, Protocols: protocols})
+	if err != nil {
+		d.lc.Errorf("Failed to initialize onvif client for camera '%s'", deviceName)
+		return errors.NewCommonEdgeXWrapper(err)
 	}
+	// check the status of the newly added device
+	d.checkStatusOfDevice(models.Device{Name: deviceName, Protocols: protocols})
+	return nil
+}
+
+// UpdateDevice is a callback function that is invoked
+// when a Device associated with this Device Service is updated
+func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
+	// Invoke the updateOnvifClient func to update the old onvif client if needed
+	err := d.updateOnvifClient(models.Device{Name: deviceName, Protocols: protocols})
+	if err != nil {
+		d.lc.Errorf("Unable to update onvif device client for device %s, %v", deviceName, err)
+	}
+	return err
+}
+
+// RemoveDevice is a callback function that is invoked
+// when a Device associated with this Device Service is removed
+func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
+	d.removeOnvifClient(deviceName)
+	return nil
+}
+
+// ValidateDevice is called by core-metadata service anytime a device is added or updated.
+func (d *Driver) ValidateDevice(device models.Device) error {
+	_, err := GetCameraXAddr(device.Protocols)
+	if err != nil {
+		return fmt.Errorf("invalid protocol properties, %v", err)
+	}
+	return nil
 }
 
 // HandleReadCommands triggers a protocol Read operation for the specified device.
@@ -239,31 +230,6 @@ func (d *Driver) HandleReadCommands(deviceName string, protocols map[string]mode
 	}
 
 	return responses, nil
-}
-
-func attributeByKey(attributes map[string]interface{}, key string) (attr string, err errors.EdgeX) {
-	val, ok := attributes[key]
-	if !ok {
-		return "", errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("attribute %s not exists", key), nil)
-	}
-	attr = fmt.Sprint(val)
-	return attr, nil
-}
-
-func parametersFromURLRawQuery(req sdkModel.CommandRequest) ([]byte, errors.EdgeX) {
-	values, err := url.ParseQuery(fmt.Sprint(req.Attributes[URLRawQuery]))
-	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to parse get command parameter for resource '%s'", req.DeviceResourceName), err)
-	}
-	param, exists := values[jsonObject]
-	if !exists || len(param) == 0 {
-		return []byte{}, nil
-	}
-	data, err := base64.StdEncoding.DecodeString(param[0])
-	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to decode '%v' parameter for resource '%s', the value should be json object with base64 encoded", jsonObject, req.DeviceResourceName), err)
-	}
-	return data, nil
 }
 
 // HandleWriteCommands passes a slice of CommandRequest struct each representing
@@ -307,56 +273,6 @@ func (d *Driver) HandleWriteCommands(deviceName string, protocols map[string]mod
 		}
 	}
 
-	return nil
-}
-
-// Stop the protocol-specific DS code to shutdown gracefully, or
-// if the force parameter is 'true', immediately. The driver is responsible
-// for closing any in-use channels, including the channel used to send async
-// readings (if supported).
-func (d *Driver) Stop(force bool) error {
-	if d.sdkService.AsyncValuesChannel() != nil {
-		close(d.sdkService.AsyncValuesChannel())
-	}
-	for _, client := range d.onvifClients {
-		client.pullPointManager.UnsubscribeAll()
-		client.baseNotificationManager.UnsubscribeAll()
-	}
-
-	close(d.taskCh) // send signal for taskLoop to finish
-	d.wg.Wait()     // wait for taskLoop goroutine to return
-
-	return nil
-}
-
-// AddDevice is a callback function that is invoked
-// when a new Device associated with this Device Service is added
-func (d *Driver) AddDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	_, err := d.getOrCreateOnvifClient(models.Device{Name: deviceName, Protocols: protocols})
-	if err != nil {
-		d.lc.Errorf("Failed to initialize onvif client for camera '%s'", deviceName)
-		return errors.NewCommonEdgeXWrapper(err)
-	}
-	// check the status of the newly added device
-	d.checkStatusOfDevice(models.Device{Name: deviceName, Protocols: protocols})
-	return nil
-}
-
-// UpdateDevice is a callback function that is invoked
-// when a Device associated with this Device Service is updated
-func (d *Driver) UpdateDevice(deviceName string, protocols map[string]models.ProtocolProperties, adminState models.AdminState) error {
-	// Invoke the updateOnvifClient func to update the old onvif client if needed
-	err := d.updateOnvifClient(models.Device{Name: deviceName, Protocols: protocols})
-	if err != nil {
-		d.lc.Errorf("Unable to update onvif device client for device %s, %v", deviceName, err)
-	}
-	return err
-}
-
-// RemoveDevice is a callback function that is invoked
-// when a Device associated with this Device Service is removed
-func (d *Driver) RemoveDevice(deviceName string, protocols map[string]models.ProtocolProperties) error {
-	d.removeOnvifClient(deviceName)
 	return nil
 }
 
@@ -453,14 +369,69 @@ func (d *Driver) discoverNetscan(ctx context.Context) []sdkModel.DiscoveredDevic
 	return discovered
 }
 
-func addressAndPort(xaddr string) (string, string) {
-	substrings := strings.Split(xaddr, ":")
-	if len(substrings) == 1 {
-		// The port the might be empty from the discovered result, for example <d:XAddrs>http://192.168.12.123/onvif/device_service</d:XAddrs>
-		return substrings[0], "80"
+// debouncedDiscover adds or updates a future call to Discover. This function is intended to be
+// called by the config watcher in response to any configuration changes related to discovery.
+// The reason Discover calls are being debounced is to allow the user to make multiple changes to
+// their configuration, and only fire the discovery once.
+//
+// The way it works is that this code creates and starts a timer for discoverDebounceDuration.
+// Every subsequent call to this function before that timer elapses resets the timer to
+// discoverDebounceDuration. Once the timer finally elapses, the Discover function is called.
+func (d *Driver) debouncedDiscover() {
+	d.lc.Debugf("trigger debounced discovery in %v", discoverDebounceDuration)
+
+	// everything in this function is mutex-locked and is safe to access asynchronously
+	d.debounceMu.Lock()
+	defer d.debounceMu.Unlock()
+
+	if d.debounceTimer != nil {
+		// timer is already active, so reset it (debounce)
+		d.debounceTimer.Reset(discoverDebounceDuration)
 	} else {
-		return substrings[0], substrings[1]
+		// no timer is active, so create and start a new one
+		d.debounceTimer = time.NewTimer(discoverDebounceDuration)
+
+		// asynchronously listen for the timer to elapse. this go routine will only ever be run
+		// once due to mutex locking and the above if statement.
+		go func() {
+			// wait for timer to tick
+			<-d.debounceTimer.C
+
+			// remove timer. we must lock the mutex as this go routine runs separately from the
+			// outer function's locked scope
+			d.debounceMu.Lock()
+			d.debounceTimer = nil
+			d.debounceMu.Unlock()
+
+			err := d.Discover()
+			if err != nil {
+				d.lc.Errorf("failed to run device discovery, %v", err)
+			}
+		}()
 	}
+}
+
+func (d *Driver) updateWritableConfig(rawWritableConfig interface{}) {
+	updated, ok := rawWritableConfig.(*CustomConfig)
+	if !ok {
+		d.lc.Errorf("Unable to update writable custom config: Cannot cast raw config of type %T into type 'CustomConfig'",
+			rawWritableConfig)
+		return
+	}
+
+	d.configMu.Lock()
+	oldSubnets := d.config.AppCustom.DiscoverySubnets
+	d.config.AppCustom = *updated
+	d.configMu.Unlock()
+
+	if updated.DiscoverySubnets != oldSubnets {
+		d.lc.Info("Discover configuration has changed! Discovery will be triggered momentarily.")
+		d.debouncedDiscover()
+	}
+
+	d.macAddressMapper.UpdateMappings(d.config.AppCustom.CredentialsMap)
+	// check device statuses in case the credentials map was updated
+	d.checkStatuses()
 }
 
 // refreshDevice will attempt to retrieve the MAC address and the device info for the specified camera
@@ -558,16 +529,4 @@ func (d *Driver) updateDevice(device models.Device, deviceInfo *onvifdevice.GetD
 	}
 
 	return d.sdkService.UpdateDevice(device)
-}
-
-func (d *Driver) ValidateDevice(device models.Device) error {
-	_, err := GetCameraXAddr(device.Protocols)
-	if err != nil {
-		return fmt.Errorf("invalid protocol properties, %v", err)
-	}
-	return nil
-}
-
-func (d *Driver) Start() error {
-	return nil
 }
