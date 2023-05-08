@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: EdgeX Onvif Device Service
   description: EdgeX Onvif Device Service REST APIs
-  version: 2.3.0
+  version: 3.0.0
 servers:
 - url: http://localhost:59882
   description: Local running instance of EdgeX
@@ -36,7 +36,7 @@ tags:
     Custom commands outside of the ONVIF spec handled by the device service
     directly.
 paths:
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Capabilities:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Capabilities:
     get:
       tags:
       - Capabilities
@@ -89,10 +89,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetCapabilitiesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 001f4647-f047-445f-a632-57d22417760b
                   deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -290,8 +290,9 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Tapo C200** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeviceCapabilities:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeviceCapabilities:
     get:
       tags:
       - Capabilities
@@ -322,10 +323,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetServiceCapabilitiesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: d78a2e7d-7662-4ffe-9bcb-f51774e3f4b9
                   deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -409,8 +410,9 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Tapo C200** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/MediaCapabilities:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MediaCapabilities:
     get:
       tags:
       - Capabilities
@@ -441,10 +443,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetServiceCapabilitiesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 6d536924-265a-4f2d-b494-ccaa550af64f
                   deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -493,8 +495,9 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Tapo C200** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/PTZCapabilities:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZCapabilities:
     get:
       tags:
       - Capabilities
@@ -525,10 +528,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/ptz_GetServiceCapabilitiesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: c9001dc2-902c-452f-9e9c-4822c86da942
                   deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -568,8 +571,9 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Tapo C200** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/ImagingCapabilities:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/ImagingCapabilities:
     get:
       tags:
       - Capabilities
@@ -611,8 +615,9 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Tapo C200** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/EventCapabilities:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/EventCapabilities:
     get:
       tags:
       - Capabilities
@@ -643,10 +648,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/event_GetServiceCapabilitiesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 746f8b0c-6ef7-4dc3-b32f-bef25790d2de
                   deviceName: tp-link-Tapo-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -687,8 +692,9 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Tapo C200** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DiscoveryMode:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DiscoveryMode:
     get:
       tags:
       - Auto Discovery
@@ -707,6 +713,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -734,10 +741,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetDiscoveryModeResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 8155efce-41b5-412f-a25d-b63bed015d63
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -779,6 +786,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -816,7 +824,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddScopes:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddScopes:
     put:
       tags:
       - Auto Discovery
@@ -835,6 +843,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -862,7 +871,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Scopes:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Scopes:
     get:
       tags:
       - Auto Discovery
@@ -884,6 +893,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -911,10 +921,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetScopesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 05f573f4-0836-45ad-b9ba-c393f9927586
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -966,6 +976,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -993,7 +1004,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemoveScopes:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveScopes:
     put:
       tags:
       - Auto Discovery
@@ -1012,6 +1023,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -1044,10 +1056,10 @@ paths:
               schema:
                 type: object
               example:
-                apiVersion: v2
+                apiVersion: v3
                 message: >-
                   request failed, status code: 500, err:
-                  {"apiVersion":"v2","message":"error writing DeviceResourece
+                  {"apiVersion":"v3","message":"error writing DeviceResourece
                   RemoveScopes for
                   Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\u003e
                   failed to execute write command, \u003cnil\u003e -\u003e
@@ -1064,7 +1076,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/EndpointReference:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/EndpointReference:
     get:
       tags:
       - Auto Discovery
@@ -1110,8 +1122,9 @@ paths:
         |--------|:------------|-------|
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Hostname:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Hostname:
     get:
       tags:
       - Network Configuration
@@ -1130,6 +1143,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -1157,10 +1171,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetHostnameResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 6ad6d2d6-51af-4084-8a6a-952928942732
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -1205,6 +1219,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -1231,7 +1246,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DNS:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DNS:
     get:
       tags:
       - Network Configuration
@@ -1250,6 +1265,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -1277,10 +1293,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetDNSResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: b45c64e4-1e1b-49c5-a1b9-d83f15e280b2
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
@@ -1328,6 +1344,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -1357,7 +1374,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkInterfaces:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkInterfaces:
     get:
       tags:
       - Network Configuration
@@ -1376,6 +1393,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -1403,10 +1421,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetNetworkInterfacesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: acc3a74d-852a-4c0c-bf31-dbc06d8a0782
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -1463,6 +1481,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -1493,7 +1512,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkProtocols:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkProtocols:
     get:
       tags:
       - Network Configuration
@@ -1512,6 +1531,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -1539,10 +1559,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetNetworkProtocolsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 193b3677-23c8-4d89-852e-73a1aabf445e
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -1590,6 +1610,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -1625,7 +1646,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkDefaultGateway:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkDefaultGateway:
     get:
       tags:
       - Network Configuration
@@ -1644,6 +1665,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -1671,10 +1693,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetNetworkDefaultGatewayResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 66991bcb-ff04-4680-af91-aefe449d517c
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
@@ -1720,6 +1742,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -1746,7 +1769,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/NetworkConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkConfiguration:
     get:
       tags:
       - Network Configuration
@@ -1771,10 +1794,10 @@ paths:
               schema:
                 type: object
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: b34fe9d1-78f9-4b49-961b-80a252e084c4
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -1897,9 +1920,9 @@ paths:
               schema:
                 type: object
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeviceInformation:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeviceInformation:
     get:
       tags:
       - System Function
@@ -1918,6 +1941,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -1945,10 +1969,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetDeviceInformationResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: a025e1b1-7e2b-4db8-95b6-7dac978e9c97
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -1976,7 +2000,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/SystemDateAndTime:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SystemDateAndTime:
     get:
       tags:
       - System Function
@@ -1997,6 +2021,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -2024,10 +2049,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetSystemDateAndTimeResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: da6f552e-e4b3-4d75-a2ce-989745b8ef7b
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -2099,6 +2124,7 @@ paths:
         | **Tapo C200** | ✔️ | Tapo does not support setting the `DaylightSavings` field to `false`. Regardless of the setting, the camera will always use daylight savings time. |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -2135,7 +2161,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/SetSystemFactoryDefault:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SystemFactoryDefault:
     put:
       tags:
       - System Function
@@ -2154,19 +2180,20 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
           application/json:
             schema:
               properties:
-                SetSystemFactoryDefault:
+                SystemFactoryDefault:
                   $ref: '#/components/schemas/device_SetSystemFactoryDefault'
               required:
-              - SetSystemFactoryDefault
+              - SystemFactoryDefault
               type: object
             example:
-              SetSystemFactoryDefault:
+              SystemFactoryDefault:
                 FactoryDefault: Soft
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -2180,7 +2207,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/RebootNeeded:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RebootNeeded:
     get:
       tags:
       - System Function
@@ -2205,10 +2232,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/BoolEventResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: cb3b3a49-86e4-44e3-b2a0-426b08168ae1
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -2227,7 +2254,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/SystemReboot:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SystemReboot:
     put:
       tags:
       - System Function
@@ -2270,8 +2297,9 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Users:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Users:
     get:
       tags:
       - User Handling
@@ -2290,6 +2318,7 @@ paths:
         | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -2317,10 +2346,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/device_GetUsersResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 8e524ecd-674d-4dd8-b728-de78b8245189
                   deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
                   profileName: onvif-camera
@@ -2368,6 +2397,7 @@ paths:
         | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -2400,7 +2430,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/CreateUsers:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CreateUsers:
     put:
       tags:
       - User Handling
@@ -2421,6 +2451,7 @@ paths:
         | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -2453,7 +2484,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteUsers:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteUsers:
     put:
       tags:
       - User Handling
@@ -2472,6 +2503,7 @@ paths:
         | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -2500,7 +2532,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurations:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurations:
     get:
       tags:
       - Metadata Configuration
@@ -2519,6 +2551,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -2546,10 +2579,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetMetadataConfigurationsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 95eae089-a594-4af6-b827-c0cd689034e1
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
@@ -2590,7 +2623,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurations
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/MetadataConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MetadataConfiguration:
     get:
       tags:
       - Metadata Configuration
@@ -2609,6 +2642,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -2667,10 +2701,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetMetadataConfigurationResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 239e1b98-d000-4bc5-8bd8-8287817b756f
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
@@ -2730,6 +2764,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -2759,7 +2794,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetMetadataConfiguration
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/CompatibleMetadataConfigurations:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CompatibleMetadataConfigurations:
     get:
       tags:
       - Metadata Configuration
@@ -2778,6 +2813,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -2836,10 +2872,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetCompatibleMetadataConfigurationsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 37a0130d-d555-44f2-ab9c-6214617eca32
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
@@ -2881,7 +2917,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetCompatibleMetadataConfigurations
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurationOptions:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurationOptions:
     get:
       tags:
       - Metadata Configuration
@@ -2900,6 +2936,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -2961,10 +2998,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetMetadataConfigurationOptionsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: e694b7a9-8a40-49c8-a5ed-a655b4342bb7
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
@@ -2995,7 +3032,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurationOptions
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddMetadataConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddMetadataConfiguration:
     put:
       tags:
       - Metadata Configuration
@@ -3014,6 +3051,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -3041,7 +3079,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddMetadataConfiguration
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemoveMetadataConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveMetadataConfiguration:
     put:
       tags:
       - Metadata Configuration
@@ -3060,6 +3098,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -3086,7 +3125,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemoveMetadataConfiguration
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Profiles:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Profiles:
     get:
       tags:
       - Video Streaming
@@ -3105,6 +3144,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -3132,10 +3172,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetProfilesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: e6560b52-1952-4d66-9f53-3cf27d48b3c0
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -3391,7 +3431,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetProfiles
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/StreamUri:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/StreamUri:
     get:
       tags:
       - Video Streaming
@@ -3419,6 +3459,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -3501,10 +3542,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetStreamUriResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 0ef64d9b-ba26-49a9-9a9f-5ec6f7b47190
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -3532,7 +3573,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetStreamUri
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Snapshot:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Snapshot:
     get:
       tags:
       - Video Streaming
@@ -3553,6 +3594,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ | You must use `Digest Auth` or `Both` as the Auth-Mode in order for this to work. |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -3571,10 +3613,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/BinaryEventResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 5fdf593f-2a92-4a71-b08c-791d7a27fdff
                   deviceName: Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1
                   profileName: onvif-camera
@@ -3588,7 +3630,7 @@ paths:
                     profileName: onvif-camera
                     valueType: Binary
                     binaryValue: >-
-                      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
+                      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
                     mediaType: image/jpeg
                     value: ''
         '400': *id001
@@ -3596,7 +3638,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetVideoEncoderConfigurations:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfigurations:
     get:
       tags:
       - Video Encoder Configuration
@@ -3638,20 +3680,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetVideoEncoderConfigurationsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 1ee4ca7f-fb95-46b3-8e6d-8542b45b22d4
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: GetVideoEncoderConfigurations
+                  sourceName: VideoEncoderConfigurations
                   origin: 1659659203023412500
                   readings:
                   - id: dd2b4e0e-9a62-49bc-a80b-071d4b1ed8e1
                     origin: 1659659203023412500
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: GetVideoEncoderConfigurations
+                    resourceName: VideoEncoderConfigurations
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -3688,7 +3730,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurations
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfiguration:
     get:
       tags:
       - Video Encoder Configuration
@@ -3707,6 +3749,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -3765,10 +3808,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetVideoEncoderConfigurationResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 598079d0-d169-4385-86f3-cb7a106345a5
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -3835,6 +3878,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -3880,10 +3924,10 @@ paths:
               schema:
                 type: object
               example:
-                apiVersion: v2
+                apiVersion: v3
                 message: >-
                   request failed, status code: 500, err:
-                  {"apiVersion":"v2","message":"error writing DeviceResourece
+                  {"apiVersion":"v3","message":"error writing DeviceResourece
                   VideoEncoderConfiguration for
                   TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\u003e
                   failed to execute write command, \u003cnil\u003e -\u003e
@@ -3900,7 +3944,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetVideoEncoderConfiguration
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfigurationOptions:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfigurationOptions:
     get:
       tags:
       - Video Encoder Configuration
@@ -3923,6 +3967,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -3985,10 +4030,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media_GetVideoEncoderConfigurationOptionsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 187b2e94-6efe-421f-b618-186a20fd41df
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -4057,7 +4102,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetNodes:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Nodes:
     get:
       tags:
       - PTZ - Capabilities
@@ -4078,6 +4123,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -4105,20 +4151,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/ptz_GetNodesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: dfe1b38e-1590-43c4-ab12-432ed5219476
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: GetNodes
+                  sourceName: Nodes
                   origin: 1659656363928092200
                   readings:
                   - id: a47fe9e2-b007-4b5e-891b-3d50062b468f
                     origin: 1659656363928092200
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: GetNodes
+                    resourceName: Nodes
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -4190,7 +4236,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNodes
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetNode:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Node:
     get:
       tags:
       - PTZ - Capabilities
@@ -4209,6 +4255,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -4267,20 +4314,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/ptz_GetNodeResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 713edf3b-f049-456b-8f3b-4a2dccca683f
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: GetNode
+                  sourceName: Node
                   origin: 1659656370279599600
                   readings:
                   - id: 42af41ee-f72d-4f0c-95cf-0e8326f6d154
                     origin: 1659656370279599600
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: GetNode
+                    resourceName: Node
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -4352,7 +4399,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNode
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetConfigurations:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Configurations:
     get:
       tags:
       - PTZ - Configuration
@@ -4373,6 +4420,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -4400,20 +4448,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/ptz_GetConfigurationsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: b46d0e1e-f173-4bf0-8e35-984395952b09
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: GetConfigurations
+                  sourceName: Configurations
                   origin: 1659656376998679000
                   readings:
                   - id: edf84087-d700-4967-bf5a-3e76e3c8ec18
                     origin: 1659656376998679000
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: GetConfigurations
+                    resourceName: Configurations
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -4445,7 +4493,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurations
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Configuration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Configuration:
     get:
       tags:
       - PTZ - Configuration
@@ -4468,6 +4516,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -4526,10 +4575,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/ptz_GetConfigurationResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 13f39ebb-cde4-4d99-bbc2-b207c4a40ca3
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -4589,6 +4638,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -4625,7 +4675,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetConfiguration
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetConfigurationOptions:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/ConfigurationOptions:
     get:
       tags:
       - PTZ - Configuration
@@ -4644,6 +4694,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -4702,20 +4753,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/ptz_GetConfigurationOptionsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 418fbbf5-6628-4033-8d7b-0811968dcee8
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: GetConfigurationOptions
+                  sourceName: ConfigurationOptions
                   origin: 1659671766926306000
                   readings:
                   - id: 7ceb7891-b7af-4cfe-9bbb-2d0fb3bead14
                     origin: 1659671766926306000
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: GetConfigurationOptions
+                    resourceName: ConfigurationOptions
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -4787,7 +4838,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurationOptions
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddPTZConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddPTZConfiguration:
     put:
       tags:
       - PTZ - Configuration
@@ -4806,6 +4857,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -4833,7 +4885,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddPTZConfiguration
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemovePTZConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemovePTZConfiguration:
     put:
       tags:
       - PTZ - Configuration
@@ -4852,6 +4904,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -4878,7 +4931,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemovePTZConfiguration
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/AbsoluteMove:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AbsoluteMove:
     put:
       tags:
       - PTZ - Actuation
@@ -4899,6 +4952,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -4929,7 +4983,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.AbsoluteMove
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/RelativeMove:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RelativeMove:
     put:
       tags:
       - PTZ - Actuation
@@ -4950,6 +5004,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -4980,7 +5035,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RelativeMove
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/ContinuousMove:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/ContinuousMove:
     put:
       tags:
       - PTZ - Actuation
@@ -4999,6 +5054,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -5029,7 +5085,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.ContinuousMove
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetStatus:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Status:
     get:
       tags:
       - PTZ - Actuation
@@ -5048,6 +5104,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -5106,20 +5163,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/ptz_GetStatusResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: c8ad64b4-db58-4c9b-9896-82fff02544c9
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: GetStatus
+                  sourceName: Status
                   origin: 1659659252963492000
                   readings:
                   - id: 71444c1c-9e85-4852-9c1e-9bd9eba8d616
                     origin: 1659659252963492000
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: GetStatus
+                    resourceName: Status
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -5142,7 +5199,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetStatus
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Stop:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Stop:
     put:
       tags:
       - PTZ - Actuation
@@ -5161,6 +5218,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -5188,7 +5246,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.Stop
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/SetPreset:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Preset:
     put:
       tags:
       - PTZ - Preset
@@ -5207,16 +5265,17 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
           application/json:
             schema:
               properties:
-                SetPreset:
+                Preset:
                   $ref: '#/components/schemas/ptz_SetPreset'
               required:
-              - SetPreset
+              - Preset
               type: object
             example:
               SetPreset:
@@ -5234,7 +5293,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetPreset
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetPresets:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Presets:
     get:
       tags:
       - PTZ - Preset
@@ -5253,6 +5312,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -5311,20 +5371,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/ptz_GetPresetsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 79dde7e3-9730-4d33-aa9f-48e499b23207
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: GetPresets
+                  sourceName: Presets
                   origin: 1659659260936957200
                   readings:
                   - id: 5816a933-ec39-4c58-b8cf-aa3fc8dcbd19
                     origin: 1659659260936957200
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: GetPresets
+                    resourceName: Presets
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -5362,7 +5422,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetPresets
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GotoPreset:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/GotoPreset:
     put:
       tags:
       - PTZ - Preset
@@ -5381,6 +5441,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -5408,7 +5469,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoPreset
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemovePreset:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemovePreset:
     put:
       tags:
       - PTZ - Preset
@@ -5427,6 +5488,7 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -5454,7 +5516,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RemovePreset
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GotoHomePosition:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/GotoHomePosition:
     put:
       tags:
       - PTZ - Home Position
@@ -5473,6 +5535,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
@@ -5499,13 +5562,13 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoHomePosition
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/SetHomePosition:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/HomePosition:
     put:
       tags:
       - PTZ - Home Position
       summary: 'PTZ: SetHomePosition'
       description: |-
-        Operation to save current position as the home position. The SetHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the SetHomePosition is successful, it is possible to recall the Home Position with the GotoHomePosition command.
+        Operation to save current position as the home position. The HomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the HomePosition is successful, it is possible to recall the Home Position with the GotoHomePosition command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5518,19 +5581,20 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       requestBody:
         content:
           application/json:
             schema:
               properties:
-                SetHomePosition:
+                HomePosition:
                   $ref: '#/components/schemas/ptz_SetHomePosition'
               required:
-              - SetHomePosition
+              - HomePosition
               type: object
             example:
-              SetHomePosition:
+              HomePosition:
                 ProfileToken: profile_1
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -5544,7 +5608,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetHomePosition
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/SendAuxiliaryCommand:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SendAuxiliaryCommand:
     put:
       tags:
       - PTZ - Auxiliary
@@ -5577,6 +5641,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -5604,7 +5669,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SendAuxiliaryCommand
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetEventProperties:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/EventProperties:
     get:
       tags:
       - Event Handling
@@ -5647,20 +5712,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/event_GetEventPropertiesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 925ca37f-2ed6-43f9-b9e3-4c31849325b7
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: GetEventProperties
+                  sourceName: EventProperties
                   origin: 1659659240585563600
                   readings:
                   - id: dc1e5896-00d9-4e4d-85f7-2dbca9a4b8cb
                     origin: 1659659240585563600
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: GetEventProperties
+                    resourceName: EventProperties
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -5787,7 +5852,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.GetEventProperties
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/BaseNotificationSubscription:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/BaseNotificationSubscription:
     put:
       tags:
       - Event Handling
@@ -5821,7 +5886,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/PullPointSubscription:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PullPointSubscription:
     put:
       tags:
       - Event Handling
@@ -5869,7 +5934,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/UnsubscribeCameraEvent:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/UnsubscribeCameraEvent:
     put:
       tags:
       - Event Handling
@@ -5902,7 +5967,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Media2Profiles:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2Profiles:
     get:
       tags:
       - Analytics - Profile Configuration
@@ -5921,6 +5986,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -5973,10 +6039,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media2_GetProfilesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 100ae377-e811-4b88-bd81-f6f67c86cf61
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
@@ -6011,7 +6077,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetProfiles
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetAnalyticsConfigurations:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsConfigurations:
     get:
       tags:
       - Analytics - Profile Configuration
@@ -6030,6 +6096,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -6057,22 +6124,22 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/media2_GetAnalyticsConfigurationsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 08db4d59-0991-4ace-bb6a-9103c54d38ea
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
-                  sourceName: GetAnalyticsConfigurations
+                  sourceName: AnalyticsConfigurations
                   origin: 1664440527648299300
                   readings:
                   - id: 6e768a1a-a521-47c6-9d13-2337386768d1
                     origin: 1664440527648299300
                     deviceName: >-
                       HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
-                    resourceName: GetAnalyticsConfigurations
+                    resourceName: AnalyticsConfigurations
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -6145,7 +6212,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetAnalyticsConfigurations
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/AddConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddConfiguration:
     put:
       tags:
       - Analytics - Profile Configuration
@@ -6166,6 +6233,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -6195,7 +6263,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.AddConfiguration
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/RemoveConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveConfiguration:
     put:
       tags:
       - Analytics - Profile Configuration
@@ -6214,6 +6282,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -6243,7 +6312,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.RemoveConfiguration
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetSupportedAnalyticsModules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SupportedAnalyticsModules:
     get:
       tags:
       - Analytics - Modules
@@ -6262,6 +6331,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -6311,22 +6381,22 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/analytics_GetSupportedAnalyticsModulesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 1caa5b4c-a2d1-403e-90a0-fc7d63a9538c
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
-                  sourceName: GetSupportedAnalyticsModules
+                  sourceName: SupportedAnalyticsModules
                   origin: 1664440535746008300
                   readings:
                   - id: f9f5ddc4-10df-41a1-b50e-c12683683093
                     origin: 1664440535746008300
                     deviceName: >-
                       HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
-                    resourceName: GetSupportedAnalyticsModules
+                    resourceName: SupportedAnalyticsModules
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -6444,7 +6514,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedAnalyticsModules
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/AnalyticsModules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsModules:
     get:
       tags:
       - Analytics - Modules
@@ -6463,6 +6533,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -6521,10 +6592,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/analytics_GetAnalyticsModulesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 09e8fab7-e43d-4ba3-adeb-6ca2d3a3b255
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
@@ -6603,6 +6674,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -6636,17 +6708,17 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyAnalyticsModules
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/CreateAnalyticsModules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CreateAnalyticsModules:
     put:
       tags:
       - Analytics - Modules
       summary: 'Analytics: CreateAnalyticsModules'
       description: |-
-        Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.
+        Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via SupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.
 
         Pass unique module names which can be later used as reference. The Parameters of the analytics module must match those of the corresponding AnalyticsModuleDescription.
 
-        Although this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and GetAnalyticsConfigurations.
+        Although this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and AnalyticsConfigurations.
 
         The device shall ensure that a corresponding analytics engine starts operation when a client subscribes directly or indirectly for events produced by the analytics or rule engine or when a client requests the corresponding scene description stream. An analytics module must be attached to a Video source using the media profiles before it can be used. In case differing analytics configurations are attached to the same profile it is undefined which of the analytics module configuration becomes active if no stream is activated or multiple streams with different profiles are activated at the same time.
 
@@ -6661,6 +6733,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -6694,7 +6767,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateAnalyticsModules
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteAnalyticsModules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteAnalyticsModules:
     put:
       tags:
       - Analytics - Modules
@@ -6713,6 +6786,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -6741,7 +6815,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteAnalyticsModules
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetAnalyticsModuleOptions:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsModuleOptions:
     get:
       tags:
       - Analytics - Modules
@@ -6760,6 +6834,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -6821,20 +6896,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/analytics_GetAnalyticsModuleOptionsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 460b6e4f-88d7-476d-ab9c-d46c5f656124
                   deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
                   profileName: onvif-camera
-                  sourceName: GetAnalyticsModuleOptions
+                  sourceName: AnalyticsModuleOptions
                   origin: 1665460132225688000
                   readings:
                   - id: 42a9e19c-82f6-4552-9f1d-459bfc55600a
                     origin: 1665460132225688000
                     deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
-                    resourceName: GetAnalyticsModuleOptions
+                    resourceName: AnalyticsModuleOptions
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -6853,7 +6928,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetSupportedRules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SupportedRules:
     get:
       tags:
       - Analytics - Rules
@@ -6872,6 +6947,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -6931,20 +7007,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/analytics_GetSupportedRulesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 4694424b-74bb-45ee-a014-ebb6d09855f9
                   deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
                   profileName: onvif-camera
-                  sourceName: GetSupportedRules
+                  sourceName: SupportedRules
                   origin: 1665460098832568300
                   readings:
                   - id: 155dc49e-caa7-492c-be74-0cf150ca2302
                     origin: 1665460098832568300
                     deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
-                    resourceName: GetSupportedRules
+                    resourceName: SupportedRules
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -7109,7 +7185,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedRules
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/Rules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Rules:
     get:
       tags:
       - Analytics - Rules
@@ -7128,6 +7204,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -7186,10 +7263,10 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/analytics_GetRulesResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 16f84c82-ee09-41bb-a012-27b46cff27fe
                   deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
                   profileName: onvif-camera
@@ -7243,6 +7320,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -7276,7 +7354,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyRules
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/GetRuleOptions:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RuleOptions:
     get:
       tags:
       - Analytics - Rules
@@ -7295,6 +7373,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       parameters:
       - name: jsonObject
@@ -7356,20 +7435,20 @@ paths:
                               objectValue:
                                 $ref: '#/components/schemas/analytics_GetRuleOptionsResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: bf7a5fc7-7523-4690-87b7-273b2a373ed3
                   deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
                   profileName: onvif-camera
-                  sourceName: GetRuleOptions
+                  sourceName: RuleOptions
                   origin: 1665460126357157600
                   readings:
                   - id: 2bdd1ff4-7d2a-441b-bbc3-dfa50c27b096
                     origin: 1665460126357157600
                     deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
-                    resourceName: GetRuleOptions
+                    resourceName: RuleOptions
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -7391,13 +7470,13 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRuleOptions
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/CreateRules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CreateRules:
     put:
       tags:
       - Analytics - Rules
       summary: 'Analytics: CreateRules'
       description: |-
-        Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via GetSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.
+        Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via SupportedRules, where the Name of the supported rule correspond to the type of an rule instance.
 
         Pass unique module names which can be later used as reference. The Parameters of the rules must match those of the corresponding description.
 
@@ -7414,6 +7493,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -7455,7 +7535,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateRules
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteRules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteRules:
     put:
       tags:
       - Analytics - Rules
@@ -7474,6 +7554,7 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
       requestBody:
         content:
@@ -7502,7 +7583,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteRules
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/MACAddress:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MACAddress:
     get:
       tags:
       - Custom
@@ -7525,10 +7606,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/StringEventResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 92336908-8de3-458b-9f0c-3a0d5daaf721
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -7587,7 +7668,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/FriendlyName:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/FriendlyName:
     get:
       tags:
       - Custom
@@ -7613,10 +7694,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/StringEventResponse'
               example:
-                apiVersion: v2
+                apiVersion: v3
                 statusCode: 200
                 event:
-                  apiVersion: v2
+                  apiVersion: v3
                   id: 0505a28a-0fd9-41d4-8044-784cc089894b
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
@@ -7664,7 +7745,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/CustomMetadata:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CustomMetadata:
     get:
       tags:
       - Custom
@@ -7720,7 +7801,7 @@ paths:
 
         ```shell
 
-        curl http://localhost:59882/api/v2/device/name/<device
+        curl http://localhost:59882/api/v3/device/name/<device
         name>/CustomMetadata?jsonObject=WwogICAgIkNvbG9yIiwKICAgICJMb2NhdGlvbiIKXQo=
         | jq .
 
@@ -7745,10 +7826,10 @@ paths:
                 example-0:
                   summary: Get CustomMetadata
                   value:
-                    apiVersion: v2
+                    apiVersion: v3
                     statusCode: 200
                     event:
-                      apiVersion: v2
+                      apiVersion: v3
                       id: 6905a513-3aff-454b-981d-ea8e0c79f195
                       deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688
                       profileName: onvif-camera
@@ -7769,10 +7850,10 @@ paths:
                 example-1:
                   summary: GetSpecificCustomMetadata-multipleFields Copy
                   value:
-                    apiVersion: v2
+                    apiVersion: v3
                     statusCode: 200
                     event:
-                      apiVersion: v2
+                      apiVersion: v3
                       id: 0749ab9c-05b4-4515-a2b0-5d253aeb8be9
                       deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-cc32e5000688
                       profileName: onvif-camera
@@ -7828,7 +7909,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
-  /api/v2/device/name/{EDGEX_DEVICE_NAME}/DeleteCustomMetadata:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteCustomMetadata:
     put:
       tags:
       - Custom

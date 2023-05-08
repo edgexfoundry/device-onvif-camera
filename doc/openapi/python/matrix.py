@@ -94,7 +94,8 @@ class MarkdownMatrix:
 
                 if self.state == State.NewSection:
                     if not line.startswith('| Onvif Web Service | Onvif Function'):
-                        raise RuntimeError(f'Invalid state! Expected New section table!. Line #{i}: "{line.strip()}"')
+                        self.state = State.WantSection
+                        # raise RuntimeError(f'Invalid state! Expected New section table!. Line #{i}: "{line.strip()}"')
                     tokens = line.lstrip('| Onvif Web Service | Onvif Function').split('|')
                     cameras = [x.strip() for x in tokens if x.strip() != '']
                     self.section.cameras = cameras

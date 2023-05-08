@@ -25,7 +25,7 @@ log = logging.getLogger('postprocess')
 
 EDGEX = 'EdgeX'
 EDGEX_DEVICE_NAME = 'Camera001'
-API_PREFIX = '/api/v2/device/name/{EDGEX_DEVICE_NAME}'
+API_PREFIX = '/api/v3/device/name/{EDGEX_DEVICE_NAME}'
 
 # mapping of service name to wsdl file for externalDocs
 SERVICE_WSDL = {
