@@ -957,7 +957,7 @@
 					"response": []
 				},
 				{
-					"name": "SystemFactoryDefault",
+					"name": "SetSystemFactoryDefault",
 					"request": {
 						"auth": {
 							"type": "digest",
@@ -989,7 +989,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SystemFactoryDefault>\n            <tds:FactoryDefault>Soft</tds:FactoryDefault>\n        </tds:SystemFactoryDefault>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" >\n   {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tds:SetSystemFactoryDefault>\n            <tds:FactoryDefault>Soft</tds:FactoryDefault>\n        </tds:SetSystemFactoryDefault>\n    </soap-env:Body>\n</soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -1792,7 +1792,7 @@
 					"response": []
 				},
 				{
-					"name": "Nodes",
+					"name": "GetNodes",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -1807,7 +1807,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:Nodes/>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetNodes/>\n    </soap-env:Body>\n</soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -1825,7 +1825,7 @@
 					"response": []
 				},
 				{
-					"name": "Node",
+					"name": "GetNode",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -1840,7 +1840,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:Node>\n            <tptz:NodeToken>{{PTZ_NODE_TOKEN}}</tptz:NodeToken>\n        </tptz:Node>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetNode>\n            <tptz:NodeToken>{{PTZ_NODE_TOKEN}}</tptz:NodeToken>\n        </tptz:GetNode>\n    </soap-env:Body>\n</soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -1888,7 +1888,7 @@
 					"response": []
 				},
 				{
-					"name": "Configurations",
+					"name": "GetConfigurations",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -1903,7 +1903,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:Configurations/>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetConfigurations/>\n    </soap-env:Body>\n</soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -1954,7 +1954,7 @@
 					"response": []
 				},
 				{
-					"name": "ConfigurationOptions",
+					"name": "GetConfigurationOptions",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -1969,7 +1969,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:ConfigurationOptions>\n            <tptz:ConfigurationToken>{{PTZ_CONFIG_TOKEN}}</tptz:ConfigurationToken>\n        </tptz:ConfigurationOptions>\n    </soap-env:Body>\n</soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetConfigurationOptions>\n            <tptz:ConfigurationToken>{{PTZ_CONFIG_TOKEN}}</tptz:ConfigurationToken>\n        </tptz:GetConfigurationOptions>\n    </soap-env:Body>\n</soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -2265,7 +2265,7 @@
 					"response": []
 				},
 				{
-					"name": "Status",
+					"name": "GetStatus",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -2280,7 +2280,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:Status>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </tptz:Status>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetStatus>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </tptz:GetStatus>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -2328,7 +2328,7 @@
 					"response": []
 				},
 				{
-					"name": "Preset",
+					"name": "SetPreset",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -2343,7 +2343,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:Preset>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n\n        </tptz:Preset>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:SetPreset>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n\n        </tptz:SetPreset>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -2361,7 +2361,7 @@
 					"response": []
 				},
 				{
-					"name": "Presets",
+					"name": "GetPresets",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -2376,7 +2376,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:Presets>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </tptz:Presets>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:GetPresets>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </tptz:GetPresets>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -2523,7 +2523,7 @@
 					"response": []
 				},
 				{
-					"name": "HomePosition",
+					"name": "SetHomePosition",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -2538,7 +2538,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:HomePosition>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </tptz:HomePosition>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tptz:SetHomePosition>\n            <tptz:ProfileToken>{{MEDIA_PROFILE}}</tptz:ProfileToken>\n        </tptz:SetHomePosition>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -2629,7 +2629,7 @@
 			"name": "Event Handling",
 			"item": [
 				{
-					"name": "EventProperties",
+					"name": "GetEventProperties",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -2649,7 +2649,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tev:EventProperties/>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tev:GetEventProperties/>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -3163,7 +3163,7 @@
 					"response": []
 				},
 				{
-					"name": "AnalyticsConfigurations",
+					"name": "GetAnalyticsConfigurations",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -3183,7 +3183,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tr2=\"http://www.onvif.org/ver20/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tr2:AnalyticsConfigurations/>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tr2=\"http://www.onvif.org/ver20/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tr2:GetAnalyticsConfigurations/>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -3350,7 +3350,7 @@
 					"response": []
 				},
 				{
-					"name": "SupportedAnalyticsModules",
+					"name": "GetSupportedAnalyticsModules",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -3370,7 +3370,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:SupportedAnalyticsModules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:SupportedAnalyticsModules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetSupportedAnalyticsModules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetSupportedAnalyticsModules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -3426,7 +3426,7 @@
 					"response": []
 				},
 				{
-					"name": "AnalyticsModuleOptions",
+					"name": "GetAnalyticsModuleOptions",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -3446,7 +3446,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:AnalyticsModuleOptions>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:AnalyticsModuleOptions>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetAnalyticsModuleOptions>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetAnalyticsModuleOptions>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -3613,7 +3613,7 @@
 					"response": []
 				},
 				{
-					"name": "SupportedRules",
+					"name": "GetSupportedRules",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -3633,7 +3633,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:SupportedRules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:SupportedRules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetSupportedRules>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetSupportedRules>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
@@ -3765,7 +3765,7 @@
 					"response": []
 				},
 				{
-					"name": "RuleOptions",
+					"name": "GetRuleOptions",
 					"request": {
 						"auth": {
 							"type": "noauth"
@@ -3785,7 +3785,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:RuleOptions>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:RuleOptions>\n    </soap-env:Body>\n  </soap-env:Envelope>",
+							"raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soap-env:Envelope xmlns:soap-env=\"http://www.w3.org/2003/05/soap-envelope\" xmlns:soap-enc=\"http://www.w3.org/2003/05/soap-encoding\" xmlns:trt=\"http://www.onvif.org/ver10/media/wsdl\" xmlns:tptz=\"http://www.onvif.org/ver20/ptz/wsdl\" xmlns:timg=\"http://www.onvif.org/ver20/imaging/wsdl\" xmlns:xmime=\"http://www.w3.org/2005/05/xmlmime\" xmlns:tev=\"http://www.onvif.org/ver10/events/wsdl\" xmlns:tan=\"http://www.onvif.org/ver20/analytics/wsdl\" xmlns:wsnt=\"http://docs.oasis-open.org/wsn/b-2\" xmlns:wsa=\"http://www.w3.org/2005/08/addressing\" xmlns:wstop=\"http://docs.oasis-open.org/wsn/t-1\" xmlns:wsaw=\"http://www.w3.org/2006/05/addressing/wsdl\" xmlns:onvif=\"http://www.onvif.org/ver10/schema\" xmlns:tds=\"http://www.onvif.org/ver10/device/wsdl\" xmlns:xop=\"http://www.w3.org/2004/08/xop/include\" xmlns:wsrf-rw=\"http://docs.oasis-open.org/wsrf/rw-2\" xmlns:wsntw=\"http://docs.oasis-open.org/wsn/bw-2\" xmlns:tt=\"http://www.onvif.org/ver10/schema\">\n    {{SECURITY_HEADER}}\n    <soap-env:Body>\n        <tan:GetRuleOptions>\n            <tan:ConfigurationToken>{{ANALYTIC_CONFIG_TOKEN}}</tan:ConfigurationToken>\n        </tan:GetRuleOptions>\n    </soap-env:Body>\n  </soap-env:Envelope>",
 							"options": {
 								"raw": {
 									"language": "xml"
