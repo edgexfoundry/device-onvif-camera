@@ -114,15 +114,23 @@ func (d *Driver) Initialize(sdk interfaces.DeviceServiceSDK) error {
 // Start is called after the device sdk is fully initialized. This function creates connections to all the cameras
 // and checks their statuses. It then runs the task loop if enabled.
 func (d *Driver) Start() error {
+	wg := sync.WaitGroup{}
 	for _, device := range d.sdkService.Devices() {
-		d.lc.Infof("Initializing onvif client for '%s' camera", device.Name)
-		_, err := d.getOrCreateOnvifClient(device)
-		if err != nil {
-			d.lc.Errorf("failed to initialize onvif client for '%s' camera, skipping this device.", device.Name)
-			continue
-		}
-		d.checkStatusOfDevice(device)
+		device := device
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+
+			d.lc.Infof("Initializing onvif client for '%s' camera", device.Name)
+			_, err := d.getOrCreateOnvifClient(device)
+			if err != nil {
+				d.lc.Errorf("failed to initialize onvif client for '%s' camera, skipping this device.", device.Name)
+				return
+			}
+			d.checkStatusOfDevice(device)
+		}()
 	}
+	wg.Wait()
 
 	d.configMu.RLock()
 	enableStatusCheck := d.config.AppCustom.EnableStatusCheck

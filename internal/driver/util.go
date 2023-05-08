@@ -30,7 +30,7 @@ func (me MultiErr) Error() string {
 func addressAndPort(xaddr string) (string, string) {
 	substrings := strings.Split(xaddr, ":")
 	if len(substrings) == 1 {
-		// The port the might be empty from the discovered result, for example <d:XAddrs>http://192.168.12.123/onvif/device_service</d:XAddrs>
+		// The port might be empty from the discovered result, for example <d:XAddrs>http://192.168.12.123/onvif/device_service</d:XAddrs>
 		return substrings[0], "80"
 	} else {
 		return substrings[0], substrings[1]
