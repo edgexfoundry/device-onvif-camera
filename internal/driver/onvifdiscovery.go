@@ -13,7 +13,6 @@ import (
 	"github.com/google/uuid"
 	"net"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/IOTechSystems/onvif"
@@ -139,11 +138,7 @@ func (d *Driver) createDiscoveredDevice(onvifDevice onvif.Device) (sdkModel.Disc
 		device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
 		device.Protocols[OnvifProtocol][FriendlyName] = devInfo.Manufacturer + " " + devInfo.Model
 
-		// Spaces and slashes are not allowed in the device name
-		deviceName := fmt.Sprintf("%s-%s-%s",
-			strings.ReplaceAll(devInfo.Manufacturer, " ", "-"),
-			strings.ReplaceAll(strings.ReplaceAll(devInfo.Model, "/", "-"), " ", "-"),
-			endpointRefAddr)
+		deviceName := buildDeviceName(devInfo.Manufacturer, devInfo.Model, endpointRefAddr)
 
 		netInfo, err := onvifClient.getNetworkInterfaces(device)
 		if err != nil {

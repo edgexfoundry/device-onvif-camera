@@ -8,6 +8,7 @@
 package driver
 
 import (
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -242,8 +243,8 @@ func TestDriver_HandleReadCommands(t *testing.T) {
 	}
 }
 
-// TestUpdateDevice verifies proper updating of device information
-func TestUpdateDevice(t *testing.T) {
+// TestRenameOrPatchDevice verifies proper updating of device information, and renaming of device if needed
+func TestRenameOrPatchDevice(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
 	tests := []struct {
 		device  models.Device
@@ -274,7 +275,7 @@ func TestUpdateDevice(t *testing.T) {
 			removeDeviceFailExpected: true,
 			addDeviceExpected:        true,
 			device: contract.Device{
-				Name: "unknown_unknown_device",
+				Name: UnknownDevicePrefix + "device",
 				Protocols: map[string]models.ProtocolProperties{
 					OnvifProtocol: map[string]interface{}{
 						EndpointRefAddress: "793dfb2-28b0-11ed-a261-0242ac120002",
@@ -311,14 +312,17 @@ func TestUpdateDevice(t *testing.T) {
 			}
 
 			if test.updateDeviceExpected {
-				mockService.On("UpdateDevice", test.device).Return(nil).Once()
+				mockService.On("PatchDevice", dtos.UpdateDevice{
+					Name:      &test.device.Name,
+					Protocols: dtos.FromProtocolModelsToDTOs(test.device.Protocols),
+				}).Return(nil).Once()
 			}
 
 			if test.addDeviceExpected {
 				mockService.On("AddDevice", test.expectedDevice).Return(test.expectedDevice.Name, nil).Once()
 			}
 
-			err := driver.updateDevice(test.device, test.devInfo)
+			err := driver.renameOrPatchDevice(test.device, test.devInfo)
 
 			mockService.AssertExpectations(t)
 			if test.errorExpected {

@@ -12,7 +12,21 @@ import (
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
 	"net/url"
+	"regexp"
 	"strings"
+)
+
+const (
+	// Per https://tools.ietf.org/html/rfc3986#section-2.3, unreserved characters = ALPHA / DIGIT / "-" / "." / "_" / "~"
+	// Also due to names used in topics for Redis Pub/Sub, "." are not allowed
+	// see: https://github.com/edgexfoundry/go-mod-core-contracts/blob/main/common/validator.go
+	//
+	// Note: this is an inverted match of the unreserved characters from above, as we want to remove the reserved ones
+	rFC3986ReservedCharsRegexString = "[^a-zA-Z0-9-_~]+"
+)
+
+var (
+	rFC3986ReservedCharsRegex = regexp.MustCompile(rFC3986ReservedCharsRegexString)
 )
 
 type MultiErr []error
@@ -60,4 +74,12 @@ func parametersFromURLRawQuery(req sdkModel.CommandRequest) ([]byte, errors.Edge
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to decode '%v' parameter for resource '%s', the value should be json object with base64 encoded", jsonObject, req.DeviceResourceName), err)
 	}
 	return data, nil
+}
+
+func buildDeviceName(manufacturer, model, endpointRefAddr string) string {
+	return fmt.Sprintf("%s-%s-%s",
+		// replace all the reserved chars with a dash, and trim any leftovers
+		strings.Trim(rFC3986ReservedCharsRegex.ReplaceAllString(manufacturer, "-"), "-"),
+		strings.Trim(rFC3986ReservedCharsRegex.ReplaceAllString(model, "-"), "-"),
+		strings.Trim(rFC3986ReservedCharsRegex.ReplaceAllString(endpointRefAddr, "-"), "-"))
 }

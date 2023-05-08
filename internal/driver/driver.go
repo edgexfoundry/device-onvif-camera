@@ -12,6 +12,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/edgexfoundry/go-mod-bootstrap/v3/bootstrap/secret"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
 	"strings"
 	"sync"
 	"time"
@@ -510,31 +511,44 @@ func (d *Driver) refreshDevice(device models.Device) error {
 	}
 
 	if isChanged {
-		return d.updateDevice(device, devInfo)
+		return d.renameOrPatchDevice(device, devInfo)
 	}
 
 	return nil
 }
 
-func (d *Driver) updateDevice(device models.Device, deviceInfo *onvifdevice.GetDeviceInformationResponse) error {
+// renameOrPatchDevice will call renameDevice if the device is unknown, otherwise it will call patchDeviceProtocols
+func (d *Driver) renameOrPatchDevice(device models.Device, deviceInfo *onvifdevice.GetDeviceInformationResponse) error {
 	if strings.HasPrefix(device.Name, UnknownDevicePrefix) {
-		d.lc.Infof("Removing device '%s' to update device with the updated name", device.Name)
-		err := d.sdkService.RemoveDeviceByName(device.Name)
-		if err != nil {
-			d.lc.Warnf("An error occurred while removing the device %s: %s",
-				device.Name, err)
-		}
+		return d.renameDevice(device, deviceInfo)
+	} else {
+		return d.patchDeviceProtocols(device.Name, device.Protocols)
+	}
+}
 
-		device.Id = ""
-		// Spaces are not allowed in the device name
-		device.Name = fmt.Sprintf("%s-%s-%s",
-			strings.ReplaceAll(deviceInfo.Manufacturer, " ", "-"),
-			strings.ReplaceAll(deviceInfo.Model, " ", "-"),
-			device.Protocols[OnvifProtocol][EndpointRefAddress])
-		d.lc.Infof("Adding device back with the updated name '%s'", device.Name)
-		_, err = d.sdkService.AddDevice(device)
-		return err
+func (d *Driver) renameDevice(device models.Device, deviceInfo *onvifdevice.GetDeviceInformationResponse) error {
+	d.lc.Infof("Removing device '%s' to update device with the updated name", device.Name)
+	err := d.sdkService.RemoveDeviceByName(device.Name)
+	if err != nil {
+		d.lc.Warnf("An error occurred while removing the device %s: %s",
+			device.Name, err)
 	}
 
-	return d.sdkService.UpdateDevice(device)
+	device.Id = ""
+	device.Name = buildDeviceName(
+		deviceInfo.Manufacturer,
+		deviceInfo.Model,
+		fmt.Sprintf("%v", device.Protocols[OnvifProtocol][EndpointRefAddress]),
+	)
+
+	d.lc.Infof("Adding device back with the updated name '%s'", device.Name)
+	_, err = d.sdkService.AddDevice(device)
+	return err
+}
+
+func (d *Driver) patchDeviceProtocols(deviceName string, protocols map[string]models.ProtocolProperties) error {
+	return d.sdkService.PatchDevice(dtos.UpdateDevice{
+		Name:      &deviceName,
+		Protocols: dtos.FromProtocolModelsToDTOs(protocols),
+	})
 }
