@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "801f9ce3-7f20-4c6c-a865-5299d4b539d0",
+		"_postman_id": "a11f95ea-4944-48df-bd2c-7e8a4ad5a260",
 		"name": "device-onvif-camera",
 		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
-		"schema": "https://schema.getpostman.com/json/collection/v3.1.0/collection.json",
-		"_exporter_id": "7889146"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11943447"
 	},
 	"item": [
 		{
@@ -2352,7 +2352,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SetSystemFactoryDefault",
+							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemFactoryDefault",
 							"protocol": "http",
 							"host": [
 								"0",
@@ -2367,7 +2367,7 @@
 								"device",
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
-								"SetSystemFactoryDefault"
+								"SystemFactoryDefault"
 							]
 						},
 						"description": "This operation reloads the parameters on the device to their factory default values."
@@ -3889,7 +3889,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetVideoEncoderConfigurations",
+							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfigurations",
 							"protocol": "http",
 							"host": [
 								"0",
@@ -3904,7 +3904,7 @@
 								"device",
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
-								"GetVideoEncoderConfigurations"
+								"VideoEncoderConfigurations"
 							]
 						},
 						"description": "This operation lists all existing video encoder configurations of a device. This command lists all configured video encoder configurations in a device. The client need not know anything apriori about the video encoder configurations in order to use the command."
@@ -4251,7 +4251,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetNodes",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Nodes",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -4266,7 +4266,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetNodes"
+										"Nodes"
 									]
 								},
 								"description": "Get the descriptions of the available PTZ Nodes.\n\nA PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may represent mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ drivers. PTZ Nodes are the lowest level entities in the PTZ control API and reflect the supported PTZ capabilities. The PTZ Node is referenced either by its name or by its reference token."
@@ -4329,7 +4329,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetNode?jsonObject={{NODE_TOKEN_BASE64}}",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Node?jsonObject={{NODE_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -4344,7 +4344,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetNode"
+										"Node"
 									],
 									"query": [
 										{
@@ -4437,7 +4437,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurations",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Configurations",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -4452,7 +4452,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetConfigurations"
+										"Configurations"
 									]
 								},
 								"description": "Get all the existing PTZConfigurations from the device.  \nThe default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.  \nThe allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly."
@@ -4630,7 +4630,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/ConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -4645,7 +4645,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetConfigurationOptions"
+										"ConfigurationOptions"
 									],
 									"query": [
 										{
@@ -5315,7 +5315,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetStatus?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Status?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -5330,7 +5330,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetStatus"
+										"Status"
 									],
 									"query": [
 										{
@@ -5516,7 +5516,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SetPreset",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Preset",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -5531,7 +5531,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"SetPreset"
+										"Preset"
 									]
 								},
 								"description": "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation."
@@ -5603,7 +5603,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetPresets?jsonObject={{PTZ_MEDIA_PROFILE_TOKEN_BASE64}}",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Presets?jsonObject={{PTZ_MEDIA_PROFILE_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -5618,7 +5618,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetPresets"
+										"Presets"
 									],
 									"query": [
 										{
@@ -5877,7 +5877,7 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SetHomePosition",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/HomePosition",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -5892,7 +5892,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"SetHomePosition"
+										"HomePosition"
 									]
 								},
 								"description": "Operation to save current position as the home position. The SetHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the SetHomePosition is successful, it is possible to recall the Home Position with the GotoHomePosition command."
@@ -6072,7 +6072,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetEventProperties",
+							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EventProperties",
 							"protocol": "http",
 							"host": [
 								"0",
@@ -6087,7 +6087,7 @@
 								"device",
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
-								"GetEventProperties"
+								"EventProperties"
 							]
 						},
 						"description": "The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProperties. This specification does not require the implementation of the WS-ResourceProperty interface. Instead, the subsequent direct interface shall be implemented by an ONVIF compliant device in order to provide information about the FilterDialects, Schema files and topics supported by the device."
@@ -6681,7 +6681,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetSupportedAnalyticsModules",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SupportedAnalyticsModules",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -6696,7 +6696,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetSupportedAnalyticsModules"
+										"SupportedAnalyticsModules"
 									]
 								},
 								"description": "List all analytics modules that are supported by the given VideoAnalyticsConfiguration."
@@ -7041,7 +7041,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetAnalyticsModuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -7056,7 +7056,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetAnalyticsModuleOptions"
+										"AnalyticsModuleOptions"
 									],
 									"query": [
 										{
@@ -7173,7 +7173,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetSupportedRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SupportedRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -7188,7 +7188,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetSupportedRules"
+										"SupportedRules"
 									],
 									"query": [
 										{
@@ -7353,7 +7353,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/GetRuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -7368,7 +7368,7 @@
 										"device",
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
-										"GetRuleOptions"
+										"RuleOptions"
 									],
 									"query": [
 										{
