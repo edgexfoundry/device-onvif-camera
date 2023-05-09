@@ -1,9 +1,9 @@
 name: Generic-Onvif-Provision-Watcher
+serviceName: device-onvif-camera
 identifiers:
   Address: .
 blockingIdentifiers: {}
 adminState: UNLOCKED
 discoveredDevice:
-    serviceName: device-onvif-camera
     profileName: onvif-camera
     adminState: UNLOCKED
