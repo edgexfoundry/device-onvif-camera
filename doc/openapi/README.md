@@ -1,7 +1,7 @@
 # OpenAPI / Swagger Spec Files
 This code generates OpenAPI 3.0 spec based on the [Postman Collection](../postman/device-onvif-camera.postman_collection.json), 
 [Onvif WSDL Schema Files](./ref), [sidecar.yaml](sidecar.yaml), [default camera device profile](../../cmd/res/profiles/camera.yaml),
-[ONVIF Tested Cameras Matrix](https://github.com/edgexfoundry/edgex-docs/blob/main/docs_src/microservices/device/supported/device-onvif-camera/supplementary-info/ONVIF-protocol.md#tested-onvif-cameras), and [ONVIF footnotes](https://github.com/edgexfoundry/edgex-docs/blob/main/docs_src/microservices/device/supported/device-onvif-camera/supplementary-info/onvif-footnotes.md).
+[ONVIF Tested Cameras Matrix](https://docs.edgexfoundry.org/3.0/microservices/device/supported/device-onvif-camera/supplementary-info/ONVIF-protocol/#tested-onvif-cameras), and [ONVIF footnotes](https://docs.edgexfoundry.org/3.0/microservices/device/supported/device-onvif-camera/supplementary-info/onvif-footnotes/).
 
 ## How To Generate
 - Install `postman-to-openapi` and python3 dependencies by running `make install` from this directory (note: you may want to use a python virtual env).
