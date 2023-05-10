@@ -3597,6 +3597,37 @@ paths:
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
       parameters:
+      - name: jsonObject
+        in: query
+        schema:
+          type: string
+        example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ProfileToken": "<ProfileToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ProfileToken** _[string]_
+          <br/>    The ProfileToken element indicates the media profile to use and will define the source and dimensions of the snapshot.
+
+
+          **Schema Reference:** [media_GetSnapshotUri](#media_GetSnapshotUri)
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "ProfileToken": "profile_1"
+          }
+          ```
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
         '200':
