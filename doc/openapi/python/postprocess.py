@@ -26,6 +26,9 @@ log = logging.getLogger('postprocess')
 EDGEX = 'EdgeX'
 EDGEX_DEVICE_NAME = 'Camera001'
 API_PREFIX = '/api/v3/device/name/{EDGEX_DEVICE_NAME}'
+SNAPSHOT = 'Snapshot'
+SNAPSHOT_URI_FN = 'GetSnapshotUri'
+MEDIA = 'Media'
 
 # mapping of service name to wsdl file for externalDocs
 SERVICE_WSDL = {
@@ -217,6 +220,12 @@ Below is a list of camera models that this command has been tested against, and 
                         log.warning(f'\033[33m*** Missing camera validation entry for command {service_fn} ***\033[0m')
 
                     if service == EDGEX:
+                        if cmd == SNAPSHOT:
+                            # Special handling for the EdgeX.Snapshot command, as it uses the same input as
+                            # Media.GetSnapshotUri, so patch the jsonObject documentation.
+                            log.info(f'Handling {SNAPSHOT} command...')
+                            self._lookup_json_object(cmd, method_obj, MEDIA, SNAPSHOT_URI_FN)
+
                         # nothing left to patch for custom edgex functions, as they do not exist in onvif spec
                         continue
 
@@ -279,24 +288,27 @@ Below is a list of camera models that this command has been tested against, and 
                             if 'type' in schema and schema['type'] == 'object' and len(schema) == 1:
                                 log.debug(f'Skipping empty request schema for {service_fn}')
                             else:
-                                found = False
-                                for param in method_obj['parameters']:
-                                    if param['name'] == 'jsonObject':
-                                        found = True
-                                        self._set_json_object(param, service, fn)
-                                        break
-                                if not found:
-                                    log.warning(f'\033[33m*** Expected jsonObject parameter for command {cmd}! Creating one. ***\033[0m')
-                                    param = {
-                                        'name': 'jsonObject',
-                                        'in': 'query',
-                                        'schema': {
-                                            'type': 'string'
-                                        },
-                                        'example': ''
-                                    }
-                                    self._set_json_object(param, service, fn)
-                                    method_obj['parameters'].insert(0, param)
+                                self._lookup_json_object(cmd, method_obj, service, fn)
+
+    def _lookup_json_object(self, cmd, method_obj, service, fn):
+        found = False
+        for param in method_obj['parameters']:
+            if param['name'] == 'jsonObject':
+                found = True
+                self._set_json_object(param, service, fn)
+                break
+        if not found:
+            log.warning(f'\033[33m*** Expected jsonObject parameter for command {cmd}! Creating one. ***\033[0m')
+            param = {
+                'name': 'jsonObject',
+                'in': 'query',
+                'schema': {
+                    'type': 'string'
+                },
+                'example': ''
+            }
+            self._set_json_object(param, service, fn)
+            method_obj['parameters'].insert(0, param)
 
     def _set_json_object(self, param, service, fn):
         """
