@@ -8,7 +8,7 @@
 > **The source for the latest release can be found at [Releases](https://github.com/edgexfoundry/device-onvif-camera/releases).**
 
 ### General
-Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/3.0/microservices/device/supported/device-onvif-camera/General/) to learn more about the latest release.
+Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/latest/microservices/device/supported/device-onvif-camera/General/) to learn more about the latest release.
 
 ## License
 
