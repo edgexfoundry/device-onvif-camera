@@ -417,12 +417,9 @@ func (onvifClient *OnvifClient) callSubscribeCameraEventFunction(resourceName, s
 
 // callGetSnapshotFunction returns a snapshot from the camera as a slice of bytes
 // The implementation can refer to https://github.com/edgexfoundry/device-camera-go/blob/5c4f34d1d59b8e25e1a6316661d463e2495d45fe/internal/driver/onvifclient.go#L119
-func (onvifClient *OnvifClient) callGetSnapshotFunction(profileToken []byte) ([]byte, errors.EdgeX) {
-	if len(profileToken) == 0 {
-		return nil, errors.NewCommonEdgeX(errors.KindContractInvalid, "no profile token in request", nil)
-	}
-
-	respContent, edgexErr := onvifClient.callOnvifFunction(onvif.MediaWebService, onvif.GetSnapshotUri, profileToken)
+func (onvifClient *OnvifClient) callGetSnapshotFunction(data []byte) ([]byte, errors.EdgeX) {
+	// data contains profile token json object
+	respContent, edgexErr := onvifClient.callOnvifFunction(onvif.MediaWebService, onvif.GetSnapshotUri, data)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}

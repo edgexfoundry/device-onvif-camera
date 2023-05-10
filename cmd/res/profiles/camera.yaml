@@ -818,17 +818,3 @@ deviceCommands:
     resourceOperations:
       - { deviceResource: "MetadataConfiguration" }
       - { deviceResource: "MetadataConfigurationOptions" }
-  -
-    name: "VideoStream"
-    readWrite: "R"
-    isHidden: false
-    resourceOperations:
-      - { deviceResource: "Profiles" }
-      - { deviceResource: "StreamUri" }
-  -
-    name: "SnapshotFunction"
-    readWrite: "R"
-    isHidden: false
-    resourceOperations:
-      - { deviceResource: "Profiles" }
-      - { deviceResource: "Snapshot" }
