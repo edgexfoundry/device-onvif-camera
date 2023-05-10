@@ -78,7 +78,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "RW"
-  - name: "SetSystemFactoryDefault"
+  - name: "SystemFactoryDefault"
     isHidden: false
     description: "This operation reloads the parameters on the camera to their factory default values."
     attributes:
@@ -233,7 +233,7 @@ deviceResources:
       mediaType: "image/jpeg"
 
   # Video Encoder Configuration
-  - name: "GetVideoEncoderConfigurations"
+  - name: "VideoEncoderConfigurations"
     isHidden: false
     description: "Camera VideoEncoderConfigurations"
     attributes:
@@ -342,7 +342,7 @@ deviceResources:
       readWrite: "R"
 
   # PTZ Configuration
-  - name: "GetNodes"
+  - name: "Nodes"
     isHidden: false
     description: "Get the descriptions of the available PTZ Nodes."
     attributes:
@@ -351,7 +351,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "R"
-  - name: "GetNode"
+  - name: "Node"
     isHidden: false
     description: "Get a specific PTZ Node identified by a reference token or a name."
     attributes:
@@ -360,7 +360,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "R"
-  - name: "GetConfigurations"
+  - name: "Configurations"
     isHidden: false
     description: "Get all the existing PTZ configurations from the device."
     attributes:
@@ -379,7 +379,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "RW"
-  - name: "GetConfigurationOptions"
+  - name: "ConfigurationOptions"
     isHidden: false
     description: "List supported coordinate systems including their range limitations."
     attributes:
@@ -444,7 +444,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "GetStatus"
+  - name: "Status"
     isHidden: false
     description: "Operation to request PTZ status for the Node in the selected profile."
     attributes:
@@ -455,7 +455,7 @@ deviceResources:
       readWrite: "R"
 
   # PTZ Preset
-  - name: "SetPreset"
+  - name: "Preset"
     isHidden: false
     description: "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation."
     attributes:
@@ -464,7 +464,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "GetPresets"
+  - name: "Presets"
     isHidden: false
     description: "Operation to request all PTZ presets for the PTZNode in the selected profile."
     attributes:
@@ -502,7 +502,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "SetHomePosition"
+  - name: "HomePosition"
     isHidden: false
     description: "Operation to save current position as the home position."
     attributes:
@@ -524,7 +524,7 @@ deviceResources:
       readWrite: "W"
 
   # Event Handling
-  - name: "GetEventProperties"
+  - name: "EventProperties"
     isHidden: true
     description: "This resource is used to find out what event a camera supports and what information they contain"
     attributes:
@@ -534,7 +534,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "R"
 
-  - name: "OnvifCameraEvent"
+  - name: "CameraEvent"
     isHidden: true
     description: "This resource is used to send the async event to north bound"
     attributes:
@@ -601,7 +601,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "R"
 
-  - name: "GetAnalyticsConfigurations"
+  - name: "AnalyticsConfigurations"
     isHidden: false
     description: "Lists all existing video analytics configurations for a device."
     attributes:
@@ -632,7 +632,7 @@ deviceResources:
       readWrite: "W"
 
   # Analytics Module configuration
-  - name: "GetSupportedAnalyticsModules"
+  - name: "SupportedAnalyticsModules"
     isHidden: false
     description: "List all analytics modules that are supported by the given VideoAnalyticsConfiguration."
     attributes:
@@ -673,7 +673,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "W"
 
-  - name: "GetAnalyticsModuleOptions"
+  - name: "AnalyticsModuleOptions"
     isHidden: false
     description: "Return the options for the supported analytics modules that specify an Option attribute."
     attributes:
@@ -684,7 +684,7 @@ deviceResources:
       readWrite: "R"
 
   # Rule configuration
-  - name: "GetSupportedRules"
+  - name: "SupportedRules"
     isHidden: false
     description: "List all rules that are supported by the given VideoAnalyticsConfiguration."
     attributes:
@@ -725,7 +725,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "W"
 
-  - name: "GetRuleOptions"
+  - name: "RuleOptions"
     isHidden: false
     description: "Return the options for the supported rules that specify an Option attribute."
     attributes:

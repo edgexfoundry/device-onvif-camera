@@ -1,19 +1,21 @@
-# Copyright (C) 2022 Intel Corporation
+# Copyright (C) 2022-2023 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 
 .PHONY: gen install clean
 
 SHELL := /bin/bash
 
-POSTMAN_COLLECTION = ../postman/device-onvif-camera.postman_collection.json
-POSTMAN_ENV = ../postman/device-onvif-camera.postman_environment.json
-OPENAPI_FILE = v2/device-onvif-camera.yaml
-OPENAPI_TEMP_FILE = tmp/device-onvif-camera.yaml
-POSTMAN_2_OPENAPI_OPTIONS = p2o-options.json
-SIDECAR_FILE = sidecar.yaml
-PROFILE_FILE = ../../cmd/res/profiles/camera.yaml
-ONVIF_TESTED_FILE = ../ONVIF-protocol.md
-ONVIF_FOOTNOTES_FILE = ../onvif-footnotes.md
+POSTMAN_COLLECTION ?= ../postman/device-onvif-camera.postman_collection.json
+POSTMAN_ENV ?= ../postman/device-onvif-camera.postman_environment.json
+OPENAPI_FILE ?= v2/device-onvif-camera.yaml
+OPENAPI_TEMP_FILE ?= tmp/device-onvif-camera.yaml
+POSTMAN_2_OPENAPI_OPTIONS ?= p2o-options.json
+SIDECAR_FILE ?= sidecar.yaml
+PROFILE_FILE ?= ../../cmd/res/profiles/camera.yaml
+EDGEX_DOCS_ROOT ?= ../../../edgex-docs
+EDGEX_DOCS_BASE ?= $(EDGEX_DOCS_ROOT)/docs_src/microservices/device/supported/device-onvif-camera/supplementary-info
+ONVIF_TESTED_FILE ?= $(EDGEX_DOCS_BASE)/ONVIF-protocol.md
+ONVIF_FOOTNOTES_FILE ?= $(EDGEX_DOCS_BASE)/onvif-footnotes.md
 
 # list of all services in the ./ref folder
 SERVICES = analytics device event imaging media media2 ptz

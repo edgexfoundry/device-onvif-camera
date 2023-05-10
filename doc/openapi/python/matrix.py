@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2022 Intel Corporation
+# Copyright (C) 2022-2023 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 #
 
@@ -94,7 +94,7 @@ class MarkdownMatrix:
 
                 if self.state == State.NewSection:
                     if not line.startswith('| Onvif Web Service | Onvif Function'):
-                        raise RuntimeError(f'Invalid state! Expected New section table!. Line #{i}: "{line.strip()}"')
+                        continue  # keep going until we get the proper line
                     tokens = line.lstrip('| Onvif Web Service | Onvif Function').split('|')
                     cameras = [x.strip() for x in tokens if x.strip() != '']
                     self.section.cameras = cameras

@@ -1,17 +1,19 @@
 # OpenAPI / Swagger Spec Files
 This code generates OpenAPI 3.0 spec based on the [Postman Collection](../postman/device-onvif-camera.postman_collection.json), 
 [Onvif WSDL Schema Files](./ref), [sidecar.yaml](sidecar.yaml), [default camera device profile](../../cmd/res/profiles/camera.yaml),
-[ONVIF Tested Cameras Matrix](../ONVIF-protocol.md#tested-onvif-cameras), and [ONVIF footnotes](../onvif-footnotes.md).
+[ONVIF Tested Cameras Matrix](https://github.com/edgexfoundry/edgex-docs/blob/main/docs_src/microservices/device/supported/device-onvif-camera/supplementary-info/ONVIF-protocol.md#tested-onvif-cameras), and [ONVIF footnotes](https://github.com/edgexfoundry/edgex-docs/blob/main/docs_src/microservices/device/supported/device-onvif-camera/supplementary-info/onvif-footnotes.md).
 
-## Usage
-- Install `postman-to-openapi` and python3 dependencies by running `make install` from this directory.
+## How To Generate
+- Install `postman-to-openapi` and python3 dependencies by running `make install` from this directory (note: you may want to use a python virtual env).
 - Import the latest [postman collection][collection] and latest [postman environment][env] into Postman App
 - Modify the postman collection and/or postman environment files
 - Export the modified postman collection and environment
 - Overwrite the postman collection and environment in this repo with the exported files
+- Clone [edgex-docs](https://github.com/edgexfoundry/edgex-docs) into the same top-level folder as `device-onvif-camera`.
 - Run `make gen` to re-generate the OpenAPI files.
   - Use `make -B gen` to force it to no use any cached files
   - Use `DEBUG_LOGGING=1 make ...` to enable debug logging of the python scripts
+  - Alternatively, use `EDGEX_DOCS_ROOT=/path/to/edgex-docs make ...` to point to `edgex-docs` cloned somewhere else.
 
 [collection]: ../postman/device-onvif-camera.postman_collection.json
 [env]: ../postman/device-onvif-camera.postman_environment.json
