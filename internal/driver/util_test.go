@@ -57,3 +57,43 @@ func TestAddressAndPort(t *testing.T) {
 		})
 	}
 }
+
+func TestBuildDeviceName(t *testing.T) {
+	tests := []struct {
+		manufacturer       string
+		model              string
+		endpointRefAddress string
+		expected           string
+	}{
+		{
+			manufacturer:       "Tapo (TP-Link)",
+			model:              "C200/WS",
+			endpointRefAddress: "abcdef-ghij-klmno-pqrst-uvwzyz",
+			expected:           "Tapo-TP-Link-C200-WS-abcdef-ghij-klmno-pqrst-uvwzyz",
+		},
+		{
+			manufacturer:       "Hikvision",
+			model:              "DS-90210",
+			endpointRefAddress: "fffff",
+			expected:           "Hikvision-DS-90210-fffff",
+		},
+		{
+			manufacturer:       "Sample",
+			model:              "Camera",
+			endpointRefAddress: "http://192.168.1.100/",
+			expected:           "Sample-Camera-http-192-168-1-100",
+		},
+		{
+			manufacturer:       "Another",
+			model:              "Example",
+			endpointRefAddress: "http://192.168.1.90:8080/onvif",
+			expected:           "Another-Example-http-192-168-1-90-8080-onvif",
+		},
+	}
+	for _, test := range tests {
+		test := test
+		t.Run(test.expected, func(t *testing.T) {
+			assert.Equal(t, test.expected, buildDeviceName(test.manufacturer, test.model, test.endpointRefAddress))
+		})
+	}
+}

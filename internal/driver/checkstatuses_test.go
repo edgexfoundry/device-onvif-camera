@@ -23,7 +23,7 @@ func TestUpdateDeviceStatus_update(t *testing.T) {
 	driver, mockService := createDriverWithMockService()
 	mockService.On("GetDeviceByName", testDeviceName).
 		Return(createTestDevice(), nil).Once()
-	mockService.On("UpdateDevice", mock.AnythingOfType("models.Device")).
+	mockService.On("PatchDevice", mock.AnythingOfType("dtos.UpdateDevice")).
 		Return(nil).Once()
 
 	changed, err := driver.updateDeviceStatus(testDeviceName, UpWithAuth)

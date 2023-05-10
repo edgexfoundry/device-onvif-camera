@@ -9,6 +9,7 @@ package driver
 
 import (
 	"fmt"
+	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
 	"net"
 	"strings"
 	"sync"
@@ -159,7 +160,10 @@ func (d *Driver) updateDeviceStatus(deviceName string, status string) (bool, err
 	}
 
 	if shouldUpdate {
-		return statusChanged, d.sdkService.UpdateDevice(device)
+		return statusChanged, d.sdkService.PatchDevice(dtos.UpdateDevice{
+			Name:      &deviceName,
+			Protocols: dtos.FromProtocolModelsToDTOs(device.Protocols),
+		})
 	}
 
 	return statusChanged, nil

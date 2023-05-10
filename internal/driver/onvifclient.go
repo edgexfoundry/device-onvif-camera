@@ -277,7 +277,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, functionName st
 			onvifClient.driver.lc.Errorf("Failed to set customMetadata for the device '%s'", deviceName)
 			return nil, setErr
 		}
-		err = onvifClient.driver.sdkService.UpdateDevice(updatedDevice)
+		err = onvifClient.driver.patchDeviceProtocols(deviceName, updatedDevice.Protocols)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to update device '%s'", deviceName), err)
 		}
@@ -293,7 +293,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, functionName st
 			onvifClient.driver.lc.Errorf("Failed to delete customMetadata for the device '%s'", deviceName)
 			return nil, delErr
 		}
-		err = onvifClient.driver.sdkService.UpdateDevice(updatedDevice)
+		err = onvifClient.driver.patchDeviceProtocols(deviceName, updatedDevice.Protocols)
 		if err != nil {
 			return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("failed to update device '%s'", deviceName), err)
 		}
