@@ -3794,7 +3794,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot",
+							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 							"protocol": "http",
 							"host": [
 								"0",
@@ -3810,6 +3810,12 @@
 								"name",
 								"{{EDGEX_DEVICE_NAME}}",
 								"Snapshot"
+							],
+							"query": [
+								{
+									"key": "jsonObject",
+									"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
+								}
 							]
 						},
 						"description": "This request returns a snapshot of the video stream at the time the command is given.\n\nIt is returned in a binary format."
@@ -3821,7 +3827,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot",
+									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 									"protocol": "http",
 									"host": [
 										"0",
@@ -3837,6 +3843,12 @@
 										"name",
 										"{{EDGEX_DEVICE_NAME}}",
 										"Snapshot"
+									],
+									"query": [
+										{
+											"key": "jsonObject",
+											"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
+										}
 									]
 								}
 							},

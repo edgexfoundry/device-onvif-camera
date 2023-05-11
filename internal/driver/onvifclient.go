@@ -1,6 +1,6 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
-// Copyright (C) 2022 Intel Corporation
+// Copyright (C) 2022-2023 Intel Corporation
 // Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
@@ -27,7 +27,6 @@ import (
 	onvifdevice "github.com/IOTechSystems/onvif/device"
 	"github.com/IOTechSystems/onvif/gosoap"
 	"github.com/IOTechSystems/onvif/media"
-	xsdOnvif "github.com/IOTechSystems/onvif/xsd/onvif"
 )
 
 const (
@@ -314,7 +313,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, functionName st
 			onvifClient.baseNotificationManager.UnsubscribeAll()
 		}()
 	case GetSnapshot:
-		res, edgexErr := onvifClient.callGetSnapshotFunction()
+		res, edgexErr := onvifClient.callGetSnapshotFunction(data)
 		if edgexErr != nil {
 			return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 		}
@@ -418,25 +417,9 @@ func (onvifClient *OnvifClient) callSubscribeCameraEventFunction(resourceName, s
 
 // callGetSnapshotFunction returns a snapshot from the camera as a slice of bytes
 // The implementation can refer to https://github.com/edgexfoundry/device-camera-go/blob/5c4f34d1d59b8e25e1a6316661d463e2495d45fe/internal/driver/onvifclient.go#L119
-func (onvifClient *OnvifClient) callGetSnapshotFunction() ([]byte, errors.EdgeX) {
-	// Get the token from the profile
-	respContent, edgexErr := onvifClient.callOnvifFunction(onvif.MediaWebService, onvif.GetProfiles, nil)
-	if edgexErr != nil {
-		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
-	}
-	profilesResp, ok := respContent.(*media.GetProfilesResponse)
-	if !ok {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("invalid GetProfilesResponse of type %T for the camera %s", respContent, onvifClient.DeviceName), nil)
-	}
-	if len(profilesResp.Profiles) == 0 {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, "no onvif profiles found", nil)
-	}
-	requestData, edgexErr := snapshotUriRequestData(profilesResp.Profiles[0].Token)
-	if edgexErr != nil {
-		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
-	}
-	// Get the snapshot uri
-	respContent, edgexErr = onvifClient.callOnvifFunction(onvif.MediaWebService, onvif.GetSnapshotUri, requestData)
+func (onvifClient *OnvifClient) callGetSnapshotFunction(data []byte) ([]byte, errors.EdgeX) {
+	// data contains profile token json object
+	respContent, edgexErr := onvifClient.callOnvifFunction(onvif.MediaWebService, onvif.GetSnapshotUri, data)
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
@@ -460,17 +443,6 @@ func (onvifClient *OnvifClient) callGetSnapshotFunction() ([]byte, errors.EdgeX)
 		return nil, errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("http request for image failed with status %v, %s", resp.StatusCode, string(buf)), nil)
 	}
 	return buf, nil
-}
-
-func snapshotUriRequestData(profileToken xsdOnvif.ReferenceToken) ([]byte, errors.EdgeX) {
-	req := media.GetSnapshotUri{
-		ProfileToken: profileToken,
-	}
-	data, err := json.Marshal(req)
-	if err != nil {
-		return nil, errors.NewCommonEdgeX(errors.KindServerError, "failed to marshal GetSnapshotUri request", err)
-	}
-	return data, nil
 }
 
 func (onvifClient *OnvifClient) callOnvifFunction(serviceName, functionName string, data []byte) (interface{}, errors.EdgeX) {
