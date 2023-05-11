@@ -134,8 +134,13 @@ class YamlProcessor:
                     service = attrs['service']
                     service_fn = f'{service}_{fn}'
 
-                    # set the unique operationId. this also will match the schema name of the command
-                    method_obj['operationId'] = f'{service.lower()}_{fn}'
+                    # set the unique operationId
+                    if service == EDGEX:
+                        # for EdgeX commands, generate a unique name `edgex_{Get|Set}{CommandName}`
+                        method_obj['operationId'] = f'{service.lower()}_{prefix[0].upper()+prefix[1:]}{cmd}'
+                    else:
+                        # for onvif commands, this will also match the schema name of the request
+                        method_obj['operationId'] = f'{service.lower()}_{fn}'
 
                     # add all responses
                     for code, resp_obj in self.sidecar['responses']['canned'].items():
