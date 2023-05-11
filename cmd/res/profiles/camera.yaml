@@ -203,9 +203,9 @@ deviceResources:
       readWrite: "RW"
 
   # Video Streaming
-  - name: "Profiles"
+  - name: "MediaProfiles"
     isHidden: false
-    description: "Camera Profiles"
+    description: "Camera Media Profiles"
     attributes:
       service: "Media"
       getFunction: "GetProfiles"
@@ -231,6 +231,15 @@ deviceResources:
       valueType: "Binary"
       readWrite: "R"
       mediaType: "image/jpeg"
+  - name: "SnapshotUri"
+    isHidden: false
+    description: "Camera Snapshot Uri"
+    attributes:
+      service: "Media"
+      getFunction: "GetSnapshotUri"
+    properties:
+      valueType: "Object"
+      readWrite: "R"
 
   # Video Encoder Configuration
   - name: "VideoEncoderConfigurations"
@@ -303,7 +312,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "RW"
-  - name: "Scopes"
+  - name: "DiscoveryScopes"
     isHidden: false
     description: "Camera discovery scopes"
     attributes:
@@ -313,7 +322,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "RW"
-  - name: "AddScopes"
+  - name: "AddDiscoveryScopes"
     isHidden: false
     description: "Add camera discovery scopes"
     attributes:
@@ -322,7 +331,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "RemoveScopes"
+  - name: "RemoveDiscoveryScopes"
     isHidden: false
     description: "Remove camera discovery scopes"
     attributes:
@@ -342,7 +351,7 @@ deviceResources:
       readWrite: "R"
 
   # PTZ Configuration
-  - name: "Nodes"
+  - name: "PTZNodes"
     isHidden: false
     description: "Get the descriptions of the available PTZ Nodes."
     attributes:
@@ -351,7 +360,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "R"
-  - name: "Node"
+  - name: "PTZNode"
     isHidden: false
     description: "Get a specific PTZ Node identified by a reference token or a name."
     attributes:
@@ -360,7 +369,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "R"
-  - name: "Configurations"
+  - name: "PTZConfigurations"
     isHidden: false
     description: "Get all the existing PTZ configurations from the device."
     attributes:
@@ -369,7 +378,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "R"
-  - name: "Configuration"
+  - name: "PTZConfiguration"
     isHidden: false
     description: "Get or set a specific PTZ configuration from the device."
     attributes:
@@ -379,7 +388,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "RW"
-  - name: "ConfigurationOptions"
+  - name: "PTZConfigurationOptions"
     isHidden: false
     description: "List supported coordinate systems including their range limitations."
     attributes:
@@ -408,7 +417,7 @@ deviceResources:
       readWrite: "W"
 
   # PTZ Actuation
-  - name: "AbsoluteMove"
+  - name: "PTZAbsoluteMove"
     isHidden: false
     description: "Operation to move pan,tilt or zoom to a absolute destination."
     attributes:
@@ -417,7 +426,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "RelativeMove"
+  - name: "PTZRelativeMove"
     isHidden: false
     description: "Operation for Relative Pan/Tilt and Zoom Move."
     attributes:
@@ -426,7 +435,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "ContinuousMove"
+  - name: "PTZContinuousMove"
     isHidden: false
     description: "Operation for continuous Pan/Tilt and Zoom movements."
     attributes:
@@ -435,7 +444,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "Stop"
+  - name: "PTZStop"
     isHidden: false
     description: "Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type."
     attributes:
@@ -444,7 +453,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "Status"
+  - name: "PTZStatus"
     isHidden: false
     description: "Operation to request PTZ status for the Node in the selected profile."
     attributes:
@@ -455,7 +464,7 @@ deviceResources:
       readWrite: "R"
 
   # PTZ Preset
-  - name: "Preset"
+  - name: "PTZPreset"
     isHidden: false
     description: "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation."
     attributes:
@@ -464,7 +473,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "Presets"
+  - name: "PTZPresets"
     isHidden: false
     description: "Operation to request all PTZ presets for the PTZNode in the selected profile."
     attributes:
@@ -473,7 +482,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "R"
-  - name: "GotoPreset"
+  - name: "PTZGotoPreset"
     isHidden: false
     description: "Operation to go to a saved preset position for the PTZNode in the selected profile."
     attributes:
@@ -482,7 +491,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "RemovePreset"
+  - name: "PTZRemovePreset"
     isHidden: false
     description: "Operation to remove a PTZ preset for the Node in the selected profile. "
     attributes:
@@ -493,7 +502,7 @@ deviceResources:
       readWrite: "W"
 
   # PTZ Home Position
-  - name: "GotoHomePosition"
+  - name: "PTZGotoHomePosition"
     isHidden: false
     description: "Operation to move the PTZ device to it's home position."
     attributes:
@@ -502,7 +511,7 @@ deviceResources:
     properties:
       valueType: "Object"
       readWrite: "W"
-  - name: "HomePosition"
+  - name: "PTZHomePosition"
     isHidden: false
     description: "Operation to save current position as the home position."
     attributes:
@@ -513,7 +522,7 @@ deviceResources:
       readWrite: "W"
 
   # PTZ Auxiliary Operations
-  - name: "SendAuxiliaryCommand"
+  - name: "PTZSendAuxiliaryCommand"
     isHidden: false
     description: "Operation to send auxiliary commands to the PTZ device mapped by the PTZNode in the selected profile."
     attributes:
@@ -601,7 +610,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "R"
 
-  - name: "AnalyticsConfigurations"
+  - name: "Media2AnalyticsConfigurations"
     isHidden: false
     description: "Lists all existing video analytics configurations for a device."
     attributes:
@@ -611,7 +620,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "R"
 
-  - name: "AddConfiguration"
+  - name: "Media2AddConfiguration"
     isHidden: false
     description: "Adds one or more Configurations to an existing media profile."
     attributes:
@@ -621,7 +630,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "W"
 
-  - name: "RemoveConfiguration"
+  - name: "Media2RemoveConfiguration"
     isHidden: false
     description: "Removes the listed configurations from an existing media profile. "
     attributes:
@@ -684,7 +693,7 @@ deviceResources:
       readWrite: "R"
 
   # Rule configuration
-  - name: "SupportedRules"
+  - name: "AnalyticsSupportedRules"
     isHidden: false
     description: "List all rules that are supported by the given VideoAnalyticsConfiguration."
     attributes:
@@ -694,7 +703,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "R"
 
-  - name: "Rules"
+  - name: "AnalyticsRules"
     isHidden: false
     description: "Get or set one or more rules of a VideoAnalyticsConfiguration."
     attributes:
@@ -705,7 +714,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "RW"
 
-  - name: "CreateRules"
+  - name: "AnalyticsCreateRules"
     isHidden: false
     description: "Add one or more rules to an existing VideoAnalyticsConfiguration."
     attributes:
@@ -715,7 +724,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "W"
 
-  - name: "DeleteRules"
+  - name: "AnalyticsDeleteRules"
     isHidden: false
     description: "Remove one or more rules from a VideoAnalyticsConfiguration."
     attributes:
@@ -725,7 +734,7 @@ deviceResources:
       valueType: "Object"
       readWrite: "W"
 
-  - name: "RuleOptions"
+  - name: "AnalyticsRuleOptions"
     isHidden: false
     description: "Return the options for the supported rules that specify an Option attribute."
     attributes:

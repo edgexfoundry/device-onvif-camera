@@ -21,9 +21,9 @@ tags:
 - name: Video Encoder Configuration
 - name: PTZ
 - name: PTZ - Capabilities
-- name: PTZ - Configuration
+- name: PTZ - PTZConfiguration
 - name: PTZ - Actuation
-- name: PTZ - Preset
+- name: PTZ - PTZPreset
 - name: PTZ - Home Position
 - name: PTZ - Auxiliary
 - name: Event Handling
@@ -824,7 +824,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddScopes:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddDiscoveryScopes:
     put:
       tags:
       - Auto Discovery
@@ -850,13 +850,13 @@ paths:
           application/json:
             schema:
               properties:
-                AddScopes:
+                AddDiscoveryScopes:
                   $ref: '#/components/schemas/device_AddScopes'
               required:
-              - AddScopes
+              - AddDiscoveryScopes
               type: object
             example:
-              AddScopes:
+              AddDiscoveryScopes:
                 ScopeItem:
                 - http//:123
       parameters:
@@ -871,7 +871,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Scopes:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DiscoveryScopes:
     get:
       tags:
       - Auto Discovery
@@ -928,13 +928,13 @@ paths:
                   id: 05f573f4-0836-45ad-b9ba-c393f9927586
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: Scopes
+                  sourceName: DiscoveryScopes
                   origin: 1659659228090509000
                   readings:
                   - id: ea858652-cb16-432c-bf45-f9785cd00d85
                     origin: 1659659228090509000
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Scopes
+                    resourceName: DiscoveryScopes
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -983,13 +983,13 @@ paths:
           application/json:
             schema:
               properties:
-                Scopes:
+                DiscoveryScopes:
                   $ref: '#/components/schemas/device_SetScopes'
               required:
-              - Scopes
+              - DiscoveryScopes
               type: object
             example:
-              Scopes:
+              DiscoveryScopes:
                 Scopes:
                 - http//:123
       parameters:
@@ -1004,7 +1004,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveScopes:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveDiscoveryScopes:
     put:
       tags:
       - Auto Discovery
@@ -1030,13 +1030,13 @@ paths:
           application/json:
             schema:
               properties:
-                RemoveScopes:
+                RemoveDiscoveryScopes:
                   $ref: '#/components/schemas/device_RemoveScopes'
               required:
-              - RemoveScopes
+              - RemoveDiscoveryScopes
               type: object
             example:
-              RemoveScopes:
+              RemoveDiscoveryScopes:
                 ScopeItem:
                 - onvif://www.onvif.org/name/Geovision
       parameters:
@@ -1060,13 +1060,13 @@ paths:
                 message: >-
                   request failed, status code: 500, err:
                   {"apiVersion":"v3","message":"error writing DeviceResourece
-                  RemoveScopes for
+                  RemoveDiscoveryScopes for
                   Intel-SimCamera-003caffe-6392-4bb2-a5a4-f027d2e89ee1 -\u003e
                   failed to execute write command, \u003cnil\u003e -\u003e
-                  invalid request for the function 'RemoveScopes' of web service
-                  'Device'. Onvif error: fault reason: Trying to Remove scope
-                  which does not exist, fault detail: , fault code: s:Sender
-                  ter:InvalidArgVal ter:NoScope","statusCode":500}
+                  invalid request for the function 'RemoveDiscoveryScopes' of
+                  web service 'Device'. Onvif error: fault reason: Trying to
+                  Remove scope which does not exist, fault detail: , fault code:
+                  s:Sender ter:InvalidArgVal ter:NoScope","statusCode":500}
                 statusCode: 500
         '200': *id006
         '400': *id001
@@ -3125,7 +3125,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemoveMetadataConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Profiles:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MediaProfiles:
     get:
       tags:
       - Video Streaming
@@ -3179,13 +3179,13 @@ paths:
                   id: e6560b52-1952-4d66-9f53-3cf27d48b3c0
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: Profiles
+                  sourceName: MediaProfiles
                   origin: 1659656314715442700
                   readings:
                   - id: 5c7bc03c-308f-4b2c-8bc9-2e59da7d6f65
                     origin: 1659656314715442700
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Profiles
+                    resourceName: MediaProfiles
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -3669,6 +3669,110 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SnapshotUri:
+    get:
+      tags:
+      - Video Streaming
+      summary: 'Media: GetSnapshotUri'
+      parameters:
+      - name: jsonObject
+        in: query
+        schema:
+          type: string
+        example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEifQ==
+        description: |
+          **Format:**<br/>
+          This field is a Base64 encoded json string.
+
+          **JSON Schema:**
+          ```yaml
+          {
+            "ProfileToken": "<ProfileToken>"
+          }
+          ```
+
+          **Field Descriptions:**
+            - **ProfileToken** _[string]_
+          <br/>    The ProfileToken element indicates the media profile to use and will define the source and dimensions of the snapshot.
+
+
+          **Schema Reference:** [media_GetSnapshotUri](#media_GetSnapshotUri)
+
+          **Example JSON:**<br/>
+          > _Note: This value must be encoded to base64!_
+
+          ```json
+          {
+            "ProfileToken": "profile_1"
+          }
+          ```
+      - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json
+            X-Correlation-Id:
+              $ref: '#/components/headers/correlatedResponseHeader'
+          content:
+            application/json:
+              schema:
+                allOf:
+                - $ref: '#/components/schemas/ObjectEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            properties:
+                              objectValue:
+                                $ref: '#/components/schemas/media_GetSnapshotUriResponse'
+              example:
+                apiVersion: v3
+                statusCode: 200
+                event:
+                  apiVersion: v3
+                  id: 1a79ee51-c137-49b6-b884-a5450323850a
+                  deviceName: >-
+                    HIKVISION-DS-2DE2A404IW-DE3-099f4000-4d50-11b4-82c8-c06ded544d67
+                  profileName: onvif-camera
+                  sourceName: SnapshotUri
+                  origin: 1683762930988014800
+                  readings:
+                  - id: de3e7c40-d705-4303-987f-d0b0feeffd0f
+                    origin: 1683762930988014800
+                    deviceName: >-
+                      HIKVISION-DS-2DE2A404IW-DE3-099f4000-4d50-11b4-82c8-c06ded544d67
+                    resourceName: SnapshotUri
+                    profileName: onvif-camera
+                    valueType: Object
+                    value: ''
+                    objectValue:
+                      MediaUri:
+                        Uri: http://10.0.0.165/onvif-http/snapshot?Profile_1
+                        InvalidAfterConnect: false
+                        InvalidAfterReboot: false
+                        Timeout: PT0S
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      externalDocs:
+        description: Onvif Specification
+        url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetSnapshotUri
+      description: "A client uses the GetSnapshotUri command to obtain a JPEG snapshot\
+        \ from the\ndevice. The returned URI shall remain valid indefinitely even\
+        \ if the profile is changed. The\nValidUntilConnect, ValidUntilReboot and\
+        \ Timeout Parameter shall be set accordingly\n(ValidUntilConnect=false, ValidUntilReboot=false,\
+        \ timeout=PT0S). The URI can be used for\nacquiring a JPEG image through a\
+        \ HTTP GET operation. The image encoding will always be\nJPEG regardless of\
+        \ the encoding setting in the media profile. The Jpeg settings\n(like resolution\
+        \ or quality) may be taken from the profile if suitable. The provided\nimage\
+        \ will be updated automatically and independent from calls to GetSnapshotUri."
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfigurations:
     get:
       tags:
@@ -4133,7 +4237,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Nodes:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZNodes:
     get:
       tags:
       - PTZ - Capabilities
@@ -4189,13 +4293,13 @@ paths:
                   id: dfe1b38e-1590-43c4-ab12-432ed5219476
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: Nodes
+                  sourceName: PTZNodes
                   origin: 1659656363928092200
                   readings:
                   - id: a47fe9e2-b007-4b5e-891b-3d50062b468f
                     origin: 1659656363928092200
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Nodes
+                    resourceName: PTZNodes
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -4267,7 +4371,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNodes
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Node:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZNode:
     get:
       tags:
       - PTZ - Capabilities
@@ -4352,13 +4456,13 @@ paths:
                   id: 713edf3b-f049-456b-8f3b-4a2dccca683f
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: Node
+                  sourceName: PTZNode
                   origin: 1659656370279599600
                   readings:
                   - id: 42af41ee-f72d-4f0c-95cf-0e8326f6d154
                     origin: 1659656370279599600
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Node
+                    resourceName: PTZNode
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -4430,10 +4534,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNode
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Configurations:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfigurations:
     get:
       tags:
-      - PTZ - Configuration
+      - PTZ - PTZConfiguration
       summary: 'PTZ: GetConfigurations'
       description: |-
         Get all the existing PTZConfigurations from the device.  
@@ -4486,13 +4590,13 @@ paths:
                   id: b46d0e1e-f173-4bf0-8e35-984395952b09
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: Configurations
+                  sourceName: PTZConfigurations
                   origin: 1659656376998679000
                   readings:
                   - id: edf84087-d700-4967-bf5a-3e76e3c8ec18
                     origin: 1659656376998679000
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Configurations
+                    resourceName: PTZConfigurations
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -4524,10 +4628,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurations
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Configuration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfiguration:
     get:
       tags:
-      - PTZ - Configuration
+      - PTZ - PTZConfiguration
       summary: 'PTZ: GetConfiguration'
       description: |-
         Get a specific PTZconfiguration from the device, identified by its reference token or name.
@@ -4613,13 +4717,13 @@ paths:
                   id: 13f39ebb-cde4-4d99-bbc2-b207c4a40ca3
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: Configuration
+                  sourceName: PTZConfiguration
                   origin: 1659656383599131400
                   readings:
                   - id: 3a5e5c97-268a-4c84-ae79-f51ada66889e
                     origin: 1659656383599131400
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Configuration
+                    resourceName: PTZConfiguration
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -4653,7 +4757,7 @@ paths:
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfiguration
     put:
       tags:
-      - PTZ - Configuration
+      - PTZ - PTZConfiguration
       summary: 'PTZ: SetConfiguration'
       description: |-
         Set/update a existing PTZConfiguration on the device.
@@ -4676,13 +4780,13 @@ paths:
           application/json:
             schema:
               properties:
-                Configuration:
+                PTZConfiguration:
                   $ref: '#/components/schemas/ptz_SetConfiguration'
               required:
-              - Configuration
+              - PTZConfiguration
               type: object
             example:
-              Configuration:
+              PTZConfiguration:
                 PTZConfiguration:
                   Token: PROFILE_3263078452
                   NodeToken: PTZNODE_3
@@ -4706,10 +4810,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/ConfigurationOptions:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfigurationOptions:
     get:
       tags:
-      - PTZ - Configuration
+      - PTZ - PTZConfiguration
       summary: 'PTZ: GetConfigurationOptions'
       description: |-
         List supported coordinate systems including their range limitations. Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node.
@@ -4791,13 +4895,13 @@ paths:
                   id: 418fbbf5-6628-4033-8d7b-0811968dcee8
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: ConfigurationOptions
+                  sourceName: PTZConfigurationOptions
                   origin: 1659671766926306000
                   readings:
                   - id: 7ceb7891-b7af-4cfe-9bbb-2d0fb3bead14
                     origin: 1659671766926306000
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: ConfigurationOptions
+                    resourceName: PTZConfigurationOptions
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -4872,7 +4976,7 @@ paths:
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddPTZConfiguration:
     put:
       tags:
-      - PTZ - Configuration
+      - PTZ - PTZConfiguration
       summary: 'Media: AddPTZConfiguration'
       description: |-
         Add a new PTZConfiguration on the device.
@@ -4919,7 +5023,7 @@ paths:
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemovePTZConfiguration:
     put:
       tags:
-      - PTZ - Configuration
+      - PTZ - PTZConfiguration
       summary: 'Media: RemovePTZConfiguration'
       description: |-
         Remove a PTZConfiguration on the device.
@@ -4962,7 +5066,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemovePTZConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AbsoluteMove:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZAbsoluteMove:
     put:
       tags:
       - PTZ - Actuation
@@ -4990,13 +5094,13 @@ paths:
           application/json:
             schema:
               properties:
-                AbsoluteMove:
+                PTZAbsoluteMove:
                   $ref: '#/components/schemas/ptz_AbsoluteMove'
               required:
-              - AbsoluteMove
+              - PTZAbsoluteMove
               type: object
             example:
-              AbsoluteMove:
+              PTZAbsoluteMove:
                 ProfileToken: PROFILE_3263078452
                 Position:
                   PanTilt:
@@ -5014,7 +5118,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.AbsoluteMove
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RelativeMove:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZRelativeMove:
     put:
       tags:
       - PTZ - Actuation
@@ -5042,13 +5146,13 @@ paths:
           application/json:
             schema:
               properties:
-                RelativeMove:
+                PTZRelativeMove:
                   $ref: '#/components/schemas/ptz_RelativeMove'
               required:
-              - RelativeMove
+              - PTZRelativeMove
               type: object
             example:
-              RelativeMove:
+              PTZRelativeMove:
                 ProfileToken: PROFILE_3263078452
                 Translation:
                   PanTilt:
@@ -5066,7 +5170,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RelativeMove
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/ContinuousMove:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZContinuousMove:
     put:
       tags:
       - PTZ - Actuation
@@ -5092,13 +5196,13 @@ paths:
           application/json:
             schema:
               properties:
-                ContinuousMove:
+                PTZContinuousMove:
                   $ref: '#/components/schemas/ptz_ContinuousMove'
               required:
-              - ContinuousMove
+              - PTZContinuousMove
               type: object
             example:
-              ContinuousMove:
+              PTZContinuousMove:
                 ProfileToken: profile_1
                 Velocity:
                   PanTilt:
@@ -5116,7 +5220,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.ContinuousMove
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Status:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZStatus:
     get:
       tags:
       - PTZ - Actuation
@@ -5201,13 +5305,13 @@ paths:
                   id: c8ad64b4-db58-4c9b-9896-82fff02544c9
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: Status
+                  sourceName: PTZStatus
                   origin: 1659659252963492000
                   readings:
                   - id: 71444c1c-9e85-4852-9c1e-9bd9eba8d616
                     origin: 1659659252963492000
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Status
+                    resourceName: PTZStatus
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -5230,7 +5334,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetStatus
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Stop:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZStop:
     put:
       tags:
       - PTZ - Actuation
@@ -5256,13 +5360,13 @@ paths:
           application/json:
             schema:
               properties:
-                Stop:
+                PTZStop:
                   $ref: '#/components/schemas/ptz_Stop'
               required:
-              - Stop
+              - PTZStop
               type: object
             example:
-              Stop:
+              PTZStop:
                 ProfileToken: profile_1
                 PanTilt: true
       parameters:
@@ -5277,10 +5381,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.Stop
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Preset:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZPreset:
     put:
       tags:
-      - PTZ - Preset
+      - PTZ - PTZPreset
       summary: 'PTZ: SetPreset'
       description: |-
         The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation.
@@ -5303,10 +5407,10 @@ paths:
           application/json:
             schema:
               properties:
-                Preset:
+                PTZPreset:
                   $ref: '#/components/schemas/ptz_SetPreset'
               required:
-              - Preset
+              - PTZPreset
               type: object
             example:
               SetPreset:
@@ -5324,10 +5428,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetPreset
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Presets:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZPresets:
     get:
       tags:
-      - PTZ - Preset
+      - PTZ - PTZPreset
       summary: 'PTZ: GetPresets'
       description: |-
         Operation to request all PTZ presets for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode.
@@ -5409,13 +5513,13 @@ paths:
                   id: 79dde7e3-9730-4d33-aa9f-48e499b23207
                   deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
                   profileName: onvif-camera
-                  sourceName: Presets
+                  sourceName: PTZPresets
                   origin: 1659659260936957200
                   readings:
                   - id: 5816a933-ec39-4c58-b8cf-aa3fc8dcbd19
                     origin: 1659659260936957200
                     deviceName: TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4
-                    resourceName: Presets
+                    resourceName: PTZPresets
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -5453,10 +5557,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetPresets
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/GotoPreset:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZGotoPreset:
     put:
       tags:
-      - PTZ - Preset
+      - PTZ - PTZPreset
       summary: 'PTZ: GotoPreset'
       description: |-
         Operation to go to a saved preset position for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode.
@@ -5479,13 +5583,13 @@ paths:
           application/json:
             schema:
               properties:
-                GotoPreset:
+                PTZGotoPreset:
                   $ref: '#/components/schemas/ptz_GotoPreset'
               required:
-              - GotoPreset
+              - PTZGotoPreset
               type: object
             example:
-              GotoPreset:
+              PTZGotoPreset:
                 ProfileToken: PROFILE_3263078452
                 PresetToken: Preset1
       parameters:
@@ -5500,10 +5604,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoPreset
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemovePreset:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZRemovePreset:
     put:
       tags:
-      - PTZ - Preset
+      - PTZ - PTZPreset
       summary: 'PTZ: RemovePreset'
       description: |-
         Operation to remove a PTZ preset for the Node in the selected profile. The operation is supported if the PresetPosition capability exists for teh Node in the selected profile.
@@ -5526,13 +5630,13 @@ paths:
           application/json:
             schema:
               properties:
-                RemovePreset:
+                PTZRemovePreset:
                   $ref: '#/components/schemas/ptz_RemovePreset'
               required:
-              - RemovePreset
+              - PTZRemovePreset
               type: object
             example:
-              RemovePreset:
+              PTZRemovePreset:
                 ProfileToken: profile_1
                 PresetToken: Preset1
       parameters:
@@ -5547,7 +5651,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RemovePreset
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/GotoHomePosition:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZGotoHomePosition:
     put:
       tags:
       - PTZ - Home Position
@@ -5573,13 +5677,13 @@ paths:
           application/json:
             schema:
               properties:
-                GotoHomePosition:
+                PTZGotoHomePosition:
                   $ref: '#/components/schemas/ptz_GotoHomePosition'
               required:
-              - GotoHomePosition
+              - PTZGotoHomePosition
               type: object
             example:
-              GotoHomePosition:
+              PTZGotoHomePosition:
                 ProfileToken: profile_1
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -5593,13 +5697,13 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoHomePosition
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/HomePosition:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZHomePosition:
     put:
       tags:
       - PTZ - Home Position
       summary: 'PTZ: SetHomePosition'
       description: |-
-        Operation to save current position as the home position. The HomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the HomePosition is successful, it is possible to recall the Home Position with the GotoHomePosition command.
+        Operation to save current position as the home position. The PTZHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the PTZHomePosition is successful, it is possible to recall the Home Position with the PTZGotoHomePosition command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5619,13 +5723,13 @@ paths:
           application/json:
             schema:
               properties:
-                HomePosition:
+                PTZHomePosition:
                   $ref: '#/components/schemas/ptz_SetHomePosition'
               required:
-              - HomePosition
+              - PTZHomePosition
               type: object
             example:
-              HomePosition:
+              PTZHomePosition:
                 ProfileToken: profile_1
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -5639,7 +5743,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetHomePosition
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SendAuxiliaryCommand:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZSendAuxiliaryCommand:
     put:
       tags:
       - PTZ - Auxiliary
@@ -5679,13 +5783,13 @@ paths:
           application/json:
             schema:
               properties:
-                SendAuxiliaryCommand:
+                PTZSendAuxiliaryCommand:
                   $ref: '#/components/schemas/ptz_SendAuxiliaryCommand'
               required:
-              - SendAuxiliaryCommand
+              - PTZSendAuxiliaryCommand
               type: object
             example:
-              SendAuxiliaryCommand:
+              PTZSendAuxiliaryCommand:
                 ProfileToken: profile_1
                 AuxiliaryData: '123'
       parameters:
@@ -6108,7 +6212,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetProfiles
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsConfigurations:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2AnalyticsConfigurations:
     get:
       tags:
       - Analytics - Profile Configuration
@@ -6163,19 +6267,19 @@ paths:
                   deviceName: >-
                     HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
                   profileName: onvif-camera
-                  sourceName: AnalyticsConfigurations
+                  sourceName: Media2AnalyticsConfigurations
                   origin: 1664440527648299300
                   readings:
                   - id: 6e768a1a-a521-47c6-9d13-2337386768d1
                     origin: 1664440527648299300
                     deviceName: >-
                       HIKVISION-DS-2DC4223IW-DE-3bd4c000-b1b9-11b3-8202-4cf5dc64a22c
-                    resourceName: AnalyticsConfigurations
+                    resourceName: Media2AnalyticsConfigurations
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
                     objectValue:
-                      Configurations:
+                      PTZConfigurations:
                       - AnalyticsEngineConfiguration:
                           AnalyticsModule:
                           - Name: MyCellMotionModule
@@ -6243,13 +6347,13 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetAnalyticsConfigurations
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2AddConfiguration:
     put:
       tags:
       - Analytics - Profile Configuration
       summary: 'Media2: AddConfiguration'
       description: |-
-        This operation adds one or more Configurations to an existing media profile. If a configuration exists in the media profile, it will be replaced. A device shall support adding a compatible Configuration to a Profile containing a VideoSourceConfiguration and shall support streaming video data of such a profile.
+        This operation adds one or more PTZConfigurations to an existing media profile. If a configuration exists in the media profile, it will be replaced. A device shall support adding a compatible Configuration to a Profile containing a VideoSourceConfiguration and shall support streaming video data of such a profile.
 
         Note that OSD elements must be added via the CreateOSD command.
 
@@ -6271,13 +6375,13 @@ paths:
           application/json:
             schema:
               properties:
-                AddConfiguration:
+                Media2AddConfiguration:
                   $ref: '#/components/schemas/media2_AddConfiguration'
               required:
-              - AddConfiguration
+              - Media2AddConfiguration
               type: object
             example:
-              AddConfiguration:
+              Media2AddConfiguration:
                 ProfileToken: PROFILE_3263078452
                 Configuration:
                 - Type: Analytics
@@ -6294,7 +6398,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.AddConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveConfiguration:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2RemoveConfiguration:
     put:
       tags:
       - Analytics - Profile Configuration
@@ -6320,13 +6424,13 @@ paths:
           application/json:
             schema:
               properties:
-                RemoveConfiguration:
+                Media2RemoveConfiguration:
                   $ref: '#/components/schemas/media2_RemoveConfiguration'
               required:
-              - RemoveConfiguration
+              - Media2RemoveConfiguration
               type: object
             example:
-              RemoveConfiguration:
+              Media2RemoveConfiguration:
                 ProfileToken: PROFILE_3263078452
                 Configuration:
                 - Type: Analytics
@@ -6749,7 +6853,7 @@ paths:
 
         Pass unique module names which can be later used as reference. The Parameters of the analytics module must match those of the corresponding AnalyticsModuleDescription.
 
-        Although this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and AnalyticsConfigurations.
+        Although this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and Media2AnalyticsConfigurations.
 
         The device shall ensure that a corresponding analytics engine starts operation when a client subscribes directly or indirectly for events produced by the analytics or rule engine or when a client requests the corresponding scene description stream. An analytics module must be attached to a Video source using the media profiles before it can be used. In case differing analytics configurations are attached to the same profile it is undefined which of the analytics module configuration becomes active if no stream is activated or multiple streams with different profiles are activated at the same time.
 
@@ -6959,7 +7063,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SupportedRules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsSupportedRules:
     get:
       tags:
       - Analytics - Rules
@@ -7045,13 +7149,13 @@ paths:
                   id: 4694424b-74bb-45ee-a014-ebb6d09855f9
                   deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
                   profileName: onvif-camera
-                  sourceName: SupportedRules
+                  sourceName: AnalyticsSupportedRules
                   origin: 1665460098832568300
                   readings:
                   - id: 155dc49e-caa7-492c-be74-0cf150ca2302
                     origin: 1665460098832568300
                     deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
-                    resourceName: SupportedRules
+                    resourceName: AnalyticsSupportedRules
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -7216,7 +7320,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedRules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Rules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsRules:
     get:
       tags:
       - Analytics - Rules
@@ -7301,13 +7405,13 @@ paths:
                   id: 16f84c82-ee09-41bb-a012-27b46cff27fe
                   deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
                   profileName: onvif-camera
-                  sourceName: Rules
+                  sourceName: AnalyticsRules
                   origin: 1665460089922944000
                   readings:
                   - id: 2f46e1f1-6f39-449a-bd68-6387db6a1008
                     origin: 1665460089922944000
                     deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
-                    resourceName: Rules
+                    resourceName: AnalyticsRules
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -7358,13 +7462,13 @@ paths:
           application/json:
             schema:
               properties:
-                Rules:
+                AnalyticsRules:
                   $ref: '#/components/schemas/analytics_ModifyRules'
               required:
-              - Rules
+              - AnalyticsRules
               type: object
             example:
-              Rules:
+              AnalyticsRules:
                 ConfigurationToken: VideoAnalyticsToken_3263078450
                 Rule:
                 - Name: MyMotionDetectorRule
@@ -7385,7 +7489,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyRules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RuleOptions:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsRuleOptions:
     get:
       tags:
       - Analytics - Rules
@@ -7473,13 +7577,13 @@ paths:
                   id: bf7a5fc7-7523-4690-87b7-273b2a373ed3
                   deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
                   profileName: onvif-camera
-                  sourceName: RuleOptions
+                  sourceName: AnalyticsRuleOptions
                   origin: 1665460126357157600
                   readings:
                   - id: 2bdd1ff4-7d2a-441b-bbc3-dfa50c27b096
                     origin: 1665460126357157600
                     deviceName: Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19
-                    resourceName: RuleOptions
+                    resourceName: AnalyticsRuleOptions
                     profileName: onvif-camera
                     valueType: Object
                     value: ''
@@ -7501,13 +7605,13 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRuleOptions
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CreateRules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsCreateRules:
     put:
       tags:
       - Analytics - Rules
       summary: 'Analytics: CreateRules'
       description: |-
-        Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via SupportedRules, where the Name of the supported rule correspond to the type of an rule instance.
+        Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via AnalyticsSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.
 
         Pass unique module names which can be later used as reference. The Parameters of the rules must match those of the corresponding description.
 
@@ -7531,13 +7635,13 @@ paths:
           application/json:
             schema:
               properties:
-                CreateRules:
+                AnalyticsCreateRules:
                   $ref: '#/components/schemas/analytics_CreateRules'
               required:
-              - CreateRules
+              - AnalyticsCreateRules
               type: object
             example:
-              CreateRules:
+              AnalyticsCreateRules:
                 ConfigurationToken: VideoAnalyticsToken_3263078450
                 Rule:
                 - Name: Object Counting
@@ -7566,7 +7670,7 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateRules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteRules:
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsDeleteRules:
     put:
       tags:
       - Analytics - Rules
@@ -7592,13 +7696,13 @@ paths:
           application/json:
             schema:
               properties:
-                DeleteRules:
+                AnalyticsDeleteRules:
                   $ref: '#/components/schemas/analytics_DeleteRules'
               required:
-              - DeleteRules
+              - AnalyticsDeleteRules
               type: object
             example:
-              DeleteRules:
+              AnalyticsDeleteRules:
                 ConfigurationToken: VideoAnalyticsToken_3263078450
                 RuleName:
                 - Object Counting
@@ -11961,6 +12065,13 @@ components:
               Capabilities element.
       required:
       - Capabilities
+      type: object
+    media_GetSnapshotUriResponse:
+      properties:
+        MediaUri:
+          $ref: '#/components/schemas/onvif_MediaUri'
+      required:
+      - MediaUri
       type: object
     media_GetStreamUriResponse:
       properties:
