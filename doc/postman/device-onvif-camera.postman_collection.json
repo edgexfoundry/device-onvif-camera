@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "82c027e5-c2a9-4366-8d6d-2b4caf0d9690",
+		"_postman_id": "8642c9c1-2ab8-48cc-84f2-ac4bcc1a1a46",
 		"name": "device-onvif-camera",
 		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -390,7 +390,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryMode"
 							]
-						}},
+						}
+					},
 					"response": [
 						{
 							"name": "GetDiscoveryMode",
@@ -626,7 +627,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryScopes"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "DiscoveryScopes",
@@ -701,7 +703,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryScopes"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "Put DiscoveryScopes",
@@ -785,7 +788,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"RemoveDiscoveryScopes"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "Remove DiscoveryScopes",
@@ -887,7 +891,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Hostname"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "Hostname",
@@ -962,7 +967,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Hostname"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SetHostname",
@@ -1049,7 +1055,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DNS"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "DNS",
@@ -1124,7 +1131,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DNS"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SetDNS",
@@ -1199,7 +1207,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkInterfaces"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "NetworkInterfaces",
@@ -1274,7 +1283,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkInterfaces"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SetNetworkInterfaces",
@@ -1349,7 +1359,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkProtocols"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "NetworkProtocols",
@@ -1424,7 +1435,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkProtocols"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SetNetworkProtocols",
@@ -1511,7 +1523,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkDefaultGateway"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "NetworkDefaultGateway",
@@ -1586,7 +1599,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkDefaultGateway"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SetNetworkDefaultGateway",
@@ -1912,7 +1926,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemDateAndTime"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SystemDateAndTime",
@@ -1987,7 +2002,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemDateAndTime"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SetSystemDateAndTime",
@@ -2059,7 +2075,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemFactoryDefault"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SystemFactoryDefault",
@@ -2293,7 +2310,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Users"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "Users",
@@ -2368,7 +2386,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Users"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "Users",
@@ -2452,7 +2471,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"CreateUsers"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "Create Users",
@@ -2525,7 +2545,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeleteUsers"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "Delete users",
@@ -2605,7 +2626,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MetadataConfigurations"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "MetadataConfigurations",
@@ -2677,7 +2699,8 @@
 									"value": "{{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}"
 								}
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "GetMetadataConfiguration",
@@ -2758,7 +2781,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MetadataConfiguration"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SetMetadataConfiguration",
@@ -2839,7 +2863,8 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
 								}
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "GetCompatibleMetadataConfigurations",
@@ -2917,7 +2942,8 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_AND_CONFIG_TOKEN_BASE64}}"
 								}
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "GetMetadataConfigurationOptions",
@@ -2998,7 +3024,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"AddMetadataConfiguration"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "AddMetadataConfiguration",
@@ -3082,7 +3109,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"RemoveMetadataConfiguration"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "RemoveMetadataConfiguration",
@@ -3174,7 +3202,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MediaProfiles"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "MediaProfiles",
@@ -3496,7 +3525,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"VideoEncoderConfigurations"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "VideoEncoderConfigurations",
@@ -3568,7 +3598,8 @@
 									"value": "{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN_BASE64}}"
 								}
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "VideoEncoderConfiguration",
@@ -3649,7 +3680,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"VideoEncoderConfiguration"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "SetVideoEncoderConfiguration",
@@ -3730,7 +3762,8 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_VIDEO_ENCODER_TOKEN_BASE64}}"
 								}
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "VideoEncoderConfigurationOptions",
@@ -4152,7 +4185,8 @@
 											"description": "{\"ConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "PTZConfigurationOptions",
@@ -4234,7 +4268,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZConfiguration"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "SetConfiguration",
@@ -4318,7 +4353,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AddPTZConfiguration"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "AddPTZConfiguration",
@@ -4402,7 +4438,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RemovePTZConfiguration"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "RemovePTZConfiguration",
@@ -4491,7 +4528,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZAbsoluteMove"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "PTZAbsoluteMove",
@@ -4575,7 +4613,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZRelativeMove"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "PTZRelativeMove",
@@ -4659,7 +4698,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZContinuousMove"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "PTZContinuousMove",
@@ -4753,7 +4793,8 @@
 											"description": "{\"ProfileToken\":\"profile_1\"}"
 										}
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "PTZStatus",
@@ -4834,7 +4875,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZStop"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "PTZStop",
@@ -4923,7 +4965,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZPreset"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "SetPreset",
@@ -5004,7 +5047,8 @@
 											"value": "{{PTZ_MEDIA_PROFILE_TOKEN_BASE64}}"
 										}
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "PTZPresets",
@@ -5085,7 +5129,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZGotoPreset"
 									]
-								}							},
+								}
+							},
 							"response": []
 						},
 						{
@@ -5115,7 +5160,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZRemovePreset"
 									]
-								}							},
+								}
+							},
 							"response": []
 						}
 					]
@@ -5236,7 +5282,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZHomePosition"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "PTZHomePosition",
@@ -5409,7 +5456,8 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"EventProperties"
 							]
-						}					},
+						}
+					},
 					"response": [
 						{
 							"name": "EventProperties",
@@ -5741,7 +5789,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2Profiles"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "GetMedia2Profiles",
@@ -5807,7 +5856,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2AnalyticsConfigurations"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "Media2AnalyticsConfigurations",
@@ -5882,7 +5932,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2AddConfiguration"
 									]
-								}							},
+								}
+							},
 							"response": []
 						},
 						{
@@ -5912,7 +5963,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2RemoveConfiguration"
 									]
-								}							},
+								}
+							},
 							"response": []
 						}
 					]
@@ -5938,7 +5990,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"SupportedAnalyticsModules"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "SupportedAnalyticsModules",
@@ -6010,7 +6063,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "GetAnalyticsModules",
@@ -6091,7 +6145,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AnalyticsModules"
 									]
-								}							},
+								}
+							},
 							"response": []
 						},
 						{
@@ -6121,7 +6176,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"CreateAnalyticsModules"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "CreateAnalyticsModules",
@@ -6205,7 +6261,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"DeleteAnalyticsModules"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "DeleteAnalyticsModules",
@@ -6286,7 +6343,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "AnalyticsModuleOptions",
@@ -6369,7 +6427,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "AnalyticsSupportedRules",
@@ -6447,7 +6506,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "GetRules",
@@ -6528,7 +6588,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AnalyticsRules"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "ModifyRules",
@@ -6609,7 +6670,8 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "AnalyticsRuleOptions",
@@ -6690,7 +6752,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AnalyticsCreateRules"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "AnalyticsCreateRules",
@@ -6774,7 +6837,8 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AnalyticsDeleteRules"
 									]
-								}							},
+								}
+							},
 							"response": [
 								{
 									"name": "AnalyticsDeleteRules",
