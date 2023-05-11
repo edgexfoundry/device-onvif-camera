@@ -21,7 +21,7 @@ tags:
 - name: Video Encoder Configuration
 - name: PTZ
 - name: PTZ - Capabilities
-- name: PTZ - PTZConfiguration
+- name: PTZ - Configuration
 - name: PTZ - Actuation
 - name: PTZ - PTZPreset
 - name: PTZ - Home Position
@@ -4537,7 +4537,7 @@ paths:
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfigurations:
     get:
       tags:
-      - PTZ - PTZConfiguration
+      - PTZ - Configuration
       summary: 'PTZ: GetConfigurations'
       description: |-
         Get all the existing PTZConfigurations from the device.  
@@ -4631,7 +4631,7 @@ paths:
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfiguration:
     get:
       tags:
-      - PTZ - PTZConfiguration
+      - PTZ - Configuration
       summary: 'PTZ: GetConfiguration'
       description: |-
         Get a specific PTZconfiguration from the device, identified by its reference token or name.
@@ -4757,7 +4757,7 @@ paths:
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfiguration
     put:
       tags:
-      - PTZ - PTZConfiguration
+      - PTZ - Configuration
       summary: 'PTZ: SetConfiguration'
       description: |-
         Set/update a existing PTZConfiguration on the device.
@@ -4813,7 +4813,7 @@ paths:
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfigurationOptions:
     get:
       tags:
-      - PTZ - PTZConfiguration
+      - PTZ - Configuration
       summary: 'PTZ: GetConfigurationOptions'
       description: |-
         List supported coordinate systems including their range limitations. Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node.
@@ -4976,7 +4976,7 @@ paths:
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddPTZConfiguration:
     put:
       tags:
-      - PTZ - PTZConfiguration
+      - PTZ - Configuration
       summary: 'Media: AddPTZConfiguration'
       description: |-
         Add a new PTZConfiguration on the device.
@@ -5023,7 +5023,7 @@ paths:
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemovePTZConfiguration:
     put:
       tags:
-      - PTZ - PTZConfiguration
+      - PTZ - Configuration
       summary: 'Media: RemovePTZConfiguration'
       description: |-
         Remove a PTZConfiguration on the device.
