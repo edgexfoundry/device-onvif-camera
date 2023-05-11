@@ -134,6 +134,9 @@ class YamlProcessor:
                     service = attrs['service']
                     service_fn = f'{service}_{fn}'
 
+                    # set the unique operationId. this also will match the schema name of the command
+                    method_obj['operationId'] = f'{service.lower()}_{fn}'
+
                     # add all responses
                     for code, resp_obj in self.sidecar['responses']['canned'].items():
                         if code not in method_obj['responses']:

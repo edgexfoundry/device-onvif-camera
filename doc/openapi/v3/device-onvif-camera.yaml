@@ -275,6 +275,7 @@ paths:
               examples:
                 503Example:
                   $ref: '#/components/examples/503Example'
+      operationId: device_GetCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCapabilities
@@ -396,6 +397,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetServiceCapabilities
@@ -481,6 +483,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetServiceCapabilities
@@ -557,6 +560,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetServiceCapabilities
@@ -601,6 +605,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: imaging_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl#op.GetServiceCapabilities
@@ -678,6 +683,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: event_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.GetServiceCapabilities
@@ -749,6 +755,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetDiscoveryMode
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
@@ -807,6 +814,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetDiscoveryMode
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
@@ -856,6 +864,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_AddScopes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
@@ -942,6 +951,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetScopes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
@@ -990,6 +1000,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetScopes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
@@ -1066,6 +1077,7 @@ paths:
         '404': *id002
         '423': *id003
         '503': *id005
+      operationId: device_RemoveScopes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
@@ -1117,6 +1129,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetEndpointReference
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetEndpointReference
@@ -1194,6 +1207,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetHostname
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
@@ -1240,6 +1254,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetHostname
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
@@ -1321,6 +1336,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetDNS
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
@@ -1370,6 +1386,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetDNS
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
@@ -1458,6 +1475,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetNetworkInterfaces
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces
@@ -1509,6 +1527,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetNetworkInterfaces
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
@@ -1591,6 +1610,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetNetworkProtocols
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols
@@ -1646,6 +1666,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetNetworkProtocols
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
@@ -1725,6 +1746,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetNetworkDefaultGateway
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
@@ -1771,6 +1793,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetNetworkDefaultGateway
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
@@ -2003,6 +2026,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetDeviceInformation
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
@@ -2101,6 +2125,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetSystemDateAndTime
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime
@@ -2158,6 +2183,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetSystemDateAndTime
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
@@ -2207,6 +2233,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetSystemFactoryDefault
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
@@ -2273,6 +2300,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_RebootNeeded
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/SystemReboot:
     put:
       tags:
@@ -2299,6 +2327,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SystemReboot
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot
@@ -2377,6 +2406,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetUsers
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers
@@ -2430,6 +2460,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetUser
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser
@@ -2484,6 +2515,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_CreateUsers
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
@@ -2535,6 +2567,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_DeleteUsers
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
@@ -2629,6 +2662,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetMetadataConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurations
@@ -2752,6 +2786,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetMetadataConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfiguration
@@ -2800,6 +2835,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_SetMetadataConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetMetadataConfiguration
@@ -2928,6 +2964,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetCompatibleMetadataConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetCompatibleMetadataConfigurations
@@ -3043,6 +3080,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetMetadataConfigurationOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurationOptions
@@ -3090,6 +3128,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_AddMetadataConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddMetadataConfiguration
@@ -3136,6 +3175,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_RemoveMetadataConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemoveMetadataConfiguration
@@ -3442,6 +3482,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetProfiles
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetProfiles
@@ -3603,6 +3644,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetStreamUri
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetStreamUri
@@ -3702,6 +3744,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_GetSnapshot
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/SnapshotUri:
     get:
       tags:
@@ -3794,6 +3837,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetSnapshotUri
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetSnapshotUri
@@ -3884,6 +3928,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetVideoEncoderConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurations
@@ -4007,6 +4052,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetVideoEncoderConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfiguration
@@ -4091,6 +4137,7 @@ paths:
         '404': *id002
         '423': *id003
         '503': *id005
+      operationId: media_SetVideoEncoderConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetVideoEncoderConfiguration
@@ -4245,6 +4292,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetVideoEncoderConfigurationOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions
@@ -4378,6 +4426,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetNodes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNodes
@@ -4541,6 +4590,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetNode
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNode
@@ -4634,6 +4684,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurations
@@ -4757,6 +4808,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfiguration
@@ -4812,6 +4864,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_SetConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetConfiguration
@@ -4975,6 +5028,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetConfigurationOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurationOptions
@@ -5027,6 +5081,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_AddPTZConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddPTZConfiguration
@@ -5076,6 +5131,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_RemovePTZConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemovePTZConfiguration
@@ -5127,6 +5183,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_AbsoluteMove
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.AbsoluteMove
@@ -5177,6 +5234,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_RelativeMove
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RelativeMove
@@ -5227,6 +5285,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_ContinuousMove
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.ContinuousMove
@@ -5341,6 +5400,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetStatus
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetStatus
@@ -5389,6 +5449,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_Stop
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.Stop
@@ -5437,6 +5498,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_SetPreset
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetPreset
@@ -5574,6 +5636,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetPresets
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetPresets
@@ -5623,6 +5686,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GotoPreset
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoPreset
@@ -5672,6 +5736,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_RemovePreset
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RemovePreset
@@ -5739,6 +5804,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GotoHomePosition
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoHomePosition
@@ -5769,6 +5835,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_SetHomePosition
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetHomePosition
@@ -5849,6 +5916,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_SendAuxiliaryCommand
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SendAuxiliaryCommand
@@ -6020,6 +6088,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: event_GetEventProperties
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.GetEventProperties
@@ -6073,6 +6142,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SubscribeCameraEvent
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/PullPointSubscription:
     put:
       tags:
@@ -6121,6 +6191,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SubscribeCameraEvent
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/UnsubscribeCameraEvent:
     put:
       tags:
@@ -6154,6 +6225,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_UnsubscribeCameraEvent
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2Profiles:
     get:
       tags:
@@ -6245,6 +6317,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media2_GetProfiles
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetProfiles
@@ -6380,6 +6453,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media2_GetAnalyticsConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetAnalyticsConfigurations
@@ -6429,6 +6503,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media2_AddConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.AddConfiguration
@@ -6481,6 +6556,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media2_RemoveConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.RemoveConfiguration
@@ -6684,6 +6760,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetSupportedAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedAnalyticsModules
@@ -6826,6 +6903,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModules
@@ -6878,6 +6956,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_ModifyAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyAnalyticsModules
@@ -6932,6 +7011,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_CreateAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateAnalyticsModules
@@ -6981,6 +7061,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_DeleteAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteAnalyticsModules
@@ -7094,6 +7175,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetAnalyticsModuleOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions
@@ -7351,6 +7433,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetSupportedRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedRules
@@ -7468,6 +7551,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRules
@@ -7520,6 +7604,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_ModifyRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyRules
@@ -7636,6 +7721,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetRuleOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRuleOptions
@@ -7697,6 +7783,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_CreateRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateRules
@@ -7746,6 +7833,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_DeleteRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteRules
@@ -7810,6 +7898,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_GetMACAddress
     put:
       tags:
       - Custom
@@ -7850,6 +7939,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetMACAddress
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/FriendlyName:
     get:
       tags:
@@ -7898,6 +7988,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_GetFriendlyName
     put:
       tags:
       - Custom
@@ -7927,6 +8018,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetFriendlyName
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/CustomMetadata:
     get:
       tags:
@@ -8057,6 +8149,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_GetCustomMetadata
     put:
       tags:
       - Custom
@@ -8091,6 +8184,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetCustomMetadata
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteCustomMetadata:
     put:
       tags:
@@ -8124,6 +8218,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_DeleteCustomMetadata
 components:
   schemas:
     analytics_ConfigOptions:
@@ -8216,6 +8311,19 @@ components:
       - ConfigurationToken
       - RuleName
       type: object
+    analytics_GetAnalyticsModuleOptions:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing AnalyticsConfiguration.
+          maxLength: 64
+          type: string
+        Type:
+          description: Reference to an SupportedAnalyticsModule Type returned from
+            GetSupportedAnalyticsModules.
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     analytics_GetAnalyticsModuleOptionsResponse:
       properties:
         Options:
@@ -8225,12 +8333,33 @@ components:
             $ref: '#/components/schemas/analytics_ConfigOptions'
           type: array
       type: object
+    analytics_GetAnalyticsModules:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing VideoAnalyticsConfiguration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     analytics_GetAnalyticsModulesResponse:
       properties:
         AnalyticsModule:
           items:
             $ref: '#/components/schemas/onvif_Config'
           type: array
+      type: object
+    analytics_GetRuleOptions:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing analytics configuration.
+          maxLength: 64
+          type: string
+        RuleType:
+          description: Reference to an SupportedRule Type returned from GetSupportedRules.
+          type: string
+      required:
+      - ConfigurationToken
       type: object
     analytics_GetRuleOptionsResponse:
       properties:
@@ -8242,6 +8371,15 @@ components:
             $ref: '#/components/schemas/analytics_ConfigOptions'
           type: array
       type: object
+    analytics_GetRules:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing VideoAnalyticsConfiguration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     analytics_GetRulesResponse:
       properties:
         Rule:
@@ -8249,12 +8387,32 @@ components:
             $ref: '#/components/schemas/onvif_Config'
           type: array
       type: object
+    analytics_GetSupportedAnalyticsModules:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing VideoAnalyticsConfiguration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     analytics_GetSupportedAnalyticsModulesResponse:
       properties:
         SupportedAnalyticsModules:
           $ref: '#/components/schemas/onvif_SupportedAnalyticsModules'
       required:
       - SupportedAnalyticsModules
+      type: object
+    analytics_GetSupportedRules:
+      properties:
+        ConfigurationToken:
+          description: "References an existing Video Analytics configuration. The\
+            \ list of available tokens can be obtained\n\t\t\t\t\t\t\t\t\tvia the\
+            \ Media service GetVideoAnalyticsConfigurations method."
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
       type: object
     analytics_GetSupportedRulesResponse:
       properties:
@@ -8490,6 +8648,16 @@ components:
       type: object
     onvif_CapabilitiesExtension2:
       type: object
+    onvif_CapabilityCategory:
+      enum:
+      - All
+      - Analytics
+      - Device
+      - Events
+      - Imaging
+      - Media
+      - PTZ
+      type: string
     onvif_Config:
       properties:
         Name:
@@ -11410,6 +11578,14 @@ components:
       - Security
       - System
       type: object
+    device_GetCapabilities:
+      properties:
+        Category:
+          description: List of categories to retrieve capability information on.
+          items:
+            $ref: '#/components/schemas/onvif_CapabilityCategory'
+          type: array
+      type: object
     device_GetCapabilitiesResponse:
       properties:
         Capabilities:
@@ -11419,6 +11595,8 @@ components:
       required:
       - Capabilities
       type: object
+    device_GetDNS:
+      type: object
     device_GetDNSResponse:
       properties:
         DNSInformation:
@@ -11427,6 +11605,8 @@ components:
           - description: DNS information.
       required:
       - DNSInformation
+      type: object
+    device_GetDeviceInformation:
       type: object
     device_GetDeviceInformationResponse:
       properties:
@@ -11452,6 +11632,8 @@ components:
       - SerialNumber
       - HardwareId
       type: object
+    device_GetDiscoveryMode:
+      type: object
     device_GetDiscoveryModeResponse:
       properties:
         DiscoveryMode:
@@ -11461,12 +11643,16 @@ components:
       required:
       - DiscoveryMode
       type: object
+    device_GetEndpointReference:
+      type: object
     device_GetEndpointReferenceResponse:
       properties:
         GUID:
           type: string
       required:
       - GUID
+      type: object
+    device_GetHostname:
       type: object
     device_GetHostnameResponse:
       properties:
@@ -11476,6 +11662,8 @@ components:
           - description: Contains the hostname information.
       required:
       - HostnameInformation
+      type: object
+    device_GetNetworkDefaultGateway:
       type: object
     device_GetNetworkDefaultGatewayResponse:
       properties:
@@ -11487,6 +11675,8 @@ components:
       required:
       - NetworkGateway
       type: object
+    device_GetNetworkInterfaces:
+      type: object
     device_GetNetworkInterfacesResponse:
       properties:
         NetworkInterfaces:
@@ -11497,6 +11687,8 @@ components:
       required:
       - NetworkInterfaces
       type: object
+    device_GetNetworkProtocols:
+      type: object
     device_GetNetworkProtocolsResponse:
       properties:
         NetworkProtocols:
@@ -11506,6 +11698,8 @@ components:
           items:
             $ref: '#/components/schemas/onvif_NetworkProtocol'
           type: array
+      type: object
+    device_GetScopes:
       type: object
     device_GetScopesResponse:
       properties:
@@ -11519,6 +11713,8 @@ components:
       required:
       - Scopes
       type: object
+    device_GetServiceCapabilities:
+      type: object
     device_GetServiceCapabilitiesResponse:
       properties:
         Capabilities:
@@ -11528,6 +11724,8 @@ components:
               Capabilities element.
       required:
       - Capabilities
+      type: object
+    device_GetSystemDateAndTime:
       type: object
     device_GetSystemDateAndTimeResponse:
       properties:
@@ -11540,6 +11738,8 @@ components:
               date and time.
       required:
       - SystemDateAndTime
+      type: object
+    device_GetUsers:
       type: object
     device_GetUsersResponse:
       properties:
@@ -11910,6 +12110,8 @@ components:
           description: Indicates that the WS Subscription policy is supported.
           type: boolean
       type: object
+    event_GetEventProperties:
+      type: object
     event_GetEventPropertiesResponse:
       properties:
         FixedTopicSet:
@@ -11959,6 +12161,8 @@ components:
       - MessageContentFilterDialect
       - MessageContentSchemaLocation
       type: object
+    event_GetServiceCapabilities:
+      type: object
     event_GetServiceCapabilitiesResponse:
       properties:
         Capabilities:
@@ -11982,6 +12186,8 @@ components:
         Presets:
           description: Indicates whether or not Imaging Presets feature is supported.
           type: boolean
+      type: object
+    imaging_GetServiceCapabilities:
       type: object
     imaging_GetServiceCapabilitiesResponse:
       properties:
@@ -12056,6 +12262,16 @@ components:
       - ProfileCapabilities
       - StreamingCapabilities
       type: object
+    media_GetCompatibleMetadataConfigurations:
+      properties:
+        ProfileToken:
+          description: Contains the token of an existing media profile the configurations
+            shall be compatible with.
+          maxLength: 64
+          type: string
+      required:
+      - ProfileToken
+      type: object
     media_GetCompatibleMetadataConfigurationsResponse:
       properties:
         Configurations:
@@ -12064,6 +12280,28 @@ components:
           items:
             $ref: '#/components/schemas/onvif_MetadataConfiguration'
           type: array
+      type: object
+    media_GetMetadataConfiguration:
+      properties:
+        ConfigurationToken:
+          description: Token of the requested metadata configuration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
+    media_GetMetadataConfigurationOptions:
+      properties:
+        ConfigurationToken:
+          description: Optional metadata configuration token that specifies an existing
+            configuration that the options are intended for.
+          maxLength: 64
+          type: string
+        ProfileToken:
+          description: Optional ProfileToken that specifies an existing media profile
+            that the options shall be compatible with.
+          maxLength: 64
+          type: string
       type: object
     media_GetMetadataConfigurationOptionsResponse:
       properties:
@@ -12087,6 +12325,8 @@ components:
       required:
       - Configuration
       type: object
+    media_GetMetadataConfigurations:
+      type: object
     media_GetMetadataConfigurationsResponse:
       properties:
         Configurations:
@@ -12095,6 +12335,8 @@ components:
             $ref: '#/components/schemas/onvif_MetadataConfiguration'
           type: array
       type: object
+    media_GetProfiles:
+      type: object
     media_GetProfilesResponse:
       properties:
         Profiles:
@@ -12102,6 +12344,8 @@ components:
           items:
             $ref: '#/components/schemas/onvif_Profile'
           type: array
+      type: object
+    media_GetServiceCapabilities:
       type: object
     media_GetServiceCapabilitiesResponse:
       properties:
@@ -12113,6 +12357,16 @@ components:
       required:
       - Capabilities
       type: object
+    media_GetSnapshotUri:
+      properties:
+        ProfileToken:
+          description: The ProfileToken element indicates the media profile to use
+            and will define the source and dimensions of the snapshot.
+          maxLength: 64
+          type: string
+      required:
+      - ProfileToken
+      type: object
     media_GetSnapshotUriResponse:
       properties:
         MediaUri:
@@ -12120,12 +12374,49 @@ components:
       required:
       - MediaUri
       type: object
+    media_GetStreamUri:
+      properties:
+        ProfileToken:
+          description: The ProfileToken element indicates the media profile to use
+            and will define the configuration of the content of the stream.
+          maxLength: 64
+          type: string
+        StreamSetup:
+          allOf:
+          - $ref: '#/components/schemas/onvif_StreamSetup'
+          - description: Stream Setup that should be used with the uri
+      required:
+      - StreamSetup
+      - ProfileToken
+      type: object
     media_GetStreamUriResponse:
       properties:
         MediaUri:
           $ref: '#/components/schemas/onvif_MediaUri'
       required:
       - MediaUri
+      type: object
+    media_GetVideoEncoderConfiguration:
+      properties:
+        ConfigurationToken:
+          description: Token of the requested video encoder configuration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
+    media_GetVideoEncoderConfigurationOptions:
+      properties:
+        ConfigurationToken:
+          description: Optional video encoder configuration token that specifies an
+            existing configuration that the options are intended for.
+          maxLength: 64
+          type: string
+        ProfileToken:
+          description: Optional ProfileToken that specifies an existing media profile
+            that the options shall be compatible with.
+          maxLength: 64
+          type: string
       type: object
     media_GetVideoEncoderConfigurationOptionsResponse:
       properties:
@@ -12142,6 +12433,8 @@ components:
           - description: The requested video encoder configuration.
       required:
       - Configuration
+      type: object
+    media_GetVideoEncoderConfigurations:
       type: object
     media_GetVideoEncoderConfigurationsResponse:
       properties:
@@ -12319,6 +12612,18 @@ components:
             $ref: '#/components/schemas/onvif_VideoAnalyticsConfiguration'
           type: array
       type: object
+    media2_GetProfiles:
+      properties:
+        Token:
+          description: Optional token of the requested profile.
+          maxLength: 64
+          type: string
+        Type:
+          description: The types shall be provided as defined by tr2:ConfigurationEnumeration.
+          items:
+            type: string
+          type: array
+      type: object
     media2_GetProfilesResponse:
       properties:
         Profiles:
@@ -12440,6 +12745,25 @@ components:
       - ProfileToken
       - Velocity
       type: object
+    ptz_GetConfiguration:
+      properties:
+        PTZConfigurationToken:
+          description: Token of the requested PTZConfiguration.
+          maxLength: 64
+          type: string
+      required:
+      - PTZConfigurationToken
+      type: object
+    ptz_GetConfigurationOptions:
+      properties:
+        ConfigurationToken:
+          description: Token of an existing configuration that the options are intended
+            for.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     ptz_GetConfigurationOptionsResponse:
       properties:
         PTZConfigurationOptions:
@@ -12458,6 +12782,8 @@ components:
       required:
       - PTZConfiguration
       type: object
+    ptz_GetConfigurations:
+      type: object
     ptz_GetConfigurationsResponse:
       properties:
         PTZConfiguration:
@@ -12465,6 +12791,15 @@ components:
           items:
             $ref: '#/components/schemas/onvif_PTZConfiguration'
           type: array
+      type: object
+    ptz_GetNode:
+      properties:
+        NodeToken:
+          description: Token of the requested PTZNode.
+          maxLength: 64
+          type: string
+      required:
+      - NodeToken
       type: object
     ptz_GetNodeResponse:
       properties:
@@ -12475,6 +12810,8 @@ components:
       required:
       - PTZNode
       type: object
+    ptz_GetNodes:
+      type: object
     ptz_GetNodesResponse:
       properties:
         PTZNode:
@@ -12483,6 +12820,16 @@ components:
             $ref: '#/components/schemas/onvif_PTZNode'
           type: array
       type: object
+    ptz_GetPresets:
+      properties:
+        ProfileToken:
+          description: A reference to the MediaProfile where the operation should
+            take place.
+          maxLength: 64
+          type: string
+      required:
+      - ProfileToken
+      type: object
     ptz_GetPresetsResponse:
       properties:
         Preset:
@@ -12490,6 +12837,8 @@ components:
           items:
             $ref: '#/components/schemas/onvif_PTZPreset'
           type: array
+      type: object
+    ptz_GetServiceCapabilities:
       type: object
     ptz_GetServiceCapabilitiesResponse:
       properties:
@@ -12500,6 +12849,16 @@ components:
               element.
       required:
       - Capabilities
+      type: object
+    ptz_GetStatus:
+      properties:
+        ProfileToken:
+          description: A reference to the MediaProfile where the PTZStatus should
+            be requested.
+          maxLength: 64
+          type: string
+      required:
+      - ProfileToken
       type: object
     ptz_GetStatusResponse:
       properties:

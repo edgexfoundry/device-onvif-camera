@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2022 Intel Corporation
+# Copyright (C) 2022-2023 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 #
 
@@ -36,6 +36,10 @@ class SchemaCleaner:
         if isinstance(obj, dict):
             if '$ref' in obj:
                 name = obj['$ref'].split('/')[-1]
+                self.schemas[current].uses.add(name)
+                self.schemas[name].used_by.add(current)
+            elif 'operationId' in obj:
+                name = obj['operationId']
                 self.schemas[current].uses.add(name)
                 self.schemas[name].used_by.add(current)
             for _, x_obj in obj.items():
