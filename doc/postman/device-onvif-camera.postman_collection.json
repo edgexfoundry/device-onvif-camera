@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "79e5804a-2979-4157-9973-8d25ad33986d",
+		"_postman_id": "82c027e5-c2a9-4366-8d6d-2b4caf0d9690",
 		"name": "device-onvif-camera",
 		"description": "The Open Network Video Interface Forum (ONVIF) Device Service is a microservice created to address the lack of standardization and automation of camera discovery and onboarding. EdgeX Foundry is a flexible microservice-based architecture created to promote the interoperability of multiple device interface combinations at the edge. In an EdgeX deployment, the ONVIF Device Service controls and communicates with ONVIF-compliant cameras, while EdgeX Foundry presents a standard interface to application developers. With normalized connectivity protocols and a vendor-neutral architecture, EdgeX paired with ONVIF Camera Device Service, simplifies deployment of edge camera devices.\n\nUse the ONVIF Device Service to streamline and scale your edge camera device deployment.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -16,15 +16,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Capabilities",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Capabilities",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -42,15 +37,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Capabilities",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Capabilities",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -93,15 +83,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeviceCapabilities",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeviceCapabilities",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -119,15 +104,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeviceCapabilities",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeviceCapabilities",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -170,15 +150,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MediaCapabilities",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MediaCapabilities",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -196,15 +171,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MediaCapabilities",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MediaCapabilities",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -247,15 +217,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZCapabilities",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZCapabilities",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -273,15 +238,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZCapabilities",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZCapabilities",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -324,15 +284,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/ImagingCapabilities",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/ImagingCapabilities",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -351,15 +306,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EventCapabilities",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EventCapabilities",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -377,15 +327,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EventCapabilities",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EventCapabilities",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -428,20 +373,15 @@
 			"name": "Auto Discovery",
 			"item": [
 				{
-					"name": "GetDiscoveryMode",
+					"name": "DiscoveryMode",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -450,9 +390,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryMode"
 							]
-						},
-						"description": "This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command."
-					},
+						}},
 					"response": [
 						{
 							"name": "GetDiscoveryMode",
@@ -460,15 +398,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -506,7 +439,7 @@
 					]
 				},
 				{
-					"name": "Set DiscoveryMode",
+					"name": "DiscoveryMode",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -520,15 +453,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -537,12 +465,11 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryMode"
 							]
-						},
-						"description": "This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command."
+						}
 					},
 					"response": [
 						{
-							"name": "Set DiscoveryMode",
+							"name": "DiscoveryMode",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [],
@@ -556,15 +483,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryMode",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -602,7 +524,7 @@
 					]
 				},
 				{
-					"name": "Add Discovery Scopes",
+					"name": "AddDiscoveryScopes",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -616,15 +538,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddDiscoveryScopes",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddDiscoveryScopes",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -633,8 +550,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"AddDiscoveryScopes"
 							]
-						},
-						"description": "This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command."
+						}
 					},
 					"response": [
 						{
@@ -652,15 +568,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddDiscoveryScopes",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddDiscoveryScopes",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -698,20 +609,15 @@
 					]
 				},
 				{
-					"name": "Get DiscoveryScopes",
+					"name": "DiscoveryScopes",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryScopes",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryScopes",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -720,25 +626,18 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryScopes"
 							]
-						},
-						"description": "This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  \n\\- Fixed  \n\\- Configurable  \nFixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response."
-					},
+						}					},
 					"response": [
 						{
-							"name": "Get DiscoveryScopes",
+							"name": "DiscoveryScopes",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryScopes",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryScopes",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -776,7 +675,7 @@
 					]
 				},
 				{
-					"name": "Put DiscoveryScopes",
+					"name": "DiscoveryScopes",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -790,15 +689,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryScopes",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryScopes",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -807,9 +701,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DiscoveryScopes"
 							]
-						},
-						"description": "This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead."
-					},
+						}					},
 					"response": [
 						{
 							"name": "Put DiscoveryScopes",
@@ -826,15 +718,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryScopes",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DiscoveryScopes",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -872,7 +759,7 @@
 					]
 				},
 				{
-					"name": "Remove DiscoveryScopes",
+					"name": "RemoveDiscoveryScopes",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -886,15 +773,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemoveDiscoveryScopes",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemoveDiscoveryScopes",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -903,9 +785,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"RemoveDiscoveryScopes"
 							]
-						},
-						"description": "This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command"
-					},
+						}					},
 					"response": [
 						{
 							"name": "Remove DiscoveryScopes",
@@ -922,15 +802,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemoveDiscoveryScopes",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemoveDiscoveryScopes",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -973,15 +848,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EndpointReference",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EndpointReference",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1005,15 +875,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1022,9 +887,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Hostname"
 							]
-						},
-						"description": "This operation is used by an endpoint to get the hostname from a device. The device shall return its hostname configurations through the GetHostname command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "Hostname",
@@ -1032,15 +895,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1078,7 +936,7 @@
 					]
 				},
 				{
-					"name": "SetHostname",
+					"name": "Hostname",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1092,15 +950,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1109,9 +962,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Hostname"
 							]
-						},
-						"description": "This operation sets the hostname on a device. It shall be possible to set the device hostname configurations through the SetHostname command.  \nA device shall accept string formatted according to RFC 1123 section 2.1 or alternatively to RFC 952, other string shall be considered as invalid strings."
-					},
+						}					},
 					"response": [
 						{
 							"name": "SetHostname",
@@ -1128,15 +979,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Hostname",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1191,15 +1037,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1208,9 +1049,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DNS"
 							]
-						},
-						"description": "This operation gets the DNS settings from a device. The device shall return its DNS configurations through the GetDNS command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "DNS",
@@ -1218,15 +1057,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1264,7 +1098,7 @@
 					]
 				},
 				{
-					"name": "SetDNS",
+					"name": "DNS",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1278,15 +1112,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1295,9 +1124,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DNS"
 							]
-						},
-						"description": "This operation sets the DNS settings on a device. It shall be possible to set the device DNS configurations through the SetDNS command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "SetDNS",
@@ -1314,15 +1141,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DNS",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1365,15 +1187,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1382,9 +1199,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkInterfaces"
 							]
-						},
-						"description": "This operation gets the network interface configuration from a device. The device shall support return of network interface configuration settings as defined by the NetworkInterface type through the GetNetworkInterfaces command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "NetworkInterfaces",
@@ -1392,15 +1207,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1438,7 +1248,7 @@
 					]
 				},
 				{
-					"name": "SetNetworkInterfaces",
+					"name": "NetworkInterfaces",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1452,15 +1262,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1469,9 +1274,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkInterfaces"
 							]
-						},
-						"description": "This operation sets the network interface configuration on a device. The device shall support network configuration of supported network interfaces through the SetNetworkInterfaces command.\n\nFor interoperability with a client unaware of the IEEE 802.11 extension a device shall retain its IEEE 802.11 configuration if the IEEE 802.11 configuration element isn’t present in the request."
-					},
+						}					},
 					"response": [
 						{
 							"name": "SetNetworkInterfaces",
@@ -1488,15 +1291,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkInterfaces",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1539,15 +1337,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1556,9 +1349,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkProtocols"
 							]
-						},
-						"description": "This operation gets defined network protocols from a device. The device shall support the GetNetworkProtocols command returning configured network protocols."
-					},
+						}					},
 					"response": [
 						{
 							"name": "NetworkProtocols",
@@ -1566,15 +1357,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1612,7 +1398,7 @@
 					]
 				},
 				{
-					"name": "SetNetworkProtocols",
+					"name": "NetworkProtocols",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1626,15 +1412,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1643,9 +1424,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkProtocols"
 							]
-						},
-						"description": "This operation configures defined network protocols on a device. The device shall support configuration of defined network protocols through the SetNetworkProtocols command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "SetNetworkProtocols",
@@ -1662,15 +1441,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkProtocols",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1725,15 +1499,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1742,9 +1511,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkDefaultGateway"
 							]
-						},
-						"description": "This operation gets the default gateway settings from a device. The device shall support the GetNetworkDefaultGateway command returning configured default gateway address(es)."
-					},
+						}					},
 					"response": [
 						{
 							"name": "NetworkDefaultGateway",
@@ -1752,15 +1519,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1798,7 +1560,7 @@
 					]
 				},
 				{
-					"name": "SetNetworkDefaultGateway",
+					"name": "NetworkDefaultGateway",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1812,15 +1574,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1829,9 +1586,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"NetworkDefaultGateway"
 							]
-						},
-						"description": "This operation sets the default gateway settings on a device. The device shall support configuration of default gateway through the SetNetworkDefaultGateway command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "SetNetworkDefaultGateway",
@@ -1848,15 +1603,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkDefaultGateway",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1911,15 +1661,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -1938,15 +1683,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -1984,7 +1724,7 @@
 					]
 				},
 				{
-					"name": "SetNetworkConfiguration",
+					"name": "NetworkConfiguration",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -1998,15 +1738,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2034,15 +1769,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/NetworkConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -2091,15 +1821,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeviceInformation",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeviceInformation",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2108,8 +1833,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeviceInformation"
 							]
-						},
-						"description": "This operation gets basic device information from the device."
+						}
 					},
 					"response": [
 						{
@@ -2118,15 +1842,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeviceInformation",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeviceInformation",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -2181,15 +1900,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2198,9 +1912,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemDateAndTime"
 							]
-						},
-						"description": "This operation gets the device system date and time. The device shall support the return of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the GetSystemDateAndTime command.\n\nA device shall provide the UTCDateTime information."
-					},
+						}					},
 					"response": [
 						{
 							"name": "SystemDateAndTime",
@@ -2208,15 +1920,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -2254,7 +1961,7 @@
 					]
 				},
 				{
-					"name": "SetSystemDateAndTime",
+					"name": "SystemDateAndTime",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -2268,15 +1975,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2285,9 +1987,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemDateAndTime"
 							]
-						},
-						"description": "This operation sets the device system date and time. The device shall support the configuration of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the SetSystemDateAndTime command.\n\nIf system time and date are set manually, the client shall include UTCDateTime in the request.\n\nA TimeZone token which is not formed according to the rules of IEEE 1003.1 section 8.3 is considered as invalid timezone.\n\nThe DayLightSavings flag should be set to true to activate any DST settings of the TimeZone string. Clear the DayLightSavings flag if the DST portion of the TimeZone settings should be ignored."
-					},
+						}					},
 					"response": [
 						{
 							"name": "SetSystemDateAndTime",
@@ -2304,15 +2004,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemDateAndTime",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -2352,15 +2047,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemFactoryDefault",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemFactoryDefault",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2369,9 +2059,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"SystemFactoryDefault"
 							]
-						},
-						"description": "This operation reloads the parameters on the device to their factory default values."
-					},
+						}					},
 					"response": [
 						{
 							"name": "SystemFactoryDefault",
@@ -2388,15 +2076,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemFactoryDefault",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemFactoryDefault",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -2439,15 +2122,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RebootNeeded",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RebootNeeded",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2466,15 +2144,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RebootNeeded",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RebootNeeded",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -2526,15 +2199,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemReboot",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemReboot",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2561,15 +2229,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemReboot",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SystemReboot",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -2613,20 +2276,15 @@
 			"name": "User Handling",
 			"item": [
 				{
-					"name": "Get users",
+					"name": "Users",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Users",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2635,25 +2293,18 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"Users"
 							]
-						},
-						"description": "This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command."
-					},
+						}					},
 					"response": [
 						{
-							"name": "Get users",
+							"name": "Users",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Users",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -2691,7 +2342,91 @@
 					]
 				},
 				{
-					"name": "Create Users",
+					"name": "Users",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+							"host": [
+								"{{CORE_COMMAND_URL}}"
+							],
+							"path": [
+								"api",
+								"v3",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"Users"
+							]
+						}					},
+					"response": [
+						{
+							"name": "Users",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Users",
+									"host": [
+										"{{CORE_COMMAND_URL}}"
+									],
+									"path": [
+										"api",
+										"v3",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"Users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "bc42d5ca-4132-47e5-b159-98ca2aa1cdb8"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 25 Sep 2022 03:40:53 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "37"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v3\",\n    \"statusCode\": 200\n}"
+						}
+					]
+				},
+				{
+					"name": "CreateUsers",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -2705,15 +2440,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CreateUsers",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CreateUsers",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2722,9 +2452,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"CreateUsers"
 							]
-						},
-						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
-					},
+						}					},
 					"response": [
 						{
 							"name": "Create Users",
@@ -2771,103 +2499,7 @@
 					]
 				},
 				{
-					"name": "Set users",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v3",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"Users"
-							]
-						},
-						"description": "This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.\n\nONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper."
-					},
-					"response": [
-						{
-							"name": "Set users",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"Users\": {\n        \"User\": [\n            {\n                \"Username\": \"user1\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Administrator\"\n            },\n            {\n                \"Username\": \"user2\",\n                \"Password\": \"Password1!\",\n                \"UserLevel\": \"Operator\"\n            }\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Users",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v3",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"Users"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "bc42d5ca-4132-47e5-b159-98ca2aa1cdb8"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 25 Sep 2022 03:40:53 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "37"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v3\",\n    \"statusCode\": 200\n}"
-						}
-					]
-				},
-				{
-					"name": "Delete users",
+					"name": "DeleteUsers",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -2881,15 +2513,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2898,9 +2525,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"DeleteUsers"
 							]
-						},
-						"description": "This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted."
-					},
+						}					},
 					"response": [
 						{
 							"name": "Delete users",
@@ -2917,15 +2542,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteUsers",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -2973,15 +2593,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfigurations",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfigurations",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -2990,9 +2605,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MetadataConfigurations"
 							]
-						},
-						"description": "This operation lists all existing metadata configurations. The client need not know anything apriori about the metadata in order to use the command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "MetadataConfigurations",
@@ -3000,15 +2613,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfigurations",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfigurations",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3051,15 +2659,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration?jsonObject={{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration?jsonObject={{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3074,9 +2677,7 @@
 									"value": "{{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}"
 								}
 							]
-						},
-						"description": "The GetMetadataConfiguration command fetches the metadata configuration if the metadata token is known."
-					},
+						}					},
 					"response": [
 						{
 							"name": "GetMetadataConfiguration",
@@ -3084,15 +2685,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration?jsonObject={{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration?jsonObject={{EDGEX_MEDIA_CONFIG_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3136,7 +2732,7 @@
 					]
 				},
 				{
-					"name": "SetMetadataConfiguration",
+					"name": "MetadataConfiguration",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -3150,15 +2746,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3167,9 +2758,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MetadataConfiguration"
 							]
-						},
-						"description": "This operation modifies a metadata configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be updated immediately according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected streams. NVC methods for changing a running stream are out of scope for this specification."
-					},
+						}					},
 					"response": [
 						{
 							"name": "SetMetadataConfiguration",
@@ -3186,15 +2775,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3237,15 +2821,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CompatibleMetadataConfigurations?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CompatibleMetadataConfigurations?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3260,9 +2839,7 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_BASE64}}"
 								}
 							]
-						},
-						"description": "This operation requests all the metadata configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddMetadataConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device."
-					},
+						}					},
 					"response": [
 						{
 							"name": "GetCompatibleMetadataConfigurations",
@@ -3270,15 +2847,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CompatibleMetadataConfigurations?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CompatibleMetadataConfigurations?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3327,15 +2899,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfigurationOptions?jsonObject={{EDGEX_MEDIA_PROFILE_AND_CONFIG_TOKEN_BASE64}}",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfigurationOptions?jsonObject={{EDGEX_MEDIA_PROFILE_AND_CONFIG_TOKEN_BASE64}}",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3350,9 +2917,7 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_AND_CONFIG_TOKEN_BASE64}}"
 								}
 							]
-						},
-						"description": "This operation returns the available options (supported values and ranges for metadata configuration parameters) for changing the metadata configuration."
-					},
+						}					},
 					"response": [
 						{
 							"name": "GetMetadataConfigurationOptions",
@@ -3360,15 +2925,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfigurationOptions?jsonObject={{EDGEX_MEDIA_PROFILE_AND_CONFIG_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MetadataConfigurationOptions?jsonObject={{EDGEX_MEDIA_PROFILE_AND_CONFIG_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3426,15 +2986,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddMetadataConfiguration",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddMetadataConfiguration",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3443,9 +2998,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"AddMetadataConfiguration"
 							]
-						},
-						"description": "This operation adds a Metadata configuration to an existing media profile. If a configuration exists in the media profile, it will be replaced. The change shall be persistent. Adding a MetadataConfiguration to a Profile means that streams using that profile contain metadata. Metadata can consist of events, PTZ status, and/or video analytics data."
-					},
+						}					},
 					"response": [
 						{
 							"name": "AddMetadataConfiguration",
@@ -3462,15 +3015,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddMetadataConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddMetadataConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3522,15 +3070,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemoveMetadataConfiguration",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemoveMetadataConfiguration",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3539,9 +3082,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"RemoveMetadataConfiguration"
 							]
-						},
-						"description": "This operation removes a MetadataConfiguration from an existing media profile. If the media profile does not contain a MetadataConfiguration, the operation has no effect. The removal shall be persistent."
-					},
+						}					},
 					"response": [
 						{
 							"name": "RemoveMetadataConfiguration",
@@ -3558,15 +3099,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemoveMetadataConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemoveMetadataConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3626,15 +3162,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MediaProfiles",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MediaProfiles",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3643,9 +3174,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"MediaProfiles"
 							]
-						},
-						"description": "Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "MediaProfiles",
@@ -3653,15 +3182,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MediaProfiles",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MediaProfiles",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3704,15 +3228,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/StreamUri?jsonObject={{EDGEX_MEDIA_PROFILE_STREAM_SETUP_BASE64}}",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/StreamUri?jsonObject={{EDGEX_MEDIA_PROFILE_STREAM_SETUP_BASE64}}",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3737,15 +3256,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/StreamUri?jsonObject={{EDGEX_MEDIA_PROFILE_STREAM_SETUP_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/StreamUri?jsonObject={{EDGEX_MEDIA_PROFILE_STREAM_SETUP_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3794,15 +3308,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3827,15 +3336,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Snapshot?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3884,15 +3388,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SnapshotUri?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SnapshotUri?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -3916,15 +3415,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SnapshotUri?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SnapshotUri?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -3990,15 +3484,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfigurations",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfigurations",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -4007,9 +3496,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"VideoEncoderConfigurations"
 							]
-						},
-						"description": "This operation lists all existing video encoder configurations of a device. This command lists all configured video encoder configurations in a device. The client need not know anything apriori about the video encoder configurations in order to use the command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "VideoEncoderConfigurations",
@@ -4017,15 +3504,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfigurations",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfigurations",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4068,15 +3550,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfiguration?jsonObject={{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN_BASE64}}",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfiguration?jsonObject={{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN_BASE64}}",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -4091,9 +3568,7 @@
 									"value": "{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN_BASE64}}"
 								}
 							]
-						},
-						"description": "If the video encoder configuration token is already known, the encoder configuration can be fetched through the GetVideoEncoderConfiguration command."
-					},
+						}					},
 					"response": [
 						{
 							"name": "VideoEncoderConfiguration",
@@ -4101,15 +3576,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfiguration?jsonObject={{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfiguration?jsonObject={{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4153,20 +3623,99 @@
 					]
 				},
 				{
+					"name": "VideoEncoderConfiguration",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"VideoEncoderConfiguration\": {\n        \"ForcePersistence\": false,\n        \"Configuration\": {\n            \"token\": \"{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}\",\n            \"Encoding\": \"H264\",\n            \"Quality\": 3.000000,\n            \"Resolution\": {\n                \"Width\": 1920,\n                \"Height\": 1080\n            },\n            \"Multicast\": {\n                \"Address\": {\n                    \"Type\": \"IPv4\",\n                    \"IPv4Address\": \"0.0.0.0\"\n                },\n                \"Port\": 8860,\n                \"TTL\": 1,\n                \"AutoStart\": false\n            }\n        }\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfiguration",
+							"host": [
+								"{{CORE_COMMAND_URL}}"
+							],
+							"path": [
+								"api",
+								"v3",
+								"device",
+								"name",
+								"{{EDGEX_DEVICE_NAME}}",
+								"VideoEncoderConfiguration"
+							]
+						}					},
+					"response": [
+						{
+							"name": "SetVideoEncoderConfiguration",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"VideoEncoderConfiguration\": {\n        \"ForcePersistence\": false,\n        \"Configuration\":{\n            \"token\": \"{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}\",\n            \"Encoding\": \"H264\",\n            \"Quality\": 3.000000,\n            \"Resolution\": {\n                \"Width\": 1920,\n                \"Height\": 1080\n            },\n            \"Multicast\": {\n                \"Address\": {\n                    \"Type\": \"IPv4\",\n                    \"IPv4Address\": \"0.0.0.0\"\n                },\n                \"Port\": 8860,\n                \"TTL\": 1,\n                \"AutoStart\": false\n            }\n        }\n        \n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfiguration",
+									"host": [
+										"{{CORE_COMMAND_URL}}"
+									],
+									"path": [
+										"api",
+										"v3",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"VideoEncoderConfiguration"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "X-Correlation-Id",
+									"value": "8888c1a3-e632-4223-9013-41c5e938eb4d"
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 05 Aug 2022 00:26:56 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "489"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apiVersion\": \"v3\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v3\\\",\\\"message\\\":\\\"error writing DeviceResourece VideoEncoderConfiguration for TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'SetVideoEncoderConfiguration' of web service 'Media'. Onvif error: fault reason: , fault detail: , fault code: SOAP-ENV:Sender  \\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
+						}
+					]
+				},
+				{
 					"name": "VideoEncoderConfigurationOptions",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfigurationOptions?jsonObject={{EDGEX_MEDIA_PROFILE_VIDEO_ENCODER_TOKEN_BASE64}}",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfigurationOptions?jsonObject={{EDGEX_MEDIA_PROFILE_VIDEO_ENCODER_TOKEN_BASE64}}",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -4181,9 +3730,7 @@
 									"value": "{{EDGEX_MEDIA_PROFILE_VIDEO_ENCODER_TOKEN_BASE64}}"
 								}
 							]
-						},
-						"description": "This operation returns the available options (supported values and ranges for video encoder configuration parameters) when the video encoder parameters are reconfigured.\n\nFor JPEG, MPEG4 and H264 extension elements have been defined that provide additional information. A device must provide the XxxOption information for all encodings supported and should additionally provide the corresponding XxxOption2 information.\n\nThis response contains the available video encoder configuration options. If a video encoder configuration is specified, the options shall concern that particular configuration. If a media profile is specified, the options shall be compatible with that media profile. If no tokens are specified, the options shall be considered generic for the device."
-					},
+						}					},
 					"response": [
 						{
 							"name": "VideoEncoderConfigurationOptions",
@@ -4191,15 +3738,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfigurationOptions?jsonObject={{EDGEX_MEDIA_PROFILE_VIDEO_ENCODER_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfigurationOptions?jsonObject={{EDGEX_MEDIA_PROFILE_VIDEO_ENCODER_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4241,102 +3783,6 @@
 							"body": "{\n    \"apiVersion\": \"v3\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v3\",\n        \"id\": \"187b2e94-6efe-421f-b618-186a20fd41df\",\n        \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"VideoEncoderConfigurationOptions\",\n        \"origin\": 1659659212171416506,\n        \"readings\": [\n            {\n                \"id\": \"0b709715-f644-4cf0-a477-dcc3b5ef218c\",\n                \"origin\": 1659659212171416506,\n                \"deviceName\": \"TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4\",\n                \"resourceName\": \"VideoEncoderConfigurationOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Options\": {\n                        \"Extension\": {\n                            \"H264\": {\n                                \"BitrateRange\": {\n                                    \"Max\": 1024,\n                                    \"Min\": 256\n                                },\n                                \"EncodingIntervalRange\": {\n                                    \"Max\": 1,\n                                    \"Min\": 1\n                                },\n                                \"FrameRateRange\": {\n                                    \"Max\": 15,\n                                    \"Min\": 1\n                                },\n                                \"GovLengthRange\": {\n                                    \"Max\": 25,\n                                    \"Min\": 25\n                                },\n                                \"H264ProfilesSupported\": [\n                                    \"Main\"\n                                ],\n                                \"ResolutionsAvailable\": [\n                                    {\n                                        \"Height\": 1080,\n                                        \"Width\": 1920\n                                    },\n                                    {\n                                        \"Height\": 720,\n                                        \"Width\": 1280\n                                    },\n                                    {\n                                        \"Height\": 360,\n                                        \"Width\": 640\n                                    }\n                                ]\n                            }\n                        },\n                        \"H264\": {\n                            \"EncodingIntervalRange\": {\n                                \"Max\": 1,\n                                \"Min\": 1\n                            },\n                            \"FrameRateRange\": {\n                                \"Max\": 15,\n                                \"Min\": 1\n                            },\n                            \"GovLengthRange\": {\n                                \"Max\": 25,\n                                \"Min\": 25\n                            },\n                            \"H264ProfilesSupported\": [\n                                \"Main\"\n                            ],\n                            \"ResolutionsAvailable\": [\n                                {\n                                    \"Height\": 1080,\n                                    \"Width\": 1920\n                                },\n                                {\n                                    \"Height\": 720,\n                                    \"Width\": 1280\n                                },\n                                {\n                                    \"Height\": 360,\n                                    \"Width\": 640\n                                }\n                            ]\n                        },\n                        \"QualityRange\": {\n                            \"Max\": 5,\n                            \"Min\": 1\n                        }\n                    }\n                }\n            }\n        ]\n    }\n}"
 						}
 					]
-				},
-				{
-					"name": "SetVideoEncoderConfiguration",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"VideoEncoderConfiguration\": {\n        \"ForcePersistence\": false,\n        \"Configuration\": {\n            \"token\": \"{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}\",\n            \"Encoding\": \"H264\",\n            \"Quality\": 3.000000,\n            \"Resolution\": {\n                \"Width\": 1920,\n                \"Height\": 1080\n            },\n            \"Multicast\": {\n                \"Address\": {\n                    \"Type\": \"IPv4\",\n                    \"IPv4Address\": \"0.0.0.0\"\n                },\n                \"Port\": 8860,\n                \"TTL\": 1,\n                \"AutoStart\": false\n            }\n        }\n    }\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfiguration",
-							"protocol": "http",
-							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
-							],
-							"port": "59882",
-							"path": [
-								"api",
-								"v3",
-								"device",
-								"name",
-								"{{EDGEX_DEVICE_NAME}}",
-								"VideoEncoderConfiguration"
-							]
-						},
-						"description": "This operation modifies a video encoder configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be immediately updated according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected stream. NVC methods for changing a running stream are out of scope for this specification.\n\nSessionTimeout is provided as a hint for keeping rtsp session by a device. If necessary the device may adapt parameter values for SessionTimeout elements without returning an error. For the time between keep alive calls the client shall adhere to the timeout value signaled via RTSP."
-					},
-					"response": [
-						{
-							"name": "SetVideoEncoderConfiguration",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"VideoEncoderConfiguration\": {\n        \"ForcePersistence\": false,\n        \"Configuration\":{\n            \"token\": \"{{EDGEX_MEDIA_VIDEO_ENCODER_TOKEN}}\",\n            \"Encoding\": \"H264\",\n            \"Quality\": 3.000000,\n            \"Resolution\": {\n                \"Width\": 1920,\n                \"Height\": 1080\n            },\n            \"Multicast\": {\n                \"Address\": {\n                    \"Type\": \"IPv4\",\n                    \"IPv4Address\": \"0.0.0.0\"\n                },\n                \"Port\": 8860,\n                \"TTL\": 1,\n                \"AutoStart\": false\n            }\n        }\n        \n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/VideoEncoderConfiguration",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v3",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"VideoEncoderConfiguration"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								},
-								{
-									"key": "X-Correlation-Id",
-									"value": "8888c1a3-e632-4223-9013-41c5e938eb4d"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 05 Aug 2022 00:26:56 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "489"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"apiVersion\": \"v3\",\n    \"message\": \"request failed, status code: 500, err: {\\\"apiVersion\\\":\\\"v3\\\",\\\"message\\\":\\\"error writing DeviceResourece VideoEncoderConfiguration for TP-Link-C200-3fa1fe68-b915-4053-a3e1-1027f5ea88f4 -\\\\u003e failed to execute write command, \\\\u003cnil\\\\u003e -\\\\u003e invalid request for the function 'SetVideoEncoderConfiguration' of web service 'Media'. Onvif error: fault reason: , fault detail: , fault code: SOAP-ENV:Sender  \\\",\\\"statusCode\\\":500}\",\n    \"statusCode\": 500\n}"
-						}
-					]
 				}
 			]
 		},
@@ -4352,15 +3798,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZNodes",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZNodes",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4369,8 +3810,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZNodes"
 									]
-								},
-								"description": "Get the descriptions of the available PTZ Nodes.\n\nA PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may represent mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ drivers. PTZ Nodes are the lowest level entities in the PTZ control API and reflect the supported PTZ capabilities. The PTZ Node is referenced either by its name or by its reference token."
+								}
 							},
 							"response": [
 								{
@@ -4379,15 +3819,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZNodes",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZNodes",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -4430,15 +3865,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZNode?jsonObject={{NODE_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZNode?jsonObject={{NODE_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4454,8 +3884,7 @@
 											"description": "{\"NodeToken\": \"Node0\"}"
 										}
 									]
-								},
-								"description": "Get a specific PTZ Node identified by a reference token or a name."
+								}
 							},
 							"response": [
 								{
@@ -4464,15 +3893,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZNode?jsonObject={{NODE_TOKEN_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZNode?jsonObject={{NODE_TOKEN_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -4538,15 +3962,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfigurations",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfigurations",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4555,8 +3974,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZConfigurations"
 									]
-								},
-								"description": "Get all the existing PTZConfigurations from the device.  \nThe default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.  \nThe allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly."
+								}
 							},
 							"response": [
 								{
@@ -4565,15 +3983,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfigurations",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfigurations",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -4611,7 +4024,7 @@
 							]
 						},
 						{
-							"name": "Get PTZConfiguration",
+							"name": "PTZConfiguration",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -4628,15 +4041,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfiguration?jsonObject={{PTZ_CONFIGURATION_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfiguration?jsonObject={{PTZ_CONFIGURATION_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4652,8 +4060,7 @@
 											"description": "{\"PTZConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
-								},
-								"description": "Get a specific PTZconfiguration from the device, identified by its reference token or name.\n\nThe default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.\n\nThe allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly."
+								}
 							},
 							"response": [
 								{
@@ -4662,15 +4069,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfiguration?jsonObject={{PTZ_CONFIGURATION_TOKEN_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfiguration?jsonObject={{PTZ_CONFIGURATION_TOKEN_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -4731,15 +4133,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4755,9 +4152,7 @@
 											"description": "{\"ConfigurationToken\": \"PTZConfiguration0\"}"
 										}
 									]
-								},
-								"description": "List supported coordinate systems including their range limitations. Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node."
-							},
+								}							},
 							"response": [
 								{
 									"name": "PTZConfigurationOptions",
@@ -4765,15 +4160,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfigurationOptions?jsonObject={{GET_CONFIGURATION_OPTIONS_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -4818,7 +4208,7 @@
 							]
 						},
 						{
-							"name": "SetPTZConfiguration",
+							"name": "PTZConfiguration",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -4832,15 +4222,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4849,9 +4234,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZConfiguration"
 									]
-								},
-								"description": "Set/update a existing PTZConfiguration on the device."
-							},
+								}							},
 							"response": [
 								{
 									"name": "SetConfiguration",
@@ -4868,15 +4251,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfiguration",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZConfiguration",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -4928,15 +4306,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddPTZConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddPTZConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -4945,9 +4318,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AddPTZConfiguration"
 									]
-								},
-								"description": "Add a new PTZConfiguration on the device."
-							},
+								}							},
 							"response": [
 								{
 									"name": "AddPTZConfiguration",
@@ -4964,15 +4335,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddPTZConfiguration",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AddPTZConfiguration",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5024,15 +4390,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemovePTZConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemovePTZConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5041,9 +4402,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"RemovePTZConfiguration"
 									]
-								},
-								"description": "Remove a PTZConfiguration on the device."
-							},
+								}							},
 							"response": [
 								{
 									"name": "RemovePTZConfiguration",
@@ -5060,15 +4419,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemovePTZConfiguration",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/RemovePTZConfiguration",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5125,15 +4479,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZAbsoluteMove",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZAbsoluteMove",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5142,9 +4491,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZAbsoluteMove"
 									]
-								},
-								"description": "Operation to move pan,tilt or zoom to a absolute destination.\n\nThe speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used."
-							},
+								}							},
 							"response": [
 								{
 									"name": "PTZAbsoluteMove",
@@ -5161,15 +4508,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZAbsoluteMove",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZAbsoluteMove",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5221,15 +4563,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZRelativeMove",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZRelativeMove",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5238,9 +4575,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZRelativeMove"
 									]
-								},
-								"description": "Operation for Relative Pan/Tilt and Zoom Move. The operation is supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space.\n\nThe speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used."
-							},
+								}							},
 							"response": [
 								{
 									"name": "PTZRelativeMove",
@@ -5257,15 +4592,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZRelativeMove",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZRelativeMove",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5317,15 +4647,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZContinuousMove",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZContinuousMove",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5334,9 +4659,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZContinuousMove"
 									]
-								},
-								"description": "Operation for continuous Pan/Tilt and Zoom movements. The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used."
-							},
+								}							},
 							"response": [
 								{
 									"name": "PTZContinuousMove",
@@ -5353,15 +4676,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZContinuousMove",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZContinuousMove",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5416,15 +4734,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZStatus?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZStatus?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5440,9 +4753,7 @@
 											"description": "{\"ProfileToken\":\"profile_1\"}"
 										}
 									]
-								},
-								"description": "Operation to request PTZ status for the Node in the selected profile."
-							},
+								}							},
 							"response": [
 								{
 									"name": "PTZStatus",
@@ -5450,15 +4761,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZStatus?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZStatus?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5516,15 +4822,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZStop",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZStop",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5533,9 +4834,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZStop"
 									]
-								},
-								"description": "Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type. If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements."
-							},
+								}							},
 							"response": [
 								{
 									"name": "PTZStop",
@@ -5552,15 +4851,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZStop",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZStop",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5603,7 +4897,7 @@
 					"name": "PTZPreset",
 					"item": [
 						{
-							"name": "Set PTZPreset",
+							"name": "PTZPreset",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -5617,15 +4911,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZPreset",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZPreset",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5634,9 +4923,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZPreset"
 									]
-								},
-								"description": "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation."
-							},
+								}							},
 							"response": [
 								{
 									"name": "SetPreset",
@@ -5653,15 +4940,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SetPreset",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SetPreset",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5704,15 +4986,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZPresets?jsonObject={{PTZ_MEDIA_PROFILE_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZPresets?jsonObject={{PTZ_MEDIA_PROFILE_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5727,9 +5004,7 @@
 											"value": "{{PTZ_MEDIA_PROFILE_TOKEN_BASE64}}"
 										}
 									]
-								},
-								"description": "Operation to request all PTZ presets for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode."
-							},
+								}							},
 							"response": [
 								{
 									"name": "PTZPresets",
@@ -5737,15 +5012,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZPresets?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZPresets?jsonObject={{EDGEX_MEDIA_PROFILE_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5803,15 +5073,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZGotoPreset",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZGotoPreset",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5820,9 +5085,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZGotoPreset"
 									]
-								},
-								"description": "Operation to go to a saved preset position for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode."
-							},
+								}							},
 							"response": []
 						},
 						{
@@ -5840,15 +5103,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZRemovePreset",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZRemovePreset",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5857,9 +5115,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZRemovePreset"
 									]
-								},
-								"description": "Operation to remove a PTZ preset for the Node in the selected profile. The operation is supported if the PresetPosition capability exists for teh Node in the selected profile."
-							},
+								}							},
 							"response": []
 						}
 					]
@@ -5882,15 +5138,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZGotoHomePosition",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZGotoHomePosition",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5918,15 +5169,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZGotoHomePosition",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZGotoHomePosition",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -5978,15 +5224,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZHomePosition",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZHomePosition",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -5995,9 +5236,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"PTZHomePosition"
 									]
-								},
-								"description": "Operation to save current position as the home position. The PTZHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the PTZHomePosition is successful, it is possible to recall the Home Position with the PTZGotoHomePosition command."
-							},
+								}							},
 							"response": [
 								{
 									"name": "PTZHomePosition",
@@ -6014,15 +5253,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZHomePosition",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZHomePosition",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -6079,15 +5313,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZSendAuxiliaryCommand",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZSendAuxiliaryCommand",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6115,15 +5344,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZSendAuxiliaryCommand",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PTZSendAuxiliaryCommand",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -6173,15 +5397,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EventProperties",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EventProperties",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -6190,9 +5409,7 @@
 								"{{EDGEX_DEVICE_NAME}}",
 								"EventProperties"
 							]
-						},
-						"description": "The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProperties. This specification does not require the implementation of the WS-ResourceProperty interface. Instead, the subsequent direct interface shall be implemented by an ONVIF compliant device in order to provide information about the FilterDialects, Schema files and topics supported by the device."
-					},
+						}					},
 					"response": [
 						{
 							"name": "EventProperties",
@@ -6200,15 +5417,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EventProperties",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/EventProperties",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6260,15 +5472,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/BaseNotificationSubscription",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/BaseNotificationSubscription",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -6296,15 +5503,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/BaseNotificationSubscription",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/BaseNotificationSubscription",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6356,15 +5558,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PullPointSubscription",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PullPointSubscription",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -6392,15 +5589,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PullPointSubscription",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/PullPointSubscription",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6452,15 +5644,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/UnsubscribeCameraEvent",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/UnsubscribeCameraEvent",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -6488,15 +5675,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/UnsubscribeCameraEvent",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/UnsubscribeCameraEvent",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6542,20 +5724,15 @@
 					"name": "Profile Configuration",
 					"item": [
 						{
-							"name": "Get Media2Profiles",
+							"name": "Media2Profiles",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2Profiles",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2Profiles",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6564,9 +5741,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2Profiles"
 									]
-								},
-								"description": "Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command."
-							},
+								}							},
 							"response": [
 								{
 									"name": "GetMedia2Profiles",
@@ -6574,15 +5749,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2Profiles",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2Profiles",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -6625,15 +5795,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2AnalyticsConfigurations",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2AnalyticsConfigurations",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6642,9 +5807,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2AnalyticsConfigurations"
 									]
-								},
-								"description": "By default this operation lists all existing video analytics configurations for a device. Provide a profile token to list only configurations that are compatible with the profile. If a configuration token is provided only a single configuration will be returned."
-							},
+								}							},
 							"response": [
 								{
 									"name": "Media2AnalyticsConfigurations",
@@ -6652,15 +5815,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2AnalyticsConfigurations",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2AnalyticsConfigurations",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -6712,15 +5870,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2AddConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2AddConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6729,9 +5882,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2AddConfiguration"
 									]
-								},
-								"description": "This operation adds one or more PTZConfigurations to an existing media profile. If a configuration exists in the media profile, it will be replaced. A device shall support adding a compatible Configuration to a Profile containing a VideoSourceConfiguration and shall support streaming video data of such a profile.\n\nNote that OSD elements must be added via the CreateOSD command."
-							},
+								}							},
 							"response": []
 						},
 						{
@@ -6749,15 +5900,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2RemoveConfiguration",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/Media2RemoveConfiguration",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6766,9 +5912,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"Media2RemoveConfiguration"
 									]
-								},
-								"description": "This operation removes the listed configurations from an existing media profile. If the media profile does not contain one of the listed configurations that item shall be ignored."
-							},
+								}							},
 							"response": []
 						}
 					]
@@ -6782,15 +5926,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SupportedAnalyticsModules",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SupportedAnalyticsModules",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6799,9 +5938,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"SupportedAnalyticsModules"
 									]
-								},
-								"description": "List all analytics modules that are supported by the given VideoAnalyticsConfiguration."
-							},
+								}							},
 							"response": [
 								{
 									"name": "SupportedAnalyticsModules",
@@ -6809,15 +5946,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SupportedAnalyticsModules",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/SupportedAnalyticsModules",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -6855,20 +5987,15 @@
 							]
 						},
 						{
-							"name": "GetAnalyticsModules",
+							"name": "AnalyticsModules",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6883,9 +6010,7 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								},
-								"description": "List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration."
-							},
+								}							},
 							"response": [
 								{
 									"name": "GetAnalyticsModules",
@@ -6893,15 +6018,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -6945,6 +6065,36 @@
 							]
 						},
 						{
+							"name": "AnalyticsModules",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"AnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"Viproc\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"{{ANALYTIC_MODULE_OPTION_NAME}}\",\n                            \"Value\": \"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModules",
+									"host": [
+										"{{CORE_COMMAND_URL}}"
+									],
+									"path": [
+										"api",
+										"v3",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"AnalyticsModules"
+									]
+								}							},
+							"response": []
+						},
+						{
 							"name": "CreateAnalyticsModules",
 							"request": {
 								"method": "PUT",
@@ -6959,15 +6109,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CreateAnalyticsModules",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CreateAnalyticsModules",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -6976,9 +6121,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"CreateAnalyticsModules"
 									]
-								},
-								"description": "Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via SupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the analytics module must match those of the corresponding AnalyticsModuleDescription.\n\nAlthough this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and Media2AnalyticsConfigurations.\n\nThe device shall ensure that a corresponding analytics engine starts operation when a client subscribes directly or indirectly for events produced by the analytics or rule engine or when a client requests the corresponding scene description stream. An analytics module must be attached to a Video source using the media profiles before it can be used. In case differing analytics configurations are attached to the same profile it is undefined which of the analytics module configuration becomes active if no stream is activated or multiple streams with different profiles are activated at the same time."
-							},
+								}							},
 							"response": [
 								{
 									"name": "CreateAnalyticsModules",
@@ -6995,15 +6138,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CreateAnalyticsModules",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CreateAnalyticsModules",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -7055,15 +6193,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteAnalyticsModules",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteAnalyticsModules",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -7072,9 +6205,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"DeleteAnalyticsModules"
 									]
-								},
-								"description": "Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names."
-							},
+								}							},
 							"response": [
 								{
 									"name": "DeleteAnalyticsModules",
@@ -7091,15 +6222,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteAnalyticsModules",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteAnalyticsModules",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -7142,15 +6268,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -7165,9 +6286,7 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								},
-								"description": "Return the options for the supported analytics modules that specify an Option attribute."
-							},
+								}							},
 							"response": [
 								{
 									"name": "AnalyticsModuleOptions",
@@ -7175,15 +6294,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -7225,43 +6339,6 @@
 									"body": "{\n    \"apiVersion\": \"v3\",\n    \"statusCode\": 200,\n    \"event\": {\n        \"apiVersion\": \"v3\",\n        \"id\": \"460b6e4f-88d7-476d-ab9c-d46c5f656124\",\n        \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n        \"profileName\": \"onvif-camera\",\n        \"sourceName\": \"AnalyticsModuleOptions\",\n        \"origin\": 1665460132225687940,\n        \"readings\": [\n            {\n                \"id\": \"42a9e19c-82f6-4552-9f1d-459bfc55600a\",\n                \"origin\": 1665460132225687940,\n                \"deviceName\": \"Intel-SimCamera-001caffe-48ca-450d-bbd4-cb4f8630ef19\",\n                \"resourceName\": \"AnalyticsModuleOptions\",\n                \"profileName\": \"onvif-camera\",\n                \"valueType\": \"Object\",\n                \"value\": \"\",\n                \"objectValue\": {\n                    \"Options\": [\n                        {\n                            \"IntRange\": {\n                                \"Max\": 100,\n                                \"Min\": 0\n                            },\n                            \"Name\": \"Sensitivity\",\n                            \"Type\": \"tt:IntRange\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}"
 								}
 							]
-						},
-						{
-							"name": "ModifyAnalyticsModules",
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"AnalyticsModules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"AnalyticsModule\": [\n            {\n                \"Name\": \"Viproc\",\n                \"Type\": \"{{ANALYTIC_MODULE_TYPE}}\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"{{ANALYTIC_MODULE_OPTION_NAME}}\",\n                            \"Value\": \"{{ANALYTIC_MODULE_OPTION_VALUE}}\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsModules",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v3",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"AnalyticsModules"
-									]
-								},
-								"description": "Modify the settings of one or more analytics modules of a VideoAnalyticsConfiguration. The modules are referenced by their names. It is allowed to pass only a subset to be modified."
-							},
-							"response": []
 						}
 					]
 				},
@@ -7274,15 +6351,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsSupportedRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsSupportedRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -7297,9 +6369,7 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								},
-								"description": "List all rules that are supported by the given VideoAnalyticsConfiguration."
-							},
+								}							},
 							"response": [
 								{
 									"name": "AnalyticsSupportedRules",
@@ -7307,15 +6377,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsSupportedRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsSupportedRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -7359,20 +6424,15 @@
 							]
 						},
 						{
-							"name": "Get AnalyticsRules",
+							"name": "AnalyticsRules",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -7387,9 +6447,7 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								},
-								"description": "List the currently assigned set of rules of a VideoAnalyticsConfiguration."
-							},
+								}							},
 							"response": [
 								{
 									"name": "GetRules",
@@ -7397,15 +6455,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRules?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -7449,20 +6502,99 @@
 							]
 						},
 						{
+							"name": "AnalyticsRules",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"AnalyticsRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"ClassFilter\",\n                            \"Value\": \" Bike Car Truck\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRules",
+									"host": [
+										"{{CORE_COMMAND_URL}}"
+									],
+									"path": [
+										"api",
+										"v3",
+										"device",
+										"name",
+										"{{EDGEX_DEVICE_NAME}}",
+										"AnalyticsRules"
+									]
+								}							},
+							"response": [
+								{
+									"name": "ModifyRules",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"AnalyticsRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRules",
+											"host": [
+												"{{CORE_COMMAND_URL}}"
+											],
+											"path": [
+												"api",
+												"v3",
+												"device",
+												"name",
+												"{{EDGEX_DEVICE_NAME}}",
+												"AnalyticsRules"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										},
+										{
+											"key": "X-Correlation-Id",
+											"value": "ea1d0040-3a30-4fbb-a0ac-50a1b90f3e36"
+										},
+										{
+											"key": "Date",
+											"value": "Tue, 11 Oct 2022 03:50:16 GMT"
+										},
+										{
+											"key": "Content-Length",
+											"value": "37"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"apiVersion\": \"v3\",\n    \"statusCode\": 200\n}"
+								}
+							]
+						},
+						{
 							"name": "AnalyticsRuleOptions",
 							"request": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -7477,9 +6609,7 @@
 											"value": "{{ANALYTIC_CONFIG_TOKEN_BASE64}}"
 										}
 									]
-								},
-								"description": "Return the options for the supported rules that specify an Option attribute."
-							},
+								}							},
 							"response": [
 								{
 									"name": "AnalyticsRuleOptions",
@@ -7487,15 +6617,10 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRuleOptions?jsonObject={{ANALYTIC_CONFIG_TOKEN_BASE64}}",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -7553,15 +6678,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsCreateRules",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsCreateRules",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -7570,9 +6690,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AnalyticsCreateRules"
 									]
-								},
-								"description": "Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via AnalyticsSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.\n\nPass unique module names which can be later used as reference. The Parameters of the rules must match those of the corresponding description.\n\nAlthough this method is mandatory a device implementation must not support adding rules. Instead it can provide a fixed set of predefined configurations via the media service function GetCompatibleVideoAnalyticsConfigurations."
-							},
+								}							},
 							"response": [
 								{
 									"name": "AnalyticsCreateRules",
@@ -7589,15 +6707,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsCreateRules",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsCreateRules",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -7649,15 +6762,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsDeleteRules",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsDeleteRules",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -7666,9 +6774,7 @@
 										"{{EDGEX_DEVICE_NAME}}",
 										"AnalyticsDeleteRules"
 									]
-								},
-								"description": "Remove one or more rules from a VideoAnalyticsConfiguration."
-							},
+								}							},
 							"response": [
 								{
 									"name": "AnalyticsDeleteRules",
@@ -7685,15 +6791,10 @@
 											}
 										},
 										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsDeleteRules",
-											"protocol": "http",
+											"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsDeleteRules",
 											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
+												"{{CORE_COMMAND_URL}}"
 											],
-											"port": "59882",
 											"path": [
 												"api",
 												"v3",
@@ -7729,102 +6830,6 @@
 									"body": "{\n    \"apiVersion\": \"v3\",\n    \"statusCode\": 200\n}"
 								}
 							]
-						},
-						{
-							"name": "Modify AnalyticsRules",
-							"request": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"AnalyticsRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\": \"ClassFilter\",\n                            \"Value\": \" Bike Car Truck\"\n                        }\n                    ]\n                }\n            }\n        ]\n    }\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRules",
-									"protocol": "http",
-									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
-									],
-									"port": "59882",
-									"path": [
-										"api",
-										"v3",
-										"device",
-										"name",
-										"{{EDGEX_DEVICE_NAME}}",
-										"AnalyticsRules"
-									]
-								},
-								"description": "Modify one or more rules of a VideoAnalyticsConfiguration. The rules are referenced by their names."
-							},
-							"response": [
-								{
-									"name": "ModifyRules",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\n    \"AnalyticsRules\": {\n        \"ConfigurationToken\": \"{{ANALYTIC_CONFIG_TOKEN}}\",\n        \"Rule\": [\n            {\n                \"Name\": \"MyMotionDetectorRule\",\n                \"Type\": \"tt:ObjectInField\",\n                \"Parameters\": {\n                    \"SimpleItem\": [\n                        {\n                            \"Name\":\"ClassFilter\", \n                            \"Value\":\" Bike Car Truck\"\n                        }\n                    ]\n                }\n                    \n            }\n        ]\n    }\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/AnalyticsRules",
-											"protocol": "http",
-											"host": [
-												"0",
-												"0",
-												"0",
-												"0"
-											],
-											"port": "59882",
-											"path": [
-												"api",
-												"v3",
-												"device",
-												"name",
-												"{{EDGEX_DEVICE_NAME}}",
-												"AnalyticsRules"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										},
-										{
-											"key": "X-Correlation-Id",
-											"value": "ea1d0040-3a30-4fbb-a0ac-50a1b90f3e36"
-										},
-										{
-											"key": "Date",
-											"value": "Tue, 11 Oct 2022 03:50:16 GMT"
-										},
-										{
-											"key": "Content-Length",
-											"value": "37"
-										}
-									],
-									"cookie": [],
-									"body": "{\n    \"apiVersion\": \"v3\",\n    \"statusCode\": 200\n}"
-								}
-							]
 						}
 					]
 				}
@@ -7834,20 +6839,15 @@
 			"name": "Custom",
 			"item": [
 				{
-					"name": "Get MACAddress",
+					"name": "MACAddress",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MACAddress",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MACAddress",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -7861,20 +6861,15 @@
 					},
 					"response": [
 						{
-							"name": "Get MACAddress",
+							"name": "MACAddress",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MACAddress",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MACAddress",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -7912,7 +6907,7 @@
 					]
 				},
 				{
-					"name": "Set MACAddress",
+					"name": "MACAddress",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -7926,15 +6921,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MACAddress",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MACAddress",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -7948,7 +6938,7 @@
 					},
 					"response": [
 						{
-							"name": "Set MACAddress",
+							"name": "MACAddress",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [],
@@ -7962,15 +6952,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MACAddress",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/MACAddress",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -8008,20 +6993,15 @@
 					]
 				},
 				{
-					"name": "Get FriendlyName",
+					"name": "FriendlyName",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/FriendlyName",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/FriendlyName",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -8035,20 +7015,15 @@
 					},
 					"response": [
 						{
-							"name": "Get FriendlyName",
+							"name": "FriendlyName",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/FriendlyName",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/FriendlyName",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -8086,7 +7061,7 @@
 					]
 				},
 				{
-					"name": "Set FriendlyName",
+					"name": "FriendlyName",
 					"request": {
 						"method": "PUT",
 						"header": [],
@@ -8100,15 +7075,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/FriendlyName",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/FriendlyName",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -8122,7 +7092,7 @@
 					},
 					"response": [
 						{
-							"name": "Set FriendlyName",
+							"name": "FriendlyName",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [],
@@ -8136,15 +7106,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/FriendlyName",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/FriendlyName",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -8182,7 +7147,7 @@
 					]
 				},
 				{
-					"name": "Get CustomMetadata",
+					"name": "CustomMetadata",
 					"event": [
 						{
 							"listen": "test",
@@ -8212,15 +7177,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -8234,20 +7194,15 @@
 					},
 					"response": [
 						{
-							"name": "Get CustomMetadata",
+							"name": "CustomMetadata",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -8288,15 +7243,10 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata?jsonObject={{ptz_enc}}",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata?jsonObject={{ptz_enc}}",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -8341,7 +7291,7 @@
 					]
 				},
 				{
-					"name": "Set CustomMetadata",
+					"name": "CustomMetadata",
 					"event": [
 						{
 							"listen": "test",
@@ -8368,15 +7318,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -8390,7 +7335,7 @@
 					},
 					"response": [
 						{
-							"name": "Set CustomMetadata",
+							"name": "CustomMetadata",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [],
@@ -8404,15 +7349,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/CustomMetadata",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",
@@ -8450,7 +7390,7 @@
 					]
 				},
 				{
-					"name": "Delete CustomMetadata",
+					"name": "DeleteCustomMetadata",
 					"event": [
 						{
 							"listen": "test",
@@ -8477,15 +7417,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteCustomMetadata",
-							"protocol": "http",
+							"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteCustomMetadata",
 							"host": [
-								"0",
-								"0",
-								"0",
-								"0"
+								"{{CORE_COMMAND_URL}}"
 							],
-							"port": "59882",
 							"path": [
 								"api",
 								"v3",
@@ -8513,15 +7448,10 @@
 									}
 								},
 								"url": {
-									"raw": "http://0.0.0.0:59882/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteCustomMetadata",
-									"protocol": "http",
+									"raw": "{{CORE_COMMAND_URL}}/api/v3/device/name/{{EDGEX_DEVICE_NAME}}/DeleteCustomMetadata",
 									"host": [
-										"0",
-										"0",
-										"0",
-										"0"
+										"{{CORE_COMMAND_URL}}"
 									],
-									"port": "59882",
 									"path": [
 										"api",
 										"v3",

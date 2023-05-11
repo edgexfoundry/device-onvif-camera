@@ -699,22 +699,6 @@ paths:
       tags:
       - Auto Discovery
       summary: 'Device: GetDiscoveryMode'
-      description: |-
-        This operation gets the discovery mode of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support retrieval of the discovery mode setting through the GetDiscoveryMode command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
-        </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -768,12 +752,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
-    put:
-      tags:
-      - Auto Discovery
-      summary: 'Device: SetDiscoveryMode'
       description: |-
-        This operation sets the discovery mode operation of a device. See Section 7.2 for the definition of the different device discovery modes. The device shall support configuration of the discovery mode setting through the SetDiscoveryMode command.
+        This operation gets the discovery mode of a device. See Section 7.2 for the definition of the
+        				different device discovery modes. The device shall support retrieval of the discovery mode
+        				setting through the GetDiscoveryMode command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -788,6 +770,10 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - Auto Discovery
+      summary: 'Device: SetDiscoveryMode'
       requestBody:
         content:
           application/json:
@@ -824,13 +810,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddDiscoveryScopes:
-    put:
-      tags:
-      - Auto Discovery
-      summary: 'Device: AddScopes'
       description: |-
-        This operation adds new configurable scope parameters to a device. The scope parameters are used in the device discovery to match a probe message. The device shall support addition of discovery scope parameters through the AddScopes command.
+        This operation sets the discovery mode operation of a device. See Section 7.2 for the
+        				definition of the different device discovery modes. The device shall support configuration of
+        				the discovery mode setting through the SetDiscoveryMode command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -840,11 +823,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ |  |
+        | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddDiscoveryScopes:
+    put:
+      tags:
+      - Auto Discovery
+      summary: 'Device: AddScopes'
       requestBody:
         content:
           application/json:
@@ -871,16 +859,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DiscoveryScopes:
-    get:
-      tags:
-      - Auto Discovery
-      summary: 'Device: GetScopes'
       description: |-
-        This operation requests the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The Scope parameters are of two different types:  
-        \- Fixed  
-        \- Configurable  
-        Fixed scope parameters are permanent device characteristics and cannot be removed through the device management interface. The scope type is indicated in the scope list returned in the get scope parameters response. A device shall support retrieval of discovery scope parameters through the GetScopes command. As some scope parameters are mandatory, the device shall return a non-empty scope list in the response.
+        This operation adds new configurable scope parameters to a device. The scope parameters
+        				are used in the device discovery to match a probe message. The device shall
+        				support addition of discovery scope parameters through the AddScopes command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -890,11 +872,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DiscoveryScopes:
+    get:
+      tags:
+      - Auto Discovery
+      summary: 'Device: GetScopes'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -958,12 +945,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
-    put:
-      tags:
-      - Auto Discovery
-      summary: 'Device: SetScopes'
       description: |-
-        This operation sets the scope parameters of a device. The scope parameters are used in the device discovery to match a probe message. This operation replaces all existing configurable scope parameters (not fixed parameters). If this shall be avoided, one should use the scope add command instead.
+        This operation requests the scope parameters of a device. The scope parameters are used in
+        				the device discovery to match a probe message, see Section 7. The Scope parameters are of
+        				two different types:
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -976,8 +961,12 @@ paths:
         | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - Auto Discovery
+      summary: 'Device: SetScopes'
       requestBody:
         content:
           application/json:
@@ -1004,13 +993,12 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveDiscoveryScopes:
-    put:
-      tags:
-      - Auto Discovery
-      summary: 'Device: RemoveScopes'
       description: |-
-        This operation deletes scope-configurable scope parameters from a device. The scope parameters are used in the device discovery to match a probe message, see Section 7. The device shall support deletion of discovery scope parameters through the RemoveScopes command
+        This operation sets the scope parameters of a device. The scope parameters are used in the
+        				device discovery to match a probe message.
+        				This operation replaces all existing configurable scope parameters (not fixed parameters). If
+        				this shall be avoided, one should use the scope add command instead. The device shall
+        				support configuration of discovery scope parameters through the SetScopes command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1020,11 +1008,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ |  |
+        | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveDiscoveryScopes:
+    put:
+      tags:
+      - Auto Discovery
+      summary: 'Device: RemoveScopes'
       requestBody:
         content:
           application/json:
@@ -1076,6 +1069,26 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
+      description: |-
+        This operation deletes scope-configurable scope parameters from a device. The scope
+        				parameters are used in the device discovery to match a probe message, see Section 7. The
+        				device shall support deletion of discovery scope parameters through the RemoveScopes
+        				command.
+        				Table
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
+        </details>
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/EndpointReference:
     get:
       tags:
@@ -1129,22 +1142,6 @@ paths:
       tags:
       - Network Configuration
       summary: 'Device: GetHostname'
-      description: |-
-        This operation is used by an endpoint to get the hostname from a device. The device shall return its hostname configurations through the GetHostname command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
-        </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -1200,13 +1197,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
-    put:
-      tags:
-      - Network Configuration
-      summary: 'Device: SetHostname'
       description: |-
-        This operation sets the hostname on a device. It shall be possible to set the device hostname configurations through the SetHostname command.  
-        A device shall accept string formatted according to RFC 1123 section 2.1 or alternatively to RFC 952, other string shall be considered as invalid strings.
+        This operation is used by an endpoint to get the hostname from a device. The device shall
+        				return its hostname configurations through the GetHostname command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1216,11 +1209,15 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ |  |
+        | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - Network Configuration
+      summary: 'Device: SetHostname'
       requestBody:
         content:
           application/json:
@@ -1246,13 +1243,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DNS:
-    get:
-      tags:
-      - Network Configuration
-      summary: 'Device: GetDNS'
       description: |-
-        This operation gets the DNS settings from a device. The device shall return its DNS configurations through the GetDNS command.
+        This operation sets the hostname on a device. It shall be possible to set the device hostname
+        				configurations through the SetHostname command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1267,6 +1260,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DNS:
+    get:
+      tags:
+      - Network Configuration
+      summary: 'Device: GetDNS'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -1326,12 +1324,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
-    put:
-      tags:
-      - Network Configuration
-      summary: 'Device: SetDNS'
       description: |-
-        This operation sets the DNS settings on a device. It shall be possible to set the device DNS configurations through the SetDNS command.
+        This operation gets the DNS settings from a device. The device shall return its DNS
+        				configurations through the GetDNS command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1346,6 +1341,10 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - Network Configuration
+      summary: 'Device: SetDNS'
       requestBody:
         content:
           application/json:
@@ -1374,13 +1373,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkInterfaces:
-    get:
-      tags:
-      - Network Configuration
-      summary: 'Device: GetNetworkInterfaces'
       description: |-
-        This operation gets the network interface configuration from a device. The device shall support return of network interface configuration settings as defined by the NetworkInterface type through the GetNetworkInterfaces command.
+        This operation sets the DNS settings on a device. It shall be possible to set the device DNS
+        				configurations through the SetDNS command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1390,11 +1385,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkInterfaces:
+    get:
+      tags:
+      - Network Configuration
+      summary: 'Device: GetNetworkInterfaces'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -1461,14 +1461,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces
-    put:
-      tags:
-      - Network Configuration
-      summary: 'Device: SetNetworkInterfaces'
       description: |-
-        This operation sets the network interface configuration on a device. The device shall support network configuration of supported network interfaces through the SetNetworkInterfaces command.
-
-        For interoperability with a client unaware of the IEEE 802.11 extension a device shall retain its IEEE 802.11 configuration if the IEEE 802.11 configuration element isn’t present in the request.
+        This operation gets the network interface configuration from a device. The device shall
+        				support return of network interface configuration settings as defined by the NetworkInterface
+        				type through the GetNetworkInterfaces command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1478,11 +1474,15 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ |  |
+        | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - Network Configuration
+      summary: 'Device: SetNetworkInterfaces'
       requestBody:
         content:
           application/json:
@@ -1512,13 +1512,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkProtocols:
-    get:
-      tags:
-      - Network Configuration
-      summary: 'Device: GetNetworkProtocols'
       description: |-
-        This operation gets defined network protocols from a device. The device shall support the GetNetworkProtocols command returning configured network protocols.
+        This operation sets the network interface configuration on a device. The device shall support
+        				network configuration of supported network interfaces through the SetNetworkInterfaces
+        				command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1528,11 +1525,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkProtocols:
+    get:
+      tags:
+      - Network Configuration
+      summary: 'Device: GetNetworkProtocols'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -1592,12 +1594,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols
-    put:
-      tags:
-      - Network Configuration
-      summary: 'Device: SetNetworkProtocols'
       description: |-
-        This operation configures defined network protocols on a device. The device shall support configuration of defined network protocols through the SetNetworkProtocols command.
+        This operation gets defined network protocols from a device. The device shall support the
+        				GetNetworkProtocols command returning configured network protocols.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1607,11 +1606,15 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ |  |
+        | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - Network Configuration
+      summary: 'Device: SetNetworkProtocols'
       requestBody:
         content:
           application/json:
@@ -1646,13 +1649,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkDefaultGateway:
-    get:
-      tags:
-      - Network Configuration
-      summary: 'Device: GetNetworkDefaultGateway'
       description: |-
-        This operation gets the default gateway settings from a device. The device shall support the GetNetworkDefaultGateway command returning configured default gateway address(es).
+        This operation configures defined network protocols on a device. The device shall support
+        				configuration of defined network protocols through the SetNetworkProtocols command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1667,6 +1666,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkDefaultGateway:
+    get:
+      tags:
+      - Network Configuration
+      summary: 'Device: GetNetworkDefaultGateway'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -1724,12 +1728,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
-    put:
-      tags:
-      - Network Configuration
-      summary: 'Device: SetNetworkDefaultGateway'
       description: |-
-        This operation sets the default gateway settings on a device. The device shall support configuration of default gateway through the SetNetworkDefaultGateway command.
+        This operation gets the default gateway settings from a device. The device shall support the
+        				GetNetworkDefaultGateway command returning configured default gateway address(es).
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -1744,6 +1745,10 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - Network Configuration
+      summary: 'Device: SetNetworkDefaultGateway'
       requestBody:
         content:
           application/json:
@@ -1769,6 +1774,23 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
+      description: |-
+        This operation sets the default gateway settings on a device. The device shall support
+        				configuration of default gateway through the SetNetworkDefaultGateway command.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
+        </details>
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/NetworkConfiguration:
     get:
       tags:
@@ -1873,7 +1895,7 @@ paths:
     put:
       tags:
       - Network Configuration
-      summary: SetNetworkConfiguration
+      summary: NetworkConfiguration
       description: >-
         Used to configure network resources for a device such as Hostname, DNS,
         NetworkInterfaces, NetworkProtocols and NetworkDefaultGateway.
@@ -1927,22 +1949,6 @@ paths:
       tags:
       - System Function
       summary: 'Device: GetDeviceInformation'
-      description: |-
-        This operation gets basic device information from the device.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
-        </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -2000,15 +2006,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SystemDateAndTime:
-    get:
-      tags:
-      - System Function
-      summary: 'Device: GetSystemDateAndTime'
       description: |-
-        This operation gets the device system date and time. The device shall support the return of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the GetSystemDateAndTime command.
-
-        A device shall provide the UTCDateTime information.
+        This operation gets basic device information from the device.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2023,6 +2022,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SystemDateAndTime:
+    get:
+      tags:
+      - System Function
+      summary: 'Device: GetSystemDateAndTime'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -2100,18 +2104,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime
-    put:
-      tags:
-      - System Function
-      summary: 'Device: SetSystemDateAndTime'
       description: |-
-        This operation sets the device system date and time. The device shall support the configuration of the daylight saving setting and of the manual system date and time (if applicable) or indication of NTP time (if applicable) through the SetSystemDateAndTime command.
-
-        If system time and date are set manually, the client shall include UTCDateTime in the request.
-
-        A TimeZone token which is not formed according to the rules of IEEE 1003.1 section 8.3 is considered as invalid timezone.
-
-        The DayLightSavings flag should be set to true to activate any DST settings of the TimeZone string. Clear the DayLightSavings flag if the DST portion of the TimeZone settings should be ignored.
+        This operation gets the device system date and time. The device shall support the return of
+        				the daylight saving setting and of the manual system date and time (if applicable) or indication
+        				of NTP time (if applicable) through the GetSystemDateAndTime command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2121,11 +2117,15 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ | Tapo does not support setting the `DaylightSavings` field to `false`. Regardless of the setting, the camera will always use daylight savings time. |
+        | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - System Function
+      summary: 'Device: SetSystemDateAndTime'
       requestBody:
         content:
           application/json:
@@ -2161,13 +2161,11 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SystemFactoryDefault:
-    put:
-      tags:
-      - System Function
-      summary: 'Device: SetSystemFactoryDefault'
       description: |-
-        This operation reloads the parameters on the device to their factory default values.
+        This operation sets the device system date and time. The device shall support the
+        				configuration of the daylight saving setting and of the manual system date and time (if
+        				applicable) or indication of NTP time (if applicable) through the SetSystemDateAndTime
+        				command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2177,11 +2175,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
+        | **Tapo C200** | ✔️ | Tapo does not support setting the `DaylightSavings` field to `false`. Regardless of the setting, the camera will always use daylight savings time. |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SystemFactoryDefault:
+    put:
+      tags:
+      - System Function
+      summary: 'Device: SetSystemFactoryDefault'
       requestBody:
         content:
           application/json:
@@ -2207,6 +2210,22 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
+      description: |-
+        This operation reloads the parameters on the device to their factory default values.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ✔️ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
+        </details>
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/RebootNeeded:
     get:
       tags:
@@ -2304,22 +2323,6 @@ paths:
       tags:
       - User Handling
       summary: 'Device: GetUsers'
-      description: |-
-        This operation lists the registered users and corresponding credentials on a device. The device shall support retrieval of registered device users and their credentials for the user token through the GetUsers command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
-        </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -2377,14 +2380,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers
-    put:
-      tags:
-      - User Handling
-      summary: 'Device: SetUser'
       description: |-
-        This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.
-
-        ONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper.
+        This operation lists the registered users and corresponding credentials on a device. The
+        				device shall support retrieval of registered device users and their credentials for the user
+        				token through the GetUsers command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2399,6 +2398,10 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - User Handling
+      summary: 'Device: SetUser'
       requestBody:
         content:
           application/json:
@@ -2430,15 +2433,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CreateUsers:
-    put:
-      tags:
-      - User Handling
-      summary: 'Device: CreateUsers'
       description: |-
-        This operation creates new device users and corresponding credentials on a device for authentication purposes. The device shall support creation of device users and their credentials through the CreateUsers command. Either all users are created successfully or a fault message shall be returned without creating any user.
-
-        ONVIF compliant devices are recommended to support password length of at least 28 bytes, as clients may follow the password derivation mechanism which results in 'password equivalent' of length 28 bytes, as described in section 3.1.2 of the ONVIF security white paper.
+        This operation updates the settings for one or several users on a device for authentication purposes.
+        				The device shall support update of device users and their credentials through the SetUser command. 
+        				Either all change requests are processed successfully or a fault message shall be returned and no change requests be processed.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2453,6 +2451,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CreateUsers:
+    put:
+      tags:
+      - User Handling
+      summary: 'Device: CreateUsers'
       requestBody:
         content:
           application/json:
@@ -2484,13 +2487,11 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteUsers:
-    put:
-      tags:
-      - User Handling
-      summary: 'Device: DeleteUsers'
       description: |-
-        This operation deletes users on a device. The device shall support deletion of device users and their credentials through the DeleteUsers command. A device may have one or more fixed users that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a fault message shall be returned and no users be deleted.
+        This operation creates new device users and corresponding credentials on a device for authentication purposes. 
+        				The device shall support creation of device users and their credentials through the CreateUsers
+        				command. Either all users are created successfully or a fault message shall be returned
+        				without creating any user.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2505,6 +2506,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteUsers:
+    put:
+      tags:
+      - User Handling
+      summary: 'Device: DeleteUsers'
       requestBody:
         content:
           application/json:
@@ -2532,13 +2538,11 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurations:
-    get:
-      tags:
-      - Metadata Configuration
-      summary: 'Media: GetMetadataConfigurations'
       description: |-
-        This operation lists all existing metadata configurations. The client need not know anything apriori about the metadata in order to use the command.
+        This operation deletes users on a device. The device shall support deletion of device users and their credentials 
+        				through the DeleteUsers command. A device may have one or more fixed users
+        				that cannot be deleted to ensure access to the unit. Either all users are deleted successfully or a
+        				fault message shall be returned and no users be deleted.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2548,11 +2552,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ |  |
+        | **Tapo C200** | ❌ | Tapo returns `200 OK` for all User Management commands, but none of them actually do anything. The only way to modify the users is through the Tapo app. |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurations:
+    get:
+      tags:
+      - Metadata Configuration
+      summary: 'Media: GetMetadataConfigurations'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -2623,13 +2632,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurations
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MetadataConfiguration:
-    get:
-      tags:
-      - Metadata Configuration
-      summary: 'Media: GetMetadataConfiguration'
       description: |-
-        The GetMetadataConfiguration command fetches the metadata configuration if the metadata token is known.
+        This operation lists all existing metadata configurations. The client need not know anything apriori about the metadata in order to use the command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2644,6 +2648,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MetadataConfiguration:
+    get:
+      tags:
+      - Metadata Configuration
+      summary: 'Media: GetMetadataConfiguration'
       parameters:
       - name: jsonObject
         in: query
@@ -2746,12 +2755,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfiguration
-    put:
-      tags:
-      - Metadata Configuration
-      summary: 'Media: SetMetadataConfiguration'
       description: |-
-        This operation modifies a metadata configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be updated immediately according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected streams. NVC methods for changing a running stream are out of scope for this specification.
+        The GetMetadataConfiguration command fetches the metadata configuration if the metadata token is known.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2766,6 +2771,10 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - Metadata Configuration
+      summary: 'Media: SetMetadataConfiguration'
       requestBody:
         content:
           application/json:
@@ -2794,13 +2803,13 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetMetadataConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CompatibleMetadataConfigurations:
-    get:
-      tags:
-      - Metadata Configuration
-      summary: 'Media: GetCompatibleMetadataConfigurations'
       description: |-
-        This operation requests all the metadata configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddMetadataConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.
+        This operation modifies a metadata configuration. The ForcePersistence flag indicates if the
+        changes shall remain after reboot of the device. Changes in the Multicast settings shall
+        always be persistent. Running streams using this configuration may be updated immediately
+        according to the new settings. The changes are not guaranteed to take effect unless the client
+        requests a new stream URI and restarts any affected streams. NVC methods for changing a
+        running stream are out of scope for this specification.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2815,6 +2824,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CompatibleMetadataConfigurations:
+    get:
+      tags:
+      - Metadata Configuration
+      summary: 'Media: GetCompatibleMetadataConfigurations'
       parameters:
       - name: jsonObject
         in: query
@@ -2917,13 +2931,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetCompatibleMetadataConfigurations
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurationOptions:
-    get:
-      tags:
-      - Metadata Configuration
-      summary: 'Media: GetMetadataConfigurationOptions'
       description: |-
-        This operation returns the available options (supported values and ranges for metadata configuration parameters) for changing the metadata configuration.
+        This operation requests all the metadata configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddMetadataConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -2938,6 +2947,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MetadataConfigurationOptions:
+    get:
+      tags:
+      - Metadata Configuration
+      summary: 'Media: GetMetadataConfigurationOptions'
       parameters:
       - name: jsonObject
         in: query
@@ -3032,13 +3046,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurationOptions
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddMetadataConfiguration:
-    put:
-      tags:
-      - Metadata Configuration
-      summary: 'Media: AddMetadataConfiguration'
       description: |-
-        This operation adds a Metadata configuration to an existing media profile. If a configuration exists in the media profile, it will be replaced. The change shall be persistent. Adding a MetadataConfiguration to a Profile means that streams using that profile contain metadata. Metadata can consist of events, PTZ status, and/or video analytics data.
+        This operation returns the available options (supported values and ranges for metadata configuration parameters) for changing the metadata configuration.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -3053,6 +3062,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddMetadataConfiguration:
+    put:
+      tags:
+      - Metadata Configuration
+      summary: 'Media: AddMetadataConfiguration'
       requestBody:
         content:
           application/json:
@@ -3079,13 +3093,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddMetadataConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveMetadataConfiguration:
-    put:
-      tags:
-      - Metadata Configuration
-      summary: 'Media: RemoveMetadataConfiguration'
       description: |-
-        This operation removes a MetadataConfiguration from an existing media profile. If the media profile does not contain a MetadataConfiguration, the operation has no effect. The removal shall be persistent.
+        This operation adds a Metadata configuration to an existing media profile. If a configuration exists in the media profile, it will be replaced. The change shall be persistent. Adding a MetadataConfiguration to a Profile means that streams using that profile contain metadata. Metadata can consist of events, PTZ status, and/or video analytics data.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -3100,6 +3109,11 @@ paths:
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemoveMetadataConfiguration:
+    put:
+      tags:
+      - Metadata Configuration
+      summary: 'Media: RemoveMetadataConfiguration'
       requestBody:
         content:
           application/json:
@@ -3125,13 +3139,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemoveMetadataConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MediaProfiles:
-    get:
-      tags:
-      - Video Streaming
-      summary: 'Media: GetProfiles'
       description: |-
-        Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command.
+        This operation removes a MetadataConfiguration from an existing media profile. If the media profile does not contain a MetadataConfiguration, the operation has no effect. The removal shall be persistent.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -3141,11 +3150,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/MediaProfiles:
+    get:
+      tags:
+      - Video Streaming
+      summary: 'Media: GetProfiles'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -3431,6 +3445,25 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetProfiles
+      description: |-
+        Any endpoint can ask for the existing media profiles of a device using the GetProfiles
+        command. Pre-configured or dynamically configured profiles can be retrieved using this
+        command. This command lists all configured profiles in a device. The client does not need to
+        know the media profile in order to use the command.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ✔️ |  |
+        | **Tapo C200** | ✔️ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
+        </details>
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/StreamUri:
     get:
       tags:
@@ -3778,17 +3811,6 @@ paths:
       tags:
       - Video Encoder Configuration
       summary: 'Media: GetVideoEncoderConfigurations'
-      description: |-
-        This operation lists all existing video encoder configurations of a device. This command lists all configured video encoder configurations in a device. The client need not know anything apriori about the video encoder configurations in order to use the command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -3865,13 +3887,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurations
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfiguration:
-    get:
-      tags:
-      - Video Encoder Configuration
-      summary: 'Media: GetVideoEncoderConfiguration'
       description: |-
-        If the video encoder configuration token is already known, the encoder configuration can be fetched through the GetVideoEncoderConfiguration command.
+        This operation lists all existing video encoder configurations of a device. This command lists all configured video encoder configurations in a device. The client need not know anything apriori about the video encoder configurations in order to use the command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -3880,12 +3897,12 @@ paths:
 
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ✔️ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfiguration:
+    get:
+      tags:
+      - Video Encoder Configuration
+      summary: 'Media: GetVideoEncoderConfiguration'
       parameters:
       - name: jsonObject
         in: query
@@ -3993,14 +4010,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfiguration
-    put:
-      tags:
-      - Video Encoder Configuration
-      summary: 'Media: SetVideoEncoderConfiguration'
       description: |-
-        This operation modifies a video encoder configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be immediately updated according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected stream. NVC methods for changing a running stream are out of scope for this specification.
-
-        SessionTimeout is provided as a hint for keeping rtsp session by a device. If necessary the device may adapt parameter values for SessionTimeout elements without returning an error. For the time between keep alive calls the client shall adhere to the timeout value signaled via RTSP.
+        If the video encoder configuration token is already known, the encoder configuration can be fetched through the GetVideoEncoderConfiguration command.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -4010,11 +4021,15 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ❌ |  |
+        | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - Video Encoder Configuration
+      summary: 'Media: SetVideoEncoderConfiguration'
       requestBody:
         content:
           application/json:
@@ -4079,17 +4094,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetVideoEncoderConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfigurationOptions:
-    get:
-      tags:
-      - Video Encoder Configuration
-      summary: 'Media: GetVideoEncoderConfigurationOptions'
       description: |-
-        This operation returns the available options (supported values and ranges for video encoder configuration parameters) when the video encoder parameters are reconfigured.
-
-        For JPEG, MPEG4 and H264 extension elements have been defined that provide additional information. A device must provide the XxxOption information for all encodings supported and should additionally provide the corresponding XxxOption2 information.
-
-        This response contains the available video encoder configuration options. If a video encoder configuration is specified, the options shall concern that particular configuration. If a media profile is specified, the options shall be compatible with that media profile. If no tokens are specified, the options shall be considered generic for the device.
+        This operation modifies a video encoder configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be immediately updated according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected stream. NVC methods for changing a running stream are out of scope for this specification.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -4099,11 +4105,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ✔️ |  |
-        | **Tapo C200** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfigurationOptions:
+    get:
+      tags:
+      - Video Encoder Configuration
+      summary: 'Media: GetVideoEncoderConfigurationOptions'
       parameters:
       - name: jsonObject
         in: query
@@ -4237,15 +4248,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZNodes:
-    get:
-      tags:
-      - PTZ - Capabilities
-      summary: 'PTZ: GetNodes'
       description: |-
-        Get the descriptions of the available PTZ Nodes.
-
-        A PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may represent mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ drivers. PTZ Nodes are the lowest level entities in the PTZ control API and reflect the supported PTZ capabilities. The PTZ Node is referenced either by its name or by its reference token.
+        This operation returns the available options (supported values and ranges for video encoder 
+        				configuration parameters) when the video encoder parameters are reconfigured.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -4254,12 +4259,17 @@ paths:
 
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ❌ |  |
+        | **Hikvision DFI6256TE** | ✔️ |  |
         | **Tapo C200** | ✔️ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
-        | **GeoVision GV-BX8700** | ❌ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ✔️ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZNodes:
+    get:
+      tags:
+      - PTZ - Capabilities
+      summary: 'PTZ: GetNodes'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -4371,13 +4381,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNodes
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZNode:
-    get:
-      tags:
-      - PTZ - Capabilities
-      summary: 'PTZ: GetNode'
       description: |-
-        Get a specific PTZ Node identified by a reference token or a name.
+        Get the descriptions of the available PTZ Nodes.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -4392,6 +4397,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZNode:
+    get:
+      tags:
+      - PTZ - Capabilities
+      summary: 'PTZ: GetNode'
       parameters:
       - name: jsonObject
         in: query
@@ -4534,15 +4544,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNode
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfigurations:
-    get:
-      tags:
-      - PTZ - Configuration
-      summary: 'PTZ: GetConfigurations'
       description: |-
-        Get all the existing PTZConfigurations from the device.  
-        The default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.  
-        The allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly.
+        Get a specific PTZ Node identified by a reference
+                token or a name.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -4557,6 +4561,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfigurations:
+    get:
+      tags:
+      - PTZ - Configuration
+      summary: 'PTZ: GetConfigurations'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -4628,17 +4637,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurations
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfiguration:
-    get:
-      tags:
-      - PTZ - Configuration
-      summary: 'PTZ: GetConfiguration'
       description: |-
-        Get a specific PTZconfiguration from the device, identified by its reference token or name.
-
-        The default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set.
-
-        The allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly.
+        Get all the existing PTZConfigurations from the device.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -4653,6 +4653,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfiguration:
+    get:
+      tags:
+      - PTZ - Configuration
+      summary: 'PTZ: GetConfiguration'
       parameters:
       - name: jsonObject
         in: query
@@ -4755,12 +4760,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfiguration
-    put:
-      tags:
-      - PTZ - Configuration
-      summary: 'PTZ: SetConfiguration'
       description: |-
-        Set/update a existing PTZConfiguration on the device.
+        Get a specific PTZconfiguration from the device, identified by its reference token or name.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -4770,11 +4771,15 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ❌ |  |
-        | **Tapo C200** | ❌ |  |
+        | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+    put:
+      tags:
+      - PTZ - Configuration
+      summary: 'PTZ: SetConfiguration'
       requestBody:
         content:
           application/json:
@@ -4810,13 +4815,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfigurationOptions:
-    get:
-      tags:
-      - PTZ - Configuration
-      summary: 'PTZ: GetConfigurationOptions'
       description: |-
-        List supported coordinate systems including their range limitations. Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node.
+        Set/update a existing PTZConfiguration on the device.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -4826,11 +4826,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ❌ |  |
-        | **Tapo C200** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZConfigurationOptions:
+    get:
+      tags:
+      - PTZ - Configuration
+      summary: 'PTZ: GetConfigurationOptions'
       parameters:
       - name: jsonObject
         in: query
@@ -4973,13 +4978,13 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurationOptions
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddPTZConfiguration:
-    put:
-      tags:
-      - PTZ - Configuration
-      summary: 'Media: AddPTZConfiguration'
       description: |-
-        Add a new PTZConfiguration on the device.
+        List supported coordinate systems including their range limitations. Therefore, the options
+        				MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a
+        				Video Source Configuration. In that case, the options may additionally contain coordinate
+        				systems referring to the image coordinate system described by the Video Source
+        				Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within
+        				which Timeouts are accepted by the PTZ Node.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -4989,11 +4994,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ❌ |  |
-        | **Tapo C200** | ❌ |  |
+        | **Tapo C200** | ✔️ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AddPTZConfiguration:
+    put:
+      tags:
+      - PTZ - Configuration
+      summary: 'Media: AddPTZConfiguration'
       requestBody:
         content:
           application/json:
@@ -5020,13 +5030,11 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddPTZConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemovePTZConfiguration:
-    put:
-      tags:
-      - PTZ - Configuration
-      summary: 'Media: RemovePTZConfiguration'
       description: |-
-        Remove a PTZConfiguration on the device.
+        This operation adds a PTZConfiguration to an existing media profile. If a configuration exists
+        in the media profile, it will be replaced. The change shall be persistent. Adding a PTZConfiguration to a media profile means that streams using that media profile can
+        contain PTZ status (in the metadata), and that the media profile can be used for controlling
+        PTZ movement.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5041,6 +5049,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/RemovePTZConfiguration:
+    put:
+      tags:
+      - PTZ - Configuration
+      summary: 'Media: RemovePTZConfiguration'
       requestBody:
         content:
           application/json:
@@ -5066,15 +5079,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemovePTZConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZAbsoluteMove:
-    put:
-      tags:
-      - PTZ - Actuation
-      summary: 'PTZ: AbsoluteMove'
       description: |-
-        Operation to move pan,tilt or zoom to a absolute destination.
-
-        The speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used.
+        This operation removes a PTZConfiguration from an existing media profile. If the media profile
+        does not contain a PTZConfiguration, the operation has no effect. The removal shall be persistent.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5084,11 +5091,16 @@ paths:
         | Camera | Supported? &nbsp;&nbsp; | Notes |
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ❌ |  |
-        | **Tapo C200** | ✔️ |  |
+        | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZAbsoluteMove:
+    put:
+      tags:
+      - PTZ - Actuation
+      summary: 'PTZ: AbsoluteMove'
       requestBody:
         content:
           application/json:
@@ -5118,15 +5130,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.AbsoluteMove
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZRelativeMove:
-    put:
-      tags:
-      - PTZ - Actuation
-      summary: 'PTZ: RelativeMove'
       description: |-
-        Operation for Relative Pan/Tilt and Zoom Move. The operation is supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space.
-
-        The speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used.
+        Operation to move pan,tilt or zoom to a absolute destination.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5141,6 +5146,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZRelativeMove:
+    put:
+      tags:
+      - PTZ - Actuation
+      summary: 'PTZ: RelativeMove'
       requestBody:
         content:
           application/json:
@@ -5170,13 +5180,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RelativeMove
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZContinuousMove:
-    put:
-      tags:
-      - PTZ - Actuation
-      summary: 'PTZ: ContinuousMove'
       description: |-
-        Operation for continuous Pan/Tilt and Zoom movements. The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used.
+        Operation for Relative Pan/Tilt and Zoom Move. The operation is supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5191,6 +5196,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZContinuousMove:
+    put:
+      tags:
+      - PTZ - Actuation
+      summary: 'PTZ: ContinuousMove'
       requestBody:
         content:
           application/json:
@@ -5220,13 +5230,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.ContinuousMove
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZStatus:
-    get:
-      tags:
-      - PTZ - Actuation
-      summary: 'PTZ: GetStatus'
       description: |-
-        Operation to request PTZ status for the Node in the selected profile.
+        Operation for continuous Pan/Tilt and Zoom movements. The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5241,6 +5246,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZStatus:
+    get:
+      tags:
+      - PTZ - Actuation
+      summary: 'PTZ: GetStatus'
       parameters:
       - name: jsonObject
         in: query
@@ -5334,13 +5344,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetStatus
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZStop:
-    put:
-      tags:
-      - PTZ - Actuation
-      summary: 'PTZ: Stop'
       description: |-
-        Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type. If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements.
+        Operation to request PTZ status for the Node in the
+        				selected profile.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5355,6 +5361,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZStop:
+    put:
+      tags:
+      - PTZ - Actuation
+      summary: 'PTZ: Stop'
       requestBody:
         content:
           application/json:
@@ -5381,13 +5392,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.Stop
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZPreset:
-    put:
-      tags:
-      - PTZ - PTZPreset
-      summary: 'PTZ: SetPreset'
       description: |-
-        The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation. In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation.
+        Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type.
+        If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5402,6 +5409,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZPreset:
+    put:
+      tags:
+      - PTZ - PTZPreset
+      summary: 'PTZ: SetPreset'
       requestBody:
         content:
           application/json:
@@ -5428,13 +5440,16 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetPreset
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZPresets:
-    get:
-      tags:
-      - PTZ - PTZPreset
-      summary: 'PTZ: GetPresets'
       description: |-
-        Operation to request all PTZ presets for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode.
+        The SetPreset command saves the current device position parameters so that the device can
+        				move to the saved preset position through the GotoPreset operation.
+        				In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is
+        				successful, the Response contains the PresetToken which uniquely identifies the Preset. An
+        				existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset.
+        				In both cases (overwriting or creation) an optional PresetName can be specified. The
+        				operation fails if the PTZ device is moving during the SetPreset operation.
+        				The device MAY internally save additional states such as imaging properties in the PTZ
+        				Preset which then should be recalled in the GotoPreset operation.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5449,6 +5464,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZPresets:
+    get:
+      tags:
+      - PTZ - PTZPreset
+      summary: 'PTZ: GetPresets'
       parameters:
       - name: jsonObject
         in: query
@@ -5557,13 +5577,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetPresets
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZGotoPreset:
-    put:
-      tags:
-      - PTZ - PTZPreset
-      summary: 'PTZ: GotoPreset'
       description: |-
-        Operation to go to a saved preset position for the PTZNode in the selected profile. The operation is supported if there is support for at least on PTZ preset by the PTZNode.
+        Operation to request all PTZ presets for the PTZNode
+                in the selected profile. The operation is supported if there is support
+                for at least on PTZ preset by the PTZNode.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5578,6 +5595,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZGotoPreset:
+    put:
+      tags:
+      - PTZ - PTZPreset
+      summary: 'PTZ: GotoPreset'
       requestBody:
         content:
           application/json:
@@ -5604,13 +5626,10 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoPreset
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZRemovePreset:
-    put:
-      tags:
-      - PTZ - PTZPreset
-      summary: 'PTZ: RemovePreset'
       description: |-
-        Operation to remove a PTZ preset for the Node in the selected profile. The operation is supported if the PresetPosition capability exists for teh Node in the selected profile.
+        Operation to go to a saved preset position for the
+                PTZNode in the selected profile. The operation is supported if there is
+                support for at least on PTZ preset by the PTZNode.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -5625,6 +5644,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZRemovePreset:
+    put:
+      tags:
+      - PTZ - PTZPreset
+      summary: 'PTZ: RemovePreset'
       requestBody:
         content:
           application/json:
@@ -5651,6 +5675,27 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RemovePreset
+      description: |-
+        Operation to remove a PTZ preset for the Node in
+                the
+                selected profile. The operation is supported if the
+                PresetPosition
+                capability exists for teh Node in the
+                selected profile.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ❌ |  |
+        | **Tapo C200** | ✔️ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
+        | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
+        </details>
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZGotoHomePosition:
     put:
       tags:
@@ -5702,22 +5747,6 @@ paths:
       tags:
       - PTZ - Home Position
       summary: 'PTZ: SetHomePosition'
-      description: |-
-        Operation to save current position as the home position. The PTZHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the PTZHomePosition is successful, it is possible to recall the Home Position with the PTZGotoHomePosition command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ❌ |  |
-        | **Tapo C200** | ❌ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
-        | **GeoVision GV-BX8700** | ❌ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
-        </details>
       requestBody:
         content:
           application/json:
@@ -5743,6 +5772,25 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetHomePosition
+      description: |-
+        Operation to save current position as the home position.
+        				The SetHomePosition command returns with a failure if the “home” position is fixed and
+        				cannot be overwritten. If the SetHomePosition is successful, it is possible to recall the
+        				Home Position with the GotoHomePosition command.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ❌ |  |
+        | **Tapo C200** | ❌ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
+        | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
+        </details>
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/PTZSendAuxiliaryCommand:
     put:
       tags:
@@ -5809,18 +5857,6 @@ paths:
       tags:
       - Event Handling
       summary: 'Event: GetEventProperties'
-      description: |-
-        The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProperties. This specification does not require the implementation of the WS-ResourceProperty interface. Instead, the subsequent direct interface shall be implemented by an ONVIF compliant device in order to provide information about the FilterDialects, Schema files and topics supported by the device.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Tapo C200** | ✔️ |  |
-        </details>
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -5987,6 +6023,22 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.GetEventProperties
+      description: |-
+        The WS-BaseNotification specification defines a set of OPTIONAL WS-ResouceProperties.
+        				This specification does not require the implementation of the WS-ResourceProperty interface.
+        				Instead, the subsequent direct interface shall be implemented by an ONVIF compliant device
+        				in order to provide information about the FilterDialects, Schema files and topics supported by
+        				the device.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Tapo C200** | ✔️ |  |
+        </details>
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/BaseNotificationSubscription:
     put:
       tags:
@@ -6107,22 +6159,6 @@ paths:
       tags:
       - Analytics - Profile Configuration
       summary: 'Media2: GetProfiles'
-      description: |-
-        Any endpoint can ask for the existing media profiles of a device using the GetProfiles command. Pre-configured or dynamically configured profiles can be retrieved using this command. This command lists all configured profiles in a device. The client does not need to know the media profile in order to use the command.
-
-        <details>
-        <summary><strong>Tested Camera Models</strong></summary>
-
-        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
-
-        | Camera | Supported? &nbsp;&nbsp; | Notes |
-        |--------|:------------|-------|
-        | **Hikvision DFI6256TE** | ❌ |  |
-        | **Tapo C200** | ❌ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
-        | **GeoVision GV-BX8700** | ❌ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
-        </details>
       parameters:
       - name: jsonObject
         in: query
@@ -6212,13 +6248,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetProfiles
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2AnalyticsConfigurations:
-    get:
-      tags:
-      - Analytics - Profile Configuration
-      summary: 'Media2: GetAnalyticsConfigurations'
       description: |-
-        By default this operation lists all existing video analytics configurations for a device. Provide a profile token to list only configurations that are compatible with the profile. If a configuration token is provided only a single configuration will be returned.
+        Retrieve the profile with the specified token or all defined media profiles.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -6233,6 +6264,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2AnalyticsConfigurations:
+    get:
+      tags:
+      - Analytics - Profile Configuration
+      summary: 'Media2: GetAnalyticsConfigurations'
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
@@ -6347,15 +6383,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetAnalyticsConfigurations
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2AddConfiguration:
-    put:
-      tags:
-      - Analytics - Profile Configuration
-      summary: 'Media2: AddConfiguration'
       description: |-
-        This operation adds one or more PTZConfigurations to an existing media profile. If a configuration exists in the media profile, it will be replaced. A device shall support adding a compatible Configuration to a Profile containing a VideoSourceConfiguration and shall support streaming video data of such a profile.
-
-        Note that OSD elements must be added via the CreateOSD command.
+        By default this operation lists all existing video analytics configurations for a device. Provide a profile token to list only configurations that are compatible with the profile. If a configuration token is provided only a single configuration will be returned.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -6368,8 +6397,13 @@ paths:
         | **Tapo C200** | ❌ |  |
         | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
-        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ✔️ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2AddConfiguration:
+    put:
+      tags:
+      - Analytics - Profile Configuration
+      summary: 'Media2: AddConfiguration'
       requestBody:
         content:
           application/json:
@@ -6398,13 +6432,11 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.AddConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2RemoveConfiguration:
-    put:
-      tags:
-      - Analytics - Profile Configuration
-      summary: 'Media2: RemoveConfiguration'
       description: |-
-        This operation removes the listed configurations from an existing media profile. If the media profile does not contain one of the listed configurations that item shall be ignored.
+        This operation adds one or more Configurations to an existing media profile. If a
+        configuration exists in the media profile, it will be replaced. A device shall
+        support adding a compatible Configuration to a Profile containing a VideoSourceConfiguration and shall
+        support streaming video data of such a profile.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -6419,6 +6451,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2RemoveConfiguration:
+    put:
+      tags:
+      - Analytics - Profile Configuration
+      summary: 'Media2: RemoveConfiguration'
       requestBody:
         content:
           application/json:
@@ -6447,13 +6484,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.RemoveConfiguration
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SupportedAnalyticsModules:
-    get:
-      tags:
-      - Analytics - Modules
-      summary: 'Analytics: GetSupportedAnalyticsModules'
       description: |-
-        List all analytics modules that are supported by the given VideoAnalyticsConfiguration.
+        This operation removes the listed configurations from an existing media profile. If the
+        				media profile does not contain one of the listed configurations that item shall be ignored.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -6468,6 +6501,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/SupportedAnalyticsModules:
+    get:
+      tags:
+      - Analytics - Modules
+      summary: 'Analytics: GetSupportedAnalyticsModules'
       parameters:
       - name: jsonObject
         in: query
@@ -6649,13 +6687,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedAnalyticsModules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsModules:
-    get:
-      tags:
-      - Analytics - Modules
-      summary: 'Analytics: GetAnalyticsModules'
       description: |-
-        List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration.
+        List all analytics modules that are supported by the given VideoAnalyticsConfiguration.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -6670,6 +6703,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsModules:
+    get:
+      tags:
+      - Analytics - Modules
+      summary: 'Analytics: GetAnalyticsModules'
       parameters:
       - name: jsonObject
         in: query
@@ -6791,12 +6829,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModules
-    put:
-      tags:
-      - Analytics - Modules
-      summary: 'Analytics: ModifyAnalyticsModules'
       description: |-
-        Modify the settings of one or more analytics modules of a VideoAnalyticsConfiguration. The modules are referenced by their names. It is allowed to pass only a subset to be modified.
+        List the currently assigned set of analytics modules of a VideoAnalyticsConfiguration.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -6811,6 +6845,10 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+    put:
+      tags:
+      - Analytics - Modules
+      summary: 'Analytics: ModifyAnalyticsModules'
       requestBody:
         content:
           application/json:
@@ -6843,19 +6881,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyAnalyticsModules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CreateAnalyticsModules:
-    put:
-      tags:
-      - Analytics - Modules
-      summary: 'Analytics: CreateAnalyticsModules'
       description: |-
-        Add one or more analytics modules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via SupportedAnalyticsModules, where the Name of the supported AnalyticsModules correspond to the type of an AnalyticsModule instance.
-
-        Pass unique module names which can be later used as reference. The Parameters of the analytics module must match those of the corresponding AnalyticsModuleDescription.
-
-        Although this method is mandatory a device implementation may not support adding modules. Instead it can provide a fixed set of predefined configurations via the media service functions GetCompatibleVideoAnalyticsConfigurations and Media2AnalyticsConfigurations.
-
-        The device shall ensure that a corresponding analytics engine starts operation when a client subscribes directly or indirectly for events produced by the analytics or rule engine or when a client requests the corresponding scene description stream. An analytics module must be attached to a Video source using the media profiles before it can be used. In case differing analytics configurations are attached to the same profile it is undefined which of the analytics module configuration becomes active if no stream is activated or multiple streams with different profiles are activated at the same time.
+        Modify the settings of one or more analytics modules of a VideoAnalyticsConfiguration. The modules are referenced by their names.
+        				It is allowed to pass only a subset to be modified.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -6866,10 +6894,15 @@ paths:
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ❌ |  |
         | **Tapo C200** | ❌ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/CreateAnalyticsModules:
+    put:
+      tags:
+      - Analytics - Modules
+      summary: 'Analytics: CreateAnalyticsModules'
       requestBody:
         content:
           application/json:
@@ -6902,13 +6935,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateAnalyticsModules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteAnalyticsModules:
-    put:
-      tags:
-      - Analytics - Modules
-      summary: 'Analytics: DeleteAnalyticsModules'
       description: |-
-        Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names.
+        Add one or more analytics modules to an existing VideoAnalyticsConfiguration.
+        				The available supported types can be retrieved via
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -6923,6 +6952,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteAnalyticsModules:
+    put:
+      tags:
+      - Analytics - Modules
+      summary: 'Analytics: DeleteAnalyticsModules'
       requestBody:
         content:
           application/json:
@@ -6950,13 +6984,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteAnalyticsModules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsModuleOptions:
-    get:
-      tags:
-      - Analytics - Modules
-      summary: 'Analytics: GetAnalyticsModuleOptions'
       description: |-
-        Return the options for the supported analytics modules that specify an Option attribute.
+        Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -6967,10 +6996,15 @@ paths:
         |--------|:------------|-------|
         | **Hikvision DFI6256TE** | ❌ |  |
         | **Tapo C200** | ❌ |  |
-        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ❌ |  |
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsModuleOptions:
+    get:
+      tags:
+      - Analytics - Modules
+      summary: 'Analytics: GetAnalyticsModuleOptions'
       parameters:
       - name: jsonObject
         in: query
@@ -7063,13 +7097,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsSupportedRules:
-    get:
-      tags:
-      - Analytics - Rules
-      summary: 'Analytics: GetSupportedRules'
       description: |-
-        List all rules that are supported by the given VideoAnalyticsConfiguration.
+        Return the options for the supported analytics modules that specify an Option attribute.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -7084,6 +7113,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsSupportedRules:
+    get:
+      tags:
+      - Analytics - Rules
+      summary: 'Analytics: GetSupportedRules'
       parameters:
       - name: jsonObject
         in: query
@@ -7320,13 +7354,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedRules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsRules:
-    get:
-      tags:
-      - Analytics - Rules
-      summary: 'Analytics: GetRules'
       description: |-
-        List the currently assigned set of rules of a VideoAnalyticsConfiguration.
+        List all rules that are supported by the given VideoAnalyticsConfiguration.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -7341,6 +7370,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsRules:
+    get:
+      tags:
+      - Analytics - Rules
+      summary: 'Analytics: GetRules'
       parameters:
       - name: jsonObject
         in: query
@@ -7437,12 +7471,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRules
-    put:
-      tags:
-      - Analytics - Rules
-      summary: 'Analytics: ModifyRules'
       description: |-
-        Modify one or more rules of a VideoAnalyticsConfiguration. The rules are referenced by their names.
+        List the currently assigned set of rules of a VideoAnalyticsConfiguration.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -7457,6 +7487,10 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+    put:
+      tags:
+      - Analytics - Rules
+      summary: 'Analytics: ModifyRules'
       requestBody:
         content:
           application/json:
@@ -7489,13 +7523,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyRules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsRuleOptions:
-    get:
-      tags:
-      - Analytics - Rules
-      summary: 'Analytics: GetRuleOptions'
       description: |-
-        Return the options for the supported rules that specify an Option attribute.
+        Modify one or more rules of a VideoAnalyticsConfiguration. The rules are referenced by their names.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -7510,6 +7539,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsRuleOptions:
+    get:
+      tags:
+      - Analytics - Rules
+      summary: 'Analytics: GetRuleOptions'
       parameters:
       - name: jsonObject
         in: query
@@ -7605,17 +7639,8 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRuleOptions
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsCreateRules:
-    put:
-      tags:
-      - Analytics - Rules
-      summary: 'Analytics: CreateRules'
       description: |-
-        Add one or more rules to an existing VideoAnalyticsConfiguration. The available supported types can be retrieved via AnalyticsSupportedRules, where the Name of the supported rule correspond to the type of an rule instance.
-
-        Pass unique module names which can be later used as reference. The Parameters of the rules must match those of the corresponding description.
-
-        Although this method is mandatory a device implementation must not support adding rules. Instead it can provide a fixed set of predefined configurations via the media service function GetCompatibleVideoAnalyticsConfigurations.
+        Return the options for the supported rules that specify an Option attribute.
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -7630,6 +7655,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsCreateRules:
+    put:
+      tags:
+      - Analytics - Rules
+      summary: 'Analytics: CreateRules'
       requestBody:
         content:
           application/json:
@@ -7670,13 +7700,9 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateRules
-  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsDeleteRules:
-    put:
-      tags:
-      - Analytics - Rules
-      summary: 'Analytics: DeleteRules'
       description: |-
-        Remove one or more rules from a VideoAnalyticsConfiguration.
+        Add one or more rules to an existing VideoAnalyticsConfiguration.
+        				The available supported types can be retrieved via
 
         <details>
         <summary><strong>Tested Camera Models</strong></summary>
@@ -7691,6 +7717,11 @@ paths:
         | **GeoVision GV-BX8700** | ❌ |  |
         | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
         </details>
+  /api/v3/device/name/{EDGEX_DEVICE_NAME}/AnalyticsDeleteRules:
+    put:
+      tags:
+      - Analytics - Rules
+      summary: 'Analytics: DeleteRules'
       requestBody:
         content:
           application/json:
@@ -7718,11 +7749,27 @@ paths:
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteRules
+      description: |-
+        Remove one or more rules from a VideoAnalyticsConfiguration.
+
+        <details>
+        <summary><strong>Tested Camera Models</strong></summary>
+
+        Below is a list of camera models that this command has been tested against, and whether or not the command is supported.
+
+        | Camera | Supported? &nbsp;&nbsp; | Notes |
+        |--------|:------------|-------|
+        | **Hikvision DFI6256TE** | ❌ |  |
+        | **Tapo C200** | ❌ |  |
+        | **BOSCH DINION IP starlight 6000 HD** | ✔️ |  |
+        | **GeoVision GV-BX8700** | ❌ |  |
+        | **Hikvision DS-2DE2A404IW-DE3** | ❌ |  |
+        </details>
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/MACAddress:
     get:
       tags:
       - Custom
-      summary: Get MACAddress
+      summary: MACAddress
       description: This command returns the MAC address associated with a device.
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
@@ -7766,7 +7813,7 @@ paths:
     put:
       tags:
       - Custom
-      summary: Set MACAddress
+      summary: MACAddress
       description: >-
         MACAddress can also be set via Edgex device command. This is useful for
         setting the MAC Address for devices which do not contain 
@@ -7807,7 +7854,7 @@ paths:
     get:
       tags:
       - Custom
-      summary: Get FriendlyName
+      summary: FriendlyName
       description: >-
         This operation is used by an endpoint to get the FriendlyName from a
         device. This is a name given to a device by a user to make the device
@@ -7854,7 +7901,7 @@ paths:
     put:
       tags:
       - Custom
-      summary: Set FriendlyName
+      summary: FriendlyName
       description: >-
         This operation is used by an endpoint to set the FriendlyName of a
         device. This is a name given to a device by a user to make the device
@@ -7884,7 +7931,7 @@ paths:
     get:
       tags:
       - Custom
-      summary: Get CustomMetadata
+      summary: CustomMetadata
       description: >-
         **Get Custom Metadata**
 
@@ -7959,7 +8006,7 @@ paths:
                 $ref: '#/components/schemas/ObjectEventResponse'
               examples:
                 example-0:
-                  summary: Get CustomMetadata
+                  summary: CustomMetadata
                   value:
                     apiVersion: v3
                     statusCode: 200
@@ -8013,7 +8060,7 @@ paths:
     put:
       tags:
       - Custom
-      summary: Set CustomMetadata
+      summary: CustomMetadata
       description: >-
         Use the CustomMetadata resource to set the fields of `CustomMetadata`.
         Choose the key/value pairs to represent your custom fields.
@@ -8048,7 +8095,7 @@ paths:
     put:
       tags:
       - Custom
-      summary: Delete CustomMetadata
+      summary: DeleteCustomMetadata
       description: >-
         Use the `DeleteCustomMetadata` resource to delete entries in custom
         metadata
