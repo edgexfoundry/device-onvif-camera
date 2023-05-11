@@ -3908,7 +3908,7 @@
 								}
 							]
 						},
-						"description": ""
+						"description": "This request returns a snapshot of the video stream at the time the command is given.\n\nIt is returned in a binary format."
 					},
 					"response": [
 						{
@@ -4519,7 +4519,7 @@
 					]
 				},
 				{
-					"name": "PTZConfiguration",
+					"name": "Configuration",
 					"item": [
 						{
 							"name": "PTZConfigurations",
@@ -4612,7 +4612,7 @@
 							]
 						},
 						{
-							"name": "GetConfiguration",
+							"name": "Get PTZConfiguration",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -4819,7 +4819,7 @@
 							]
 						},
 						{
-							"name": "SetConfiguration",
+							"name": "SetPTZConfiguration",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -5604,7 +5604,7 @@
 					"name": "PTZPreset",
 					"item": [
 						{
-							"name": "SetPreset",
+							"name": "Set PTZPreset",
 							"request": {
 								"method": "PUT",
 								"header": [],
@@ -6543,7 +6543,7 @@
 					"name": "Profile Configuration",
 					"item": [
 						{
-							"name": "GetProfiles",
+							"name": "Get Media2Profiles",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -7360,7 +7360,7 @@
 							]
 						},
 						{
-							"name": "GetRules",
+							"name": "Get AnalyticsRules",
 							"request": {
 								"method": "GET",
 								"header": [],
@@ -7732,7 +7732,7 @@
 							]
 						},
 						{
-							"name": "ModifyRules",
+							"name": "Modify AnalyticsRules",
 							"request": {
 								"method": "PUT",
 								"header": [],
