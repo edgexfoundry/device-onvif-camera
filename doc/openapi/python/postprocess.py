@@ -182,7 +182,29 @@ class YamlProcessor:
                             # override with cloned one
                             method_obj['responses']['200'] = resp_200
                         else:
-                            log.warning(f'\033[33m*** Missing schema response definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
+                            if resources is not None:
+                                # patch GET call schema by using all the service names and onvif function names
+                                # from all the resourceOperations.
+                                refs = []
+                                for res in resources:
+                                    refs.append({
+                                        '$ref': f"#/components/schemas/{self.resources[res]['attributes']['service'].lower()}_Get{res}Response"
+                                    })
+                                # clone the stubbed deviceCommands response
+                                new_schema = copy.deepcopy(self.sidecar['responses']['deviceCommands'])
+                                # get a pointer to the reading properties, so we can override them
+                                prop_ptr = new_schema['allOf'][1]['properties']['event']['properties']['readings']['items']['allOf'][1]['properties']
+                                prop_ptr['resourceName']['enum'] = resources
+                                prop_ptr['objectValue']['oneOf'] = refs
+
+                                # clone the 200 response to avoid mangling pointer references
+                                resp_200 = copy.deepcopy(method_obj['responses']['200'])
+                                # apply the defined schema
+                                resp_200['content']['application/json']['schema'] = new_schema
+                                # override with cloned one
+                                method_obj['responses']['200'] = resp_200
+                            else:
+                                log.warning(f'\033[33m*** Missing schema response definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
                     elif method == 'put':
                         if cmd in self.sidecar['requests']['edgex']:
                             # look for the json response object, so we can modify it

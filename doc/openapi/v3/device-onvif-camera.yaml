@@ -1843,7 +1843,6 @@ paths:
                     event:
                       properties:
                         readings:
-                          uniqueItems: true
                           items:
                             allOf:
                             - $ref: '#/components/schemas/ObjectReading'
