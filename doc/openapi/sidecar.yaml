@@ -66,15 +66,31 @@ responses:
       $ref: '#/components/schemas/ObjectEventResponse'
     NetworkConfiguration:
       allOf:
-        - $ref: '#/components/schemas/ObjectEventResponse'
+        - $ref: '#/components/schemas/BaseEventResponse'
         - properties:
             event:
               properties:
                 readings:
+                  uniqueItems: true
                   items:
-                    anyOf:
+                    allOf:
+                      - $ref: '#/components/schemas/ObjectReading'
                       - properties:
+                          resourceName:
+                            type: string
+                            enum:
+                              - Hostname
+                              - DNS
+                              - NetworkInterfaces
+                              - NetworkProtocols
+                              - NetworkDefaultGateway
                           objectValue:
+                            oneOf:
+                              - $ref: '#/components/schemas/device_GetHostnameResponse'
+                              - $ref: '#/components/schemas/device_GetDNSResponse'
+                              - $ref: '#/components/schemas/device_GetNetworkInterfacesResponse'
+                              - $ref: '#/components/schemas/device_GetNetworkProtocolsResponse'
+                              - $ref: '#/components/schemas/device_GetNetworkDefaultGatewayResponse'
   canned:
     '200':
       description: "OK"

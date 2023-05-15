@@ -77,6 +77,7 @@ class YamlProcessor:
     profile: any = None
     postman_env: Dict[str, str] = field(default_factory=dict)
     resources: Dict[str, any] = field(default_factory=dict)
+    device_commands: Dict[str, any] = field(default_factory=dict)
     wsdl_files: Dict[str, any] = field(default_factory=dict)
 
     def _load(self):
@@ -107,6 +108,8 @@ class YamlProcessor:
         """Parse the device resources into a lookup table"""
         for resource in self.profile['deviceResources']:
             self.resources[resource['name']] = resource
+        for device_cmd in self.profile['deviceCommands']:
+            self.device_commands[device_cmd['name']] = device_cmd
 
     def _write(self):
         """Output modified yaml file"""
@@ -128,54 +131,68 @@ class YamlProcessor:
                 cmd = path.split('/')[-1]
 
                 prefix = 'set' if method == 'put' else method
+
                 if cmd in self.resources:
                     attrs = self.resources[cmd]['attributes']
                     fn = attrs[f'{prefix}Function']
                     service = attrs['service']
-                    service_fn = f'{service}_{fn}'
+                    resources = None
+                elif cmd in self.device_commands:
+                    fn = cmd
+                    service = EDGEX
+                    # parse the resources that this deviceCommand uses
+                    resources = [ res['deviceResource'] for res in self.device_commands[cmd]['resourceOperations'] ]
+                else:
+                    log.warning(f'\033[33m*** Superfluous swagger definition for unknown EdgeX command: {method.upper()} {cmd} ***\033[0m')
+                    continue
 
-                    # set the unique operationId
-                    if service == EDGEX:
-                        # for EdgeX commands, generate a unique name `edgex_{Get|Set}{CommandName}`
-                        method_obj['operationId'] = f'{service.lower()}_{prefix[0].upper()+prefix[1:]}{cmd}'
-                    else:
-                        # for onvif commands, this will also match the schema name of the request
-                        method_obj['operationId'] = f'{service.lower()}_{fn}'
+                service_fn = f'{service}_{fn}'
 
-                    # add all responses
-                    for code, resp_obj in self.sidecar['responses']['canned'].items():
-                        if code not in method_obj['responses']:
+                # set the unique operationId
+                if service == EDGEX:
+                    # for EdgeX commands, generate a unique name `edgex_{Get|Set}{CommandName}`
+                    op_id = f'{service.lower()}_{prefix[0].upper()+prefix[1:]}{cmd}'
+                else:
+                    # for onvif commands, this will also match the schema name of the request
+                    op_id = f'{service.lower()}_{fn}'
+
+                method_obj['operationId'] = op_id
+
+                # add all responses
+                for code, resp_obj in self.sidecar['responses']['canned'].items():
+                    if code not in method_obj['responses']:
+                        method_obj['responses'][code] = resp_obj
+                    elif code == '200' and method == 'put':
+                        content = method_obj['responses']['200']['content']
+                        if 'application/json' not in content or \
+                                len(content['application/json']) == 0 or \
+                                ('example' in content['application/json'] and len(
+                                    content['application/json']['example']) == 2):
+                            log.debug(f'Overriding empty 200 response for {service_fn}')
                             method_obj['responses'][code] = resp_obj
-                        elif code == '200' and method == 'put':
-                            content = method_obj['responses']['200']['content']
-                            if 'application/json' not in content or \
-                                    len(content['application/json']) == 0 or \
-                                    ('example' in content['application/json'] and len(
-                                        content['application/json']['example']) == 2):
-                                log.debug(f'Overriding empty 200 response for {service_fn}')
-                                method_obj['responses'][code] = resp_obj
 
-                    if service == EDGEX:
-                        # --- Custom EdgeX function patching ---
-                        if method == 'get':
-                            if cmd in self.sidecar['responses']['edgex']:
-                                # clone the 200 response to avoid mangling pointer references
-                                resp_200 = copy.deepcopy(method_obj['responses']['200'])
-                                # apply the defined schema
-                                resp_200['content']['application/json']['schema'] = self.sidecar['responses']['edgex'][cmd]
-                                # override with cloned one
-                                method_obj['responses']['200'] = resp_200
-                            else:
-                                log.warning(f'\033[33m*** Missing schema response definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
-                        elif method == 'put':
-                            if cmd in self.sidecar['requests']['edgex']:
-                                # look for the json response object, so we can modify it
-                                jscontent = method_obj['requestBody']['content']['application/json']
+                if service == EDGEX:
+                    # --- Custom EdgeX function patching ---
+                    if method == 'get':
+                        if cmd in self.sidecar['responses']['edgex']:
+                            # clone the 200 response to avoid mangling pointer references
+                            resp_200 = copy.deepcopy(method_obj['responses']['200'])
+                            # apply the defined schema
+                            resp_200['content']['application/json']['schema'] = self.sidecar['responses']['edgex'][cmd]
+                            # override with cloned one
+                            method_obj['responses']['200'] = resp_200
+                        else:
+                            log.warning(f'\033[33m*** Missing schema response definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
+                    elif method == 'put':
+                        if cmd in self.sidecar['requests']['edgex']:
+                            # look for the json response object, so we can modify it
+                            jscontent = method_obj['requestBody']['content']['application/json']
 
-                                # move the example outside the schema to preserve it (and it belongs better up there)
-                                if 'example' in jscontent['schema']:
-                                    jscontent['example'] = jscontent['schema']['example']
+                            # move the example outside the schema to preserve it (and it belongs better up there)
+                            if 'example' in jscontent['schema']:
+                                jscontent['example'] = jscontent['schema']['example']
 
+                            if resources is None:
                                 # patch PUT call schema by using service name and onvif function name
                                 jscontent['schema'] = {
                                     'properties': {
@@ -185,32 +202,45 @@ class YamlProcessor:
                                     'type': 'object'
                                 }
                             else:
-                                log.warning(f'\033[33m*** Missing schema request definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
+                                # patch PUT call schema by using all the service names and onvif function names
+                                # from all the resourceOperations.
+                                props = {}
+                                for res in resources:
+                                    props[res] = {
+                                        '$ref': f"#/components/schemas/{self.resources[res]['attributes']['service'].lower()}_Set{res}"
+                                    }
+                                jscontent['schema'] = {
+                                    'properties': props,
+                                    'required': resources,
+                                    'type': 'object'
+                                }
+                        else:
+                            log.warning(f'\033[33m*** Missing schema request definition for EdgeX command {method.upper()} {cmd} ***\033[0m')
 
-                            # override the response schema with default 200 response
-                            method_obj['responses']['200'] = self.sidecar['responses']['canned']['200']
+                        # override the response schema with default 200 response
+                        method_obj['responses']['200'] = self.sidecar['responses']['canned']['200']
 
-                    else:
-                        # --- ONVIF function patching ---
-                        method_obj = path_obj[method]
-                        method_obj['externalDocs'] = {
-                            'description': 'Onvif Specification',
-                            'url': f'{SERVICE_WSDL[service]}#op.{fn}'
-                        }
+                else:
+                    # --- ONVIF function patching ---
+                    method_obj = path_obj[method]
+                    method_obj['externalDocs'] = {
+                        'description': 'Onvif Specification',
+                        'url': f'{SERVICE_WSDL[service]}#op.{fn}'
+                    }
 
-                        # patch description for endpoints missing it
-                        paths = self.wsdl_files[service]['paths']
-                        if f'/{fn}' in paths:
-                            # note: all SOAP calls are POST
-                            api = paths[f'/{fn}']['post']
-                            if 'description' in api and \
-                                    ('description' not in method_obj or method_obj['description'].strip() == ''):
-                                log.debug(f'Copying description for {service_fn}')
-                                method_obj['description'] = api['description']
+                    # patch description for endpoints missing it
+                    paths = self.wsdl_files[service]['paths']
+                    if f'/{fn}' in paths:
+                        # note: all SOAP calls are POST
+                        api = paths[f'/{fn}']['post']
+                        if 'description' in api and \
+                                ('description' not in method_obj or method_obj['description'].strip() == ''):
+                            log.debug(f'Copying description for {service_fn}')
+                            method_obj['description'] = multiline_string(api['description'])
 
-                    if service_fn in self.matrix.validated:
-                        log.debug(f'Adding validated camera list in description for {service_fn}')
-                        val_desc = f'''
+                if service_fn in self.matrix.validated:
+                    log.debug(f'Adding validated camera list in description for {service_fn}')
+                    val_desc = f'''
 
 <details>
 <summary><strong>Tested Camera Models</strong></summary>
@@ -220,83 +250,83 @@ Below is a list of camera models that this command has been tested against, and 
 | Camera | Supported? &nbsp;&nbsp; | Notes |
 |--------|:------------|-------|
 '''
-                        for camera, support in self.matrix.validated[service_fn].cameras.items():
-                            val_desc += f'| **{camera}** | {support.support} | {support.notes} |\n'
-                        method_obj['description'] = multiline_string(method_obj['description'] + val_desc + '</details>')
-                    elif service != EDGEX:
-                        # only print warning for non-EdgeX functions
-                        log.warning(f'\033[33m*** Missing camera validation entry for command {service_fn} ***\033[0m')
+                    for camera, support in self.matrix.validated[service_fn].cameras.items():
+                        val_desc += f'| **{camera}** | {support.support} | {support.notes} |\n'
+                    method_obj['description'] = multiline_string(method_obj['description'] + val_desc + '</details>')
+                elif service != EDGEX:
+                    # only print warning for non-EdgeX functions
+                    log.warning(f'\033[33m*** Missing camera validation entry for command {service_fn} ***\033[0m')
 
-                    if service == EDGEX:
-                        if cmd == SNAPSHOT:
-                            # Special handling for the EdgeX.Snapshot command, as it uses the same input as
-                            # Media.GetSnapshotUri, so patch the jsonObject documentation.
-                            log.info(f'Handling {SNAPSHOT} command...')
-                            self._lookup_json_object(cmd, method_obj, MEDIA, SNAPSHOT_URI_FN)
+                if service == EDGEX:
+                    if cmd == SNAPSHOT:
+                        # Special handling for the EdgeX.Snapshot command, as it uses the same input as
+                        # Media.GetSnapshotUri, so patch the jsonObject documentation.
+                        log.info(f'Handling {SNAPSHOT} command...')
+                        self._lookup_json_object(cmd, method_obj, MEDIA, SNAPSHOT_URI_FN)
 
-                        # nothing left to patch for custom edgex functions, as they do not exist in onvif spec
-                        continue
+                    # nothing left to patch for custom edgex functions, as they do not exist in onvif spec
+                    continue
 
-                    # --- More ONVIF function patching ---
+                # --- More ONVIF function patching ---
 
-                    method_obj['summary'] = f'{service}: {fn}'
+                method_obj['summary'] = f'{service}: {fn}'
 
-                    # Special handling for PUT calls:
-                    # - Move example out of schema into json object itself
-                    # - Patch the input body schema based on the EdgeX command name and the Onvif function name
-                    if method == 'put':
-                        # look for the json response object, so we can modify it
-                        jscontent = method_obj['requestBody']['content']['application/json']
+                # Special handling for PUT calls:
+                # - Move example out of schema into json object itself
+                # - Patch the input body schema based on the EdgeX command name and the Onvif function name
+                if method == 'put':
+                    # look for the json response object, so we can modify it
+                    jscontent = method_obj['requestBody']['content']['application/json']
 
-                        # move the example outside the schema to preserve it (and it belongs better up there)
-                        if 'example' in jscontent['schema']:
-                            jscontent['example'] = jscontent['schema']['example']
-                            self._insert_postman_env(jscontent['example'])
+                    # move the example outside the schema to preserve it (and it belongs better up there)
+                    if 'example' in jscontent['schema']:
+                        jscontent['example'] = jscontent['schema']['example']
+                        self._insert_postman_env(jscontent['example'])
 
-                        # patch PUT call schema by using service name and onvif function name
-                        jscontent['schema'] = {
-                            'properties': {
-                                # EdgeX commands always require the command name as the object key.
-                                # Note that this will actually insert the name of the command
-                                cmd: {
-                                    # this generated name assumes the onvif schemas are named after the commands,
-                                    # prefixed by the service name by the xmlstrip.py script.
-                                    '$ref': f'#/components/schemas/{service.lower()}_{fn}'
-                                }
-                            },
-                            'required': [cmd],
-                            'type': 'object'
-                        }
+                    # patch PUT call schema by using service name and onvif function name
+                    jscontent['schema'] = {
+                        'properties': {
+                            # EdgeX commands always require the command name as the object key.
+                            # Note that this will actually insert the name of the command
+                            cmd: {
+                                # this generated name assumes the onvif schemas are named after the commands,
+                                # prefixed by the service name by the xmlstrip.py script.
+                                '$ref': f'#/components/schemas/{service.lower()}_{fn}'
+                            }
+                        },
+                        'required': [cmd],
+                        'type': 'object'
+                    }
 
-                    # Special handling for GET calls:
-                    # - Ensure a 200 OK json response exists
-                    # - Generate and override response schema for 200 OK data types based on Onvif spec
-                    elif method == 'get':
-                        # clone the 200 response to avoid mangling pointer references
-                        resp_200 = copy.deepcopy(method_obj['responses']['200'])
-                        # get a pointer to the json response body content
-                        resp_content = resp_200['content']['application/json']
-                        # clone our example get response schema
-                        schema = copy.deepcopy(self.sidecar['responses']['onvif']['get'])
+                # Special handling for GET calls:
+                # - Ensure a 200 OK json response exists
+                # - Generate and override response schema for 200 OK data types based on Onvif spec
+                elif method == 'get':
+                    # clone the 200 response to avoid mangling pointer references
+                    resp_200 = copy.deepcopy(method_obj['responses']['200'])
+                    # get a pointer to the json response body content
+                    resp_content = resp_200['content']['application/json']
+                    # clone our example get response schema
+                    schema = copy.deepcopy(self.sidecar['responses']['onvif']['get'])
 
-                        # patch the response schema to set the objectValue portion to be a reference to the
-                        # onvif spec's function response. This assumes the onvif schemas are in the proper format of
-                        # function name followed by Response, with the service as the prefix, as set by xmlstrip.py.
-                        schema['allOf'][1]['properties']['event']['properties']['readings']['items']['properties']['objectValue'] = {
-                            '$ref': f'#/components/schemas/{service.lower()}_{fn}Response'
-                        }
-                        # override the original schema with this modified one
-                        resp_content['schema'] = schema
-                        # override with cloned one
-                        method_obj['responses']['200'] = resp_200
+                    # patch the response schema to set the objectValue portion to be a reference to the
+                    # onvif spec's function response. This assumes the onvif schemas are in the proper format of
+                    # function name followed by Response, with the service as the prefix, as set by xmlstrip.py.
+                    schema['allOf'][1]['properties']['event']['properties']['readings']['items']['properties']['objectValue'] = {
+                        '$ref': f'#/components/schemas/{service.lower()}_{fn}Response'
+                    }
+                    # override the original schema with this modified one
+                    resp_content['schema'] = schema
+                    # override with cloned one
+                    method_obj['responses']['200'] = resp_200
 
-                        req_schema = f'{service.lower()}_{fn}'
-                        if req_schema in self.yml['components']['schemas']:
-                            schema = self.yml['components']['schemas'][req_schema]
-                            if 'type' in schema and schema['type'] == 'object' and len(schema) == 1:
-                                log.debug(f'Skipping empty request schema for {service_fn}')
-                            else:
-                                self._lookup_json_object(cmd, method_obj, service, fn)
+                    req_schema = f'{service.lower()}_{fn}'
+                    if req_schema in self.yml['components']['schemas']:
+                        schema = self.yml['components']['schemas'][req_schema]
+                        if 'type' in schema and schema['type'] == 'object' and len(schema) == 1:
+                            log.debug(f'Skipping empty request schema for {service_fn}')
+                        else:
+                            self._lookup_json_object(cmd, method_obj, service, fn)
 
     def _lookup_json_object(self, cmd, method_obj, service, fn):
         found = False
@@ -380,7 +410,7 @@ This field is a Base64 encoded json string.
             'parameters': {}
         }
 
-        # note: sidecar should always be added last to override the onvif schemas
+        # note: sidecar should always be added last, in order to override the onvif schemas
         if 'components' in self.sidecar:
             for component in ['schemas', 'headers', 'examples', 'parameters']:
                 # for each of the component types, copy the items to the output file
