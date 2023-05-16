@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
 #
-# Copyright (C) 2022 Intel Corporation
+# Copyright (C) 2022-2023 Intel Corporation
 # SPDX-License-Identifier: Apache-2.0
 #
 
+import textwrap
 from collections import defaultdict
 from dataclasses import dataclass, field
 from ruamel.yaml import YAML
 from typing import Dict
 import logging
 
+from ruamel.yaml.scalarstring import LiteralScalarString
+
 yaml = YAML()
 log = logging.getLogger('cleaner')
+
+
+def multiline_string(val: str):
+    """Takes a string value and wraps it so that ruamel.yaml will format it as a raw multi-line string"""
+    return LiteralScalarString(textwrap.dedent(val))
 
 
 @dataclass
@@ -38,8 +46,23 @@ class SchemaCleaner:
                 name = obj['$ref'].split('/')[-1]
                 self.schemas[current].uses.add(name)
                 self.schemas[name].used_by.add(current)
+            elif 'operationId' in obj:
+                name = obj['operationId']
+                self.schemas[current].uses.add(name)
+                self.schemas[name].used_by.add(current)
+
+            # check if there is a description field that is more than one line, but is not already a
+            # ruamel.Yaml multi-line string, and patch it to be one.
+            if 'description' in obj and '\n' in obj['description'] and type(obj['description']) == str:
+                # Typically, the onvif schema definitions that are multi-line do not indent the first line, but
+                # indent the rest. The textwrap.dedent() method will not dedent it due to this. To fix this,
+                # we need to take the first line as is, and dedent the rest of the lines.
+                lines = str(obj['description']).split('\n', 1)
+                obj['description'] = multiline_string(lines[0] + '\n' + textwrap.dedent(lines[1]))
+
             for _, x_obj in obj.items():
                 self._inner_parse(current, x_obj)
+
         elif isinstance(obj, list):
             for x_obj in obj:
                 self._inner_parse(current, x_obj)

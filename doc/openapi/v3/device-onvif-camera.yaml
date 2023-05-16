@@ -275,6 +275,7 @@ paths:
               examples:
                 503Example:
                   $ref: '#/components/examples/503Example'
+      operationId: device_GetCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetCapabilities
@@ -396,6 +397,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetServiceCapabilities
@@ -481,6 +483,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetServiceCapabilities
@@ -557,6 +560,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetServiceCapabilities
@@ -601,6 +605,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: imaging_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl#op.GetServiceCapabilities
@@ -678,6 +683,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: event_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.GetServiceCapabilities
@@ -749,6 +755,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetDiscoveryMode
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDiscoveryMode
@@ -807,6 +814,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetDiscoveryMode
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDiscoveryMode
@@ -856,6 +864,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_AddScopes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.AddScopes
@@ -942,6 +951,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetScopes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetScopes
@@ -990,6 +1000,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetScopes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetScopes
@@ -1066,6 +1077,7 @@ paths:
         '404': *id002
         '423': *id003
         '503': *id005
+      operationId: device_RemoveScopes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.RemoveScopes
@@ -1117,6 +1129,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetEndpointReference
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetEndpointReference
@@ -1194,6 +1207,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetHostname
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetHostname
@@ -1240,6 +1254,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetHostname
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetHostname
@@ -1321,6 +1336,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetDNS
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDNS
@@ -1370,6 +1386,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetDNS
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetDNS
@@ -1458,6 +1475,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetNetworkInterfaces
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkInterfaces
@@ -1509,6 +1527,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetNetworkInterfaces
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkInterfaces
@@ -1591,6 +1610,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetNetworkProtocols
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkProtocols
@@ -1646,6 +1666,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetNetworkProtocols
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkProtocols
@@ -1725,6 +1746,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetNetworkDefaultGateway
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
@@ -1771,6 +1793,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetNetworkDefaultGateway
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
@@ -1814,7 +1837,31 @@ paths:
           content:
             application/json:
               schema:
-                type: object
+                allOf:
+                - $ref: '#/components/schemas/BaseEventResponse'
+                - properties:
+                    event:
+                      properties:
+                        readings:
+                          items:
+                            allOf:
+                            - $ref: '#/components/schemas/ObjectReading'
+                            - properties:
+                                resourceName:
+                                  type: string
+                                  enum:
+                                  - Hostname
+                                  - DNS
+                                  - NetworkInterfaces
+                                  - NetworkProtocols
+                                  - NetworkDefaultGateway
+                                objectValue:
+                                  oneOf:
+                                  - $ref: '#/components/schemas/device_GetHostnameResponse'
+                                  - $ref: '#/components/schemas/device_GetDNSResponse'
+                                  - $ref: '#/components/schemas/device_GetNetworkInterfacesResponse'
+                                  - $ref: '#/components/schemas/device_GetNetworkProtocolsResponse'
+                                  - $ref: '#/components/schemas/device_GetNetworkDefaultGatewayResponse'
               example:
                 apiVersion: v3
                 statusCode: 200
@@ -1892,6 +1939,12 @@ paths:
                     value: ''
                     objectValue:
                       NetworkGateway: {}
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      operationId: edgex_GetNetworkConfiguration
     put:
       tags:
       - Network Configuration
@@ -1903,47 +1956,55 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              example:
+              properties:
                 Hostname:
-                  Name: localhost
+                  $ref: '#/components/schemas/device_SetHostname'
                 DNS:
-                  FromDHCP: false
-                  DNSManual:
-                    Type: IPv4
-                    IPv4Address: 192.168.12.1
+                  $ref: '#/components/schemas/device_SetDNS'
                 NetworkInterfaces:
-                  InterfaceToken: eth0
-                  NetworkInterface:
-                    Enabled: true
-                    IPv4:
-                      DHCP: false
+                  $ref: '#/components/schemas/device_SetNetworkInterfaces'
                 NetworkProtocols:
-                  NetworkProtocols:
-                  - Name: HTTP
-                    Enabled: true
-                    Port: 80
+                  $ref: '#/components/schemas/device_SetNetworkProtocols'
                 NetworkDefaultGateway:
+                  $ref: '#/components/schemas/device_SetNetworkDefaultGateway'
+              required:
+              - Hostname
+              - DNS
+              - NetworkInterfaces
+              - NetworkProtocols
+              - NetworkDefaultGateway
+              type: object
+            example:
+              Hostname:
+                Name: localhost
+              DNS:
+                FromDHCP: false
+                DNSManual:
+                  Type: IPv4
                   IPv4Address: 192.168.12.1
+              NetworkInterfaces:
+                InterfaceToken: eth0
+                NetworkInterface:
+                  Enabled: true
+                  IPv4:
+                    DHCP: false
+              NetworkProtocols:
+                NetworkProtocols:
+                - Name: HTTP
+                  Enabled: true
+                  Port: 80
+              NetworkDefaultGateway:
+                IPv4Address: 192.168.12.1
       parameters:
       - $ref: '#/components/parameters/EDGEX_DEVICE_NAME'
       responses:
-        '200':
-          description: OK
-          headers:
-            Content-Type:
-              schema:
-                type: string
-                example: application/json
-            X-Correlation-Id:
-              $ref: '#/components/headers/correlatedResponseHeader'
-          content:
-            application/json:
-              schema:
-                type: object
-              example:
-                apiVersion: v3
-                statusCode: 200
+        '200': *id006
+        '400': *id001
+        '404': *id002
+        '423': *id003
+        '500': *id004
+        '503': *id005
+      operationId: edgex_SetNetworkConfiguration
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeviceInformation:
     get:
       tags:
@@ -2003,6 +2064,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetDeviceInformation
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetDeviceInformation
@@ -2101,6 +2163,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetSystemDateAndTime
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetSystemDateAndTime
@@ -2158,6 +2221,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetSystemDateAndTime
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemDateAndTime
@@ -2207,6 +2271,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetSystemFactoryDefault
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
@@ -2273,6 +2338,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_GetRebootNeeded
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/SystemReboot:
     put:
       tags:
@@ -2299,6 +2365,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SystemReboot
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SystemReboot
@@ -2377,6 +2444,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_GetUsers
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetUsers
@@ -2430,6 +2498,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_SetUser
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetUser
@@ -2484,6 +2553,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_CreateUsers
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.CreateUsers
@@ -2535,6 +2605,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: device_DeleteUsers
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.DeleteUsers
@@ -2629,6 +2700,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetMetadataConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurations
@@ -2752,6 +2824,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetMetadataConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfiguration
@@ -2800,6 +2873,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_SetMetadataConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetMetadataConfiguration
@@ -2928,6 +3002,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetCompatibleMetadataConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetCompatibleMetadataConfigurations
@@ -3043,6 +3118,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetMetadataConfigurationOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurationOptions
@@ -3090,6 +3166,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_AddMetadataConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddMetadataConfiguration
@@ -3136,6 +3213,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_RemoveMetadataConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemoveMetadataConfiguration
@@ -3442,6 +3520,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetProfiles
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetProfiles
@@ -3603,6 +3682,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetStreamUri
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetStreamUri
@@ -3702,6 +3782,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_GetSnapshot
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/SnapshotUri:
     get:
       tags:
@@ -3794,18 +3875,19 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetSnapshotUri
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetSnapshotUri
-      description: "A client uses the GetSnapshotUri command to obtain a JPEG snapshot\
-        \ from the\ndevice. The returned URI shall remain valid indefinitely even\
-        \ if the profile is changed. The\nValidUntilConnect, ValidUntilReboot and\
-        \ Timeout Parameter shall be set accordingly\n(ValidUntilConnect=false, ValidUntilReboot=false,\
-        \ timeout=PT0S). The URI can be used for\nacquiring a JPEG image through a\
-        \ HTTP GET operation. The image encoding will always be\nJPEG regardless of\
-        \ the encoding setting in the media profile. The Jpeg settings\n(like resolution\
-        \ or quality) may be taken from the profile if suitable. The provided\nimage\
-        \ will be updated automatically and independent from calls to GetSnapshotUri."
+      description: |-
+        A client uses the GetSnapshotUri command to obtain a JPEG snapshot from the
+        device. The returned URI shall remain valid indefinitely even if the profile is changed. The
+        ValidUntilConnect, ValidUntilReboot and Timeout Parameter shall be set accordingly
+        (ValidUntilConnect=false, ValidUntilReboot=false, timeout=PT0S). The URI can be used for
+        acquiring a JPEG image through a HTTP GET operation. The image encoding will always be
+        JPEG regardless of the encoding setting in the media profile. The Jpeg settings
+        (like resolution or quality) may be taken from the profile if suitable. The provided
+        image will be updated automatically and independent from calls to GetSnapshotUri.
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/VideoEncoderConfigurations:
     get:
       tags:
@@ -3884,6 +3966,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetVideoEncoderConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurations
@@ -4007,6 +4090,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetVideoEncoderConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfiguration
@@ -4091,6 +4175,7 @@ paths:
         '404': *id002
         '423': *id003
         '503': *id005
+      operationId: media_SetVideoEncoderConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetVideoEncoderConfiguration
@@ -4245,6 +4330,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_GetVideoEncoderConfigurationOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions
@@ -4378,6 +4464,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetNodes
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNodes
@@ -4541,6 +4628,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetNode
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetNode
@@ -4634,6 +4722,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurations
@@ -4757,6 +4846,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfiguration
@@ -4812,6 +4902,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_SetConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetConfiguration
@@ -4975,6 +5066,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetConfigurationOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetConfigurationOptions
@@ -5027,6 +5119,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_AddPTZConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.AddPTZConfiguration
@@ -5076,6 +5169,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media_RemovePTZConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.RemovePTZConfiguration
@@ -5127,6 +5221,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_AbsoluteMove
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.AbsoluteMove
@@ -5177,6 +5272,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_RelativeMove
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RelativeMove
@@ -5227,6 +5323,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_ContinuousMove
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.ContinuousMove
@@ -5341,6 +5438,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetStatus
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetStatus
@@ -5389,6 +5487,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_Stop
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.Stop
@@ -5437,6 +5536,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_SetPreset
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetPreset
@@ -5574,6 +5674,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GetPresets
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GetPresets
@@ -5623,6 +5724,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GotoPreset
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoPreset
@@ -5672,6 +5774,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_RemovePreset
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.RemovePreset
@@ -5739,6 +5842,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_GotoHomePosition
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.GotoHomePosition
@@ -5769,6 +5873,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_SetHomePosition
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SetHomePosition
@@ -5849,6 +5954,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: ptz_SendAuxiliaryCommand
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl#op.SendAuxiliaryCommand
@@ -6020,6 +6126,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: event_GetEventProperties
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver10/events/wsdl/event.wsdl#op.GetEventProperties
@@ -6073,6 +6180,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetBaseNotificationSubscription
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/PullPointSubscription:
     put:
       tags:
@@ -6121,6 +6229,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetPullPointSubscription
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/UnsubscribeCameraEvent:
     put:
       tags:
@@ -6154,6 +6263,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetUnsubscribeCameraEvent
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/Media2Profiles:
     get:
       tags:
@@ -6245,6 +6355,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media2_GetProfiles
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetProfiles
@@ -6380,6 +6491,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media2_GetAnalyticsConfigurations
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.GetAnalyticsConfigurations
@@ -6429,6 +6541,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media2_AddConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.AddConfiguration
@@ -6481,6 +6594,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: media2_RemoveConfiguration
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/media/wsdl/media.wsdl#op.RemoveConfiguration
@@ -6684,6 +6798,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetSupportedAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedAnalyticsModules
@@ -6826,6 +6941,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModules
@@ -6878,6 +6994,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_ModifyAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyAnalyticsModules
@@ -6932,6 +7049,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_CreateAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateAnalyticsModules
@@ -6981,6 +7099,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_DeleteAnalyticsModules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteAnalyticsModules
@@ -7094,6 +7213,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetAnalyticsModuleOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions
@@ -7351,6 +7471,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetSupportedRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedRules
@@ -7468,6 +7589,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRules
@@ -7520,6 +7642,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_ModifyRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyRules
@@ -7636,6 +7759,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_GetRuleOptions
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetRuleOptions
@@ -7697,6 +7821,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_CreateRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateRules
@@ -7746,6 +7871,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: analytics_DeleteRules
       externalDocs:
         description: Onvif Specification
         url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteRules
@@ -7810,6 +7936,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_GetMACAddress
     put:
       tags:
       - Custom
@@ -7850,6 +7977,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetMACAddress
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/FriendlyName:
     get:
       tags:
@@ -7898,6 +8026,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_GetFriendlyName
     put:
       tags:
       - Custom
@@ -7927,6 +8056,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetFriendlyName
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/CustomMetadata:
     get:
       tags:
@@ -8057,6 +8187,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_GetCustomMetadata
     put:
       tags:
       - Custom
@@ -8091,6 +8222,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetCustomMetadata
   /api/v3/device/name/{EDGEX_DEVICE_NAME}/DeleteCustomMetadata:
     put:
       tags:
@@ -8124,6 +8256,7 @@ paths:
         '423': *id003
         '500': *id004
         '503': *id005
+      operationId: edgex_SetDeleteCustomMetadata
 components:
   schemas:
     analytics_ConfigOptions:
@@ -8134,18 +8267,19 @@ components:
             for elements with the same Name exist.
           type: string
         Name:
-          description: "The Name of the SimpleItemDescription/ElementItemDescription\n\
-            \t\t\t\t\t\t\tthe ConfigOptions applies to."
+          description: |-
+            The Name of the SimpleItemDescription/ElementItemDescription
+            the ConfigOptions applies to.
           type: string
         RuleType:
           description: The RuleType the ConfigOptions applies to if the Name attribute
             is ambiguous.
           type: string
         Type:
-          description: "Type of the Rule Options represented by a unique QName. \n\
-            \t\t\t\t\t\t\tThe Type defines the element contained in this structure.\n\
-            \t\t\t\t\t\t\tThis attribute is deprecated since its value must be identical\
-            \ to the embedded element."
+          description: |-
+            Type of the Rule Options represented by a unique QName. 
+            The Type defines the element contained in this structure.
+            This attribute is deprecated since its value must be identical to the embedded element.
           type: string
         maxOccurs:
           description: Maximum number of occurrences. Defaults to one.
@@ -8216,6 +8350,19 @@ components:
       - ConfigurationToken
       - RuleName
       type: object
+    analytics_GetAnalyticsModuleOptions:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing AnalyticsConfiguration.
+          maxLength: 64
+          type: string
+        Type:
+          description: Reference to an SupportedAnalyticsModule Type returned from
+            GetSupportedAnalyticsModules.
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     analytics_GetAnalyticsModuleOptionsResponse:
       properties:
         Options:
@@ -8225,12 +8372,33 @@ components:
             $ref: '#/components/schemas/analytics_ConfigOptions'
           type: array
       type: object
+    analytics_GetAnalyticsModules:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing VideoAnalyticsConfiguration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     analytics_GetAnalyticsModulesResponse:
       properties:
         AnalyticsModule:
           items:
             $ref: '#/components/schemas/onvif_Config'
           type: array
+      type: object
+    analytics_GetRuleOptions:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing analytics configuration.
+          maxLength: 64
+          type: string
+        RuleType:
+          description: Reference to an SupportedRule Type returned from GetSupportedRules.
+          type: string
+      required:
+      - ConfigurationToken
       type: object
     analytics_GetRuleOptionsResponse:
       properties:
@@ -8242,6 +8410,15 @@ components:
             $ref: '#/components/schemas/analytics_ConfigOptions'
           type: array
       type: object
+    analytics_GetRules:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing VideoAnalyticsConfiguration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     analytics_GetRulesResponse:
       properties:
         Rule:
@@ -8249,12 +8426,32 @@ components:
             $ref: '#/components/schemas/onvif_Config'
           type: array
       type: object
+    analytics_GetSupportedAnalyticsModules:
+      properties:
+        ConfigurationToken:
+          description: Reference to an existing VideoAnalyticsConfiguration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     analytics_GetSupportedAnalyticsModulesResponse:
       properties:
         SupportedAnalyticsModules:
           $ref: '#/components/schemas/onvif_SupportedAnalyticsModules'
       required:
       - SupportedAnalyticsModules
+      type: object
+    analytics_GetSupportedRules:
+      properties:
+        ConfigurationToken:
+          description: |-
+            References an existing Video Analytics configuration. The list of available tokens can be obtained
+            via the Media service GetVideoAnalyticsConfigurations method.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
       type: object
     analytics_GetSupportedRulesResponse:
       properties:
@@ -8336,9 +8533,9 @@ components:
       allOf:
       - $ref: '#/components/schemas/onvif_ConfigurationEntity'
       - type: object
-      description: "The Audio Decoder Configuration does not contain any that parameter\
-        \ to configure the\ndecoding .A decoder shall decode every data it receives\
-        \ (according to its capabilities)."
+      description: |-
+        The Audio Decoder Configuration does not contain any that parameter to configure the
+        decoding .A decoder shall decode every data it receives (according to its capabilities).
     onvif_AudioEncoder2Configuration:
       allOf:
       - $ref: '#/components/schemas/onvif_ConfigurationEntity'
@@ -8417,13 +8614,13 @@ components:
             maxLength: 64
             type: string
           SendPrimacy:
-            description: "An audio channel MAY support different types of audio transmission.\
-              \ While for full duplex\n\t\t\t\t\t\toperation no special handling is\
-              \ required, in half duplex operation the transmission direction\n\t\t\
-              \t\t\t\tneeds to be switched.\n\t\t\t\t\t\tThe optional SendPrimacy\
-              \ parameter inside the AudioOutputConfiguration indicates which\n\t\t\
-              \t\t\t\tdirection is currently active. An NVC can switch between different\
-              \ modes by setting the\n\t\t\t\t\t\tAudioOutputConfiguration."
+            description: |-
+              An audio channel MAY support different types of audio transmission. While for full duplex
+              operation no special handling is required, in half duplex operation the transmission direction
+              needs to be switched.
+              The optional SendPrimacy parameter inside the AudioOutputConfiguration indicates which
+              direction is currently active. An NVC can switch between different modes by setting the
+              AudioOutputConfiguration.
             type: string
         required:
         - OutputToken
@@ -8490,6 +8687,16 @@ components:
       type: object
     onvif_CapabilitiesExtension2:
       type: object
+    onvif_CapabilityCategory:
+      enum:
+      - All
+      - Analytics
+      - Device
+      - Events
+      - Imaging
+      - Media
+      - PTZ
+      type: string
     onvif_Config:
       properties:
         Name:
@@ -8515,14 +8722,11 @@ components:
         Extension:
           $ref: '#/components/schemas/onvif_ConfigDescriptionExtension'
         Messages:
-          description: "The analytics modules and rule engine produce Events, which\
-            \ must be listed within the Analytics Module Description. In order to\
-            \ do so\n\t\t\t\t\t\tthe structure of the Message is defined and consists\
-            \ of three groups: Source, Key, and Data. It is recommended to use SimpleItemDescriptions\
-            \ wherever applicable.\n\t\t\t\t\t\tThe name of all Items must be unique\
-            \ within all Items contained in any group of this Message.\n\t\t\t\t\t\
-            \tDepending on the component multiple parameters or none may be needed\
-            \ to identify the component uniquely."
+          description: |-
+            The analytics modules and rule engine produce Events, which must be listed within the Analytics Module Description. In order to do so
+            the structure of the Message is defined and consists of three groups: Source, Key, and Data. It is recommended to use SimpleItemDescriptions wherever applicable.
+            The name of all Items must be unique within all Items contained in any group of this Message.
+            Depending on the component multiple parameters or none may be needed to identify the component uniquely.
           items:
             $ref: '#/components/schemas/onvif_Messages'
           type: array
@@ -8533,10 +8737,10 @@ components:
         Parameters:
           allOf:
           - $ref: '#/components/schemas/onvif_ItemListDescription'
-          - description: "List describing the configuration parameters. The names\
-              \ of the parameters must be unique. If possible SimpleItems\n\t\t\t\t\
-              \t\tshould be used to transport the information to ease parsing of dynamically\
-              \ defined messages by a client\n\t\t\t\t\t\tapplication."
+          - description: |-
+              List describing the configuration parameters. The names of the parameters must be unique. If possible SimpleItems
+              should be used to transport the information to ease parsing of dynamically defined messages by a client
+              application.
         fixed:
           description: The fixed attribute signals that it is not allowed to add or
             remove this type of configuration.
@@ -8752,9 +8956,9 @@ components:
           format: binary
           type: string
         Passphrase:
-          description: "According to IEEE802.11-2007 H.4.1 a pass-phrase is a sequence\
-            \ of between 8 and 63 ASCII-encoded characters and\n\t\t\t\t\teach character\
-            \ in the pass-phrase must have an encoding in the range of 32 to 126 (decimal),inclusive."
+          description: |-
+            According to IEEE802.11-2007 H.4.1 a pass-phrase is a sequence of between 8 and 63 ASCII-encoded characters and
+            each character in the pass-phrase must have an encoding in the range of 32 to 126 (decimal),inclusive.
           pattern: '[ -~]{8,63}'
           type: string
       type: object
@@ -9223,10 +9427,10 @@ components:
           type: array
       type: object
     onvif_ItemListDescription:
-      description: "Describes a list of items. Each item in the list shall have a\
-        \ unique name.\n\t\t\tThe list is designed as linear structure without optional\
-        \ or unbounded elements.\n\t\t\tUse ElementItems only when complex structures\
-        \ are inevitable."
+      description: |-
+        Describes a list of items. Each item in the list shall have a unique name.
+        The list is designed as linear structure without optional or unbounded elements.
+        Use ElementItems only when complex structures are inevitable.
       properties:
         ElementItemDescription:
           description: Description of a complex type. The Type must reference a defined
@@ -9291,12 +9495,10 @@ components:
           - description: Offset of the lens center to the imager center in normalized
               coordinates.
         Projection:
-          description: "Radial description of the projection characteristics. The\
-            \ resulting curve is defined by the B-Spline interpolation \n\t\t\t\t\t\
-            over the given elements. The element for Radius zero shall not be provided.\
-            \ The projection points shall be ordered with ascending Radius. \n\t\t\
-            \t\t\tItems outside the last projection Radius shall be assumed to be\
-            \ invisible (black)."
+          description: |-
+            Radial description of the projection characteristics. The resulting curve is defined by the B-Spline interpolation 
+            over the given elements. The element for Radius zero shall not be provided. The projection points shall be ordered with ascending Radius. 
+            Items outside the last projection Radius shall be assumed to be invisible (black).
           items:
             $ref: '#/components/schemas/onvif_LensProjection'
           type: array
@@ -9404,10 +9606,9 @@ components:
         Source:
           allOf:
           - $ref: '#/components/schemas/onvif_ItemListDescription'
-          - description: "Set of tokens producing this message. The list may only\
-              \ contain SimpleItemDescription items.\n\t\t\t\t\tThe set of tokens\
-              \ identify the component within the WS-Endpoint, which is responsible\
-              \ for the producing the message."
+          - description: |-
+              Set of tokens producing this message. The list may only contain SimpleItemDescription items.
+              The set of tokens identify the component within the WS-Endpoint, which is responsible for the producing the message.
       type: object
     onvif_MessageDescriptionExtension:
       type: object
@@ -9422,14 +9623,11 @@ components:
         required:
         - ParentTopic
         type: object
-      description: "The analytics modules and rule engine produce Events, which must\
-        \ be listed within the Analytics Module Description. In order to do so\n\t\
-        \t\t\t\t\tthe structure of the Message is defined and consists of three groups:\
-        \ Source, Key, and Data. It is recommended to use SimpleItemDescriptions wherever\
-        \ applicable.\n\t\t\t\t\t\tThe name of all Items must be unique within all\
-        \ Items contained in any group of this Message.\n\t\t\t\t\t\tDepending on\
-        \ the component multiple parameters or none may be needed to identify the\
-        \ component uniquely."
+      description: |-
+        The analytics modules and rule engine produce Events, which must be listed within the Analytics Module Description. In order to do so
+        the structure of the Message is defined and consists of three groups: Source, Key, and Data. It is recommended to use SimpleItemDescriptions wherever applicable.
+        The name of all Items must be unique within all Items contained in any group of this Message.
+        Depending on the component multiple parameters or none may be needed to identify the component uniquely.
     onvif_MetadataConfiguration:
       allOf:
       - $ref: '#/components/schemas/onvif_ConfigurationEntity'
@@ -9441,9 +9639,9 @@ components:
           AnalyticsEngineConfiguration:
             allOf:
             - $ref: '#/components/schemas/onvif_AnalyticsEngineConfiguration'
-            - description: "Indication which AnalyticsModules shall output metadata.\n\
-                \t\t\t\t\t\t\tNote that the streaming behavior is undefined if the\
-                \ list includes items that are not part of the associated AnalyticsConfiguration."
+            - description: |-
+                Indication which AnalyticsModules shall output metadata.
+                Note that the streaming behavior is undefined if the list includes items that are not part of the associated AnalyticsConfiguration.
           CompressionType:
             description: Optional parameter to configure compression type of Metadata
               payload. Use values from enumeration MetadataCompressionType.
@@ -9451,9 +9649,9 @@ components:
           Events:
             allOf:
             - $ref: '#/components/schemas/onvif_EventSubscription'
-            - description: "Optional element to configure the streaming of events.\
-                \ A client might be interested in receiving all, \n\t\t\t\t\t\t\t\t\
-                none or some of the events produced by the device:"
+            - description: |-
+                Optional element to configure the streaming of events. A client might be interested in receiving all, 
+                none or some of the events produced by the device:
           Extension:
             $ref: '#/components/schemas/onvif_MetadataConfigurationExtension'
           GeoLocation:
@@ -9871,10 +10069,10 @@ components:
           format: int32
           type: integer
         Minor:
-          description: "Two digit minor version number.\n\t\t\t\t\t\tIf major version\
-            \ number is less than \"16\", X.0.1 maps to \"01\" and X.2.1 maps to \"\
-            21\" where X stands for Major version number.\n\t\t\t\t\t\tOtherwise,\
-            \ minor number is month of release, such as \"06\" for June."
+          description: |-
+            Two digit minor version number.
+            If major version number is less than "16", X.0.1 maps to "01" and X.2.1 maps to "21" where X stands for Major version number.
+            Otherwise, minor number is month of release, such as "06" for June.
           format: int32
           type: integer
       required:
@@ -10020,9 +10218,10 @@ components:
           - $ref: '#/components/schemas/onvif_PTControlDirectionOptions'
           - description: Supported options for PT Direction Control.
         PTZRamps:
-          description: "The list of acceleration ramps supported by the device. The\n\
-            \t\t\t\t\tsmallest acceleration value corresponds to the minimal index,\
-            \ the\n\t\t\t\t\thighest acceleration corresponds to the maximum index."
+          description: |-
+            The list of acceleration ramps supported by the device. The
+            smallest acceleration value corresponds to the minimal index, the
+            highest acceleration corresponds to the maximum index.
           format: int32
           type: integer
         PTZTimeout:
@@ -10163,84 +10362,66 @@ components:
     onvif_PTZSpaces:
       properties:
         AbsolutePanTiltPositionSpace:
-          description: "The Generic Pan/Tilt Position space is provided by every PTZ\
-            \ node that supports absolute Pan/Tilt, since it does not relate to a\
-            \ specific physical range. \n\t\t\tInstead, the range should be defined\
-            \ as the full range of the PTZ unit normalized to the range -1 to 1 resulting\
-            \ in the following space description."
+          description: |-
+            The Generic Pan/Tilt Position space is provided by every PTZ node that supports absolute Pan/Tilt, since it does not relate to a specific physical range. 
+            Instead, the range should be defined as the full range of the PTZ unit normalized to the range -1 to 1 resulting in the following space description.
           items:
             $ref: '#/components/schemas/onvif_Space2DDescription'
           type: array
         AbsoluteZoomPositionSpace:
-          description: "The Generic Zoom Position Space is provided by every PTZ node\
-            \ that supports absolute Zoom, since it does not relate to a specific\
-            \ physical range. \n\t\t\tInstead, the range should be defined as the\
-            \ full range of the Zoom normalized to the range 0 (wide) to 1 (tele).\
-            \ \n\t\t\tThere is no assumption about how the generic zoom range is mapped\
-            \ to magnification, FOV or other physical zoom dimension."
+          description: |-
+            The Generic Zoom Position Space is provided by every PTZ node that supports absolute Zoom, since it does not relate to a specific physical range. 
+            Instead, the range should be defined as the full range of the Zoom normalized to the range 0 (wide) to 1 (tele). 
+            There is no assumption about how the generic zoom range is mapped to magnification, FOV or other physical zoom dimension.
           items:
             $ref: '#/components/schemas/onvif_Space1DDescription'
           type: array
         ContinuousPanTiltVelocitySpace:
-          description: "The generic Pan/Tilt velocity space shall be provided by every\
-            \ PTZ node, since it does not relate to a specific physical range. \n\t\
-            \t\tInstead, the range should be defined as a range of the PTZ unit’s\
-            \ speed normalized to the range -1 to 1, where a positive velocity would\
-            \ map to clockwise \n\t\t\trotation or movement in the right/up direction.\
-            \ A signed speed can be independently specified for the pan and tilt component\
-            \ resulting in the following space description."
+          description: |-
+            The generic Pan/Tilt velocity space shall be provided by every PTZ node, since it does not relate to a specific physical range. 
+            Instead, the range should be defined as a range of the PTZ unit’s speed normalized to the range -1 to 1, where a positive velocity would map to clockwise 
+            rotation or movement in the right/up direction. A signed speed can be independently specified for the pan and tilt component resulting in the following space description.
           items:
             $ref: '#/components/schemas/onvif_Space2DDescription'
           type: array
         ContinuousZoomVelocitySpace:
-          description: "The generic zoom velocity space specifies a zoom factor velocity\
-            \ without knowing the underlying physical model. The range should be normalized\
-            \ from -1 to 1, \n\t\t\twhere a positive velocity would map to TELE direction.\
-            \ A generic zoom velocity space description resembles the following."
+          description: |-
+            The generic zoom velocity space specifies a zoom factor velocity without knowing the underlying physical model. The range should be normalized from -1 to 1, 
+            where a positive velocity would map to TELE direction. A generic zoom velocity space description resembles the following.
           items:
             $ref: '#/components/schemas/onvif_Space1DDescription'
           type: array
         Extension:
           $ref: '#/components/schemas/onvif_PTZSpacesExtension'
         PanTiltSpeedSpace:
-          description: "The speed space specifies the speed for a Pan/Tilt movement\
-            \ when moving to an absolute position or to a relative translation. \n\
-            \t\t\tIn contrast to the velocity spaces, speed spaces do not contain\
-            \ any directional information. The speed of a combined Pan/Tilt \n\t\t\
-            \tmovement is represented by a single non-negative scalar value."
+          description: |-
+            The speed space specifies the speed for a Pan/Tilt movement when moving to an absolute position or to a relative translation. 
+            In contrast to the velocity spaces, speed spaces do not contain any directional information. The speed of a combined Pan/Tilt 
+            movement is represented by a single non-negative scalar value.
           items:
             $ref: '#/components/schemas/onvif_Space1DDescription'
           type: array
         RelativePanTiltTranslationSpace:
-          description: "The Generic Pan/Tilt translation space is provided by every\
-            \ PTZ node that supports relative Pan/Tilt, since it does not relate to\
-            \ a specific physical range. \n\t\t\tInstead, the range should be defined\
-            \ as the full positive and negative translation range of the PTZ unit\
-            \ normalized to the range -1 to 1, \n\t\t\twhere positive translation\
-            \ would mean clockwise rotation or movement in right/up direction resulting\
-            \ in the following space description."
+          description: |-
+            The Generic Pan/Tilt translation space is provided by every PTZ node that supports relative Pan/Tilt, since it does not relate to a specific physical range. 
+            Instead, the range should be defined as the full positive and negative translation range of the PTZ unit normalized to the range -1 to 1, 
+            where positive translation would mean clockwise rotation or movement in right/up direction resulting in the following space description.
           items:
             $ref: '#/components/schemas/onvif_Space2DDescription'
           type: array
         RelativeZoomTranslationSpace:
-          description: "The Generic Zoom Translation Space is provided by every PTZ\
-            \ node that supports relative Zoom, since it does not relate to a specific\
-            \ physical range. \n\t\t\tInstead, the corresponding absolute range should\
-            \ be defined as the full positive and negative translation range of the\
-            \ Zoom normalized to the range -1 to1, \n\t\t\twhere a positive translation\
-            \ maps to a movement in TELE direction. The translation is signed to indicate\
-            \ direction (negative is to wide, positive is to tele). \n\t\t\tThere\
-            \ is no assumption about how the generic zoom range is mapped to magnification,\
-            \ FOV or other physical zoom dimension. This results in the following\
-            \ space description."
+          description: |-
+            The Generic Zoom Translation Space is provided by every PTZ node that supports relative Zoom, since it does not relate to a specific physical range. 
+            Instead, the corresponding absolute range should be defined as the full positive and negative translation range of the Zoom normalized to the range -1 to1, 
+            where a positive translation maps to a movement in TELE direction. The translation is signed to indicate direction (negative is to wide, positive is to tele). 
+            There is no assumption about how the generic zoom range is mapped to magnification, FOV or other physical zoom dimension. This results in the following space description.
           items:
             $ref: '#/components/schemas/onvif_Space1DDescription'
           type: array
         ZoomSpeedSpace:
-          description: "The speed space specifies the speed for a Zoom movement when\
-            \ moving to an absolute position or to a relative translation. \n\t\t\t\
-            In contrast to the velocity spaces, speed spaces do not contain any directional\
-            \ information."
+          description: |-
+            The speed space specifies the speed for a Zoom movement when moving to an absolute position or to a relative translation. 
+            In contrast to the velocity spaces, speed spaces do not contain any directional information.
           items:
             $ref: '#/components/schemas/onvif_Space1DDescription'
           type: array
@@ -10354,9 +10535,9 @@ components:
       - PrefixLength
       type: object
     onvif_Profile:
-      description: "A media profile consists of a set of media configurations. Media\
-        \ profiles are used by a client\n\t\t\tto configure properties of a media\
-        \ stream from an NVT."
+      description: |-
+        A media profile consists of a set of media configurations. Media profiles are used by a client
+        to configure properties of a media stream from an NVT.
       properties:
         AudioEncoderConfiguration:
           allOf:
@@ -10607,11 +10788,10 @@ components:
           - description: Parameter to assign the way the camera determines the scene
               orientation.
         Orientation:
-          description: "Assigned or determined scene orientation based on the Mode.\
-            \ When assigning the Mode to AUTO, this field \n\t\t\t\t\t\tis optional\
-            \ and will be ignored by the device. When assigning the Mode to MANUAL,\
-            \ this field is required \n\t\t\t\t\t\tand the device will return an InvalidArgs\
-            \ fault if missing."
+          description: |-
+            Assigned or determined scene orientation based on the Mode. When assigning the Mode to AUTO, this field 
+            is optional and will be ignored by the device. When assigning the Mode to MANUAL, this field is required 
+            and the device will return an InvalidArgs fault if missing.
           type: string
       required:
       - Mode
@@ -10797,12 +10977,11 @@ components:
     onvif_SupportedAnalyticsModules:
       properties:
         AnalyticsModuleContentSchemaLocation:
-          description: "It optionally contains a list of URLs that provide the location\
-            \ of schema files.\n\t\t\t\t\tThese schema files describe the types and\
-            \ elements used in the analytics module descriptions.\n\t\t\t\t\tAnalytics\
-            \ module descriptions that reference types or elements imported from any\
-            \ ONVIF defined schema files\n\t\t\t\t\tneed not explicitly list those\
-            \ schema files."
+          description: |-
+            It optionally contains a list of URLs that provide the location of schema files.
+            These schema files describe the types and elements used in the analytics module descriptions.
+            Analytics module descriptions that reference types or elements imported from any ONVIF defined schema files
+            need not explicitly list those schema files.
           items:
             type: string
           type: array
@@ -11059,10 +11238,10 @@ components:
             format: int32
             type: integer
           GuaranteedFrameRate:
-            description: "A value of true indicates that frame rate is a fixed value\
-              \ rather than an upper limit,\n\t\t\t\t\t\t\tand that the video encoder\
-              \ shall prioritize frame rate over all other adaptable\n\t\t\t\t\t\t\
-              \tconfiguration values such as bitrate.  Default is false."
+            description: |-
+              A value of true indicates that frame rate is a fixed value rather than an upper limit,
+              and that the video encoder shall prioritize frame rate over all other adaptable
+              configuration values such as bitrate.  Default is false.
             type: boolean
           Multicast:
             allOf:
@@ -11099,10 +11278,10 @@ components:
             - $ref: '#/components/schemas/onvif_VideoEncoding'
             - description: Used video codec, either Jpeg, H.264 or Mpeg4
           GuaranteedFrameRate:
-            description: "A value of true indicates that frame rate is a fixed value\
-              \ rather than an upper limit,\n\t\t\t\t\t\t\tand that the video encoder\
-              \ shall prioritize frame rate over all other adaptable\n\t\t\t\t\t\t\
-              \tconfiguration values such as bitrate.  Default is false."
+            description: |-
+              A value of true indicates that frame rate is a fixed value rather than an upper limit,
+              and that the video encoder shall prioritize frame rate over all other adaptable
+              configuration values such as bitrate.  Default is false.
             type: boolean
           H264:
             allOf:
@@ -11294,9 +11473,9 @@ components:
         Rotate:
           allOf:
           - $ref: '#/components/schemas/onvif_Rotate'
-          - description: "Optional element to configure rotation of captured image.\n\
-              \t\t\t\t\t\tWhat resolutions a device supports shall be unaffected by\
-              \ the Rotate parameters."
+          - description: |-
+              Optional element to configure rotation of captured image.
+              What resolutions a device supports shall be unaffected by the Rotate parameters.
       type: object
     onvif_VideoSourceConfigurationExtension2:
       properties:
@@ -11410,6 +11589,14 @@ components:
       - Security
       - System
       type: object
+    device_GetCapabilities:
+      properties:
+        Category:
+          description: List of categories to retrieve capability information on.
+          items:
+            $ref: '#/components/schemas/onvif_CapabilityCategory'
+          type: array
+      type: object
     device_GetCapabilitiesResponse:
       properties:
         Capabilities:
@@ -11419,6 +11606,8 @@ components:
       required:
       - Capabilities
       type: object
+    device_GetDNS:
+      type: object
     device_GetDNSResponse:
       properties:
         DNSInformation:
@@ -11427,6 +11616,8 @@ components:
           - description: DNS information.
       required:
       - DNSInformation
+      type: object
+    device_GetDeviceInformation:
       type: object
     device_GetDeviceInformationResponse:
       properties:
@@ -11452,6 +11643,8 @@ components:
       - SerialNumber
       - HardwareId
       type: object
+    device_GetDiscoveryMode:
+      type: object
     device_GetDiscoveryModeResponse:
       properties:
         DiscoveryMode:
@@ -11461,12 +11654,16 @@ components:
       required:
       - DiscoveryMode
       type: object
+    device_GetEndpointReference:
+      type: object
     device_GetEndpointReferenceResponse:
       properties:
         GUID:
           type: string
       required:
       - GUID
+      type: object
+    device_GetHostname:
       type: object
     device_GetHostnameResponse:
       properties:
@@ -11476,6 +11673,8 @@ components:
           - description: Contains the hostname information.
       required:
       - HostnameInformation
+      type: object
+    device_GetNetworkDefaultGateway:
       type: object
     device_GetNetworkDefaultGatewayResponse:
       properties:
@@ -11487,6 +11686,8 @@ components:
       required:
       - NetworkGateway
       type: object
+    device_GetNetworkInterfaces:
+      type: object
     device_GetNetworkInterfacesResponse:
       properties:
         NetworkInterfaces:
@@ -11497,6 +11698,8 @@ components:
       required:
       - NetworkInterfaces
       type: object
+    device_GetNetworkProtocols:
+      type: object
     device_GetNetworkProtocolsResponse:
       properties:
         NetworkProtocols:
@@ -11506,6 +11709,8 @@ components:
           items:
             $ref: '#/components/schemas/onvif_NetworkProtocol'
           type: array
+      type: object
+    device_GetScopes:
       type: object
     device_GetScopesResponse:
       properties:
@@ -11519,6 +11724,8 @@ components:
       required:
       - Scopes
       type: object
+    device_GetServiceCapabilities:
+      type: object
     device_GetServiceCapabilitiesResponse:
       properties:
         Capabilities:
@@ -11528,6 +11735,8 @@ components:
               Capabilities element.
       required:
       - Capabilities
+      type: object
+    device_GetSystemDateAndTime:
       type: object
     device_GetSystemDateAndTimeResponse:
       properties:
@@ -11540,6 +11749,8 @@ components:
               date and time.
       required:
       - SystemDateAndTime
+      type: object
+    device_GetUsers:
       type: object
     device_GetUsersResponse:
       properties:
@@ -11910,6 +12121,8 @@ components:
           description: Indicates that the WS Subscription policy is supported.
           type: boolean
       type: object
+    event_GetEventProperties:
+      type: object
     event_GetEventPropertiesResponse:
       properties:
         FixedTopicSet:
@@ -11922,12 +12135,11 @@ components:
             type: string
           type: array
         MessageContentSchemaLocation:
-          description: "The Message Content Description Language allows referencing\n\
-            \t\t\t\t\t\t\tof vendor-specific types. In order to ease the integration\
-            \ of such types into a client application,\n\t\t\t\t\t\t\tthe GetEventPropertiesResponse\
-            \ shall list all URI locations to schema files whose types are\n\t\t\t\
-            \t\t\t\tused in the description of notifications, with MessageContentSchemaLocation\
-            \ elements."
+          description: |-
+            The Message Content Description Language allows referencing
+            of vendor-specific types. In order to ease the integration of such types into a client application,
+            the GetEventPropertiesResponse shall list all URI locations to schema files whose types are
+            used in the description of notifications, with MessageContentSchemaLocation elements.
           items:
             type: string
           type: array
@@ -11959,6 +12171,8 @@ components:
       - MessageContentFilterDialect
       - MessageContentSchemaLocation
       type: object
+    event_GetServiceCapabilities:
+      type: object
     event_GetServiceCapabilitiesResponse:
       properties:
         Capabilities:
@@ -11975,13 +12189,15 @@ components:
           description: Indicates whether or not imaging preset settings can be updated.
           type: boolean
         ImageStabilization:
-          description: "Indicates whether or not Image Stabilization feature is supported.\n\
-            \t\t\t\t\t\tThe use of this capability is deprecated, a client should\
-            \ use GetOption to find out if image stabilization is supported."
+          description: |-
+            Indicates whether or not Image Stabilization feature is supported.
+            The use of this capability is deprecated, a client should use GetOption to find out if image stabilization is supported.
           type: boolean
         Presets:
           description: Indicates whether or not Imaging Presets feature is supported.
           type: boolean
+      type: object
+    imaging_GetServiceCapabilities:
       type: object
     imaging_GetServiceCapabilitiesResponse:
       properties:
@@ -12056,6 +12272,16 @@ components:
       - ProfileCapabilities
       - StreamingCapabilities
       type: object
+    media_GetCompatibleMetadataConfigurations:
+      properties:
+        ProfileToken:
+          description: Contains the token of an existing media profile the configurations
+            shall be compatible with.
+          maxLength: 64
+          type: string
+      required:
+      - ProfileToken
+      type: object
     media_GetCompatibleMetadataConfigurationsResponse:
       properties:
         Configurations:
@@ -12064,6 +12290,28 @@ components:
           items:
             $ref: '#/components/schemas/onvif_MetadataConfiguration'
           type: array
+      type: object
+    media_GetMetadataConfiguration:
+      properties:
+        ConfigurationToken:
+          description: Token of the requested metadata configuration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
+    media_GetMetadataConfigurationOptions:
+      properties:
+        ConfigurationToken:
+          description: Optional metadata configuration token that specifies an existing
+            configuration that the options are intended for.
+          maxLength: 64
+          type: string
+        ProfileToken:
+          description: Optional ProfileToken that specifies an existing media profile
+            that the options shall be compatible with.
+          maxLength: 64
+          type: string
       type: object
     media_GetMetadataConfigurationOptionsResponse:
       properties:
@@ -12087,6 +12335,8 @@ components:
       required:
       - Configuration
       type: object
+    media_GetMetadataConfigurations:
+      type: object
     media_GetMetadataConfigurationsResponse:
       properties:
         Configurations:
@@ -12095,6 +12345,8 @@ components:
             $ref: '#/components/schemas/onvif_MetadataConfiguration'
           type: array
       type: object
+    media_GetProfiles:
+      type: object
     media_GetProfilesResponse:
       properties:
         Profiles:
@@ -12102,6 +12354,8 @@ components:
           items:
             $ref: '#/components/schemas/onvif_Profile'
           type: array
+      type: object
+    media_GetServiceCapabilities:
       type: object
     media_GetServiceCapabilitiesResponse:
       properties:
@@ -12113,6 +12367,16 @@ components:
       required:
       - Capabilities
       type: object
+    media_GetSnapshotUri:
+      properties:
+        ProfileToken:
+          description: The ProfileToken element indicates the media profile to use
+            and will define the source and dimensions of the snapshot.
+          maxLength: 64
+          type: string
+      required:
+      - ProfileToken
+      type: object
     media_GetSnapshotUriResponse:
       properties:
         MediaUri:
@@ -12120,12 +12384,49 @@ components:
       required:
       - MediaUri
       type: object
+    media_GetStreamUri:
+      properties:
+        ProfileToken:
+          description: The ProfileToken element indicates the media profile to use
+            and will define the configuration of the content of the stream.
+          maxLength: 64
+          type: string
+        StreamSetup:
+          allOf:
+          - $ref: '#/components/schemas/onvif_StreamSetup'
+          - description: Stream Setup that should be used with the uri
+      required:
+      - StreamSetup
+      - ProfileToken
+      type: object
     media_GetStreamUriResponse:
       properties:
         MediaUri:
           $ref: '#/components/schemas/onvif_MediaUri'
       required:
       - MediaUri
+      type: object
+    media_GetVideoEncoderConfiguration:
+      properties:
+        ConfigurationToken:
+          description: Token of the requested video encoder configuration.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
+    media_GetVideoEncoderConfigurationOptions:
+      properties:
+        ConfigurationToken:
+          description: Optional video encoder configuration token that specifies an
+            existing configuration that the options are intended for.
+          maxLength: 64
+          type: string
+        ProfileToken:
+          description: Optional ProfileToken that specifies an existing media profile
+            that the options shall be compatible with.
+          maxLength: 64
+          type: string
       type: object
     media_GetVideoEncoderConfigurationOptionsResponse:
       properties:
@@ -12142,6 +12443,8 @@ components:
           - description: The requested video encoder configuration.
       required:
       - Configuration
+      type: object
+    media_GetVideoEncoderConfigurations:
       type: object
     media_GetVideoEncoderConfigurationsResponse:
       properties:
@@ -12161,8 +12464,9 @@ components:
     media_RemoveMetadataConfiguration:
       properties:
         ProfileToken:
-          description: "Contains a reference to the media profile from which the\n\
-            MetadataConfiguration shall be removed."
+          description: |-
+            Contains a reference to the media profile from which the
+            MetadataConfiguration shall be removed.
           maxLength: 64
           type: string
       required:
@@ -12171,8 +12475,9 @@ components:
     media_RemovePTZConfiguration:
       properties:
         ProfileToken:
-          description: "Contains a reference to the media profile from which the\n\
-            PTZConfiguration shall be removed."
+          description: |-
+            Contains a reference to the media profile from which the
+            PTZConfiguration shall be removed.
           maxLength: 64
           type: string
       required:
@@ -12252,13 +12557,12 @@ components:
     media2_ConfigurationRef:
       properties:
         Token:
-          description: "Reference token of an existing configuration.\n\t\t\t\t\t\t\
-            \tToken shall be included in the AddConfiguration request along with the\
-            \ type.\n\t\t\t\t\t\t\tToken shall be included in the CreateProfile request\
-            \ when Configuration elements are included and type is selected.\n\t\t\
-            \t\t\t\t\tToken is optional for RemoveConfiguration request. If no token\
-            \ is provided in RemoveConfiguration request, device shall\n\t\t\t\t\t\
-            \t\tremove the configuration of the type included in the profile."
+          description: |-
+            Reference token of an existing configuration.
+            Token shall be included in the AddConfiguration request along with the type.
+            Token shall be included in the CreateProfile request when Configuration elements are included and type is selected.
+            Token is optional for RemoveConfiguration request. If no token is provided in RemoveConfiguration request, device shall
+            remove the configuration of the type included in the profile.
           maxLength: 64
           type: string
         Type:
@@ -12319,13 +12623,24 @@ components:
             $ref: '#/components/schemas/onvif_VideoAnalyticsConfiguration'
           type: array
       type: object
+    media2_GetProfiles:
+      properties:
+        Token:
+          description: Optional token of the requested profile.
+          maxLength: 64
+          type: string
+        Type:
+          description: The types shall be provided as defined by tr2:ConfigurationEnumeration.
+          items:
+            type: string
+          type: array
+      type: object
     media2_GetProfilesResponse:
       properties:
         Profiles:
-          description: "Lists all profiles that exist in the media service. The response\
-            \ provides the requested types of Configurations as far as available.\
-            \ \n\t\t\t\t\t\t\t\t\tIf a profile doesn't contain a type no error shall\
-            \ be provided."
+          description: |-
+            Lists all profiles that exist in the media service. The response provides the requested types of Configurations as far as available. 
+            If a profile doesn't contain a type no error shall be provided.
           items:
             $ref: '#/components/schemas/media2_MediaProfile'
           type: array
@@ -12440,6 +12755,25 @@ components:
       - ProfileToken
       - Velocity
       type: object
+    ptz_GetConfiguration:
+      properties:
+        PTZConfigurationToken:
+          description: Token of the requested PTZConfiguration.
+          maxLength: 64
+          type: string
+      required:
+      - PTZConfigurationToken
+      type: object
+    ptz_GetConfigurationOptions:
+      properties:
+        ConfigurationToken:
+          description: Token of an existing configuration that the options are intended
+            for.
+          maxLength: 64
+          type: string
+      required:
+      - ConfigurationToken
+      type: object
     ptz_GetConfigurationOptionsResponse:
       properties:
         PTZConfigurationOptions:
@@ -12458,6 +12792,8 @@ components:
       required:
       - PTZConfiguration
       type: object
+    ptz_GetConfigurations:
+      type: object
     ptz_GetConfigurationsResponse:
       properties:
         PTZConfiguration:
@@ -12465,6 +12801,15 @@ components:
           items:
             $ref: '#/components/schemas/onvif_PTZConfiguration'
           type: array
+      type: object
+    ptz_GetNode:
+      properties:
+        NodeToken:
+          description: Token of the requested PTZNode.
+          maxLength: 64
+          type: string
+      required:
+      - NodeToken
       type: object
     ptz_GetNodeResponse:
       properties:
@@ -12475,6 +12820,8 @@ components:
       required:
       - PTZNode
       type: object
+    ptz_GetNodes:
+      type: object
     ptz_GetNodesResponse:
       properties:
         PTZNode:
@@ -12483,6 +12830,16 @@ components:
             $ref: '#/components/schemas/onvif_PTZNode'
           type: array
       type: object
+    ptz_GetPresets:
+      properties:
+        ProfileToken:
+          description: A reference to the MediaProfile where the operation should
+            take place.
+          maxLength: 64
+          type: string
+      required:
+      - ProfileToken
+      type: object
     ptz_GetPresetsResponse:
       properties:
         Preset:
@@ -12490,6 +12847,8 @@ components:
           items:
             $ref: '#/components/schemas/onvif_PTZPreset'
           type: array
+      type: object
+    ptz_GetServiceCapabilities:
       type: object
     ptz_GetServiceCapabilitiesResponse:
       properties:
@@ -12500,6 +12859,16 @@ components:
               element.
       required:
       - Capabilities
+      type: object
+    ptz_GetStatus:
+      properties:
+        ProfileToken:
+          description: A reference to the MediaProfile where the PTZStatus should
+            be requested.
+          maxLength: 64
+          type: string
+      required:
+      - ProfileToken
       type: object
     ptz_GetStatusResponse:
       properties:
