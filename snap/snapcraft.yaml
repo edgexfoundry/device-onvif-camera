@@ -12,6 +12,10 @@ architectures:
 grade: stable
 confinement: strict
 
+# 0: <=levski
+# 1: minnesota
+epoch: 1
+
 slots:
   edgex-secretstore-token:
     interface: content
