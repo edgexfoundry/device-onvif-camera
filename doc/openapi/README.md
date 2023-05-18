@@ -51,6 +51,6 @@ This folder contains files generated from the official Onvif wsdl
 spec files. The wsdl files were imported into [apimatic.io](https://apimatic.io)
 and exported as OpenAPI 3.0 spec yaml files.
 
-### [v2](v2) folder
+### [v3](v3) folder
 This folder contains the final exported OpenAPI 3.0 spec file, to be
 exported to SwaggerHub.

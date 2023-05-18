@@ -400,7 +400,8 @@ paths:
       operationId: device_GetServiceCapabilities
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetServiceCapabilities
+        url: 
+          https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetServiceCapabilities
       description: |-
         Returns the capabilities of the device service. The result is returned in a typed answer.
 
@@ -1749,7 +1750,8 @@ paths:
       operationId: device_GetNetworkDefaultGateway
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
+        url: 
+          https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.GetNetworkDefaultGateway
       description: |-
         This operation gets the default gateway settings from a device. The device shall support the
         				GetNetworkDefaultGateway command returning configured default gateway address(es).
@@ -1796,7 +1798,8 @@ paths:
       operationId: device_SetNetworkDefaultGateway
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
+        url: 
+          https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetNetworkDefaultGateway
       description: |-
         This operation sets the default gateway settings on a device. The device shall support
         				configuration of default gateway through the SetNetworkDefaultGateway command.
@@ -2274,7 +2277,8 @@ paths:
       operationId: device_SetSystemFactoryDefault
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
+        url: 
+          https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl#op.SetSystemFactoryDefault
       description: |-
         This operation reloads the parameters on the device to their factory default values.
 
@@ -3005,7 +3009,8 @@ paths:
       operationId: media_GetCompatibleMetadataConfigurations
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetCompatibleMetadataConfigurations
+        url: 
+          https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetCompatibleMetadataConfigurations
       description: |-
         This operation requests all the metadata configurations of the device that are compatible with a certain media profile. Each of the returned configurations shall be a valid input parameter for the AddMetadataConfiguration command on the media profile. The result varies depending on the capabilities, configurations and settings in the device.
 
@@ -3121,7 +3126,8 @@ paths:
       operationId: media_GetMetadataConfigurationOptions
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurationOptions
+        url: 
+          https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetMetadataConfigurationOptions
       description: |-
         This operation returns the available options (supported values and ranges for metadata configuration parameters) for changing the metadata configuration.
 
@@ -3578,7 +3584,8 @@ paths:
         in: query
         schema:
           type: string
-        example: eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEiLCJTdHJlYW1TZXR1cCI6eyJTdHJlYW0iOiJSVFAtVW5pY2FzdCIsIlRyYW5zcG9ydCI6eyJQcm90b2NvbCI6IlJUU1AifX19
+        example: 
+          eyJQcm9maWxlVG9rZW4iOiJwcm9maWxlXzEiLCJTdHJlYW1TZXR1cCI6eyJTdHJlYW0iOiJSVFAtVW5pY2FzdCIsIlRyYW5zcG9ydCI6eyJQcm90b2NvbCI6IlJUU1AifX19
         description: |
           **Format:**<br/>
           This field is a Base64 encoded json string.
@@ -3969,7 +3976,8 @@ paths:
       operationId: media_GetVideoEncoderConfigurations
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurations
+        url: 
+          https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurations
       description: |-
         This operation lists all existing video encoder configurations of a device. This command lists all configured video encoder configurations in a device. The client need not know anything apriori about the video encoder configurations in order to use the command.
 
@@ -4093,7 +4101,8 @@ paths:
       operationId: media_GetVideoEncoderConfiguration
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfiguration
+        url: 
+          https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfiguration
       description: |-
         If the video encoder configuration token is already known, the encoder configuration can be fetched through the GetVideoEncoderConfiguration command.
 
@@ -4178,7 +4187,8 @@ paths:
       operationId: media_SetVideoEncoderConfiguration
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetVideoEncoderConfiguration
+        url: 
+          https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.SetVideoEncoderConfiguration
       description: |-
         This operation modifies a video encoder configuration. The ForcePersistence flag indicates if the changes shall remain after reboot of the device. Changes in the Multicast settings shall always be persistent. Running streams using this configuration may be immediately updated according to the new settings. The changes are not guaranteed to take effect unless the client requests a new stream URI and restarts any affected stream. NVC methods for changing a running stream are out of scope for this specification.
 
@@ -4333,7 +4343,8 @@ paths:
       operationId: media_GetVideoEncoderConfigurationOptions
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions
+        url: 
+          https://www.onvif.org/ver10/media/wsdl/media.wsdl#op.GetVideoEncoderConfigurationOptions
       description: |-
         This operation returns the available options (supported values and ranges for video encoder 
         				configuration parameters) when the video encoder parameters are reconfigured.
@@ -6801,7 +6812,8 @@ paths:
       operationId: analytics_GetSupportedAnalyticsModules
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedAnalyticsModules
+        url: 
+          https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetSupportedAnalyticsModules
       description: |-
         List all analytics modules that are supported by the given VideoAnalyticsConfiguration.
 
@@ -6997,7 +7009,8 @@ paths:
       operationId: analytics_ModifyAnalyticsModules
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyAnalyticsModules
+        url: 
+          https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.ModifyAnalyticsModules
       description: |-
         Modify the settings of one or more analytics modules of a VideoAnalyticsConfiguration. The modules are referenced by their names.
         				It is allowed to pass only a subset to be modified.
@@ -7052,7 +7065,8 @@ paths:
       operationId: analytics_CreateAnalyticsModules
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateAnalyticsModules
+        url: 
+          https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.CreateAnalyticsModules
       description: |-
         Add one or more analytics modules to an existing VideoAnalyticsConfiguration.
         				The available supported types can be retrieved via
@@ -7102,7 +7116,8 @@ paths:
       operationId: analytics_DeleteAnalyticsModules
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteAnalyticsModules
+        url: 
+          https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.DeleteAnalyticsModules
       description: |-
         Remove one or more analytics modules from a VideoAnalyticsConfiguration referenced by their names.
 
@@ -7216,7 +7231,8 @@ paths:
       operationId: analytics_GetAnalyticsModuleOptions
       externalDocs:
         description: Onvif Specification
-        url: https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions
+        url: 
+          https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl#op.GetAnalyticsModuleOptions
       description: |-
         Return the options for the supported analytics modules that specify an Option attribute.
 
@@ -13107,7 +13123,7 @@ components:
         apiVersion:
           description: A version number shows the API version in DTOs.
           type: string
-          example: v2
+          example: v3
         statusCode:
           description: A numeric code signifying the operational status of the response.
           type: integer
@@ -13252,36 +13268,36 @@ components:
   examples:
     200Example:
       value:
-        apiVersion: v2
+        apiVersion: v3
         statusCode: 200
     400Example:
       value:
-        apiVersion: v2
+        apiVersion: v3
         statusCode: 400
         message: Bad Request
     404Example:
       value:
-        apiVersion: v2
+        apiVersion: v3
         statusCode: 404
         message: The requested resource does not exist
     416Example:
       value:
-        apiVersion: v2
+        apiVersion: v3
         statusCode: 416
         message: Range Not Satisfiable
     423Example:
       value:
-        apiVersion: v2
+        apiVersion: v3
         statusCode: 423
         message: The device is locked (AdminState)
     500Example:
       value:
-        apiVersion: v2
+        apiVersion: v3
         statusCode: 500
         message: Internal Server Error
     503Example:
       value:
-        apiVersion: v2
+        apiVersion: v3
         statusCode: 503
         message: HTTP request timeout
   parameters:
