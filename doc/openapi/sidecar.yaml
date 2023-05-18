@@ -176,36 +176,36 @@ components:
   examples:
     200Example:
       value:
-        apiVersion: v2
+        apiVersion: v3
         statusCode: 200
     400Example:
       value:
-        apiVersion: "v2"
+        apiVersion: "v3"
         statusCode: 400
         message: "Bad Request"
     404Example:
       value:
-        apiVersion: "v2"
+        apiVersion: "v3"
         statusCode: 404
         message: "The requested resource does not exist"
     416Example:
       value:
-        apiVersion: "v2"
+        apiVersion: "v3"
         statusCode: 416
         message: "Range Not Satisfiable"
     423Example:
       value:
-        apiVersion: "v2"
+        apiVersion: "v3"
         statusCode: 423
         message: "The device is locked (AdminState)"
     500Example:
       value:
-        apiVersion: "v2"
+        apiVersion: "v3"
         statusCode: 500
         message: "Internal Server Error"
     503Example:
       value:
-        apiVersion: "v2"
+        apiVersion: "v3"
         statusCode: 503
         message: "HTTP request timeout"
   schemas:
@@ -294,7 +294,7 @@ components:
         apiVersion:
           description: "A version number shows the API version in DTOs."
           type: string
-          example: v2
+          example: v3
         statusCode:
           description: "A numeric code signifying the operational status of the response."
           type: integer

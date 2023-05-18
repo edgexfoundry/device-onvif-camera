@@ -113,7 +113,7 @@ https://github.com/leodido/go-urn
 edgexfoundry/go-mod-messaging (Apache 2.0) https://github.com/edgexfoundry/go-mod-messaging/v3
 https://github.com/edgexfoundry/go-mod-messaging/blob/master/LICENSE
 
-edgexfoundry/go-mod-secrets (Apache 2.0) https://github.com/edgexfoundry/go-mod-secrets/v2
+edgexfoundry/go-mod-secrets (Apache 2.0) https://github.com/edgexfoundry/go-mod-secrets/v3
 https://github.com/edgexfoundry/go-mod-secrets/blob/master/LICENSE
 
 github.com/fatih/color (MIT) https://github.com/fatih/color
