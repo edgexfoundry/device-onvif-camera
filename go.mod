@@ -4,9 +4,9 @@ go 1.20
 
 require (
 	github.com/IOTechSystems/onvif v0.1.6
-	github.com/edgexfoundry/device-sdk-go/v3 v3.0.0-dev.92
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.0.0-dev.90
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.0.0-dev.41
+	github.com/edgexfoundry/device-sdk-go/v3 v3.0.0-dev.93
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.0.0-dev.92
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.0.0-dev.42
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
 	github.com/stretchr/testify v1.8.2
@@ -22,9 +22,9 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/eclipse/paho.mqtt.golang v1.4.2 // indirect
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.0.0-dev.10 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v3 v3.0.0-dev.31 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v3 v3.0.0-dev.32 // indirect
 	github.com/edgexfoundry/go-mod-registry/v3 v3.0.0-dev.7 // indirect
-	github.com/edgexfoundry/go-mod-secrets/v3 v3.0.0-dev.17 // indirect
+	github.com/edgexfoundry/go-mod-secrets/v3 v3.0.0-dev.18 // indirect
 	github.com/elgs/gostrgen v0.0.0-20161222160715-9d61ae07eeae // indirect
 	github.com/fatih/color v1.9.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.4.0 // indirect
