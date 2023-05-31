@@ -37,7 +37,6 @@
   
 ### Bug Fixes 🐛
 - Get command should return server error instead of timeout error ([#7f95bcf](https://github.com/edgexfoundry/device-onvif-camera/commits/7f95bcf))
-- Add ProfilesDir & DevicesDir to local config ([#309](https://github.com/edgexfoundry/device-onvif-camera/issues/309)) ([#b3088f7](https://github.com/edgexfoundry/device-onvif-camera/commits/b3088f7))
 - **snap:** Refactor to avoid conflicts with readonly config provider directory ([#279](https://github.com/edgexfoundry/device-onvif-camera/issues/279)) ([#e03c6e9](https://github.com/edgexfoundry/device-onvif-camera/commits/e03c6e9))
 
 ### Code Refactoring ♻
@@ -100,9 +99,7 @@
 - Add warning to main branch and link to levski ([#271](https://github.com/edgexfoundry/device-onvif-camera/issues/271)) ([#dcb5ff7](https://github.com/edgexfoundry/device-onvif-camera/commits/dcb5ff7))
 - Change location of nats documentation ([#237](https://github.com/edgexfoundry/device-onvif-camera/issues/237)) ([#d65f0f9](https://github.com/edgexfoundry/device-onvif-camera/commits/d65f0f9))
 - Update docker compose download instructions to the latest version ([#223](https://github.com/edgexfoundry/device-onvif-camera/issues/223)) ([#81966fa](https://github.com/edgexfoundry/device-onvif-camera/commits/81966fa))
-- Updating validation metircs with  Hikvision camera ([#218](https://github.com/edgexfoundry/device-onvif-camera/issues/218)) ([#35c6aae](https://github.com/edgexfoundry/device-onvif-camera/commits/35c6aae))
-- Bump swagger generator version to 2.3.0 ([#198](https://github.com/edgexfoundry/device-onvif-camera/issues/198)) ([#12ac4ca](https://github.com/edgexfoundry/device-onvif-camera/commits/12ac4ca))
-- Bump Swagger version for Levski to 2.3.0 ([#197](https://github.com/edgexfoundry/device-onvif-camera/issues/197)) ([#9ddb556](https://github.com/edgexfoundry/device-onvif-camera/commits/9ddb556))
+- Updating validation metrics with  Hikvision camera ([#218](https://github.com/edgexfoundry/device-onvif-camera/issues/218)) ([#35c6aae](https://github.com/edgexfoundry/device-onvif-camera/commits/35c6aae))
 
 ### Build 👷
 - Ignore all go-mods except device-sdk-go ([#56b1444](https://github.com/edgexfoundry/device-onvif-camera/commits/56b1444))
