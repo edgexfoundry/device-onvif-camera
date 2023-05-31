@@ -12,6 +12,118 @@
 - [go-mod-secrets](https://github.com/edgexfoundry/go-mod-secrets/blob/main/CHANGELOG.md) (indirect dependency)
 - [go-mod-configuration](https://github.com/edgexfoundry/go-mod-configuration/blob/main/CHANGELOG.md) (indirect dependency)
 
+## [3.0.0] Minnesota - 2023-05-31 (Only compatible with the 3.x releases)
+
+### Features ✨
+- Implement driver Start command ([#343](https://github.com/edgexfoundry/device-onvif-camera/issues/343)) ([#b5d61d0](https://github.com/edgexfoundry/device-onvif-camera/commits/b5d61d0))
+- Implement secret change support, refactor cred mgmt ([#333](https://github.com/edgexfoundry/device-onvif-camera/issues/333)) ([#a510015](https://github.com/edgexfoundry/device-onvif-camera/commits/a510015))
+- Consume SDK interface changes ([#7c14cf8](https://github.com/edgexfoundry/device-onvif-camera/commits/7c14cf8))
+  ```text
+  BREAKING CHANGE: Consume SDK interface changes by adding Discover and ValidateDevice func on driver
+  ``` 
+- Log raw response when xml unmarshal fails ([#ff76725](https://github.com/edgexfoundry/device-onvif-camera/commits/ff76725))
+- Updates for common config ([#ce7fe07](https://github.com/edgexfoundry/device-onvif-camera/commits/ce7fe07))
+  ```text
+  BREAKING CHANGE: Configuration file changed to remove common config settings
+  ``` 
+- Use latest SDK for MessageBus Request API ([#4452f94](https://github.com/edgexfoundry/device-onvif-camera/commits/4452f94))
+  ```text
+  BREAKING CHANGE: Commands via MessageBus topic configuration changed
+  ``` 
+- Remove ZeroMQ messagebus capability ([#848d5d6](https://github.com/edgexfoundry/device-onvif-camera/commits/848d5d6))
+  ```text
+  BREAKING CHANGE: Remove ZeroMQ messagebus capability
+  ```  
+  
+### Bug Fixes 🐛
+- Get command should return server error instead of timeout error ([#7f95bcf](https://github.com/edgexfoundry/device-onvif-camera/commits/7f95bcf))
+- **snap:** Refactor to avoid conflicts with readonly config provider directory ([#279](https://github.com/edgexfoundry/device-onvif-camera/issues/279)) ([#e03c6e9](https://github.com/edgexfoundry/device-onvif-camera/commits/e03c6e9))
+
+### Code Refactoring ♻
+- Prefix some commands with onvif service name and also add SnapshotUri command ([#7c6b29b](https://github.com/edgexfoundry/device-onvif-camera/commits/7c6b29b))
+  ```text
+  BREAKING CHANGE: Changed the name of many device commands to include a prefix of the onvif service they belong to. For example Status becomes PTZStatus, Profiles becomes MediaProfiles, etc.
+  ``` 
+- Modify UpdateDevice calls to use PatchDevice calls ([#355](https://github.com/edgexfoundry/device-onvif-camera/issues/355)) ([#78f21e3](https://github.com/edgexfoundry/device-onvif-camera/commits/78f21e3))
+- Fix inconsistent naming of Edgex commands ([#afec685](https://github.com/edgexfoundry/device-onvif-camera/commits/afec685))
+  ```text
+  BREAKING CHANGE: Making Edgex command names consistent by removing GET and SET keywords
+  ```
+- Consume Provision Watcher changes for running multiple instances ([#349](https://github.com/edgexfoundry/device-onvif-camera/issues/349)) ([#1961be3](https://github.com/edgexfoundry/device-onvif-camera/commits/1961be3))
+- Changed configuration and provision watcher file format to yaml ([#163d81e](https://github.com/edgexfoundry/device-onvif-camera/commits/163d81e))
+  ```text
+  BREAKING CHANGE: Configuration and provision watcher files are now in YAML format
+  ``` 
+- Consume device-sdk-go breaking changes ([#35e0b63](https://github.com/edgexfoundry/device-onvif-camera/commits/35e0b63))
+  ```text
+  BREAKING CHANGE: Update ProtocolDriver implementation for the new ProtocolDriver interface changes
+  ```
+- Rename path to secret name ([#33d7f92](https://github.com/edgexfoundry/device-onvif-camera/commits/33d7f92))
+  ```text
+  BREAKING CHANGE: Rename path to secret name
+  ``` 
+- Use device sdk for adding provision watchers and remove manual code ([#650149e](https://github.com/edgexfoundry/device-onvif-camera/commits/650149e))
+  ```text
+  BREAKING CHANGE: Remove manual code to add provision watchers and instead use device-sdk to add them
+  ```
+- Updated sdk versions and secret path to SecretName & Secrets to SecretData ([#5eec883](https://github.com/edgexfoundry/device-onvif-camera/commits/5eec883))
+  ```text
+  BREAKING CHANGE: Update version to support secret `path` updated to `SecretName` and `Secrets` renamed to `SecretData`
+  ```
+- Replace internal topics from config with new constants ([#03e3920](https://github.com/edgexfoundry/device-onvif-camera/commits/03e3920))
+  ```text
+  BREAKING CHANGE: Internal topics no longer configurable, except the base topic.
+  ```
+- Rework code for refactored MessageBus Configuration ([#916f6b3](https://github.com/edgexfoundry/device-onvif-camera/commits/916f6b3))
+  ```text
+  BREAKING CHANGE: MessageQueue renamed to MessageBus and fields changed.
+  ```
+- Rename command line flags for the sake of consistency ([#e283d27](https://github.com/edgexfoundry/device-onvif-camera/commits/e283d27))
+  ```text
+  BREAKING CHANGE: Renamed -c/--confdir to -cd/--configDir and -f/--file to -cf/--configFile
+  ```
+- Use latest SDK for flattened config stem ([#4eac92d](https://github.com/edgexfoundry/device-onvif-camera/commits/4eac92d))
+  ```text
+  BREAKING CHANGE: Location of service configuration in Consul changed
+  ```
+- **snap:** Update command and metadata sourcing ([#270](https://github.com/edgexfoundry/device-onvif-camera/issues/270)) ([#77ccddf](https://github.com/edgexfoundry/device-onvif-camera/commits/77ccddf))
+- **snap:** Refactor and upgrade to edgex-snap-hooks v3 ([#217](https://github.com/edgexfoundry/device-onvif-camera/issues/217)) ([#6741b26](https://github.com/edgexfoundry/device-onvif-camera/commits/6741b26))
+
+### Documentation 📖
+- Updated remaining docs from v2 to v3 ([#366](https://github.com/edgexfoundry/device-onvif-camera/issues/366)) ([#4c3943a](https://github.com/edgexfoundry/device-onvif-camera/commits/4c3943a))
+- Add operationId, support for deviceCommands, and do not remove schemas for Get commands ([#361](https://github.com/edgexfoundry/device-onvif-camera/issues/361)) ([#0b14d5e](https://github.com/edgexfoundry/device-onvif-camera/commits/0b14d5e))
+- Move openapi files to v3 folder ([#359](https://github.com/edgexfoundry/device-onvif-camera/issues/359)) ([#c4faddb](https://github.com/edgexfoundry/device-onvif-camera/commits/c4faddb))
+- Update main branch warning with standard text agreed to by TSC ([#354](https://github.com/edgexfoundry/device-onvif-camera/issues/354)) ([#bc8694f](https://github.com/edgexfoundry/device-onvif-camera/commits/bc8694f))
+- Remove docs ([#305](https://github.com/edgexfoundry/device-onvif-camera/issues/305)) ([#ca50ff0](https://github.com/edgexfoundry/device-onvif-camera/commits/ca50ff0))
+- Remove demo-app docs ([#273](https://github.com/edgexfoundry/device-onvif-camera/issues/273)) ([#30f142b](https://github.com/edgexfoundry/device-onvif-camera/commits/30f142b))
+- Add warning to main branch and link to levski ([#271](https://github.com/edgexfoundry/device-onvif-camera/issues/271)) ([#dcb5ff7](https://github.com/edgexfoundry/device-onvif-camera/commits/dcb5ff7))
+- Change location of nats documentation ([#237](https://github.com/edgexfoundry/device-onvif-camera/issues/237)) ([#d65f0f9](https://github.com/edgexfoundry/device-onvif-camera/commits/d65f0f9))
+- Update docker compose download instructions to the latest version ([#223](https://github.com/edgexfoundry/device-onvif-camera/issues/223)) ([#81966fa](https://github.com/edgexfoundry/device-onvif-camera/commits/81966fa))
+- Updating validation metrics with  Hikvision camera ([#218](https://github.com/edgexfoundry/device-onvif-camera/issues/218)) ([#35c6aae](https://github.com/edgexfoundry/device-onvif-camera/commits/35c6aae))
+
+### Build 👷
+- Ignore all go-mods except device-sdk-go ([#56b1444](https://github.com/edgexfoundry/device-onvif-camera/commits/56b1444))
+- Fixed small issue in makefile ([#209](https://github.com/edgexfoundry/device-onvif-camera/issues/209)) ([#ac64796](https://github.com/edgexfoundry/device-onvif-camera/commits/ac64796))
+- Update to Go 1.20, Alpine 3.17 and linter v1.51.2 ([#dd9876e](https://github.com/edgexfoundry/device-onvif-camera/commits/dd9876e))
+- Ignore all go-mods except device-sdk-go ([#a4daa83](https://github.com/edgexfoundry/device-onvif-camera/commits/a4daa83))
+- **snap:** Upgrade snap base to core22, remove deprecated plug ([#323](https://github.com/edgexfoundry/device-onvif-camera/issues/323)) ([#e2d27ba](https://github.com/edgexfoundry/device-onvif-camera/commits/e2d27ba))
+
+### Continuous Integration 🔄
+- Change dependabot gomod schedule to daily ([#264](https://github.com/edgexfoundry/device-onvif-camera/issues/264)) ([#b19be15](https://github.com/edgexfoundry/device-onvif-camera/commits/b19be15))
+
+
+## [v2.3.1] - 2023-03-22
+
+### Bug Fixes 🐛
+- Device-sdk levski patch stable tag added ([#282](https://github.com/edgexfoundry/device-onvif-camera/issues/282)) ([#a19c49b](https://github.com/edgexfoundry/device-onvif-camera/commits/a19c49b))
+- Upgrade sdk to fix device cache issue ([#261](https://github.com/edgexfoundry/device-onvif-camera/issues/261)) ([#0c6690d](https://github.com/edgexfoundry/device-onvif-camera/commits/0c6690d))
+
+### Documentation 📖
+- Change log updated with levski patch ([#283](https://github.com/edgexfoundry/device-onvif-camera/issues/283)) ([#4d60271](https://github.com/edgexfoundry/device-onvif-camera/commits/4d60271))
+- Add note about stable levski branch ([#272](https://github.com/edgexfoundry/device-onvif-camera/issues/272)) ([#d06d196](https://github.com/edgexfoundry/device-onvif-camera/commits/d06d196))
+- Remove demo-app docs from levski ([#274](https://github.com/edgexfoundry/device-onvif-camera/issues/274)) ([#c87f573](https://github.com/edgexfoundry/device-onvif-camera/commits/c87f573))
+
+
 ## [v2.3.0] Levski - 2022-11-09 (Not Compatible with 1.x releases)
 
 ### Features ✨
@@ -55,6 +167,7 @@
 ### Build 👷
 
 - Upgrade to Go 1.18, Alpine 3.16, linter version and latest SDK/go-mod versions ([#127](https://github.com/edgexfoundry/device-onvif-camera/issues/127)) ([#616f9b7](https://github.com/edgexfoundry/device-onvif-camera/commits/616f9b7))
+
 
 ## [v2.2.0] Kamakura - 2022-07-26 (Not Compatible with 1.x releases)
 
