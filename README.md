@@ -12,4 +12,4 @@ Visit the [EdgeX documentation page](https://docs.edgexfoundry.org/latest/micros
 
 ## License
 
-[Apache-2.0](https://github.com/edgexfoundry-holding/device-onvif-camera/blob/main/LICENSE)
+[Apache-2.0](LICENSE)
