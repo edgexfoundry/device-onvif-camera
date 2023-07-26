@@ -9,4 +9,4 @@ This collection utilizes the ONVIF device service to issue REST API's to the ONV
 ### Non-Edgex ONVIF Collection
 This collection issues SOAP commands directly to the ONVIF camera device. EdgeX is not utilized here.
 - onvif_camera_without_edgex_postman_collection.json contains the set of SOAP commands.
-- onvif_camera_without_edgex_postman_environment.json file contains the exectuion environment.
+- onvif_camera_without_edgex_postman_environment.json contains the execution environment.
