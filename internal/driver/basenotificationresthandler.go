@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (c) 2023 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -9,10 +10,10 @@ package driver
 import (
 	"encoding/xml"
 	"fmt"
-	"github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces"
 	"io"
 	"net/http"
 
+	"github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces"
 	"github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
@@ -22,12 +23,12 @@ import (
 	"github.com/IOTechSystems/onvif/event"
 	"github.com/IOTechSystems/onvif/gosoap"
 
-	"github.com/gorilla/mux"
+	"github.com/labstack/echo/v4"
 )
 
 const (
 	OnvifEventRestPath = "onvifevent"
-	apiResourceRoute   = common.ApiBase + "/" + OnvifEventRestPath + "/{" + common.DeviceName + "}/{" + common.ResourceName + "}"
+	apiResourceRoute   = common.ApiBase + "/" + OnvifEventRestPath + "/:deviceName/:resourceName"
 )
 
 // RestNotificationHandler handle the notification from the camera and send to async value channel
@@ -47,7 +48,7 @@ func NewRestNotificationHandler(service interfaces.DeviceServiceSDK) *RestNotifi
 
 // AddRoute adds route for receiving the notification from the camera
 func (handler RestNotificationHandler) AddRoute() errors.EdgeX {
-	if err := handler.sdkService.AddRoute(apiResourceRoute, handler.processAsyncRequest, http.MethodPost); err != nil {
+	if err := handler.sdkService.AddCustomRoute(apiResourceRoute, interfaces.Authenticated, handler.processAsyncRequest, http.MethodPost); err != nil {
 		return errors.NewCommonEdgeX(errors.KindServerError, fmt.Sprintf("unable to add required route: %s: %s", apiResourceRoute, err.Error()), err)
 	}
 
@@ -56,32 +57,28 @@ func (handler RestNotificationHandler) AddRoute() errors.EdgeX {
 }
 
 // processAsyncRequest receives notification from Onvif camera and sends to the async reading channel
-func (handler RestNotificationHandler) processAsyncRequest(writer http.ResponseWriter, request *http.Request) {
-	vars := mux.Vars(request)
-	deviceName := vars[common.DeviceName]
-	resourceName := vars[common.ResourceName]
+func (handler RestNotificationHandler) processAsyncRequest(c echo.Context) error {
+	deviceName := c.Param(common.DeviceName)
+	resourceName := c.Param(common.ResourceName)
 
 	handler.lc.Debugf("Received POST for Device=%s Resource=%s", deviceName, resourceName)
 
 	_, err := handler.sdkService.GetDeviceByName(deviceName)
 	if err != nil {
 		handler.lc.Errorf("Incoming reading ignored. Device '%s' not found", deviceName)
-		http.Error(writer, fmt.Sprintf("Device '%s' not found", deviceName), http.StatusBadRequest)
-		return
+		return c.String(http.StatusBadRequest, fmt.Sprintf("Device '%s' not found", deviceName))
 	}
 
 	deviceResource, ok := handler.sdkService.DeviceResource(deviceName, resourceName)
 	if !ok {
 		handler.lc.Errorf("Incoming reading ignored. Resource '%s' not found", resourceName)
-		http.Error(writer, fmt.Sprintf("Resource '%s' not found", resourceName), http.StatusBadRequest)
-		return
+		return c.String(http.StatusBadRequest, fmt.Sprintf("Resource '%s' not found", resourceName))
 	}
 
-	data, err := handler.readBody(request)
+	data, err := handler.readBody(c.Request())
 	if err != nil {
 		handler.lc.Errorf("Incoming reading ignored. Unable to read request body: %s", err.Error())
-		http.Error(writer, err.Error(), http.StatusBadRequest)
-		return
+		return c.String(http.StatusBadRequest, err.Error())
 	}
 
 	notify := &event.Notify{}
@@ -89,15 +86,13 @@ func (handler RestNotificationHandler) processAsyncRequest(writer http.ResponseW
 	err = xml.Unmarshal(data, responseEnvelope)
 	if err != nil {
 		handler.lc.Errorf("Failed to create to the subscribe response for Device=%s Resource=%s, %s", deviceName, resourceName, err.Error())
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
-		return
+		return c.String(http.StatusBadRequest, err.Error())
 	}
 
 	cv, err := sdkModel.NewCommandValue(deviceResource.Name, common.ValueTypeObject, notify)
 	if err != nil {
 		handler.lc.Errorf("Failed to create to the commandValue for Device=%s Resource=%s, %s", deviceName, resourceName, err.Error())
-		http.Error(writer, err.Error(), http.StatusInternalServerError)
-		return
+		return c.String(http.StatusInternalServerError, err.Error())
 	}
 	asyncValues := &models.AsyncValues{
 		DeviceName:    deviceName,
@@ -107,6 +102,8 @@ func (handler RestNotificationHandler) processAsyncRequest(writer http.ResponseW
 	handler.lc.Debugf("Incoming reading received: Device=%s Resource=%s", deviceName, resourceName)
 
 	handler.sdkService.AsyncValuesChannel() <- asyncValues
+
+	return nil
 }
 
 func (handler RestNotificationHandler) readBody(request *http.Request) ([]byte, error) {
