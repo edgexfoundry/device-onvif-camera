@@ -17,9 +17,6 @@ https://github.com/go-logfmt/logfmt/blob/master/LICENSE
 google/uuid 1.1.0 (BSD-3) https://github.com/google/uuid
 https://github.com/google/uuid/blob/master/LICENSE
 
-gorilla/mux 1.6.2 (BSD-3) https://github.com/gorilla/mux
-https://github.com/gorilla/mux/blob/master/LICENSE
-
 hashicorp/consul 1.4.0 (MPL-2.0) https://github.com/hashicorp/consul
 https://github.com/hashicorp/consul/blob/master/LICENSE
 
