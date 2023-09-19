@@ -4,9 +4,9 @@ go 1.21
 
 require (
 	github.com/IOTechSystems/onvif v0.1.6
-	github.com/edgexfoundry/device-sdk-go/v3 v3.1.0-dev.20
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.1.0-dev.29
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.1.0-dev.9
+	github.com/edgexfoundry/device-sdk-go/v3 v3.1.0-dev.24
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.1.0-dev.34
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.1.0-dev.11
 	github.com/google/uuid v1.3.1
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/stretchr/testify v1.8.4
@@ -22,7 +22,7 @@ require (
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/eclipse/paho.mqtt.golang v1.4.3 // indirect
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.1.0-dev.5 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v3 v3.1.0-dev.18 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v3 v3.1.0-dev.20 // indirect
 	github.com/edgexfoundry/go-mod-registry/v3 v3.1.0-dev.5 // indirect
 	github.com/edgexfoundry/go-mod-secrets/v3 v3.1.0-dev.6 // indirect
 	github.com/elgs/gostrgen v0.0.0-20161222160715-9d61ae07eeae // indirect
@@ -70,13 +70,13 @@ require (
 	github.com/valyala/fasttemplate v1.2.2 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/zeebo/errs v1.3.0 // indirect
-	golang.org/x/crypto v0.11.0 // indirect
+	golang.org/x/crypto v0.12.0 // indirect
 	golang.org/x/exp v0.0.0-20230321023759-10a507213a29 // indirect
 	golang.org/x/mod v0.8.0 // indirect
 	golang.org/x/net v0.13.0 // indirect
 	golang.org/x/sync v0.2.0 // indirect
-	golang.org/x/sys v0.10.0 // indirect
-	golang.org/x/text v0.11.0 // indirect
+	golang.org/x/sys v0.11.0 // indirect
+	golang.org/x/text v0.12.0 // indirect
 	golang.org/x/time v0.3.0 // indirect
 	golang.org/x/tools v0.6.0 // indirect
 	google.golang.org/genproto v0.0.0-20230223222841-637eb2293923 // indirect
