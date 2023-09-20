@@ -4,9 +4,9 @@ go 1.21
 
 require (
 	github.com/IOTechSystems/onvif v0.1.6
-	github.com/edgexfoundry/device-sdk-go/v3 v3.1.0-dev.24
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.1.0-dev.34
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.1.0-dev.11
+	github.com/edgexfoundry/device-sdk-go/v3 v3.1.0-dev.27
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.1.0-dev.36
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.1.0-dev.12
 	github.com/google/uuid v1.3.1
 	github.com/labstack/echo/v4 v4.11.1
 	github.com/stretchr/testify v1.8.4
