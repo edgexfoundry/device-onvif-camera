@@ -4,8 +4,8 @@ go 1.21
 
 require (
 	github.com/IOTechSystems/onvif v0.1.6
-	github.com/edgexfoundry/device-sdk-go/v3 v3.1.0-dev.29
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.1.0-dev.40
+	github.com/edgexfoundry/device-sdk-go/v3 v3.1.0-dev.30
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.1.0-dev.41
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.1.0-dev.15
 	github.com/google/uuid v1.3.1
 	github.com/labstack/echo/v4 v4.11.1
@@ -24,7 +24,7 @@ require (
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.1.0-dev.6 // indirect
 	github.com/edgexfoundry/go-mod-messaging/v3 v3.1.0-dev.21 // indirect
 	github.com/edgexfoundry/go-mod-registry/v3 v3.1.0-dev.6 // indirect
-	github.com/edgexfoundry/go-mod-secrets/v3 v3.1.0-dev.6 // indirect
+	github.com/edgexfoundry/go-mod-secrets/v3 v3.1.0-dev.9 // indirect
 	github.com/elgs/gostrgen v0.0.0-20161222160715-9d61ae07eeae // indirect
 	github.com/fatih/color v1.14.1 // indirect
 	github.com/fxamacker/cbor/v2 v2.5.0 // indirect
