@@ -3,7 +3,7 @@ module github.com/edgexfoundry/device-onvif-camera
 go 1.21
 
 require (
-	github.com/IOTechSystems/onvif v0.1.6
+	github.com/IOTechSystems/onvif v1.0.0
 	github.com/edgexfoundry/device-sdk-go/v3 v3.1.0-dev.35
 	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.1.0-dev.50
 	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.1.0-dev.17
@@ -16,9 +16,9 @@ require (
 	github.com/Microsoft/go-winio v0.6.0 // indirect
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
-	github.com/beevik/etree v1.1.0 // indirect
+	github.com/beevik/etree v1.2.0 // indirect
 	github.com/cenkalti/backoff v2.2.1+incompatible // indirect
-	github.com/clbanning/mxj/v2 v2.3.2 // indirect
+	github.com/clbanning/mxj/v2 v2.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/eclipse/paho.mqtt.golang v1.4.3 // indirect
 	github.com/edgexfoundry/go-mod-configuration/v3 v3.1.0-dev.7 // indirect
@@ -81,6 +81,6 @@ require (
 	golang.org/x/tools v0.6.0 // indirect
 	google.golang.org/genproto v0.0.0-20230223222841-637eb2293923 // indirect
 	google.golang.org/grpc v1.53.0 // indirect
-	google.golang.org/protobuf v1.28.1 // indirect
+	google.golang.org/protobuf v1.30.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
