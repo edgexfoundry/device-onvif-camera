@@ -26,15 +26,6 @@ LintOutput.json
 device-onvif-camera
 run
 
-# snap files
-*.snap
-*.assert
-prime/
-stage/
-parts/
-squashfs-root/
-
-VERSION
 
 doc/openapi/tmp
 doc/postman/schemas/_extracted.json
