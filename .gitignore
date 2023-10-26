@@ -26,6 +26,11 @@ LintOutput.json
 device-onvif-camera
 run
 
+# Output of the go tool cover
+coverage.out
+
+# Output of the Makefile
+VERSION
 
 doc/openapi/tmp
 doc/postman/schemas/_extracted.json
