@@ -12,6 +12,42 @@
 - [go-mod-secrets](https://github.com/edgexfoundry/go-mod-secrets/blob/main/CHANGELOG.md) (indirect dependency)
 - [go-mod-configuration](https://github.com/edgexfoundry/go-mod-configuration/blob/main/CHANGELOG.md) (indirect dependency)
 
+
+## [v3.1.0] Napa - 2023-11-15 (Only compatible with the 3.x releases)
+
+
+### <!-- 0 -->✨  Features
+
+- Remove snap packaging ([#396](https://github.com/edgexfoundry/device-onvif-camera/issues/396)) ([f9aa1e7…](https://github.com/edgexfoundry/device-onvif-camera/commit/f9aa1e7837344c75d2a4d485c1648989cda54cfb))
+```text
+
+BREAKING CHANGE: Remove snap packaging ([#396](https://github.com/edgexfoundry/device-onvif-camera/issues/396))
+
+```
+- Replace gorilla/mux with labstack/echo ([9a9a093…](https://github.com/edgexfoundry/device-onvif-camera/commit/9a9a093bba13e018aff1d59529fadb53acfad024))
+
+
+### ♻ Code Refactoring
+
+- Remove obsolete comments from config file ([#398](https://github.com/edgexfoundry/device-onvif-camera/issues/398)) ([bf74ebf…](https://github.com/edgexfoundry/device-onvif-camera/commit/bf74ebf12077028c42a990cb9f5eb3b4e8875dd7))
+
+
+### 📖 Documentation
+
+- Fix license link ([#373](https://github.com/edgexfoundry/device-onvif-camera/issues/373)) ([f8d6efe…](https://github.com/edgexfoundry/device-onvif-camera/commit/f8d6efeffbcc72b13ace8b41daac95c88037c92b))
+- Add readme and rename collections to clarify collection usage ([f9a51d9…](https://github.com/edgexfoundry/device-onvif-camera/commit/f9a51d90d45793b537885a974cdf3c636c247a85))
+
+
+### 👷 Build
+
+- Upgrade to go-1.21, Linter1.54.2 and Alpine 3.18 ([#384](https://github.com/edgexfoundry/device-onvif-camera/issues/384)) ([9825d35…](https://github.com/edgexfoundry/device-onvif-camera/commit/9825d353c0ae3edd45665d4480ee2bc38ab097aa))
+
+
+### 🤖 Continuous Integration
+
+- Add automated release workflow on tag creation ([6bc619b…](https://github.com/edgexfoundry/device-onvif-camera/commit/6bc619b75e5ee3284532e8add0ff78116f112ad2))
+
+
 ## [3.0.0] Minnesota - 2023-05-31 (Only compatible with the 3.x releases)
 
 ### Features ✨
