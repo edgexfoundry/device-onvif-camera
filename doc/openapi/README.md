@@ -1,5 +1,5 @@
 # OpenAPI / Swagger Spec Files
-This code generates OpenAPI 3.0 spec based on the [Postman Collection](../postman/device-onvif-camera.postman_collection.json), 
+This code generates OpenAPI 3.0 spec based on the [Postman Collection](../postman/onvif_camera_with_edgex_postman_collection.json), 
 [Onvif WSDL Schema Files](./ref), [sidecar.yaml](sidecar.yaml), [default camera device profile](../../cmd/res/profiles/camera.yaml),
 [ONVIF Tested Cameras Matrix](https://github.com/edgexfoundry/edgex-docs/blob/main/docs_src/microservices/device/supported/device-onvif-camera/supplementary-info/ONVIF-protocol.md#tested-onvif-cameras), and [ONVIF footnotes](https://github.com/edgexfoundry/edgex-docs/blob/main/docs_src/microservices/device/supported/device-onvif-camera/supplementary-info/onvif-footnotes.md).
 
@@ -15,8 +15,8 @@ This code generates OpenAPI 3.0 spec based on the [Postman Collection](../postma
   - Use `DEBUG_LOGGING=1 make ...` to enable debug logging of the python scripts
   - Alternatively, use `EDGEX_DOCS_ROOT=/path/to/edgex-docs make ...` to point to `edgex-docs` cloned somewhere else.
 
-[collection]: ../postman/device-onvif-camera.postman_collection.json
-[env]: ../postman/device-onvif-camera.postman_environment.json
+[collection]: ../postman/onvif_camera_with_edgex_postman_collection.json
+[env]: ../postman/onvif_camera_with_edgex_postman_environment.json
 
 ## Explanation
 ### [python](python) folder
