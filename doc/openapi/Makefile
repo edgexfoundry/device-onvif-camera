@@ -5,8 +5,8 @@
 
 SHELL := /bin/bash
 
-POSTMAN_COLLECTION ?= ../postman/device-onvif-camera.postman_collection.json
-POSTMAN_ENV ?= ../postman/device-onvif-camera.postman_environment.json
+POSTMAN_COLLECTION ?= ../postman/onvif_camera_with_edgex_postman_collection.json
+POSTMAN_ENV ?= ../postman/onvif_camera_with_edgex_postman_environment.json
 OPENAPI_FOLDER ?= v3
 OPENAPI_FILE ?= $(OPENAPI_FOLDER)/device-onvif-camera.yaml
 OPENAPI_TEMP_FILE ?= tmp/device-onvif-camera.yaml
@@ -14,7 +14,7 @@ POSTMAN_2_OPENAPI_OPTIONS ?= p2o-options.json
 SIDECAR_FILE ?= sidecar.yaml
 PROFILE_FILE ?= ../../cmd/res/profiles/camera.yaml
 EDGEX_DOCS_ROOT ?= ../../../edgex-docs
-EDGEX_DOCS_BASE ?= $(EDGEX_DOCS_ROOT)/docs_src/microservices/device/supported/device-onvif-camera/supplementary-info
+EDGEX_DOCS_BASE ?= $(EDGEX_DOCS_ROOT)/docs_src/microservices/device/services/device-onvif-camera/supplementary-info
 ONVIF_TESTED_FILE ?= $(EDGEX_DOCS_BASE)/ONVIF-protocol.md
 ONVIF_FOOTNOTES_FILE ?= $(EDGEX_DOCS_BASE)/onvif-footnotes.md
 
