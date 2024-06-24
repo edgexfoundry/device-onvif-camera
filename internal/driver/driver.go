@@ -1,7 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022-2023 Intel Corporation
-// Copyright (c) 2023 IOTech Ltd
+// Copyright (c) 2023-2024 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -301,7 +301,11 @@ func (d *Driver) Discover() error {
 	var discoveredDevices []sdkModel.DiscoveredDevice
 
 	if discoveryMode.IsMulticastEnabled() {
-		discoveredDevices = append(discoveredDevices, d.discoverMulticast()...)
+		devices, err := d.discoverMulticast()
+		if err != nil {
+			return errors.NewCommonEdgeXWrapper(err)
+		}
+		discoveredDevices = append(discoveredDevices, devices...)
 	}
 
 	if discoveryMode.IsNetScanEnabled() {
@@ -322,7 +326,7 @@ func (d *Driver) Discover() error {
 }
 
 // multicast enable/disable via config option
-func (d *Driver) discoverMulticast() []sdkModel.DiscoveredDevice {
+func (d *Driver) discoverMulticast() ([]sdkModel.DiscoveredDevice, errors.EdgeX) {
 	var discovered []sdkModel.DiscoveredDevice
 
 	d.configMu.RLock()
@@ -330,7 +334,10 @@ func (d *Driver) discoverMulticast() []sdkModel.DiscoveredDevice {
 	d.configMu.RUnlock()
 
 	t0 := time.Now()
-	onvifDevices := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(discoveryEthernetInterface)
+	onvifDevices, err := wsdiscovery.GetAvailableDevicesAtSpecificEthernetInterface(discoveryEthernetInterface)
+	if err != nil {
+		return nil, errors.NewCommonEdgeX(errors.Kind(err), "failed to discover device from the ethernet interface "+discoveryEthernetInterface, err)
+	}
 	d.lc.Infof("Discovered %d device(s) in %v via multicast.", len(onvifDevices), time.Since(t0))
 	for _, onvifDevice := range onvifDevices {
 		device, err := d.createDiscoveredDevice(onvifDevice)
@@ -341,7 +348,7 @@ func (d *Driver) discoverMulticast() []sdkModel.DiscoveredDevice {
 		discovered = append(discovered, device)
 	}
 
-	return discovered
+	return discovered, nil
 }
 
 // netscan enable/disable via config option
