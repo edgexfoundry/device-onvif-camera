@@ -4,9 +4,9 @@ go 1.21
 
 require (
 	github.com/IOTechSystems/onvif v1.1.2
-	github.com/edgexfoundry/device-sdk-go/v3 v3.2.0-dev.29
-	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.49
-	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.30
+	github.com/edgexfoundry/device-sdk-go/v3 v3.2.0-dev.34
+	github.com/edgexfoundry/go-mod-bootstrap/v3 v3.2.0-dev.52
+	github.com/edgexfoundry/go-mod-core-contracts/v3 v3.2.0-dev.32
 	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.11.4
 	github.com/stretchr/testify v1.9.0
@@ -22,9 +22,9 @@ require (
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/clbanning/mxj/v2 v2.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
-	github.com/eclipse/paho.mqtt.golang v1.4.3 // indirect
-	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.11 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.29 // indirect
+	github.com/eclipse/paho.mqtt.golang v1.5.0 // indirect
+	github.com/edgexfoundry/go-mod-configuration/v3 v3.2.0-dev.12 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v3 v3.2.0-dev.31 // indirect
 	github.com/edgexfoundry/go-mod-registry/v3 v3.2.0-dev.13 // indirect
 	github.com/edgexfoundry/go-mod-secrets/v3 v3.2.0-dev.9 // indirect
 	github.com/elgs/gostrgen v0.0.0-20161222160715-9d61ae07eeae // indirect
@@ -60,7 +60,7 @@ require (
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/gorilla/schema v1.4.1 // indirect
 	github.com/gorilla/securecookie v1.1.1 // indirect
-	github.com/gorilla/websocket v1.5.1 // indirect
+	github.com/gorilla/websocket v1.5.3 // indirect
 	github.com/hashicorp/consul/api v1.29.2 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
