@@ -6,6 +6,11 @@ CGO_CFLAGS="-O2 -pipe -fno-plt"
 CGO_CXXFLAGS="-O2 -pipe -fno-plt"
 CGO_LDFLAGS="-Wl,-O1,–sort-common,–as-needed,-z,relro,-z,now"
 
+# change the following boolean flag to enable or disable the Full RELRO (RELocation Read Only) for linux ELF (Executable and Linkable Format) binaries
+ENABLE_FULL_RELRO:="true"
+# change the following boolean flag to enable or disable PIE for linux binaries which is needed for ASLR (Address Space Layout Randomization) on Linux, the ASLR support on Windows is enabled by default
+ENABLE_PIE:="true"
+
 ARCH=$(shell uname -m)
 
 MICROSERVICES=cmd/device-onvif-camera
@@ -21,6 +26,14 @@ GIT_SHA=$(shell git rev-parse HEAD)
 GOFLAGS=-ldflags "-s -w -X github.com/edgexfoundry/device-onvif-camera.Version=$(VERSION) \
                   -X github.com/edgexfoundry/device-sdk-go/v3/internal/common.SDKVersion=$(SDKVERSION)" \
                    -trimpath -mod=readonly
+
+ifeq ($(ENABLE_FULL_RELRO), "true")
+	GOFLAGS += -ldflags "-bindnow"
+endif
+
+ifeq ($(ENABLE_PIE), "true")
+	GOFLAGS += -buildmode=pie
+endif
 
 build: $(MICROSERVICES)
 
