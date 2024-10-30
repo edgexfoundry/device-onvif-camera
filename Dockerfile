@@ -55,4 +55,4 @@ COPY --from=builder /device-onvif-camera/Attribution.txt /
 EXPOSE 59984
 
 ENTRYPOINT ["/device-onvif-camera"]
-CMD ["--cp=consul.http://edgex-core-consul:8500", "--registry"]
+CMD ["-cp=keeper.http://edgex-core-keeper:59890", "--registry"]

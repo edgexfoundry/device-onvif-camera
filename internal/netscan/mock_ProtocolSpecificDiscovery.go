@@ -5,7 +5,7 @@ package netscan
 import (
 	net "net"
 
-	models "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
+	models "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
 	mock "github.com/stretchr/testify/mock"
 )
 

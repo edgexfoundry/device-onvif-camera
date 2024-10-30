@@ -18,9 +18,9 @@ import (
 	"github.com/IOTechSystems/onvif"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
-	contract "github.com/edgexfoundry/go-mod-core-contracts/v3/models"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
+	contract "github.com/edgexfoundry/go-mod-core-contracts/v4/models"
 )
 
 const (

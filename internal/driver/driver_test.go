@@ -8,7 +8,7 @@
 package driver
 
 import (
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -20,13 +20,13 @@ import (
 	"github.com/stretchr/testify/mock"
 
 	"github.com/IOTechSystems/onvif/device"
-	sdkMocks "github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces/mocks"
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
+	sdkMocks "github.com/edgexfoundry/device-sdk-go/v4/pkg/interfaces/mocks"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
-	contract "github.com/edgexfoundry/go-mod-core-contracts/v3/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/models"
+	contract "github.com/edgexfoundry/go-mod-core-contracts/v4/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

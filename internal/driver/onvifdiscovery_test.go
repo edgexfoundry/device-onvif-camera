@@ -10,9 +10,9 @@ package driver
 import (
 	"testing"
 
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
-	contract "github.com/edgexfoundry/go-mod-core-contracts/v3/models"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/models"
+	contract "github.com/edgexfoundry/go-mod-core-contracts/v4/models"
 	"github.com/stretchr/testify/assert"
 )
 
