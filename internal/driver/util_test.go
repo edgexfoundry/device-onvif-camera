@@ -9,7 +9,7 @@ package driver
 import (
 	"encoding/base64"
 	"fmt"
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"testing"

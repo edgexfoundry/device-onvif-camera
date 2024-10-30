@@ -9,14 +9,14 @@ package driver
 
 import (
 	"fmt"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/dtos"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos"
 	"net"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/IOTechSystems/onvif"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/models"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/models"
 )
 
 // checkStatuses loops through all registered devices and tries to determine the most accurate connection state

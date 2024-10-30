@@ -12,7 +12,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/edgexfoundry/device-sdk-go/v3/pkg/interfaces"
+	"github.com/edgexfoundry/device-sdk-go/v4/pkg/interfaces"
 )
 
 type MACAddressMapper struct {

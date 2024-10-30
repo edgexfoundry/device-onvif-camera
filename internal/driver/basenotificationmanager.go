@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/clients/logger"
-	"github.com/edgexfoundry/go-mod-core-contracts/v3/errors"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/clients/logger"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
 )
 
 // BaseNotificationManager manages the consumers to renew the subscription

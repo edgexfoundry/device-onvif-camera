@@ -11,7 +11,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v3/pkg/models"
+	sdkModel "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
 	"math"
 	"net"
 	"strings"
