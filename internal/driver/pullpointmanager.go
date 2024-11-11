@@ -65,7 +65,7 @@ func (manager *PullPointManager) NewSubscriber(onvifClient *OnvifClient, resourc
 		subscriptionRequest: request,
 		pullMessageRequestBody: event.PullMessages{
 			Timeout:      xsd.Duration(*request.MessageTimeout),
-			MessageLimit: xsd.Int(*request.MessageLimit),
+			MessageLimit: xsd.Int(int32(*request.MessageLimit)),
 		},
 		Stopped: make(chan bool),
 	}
