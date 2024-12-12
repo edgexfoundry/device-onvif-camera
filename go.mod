@@ -8,7 +8,7 @@ require (
 	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.0.0-dev.11
 	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.0.0-dev.14
 	github.com/google/uuid v1.6.0
-	github.com/labstack/echo/v4 v4.13.0
+	github.com/labstack/echo/v4 v4.13.1
 	github.com/stretchr/testify v1.10.0
 )
 
