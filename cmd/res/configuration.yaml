@@ -1,37 +1,51 @@
 Writable:
-  LogLevel: INFO
+  LogLevel: "INFO"
   InsecureSecrets:
     credentials001:
-      SecretName: credentials001
+      SecretName: "credentials001"
       SecretData:
         username: ""
         password: ""
-        mode: usernametoken
+        mode: "usernametoken"
     credentials002:
-      SecretName: credentials002
+      SecretName: "credentials002"
       SecretData:
         username: ""
         password: ""
-        mode: usernametoken
+        mode: "usernametoken"
 
 Service:
-  Host: localhost
+  Host: "localhost"
   Port: 59984
-  StartupMsg: Camera device service started
+  StartupMsg: "Camera device service started"
+
+Clients:
+  security-proxy-auth:
+    Protocol: "http"
+    Host: "localhost"
+    Port: 59842
+  core-metadata:
+    Protocol: "http"
+    Host: "localhost"
+    Port: 59881
+    SecurityOptions:
+      Mode: ""
+      OpenZitiController: "openziti:1280"
 
 MessageBus:
+  Host: "localhost"
   Optional:
-    ClientId: device-onvif-camera
+    ClientId: "device-onvif-camera"
 
 Device:
   # These have common values (currently), but must be here for service local env overrides to apply when customized
   ProfilesDir: "./res/profiles"
   DevicesDir: "./res/devices"
   # The location of Provision Watcher yaml files to import when using auto-discovery
-  ProvisionWatchersDir: ./res/provisionwatchers
+  ProvisionWatchersDir: "./res/provisionwatchers"
   Discovery:
     Enabled: true
-    Interval: 1h
+    Interval: "1h"
 
 # Custom configs
 AppCustom:
@@ -40,14 +54,14 @@ AppCustom:
   # The Secret Name of the default credentials to use for devices which do not have MAC Addresses defined, or do not
   # have credentials defined in the CredentialsMap. The magic value of 'NoAuth' here will cause the devices to default
   # to not using any authentication. If authentication is required, it would then need to be manually configured.
-  DefaultSecretName: credentials001
+  DefaultSecretName: "credentials001"
   # BaseNotificationURL indicates the device service network location (which should be accessible from onvif devices on the network), when
   # configuring an Onvif Event subscription.
-  BaseNotificationURL: 'http://192.168.12.112:59984'
+  BaseNotificationURL: "http://192.168.12.112:59984"
   # Select which discovery mechanism(s) to use
-  DiscoveryMode: both # netscan, multicast, or both
+  DiscoveryMode: "both" # netscan, multicast, or both
   # The target ethernet interface for multicast discovering
-  DiscoveryEthernetInterface: eth0
+  DiscoveryEthernetInterface: "eth0"
   # List of IPv4 subnets to perform netscan discovery on, in CIDR format (X.X.X.X/Y)
   # separated by commas ex: "192.168.1.0/24,10.0.0.0/24"
   DiscoverySubnets: ""
