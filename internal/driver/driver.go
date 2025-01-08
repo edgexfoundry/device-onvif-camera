@@ -156,6 +156,10 @@ func (d *Driver) Start() error {
 // for closing any in-use channels, including the channel used to send async
 // readings (if supported).
 func (d *Driver) Stop(force bool) error {
+	// The driver might not be initialized
+	if d.sdkService == nil {
+		return nil
+	}
 	if d.sdkService.AsyncValuesChannel() != nil {
 		close(d.sdkService.AsyncValuesChannel())
 	}
