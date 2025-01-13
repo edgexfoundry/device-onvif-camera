@@ -4,8 +4,8 @@ go 1.23
 
 require (
 	github.com/IOTechSystems/onvif v1.2.0
-	github.com/edgexfoundry/device-sdk-go/v4 v4.0.0-dev.14
-	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.0.0-dev.16
+	github.com/edgexfoundry/device-sdk-go/v4 v4.0.0-dev.16
+	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.0.0-dev.17
 	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.0.0-dev.19
 	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.13.3
