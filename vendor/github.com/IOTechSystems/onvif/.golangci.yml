@@ -1,0 +1,18 @@
+linters:
+  disable:
+  enable:
+    - gosec
+linters-settings:
+  gosec:
+    excludes:
+      # G115: integer overflow conversion
+      # exclude the rule since it tends to be false positive
+      - G115
+      # G401: Use of weak cryptographic primitive
+      # G501: Blocklisted import crypto/md5: weak cryptographic primitive
+      # crypto/md5 is used for DigestClient
+      - G401
+      - G501
+      # G505: Blocklisted import crypto/sha1: weak cryptographic primitive
+      # crypto/sha1 is used for generating digest token
+      - G505
