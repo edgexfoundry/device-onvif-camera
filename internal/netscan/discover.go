@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (C) 2025 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -18,6 +19,8 @@ import (
 	"sync"
 	"syscall"
 	"time"
+
+	"github.com/spf13/cast"
 )
 
 const (
@@ -75,14 +78,14 @@ func AutoDiscover(ctx context.Context, proto ProtocolSpecificDiscovery, params P
 	portCount := len(params.ScanPorts)
 	var estimatedTimeStr string
 	if portCount == 1 {
-		estimatedTimeStr = fmt.Sprintf("%v", probeFactor*params.Timeout)
+		estimatedTimeStr = cast.ToString(probeFactor * params.Timeout)
 	} else {
-		estimatedTimeStr = fmt.Sprintf("min: %v max: %v typical: ~%v",
-			probeFactor*params.Timeout,
-			probeFactor*params.Timeout*time.Duration(portCount),
+		estimatedTimeStr = fmt.Sprintf("min: %s max: %s typical: ~%s",
+			cast.ToString(probeFactor*params.Timeout),
+			cast.ToString(probeFactor*params.Timeout*time.Duration(portCount)),
 			// typical is just a guess, but have observed it taking around 3x the timeout time when 3
 			// or more ports are scanned.
-			probeFactor*params.Timeout*time.Duration(math.Min(float64(portCount), 3)))
+			cast.ToString(probeFactor*params.Timeout*time.Duration(math.Min(float64(portCount), 3))))
 	}
 	params.Logger.Debugf("total estimated network probes: %d, async limit: %d, probe timeout: %v, estimated time: %s",
 		estimatedProbes, asyncLimit, params.Timeout, estimatedTimeStr)

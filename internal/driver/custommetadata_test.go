@@ -1,6 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
+// Copyright (C) 2025 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -266,6 +267,34 @@ func TestOnvifClient_setCustomMetadata(t *testing.T) {
 			data:          "bogus",
 			expected:      contract.Device{},
 			errorExpected: true,
+		},
+		{
+			name: "happy path set (float value greater than 1e6)",
+			device: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					CustomMetadata: {},
+				},
+			},
+			data: `{"FloatValue": 1000000.1}`,
+			expected: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					CustomMetadata: {"FloatValue": "1000000.1"},
+				},
+			},
+		},
+		{
+			name: "happy path set (float value less than 1e-4)",
+			device: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					CustomMetadata: {},
+				},
+			},
+			data: `{"FloatValue": 0.00009}`,
+			expected: contract.Device{
+				Protocols: map[string]contract.ProtocolProperties{
+					CustomMetadata: {"FloatValue": "0.00009"},
+				},
+			},
 		},
 	}
 

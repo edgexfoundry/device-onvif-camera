@@ -1,7 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022-2023 Intel Corporation
-// Copyright (c) 2023 IOTech Ltd
+// Copyright (c) 2023-2025 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -27,6 +27,8 @@ import (
 	onvifdevice "github.com/IOTechSystems/onvif/device"
 	"github.com/IOTechSystems/onvif/gosoap"
 	"github.com/IOTechSystems/onvif/media"
+
+	"github.com/spf13/cast"
 )
 
 const (
@@ -345,7 +347,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, functionName st
 		}
 		friendlyName := ""
 		if v, ok := device.Protocols[OnvifProtocol][FriendlyName]; ok {
-			friendlyName = fmt.Sprintf("%v", v)
+			friendlyName = cast.ToString(v)
 		}
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeString, friendlyName)
 		if err != nil {
@@ -381,7 +383,7 @@ func (onvifClient *OnvifClient) callCustomFunction(resourceName, functionName st
 		}
 		macAddress := ""
 		if v, ok := device.Protocols[OnvifProtocol][MACAddress]; ok {
-			macAddress = fmt.Sprintf("%v", v)
+			macAddress = cast.ToString(v)
 		}
 		cv, err = sdkModel.NewCommandValue(resourceName, common.ValueTypeString, macAddress)
 		if err != nil {

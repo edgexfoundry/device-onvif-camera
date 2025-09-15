@@ -1,7 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022-2023 Intel Corporation
-// Copyright (c) 2023-2024 IOTech Ltd
+// Copyright (c) 2023-2025 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -11,8 +11,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/secret"
-	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos"
 	"strings"
 	"sync"
 	"time"
@@ -21,13 +19,17 @@ import (
 
 	"github.com/edgexfoundry/device-onvif-camera/internal/netscan"
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
+	"github.com/edgexfoundry/go-mod-bootstrap/v4/bootstrap/secret"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/common"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/models"
 
 	onvifdevice "github.com/IOTechSystems/onvif/device"
 	wsdiscovery "github.com/IOTechSystems/onvif/ws-discovery"
+
+	"github.com/spf13/cast"
 )
 
 const (
@@ -549,7 +551,7 @@ func (d *Driver) renameDevice(device models.Device, deviceInfo *onvifdevice.GetD
 	device.Name = buildDeviceName(
 		deviceInfo.Manufacturer,
 		deviceInfo.Model,
-		fmt.Sprintf("%v", device.Protocols[OnvifProtocol][EndpointRefAddress]),
+		cast.ToString(device.Protocols[OnvifProtocol][EndpointRefAddress]),
 	)
 
 	d.lc.Infof("Adding device back with the updated name '%s'", device.Name)

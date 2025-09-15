@@ -1,7 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
-// Copyright (c) 2023 IOTech Ltd
+// Copyright (c) 2023-2025 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -15,6 +15,8 @@ import (
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v4/models"
+
+	"github.com/spf13/cast"
 )
 
 func (onvifClient *OnvifClient) initCustomMetadata(device *contract.Device) {
@@ -37,7 +39,7 @@ func (onvifClient *OnvifClient) setCustomMetadata(device contract.Device, data [
 	}
 	saveDevice := device
 	for key, value := range dataObj {
-		value = strings.TrimSpace(fmt.Sprintf("%v", value))
+		value = strings.TrimSpace(cast.ToString(value))
 		key = strings.TrimSpace(key)
 		if len(key) == 0 {
 			inputErr := error.New("tried to add an empty key")

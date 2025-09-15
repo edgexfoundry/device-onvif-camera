@@ -1,19 +1,20 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
-// Copyright (c) 2023 IOTech Ltd
+// Copyright (c) 2023-2025 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
 package driver
 
 import (
-	"fmt"
 	"strings"
 
 	"github.com/IOTechSystems/onvif"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/models"
+
+	"github.com/spf13/cast"
 )
 
 // Credentials encapsulates username, password, and AuthMode attributes.
@@ -97,7 +98,7 @@ func (d *Driver) getCredentialsForDevice(device models.Device) Credentials {
 	secretName := defaultSecretName
 	macAddress := ""
 	if v, ok := device.Protocols[OnvifProtocol][MACAddress]; ok {
-		macAddress = fmt.Sprintf("%v", v)
+		macAddress = cast.ToString(v)
 	}
 	if macAddress != "" {
 		secretName = d.macAddressMapper.TryGetSecretNameForMACAddress(macAddress, defaultSecretName)
