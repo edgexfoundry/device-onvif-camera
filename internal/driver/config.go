@@ -1,7 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
-// Copyright (c) 2023 IOTech Ltd
+// Copyright (c) 2023-2025 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -12,6 +12,8 @@ import (
 
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/models"
+
+	"github.com/spf13/cast"
 )
 
 // CustomConfig holds the values for the driver configuration
@@ -72,14 +74,14 @@ func GetCameraXAddr(protocols map[string]models.ProtocolProperties) (string, err
 
 	address := ""
 	if v, ok := protocol[Address]; ok {
-		address = fmt.Sprintf("%v", v)
+		address = cast.ToString(v)
 	}
 	if address == "" {
 		return "", errors.NewCommonEdgeX(errors.KindContractInvalid, fmt.Sprintf("unable to load XAddr, %s Address does not exist", OnvifProtocol), nil)
 	}
 	port := ""
 	if v, ok := protocol[Port]; ok {
-		port = fmt.Sprintf("%v", v)
+		port = cast.ToString(v)
 	}
 
 	xAddr := address

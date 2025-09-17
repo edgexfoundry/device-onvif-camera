@@ -1,22 +1,23 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
-// Copyright (c) 2023 IOTech Ltd
+// Copyright (c) 2023-2025 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
 package driver
 
 import (
-	"fmt"
-	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos"
 	"net"
 	"strings"
 	"sync"
 	"time"
 
 	"github.com/IOTechSystems/onvif"
+	"github.com/edgexfoundry/go-mod-core-contracts/v4/dtos"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/models"
+
+	"github.com/spf13/cast"
 )
 
 // checkStatuses loops through all registered devices and tries to determine the most accurate connection state
@@ -48,7 +49,7 @@ func (d *Driver) checkStatusOfDevice(device models.Device) {
 	// if device is unknown, and missing a MAC Address, try and determine the MAC address via the endpoint reference
 	if strings.HasPrefix(device.Name, UnknownDevicePrefix) && device.Protocols[OnvifProtocol][MACAddress] == "" {
 		if v, ok := device.Protocols[OnvifProtocol][EndpointRefAddress]; ok {
-			endpointRefAddr := fmt.Sprintf("%v", v)
+			endpointRefAddr := cast.ToString(v)
 			if endpointRefAddr != "" {
 				if mac := d.macAddressMapper.MatchEndpointRefAddressToMAC(endpointRefAddr); mac != "" {
 					// the mac address for the device was found, so set it here which will allow the

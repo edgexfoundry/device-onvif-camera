@@ -1,7 +1,7 @@
 // -*- Mode: Go; indent-tabs-mode: t -*-
 //
 // Copyright (C) 2022 Intel Corporation
-// Copyright (c) 2023 IOTech Ltd
+// Copyright (c) 2023-2025 IOTech Ltd
 //
 // SPDX-License-Identifier: Apache-2.0
 
@@ -10,7 +10,6 @@ package driver
 import (
 	stdErrors "errors"
 	"fmt"
-	"github.com/google/uuid"
 	"net"
 	"os"
 	"time"
@@ -21,6 +20,9 @@ import (
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
 	contract "github.com/edgexfoundry/go-mod-core-contracts/v4/models"
+
+	"github.com/google/uuid"
+	"github.com/spf13/cast"
 )
 
 const (
@@ -237,7 +239,7 @@ func (d *Driver) makeDeviceMacMap() map[string]contract.Device {
 			continue
 		}
 
-		macAddress := fmt.Sprintf("%v", onvifInfo[MACAddress])
+		macAddress := cast.ToString(onvifInfo[MACAddress])
 		if macAddress == "" {
 			d.lc.Warnf("Registered device %s is missing required %s protocol information: %s.",
 				dev.Name, OnvifProtocol, MACAddress)
@@ -268,7 +270,7 @@ func (d *Driver) makeDeviceRefMap() map[string]contract.Device {
 			continue
 		}
 
-		endpointRef := fmt.Sprintf("%v", onvifInfo[EndpointRefAddress])
+		endpointRef := cast.ToString(onvifInfo[EndpointRefAddress])
 		if endpointRef == "" {
 			d.lc.Infof("Registered device %s is missing optional %s protocol information: %s.",
 				dev.Name, OnvifProtocol, EndpointRefAddress)
@@ -294,7 +296,7 @@ func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) [
 	// filter out newly discovered devices with the same EndpointRefAddress. This is common when using a DiscoveryMode
 	// of 'both', and the device being discovered from both modes
 	for _, device := range discoveredDevices {
-		endpointRefAddress := fmt.Sprintf("%v", device.Protocols[OnvifProtocol][EndpointRefAddress])
+		endpointRefAddress := cast.ToString(device.Protocols[OnvifProtocol][EndpointRefAddress])
 		if _, found := discoveredMap[endpointRefAddress]; !found {
 			discoveredMap[endpointRefAddress] = device
 			discovered = append(discovered, device)
@@ -306,11 +308,11 @@ func (d *Driver) discoverFilter(discoveredDevices []sdkModel.DiscoveredDevice) [
 	for _, device := range discovered {
 		macAddress := ""
 		if v, ok := device.Protocols[OnvifProtocol][MACAddress]; ok {
-			macAddress = fmt.Sprintf("%v", v)
+			macAddress = cast.ToString(v)
 		}
 		endpointRefAddress := ""
 		if v, ok := device.Protocols[OnvifProtocol][EndpointRefAddress]; ok {
-			endpointRefAddress = fmt.Sprintf("%v", v)
+			endpointRefAddress = cast.ToString(v)
 		}
 		sanitizedMAC, macErr := SanitizeMACAddress(macAddress)
 		if existingDevice, found := existingMacDevices[sanitizedMAC]; found && macErr == nil {
@@ -342,10 +344,10 @@ func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.D
 
 	device.Protocols[OnvifProtocol][LastSeen] = time.Now().Format(time.UnixDate)
 
-	existAddr := fmt.Sprintf("%v", device.Protocols[OnvifProtocol][Address])
-	existPort := fmt.Sprintf("%v", device.Protocols[OnvifProtocol][Port])
-	discAddr := fmt.Sprintf("%v", discDev.Protocols[OnvifProtocol][Address])
-	discPort := fmt.Sprintf("%v", discDev.Protocols[OnvifProtocol][Port])
+	existAddr := cast.ToString(device.Protocols[OnvifProtocol][Address])
+	existPort := cast.ToString(device.Protocols[OnvifProtocol][Port])
+	discAddr := cast.ToString(discDev.Protocols[OnvifProtocol][Address])
+	discPort := cast.ToString(discDev.Protocols[OnvifProtocol][Port])
 	if existAddr != discAddr ||
 		existPort != discPort {
 		d.lc.Infof("Existing device %s has been discovered with a different network address. Old: %s, Discovered: %s",
@@ -361,7 +363,7 @@ func (d *Driver) updateExistingDevice(device contract.Device, discDev sdkModel.D
 		shouldUpdate = true
 	}
 
-	discoveredMAC := fmt.Sprintf("%v", discDev.Protocols[OnvifProtocol][MACAddress])
+	discoveredMAC := cast.ToString(discDev.Protocols[OnvifProtocol][MACAddress])
 	sanitizedMAC, macErr := SanitizeMACAddress(discoveredMAC)
 	if macErr == nil && device.Protocols[OnvifProtocol][MACAddress] != sanitizedMAC {
 		device.Protocols[OnvifProtocol][MACAddress] = sanitizedMAC
