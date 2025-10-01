@@ -4,9 +4,9 @@ go 1.23.7
 
 require (
 	github.com/IOTechSystems/onvif v1.2.0
-	github.com/edgexfoundry/device-sdk-go/v4 v4.1.0-dev.38
-	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.1.0-dev.35
-	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.1.0-dev.12
+	github.com/edgexfoundry/device-sdk-go/v4 v4.1.0-dev.39
+	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.1.0-dev.39
+	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.1.0-dev.18
 	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.13.4
 	github.com/spf13/cast v1.10.0
@@ -22,10 +22,10 @@ require (
 	github.com/clbanning/mxj/v2 v2.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/eclipse/paho.mqtt.golang v1.5.0 // indirect
-	github.com/edgexfoundry/go-mod-configuration/v4 v4.1.0-dev.13 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v4 v4.1.0-dev.15 // indirect
-	github.com/edgexfoundry/go-mod-registry/v4 v4.1.0-dev.4 // indirect
-	github.com/edgexfoundry/go-mod-secrets/v4 v4.1.0-dev.4 // indirect
+	github.com/edgexfoundry/go-mod-configuration/v4 v4.1.0-dev.16 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v4 v4.1.0-dev.17 // indirect
+	github.com/edgexfoundry/go-mod-registry/v4 v4.1.0-dev.5 // indirect
+	github.com/edgexfoundry/go-mod-secrets/v4 v4.1.0-dev.6 // indirect
 	github.com/elgs/gostrgen v0.0.0-20220325073726-0c3e00d082f6 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
@@ -75,7 +75,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/muhlemmer/gu v0.3.1 // indirect
-	github.com/nats-io/nats.go v1.44.0 // indirect
+	github.com/nats-io/nats.go v1.45.0 // indirect
 	github.com/nats-io/nkeys v0.4.11 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
