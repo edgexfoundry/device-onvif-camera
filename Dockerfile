@@ -37,7 +37,7 @@ COPY . .
 
 RUN ${MAKE}
 
-FROM alpine:3.20
+FROM alpine:3.22.1
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
   copyright='Copyright (c) 2023: Intel Corporation'
