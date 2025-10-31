@@ -17,5 +17,6 @@
 edgeXBuildGoApp (
     project: 'device-onvif-camera',
     publishSwaggerDocs: true,
-    swaggerApiFolders: ['doc/openapi/v3']
+    swaggerApiFolders: ['doc/openapi/v3'],
+    goVersion: '1.23'
 )

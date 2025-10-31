@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-ARG BASE=golang:1.23-alpine3.20
+ARG BASE=golang:1.23-alpine3.22
 FROM ${BASE} AS builder
 
 ARG ADD_BUILD_TAGS=""
@@ -37,7 +37,7 @@ COPY . .
 
 RUN ${MAKE}
 
-FROM alpine:3.20
+FROM alpine:3.22
 
 LABEL license='SPDX-License-Identifier: Apache-2.0' \
   copyright='Copyright (c) 2023: Intel Corporation'
