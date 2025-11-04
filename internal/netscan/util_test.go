@@ -218,7 +218,7 @@ func TestIpGeneratorSubnetSizes(t *testing.T) {
 		t.Run(strconv.Itoa(i), func(t *testing.T) {
 			t.Parallel()
 			result := ipGeneratorTest(inetTest{
-				size: uint32(i),
+				size: uint32(i), // #nosec G115
 				inet: mustParseCIDR(t, fmt.Sprintf("192.168.1.1/%d", i)),
 			})
 			assert.Equal(t, computeNetSz(i), result.size)

@@ -26,7 +26,6 @@ import (
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/models"
-	contract "github.com/edgexfoundry/go-mod-core-contracts/v4/models"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -258,7 +257,7 @@ func TestRenameOrPatchDevice(t *testing.T) {
 		removeDeviceFailExpected bool
 	}{
 		{
-			device: contract.Device{
+			device: models.Device{
 				Name: "testName",
 			},
 			updateDeviceExpected: true,
@@ -274,7 +273,7 @@ func TestRenameOrPatchDevice(t *testing.T) {
 			removeDeviceExpected:     true,
 			removeDeviceFailExpected: true,
 			addDeviceExpected:        true,
-			device: contract.Device{
+			device: models.Device{
 				Name: UnknownDevicePrefix + "device",
 				Protocols: map[string]models.ProtocolProperties{
 					OnvifProtocol: map[string]interface{}{
@@ -288,7 +287,7 @@ func TestRenameOrPatchDevice(t *testing.T) {
 				SerialNumber:    "9a32410c",
 				HardwareId:      "1.0",
 			},
-			expectedDevice: contract.Device{
+			expectedDevice: models.Device{
 				Name: "Intel-SimCamera-793dfb2-28b0-11ed-a261-0242ac120002",
 				Protocols: map[string]models.ProtocolProperties{
 					OnvifProtocol: map[string]interface{}{
