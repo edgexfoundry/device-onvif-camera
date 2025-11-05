@@ -15,7 +15,6 @@ import (
 
 	"github.com/edgexfoundry/device-sdk-go/v4/pkg/interfaces"
 	"github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
-	sdkModel "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/clients/logger"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/common"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/errors"
@@ -89,7 +88,7 @@ func (handler RestNotificationHandler) processAsyncRequest(c echo.Context) error
 		return c.String(http.StatusBadRequest, err.Error())
 	}
 
-	cv, err := sdkModel.NewCommandValue(deviceResource.Name, common.ValueTypeObject, notify)
+	cv, err := models.NewCommandValue(deviceResource.Name, common.ValueTypeObject, notify)
 	if err != nil {
 		handler.lc.Errorf("Failed to create to the commandValue for Device=%s Resource=%s, %s", deviceName, resourceName, err.Error())
 		return c.String(http.StatusInternalServerError, err.Error())

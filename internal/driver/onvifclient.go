@@ -233,9 +233,10 @@ func (onvifClient *OnvifClient) CallOnvifFunction(req sdkModel.CommandRequest, f
 	if edgexErr != nil {
 		return nil, errors.NewCommonEdgeXWrapper(edgexErr)
 	}
-	if functionName == onvif.SetNetworkInterfaces {
+	switch functionName {
+	case onvif.SetNetworkInterfaces:
 		onvifClient.checkRebootNeeded(responseContent)
-	} else if functionName == onvif.SystemReboot {
+	case onvif.SystemReboot:
 		onvifClient.RebootNeeded = false
 	}
 	cv, err := sdkModel.NewCommandValue(req.DeviceResourceName, common.ValueTypeObject, responseContent)

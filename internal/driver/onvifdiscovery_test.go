@@ -12,7 +12,6 @@ import (
 
 	sdkModel "github.com/edgexfoundry/device-sdk-go/v4/pkg/models"
 	"github.com/edgexfoundry/go-mod-core-contracts/v4/models"
-	contract "github.com/edgexfoundry/go-mod-core-contracts/v4/models"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -24,7 +23,7 @@ const (
 	uuid5 = "80763188-28b0-11ed-a261-0242ac120002"
 )
 
-func createTestDeviceList() []contract.Device {
+func createTestDeviceList() []models.Device {
 	return []models.Device{
 		{
 			Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
@@ -79,13 +78,13 @@ func createDiscoveredList() []sdkModel.DiscoveredDevice {
 func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 	tests := []struct {
 		name      string
-		devices   []contract.Device
-		deviceMap map[string]contract.Device
+		devices   []models.Device
+		deviceMap map[string]models.Device
 	}{
 		{
 			name:    "3 devices",
 			devices: createTestDeviceList(),
-			deviceMap: map[string]contract.Device{
+			deviceMap: map[string]models.Device{
 				uuid1: {
 					Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]interface{}{
@@ -111,7 +110,7 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 		},
 		{
 			name: "NoProtocol",
-			devices: []contract.Device{
+			devices: []models.Device{
 				{
 					Name: "testDevice1",
 					Protocols: map[string]models.ProtocolProperties{
@@ -125,7 +124,7 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 					Protocols: map[string]models.ProtocolProperties{},
 				},
 			},
-			deviceMap: map[string]contract.Device{
+			deviceMap: map[string]models.Device{
 				uuid1: {
 					Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]interface{}{
@@ -137,7 +136,7 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 		},
 		{
 			name: "NoEndpointReference",
-			devices: []contract.Device{
+			devices: []models.Device{
 				{
 					Name: "testDevice1",
 					Protocols: map[string]models.ProtocolProperties{
@@ -155,7 +154,7 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 					},
 				},
 			},
-			deviceMap: map[string]contract.Device{
+			deviceMap: map[string]models.Device{
 				uuid1: {
 					Name: "testDevice1", Protocols: map[string]models.ProtocolProperties{
 						OnvifProtocol: map[string]interface{}{
@@ -183,7 +182,7 @@ func TestOnvifDiscovery_makeDeviceMap(t *testing.T) {
 func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 	tests := []struct {
 		name              string
-		devices           []contract.Device
+		devices           []models.Device
 		discoveredDevices []sdkModel.DiscoveredDevice
 		filtered          []sdkModel.DiscoveredDevice
 	}{
@@ -195,7 +194,7 @@ func TestOnvifDiscovery_discoveryFilter(t *testing.T) {
 		},
 		{
 			name:              "All new devices",
-			devices:           []contract.Device{},
+			devices:           []models.Device{},
 			discoveredDevices: createDiscoveredList(),
 			filtered:          createDiscoveredList(),
 		},
