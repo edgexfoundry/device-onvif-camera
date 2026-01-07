@@ -3,7 +3,7 @@ module github.com/edgexfoundry/device-onvif-camera
 go 1.25.0
 
 require (
-	github.com/IOTechSystems/onvif v1.2.0
+	github.com/IOTechSystems/onvif v1.2.1
 	github.com/edgexfoundry/device-sdk-go/v4 v4.1.0-dev.51
 	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.1.0-dev.48
 	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.1.0-dev.25
@@ -17,7 +17,7 @@ require (
 	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/OneOfOne/xxhash v1.2.8 // indirect
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2 // indirect
-	github.com/beevik/etree v1.4.1 // indirect
+	github.com/beevik/etree v1.6.0 // indirect
 	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/clbanning/mxj/v2 v2.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
@@ -26,7 +26,7 @@ require (
 	github.com/edgexfoundry/go-mod-messaging/v4 v4.1.0-dev.18 // indirect
 	github.com/edgexfoundry/go-mod-registry/v4 v4.1.0-dev.8 // indirect
 	github.com/edgexfoundry/go-mod-secrets/v4 v4.1.0-dev.8 // indirect
-	github.com/elgs/gostrgen v0.0.0-20220325073726-0c3e00d082f6 // indirect
+	github.com/elgs/gostrgen v0.0.0-20251010065124-dce324c66371 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/fullsailor/pkcs7 v0.0.0-20190404230743-d7302db945fa // indirect
@@ -136,7 +136,7 @@ require (
 	golang.org/x/time v0.14.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20250707201910-8d1bb00bc6a7 // indirect
 	google.golang.org/grpc v1.75.0 // indirect
-	google.golang.org/protobuf v1.36.10 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	nhooyr.io/websocket v1.8.17 // indirect
 )
