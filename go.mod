@@ -4,8 +4,8 @@ go 1.25.0
 
 require (
 	github.com/IOTechSystems/onvif v1.2.1
-	github.com/edgexfoundry/device-sdk-go/v4 v4.1.0-dev.51
-	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.1.0-dev.48
+	github.com/edgexfoundry/device-sdk-go/v4 v4.1.0-dev.52
+	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.1.0-dev.50
 	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.1.0-dev.25
 	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.14.0
@@ -64,7 +64,7 @@ require (
 	github.com/go-playground/validator/v10 v10.30.1 // indirect
 	github.com/go-resty/resty/v2 v2.16.5 // indirect
 	github.com/go-viper/mapstructure/v2 v2.4.0 // indirect
-	github.com/golang-jwt/jwt/v5 v5.3.0 // indirect
+	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/gorilla/mux v1.8.1 // indirect
 	github.com/gorilla/securecookie v1.1.2 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
@@ -106,7 +106,7 @@ require (
 	github.com/rcrowley/go-metrics v0.0.0-20250401214520-65e299d6c5c9 // indirect
 	github.com/shirou/gopsutil/v3 v3.24.5 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
-	github.com/sirupsen/logrus v1.9.3 // indirect
+	github.com/sirupsen/logrus v1.9.4 // indirect
 	github.com/speps/go-hashids v2.0.0+incompatible // indirect
 	github.com/spiffe/go-spiffe/v2 v2.6.0 // indirect
 	github.com/stretchr/objx v0.5.2 // indirect
