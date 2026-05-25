@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/IOTechSystems/onvif v1.2.1
-	github.com/edgexfoundry/device-sdk-go/v4 v4.1.0-dev.65
+	github.com/edgexfoundry/device-sdk-go/v4 v4.1.0-dev.67
 	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.1.0-dev.68
 	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.1.0-dev.36
 	github.com/google/uuid v1.6.0
