@@ -3,10 +3,10 @@ module github.com/edgexfoundry/device-onvif-camera
 go 1.25.0
 
 require (
-	github.com/IOTechSystems/onvif v1.2.1
-	github.com/edgexfoundry/device-sdk-go/v4 v4.1.0-dev.65
-	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.1.0-dev.68
-	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.1.0-dev.36
+	github.com/IOTechSystems/onvif v1.2.2
+	github.com/edgexfoundry/device-sdk-go/v4 v4.0.2
+	github.com/edgexfoundry/go-mod-bootstrap/v4 v4.0.5
+	github.com/edgexfoundry/go-mod-core-contracts/v4 v4.0.3
 	github.com/google/uuid v1.6.0
 	github.com/labstack/echo/v4 v4.15.2
 	github.com/spf13/cast v1.10.0
@@ -22,10 +22,10 @@ require (
 	github.com/clbanning/mxj/v2 v2.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/eclipse/paho.mqtt.golang v1.5.1 // indirect
-	github.com/edgexfoundry/go-mod-configuration/v4 v4.1.0-dev.19 // indirect
-	github.com/edgexfoundry/go-mod-messaging/v4 v4.1.0-dev.26 // indirect
-	github.com/edgexfoundry/go-mod-registry/v4 v4.1.0-dev.10 // indirect
-	github.com/edgexfoundry/go-mod-secrets/v4 v4.1.0-dev.15 // indirect
+	github.com/edgexfoundry/go-mod-configuration/v4 v4.0.3 // indirect
+	github.com/edgexfoundry/go-mod-messaging/v4 v4.0.3 // indirect
+	github.com/edgexfoundry/go-mod-registry/v4 v4.0.2 // indirect
+	github.com/edgexfoundry/go-mod-secrets/v4 v4.0.2 // indirect
 	github.com/elgs/gostrgen v0.0.0-20251010065124-dce324c66371 // indirect
 	github.com/emirpasic/gods v1.18.1 // indirect
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
@@ -125,13 +125,13 @@ require (
 	go.opentelemetry.io/otel/metric v1.41.0 // indirect
 	go.opentelemetry.io/otel/trace v1.41.0 // indirect
 	go.yaml.in/yaml/v3 v3.0.4 // indirect
-	golang.org/x/crypto v0.50.0 // indirect
-	golang.org/x/net v0.53.0 // indirect
+	golang.org/x/crypto v0.51.0 // indirect
+	golang.org/x/net v0.55.0 // indirect
 	golang.org/x/oauth2 v0.36.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.43.0 // indirect
-	golang.org/x/term v0.42.0 // indirect
-	golang.org/x/text v0.36.0 // indirect
+	golang.org/x/sys v0.45.0 // indirect
+	golang.org/x/term v0.43.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20251202230838-ff82c1b0f217 // indirect
 	google.golang.org/grpc v1.79.3 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
